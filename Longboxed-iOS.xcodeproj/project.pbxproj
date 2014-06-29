@@ -1,0 +1,780 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4410A30038BE4D6282AAFEBB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; };
+		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
+		E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C8196068E10014A13F /* CoreGraphics.framework */; };
+		E57D48CB196068E10014A13F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48CA196068E10014A13F /* UIKit.framework */; };
+		E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E57D48CF196068E10014A13F /* InfoPlist.strings */; };
+		E57D48D3196068E10014A13F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D48D2196068E10014A13F /* main.m */; };
+		E57D48D7196068E10014A13F /* LBXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D48D6196068E10014A13F /* LBXAppDelegate.m */; };
+		E57D48D9196068E10014A13F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E57D48D8196068E10014A13F /* Images.xcassets */; };
+		E57D48E0196068E10014A13F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48DF196068E10014A13F /* XCTest.framework */; };
+		E57D48E1196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
+		E57D48E2196068E10014A13F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48CA196068E10014A13F /* UIKit.framework */; };
+		E57D48EA196068E10014A13F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E57D48E8196068E10014A13F /* InfoPlist.strings */; };
+		E57D48EC196068E10014A13F /* Longboxed_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D48EB196068E10014A13F /* Longboxed_iOSTests.m */; };
+		E57D49061960961E0014A13F /* ParallaxFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49011960961E0014A13F /* ParallaxFlowLayout.m */; };
+		E57D49071960961E0014A13F /* ParallaxLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49031960961E0014A13F /* ParallaxLayoutAttributes.m */; };
+		E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49051960961E0014A13F /* ParallaxPhotoCell.m */; };
+		E57D490B196096260014A13F /* LBXThisWeekCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D490A196096260014A13F /* LBXThisWeekCollectionViewController.m */; };
+		E57D49121960A2180014A13F /* LBXClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49111960A2180014A13F /* LBXClient.m */; };
+		E57D491E1960A2DF0014A13F /* LBXThisWeeksComics.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D491D1960A2DF0014A13F /* LBXThisWeeksComics.m */; };
+		E57D49211960A6920014A13F /* LBXDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49201960A6920014A13F /* LBXDataStore.m */; };
+		E57D49241960B8F40014A13F /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D49231960B8F40014A13F /* black.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E57D48E3196068E10014A13F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E57D48BB196068E10014A13F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E57D48C2196068E10014A13F;
+			remoteInfo = "Longboxed-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7AD8046282F84878BFC9B82F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		E1E220888AF5409D902176E2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E57D48C3196068E10014A13F /* Longboxed-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Longboxed-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E57D48C6196068E10014A13F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E57D48C8196068E10014A13F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E57D48CA196068E10014A13F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E57D48CE196068E10014A13F /* Longboxed-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Longboxed-iOS-Info.plist"; sourceTree = "<group>"; };
+		E57D48D0196068E10014A13F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E57D48D2196068E10014A13F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E57D48D4196068E10014A13F /* Longboxed-iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Longboxed-iOS-Prefix.pch"; sourceTree = "<group>"; };
+		E57D48D5196068E10014A13F /* LBXAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBXAppDelegate.h; sourceTree = "<group>"; };
+		E57D48D6196068E10014A13F /* LBXAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LBXAppDelegate.m; sourceTree = "<group>"; };
+		E57D48D8196068E10014A13F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E57D48DE196068E10014A13F /* Longboxed-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Longboxed-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E57D48DF196068E10014A13F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		E57D48E7196068E10014A13F /* Longboxed-iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Longboxed-iOSTests-Info.plist"; sourceTree = "<group>"; };
+		E57D48E9196068E10014A13F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E57D48EB196068E10014A13F /* Longboxed_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Longboxed_iOSTests.m; sourceTree = "<group>"; };
+		E57D49001960961E0014A13F /* ParallaxFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParallaxFlowLayout.h; path = Views/ParallaxFlowLayout.h; sourceTree = "<group>"; };
+		E57D49011960961E0014A13F /* ParallaxFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParallaxFlowLayout.m; path = Views/ParallaxFlowLayout.m; sourceTree = "<group>"; };
+		E57D49021960961E0014A13F /* ParallaxLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParallaxLayoutAttributes.h; path = Views/ParallaxLayoutAttributes.h; sourceTree = "<group>"; };
+		E57D49031960961E0014A13F /* ParallaxLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParallaxLayoutAttributes.m; path = Views/ParallaxLayoutAttributes.m; sourceTree = "<group>"; };
+		E57D49041960961E0014A13F /* ParallaxPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParallaxPhotoCell.h; path = Views/ParallaxPhotoCell.h; sourceTree = "<group>"; };
+		E57D49051960961E0014A13F /* ParallaxPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParallaxPhotoCell.m; path = Views/ParallaxPhotoCell.m; sourceTree = "<group>"; };
+		E57D4909196096260014A13F /* LBXThisWeekCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXThisWeekCollectionViewController.h; path = Controllers/LBXThisWeekCollectionViewController.h; sourceTree = "<group>"; };
+		E57D490A196096260014A13F /* LBXThisWeekCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXThisWeekCollectionViewController.m; path = Controllers/LBXThisWeekCollectionViewController.m; sourceTree = "<group>"; };
+		E57D49101960A2180014A13F /* LBXClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXClient.h; path = Abstract/LBXClient.h; sourceTree = "<group>"; };
+		E57D49111960A2180014A13F /* LBXClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXClient.m; path = Abstract/LBXClient.m; sourceTree = "<group>"; };
+		E57D491C1960A2DF0014A13F /* LBXThisWeeksComics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXThisWeeksComics.h; sourceTree = "<group>"; };
+		E57D491D1960A2DF0014A13F /* LBXThisWeeksComics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXThisWeeksComics.m; sourceTree = "<group>"; };
+		E57D491F1960A6920014A13F /* LBXDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDataStore.h; path = Abstract/LBXDataStore.h; sourceTree = "<group>"; };
+		E57D49201960A6920014A13F /* LBXDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDataStore.m; path = Abstract/LBXDataStore.m; sourceTree = "<group>"; };
+		E57D49231960B8F40014A13F /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = black.png; path = Assets/black.png; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E57D48C0196068E10014A13F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */,
+				E57D48CB196068E10014A13F /* UIKit.framework in Frameworks */,
+				E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */,
+				4410A30038BE4D6282AAFEBB /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E57D48DB196068E10014A13F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E57D48E0196068E10014A13F /* XCTest.framework in Frameworks */,
+				E57D48E2196068E10014A13F /* UIKit.framework in Frameworks */,
+				E57D48E1196068E10014A13F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E57D48BA196068E10014A13F = {
+			isa = PBXGroup;
+			children = (
+				E57D48CC196068E10014A13F /* Longboxed-iOS */,
+				E57D48E5196068E10014A13F /* Longboxed-iOSTests */,
+				E57D48C5196068E10014A13F /* Frameworks */,
+				E57D48C4196068E10014A13F /* Products */,
+				7AD8046282F84878BFC9B82F /* Pods.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		E57D48C4196068E10014A13F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E57D48C3196068E10014A13F /* Longboxed-iOS.app */,
+				E57D48DE196068E10014A13F /* Longboxed-iOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E57D48C5196068E10014A13F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E57D48C6196068E10014A13F /* Foundation.framework */,
+				E57D48C8196068E10014A13F /* CoreGraphics.framework */,
+				E57D48CA196068E10014A13F /* UIKit.framework */,
+				E57D48DF196068E10014A13F /* XCTest.framework */,
+				E1E220888AF5409D902176E2 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E57D48CC196068E10014A13F /* Longboxed-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				E57D49131960A21D0014A13F /* Abstract */,
+				E57D49141960A2350014A13F /* AppDelegate */,
+				E57D49151960A2590014A13F /* Models */,
+				E57D48FE1960960A0014A13F /* Views */,
+				E57D48FF1960960E0014A13F /* Controllers */,
+				E57D48D8196068E10014A13F /* Images.xcassets */,
+				E57D48CD196068E10014A13F /* Supporting Files */,
+			);
+			path = "Longboxed-iOS";
+			sourceTree = "<group>";
+		};
+		E57D48CD196068E10014A13F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E57D49221960B8E80014A13F /* Assets */,
+				E57D48CE196068E10014A13F /* Longboxed-iOS-Info.plist */,
+				E57D48CF196068E10014A13F /* InfoPlist.strings */,
+				E57D48D2196068E10014A13F /* main.m */,
+				E57D48D4196068E10014A13F /* Longboxed-iOS-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E57D48E5196068E10014A13F /* Longboxed-iOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				E57D48EB196068E10014A13F /* Longboxed_iOSTests.m */,
+				E57D48E6196068E10014A13F /* Supporting Files */,
+			);
+			path = "Longboxed-iOSTests";
+			sourceTree = "<group>";
+		};
+		E57D48E6196068E10014A13F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E57D48E7196068E10014A13F /* Longboxed-iOSTests-Info.plist */,
+				E57D48E8196068E10014A13F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E57D48FE1960960A0014A13F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E57D49001960961E0014A13F /* ParallaxFlowLayout.h */,
+				E57D49011960961E0014A13F /* ParallaxFlowLayout.m */,
+				E57D49021960961E0014A13F /* ParallaxLayoutAttributes.h */,
+				E57D49031960961E0014A13F /* ParallaxLayoutAttributes.m */,
+				E57D49041960961E0014A13F /* ParallaxPhotoCell.h */,
+				E57D49051960961E0014A13F /* ParallaxPhotoCell.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		E57D48FF1960960E0014A13F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E57D4909196096260014A13F /* LBXThisWeekCollectionViewController.h */,
+				E57D490A196096260014A13F /* LBXThisWeekCollectionViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		E57D49131960A21D0014A13F /* Abstract */ = {
+			isa = PBXGroup;
+			children = (
+				E57D491F1960A6920014A13F /* LBXDataStore.h */,
+				E57D49201960A6920014A13F /* LBXDataStore.m */,
+				E57D49101960A2180014A13F /* LBXClient.h */,
+				E57D49111960A2180014A13F /* LBXClient.m */,
+			);
+			name = Abstract;
+			sourceTree = "<group>";
+		};
+		E57D49141960A2350014A13F /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				E57D48D5196068E10014A13F /* LBXAppDelegate.h */,
+				E57D48D6196068E10014A13F /* LBXAppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		E57D49151960A2590014A13F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E57D491C1960A2DF0014A13F /* LBXThisWeeksComics.h */,
+				E57D491D1960A2DF0014A13F /* LBXThisWeeksComics.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		E57D49221960B8E80014A13F /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				E57D49231960B8F40014A13F /* black.png */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E57D48C2196068E10014A13F /* Longboxed-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E57D48EF196068E10014A13F /* Build configuration list for PBXNativeTarget "Longboxed-iOS" */;
+			buildPhases = (
+				C793CE1CB37D4890A7508BD1 /* Check Pods Manifest.lock */,
+				E57D48FB196069F60014A13F /* Set Bundle Identifier and Display Name */,
+				E57D48BF196068E10014A13F /* Sources */,
+				E57D48C0196068E10014A13F /* Frameworks */,
+				E57D48C1196068E10014A13F /* Resources */,
+				E57D48FC19606A500014A13F /* Increment Build Number */,
+				516CA5D694294377A3226C09 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Longboxed-iOS";
+			productName = "Longboxed-iOS";
+			productReference = E57D48C3196068E10014A13F /* Longboxed-iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E57D48DD196068E10014A13F /* Longboxed-iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E57D48F2196068E10014A13F /* Build configuration list for PBXNativeTarget "Longboxed-iOSTests" */;
+			buildPhases = (
+				E57D48DA196068E10014A13F /* Sources */,
+				E57D48DB196068E10014A13F /* Frameworks */,
+				E57D48DC196068E10014A13F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E57D48E4196068E10014A13F /* PBXTargetDependency */,
+			);
+			name = "Longboxed-iOSTests";
+			productName = "Longboxed-iOSTests";
+			productReference = E57D48DE196068E10014A13F /* Longboxed-iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E57D48BB196068E10014A13F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = LBX;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Longboxed;
+				TargetAttributes = {
+					E57D48DD196068E10014A13F = {
+						TestTargetID = E57D48C2196068E10014A13F;
+					};
+				};
+			};
+			buildConfigurationList = E57D48BE196068E10014A13F /* Build configuration list for PBXProject "Longboxed-iOS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E57D48BA196068E10014A13F;
+			productRefGroup = E57D48C4196068E10014A13F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E57D48C2196068E10014A13F /* Longboxed-iOS */,
+				E57D48DD196068E10014A13F /* Longboxed-iOSTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E57D48C1196068E10014A13F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */,
+				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
+				E57D49241960B8F40014A13F /* black.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E57D48DC196068E10014A13F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E57D48EA196068E10014A13F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		516CA5D694294377A3226C09 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C793CE1CB37D4890A7508BD1 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E57D48FB196069F60014A13F /* Set Bundle Identifier and Display Name */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Set Bundle Identifier and Display Name";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\n\nbundleIdentifier=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INFOPLIST_FILE\")\nbundleDisplayName=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n\nif [ $CONFIGURATION == AppStore ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS\"\nbundleDisplayName=\"Longboxed\"\nelif [ $CONFIGURATION == Beta ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSBeta\"\nbundleDisplayName=\"Longboxed β\"\nelse\nbundleIdentifier=\"com.longboxed.Longboxed-iOSAlpha\"\nbundleDisplayName=\"Longboxed α\"\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $bundleIdentifier\" \"$INFOPLIST_FILE\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $bundleDisplayName\" \"$INFOPLIST_FILE\"\n";
+		};
+		E57D48FC19606A500014A13F /* Increment Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Increment Build Number";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nif [ $CONFIGURATION == Beta ] || [ $CONFIGURATION == AppStore ] || [ $CONFIGURATION == Alpha ]; then\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E57D48BF196068E10014A13F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E57D48D3196068E10014A13F /* main.m in Sources */,
+				E57D49061960961E0014A13F /* ParallaxFlowLayout.m in Sources */,
+				E57D48D7196068E10014A13F /* LBXAppDelegate.m in Sources */,
+				E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */,
+				E57D49121960A2180014A13F /* LBXClient.m in Sources */,
+				E57D490B196096260014A13F /* LBXThisWeekCollectionViewController.m in Sources */,
+				E57D491E1960A2DF0014A13F /* LBXThisWeeksComics.m in Sources */,
+				E57D49211960A6920014A13F /* LBXDataStore.m in Sources */,
+				E57D49071960961E0014A13F /* ParallaxLayoutAttributes.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E57D48DA196068E10014A13F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E57D48EC196068E10014A13F /* Longboxed_iOSTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E57D48E4196068E10014A13F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E57D48C2196068E10014A13F /* Longboxed-iOS */;
+			targetProxy = E57D48E3196068E10014A13F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E57D48CF196068E10014A13F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E57D48D0196068E10014A13F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E57D48E8196068E10014A13F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E57D48E9196068E10014A13F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E57D48ED196068E10014A13F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		E57D48EE196068E10014A13F /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = AppStore;
+		};
+		E57D48F0196068E10014A13F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AD8046282F84878BFC9B82F /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E57D48F1196068E10014A13F /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AD8046282F84878BFC9B82F /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = AppStore;
+		};
+		E57D48F3196068E10014A13F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		E57D48F4196068E10014A13F /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = AppStore;
+		};
+		E57D48F5196069610014A13F /* Alpha */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Alpha;
+		};
+		E57D48F6196069610014A13F /* Alpha */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AD8046282F84878BFC9B82F /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Alpha;
+		};
+		E57D48F7196069610014A13F /* Alpha */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Alpha;
+		};
+		E57D48F8196069800014A13F /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Beta;
+		};
+		E57D48F9196069800014A13F /* Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AD8046282F84878BFC9B82F /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Beta;
+		};
+		E57D48FA196069800014A13F /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Beta;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E57D48BE196068E10014A13F /* Build configuration list for PBXProject "Longboxed-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E57D48ED196068E10014A13F /* Debug */,
+				E57D48F8196069800014A13F /* Beta */,
+				E57D48F5196069610014A13F /* Alpha */,
+				E57D48EE196068E10014A13F /* AppStore */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = AppStore;
+		};
+		E57D48EF196068E10014A13F /* Build configuration list for PBXNativeTarget "Longboxed-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E57D48F0196068E10014A13F /* Debug */,
+				E57D48F9196069800014A13F /* Beta */,
+				E57D48F6196069610014A13F /* Alpha */,
+				E57D48F1196068E10014A13F /* AppStore */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = AppStore;
+		};
+		E57D48F2196068E10014A13F /* Build configuration list for PBXNativeTarget "Longboxed-iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E57D48F3196068E10014A13F /* Debug */,
+				E57D48FA196069800014A13F /* Beta */,
+				E57D48F7196069610014A13F /* Alpha */,
+				E57D48F4196068E10014A13F /* AppStore */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = AppStore;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E57D48BB196068E10014A13F /* Project object */;
+}
