@@ -10,6 +10,8 @@
 #import "LBXDataStore.h"
 #import "LBXThisWeekCollectionViewController.h"
 
+#import "HockeySDK.h"
+
 @implementation LBXAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -23,7 +25,16 @@
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     
-    // TODO: Add HockeyApp info here 
+    // Hockey app needs to be the last 3rd party integration in this method
+    
+    // Alpha Version
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"4064359702d9b0088c5ccb88d7d897b5"];
+    
+    // Automatically send crash reports
+    [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus: BITCrashManagerStatusAutoSend];
+    
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
     return YES;
 }
