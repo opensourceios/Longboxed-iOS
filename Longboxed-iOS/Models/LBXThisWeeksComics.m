@@ -51,6 +51,7 @@
 
 - (NSArray *)issueNumbers
 {
+    NSLog(@"%@", [self iterateThroughIssues:_issues andMakeArrayWithKey:@"issue_number"]);
    return [self iterateThroughIssues:_issues andMakeArrayWithKey:@"issue_number"];
 }
 
@@ -77,11 +78,16 @@
 
 # pragma mark Private Methods
 
-- (NSArray *)iterateThroughIssues:(NSArray *)issues andMakeArrayWithKey:(NSString *)key
+- (NSArray *)iterateThroughIssues:(NSArray *)issues andMakeArrayWithKey:(id)key
 {
     NSMutableArray *mutableArray = [NSMutableArray new];
     for (NSDictionary *issue in issues) {
-        [mutableArray addObject:issue[key]];
+        if (issue[key] != (id)[NSNull null]) {
+            [mutableArray addObject:issue[key]];
+        }
+        else {
+            [mutableArray addObject:@"N/A"];
+        }
     }
     return mutableArray;
 }

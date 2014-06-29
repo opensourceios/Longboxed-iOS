@@ -170,8 +170,9 @@ CGFloat cellWidth;
     // grab bound for contentView
     CGRect contentViewBound = cell.comicImageView.bounds;
     
-    NSString *completeTitleString = [_thisWeeksComics.completeTitles objectAtIndex:indexPath.row];
+    NSString *titleString = [_thisWeeksComics.titles objectAtIndex:indexPath.row];
     NSString *publisherString = [_thisWeeksComics.publishers objectAtIndex:indexPath.row];
+    NSString *issueString = [NSString stringWithFormat:@"#%@", [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row]];
     
     // If an image exists, fetch it. Else use the generated UIImage
     if ([_thisWeeksComics.coverImages objectAtIndex:indexPath.row] != (id)[NSNull null]) {
@@ -222,7 +223,7 @@ CGFloat cellWidth;
                                   duration:0.5f
                                    options:UIViewAnimationOptionTransitionCrossDissolve
                                 animations:^{// Set the image label properties to center it in the cell
-                                    [self setLabel:cell.comicTitleLabel withString:completeTitleString inBoundsOfView:cell.comicImageView];}
+                                    [self setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];}
                                 completion:NULL];
                 
                 [UIView transitionWithView:cell.comicPublisherLabel
@@ -230,12 +231,19 @@ CGFloat cellWidth;
                                    options:UIViewAnimationOptionTransitionCrossDissolve
                                 animations:^{[cell.comicPublisherLabel setText:publisherString];}
                                 completion:NULL];
+                
+                [UIView transitionWithView:cell.comicIssueLabel
+                                  duration:0.5f
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{[cell.comicIssueLabel setText:issueString];}
+                                completion:NULL];
             }
             else {
                 // Set the image label properties to center it in the cell
-                [self setLabel:cell.comicTitleLabel withString:completeTitleString inBoundsOfView:cell.comicImageView];
+                [self setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
                 cell.comicImageView.image = image;
                 cell.comicPublisherLabel.text = publisherString;
+                cell.comicIssueLabel.text = issueString;
             }
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
@@ -260,9 +268,10 @@ CGFloat cellWidth;
     }
     
     else {
-        UIImage *defaultImage = [UIImage imageNamed:@"InitialsBackgroundHiRes"];
+        UIImage *defaultImage = [UIImage imageNamed:@"black"];
         
         cell.comicPublisherLabel.text = publisherString;
+        cell.comicIssueLabel.text = issueString;
         
         // Darken the image
         UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.height*2)];
@@ -274,7 +283,7 @@ CGFloat cellWidth;
         cell.comicImageView.image = defaultImage;
         
         // Set the image label properties to center it in the cell
-        [self setLabel:cell.comicTitleLabel withString:completeTitleString inBoundsOfView:cell.comicImageView];
+        [self setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
     }
 
     

@@ -33,8 +33,9 @@
     [self setupImageView];
     [self setupActivityIndicator]; // Must be added to view after imageview so
                                    // it isn't covered by black temp image
-    [self setupLabel];
-    [self setupSecondLabel];
+    [self setupComicLabel];
+    [self setupPublisherLabel];
+    [self setupIssueLabel];
     [self setupConstraints];
     [self setNeedsUpdateConstraints];
     
@@ -57,7 +58,7 @@
     [self.contentView addSubview:_activityIndicator];
 }
 
-- (void)setupLabel
+- (void)setupComicLabel
 {
     _comicTitleLabel = [UILabel new];
     self.comicTitleLabel.textColor = [UIColor whiteColor];
@@ -69,7 +70,7 @@
 }
 
 // Bottom right corner label
-- (void)setupSecondLabel
+- (void)setupPublisherLabel
 {
     _comicPublisherLabel = [UILabel new];
     self.comicPublisherLabel.textColor = [UIColor whiteColor];
@@ -80,6 +81,20 @@
     // TODO: Use autolayout for this
     self.comicPublisherLabel.frame = CGRectMake(self.contentView.frame.origin.x - 5, self.contentView.frame.origin.y + self.contentView.frame.size.height/2 - 12, self.contentView.frame.size.width, self.contentView.frame.size.height);
     [self.contentView addSubview:_comicPublisherLabel];
+}
+
+// Bottom left corner label
+- (void)setupIssueLabel
+{
+    _comicIssueLabel = [UILabel new];
+    self.comicIssueLabel.textColor = [UIColor whiteColor];
+    self.comicIssueLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    self.comicIssueLabel.textAlignment = NSTextAlignmentLeft;
+    self.comicIssueLabel.backgroundColor = [UIColor clearColor];
+    
+    // TODO: Use autolayout for this
+    self.comicIssueLabel.frame = CGRectMake(self.contentView.frame.origin.x + 5, self.contentView.frame.origin.y + self.contentView.frame.size.height/2 - 12, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    [self.contentView addSubview:_comicIssueLabel];
 }
 
 - (void)setupConstraints

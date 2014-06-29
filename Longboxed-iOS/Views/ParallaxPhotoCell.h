@@ -11,8 +11,9 @@
 @interface ParallaxPhotoCell : UICollectionViewCell
 
 @property (nonatomic, strong, readonly) UIImageView *comicImageView;
-@property (nonatomic, retain) IBOutlet UILabel *comicTitleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *comicPublisherLabel;
+@property (nonatomic, strong, readonly) UILabel *comicTitleLabel;
+@property (nonatomic, strong, readonly) UILabel *comicPublisherLabel;
+@property (nonatomic, strong, readonly) UILabel *comicIssueLabel;
 @property (nonatomic, strong, readonly) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic) CGFloat maxParallaxOffset;
 
