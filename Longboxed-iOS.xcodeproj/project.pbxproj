@@ -25,9 +25,9 @@
 		E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49051960961E0014A13F /* ParallaxPhotoCell.m */; };
 		E57D490B196096260014A13F /* LBXThisWeekCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D490A196096260014A13F /* LBXThisWeekCollectionViewController.m */; };
 		E57D49121960A2180014A13F /* LBXClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49111960A2180014A13F /* LBXClient.m */; };
-		E57D491E1960A2DF0014A13F /* LBXThisWeeksComics.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D491D1960A2DF0014A13F /* LBXThisWeeksComics.m */; };
 		E57D49211960A6920014A13F /* LBXDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49201960A6920014A13F /* LBXDataStore.m */; };
 		E57D49241960B8F40014A13F /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D49231960B8F40014A13F /* black.png */; };
+		E57D49271960C8A70014A13F /* LBXThisWeeksComics.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49261960C8A70014A13F /* LBXThisWeeksComics.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,11 +69,11 @@
 		E57D490A196096260014A13F /* LBXThisWeekCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXThisWeekCollectionViewController.m; path = Controllers/LBXThisWeekCollectionViewController.m; sourceTree = "<group>"; };
 		E57D49101960A2180014A13F /* LBXClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXClient.h; path = Abstract/LBXClient.h; sourceTree = "<group>"; };
 		E57D49111960A2180014A13F /* LBXClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXClient.m; path = Abstract/LBXClient.m; sourceTree = "<group>"; };
-		E57D491C1960A2DF0014A13F /* LBXThisWeeksComics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXThisWeeksComics.h; sourceTree = "<group>"; };
-		E57D491D1960A2DF0014A13F /* LBXThisWeeksComics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXThisWeeksComics.m; sourceTree = "<group>"; };
 		E57D491F1960A6920014A13F /* LBXDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDataStore.h; path = Abstract/LBXDataStore.h; sourceTree = "<group>"; };
 		E57D49201960A6920014A13F /* LBXDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDataStore.m; path = Abstract/LBXDataStore.m; sourceTree = "<group>"; };
 		E57D49231960B8F40014A13F /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = black.png; path = Assets/black.png; sourceTree = SOURCE_ROOT; };
+		E57D49251960C8A70014A13F /* LBXThisWeeksComics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXThisWeeksComics.h; path = Models/LBXThisWeeksComics.h; sourceTree = "<group>"; };
+		E57D49261960C8A70014A13F /* LBXThisWeeksComics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXThisWeeksComics.m; path = Models/LBXThisWeeksComics.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,8 +222,8 @@
 		E57D49151960A2590014A13F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E57D491C1960A2DF0014A13F /* LBXThisWeeksComics.h */,
-				E57D491D1960A2DF0014A13F /* LBXThisWeeksComics.m */,
+				E57D49251960C8A70014A13F /* LBXThisWeeksComics.h */,
+				E57D49261960C8A70014A13F /* LBXThisWeeksComics.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -404,8 +404,8 @@
 				E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */,
 				E57D49121960A2180014A13F /* LBXClient.m in Sources */,
 				E57D490B196096260014A13F /* LBXThisWeekCollectionViewController.m in Sources */,
-				E57D491E1960A2DF0014A13F /* LBXThisWeeksComics.m in Sources */,
 				E57D49211960A6920014A13F /* LBXDataStore.m in Sources */,
+				E57D49271960C8A70014A13F /* LBXThisWeeksComics.m in Sources */,
 				E57D49071960961E0014A13F /* ParallaxLayoutAttributes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
