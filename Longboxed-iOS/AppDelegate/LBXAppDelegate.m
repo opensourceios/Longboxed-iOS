@@ -9,6 +9,7 @@
 #import "LBXAppDelegate.h"
 #import "LBXDataStore.h"
 #import "LBXThisWeekCollectionViewController.h"
+#import "LBXNavigationViewController.h"
 
 #import "HockeySDK.h"
 
@@ -20,9 +21,8 @@
     // Override point for customization after application launch.
     
     LBXThisWeekCollectionViewController *thisWeekViewController = [LBXThisWeekCollectionViewController new];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:thisWeekViewController];
     
-    self.window.rootViewController = navController;
+    self.window.rootViewController = [[LBXNavigationViewController alloc] initWithRootViewController:thisWeekViewController];
     [self.window makeKeyAndVisible];
     
     // Hockey app needs to be the last 3rd party integration in this method

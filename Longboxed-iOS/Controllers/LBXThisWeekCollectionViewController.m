@@ -11,9 +11,10 @@
 #import "LBXThisWeeksComics.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
+#import "LBXNavigationViewController.h"
+#import "SVWebViewController.h"
 
 #import <UIImageView+AFNetworking.h>
-#import <SVWebViewController.h>
 #import <CWStatusBarNotification.h>
 
 @interface LBXThisWeekCollectionViewController () <UICollectionViewDelegateFlowLayout>
@@ -28,6 +29,7 @@
 
 @implementation LBXThisWeekCollectionViewController
 
+LBXNavigationViewController *navigationController;
 // 2 comics: 252    3 comics: 168    4 comics: 126
 static const NSUInteger TABLE_HEIGHT_FOUR = 126;
 static const NSUInteger TABLE_HEIGHT_THREE = 168;
@@ -55,6 +57,22 @@ CGFloat cellWidth;
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               [UIFont fontWithName:@"HelveticaNeue-Thin" size:20.0], NSFontAttributeName,nil];
     [[UINavigationBar appearance] setTitleTextAttributes: fontDict];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger-button"] style:UIBarButtonItemStyleBordered target:self.navigationController action:@selector(toggleMenu)];
+    [self.navigationItem.rightBarButtonItem setTintColor:[UIColor lightGrayColor]];
+    fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(dropCollectionView)
+                                                 name:@"dropCollectionView"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(raiseCollectionView)
+                                                 name:@"raiseCollectionView"
+                                               object:nil];
+
 
     return self;
 }
@@ -126,6 +144,13 @@ CGFloat cellWidth;
     [super viewWillDisappear:animated];
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    navigationController = (LBXNavigationViewController *)self.navigationController;
+    [navigationController.menu setNeedsLayout];
+}
+
 #pragma mark - PrivateMethods
 
 - (void)setLabel:(UILabel *)textView
@@ -149,6 +174,44 @@ CGFloat cellWidth;
     textView.text = string;
 }
 
+- (void)dropCollectionView
+{
+    // Taken from the REMenu
+    [UIView animateWithDuration:navigationController.menu.animationDuration+navigationController.menu.bounceAnimationDuration
+                          delay:0.0
+         usingSpringWithDamping:0.6
+          initialSpringVelocity:4.0
+                        options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGRect frame = self.view.frame;
+                         frame.origin.y = self.view.frame.origin.y + navigationController.menu.combinedHeight - navigationController.navigationBar.frame.size.height;
+                         self.collectionView.frame = frame;
+                     } completion:nil];
+}
+
+- (void)raiseCollectionView
+{
+    // Taken from the REMenu
+    void (^closeMenu)(void) = ^{
+        [UIView animateWithDuration:navigationController.menu.animationDuration
+                              delay:0.0
+                            options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
+                         animations:^ {
+                             CGRect frame = self.view.frame;
+                             frame.origin.y = self.view.frame.origin.y;
+                             self.collectionView.frame = frame;
+                         } completion:nil];
+        
+    };
+
+    [UIView animateWithDuration:navigationController.menu.bounceAnimationDuration animations:^{
+        CGRect frame = self.collectionView.frame;
+        frame.origin.y = navigationController.menu.combinedHeight - navigationController.navigationBar.frame.size.height + 20.0;
+        self.collectionView.frame = frame;
+    } completion:^(BOOL finished) {
+        closeMenu();
+    }];
+}
 
 #pragma mark - UICollectionViewDataSource
 
@@ -304,8 +367,8 @@ CGFloat cellWidth;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];
+            [_refreshControl endRefreshing];
         });
-        [_refreshControl endRefreshing];
     }];
     
 }

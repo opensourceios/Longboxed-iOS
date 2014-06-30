@@ -51,7 +51,6 @@
 
 - (NSArray *)issueNumbers
 {
-    NSLog(@"%@", [self iterateThroughIssues:_issues andMakeArrayWithKey:@"issue_number"]);
    return [self iterateThroughIssues:_issues andMakeArrayWithKey:@"issue_number"];
 }
 
