@@ -85,7 +85,7 @@
             [mutableArray addObject:issue[key]];
         }
         else {
-            [mutableArray addObject:@"N/A"];
+            [mutableArray addObject:@""];
         }
     }
     return mutableArray;

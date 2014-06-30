@@ -53,7 +53,7 @@ CGFloat cellWidth;
         return nil;
     }
     
-    self.title = @"This week";
+    self.title = @"This Week";
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               [UIFont fontWithName:@"HelveticaNeue-Thin" size:20.0], NSFontAttributeName,nil];
     [[UINavigationBar appearance] setTitleTextAttributes: fontDict];
@@ -235,7 +235,13 @@ CGFloat cellWidth;
     
     NSString *titleString = [_thisWeeksComics.titles objectAtIndex:indexPath.row];
     NSString *publisherString = [_thisWeeksComics.publishers objectAtIndex:indexPath.row];
-    NSString *issueString = [NSString stringWithFormat:@"#%@", [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row]];
+    NSString *issueString;
+    if (![[NSString stringWithFormat:@"%@", [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row]] isEqualToString:@""]) {
+        issueString = [NSString stringWithFormat:@"#%@", [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row]];
+    }
+    else {
+        issueString = [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row];
+    }
     
     // If an image exists, fetch it. Else use the generated UIImage
     if ([_thisWeeksComics.coverImages objectAtIndex:indexPath.row] != (id)[NSNull null]) {
@@ -247,6 +253,7 @@ CGFloat cellWidth;
         
         cell.comicTitleLabel.text = nil;
         cell.comicPublisherLabel.text = nil;
+        cell.comicIssueLabel.text = nil;
         
         CWStatusBarNotification *notification = [CWStatusBarNotification new];
         notification.notificationLabelBackgroundColor = [UIColor redColor];
