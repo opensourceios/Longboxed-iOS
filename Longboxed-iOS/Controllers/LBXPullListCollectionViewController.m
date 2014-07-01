@@ -370,10 +370,8 @@ CGFloat cellWidth;
 - (void)refresh
 {
     [[LBXDataStore sharedStore] fetchPullList:^(NSArray *response, NSError *error) {
-        NSLog(@"%@", response);
         _pullListComics = [[LBXPullList alloc] initPullList:response];
         tableViewRows = _pullListComics.longboxedIDs.count;
-        NSLog(@"%ld", (long)tableViewRows);
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];

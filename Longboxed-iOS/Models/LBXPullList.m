@@ -57,7 +57,6 @@
 {
     NSMutableArray *mutableArray = [NSMutableArray new];
     for (NSDictionary *series in pullList) {
-        NSLog(@"%@", series);
         if (series[key] != (id)[NSNull null] || series[key] != nil) {
             [mutableArray addObject:[NSString stringWithFormat:@"%@",series[key]]];
         }

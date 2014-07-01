@@ -30,7 +30,6 @@
                                                        image:[UIImage imageNamed:@"Icon_Home"]
                                             highlightedImage:nil
                                                       action:^(REMenuItem *item) {
-                                                          NSLog(@"Item: %@", item);
                                                           LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
                                                           [weakSelf setViewControllers:@[controller] animated:NO];
                                                       }];
@@ -39,7 +38,6 @@
                                                            image:[UIImage imageNamed:@"Icon_Activity"]
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
-                                                              NSLog(@"Item: %@", item);
                                                               LBXPullListCollectionViewController *controller = [[LBXPullListCollectionViewController alloc] init];
                                                               [weakSelf setViewControllers:@[controller] animated:NO];
                                                           }];
@@ -50,7 +48,6 @@
                                                           image:[UIImage imageNamed:@"Icon_Profile"]
                                                highlightedImage:nil
                                                          action:^(REMenuItem *item) {
-                                                             NSLog(@"Item: %@", item);
                                                              LBXLoginViewController *controller = [[LBXLoginViewController alloc] init];
                                                              [weakSelf setViewControllers:@[controller] animated:NO];
                                                          }];
