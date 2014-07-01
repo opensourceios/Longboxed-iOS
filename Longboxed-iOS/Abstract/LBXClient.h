@@ -10,8 +10,15 @@
 
 @interface LBXClient : NSObject
 
-- (void)fetchThisWeeksComicsWithCompletion:(void (^)(id,NSError*))completion;
-- (void)fetchLogInWithCompletion:(void (^)(id,NSError*))completion;
-- (void)fetchPullListWithCompletion:(void (^)(id,NSError*))completion;
+- (void)fetchThisWeeksComicsWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchLogInWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchPullListWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchBundlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchIssuesWithDate:(NSString *)date withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchIssue:(int)issue withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchTitle:(int)title withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchTitlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchPublishersWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchPublisher:(int)publisher withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
 
 @end

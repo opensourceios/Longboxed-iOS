@@ -376,30 +376,7 @@ CGFloat cellWidth;
             [self.collectionView reloadData];
             [_refreshControl endRefreshing];
         });
-    }];
-    
-    [[LBXDataStore sharedStore] fetchLogin:^(NSArray *response, NSError *error) {
-//        _thisWeeksComics = [[LBXThisWeeksComics alloc] initThisWeeksComicsWithIssues:response];
-//        tableViewRows = _thisWeeksComics.longboxedIDs.count;
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.collectionView reloadData];
-//            [_refreshControl endRefreshing];
-//        });
-    }];
-    
-    [[LBXDataStore sharedStore] fetchPullList:^(NSArray *response, NSError *error) {
-        //        _thisWeeksComics = [[LBXThisWeeksComics alloc] initThisWeeksComicsWithIssues:response];
-        //        tableViewRows = _thisWeeksComics.longboxedIDs.count;
-        //
-        //        dispatch_async(dispatch_get_main_queue(), ^{
-        //            [self.collectionView reloadData];
-        //            [_refreshControl endRefreshing];
-        //        });
-    }];
-
-    
-    
+    }];    
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

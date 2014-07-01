@@ -12,11 +12,19 @@
 
 + (instancetype)sharedStore;
 
-@property (nonatomic, strong) NSArray *comics;
+@property (nonatomic, strong) NSArray *pullListComicsArray;
+@property (nonatomic, strong) NSArray *thisWeekComicsArray;
 
 - (void)fetchThisWeeksComics:(void (^)(NSArray*,NSError*))completion;
-- (void)fetchLogin:(void (^)(NSArray*,NSError*))completion;
+- (void)fetchLoginStatusCode:(void (^)(int,NSError*))completion;
 - (void)fetchPullList:(void (^)(NSArray*,NSError*))completion;
+- (void)fetchBundles:(void (^)(NSArray*,NSError*))completion;
+- (void)fetchIssuesWithDate:(NSString *)date completion:(void (^)(NSDictionary*,NSError*))completion;
+- (void)fetchIssue:(int)issue completion:(void (^)(NSDictionary*,NSError*))completion;
+- (void)fetchTitle:(int)title completion:(void (^)(NSDictionary*,NSError*))completion;
+- (void)fetchTitle:(void (^)(NSDictionary*,NSError*))completion;
+- (void)fetchpublisher:(int)publisher completion:(void (^)(NSDictionary*,NSError*))completion;
+- (void)fetchPublishers:(void (^)(NSDictionary*,NSError*))completion;
 
 - (void)prepareForTermination;
 

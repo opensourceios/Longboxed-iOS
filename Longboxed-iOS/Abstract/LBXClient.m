@@ -26,7 +26,7 @@
     return self;
 }
 
-- (void)fetch:(NSString *)location credentials:(BOOL)credentials completion:(void (^)(id,NSError*))completion {
+- (void)fetch:(NSString *)location withCredentials:(BOOL)credentials completion:(void (^)(id, NSURLResponse*, NSError*))completion {
     [self.class setNetworkActivityIndicatorVisible:YES];
     
     NSString *urlString = [NSString stringWithFormat:@"http://www.longboxed.com/api/v1/%@",location];
@@ -51,7 +51,7 @@
             NSLog(@"%@",error);
             
             if (completion) {
-                completion(nil, error);
+                completion(nil, response, error);
             }
         }
         else {
@@ -62,24 +62,53 @@
                 NSLog(@"%@",error2);
             }
             if (completion) {
-                completion(json, error2);
+                completion(json, response, error2);
             }
         }
     }];
     [task resume];
 }
 
-- (void)fetchThisWeeksComicsWithCompletion:(void (^)(id,NSError*))completion {
-    [self fetch:@"issues/thisweek/" credentials:NO completion:completion];
+- (void)fetchThisWeeksComicsWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:@"issues/thisweek/" withCredentials:NO completion:completion];
 }
 
-- (void)fetchLogInWithCompletion:(void (^)(id,NSError*))completion {
-    [self fetch:[NSString stringWithFormat:@"users/login"] credentials:YES completion:completion];
+- (void)fetchLogInWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:@"users/login" withCredentials:YES completion:completion];
 }
 
-- (void)fetchPullListWithCompletion:(void (^)(id,NSError*))completion {
-    [self fetch:[NSString stringWithFormat:@"pull_list/"] credentials:YES completion:completion];
+- (void)fetchPullListWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:@"pull_list/" withCredentials:YES completion:completion];
 }
+
+- (void)fetchBundlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:@"bundles/" withCredentials:YES completion:completion];
+}
+
+- (void)fetchIssuesWithDate:(NSString *)date withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:[NSString stringWithFormat:@"issues/?date=%@", date] withCredentials:NO completion:completion];
+}
+
+- (void)fetchIssue:(int)issue withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:[NSString stringWithFormat:@"issues/%i", issue] withCredentials:NO completion:completion];
+}
+
+- (void)fetchTitlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:@"titles/" withCredentials:NO completion:completion];
+}
+
+- (void)fetchTitle:(int)title withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:[NSString stringWithFormat:@"titles/%i", title] withCredentials:NO completion:completion];
+}
+
+- (void)fetchPublishersWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:@"publishers/" withCredentials:NO completion:completion];
+}
+
+- (void)fetchPublisher:(int)publisher withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:[NSString stringWithFormat:@"publishers/%i", publisher] withCredentials:NO completion:completion];
+}
+
 
 // http://oleb.net/blog/2009/09/managing-the-network-activity-indicator/
 + (void)setNetworkActivityIndicatorVisible:(BOOL)setVisible {

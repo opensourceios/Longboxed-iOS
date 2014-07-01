@@ -9,7 +9,7 @@
 #import "LBXDataStore.h"
 #import "LBXClient.h"
 
-NSString * const kWCDataStoreArchivedMatchesKey = @"kWCDataStoreArchivedMatchesKey";
+NSString* const kWCDataStoreArchivedMatchesKey = @"kWCDataStoreArchivedMatchesKey";
 
 @interface LBXDataStore ()
 
@@ -41,51 +41,102 @@ NSString * const kWCDataStoreArchivedMatchesKey = @"kWCDataStoreArchivedMatchesK
 }
 
 - (void)restorePersistedProperties {
-    _comics = [self unarchivedObjectWithKey:kWCDataStoreArchivedMatchesKey];
+    _pullListComicsArray = [self unarchivedObjectWithKey:kWCDataStoreArchivedMatchesKey];
 }
 
 - (void)prepareForTermination {
-    [self archiveObject:self.comics key:kWCDataStoreArchivedMatchesKey];
+    [self archiveObject:self.pullListComicsArray key:kWCDataStoreArchivedMatchesKey];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)fetchThisWeeksComics:(void (^)(NSArray*,NSError*))completion
-{
-    [self.client fetchThisWeeksComicsWithCompletion:^(id json, NSError *error) {
-        NSMutableArray *comics = [[NSMutableArray alloc] initWithArray:json[@"issues"]];
-        self.comics = comics;
+- (void)fetchThisWeeksComics:(void (^)(NSArray*,NSError*))completion {
+    [self.client fetchThisWeeksComicsWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        NSMutableArray *thisWeeksComics = [[NSMutableArray alloc] initWithArray:json[@"issues"]];
         
         if (completion) {
-            completion(comics, error);
+            completion(thisWeeksComics, error);
         }
     }];
 }
 
-- (void)fetchLogin:(void (^)(NSArray*,NSError*))completion
-{
-    [self.client fetchLogInWithCompletion:^(id json, NSError *error) {
-        //NSLog(@"%@", json);
-        //NSMutableArray *comics = [[NSMutableArray alloc] initWithArray:json[@"issues"]];
-        //self.comics = comics;
-        
-//        if (completion) {
-//            completion(comics, error);
-//        }
-    }];
-}
-
-- (void)fetchPullList:(void (^)(NSArray*,NSError*))completion
-{
-    [self.client fetchPullListWithCompletion:^(id json, NSError *error) {
-        NSMutableArray *comics = [[NSMutableArray alloc] initWithArray:json[@"pull_list"]];
-        self.comics = comics;
+- (void)fetchLoginStatusCode:(void (^)(int,NSError*))completion {
+    [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        int responseStatusCode = [httpResponse statusCode];
         
         if (completion) {
-            completion(comics, error);
+            completion(responseStatusCode, error);
         }
     }];
 }
+
+- (void)fetchPullList:(void (^)(NSArray*,NSError*))completion {
+    [self.client fetchPullListWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        NSMutableArray *pullListComics = [[NSMutableArray alloc] initWithArray:json[@"pull_list"]];
+        if (completion) {
+            completion(pullListComics, error);
+        }
+    }];
+}
+
+- (void)fetchBundles:(void (^)(NSArray*,NSError*))completion {
+    [self.client fetchBundlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        NSMutableArray *pullListComics = [[NSMutableArray alloc] initWithArray:json[@"bundles"]];
+        if (completion) {
+            completion(pullListComics, error);
+        }
+    }];
+}
+
+- (void)fetchIssue:(int)issue completion:(void (^)(NSDictionary*,NSError*))completion {
+    [self.client fetchIssue:issue withCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        if (completion) {
+            completion(json, error);
+        }
+    }];
+}
+
+- (void)fetchTitle:(int)title completion:(void (^)(NSDictionary*,NSError*))completion {
+    [self.client fetchTitle:title withCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        if (completion) {
+            completion(json, error);
+        }
+    }];
+}
+
+- (void)fetchIssuesWithDate:(NSString *)date completion:(void (^)(NSDictionary*,NSError*))completion {
+    [self.client fetchIssuesWithDate:date withCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        if (completion) {
+            completion(json, error);
+        }
+    }];
+}
+
+- (void)fetchTitle:(void (^)(NSDictionary*,NSError*))completion {
+    [self.client fetchTitlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        if (completion) {
+            completion(json, error);
+        }
+    }];
+}
+
+- (void)fetchpublisher:(int)publisher completion:(void (^)(NSDictionary*,NSError*))completion {
+    [self.client fetchPublisher:publisher withCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        if (completion) {
+            completion(json, error);
+        }
+    }];
+}
+
+- (void)fetchPublishers:(void (^)(NSDictionary*,NSError*))completion {
+    [self.client fetchPublishersWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        if (completion) {
+            completion(json, error);
+        }
+    }];
+}
+
 
 
 - (id)unarchivedObjectWithKey:(NSString *)key {
