@@ -1,14 +1,14 @@
 //
-//  LBXThisWeekCollectionViewController.m
+//  LBXPullListCollectionViewController.m
 //  Longboxed-iOS
 //
 //  Created by johnrhickey on 6/29/14.
 //  Copyright (c) 2014 Jay Hickey. All rights reserved.
 //
 
-#import "LBXThisWeekCollectionViewController.h"
+#import "LBXPullListCollectionViewController.h"
 #import "LBXDataStore.h"
-#import "LBXThisWeeksComics.h"
+#import "LBXPullList.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
 #import "LBXNavigationViewController.h"
@@ -17,17 +17,17 @@
 #import <UIImageView+AFNetworking.h>
 #import <CWStatusBarNotification.h>
 
-@interface LBXThisWeekCollectionViewController () <UICollectionViewDelegateFlowLayout>
+@interface LBXPullListCollectionViewController () <UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
-@property (nonatomic) LBXThisWeeksComics *thisWeeksComics;
+@property (nonatomic) LBXPullList *pullListComics;
 
 @end
 
 
-@implementation LBXThisWeekCollectionViewController
+@implementation LBXPullListCollectionViewController
 
 LBXNavigationViewController *navigationController;
 // 2 comics: 252    3 comics: 168    4 comics: 126
@@ -53,7 +53,7 @@ CGFloat cellWidth;
         return nil;
     }
     
-    self.title = @"This Week";
+    self.title = @"Pull List";
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               [UIFont fontWithName:@"HelveticaNeue-Thin" size:20.0], NSFontAttributeName,nil];
     [[UINavigationBar appearance] setTitleTextAttributes: fontDict];
@@ -233,20 +233,20 @@ CGFloat cellWidth;
     // grab bound for contentView
     CGRect contentViewBound = cell.comicImageView.bounds;
     
-    NSString *titleString = [_thisWeeksComics.titles objectAtIndex:indexPath.row];
-    NSString *publisherString = [_thisWeeksComics.publishers objectAtIndex:indexPath.row];
+    NSString *titleString = [_pullListComics.names objectAtIndex:indexPath.row];
+    NSString *publisherString = [_pullListComics.publishers objectAtIndex:indexPath.row];
     NSString *issueString;
-    if (![[NSString stringWithFormat:@"%@", [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row]] isEqualToString:@""]) {
-        issueString = [NSString stringWithFormat:@"#%@", [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row]];
+    if (![[NSString stringWithFormat:@"%@", [_pullListComics.subscribers objectAtIndex:indexPath.row]] isEqualToString:@""]) {
+        issueString = [NSString stringWithFormat:@"%@ Issues", [_pullListComics.issueCount objectAtIndex:indexPath.row]];
     }
     else {
-        issueString = [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row];
+        issueString = [_pullListComics.subscribers objectAtIndex:indexPath.row];
     }
     
     // If an image exists, fetch it. Else use the generated UIImage
-    if ([_thisWeeksComics.coverImages objectAtIndex:indexPath.row] != (id)[NSNull null]) {
+    if (1==2) {
         
-        NSString *urlString = [_thisWeeksComics.coverImages objectAtIndex:indexPath.row];
+        NSString *urlString = nil;
         
         // Show the network activity icon
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
@@ -338,7 +338,8 @@ CGFloat cellWidth;
     }
     
     else {
-        UIImage *defaultImage = [UIImage imageNamed:@"black"];
+        UIImage *defaultImage = nil;
+        cell.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:0.2];
         
         cell.comicPublisherLabel.text = publisherString;
         cell.comicIssueLabel.text = issueString;
@@ -368,38 +369,17 @@ CGFloat cellWidth;
 
 - (void)refresh
 {
-    [[LBXDataStore sharedStore] fetchThisWeeksComics:^(NSArray *response, NSError *error) {
-        _thisWeeksComics = [[LBXThisWeeksComics alloc] initThisWeeksComicsWithIssues:response];
-        tableViewRows = _thisWeeksComics.longboxedIDs.count;
+    [[LBXDataStore sharedStore] fetchPullList:^(NSArray *response, NSError *error) {
+        NSLog(@"%@", response);
+        _pullListComics = [[LBXPullList alloc] initPullList:response];
+        tableViewRows = _pullListComics.longboxedIDs.count;
+        NSLog(@"%ld", (long)tableViewRows);
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];
             [_refreshControl endRefreshing];
         });
     }];
-    
-    [[LBXDataStore sharedStore] fetchLogin:^(NSArray *response, NSError *error) {
-//        _thisWeeksComics = [[LBXThisWeeksComics alloc] initThisWeeksComicsWithIssues:response];
-//        tableViewRows = _thisWeeksComics.longboxedIDs.count;
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.collectionView reloadData];
-//            [_refreshControl endRefreshing];
-//        });
-    }];
-    
-    [[LBXDataStore sharedStore] fetchPullList:^(NSArray *response, NSError *error) {
-        //        _thisWeeksComics = [[LBXThisWeeksComics alloc] initThisWeeksComicsWithIssues:response];
-        //        tableViewRows = _thisWeeksComics.longboxedIDs.count;
-        //
-        //        dispatch_async(dispatch_get_main_queue(), ^{
-        //            [self.collectionView reloadData];
-        //            [_refreshControl endRefreshing];
-        //        });
-    }];
-
-    
-    
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -410,7 +390,7 @@ CGFloat cellWidth;
     IMDBnotification.notificationAnimationInStyle = CWNotificationAnimationStyleTop;
     IMDBnotification.notificationAnimationOutStyle = CWNotificationAnimationStyleTop;
     
-    NSString *diamondID = [_thisWeeksComics.diamondIDs objectAtIndex:indexPath.row];
+    NSString *diamondID = [_pullListComics.longboxedIDs objectAtIndex:indexPath.row];
     
     if (![diamondID isEqualToString:@""]) {
         NSString *webURL = [@"http://www.longboxed.com/issue/" stringByAppendingString:diamondID];
@@ -433,7 +413,7 @@ CGFloat cellWidth;
     // Cell height must take maximum possible parallax offset into account.
     ParallaxFlowLayout *layout = (ParallaxFlowLayout *)self.collectionViewLayout;
     cellWidth = CGRectGetWidth(self.collectionView.bounds) - layout.sectionInset.left - layout.sectionInset.right;
-    switch (_thisWeeksComics.longboxedIDs.count) {
+    switch (_pullListComics.longboxedIDs.count) {
         case 0:
         case 1:
             return CGSizeMake(cellWidth, TABLE_HEIGHT_ONE);

@@ -53,8 +53,32 @@ NSString * const kWCDataStoreArchivedMatchesKey = @"kWCDataStoreArchivedMatchesK
 - (void)fetchThisWeeksComics:(void (^)(NSArray*,NSError*))completion
 {
     [self.client fetchThisWeeksComicsWithCompletion:^(id json, NSError *error) {
-        NSDictionary *data = json[@"data"];
-        NSMutableArray *comics = [[NSMutableArray alloc] initWithArray:data[@"issues"]];
+        NSMutableArray *comics = [[NSMutableArray alloc] initWithArray:json[@"issues"]];
+        self.comics = comics;
+        
+        if (completion) {
+            completion(comics, error);
+        }
+    }];
+}
+
+- (void)fetchLogin:(void (^)(NSArray*,NSError*))completion
+{
+    [self.client fetchLogInWithCompletion:^(id json, NSError *error) {
+        //NSLog(@"%@", json);
+        //NSMutableArray *comics = [[NSMutableArray alloc] initWithArray:json[@"issues"]];
+        //self.comics = comics;
+        
+//        if (completion) {
+//            completion(comics, error);
+//        }
+    }];
+}
+
+- (void)fetchPullList:(void (^)(NSArray*,NSError*))completion
+{
+    [self.client fetchPullListWithCompletion:^(id json, NSError *error) {
+        NSMutableArray *comics = [[NSMutableArray alloc] initWithArray:json[@"pull_list"]];
         self.comics = comics;
         
         if (completion) {

@@ -1,5 +1,5 @@
 //
-//  LBXThisWeekCollectionViewController.h
+//  LBXPullListCollectionViewController.h
 //  Longboxed-iOS
 //
 //  Created by johnrhickey on 6/29/14.
@@ -8,6 +8,6 @@
 
 @import UIKit;
 
-@interface LBXThisWeekCollectionViewController : UICollectionViewController
+@interface LBXPullListCollectionViewController : UICollectionViewController
 
 @end

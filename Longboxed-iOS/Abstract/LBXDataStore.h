@@ -15,6 +15,8 @@
 @property (nonatomic, strong) NSArray *comics;
 
 - (void)fetchThisWeeksComics:(void (^)(NSArray*,NSError*))completion;
+- (void)fetchLogin:(void (^)(NSArray*,NSError*))completion;
+- (void)fetchPullList:(void (^)(NSArray*,NSError*))completion;
 
 - (void)prepareForTermination;
 

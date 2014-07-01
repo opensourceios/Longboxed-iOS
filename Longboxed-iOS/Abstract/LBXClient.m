@@ -7,6 +7,9 @@
 //
 
 #import "LBXClient.h"
+#import "NSData+Base64.h"
+
+#import <UICKeyChainStore.h>
 
 @interface LBXClient()
 
@@ -23,23 +26,24 @@
     return self;
 }
 
-- (void)fetch:(NSString *)location params:(NSDictionary *)params completion:(void (^)(id,NSError*))completion {
+- (void)fetch:(NSString *)location credentials:(BOOL)credentials completion:(void (^)(id,NSError*))completion {
     [self.class setNetworkActivityIndicatorVisible:YES];
     
-    NSMutableString *paramString = [[NSMutableString alloc] init];
-    [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [paramString appendFormat:@"%@=%@&",key,obj];
-    }];
-    
-    NSString *urlString = [NSString stringWithFormat:@"http://www.longboxed.com/api/%@",location];
-    
-    if ([paramString length]) {
-        urlString = [urlString stringByAppendingFormat:@"?%@",paramString];
-    }
+    NSString *urlString = [NSString stringWithFormat:@"http://www.longboxed.com/api/v1/%@",location];
     
     NSURL *url = [NSURL URLWithString:urlString];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    // Auth if necessary
+    if (credentials) {
+        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+        NSString *authStr = [NSString stringWithFormat:@"%@:%@", store[@"username"], store[@"password"]];
+        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    }
+    
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         [self.class setNetworkActivityIndicatorVisible:NO];
         
@@ -57,7 +61,6 @@
             if (error2) {
                 NSLog(@"%@",error2);
             }
-            
             if (completion) {
                 completion(json, error2);
             }
@@ -67,11 +70,15 @@
 }
 
 - (void)fetchThisWeeksComicsWithCompletion:(void (^)(id,NSError*))completion {
-    [self fetch:@"issues/thisweek" params:nil completion:completion];
+    [self fetch:@"issues/thisweek/" credentials:NO completion:completion];
 }
 
-- (void)fetchComicIssue:(NSString *)issue WithCompletion:(void (^)(id,NSError*))completion {
-    [self fetch:[NSString stringWithFormat:@"issues/%@", issue] params:nil completion:completion];
+- (void)fetchLogInWithCompletion:(void (^)(id,NSError*))completion {
+    [self fetch:[NSString stringWithFormat:@"users/login"] credentials:YES completion:completion];
+}
+
+- (void)fetchPullListWithCompletion:(void (^)(id,NSError*))completion {
+    [self fetch:[NSString stringWithFormat:@"pull_list/"] credentials:YES completion:completion];
 }
 
 // http://oleb.net/blog/2009/09/managing-the-network-activity-indicator/

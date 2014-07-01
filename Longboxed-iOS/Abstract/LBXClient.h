@@ -11,5 +11,7 @@
 @interface LBXClient : NSObject
 
 - (void)fetchThisWeeksComicsWithCompletion:(void (^)(id,NSError*))completion;
+- (void)fetchLogInWithCompletion:(void (^)(id,NSError*))completion;
+- (void)fetchPullListWithCompletion:(void (^)(id,NSError*))completion;
 
 @end

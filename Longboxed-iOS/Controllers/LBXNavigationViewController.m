@@ -9,6 +9,9 @@
 //
 
 #import "LBXNavigationViewController.h"
+#import "LBXPullListCollectionViewController.h"
+#import "LBXThisWeekCollectionViewController.h"
+#import "LBXLoginViewController.h"
 
 @interface LBXNavigationViewController ()
 
@@ -22,14 +25,14 @@
 {
     [super viewDidLoad];
     
-//    __typeof (self) __weak weakSelf = self;
-    REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"Home"
+    __typeof (self) __weak weakSelf = self;
+    REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"This Week"
                                                        image:[UIImage imageNamed:@"Icon_Home"]
                                             highlightedImage:nil
                                                       action:^(REMenuItem *item) {
                                                           NSLog(@"Item: %@", item);
-//                                                          LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
-//                                                          [weakSelf setViewControllers:@[controller] animated:NO];
+                                                          LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
+                                                          [weakSelf setViewControllers:@[controller] animated:NO];
                                                       }];
     
     REMenuItem *activityItem = [[REMenuItem alloc] initWithTitle:@"Pull List"
@@ -37,19 +40,19 @@
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
                                                               NSLog(@"Item: %@", item);
-//                                                              LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
-//                                                              [weakSelf setViewControllers:@[controller] animated:NO];
+                                                              LBXPullListCollectionViewController *controller = [[LBXPullListCollectionViewController alloc] init];
+                                                              [weakSelf setViewControllers:@[controller] animated:NO];
                                                           }];
     
 //    activityItem.badge = @"12";
     
-    REMenuItem *profileItem = [[REMenuItem alloc] initWithTitle:@"This Week"
+    REMenuItem *profileItem = [[REMenuItem alloc] initWithTitle:@"Log In"
                                                           image:[UIImage imageNamed:@"Icon_Profile"]
                                                highlightedImage:nil
                                                          action:^(REMenuItem *item) {
                                                              NSLog(@"Item: %@", item);
-//                                                             LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
-//                                                             [weakSelf setViewControllers:@[controller] animated:NO];
+                                                             LBXLoginViewController *controller = [[LBXLoginViewController alloc] init];
+                                                             [weakSelf setViewControllers:@[controller] animated:NO];
                                                          }];
     
     homeItem.tag = 0;
