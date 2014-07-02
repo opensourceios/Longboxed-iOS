@@ -78,11 +78,11 @@
 }
 
 - (void)fetchPullListWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:@"pull_list/" withCredentials:YES completion:completion];
+    [self fetch:[NSString stringWithFormat:@"users/%@/pull_list/", [UICKeyChainStore keyChainStore][@"id"]] withCredentials:YES completion:completion];
 }
 
 - (void)fetchBundlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:@"bundles/" withCredentials:YES completion:completion];
+    [self fetch:[NSString stringWithFormat:@"users/%@/bundles/", [UICKeyChainStore keyChainStore][@"id"]] withCredentials:YES completion:completion];
 }
 
 - (void)fetchIssuesWithDate:(NSString *)date withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {

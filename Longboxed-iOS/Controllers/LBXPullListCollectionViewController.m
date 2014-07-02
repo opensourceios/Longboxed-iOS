@@ -15,7 +15,7 @@
 #import "SVWebViewController.h"
 
 #import <UIImageView+AFNetworking.h>
-#import <CWStatusBarNotification.h>
+#import <TWMessageBarManager.h>
 
 @interface LBXPullListCollectionViewController () <UICollectionViewDelegateFlowLayout>
 
@@ -255,12 +255,6 @@ CGFloat cellWidth;
         cell.comicPublisherLabel.text = nil;
         cell.comicIssueLabel.text = nil;
         
-        CWStatusBarNotification *notification = [CWStatusBarNotification new];
-        notification.notificationLabelBackgroundColor = [UIColor redColor];
-        notification.notificationLabelTextColor = [UIColor whiteColor];
-        notification.notificationAnimationInStyle = CWNotificationAnimationStyleTop;
-        notification.notificationAnimationOutStyle = CWNotificationAnimationStyleTop;
-        
         [cell.activityIndicator startAnimating];
         
         // Get the image from the URL and set it
@@ -325,7 +319,9 @@ CGFloat cellWidth;
             
             // Don't show the error for NSURLErrorDomain -999 because that's just a cancelled image request due to scrolling
             if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-                [notification displayNotificationWithMessage:@"Network Error. Check your network connection." forDuration:3.0f];
+                [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
+                                                               description:@"Check your network connection."
+                                                                      type:TWMessageBarMessageTypeError];
             }
         }];
 
@@ -382,11 +378,6 @@ CGFloat cellWidth;
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    __block CWStatusBarNotification *IMDBnotification = [CWStatusBarNotification new];
-    IMDBnotification.notificationLabelBackgroundColor = [UIColor redColor];
-    IMDBnotification.notificationLabelTextColor = [UIColor blackColor];
-    IMDBnotification.notificationAnimationInStyle = CWNotificationAnimationStyleTop;
-    IMDBnotification.notificationAnimationOutStyle = CWNotificationAnimationStyleTop;
     
     NSString *diamondID = [_pullListComics.longboxedIDs objectAtIndex:indexPath.row];
     
@@ -398,7 +389,9 @@ CGFloat cellWidth;
         [self presentViewController:webViewController animated:YES completion:NULL];
     }
     else {
-        [IMDBnotification displayNotificationWithMessage:@"No Longboxed page exists for this movie." forDuration:3.0f];
+        [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Can't Open Webpage"
+                                                       description:@"No Longboxed page exists for this movie."
+                                                              type:TWMessageBarMessageTypeError];
     }
 }
 

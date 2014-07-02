@@ -15,7 +15,6 @@
 @interface LBXAPITests : XCTestCase
 
 @property (nonatomic) LBXClient *client;
-@property (nonatomic) NSString *unauthorizedString;
 
 @end
 
@@ -37,8 +36,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    _unauthorizedString = @"{error = unauthorized; message = \"Invalid credentials\"}";
-    
+
     _client = [[LBXClient alloc] init];
     
     store = [UICKeyChainStore keyChainStore];
@@ -59,12 +57,16 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testPullListEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchPullListWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
-            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = [httpResponse statusCode];
-            XCTAssertEqual(responseStatusCode, 200, @"Pull list endpoint is returning a status code %d", responseStatusCode);
-            XCTAssertNotNil(json[@"pull_list"], @"Pull list JSON is returning %@", json);
-            *done = YES;
+        [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+            [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"id"]] forKey:@"id"];
+            [store synchronize];
+            [self.client fetchPullListWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+                NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+                int responseStatusCode = [httpResponse statusCode];
+                XCTAssertEqual(responseStatusCode, 200, @"Pull list endpoint is returning a status code %d", responseStatusCode);
+                XCTAssertNotNil(json[@"pull_list"], @"Pull list JSON is returning %@", json);
+                *done = YES;
+            }];
         }];
     });
 }
@@ -72,12 +74,16 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testBundlesEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchBundlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
-            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = [httpResponse statusCode];
-            XCTAssertEqual(responseStatusCode, 200, @"Bundles endpoint is returning a status code %d", responseStatusCode);
-            XCTAssertNotNil(json[@"bundles"], @"Bundles JSON is returning %@", json);
-            *done = YES;
+        [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+            [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"id"]] forKey:@"id"];
+            [store synchronize];
+            [self.client fetchBundlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+                NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+                int responseStatusCode = [httpResponse statusCode];
+                XCTAssertEqual(responseStatusCode, 200, @"Bundles endpoint is returning a status code %d", responseStatusCode);
+                XCTAssertNotNil(json[@"bundles"], @"Bundles JSON is returning %@", json);
+                *done = YES;
+            }];
         }];
     });
 }

@@ -8,7 +8,7 @@
 
 #import "LBXAppDelegate.h"
 #import "LBXDataStore.h"
-#import "LBXThisWeekCollectionViewController.h"
+#import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
 
 #import "HockeySDK.h"
@@ -20,9 +20,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    LBXThisWeekCollectionViewController *thisWeekViewController = [LBXThisWeekCollectionViewController new];
+    LBXHomeViewController *dashboardViewController = [LBXHomeViewController new];
     
-    self.window.rootViewController = [[LBXNavigationViewController alloc] initWithRootViewController:thisWeekViewController];
+    self.window.rootViewController = [[LBXNavigationViewController alloc] initWithRootViewController:dashboardViewController];
     [self.window makeKeyAndVisible];
     
     // Hockey app needs to be the last 3rd party integration in this method

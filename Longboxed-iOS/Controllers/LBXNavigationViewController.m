@@ -9,6 +9,7 @@
 //
 
 #import "LBXNavigationViewController.h"
+#import "LBXHomeViewController.h"
 #import "LBXPullListCollectionViewController.h"
 #import "LBXThisWeekCollectionViewController.h"
 #import "LBXLoginViewController.h"
@@ -26,7 +27,14 @@
     [super viewDidLoad];
     
     __typeof (self) __weak weakSelf = self;
-    REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"This Week"
+    REMenuItem *dashboardItem = [[REMenuItem alloc] initWithTitle:@"Home"
+                                                       image:[UIImage imageNamed:@"Icon_Home"]
+                                            highlightedImage:nil
+                                                      action:^(REMenuItem *item) {
+                                                          LBXHomeViewController *controller = [[LBXHomeViewController alloc] init];
+                                                          [weakSelf setViewControllers:@[controller] animated:NO];
+                                                      }];
+    REMenuItem *thisWeekItem = [[REMenuItem alloc] initWithTitle:@"This Week"
                                                        image:[UIImage imageNamed:@"Icon_Home"]
                                             highlightedImage:nil
                                                       action:^(REMenuItem *item) {
@@ -52,10 +60,11 @@
                                                              [weakSelf setViewControllers:@[controller] animated:NO];
                                                          }];
     
-    homeItem.tag = 0;
+    dashboardItem.tag = 0;
+    thisWeekItem.tag = 1;
     activityItem.tag = 2;
     profileItem.tag = 3;
-    self.menu = [[REMenu alloc] initWithItems:@[homeItem, activityItem, profileItem]];
+    self.menu = [[REMenu alloc] initWithItems:@[dashboardItem, thisWeekItem, activityItem, profileItem]];
     self.menu.backgroundAlpha = 0.5;
     self.menu.backgroundColor = [UIColor whiteColor];
     self.menu.textColor = [UIColor blackColor];
@@ -95,6 +104,13 @@
     //
     self.menu.liveBlur = YES;
     self.menu.liveBlurBackgroundStyle = REMenuLiveBackgroundStyleLight;
+}
+
+// For the view controllers contained in the nav controller
+- (NSDictionary *)getHamburgerButtonAttributes
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+                [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
 }
 
 - (void)toggleMenu

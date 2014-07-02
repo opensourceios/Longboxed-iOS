@@ -3,6 +3,6 @@
 link_with ['Longboxed-iOS', 'Longboxed-iOSTests']
 
 pod 'AFNetworking'
-pod 'CWStatusBarNotification'
+pod 'TWMessageBarManager'
 pod 'HockeySDK'
 pod 'UICKeyChainStore'

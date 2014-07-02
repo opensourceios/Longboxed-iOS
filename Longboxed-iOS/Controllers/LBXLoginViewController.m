@@ -8,15 +8,18 @@
 
 #import "LBXLoginViewController.h"
 #import "LBXNavigationViewController.h"
+#import "LBXClient.h"
 
 #import <UICKeyChainStore.h>
-#import <CWStatusBarNotification.h>
+#import <TWMessageBarManager.h>
 
 @interface LBXLoginViewController ()
 
 @property (nonatomic, strong) IBOutlet UIButton *loginButton;
 @property (nonatomic, strong) IBOutlet UITextField *usernameField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordField;
+
+@property (nonatomic) LBXClient *client;
 
 @end
 
@@ -36,6 +39,8 @@ UICKeyChainStore *store;
         NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
                     [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
         [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
+        
+        _client = [[LBXClient alloc] init];
     }
     return self;
 }
@@ -45,6 +50,8 @@ UICKeyChainStore *store;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     store = [UICKeyChainStore keyChainStore];
+    _usernameField.text = store[@"username"];
+    _passwordField.text = store[@"password"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,15 +60,19 @@ UICKeyChainStore *store;
     // Dispose of any resources that can be recreated.
 }
 
+- (void)removeCredentials
+{
+    [UICKeyChainStore removeItemForKey:@"username"];
+    [UICKeyChainStore removeItemForKey:@"password"];
+    [UICKeyChainStore removeItemForKey:@"id"];
+    [store synchronize]; // Write to keychain.
+}
+
 
 -(IBAction)buttonPressed:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    
-    CWStatusBarNotification *notification = [CWStatusBarNotification new];
-    notification.notificationLabelTextColor = [UIColor whiteColor];
-    notification.notificationAnimationInStyle = CWNotificationAnimationStyleTop;
-    notification.notificationAnimationOutStyle = CWNotificationAnimationStyleTop;
+
     
     switch ([button tag])
     {
@@ -71,20 +82,45 @@ UICKeyChainStore *store;
             [UICKeyChainStore setString:_usernameField.text forKey:@"username"];
             [UICKeyChainStore setString:_passwordField.text forKey:@"password"];
             [store synchronize]; // Write to keychain.
-         
-            notification.notificationLabelBackgroundColor = [UIColor blueColor];
-            [notification displayNotificationWithMessage:@"Logged in!" forDuration:3.0f];
+            [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+                NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+                int responseStatusCode = [httpResponse statusCode];
+                if (responseStatusCode == 200) {
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"id"]] forKey:@"id"];
+                        [store synchronize];
+                        [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Log In Successful"
+                                                                   description:@"Logged in successfully."
+                                                                          type:TWMessageBarMessageTypeSuccess];
+                    });
+                }
+                else {
+                    [self removeCredentials];
+                    
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Credentials"
+                                                                   description:@"Your username or password is incorrect."
+                                                                          type:TWMessageBarMessageTypeError];
+                        _usernameField.text = @"";
+                        _passwordField.text = @"";
+                        [_usernameField becomeFirstResponder];
+                    });
+                }
+            }];
+            
+
             break;
         }
         // Log out
         case 1:
         {
-            [UICKeyChainStore removeItemForKey:@"username"];
-            [UICKeyChainStore removeItemForKey:@"password"];
-            [store synchronize]; // Write to keychain.
-            
-            notification.notificationLabelBackgroundColor = [UIColor redColor];
-            [notification displayNotificationWithMessage:@"Logged out!" forDuration:3.0f];
+            [self removeCredentials];
+            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Logged Out"
+                                                           description:@"Successfully logged out."
+                                                                  type:TWMessageBarMessageTypeError];
+            _usernameField.text = @"";
+            _passwordField.text = @"";
+            [_usernameField becomeFirstResponder];
         }
     }
 }

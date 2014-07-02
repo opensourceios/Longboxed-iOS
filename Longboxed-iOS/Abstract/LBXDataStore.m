@@ -82,7 +82,7 @@ NSString* const kWCDataStoreArchivedMatchesKey = @"kWCDataStoreArchivedMatchesKe
 
 - (void)fetchBundles:(void (^)(NSArray*,NSError*))completion {
     [self.client fetchBundlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
-        NSMutableArray *pullListComics = [[NSMutableArray alloc] initWithArray:json[@"bundles"]];
+        NSMutableArray *pullListComics = [[NSMutableArray alloc] initWithArray:json[@"bundles"][0][@"issues"]];
         if (completion) {
             completion(pullListComics, error);
         }

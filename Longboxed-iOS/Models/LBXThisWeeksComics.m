@@ -61,7 +61,8 @@
 
 - (NSArray *)publishers
 {
-    return [self iterateThroughIssues:_issues andMakeArrayWithKey:@"publisher"];
+    NSArray *publisherArray = [self iterateThroughIssues:_issues andMakeArrayWithKey:@"publisher"];
+    return [self iterateThroughIssues:publisherArray andMakeArrayWithKey:@"name"];
 }
 
 - (NSArray *)releaseDates
@@ -71,7 +72,8 @@
 
 - (NSArray *)titles
 {
-    return [self iterateThroughIssues:_issues andMakeArrayWithKey:@"title"];
+    NSArray *nameArray = [self iterateThroughIssues:_issues andMakeArrayWithKey:@"title"];
+    return [self iterateThroughIssues:nameArray andMakeArrayWithKey:@"name"];
 }
 
 
