@@ -63,7 +63,7 @@ NSString* const kWCDataStoreArchivedMatchesKey = @"kWCDataStoreArchivedMatchesKe
 - (void)fetchLoginStatusCode:(void (^)(int,NSError*))completion {
     [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-        int responseStatusCode = [httpResponse statusCode];
+        int responseStatusCode = (int)[httpResponse statusCode];
         
         if (completion) {
             completion(responseStatusCode, error);

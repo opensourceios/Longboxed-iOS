@@ -81,7 +81,7 @@ LBXNavigationViewController *navigationController;
         [[LBXDataStore sharedStore] fetchBundles:^(NSArray *response, NSError *error) {
             _bundle = [[LBXBundle alloc] initBundle:response];
             dispatch_async(dispatch_get_main_queue(), ^{
-                _bundleCountLabel.text = [NSString stringWithFormat:@"%d", _bundle.longboxedIDs.count];
+                _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)_bundle.longboxedIDs.count];
             });
         }];
     }

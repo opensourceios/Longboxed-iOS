@@ -84,7 +84,7 @@ UICKeyChainStore *store;
             [store synchronize]; // Write to keychain.
             [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
                 NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-                int responseStatusCode = [httpResponse statusCode];
+                int responseStatusCode = (int)[httpResponse statusCode];
                 if (responseStatusCode == 200) {
                     dispatch_async(dispatch_get_main_queue(),^{
                         [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"id"]] forKey:@"id"];
