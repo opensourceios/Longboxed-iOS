@@ -50,7 +50,7 @@
 		E57D498619611E380014A13F /* hamburger-button.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D498419611E380014A13F /* hamburger-button.png */; };
 		E57D498719611E380014A13F /* hamburger-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D498519611E380014A13F /* hamburger-button@2x.png */; };
 		E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E587FB4F1964E2E5006A3DDB /* PaperButton.m */; };
-		E5A773D219623E73002654E7 /* LBXNavigationDropDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D119623E73002654E7 /* LBXNavigationDropDownViewController.m */; };
+		E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D119623E73002654E7 /* LBXNavigationViewController.m */; };
 		E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D819623F52002654E7 /* NSData+Base64.m */; };
 		E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXLoginViewController.m */; };
 		E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */; };
@@ -140,8 +140,8 @@
 		E57D498519611E380014A13F /* hamburger-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hamburger-button@2x.png"; path = "Assets/hamburger-button@2x.png"; sourceTree = SOURCE_ROOT; };
 		E587FB4E1964E2B3006A3DDB /* PaperButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PaperButton.h; path = Extras/Pop/PaperButton.h; sourceTree = "<group>"; };
 		E587FB4F1964E2E5006A3DDB /* PaperButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperButton.m; path = Extras/Pop/PaperButton.m; sourceTree = "<group>"; };
-		E5A773D019623E73002654E7 /* LBXNavigationDropDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXNavigationDropDownViewController.h; path = Controllers/LBXNavigationDropDownViewController.h; sourceTree = "<group>"; };
-		E5A773D119623E73002654E7 /* LBXNavigationDropDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXNavigationDropDownViewController.m; path = Controllers/LBXNavigationDropDownViewController.m; sourceTree = "<group>"; };
+		E5A773D019623E73002654E7 /* LBXNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXNavigationViewController.h; path = Controllers/LBXNavigationViewController.h; sourceTree = "<group>"; };
+		E5A773D119623E73002654E7 /* LBXNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXNavigationViewController.m; path = Controllers/LBXNavigationViewController.m; sourceTree = "<group>"; };
 		E5A773D719623F52002654E7 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Categories/NSData+Base64.h"; sourceTree = "<group>"; };
 		E5A773D819623F52002654E7 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Categories/NSData+Base64.m"; sourceTree = "<group>"; };
 		E5A773DA19624A52002654E7 /* LBXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLoginViewController.h; path = Controllers/LBXLoginViewController.h; sourceTree = "<group>"; };
@@ -280,8 +280,8 @@
 		E57D48FF1960960E0014A13F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E5A773D019623E73002654E7 /* LBXNavigationDropDownViewController.h */,
-				E5A773D119623E73002654E7 /* LBXNavigationDropDownViewController.m */,
+				E5A773D019623E73002654E7 /* LBXNavigationViewController.h */,
+				E5A773D119623E73002654E7 /* LBXNavigationViewController.m */,
 				E5F18721196382BA006C4C26 /* LBXHomeViewController.h */,
 				E5F18722196382BA006C4C26 /* LBXHomeViewController.m */,
 				E5F187371963A635006C4C26 /* LBXHomeViewController.xib */,
@@ -657,7 +657,7 @@
 				E5F18720196378E4006C4C26 /* LBXPullListCollectionViewController.m in Sources */,
 				E57D4956196118950014A13F /* REMenuItemView.m in Sources */,
 				E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */,
-				E5A773D219623E73002654E7 /* LBXNavigationDropDownViewController.m in Sources */,
+				E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */,
 				E5F18724196382BA006C4C26 /* LBXHomeViewController.m in Sources */,
 				E57D497919611C8E0014A13F /* SVWebViewControllerActivityChrome.m in Sources */,
 				E57D49121960A2180014A13F /* LBXClient.m in Sources */,

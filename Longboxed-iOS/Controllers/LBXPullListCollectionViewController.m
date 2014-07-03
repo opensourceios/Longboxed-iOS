@@ -11,11 +11,9 @@
 #import "LBXPullList.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
-#import "LBXNavigationDropDownViewController.h"
+#import "LBXNavigationViewController.h"
 #import "SVWebViewController.h"
-#import "PaperButton.h"
 
-#import <POP/POP.h>
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
 
@@ -31,8 +29,7 @@
 
 @implementation LBXPullListCollectionViewController
 
-LBXNavigationDropDownViewController *navigationController;
-PaperButton *button;
+LBXNavigationViewController *navigationController;
 
 // 2 comics: 252    3 comics: 168    4 comics: 126
 static const NSUInteger TABLE_HEIGHT_FOUR = 126;
@@ -130,7 +127,7 @@ CGFloat cellWidth;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationDropDownViewController *)self.navigationController;
+    navigationController = (LBXNavigationViewController *)self.navigationController;
     [navigationController.menu setNeedsLayout];
 }
 

@@ -7,11 +7,9 @@
 //
 
 #import "LBXLoginViewController.h"
-#import "LBXNavigationDropDownViewController.h"
+#import "LBXNavigationViewController.h"
 #import "LBXClient.h"
-#import "PaperButton.h"
 
-#import <POP/POP.h>
 #import <UICKeyChainStore.h>
 #import <TWMessageBarManager.h>
 
@@ -28,7 +26,6 @@
 @implementation LBXLoginViewController
 
 UICKeyChainStore *store;
-PaperButton *button;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -97,7 +94,6 @@ PaperButton *button;
                         [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Credentials"
                                                                    description:@"Your username or password is incorrect."
                                                                           type:TWMessageBarMessageTypeError];
-                        _usernameField.text = @"";
                         _passwordField.text = @"";
                         [_usernameField becomeFirstResponder];
                     });
@@ -113,7 +109,7 @@ PaperButton *button;
             [self removeCredentials];
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Logged Out"
                                                            description:@"Successfully logged out."
-                                                                  type:TWMessageBarMessageTypeError];
+                                                                  type:TWMessageBarMessageTypeSuccess];
             _usernameField.text = @"";
             _passwordField.text = @"";
             [_usernameField becomeFirstResponder];

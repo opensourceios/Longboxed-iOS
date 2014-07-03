@@ -7,14 +7,12 @@
 //
 
 #import "LBXHomeViewController.h"
-#import "LBXNavigationDropDownViewController.h"
+#import "LBXNavigationViewController.h"
 #import "LBXDataStore.h"
 #import "LBXThisWeeksComics.h"
 #import "LBXBundle.h"
 #import "EasyTableView.h"
-#import "PaperButton.h"
 
-#import <POP/POP.h>
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
 #import <UICKeyChainStore.h>
@@ -36,8 +34,7 @@
 
 @implementation LBXHomeViewController
 
-LBXNavigationDropDownViewController *navigationController;
-PaperButton *button;
+LBXNavigationViewController *navigationController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,7 +43,7 @@ PaperButton *button;
         // Custom initialization
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
         
-        LBXNavigationDropDownViewController *navController = [LBXNavigationDropDownViewController new];
+        LBXNavigationViewController *navController = [LBXNavigationViewController new];
         [navController addPaperButtonToViewController:self];
         
         self.view.backgroundColor = [UIColor whiteColor];
@@ -62,10 +59,16 @@ PaperButton *button;
     [self refresh];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
+}
+
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationDropDownViewController *)self.navigationController;
+    navigationController = (LBXNavigationViewController *)self.navigationController;
     [navigationController.menu setNeedsLayout];
 }
 
