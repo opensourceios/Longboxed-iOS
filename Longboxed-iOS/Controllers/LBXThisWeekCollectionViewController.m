@@ -61,16 +61,6 @@ CGFloat cellWidth;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger-button"] style:UIBarButtonItemStyleBordered target:self.navigationController action:@selector(toggleMenu)];
     [self.navigationItem.rightBarButtonItem setTintColor:[UIColor lightGrayColor]];
     [[UIBarButtonItem appearance] setTitleTextAttributes:[navigationController getHamburgerButtonAttributes] forState:UIControlStateNormal];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(dropCollectionView)
-                                                 name:@"dropCollectionView"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(raiseCollectionView)
-                                                 name:@"raiseCollectionView"
-                                               object:nil];
-
 
     return self;
 }
@@ -170,45 +160,6 @@ CGFloat cellWidth;
     textView.numberOfLines = 2;
     textView.bounds = bound;
     textView.text = string;
-}
-
-- (void)dropCollectionView
-{
-    // Taken from the REMenu
-    [UIView animateWithDuration:navigationController.menu.animationDuration+navigationController.menu.bounceAnimationDuration
-                          delay:0.0
-         usingSpringWithDamping:0.6
-          initialSpringVelocity:4.0
-                        options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         CGRect frame = self.view.frame;
-                         frame.origin.y = self.view.frame.origin.y + navigationController.menu.combinedHeight - navigationController.navigationBar.frame.size.height;
-                         self.collectionView.frame = frame;
-                     } completion:nil];
-}
-
-- (void)raiseCollectionView
-{
-    // Taken from the REMenu
-    void (^closeMenu)(void) = ^{
-        [UIView animateWithDuration:navigationController.menu.animationDuration
-                              delay:0.0
-                            options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
-                         animations:^ {
-                             CGRect frame = self.view.frame;
-                             frame.origin.y = self.view.frame.origin.y;
-                             self.collectionView.frame = frame;
-                         } completion:nil];
-        
-    };
-
-    [UIView animateWithDuration:navigationController.menu.bounceAnimationDuration animations:^{
-        CGRect frame = self.collectionView.frame;
-        frame.origin.y = navigationController.menu.combinedHeight - navigationController.navigationBar.frame.size.height + 20.0;
-        self.collectionView.frame = frame;
-    } completion:^(BOOL finished) {
-        closeMenu();
-    }];
 }
 
 #pragma mark - UICollectionViewDataSource

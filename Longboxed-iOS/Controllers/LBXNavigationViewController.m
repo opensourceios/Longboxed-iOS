@@ -28,19 +28,19 @@
     
     __typeof (self) __weak weakSelf = self;
     REMenuItem *dashboardItem = [[REMenuItem alloc] initWithTitle:@"Home"
-                                                       image:[UIImage imageNamed:@"Icon_Home"]
-                                            highlightedImage:nil
-                                                      action:^(REMenuItem *item) {
-                                                          LBXHomeViewController *controller = [[LBXHomeViewController alloc] init];
-                                                          [weakSelf setViewControllers:@[controller] animated:NO];
-                                                      }];
+                                                            image:[UIImage imageNamed:@"Icon_Home"]
+                                                 highlightedImage:nil
+                                                           action:^(REMenuItem *item) {
+                                                               LBXHomeViewController *controller = [[LBXHomeViewController alloc] init];
+                                                               [weakSelf setViewControllers:@[controller] animated:NO];
+                                                           }];
     REMenuItem *thisWeekItem = [[REMenuItem alloc] initWithTitle:@"This Week"
-                                                       image:[UIImage imageNamed:@"Icon_Home"]
-                                            highlightedImage:nil
-                                                      action:^(REMenuItem *item) {
-                                                          LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
-                                                          [weakSelf setViewControllers:@[controller] animated:NO];
-                                                      }];
+                                                           image:[UIImage imageNamed:@"Icon_Home"]
+                                                highlightedImage:nil
+                                                          action:^(REMenuItem *item) {
+                                                              LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
+                                                              [weakSelf setViewControllers:@[controller] animated:NO];
+                                                          }];
     
     REMenuItem *activityItem = [[REMenuItem alloc] initWithTitle:@"Pull List"
                                                            image:[UIImage imageNamed:@"Icon_Activity"]
@@ -50,7 +50,7 @@
                                                               [weakSelf setViewControllers:@[controller] animated:NO];
                                                           }];
     
-//    activityItem.badge = @"12";
+    //    activityItem.badge = @"12";
     
     REMenuItem *profileItem = [[REMenuItem alloc] initWithTitle:@"Log In"
                                                           image:[UIImage imageNamed:@"Icon_Profile"]
@@ -78,6 +78,7 @@
     self.menu.borderWidth = 0.0;
     self.menu.highlightedTextShadowOffset = CGSizeMake(0, 0);
     self.menu.highlightedTextColor = [UIColor whiteColor];
+    self.menu.highlightedBackgroundColor = [UIColor blackColor];
     
     self.menu.imageOffset = CGSizeMake(5, -1);
     self.menu.waitUntilAnimationIsComplete = NO;
@@ -89,7 +90,7 @@
     
     [self.menu setClosePreparationBlock:^{
         NSLog(@"Menu will close");
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"raiseCollectionView" object:nil];
+        [weakSelf raiseView];
     }];
     
     [self.menu setCloseCompletionHandler:^{
@@ -102,7 +103,7 @@
 {
     // Blurred background in iOS 7
     //
-    self.menu.liveBlur = YES;
+    //self.menu.liveBlur = YES;
     self.menu.liveBlurBackgroundStyle = REMenuLiveBackgroundStyleLight;
 }
 
@@ -110,16 +111,66 @@
 - (NSDictionary *)getHamburgerButtonAttributes
 {
     return [NSDictionary dictionaryWithObjectsAndKeys:
-                [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+            [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
 }
 
 - (void)toggleMenu
 {
     if (self.menu.isOpen)
         return [self.menu close];
-    
     [self.menu showFromNavigationController:self];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"dropCollectionView" object:nil];
+    
+    // The animation does not occur when calling [self dropView] or with an afterDelay of 0-0.000.
+    // Possibly due to the navigationController not having shown yet (showFromNavigationController)?
+    // But a delay to the millionth place works. Is this an Objective-C bug?
+    [self performSelector:@selector(dropView) withObject:nil afterDelay:0.001];
+    
+}
+
+- (void)dropView
+{
+    // Taken from REMenu.m
+    [UIView animateWithDuration:self.menu.animationDuration+self.menu.bounceAnimationDuration
+                          delay:0.0
+         usingSpringWithDamping:0.6
+          initialSpringVelocity:4.0
+                        options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGRect frame = self.view.frame;
+                         frame.origin.y = self.view.frame.origin.y + self.menu.combinedHeight - self.navigationBar.frame.size.height;
+                         for (UIViewController *viewController in self.viewControllers) {
+                             viewController.view.frame = frame;
+                         }
+                         
+                     } completion:nil];
+}
+
+- (void)raiseView
+{
+    // Taken from the REMenu
+    void (^closeMenu)(void) = ^{
+        [UIView animateWithDuration:self.menu.animationDuration
+                              delay:0.0
+                            options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
+                         animations:^ {
+                             CGRect frame = self.view.frame;
+                             frame.origin.y = self.view.frame.origin.y;
+                             for (UIViewController *viewController in self.viewControllers) {
+                                 viewController.view.frame = frame;
+                             }
+                         } completion:nil];
+        
+    };
+    
+    [UIView animateWithDuration:self.menu.bounceAnimationDuration animations:^{
+        CGRect frame = self.view.frame;
+        frame.origin.y = self.menu.combinedHeight - self.navigationBar.frame.size.height + 20.0;
+        for (UIViewController *viewController in self.viewControllers) {
+            viewController.view.frame = frame;
+        }
+    } completion:^(BOOL finished) {
+        closeMenu();
+    }];
 }
 
 @end
