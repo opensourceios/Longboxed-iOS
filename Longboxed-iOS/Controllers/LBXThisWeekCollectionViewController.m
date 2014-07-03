@@ -11,9 +11,11 @@
 #import "LBXThisWeeksComics.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
-#import "LBXNavigationViewController.h"
+#import "LBXNavigationDropDownViewController.h"
 #import "SVWebViewController.h"
+#import "PaperButton.h"
 
+#import <POP/POP.h>
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
 
@@ -29,7 +31,9 @@
 
 @implementation LBXThisWeekCollectionViewController
 
-LBXNavigationViewController *navigationController;
+LBXNavigationDropDownViewController *navigationController;
+PaperButton *button;
+
 // 2 comics: 252    3 comics: 168    4 comics: 126
 static const NSUInteger TABLE_HEIGHT_FOUR = 126;
 static const NSUInteger TABLE_HEIGHT_THREE = 168;
@@ -52,15 +56,6 @@ CGFloat cellWidth;
     if (self == nil) {
         return nil;
     }
-    
-    self.title = @"This Week";
-    NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [UIFont fontWithName:@"HelveticaNeue-Thin" size:20.0], NSFontAttributeName,nil];
-    [[UINavigationBar appearance] setTitleTextAttributes: fontDict];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger-button"] style:UIBarButtonItemStyleBordered target:self.navigationController action:@selector(toggleMenu)];
-    [self.navigationItem.rightBarButtonItem setTintColor:[UIColor lightGrayColor]];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:[navigationController getHamburgerButtonAttributes] forState:UIControlStateNormal];
 
     return self;
 }
@@ -135,7 +130,7 @@ CGFloat cellWidth;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationViewController *)self.navigationController;
+    navigationController = (LBXNavigationDropDownViewController *)self.navigationController;
     [navigationController.menu setNeedsLayout];
 }
 

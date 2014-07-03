@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "REMenu.h"
 
-@interface LBXNavigationViewController : UINavigationController
+@interface LBXNavigationDropDownViewController : UINavigationController
 
 @property (strong, readonly, nonatomic) REMenu *menu;
 
 - (void)toggleMenu;
 - (NSDictionary *)getHamburgerButtonAttributes;
+- (void)addPaperButtonToViewController:(UIViewController *)viewController;
 
 @end

@@ -8,19 +8,24 @@
 //  Sample icons from http://icons8.com/download-free-icons-for-ios-tab-bar
 //
 
-#import "LBXNavigationViewController.h"
+#import "LBXNavigationDropDownViewController.h"
 #import "LBXHomeViewController.h"
 #import "LBXPullListCollectionViewController.h"
 #import "LBXThisWeekCollectionViewController.h"
 #import "LBXLoginViewController.h"
+#import "PaperButton.h"
 
-@interface LBXNavigationViewController ()
+#import <POP/POP.h>
+
+@interface LBXNavigationDropDownViewController ()<UINavigationControllerDelegate>
 
 @property (strong, readwrite, nonatomic) REMenu *menu;
 
 @end
 
-@implementation LBXNavigationViewController
+@implementation LBXNavigationDropDownViewController
+
+PaperButton *button;
 
 - (void)viewDidLoad
 {
@@ -32,6 +37,9 @@
                                                  highlightedImage:nil
                                                            action:^(REMenuItem *item) {
                                                                LBXHomeViewController *controller = [[LBXHomeViewController alloc] init];
+                                                               
+                                                               [self addPaperButtonToViewController:controller];
+                                                               
                                                                [weakSelf setViewControllers:@[controller] animated:NO];
                                                            }];
     REMenuItem *thisWeekItem = [[REMenuItem alloc] initWithTitle:@"This Week"
@@ -39,6 +47,10 @@
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
                                                               LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
+                                                              controller.title = @"This Week";
+                                                              
+                                                              [self addPaperButtonToViewController:controller];
+                                                              
                                                               [weakSelf setViewControllers:@[controller] animated:NO];
                                                           }];
     
@@ -47,6 +59,10 @@
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
                                                               LBXPullListCollectionViewController *controller = [[LBXPullListCollectionViewController alloc] init];
+                                                              controller.title = @"Pull List";
+                                                              
+                                                              [self addPaperButtonToViewController:controller];
+                                                              
                                                               [weakSelf setViewControllers:@[controller] animated:NO];
                                                           }];
     
@@ -57,7 +73,11 @@
                                                highlightedImage:nil
                                                          action:^(REMenuItem *item) {
                                                              LBXLoginViewController *controller = [[LBXLoginViewController alloc] init];
-                                                             [weakSelf setViewControllers:@[controller] animated:NO];
+                                                             controller.title = @"Log In";
+                                                             
+                                                             [self addPaperButtonToViewController:controller];
+                                                             
+                                                             [weakSelf presentViewController:controller animated:YES completion:nil];
                                                          }];
     
     dashboardItem.tag = 0;
@@ -70,7 +90,6 @@
     self.menu.textColor = [UIColor blackColor];
     self.menu.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
     self.menu.textShadowOffset = CGSizeMake(0, 0);
-    self.menu.textShadowColor = [UIColor clearColor];
     self.menu.textOffset = CGSizeMake(0, 0);
     self.menu.subtitleTextShadowOffset = CGSizeMake(0, 0);
     self.menu.separatorHeight = 1.0;
@@ -89,7 +108,7 @@
     
     
     [self.menu setClosePreparationBlock:^{
-        NSLog(@"Menu will close");
+        [weakSelf flipButtonToMenu];
         [weakSelf raiseView];
     }];
     
@@ -102,9 +121,37 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     // Blurred background in iOS 7
-    //
-    //self.menu.liveBlur = YES;
+    self.menu.liveBlur = NO;
     self.menu.liveBlurBackgroundStyle = REMenuLiveBackgroundStyleLight;
+}
+
+- (void)addPaperButtonToViewController:(UIViewController *)viewController
+{
+    button = [PaperButton button];
+    [button addTarget:viewController.navigationController action:@selector(toggleMenu) forControlEvents:UIControlEventTouchUpInside];
+    button.tintColor = [UIColor lightGrayColor];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+    viewController.navigationItem.rightBarButtonItem = barButton;
+    
+    [viewController.navigationItem.rightBarButtonItem setTintColor:[UIColor lightGrayColor]];
+    NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
+}
+
+// Needed to flip the button to close if the
+// button OR the view is pressed
+- (void)flipButtonToMenu
+{
+    [button animateToMenu];
+}
+
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+    NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [UIFont fontWithName:@"HelveticaNeue-Thin" size:20.0], NSFontAttributeName,nil];
+    [[UINavigationBar appearance] setTitleTextAttributes: fontDict];
 }
 
 // For the view controllers contained in the nav controller
@@ -116,8 +163,9 @@
 
 - (void)toggleMenu
 {
-    if (self.menu.isOpen)
+    if (self.menu.isOpen) {
         return [self.menu close];
+    }
     [self.menu showFromNavigationController:self];
     
     // The animation does not occur when calling [self dropView] or with an afterDelay of 0-0.000.

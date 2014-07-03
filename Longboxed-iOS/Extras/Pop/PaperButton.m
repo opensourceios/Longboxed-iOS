@@ -15,11 +15,9 @@
 @property(nonatomic) CALayer *bottomLayer;
 @property(nonatomic) BOOL showMenu;
 
-- (void)touchUpInsideHandler:(PaperButton *)sender;
-- (void)animateToMenu;
-- (void)animateToClose;
 - (void)setup;
 - (void)removeAllAnimations;
+- (void)touchUpInsideHandler:(PaperButton *)sender;
 @end
 
 @implementation PaperButton
@@ -95,6 +93,7 @@
     [self.middleLayer pop_addAnimation:fadeAnimation forKey:@"fadeAnimation"];
     [self.bottomLayer pop_addAnimation:positionBottomAnimation forKey:@"positionBottomAnimation"];
     [self.bottomLayer pop_addAnimation:transformBottomAnimation forKey:@"rotateBottomAnimation"];
+    self.showMenu = !self.showMenu;
 }
 
 - (void)animateToClose
@@ -131,16 +130,18 @@
     [self.middleLayer pop_addAnimation:fadeAnimation forKey:@"fadeAnimation"];
     [self.bottomLayer pop_addAnimation:positionBottomAnimation forKey:@"positionBottomAnimation"];
     [self.bottomLayer pop_addAnimation:transformBottomAnimation forKey:@"rotateBottomAnimation"];
+    self.showMenu = !self.showMenu;
 }
 
 - (void)touchUpInsideHandler:(PaperButton *)sender
 {
     if (self.showMenu) {
-        [self animateToMenu];
+        //[self animateToMenu];
     } else {
         [self animateToClose];
     }
-    self.showMenu = !self.showMenu;
+    
+    
 }
 
 - (void)setup

@@ -7,9 +7,11 @@
 //
 
 #import "LBXLoginViewController.h"
-#import "LBXNavigationViewController.h"
+#import "LBXNavigationDropDownViewController.h"
 #import "LBXClient.h"
+#import "PaperButton.h"
 
+#import <POP/POP.h>
 #import <UICKeyChainStore.h>
 #import <TWMessageBarManager.h>
 
@@ -26,6 +28,7 @@
 @implementation LBXLoginViewController
 
 UICKeyChainStore *store;
+PaperButton *button;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,13 +36,6 @@ UICKeyChainStore *store;
     if (self) {
         
         // Custom initialization
-        self.title = @"Log In";
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger-button"] style:UIBarButtonItemStyleBordered target:self.navigationController action:@selector(toggleMenu)];
-        [self.navigationItem.rightBarButtonItem setTintColor:[UIColor lightGrayColor]];
-        NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                    [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
-        [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
-        
         _client = [[LBXClient alloc] init];
     }
     return self;

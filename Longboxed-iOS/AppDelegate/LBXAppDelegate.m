@@ -9,7 +9,7 @@
 #import "LBXAppDelegate.h"
 #import "LBXDataStore.h"
 #import "LBXHomeViewController.h"
-#import "LBXNavigationViewController.h"
+#import "LBXNavigationDropDownViewController.h"
 
 #import "HockeySDK.h"
 
@@ -22,7 +22,7 @@
     
     LBXHomeViewController *dashboardViewController = [LBXHomeViewController new];
     
-    self.window.rootViewController = [[LBXNavigationViewController alloc] initWithRootViewController:dashboardViewController];
+    self.window.rootViewController = [[LBXNavigationDropDownViewController alloc] initWithRootViewController:dashboardViewController];
     [self.window makeKeyAndVisible];
     
     // Hockey app needs to be the last 3rd party integration in this method

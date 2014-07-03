@@ -7,7 +7,7 @@
 //
 
 #import "LBXHomeViewController.h"
-#import "LBXNavigationViewController.h"
+#import "LBXNavigationDropDownViewController.h"
 #import "LBXDataStore.h"
 #import "LBXThisWeeksComics.h"
 #import "LBXBundle.h"
@@ -36,7 +36,8 @@
 
 @implementation LBXHomeViewController
 
-LBXNavigationViewController *navigationController;
+LBXNavigationDropDownViewController *navigationController;
+PaperButton *button;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,12 +46,9 @@ LBXNavigationViewController *navigationController;
         // Custom initialization
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
         
-        PaperButton *button = [PaperButton button];
-        [button addTarget:self.navigationController action:@selector(toggleMenu) forControlEvents:UIControlEventTouchUpInside];
-        button.tintColor = [UIColor lightGrayColor];
-        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+        LBXNavigationDropDownViewController *navController = [LBXNavigationDropDownViewController new];
+        [navController addPaperButtonToViewController:self];
         
-        self.navigationItem.rightBarButtonItem = barButton;
         self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
@@ -67,7 +65,7 @@ LBXNavigationViewController *navigationController;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationViewController *)self.navigationController;
+    navigationController = (LBXNavigationDropDownViewController *)self.navigationController;
     [navigationController.menu setNeedsLayout];
 }
 
