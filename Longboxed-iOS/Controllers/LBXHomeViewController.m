@@ -12,7 +12,9 @@
 #import "LBXThisWeeksComics.h"
 #import "LBXBundle.h"
 #import "EasyTableView.h"
+#import "PaperButton.h"
 
+#import <POP/POP.h>
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
 #import <UICKeyChainStore.h>
@@ -43,11 +45,13 @@ LBXNavigationViewController *navigationController;
         // Custom initialization
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
         
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger-button"] style:UIBarButtonItemStyleBordered target:self.navigationController action:@selector(toggleMenu)];
-        [self.navigationItem.rightBarButtonItem setTintColor:[UIColor lightGrayColor]];
-        [[UIBarButtonItem appearance] setTitleTextAttributes:[navigationController getHamburgerButtonAttributes] forState:UIControlStateNormal];
+        PaperButton *button = [PaperButton button];
+        [button addTarget:self.navigationController action:@selector(toggleMenu) forControlEvents:UIControlEventTouchUpInside];
+        button.tintColor = [UIColor lightGrayColor];
+        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+        
+        self.navigationItem.rightBarButtonItem = barButton;
         self.view.backgroundColor = [UIColor whiteColor];
-
     }
     return self;
 }
@@ -59,6 +63,14 @@ LBXNavigationViewController *navigationController;
     _bundleCountLabel.text = @"";
     [self refresh];
 }
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    navigationController = (LBXNavigationViewController *)self.navigationController;
+    [navigationController.menu setNeedsLayout];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -86,7 +98,6 @@ LBXNavigationViewController *navigationController;
         }];
     }
     else _bundleCountLabel.text = @"0";
-    
 }
 
 #pragma mark EasyTableView Initialization
@@ -108,7 +119,6 @@ LBXNavigationViewController *navigationController;
 #pragma mark - EasyTableViewDelegate
 
 - (UIView *)easyTableView:(EasyTableView *)easyTableView viewForRect:(CGRect)rect {
-    NSLog(@"in view for rect");
 	// Create a container view for an EasyTableView cell
 	UIView *container = [[UIView alloc] initWithFrame:rect];;
 	

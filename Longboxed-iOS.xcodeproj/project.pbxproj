@@ -49,6 +49,7 @@
 		E57D498319611C950014A13F /* SVWebViewControllerActivitySafari@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D497F19611C950014A13F /* SVWebViewControllerActivitySafari@2x.png */; };
 		E57D498619611E380014A13F /* hamburger-button.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D498419611E380014A13F /* hamburger-button.png */; };
 		E57D498719611E380014A13F /* hamburger-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D498519611E380014A13F /* hamburger-button@2x.png */; };
+		E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E587FB4F1964E2E5006A3DDB /* PaperButton.m */; };
 		E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D119623E73002654E7 /* LBXNavigationViewController.m */; };
 		E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D819623F52002654E7 /* NSData+Base64.m */; };
 		E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXLoginViewController.m */; };
@@ -137,6 +138,8 @@
 		E57D497F19611C950014A13F /* SVWebViewControllerActivitySafari@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SVWebViewControllerActivitySafari@2x.png"; path = "Extras/SVWebViewController/UIActivities/Safari/SVWebViewControllerActivitySafari@2x.png"; sourceTree = "<group>"; };
 		E57D498419611E380014A13F /* hamburger-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hamburger-button.png"; path = "Assets/hamburger-button.png"; sourceTree = SOURCE_ROOT; };
 		E57D498519611E380014A13F /* hamburger-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hamburger-button@2x.png"; path = "Assets/hamburger-button@2x.png"; sourceTree = SOURCE_ROOT; };
+		E587FB4E1964E2B3006A3DDB /* PaperButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PaperButton.h; path = Extras/Pop/PaperButton.h; sourceTree = "<group>"; };
+		E587FB4F1964E2E5006A3DDB /* PaperButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperButton.m; path = Extras/Pop/PaperButton.m; sourceTree = "<group>"; };
 		E5A773D019623E73002654E7 /* LBXNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXNavigationViewController.h; path = Controllers/LBXNavigationViewController.h; sourceTree = "<group>"; };
 		E5A773D119623E73002654E7 /* LBXNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXNavigationViewController.m; path = Controllers/LBXNavigationViewController.m; sourceTree = "<group>"; };
 		E5A773D719623F52002654E7 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Categories/NSData+Base64.h"; sourceTree = "<group>"; };
@@ -358,6 +361,7 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				E587FB4D1964E2A9006A3DDB /* Pop */,
 				E5F1872619638980006C4C26 /* EasyTableView */,
 				E57D495819611B920014A13F /* SVWebViewController */,
 				E57D4947196118750014A13F /* REMenu */,
@@ -411,6 +415,15 @@
 				E57D497F19611C950014A13F /* SVWebViewControllerActivitySafari@2x.png */,
 			);
 			name = Safari;
+			sourceTree = "<group>";
+		};
+		E587FB4D1964E2A9006A3DDB /* Pop */ = {
+			isa = PBXGroup;
+			children = (
+				E587FB4F1964E2E5006A3DDB /* PaperButton.m */,
+				E587FB4E1964E2B3006A3DDB /* PaperButton.h */,
+			);
+			name = Pop;
 			sourceTree = "<group>";
 		};
 		E5A773D619623E8B002654E7 /* Categories */ = {
@@ -638,6 +651,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */,
 				E57D48D3196068E10014A13F /* main.m in Sources */,
 				E57D49061960961E0014A13F /* ParallaxFlowLayout.m in Sources */,
 				E5F18720196378E4006C4C26 /* LBXPullListCollectionViewController.m in Sources */,
