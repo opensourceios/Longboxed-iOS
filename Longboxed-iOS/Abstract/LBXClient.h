@@ -7,15 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit.h>
+
+#import "LBXTitle.h"
+#import "LBXIssue.h"
+#import "LBXPublisher.h"
 
 @interface LBXClient : NSObject
 
-- (void)fetchThisWeeksComicsWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
 - (void)fetchLogInWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
 - (void)fetchPullListWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
 - (void)fetchBundlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
 - (void)fetchIssuesWithDate:(NSString *)date withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
-- (void)fetchIssue:(int)issue withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchIssue:(int)issue withCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion;
 - (void)fetchTitle:(int)title withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
 - (void)fetchTitlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
 - (void)fetchPublishersWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;

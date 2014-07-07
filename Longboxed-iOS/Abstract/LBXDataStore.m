@@ -51,13 +51,13 @@ NSString* const kWCDataStoreArchivedMatchesKey = @"kWCDataStoreArchivedMatchesKe
 }
 
 - (void)fetchThisWeeksComics:(void (^)(NSArray*,NSError*))completion {
-    [self.client fetchThisWeeksComicsWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
-        NSMutableArray *thisWeeksComics = [[NSMutableArray alloc] initWithArray:json[@"issues"]];
-        
-        if (completion) {
-            completion(thisWeeksComics, error);
-        }
-    }];
+//    [self.client fetchThisWeeksComicsWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+//        NSMutableArray *thisWeeksComics = [[NSMutableArray alloc] initWithArray:json[@"issues"]];
+//        
+//        if (completion) {
+//            completion(thisWeeksComics, error);
+//        }
+//    }];
 }
 
 - (void)fetchLoginStatusCode:(void (^)(int,NSError*))completion {
@@ -90,11 +90,11 @@ NSString* const kWCDataStoreArchivedMatchesKey = @"kWCDataStoreArchivedMatchesKe
 }
 
 - (void)fetchIssue:(int)issue completion:(void (^)(NSDictionary*,NSError*))completion {
-    [self.client fetchIssue:issue withCompletion:^(id json, NSURLResponse *response, NSError *error) {
-        if (completion) {
-            completion(json, error);
-        }
-    }];
+//    [self.client fetchIssue:issue withCompletion:^(id json, NSURLResponse *response, NSError *error) {
+//        if (completion) {
+//            completion(json, error);
+//        }
+//    }];
 }
 
 - (void)fetchTitle:(int)title completion:(void (^)(NSDictionary*,NSError*))completion {

@@ -7,10 +7,10 @@
 //
 
 #import <XCTest/XCTest.h>
-
 #import <UICKeyChainStore.h>
 
 #import "LBXClient.h"
+#import "LBXIssue.h"
 
 @interface LBXAPITests : XCTestCase
 
@@ -104,11 +104,9 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testThisWeekEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-       [self.client fetchThisWeeksComicsWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
-           NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = [httpResponse statusCode];
-            XCTAssertEqual(responseStatusCode, 200, @"This Week endpoint is returning a status code %d", responseStatusCode);
-            XCTAssertNotNil(json[@"date"], @"This week JSON is returning %@", json);
+       [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *thisWeeksIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Log In endpoint is returning a status code %d", response.HTTPRequestOperation.response.statusCode);
+            XCTAssertNotNil(thisWeeksIssuesArray[0], @"/issues/thisweek/ JSON is returning nil");
             *done = YES;
         }];
     });
@@ -130,11 +128,10 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testIssueEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchIssue:70 withCompletion:^(id json, NSURLResponse *response, NSError *error) {
-            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = [httpResponse statusCode];
-            XCTAssertEqual(responseStatusCode, 200, @"Issue endpoint is returning a status code %d", responseStatusCode);
-            XCTAssertNotNil(json[@"complete_title"], @"Pull list JSON is returning %@", json);
+        [self.client fetchIssue:70 withCompletion:^(LBXIssue *issueObject, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issue endpoint is returning a status code %d", response.HTTPRequestOperation.response.statusCode);
+            XCTAssertNotNil(issueObject, @"Pull list JSON is returning %@", issueObject);
+            NSLog(@"%@", issueObject);
             *done = YES;
         }];
     });

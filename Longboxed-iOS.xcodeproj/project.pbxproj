@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		4410A30038BE4D6282AAFEBB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; };
 		CDE56D0EB54A49F3B06F8E78 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; };
+		E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00F9196A1A9C005FCF25 /* LBXIssue.m */; };
+		E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */; };
+		E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FF196A2004005FCF25 /* LBXTitle.m */; };
 		E555D38A19624DEC003B97C0 /* LBXPullList.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38919624DEC003B97C0 /* LBXPullList.m */; };
 		E555D38F196359D1003B97C0 /* LBXAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38E196359D1003B97C0 /* LBXAPITests.m */; };
 		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
@@ -76,6 +79,12 @@
 /* Begin PBXFileReference section */
 		7AD8046282F84878BFC9B82F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		E1E220888AF5409D902176E2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E51D00F8196A1A9C005FCF25 /* LBXIssue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssue.h; path = Models/LBXIssue.h; sourceTree = "<group>"; };
+		E51D00F9196A1A9C005FCF25 /* LBXIssue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssue.m; path = Models/LBXIssue.m; sourceTree = "<group>"; };
+		E51D00FB196A1FF2005FCF25 /* LBXPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisher.h; path = Models/LBXPublisher.h; sourceTree = "<group>"; };
+		E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisher.m; path = Models/LBXPublisher.m; sourceTree = "<group>"; };
+		E51D00FE196A2004005FCF25 /* LBXTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitle.h; path = Models/LBXTitle.h; sourceTree = "<group>"; };
+		E51D00FF196A2004005FCF25 /* LBXTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitle.m; path = Models/LBXTitle.m; sourceTree = "<group>"; };
 		E555D38819624DEC003B97C0 /* LBXPullList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullList.h; path = Models/LBXPullList.h; sourceTree = "<group>"; };
 		E555D38919624DEC003B97C0 /* LBXPullList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullList.m; path = Models/LBXPullList.m; sourceTree = "<group>"; };
 		E555D38E196359D1003B97C0 /* LBXAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXAPITests.m; sourceTree = "<group>"; };
@@ -186,6 +195,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E51D00F4196A1A6F005FCF25 /* New Models */ = {
+			isa = PBXGroup;
+			children = (
+				E51D00F8196A1A9C005FCF25 /* LBXIssue.h */,
+				E51D00F9196A1A9C005FCF25 /* LBXIssue.m */,
+				E51D00FB196A1FF2005FCF25 /* LBXPublisher.h */,
+				E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */,
+				E51D00FE196A2004005FCF25 /* LBXTitle.h */,
+				E51D00FF196A2004005FCF25 /* LBXTitle.m */,
+			);
+			name = "New Models";
+			sourceTree = "<group>";
+		};
 		E57D48BA196068E10014A13F = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +245,7 @@
 			children = (
 				E57D49131960A21D0014A13F /* Abstract */,
 				E57D49141960A2350014A13F /* AppDelegate */,
+				E51D00F4196A1A6F005FCF25 /* New Models */,
 				E57D49151960A2590014A13F /* Models */,
 				E57D48FF1960960E0014A13F /* Controllers */,
 				E57D48FE1960960A0014A13F /* Views */,
@@ -655,6 +678,7 @@
 				E57D48D3196068E10014A13F /* main.m in Sources */,
 				E57D49061960961E0014A13F /* ParallaxFlowLayout.m in Sources */,
 				E5F18720196378E4006C4C26 /* LBXPullListCollectionViewController.m in Sources */,
+				E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */,
 				E57D4956196118950014A13F /* REMenuItemView.m in Sources */,
 				E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */,
 				E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */,
@@ -662,11 +686,13 @@
 				E57D497919611C8E0014A13F /* SVWebViewControllerActivityChrome.m in Sources */,
 				E57D49121960A2180014A13F /* LBXClient.m in Sources */,
 				E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */,
+				E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */,
 				E57D490B196096260014A13F /* LBXThisWeekCollectionViewController.m in Sources */,
 				E57D49211960A6920014A13F /* LBXDataStore.m in Sources */,
 				E5F1873219638BBC006C4C26 /* EasyTableView.m in Sources */,
 				E57D496319611BB30014A13F /* SVModalWebViewController.m in Sources */,
 				E57D4953196118950014A13F /* REMenu.m in Sources */,
+				E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */,
 				E57D49271960C8A70014A13F /* LBXThisWeeksComics.m in Sources */,
 				E57D4954196118950014A13F /* REMenuContainerView.m in Sources */,
 				E555D38A19624DEC003B97C0 /* LBXPullList.m in Sources */,
