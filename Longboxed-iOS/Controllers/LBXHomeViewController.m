@@ -10,7 +10,7 @@
 #import "LBXNavigationViewController.h"
 #import "LBXDataStore.h"
 #import "LBXThisWeeksComics.h"
-#import "LBXBundle.h"
+#import "LBXBundleOld.h"
 #import "EasyTableView.h"
 
 #import <UIImageView+AFNetworking.h>
@@ -26,7 +26,7 @@
 @interface LBXHomeViewController ()<EasyTableViewDelegate>
 
 @property (nonatomic) LBXThisWeeksComics *thisWeeksComics;
-@property (nonatomic) LBXBundle *bundle;
+@property (nonatomic) LBXBundleOld *bundle;
 @property (nonatomic) EasyTableView *easyTableView;
 @property (nonatomic, strong) IBOutlet UILabel *bundleCountLabel;
 
@@ -92,7 +92,7 @@ LBXNavigationViewController *navigationController;
     
     if ([UICKeyChainStore keyChainStore][@"id"]) {
         [[LBXDataStore sharedStore] fetchBundles:^(NSArray *response, NSError *error) {
-            _bundle = [[LBXBundle alloc] initBundle:response];
+            _bundle = [[LBXBundleOld alloc] initBundle:response];
             dispatch_async(dispatch_get_main_queue(), ^{
                 _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)_bundle.longboxedIDs.count];
             });

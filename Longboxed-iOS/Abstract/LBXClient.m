@@ -7,8 +7,11 @@
 //
 
 #import "LBXClient.h"
+#import "LBXMap.h"
+#import "LBXRouter.h"
+#import "LBXDescriptors.h"
+
 #import "NSData+Base64.h"
-#import "NSString+URLQuery.h"
 
 #import <UICKeyChainStore.h>
 
@@ -27,6 +30,7 @@
     return self;
 }
 
+// TODO: Remove this
 - (void)fetch:(NSString *)location withCredentials:(BOOL)credentials completion:(void (^)(id, NSURLResponse*, NSError*))completion {
     [self.class setNetworkActivityIndicatorVisible:YES];
     
@@ -70,174 +74,16 @@
     [task resume];
 }
 
-- (RKObjectMapping *)getUserMapping
-{
-    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[LBXUser class]];
-    [userMapping addAttributeMappingsFromDictionary:@{ @"email": @"email",
-                                                       @"first_name": @"firstName",
-                                                       @"id": @"userID",
-                                                       @"last_name": @"lastName",
-                                                       @"roles": @"roles"
-                                                    }];
-    return userMapping;
-}
-
-- (RKObjectMapping *)getTitleMapping
-{
-    RKObjectMapping* titleMapping = [RKObjectMapping mappingForClass:[LBXTitle class]];
-    [titleMapping addAttributeMappingsFromDictionary:@{ @"id": @"titleID",
-                                                        @"name": @"name"
-                                                        }];
-    return titleMapping;
-}
-
-- (RKObjectMapping *)getPublisherMapping
-{
-    RKObjectMapping* publisherMapping = [RKObjectMapping mappingForClass:[LBXPublisher class]];
-    [publisherMapping addAttributeMappingsFromDictionary:@{ @"id": @"publisherID",
-                                                            @"issue_count": @"issueCount",
-                                                            @"name": @"name",
-                                                            @"title_count": @"titleCount"
-                                                            }];
-    return publisherMapping;
-}
-
-- (RKObjectMapping *)getIssueMapping
-{
-    RKObjectMapping* issueMapping = [RKObjectMapping mappingForClass:[LBXIssue class]];
-    [issueMapping addAttributeMappingsFromDictionary:@{ @"complete_title": @"completeTitle",
-                                                        @"cover_image": @"coverImage",
-                                                        @"description": @"issueDescription",
-                                                        @"diamond_id": @"diamondID",
-                                                        @"id": @"issueID",
-                                                        @"issue_number": @"issueNumber",
-                                                        @"price": @"price",
-                                                        @"release_date": @"releaseDate"
-                                                        }];
-    
-    RKObjectMapping *publisherMapping = [self getPublisherMapping];
-    RKObjectMapping *titleMapping = [self getTitleMapping];
-    
-    [issueMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"publisher"
-                                                                                 toKeyPath:@"publisher"
-                                                                               withMapping:publisherMapping]];
-    
-    [issueMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"title"
-                                                                                 toKeyPath:@"title"
-                                                                               withMapping:titleMapping]];
-    
-    
-    return issueMapping;
-}
-
-// Routing
-- (RKRouter *)setupRouterWithQueryParameters:(NSDictionary *)parameters
-{
-    NSString *urlString = @"http://www.longboxed.com";
-    RKRouter *router = [[RKRouter alloc] initWithBaseURL:[NSURL URLWithString:urlString]];
-
-    // Issues
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Issues Collection"
-                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/issues/" withDictionary:parameters]
-                                              method:RKRequestMethodGET]]; // Required parameter is ?date=2014-06-25
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Issues Collection for Current Week"
-                                         pathPattern:@"/api/v1/issues/thisweek/"
-                                              method:RKRequestMethodGET]];
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Issue"
-                                         pathPattern:@"/api/v1/issues/:issueID"
-                                              method:RKRequestMethodGET]];
-    
-    // Titles
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Titles Collection"
-                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/titles/" withDictionary:parameters]
-                                              method:RKRequestMethodGET]]; // Optional parameter is ?page=2
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Title"
-                                         pathPattern:@"/api/v1/titles/:titleID"
-                                              method:RKRequestMethodGET]];
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Issues for Title"
-                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/titles/:titleID/issues/" withDictionary:parameters]
-                                              method:RKRequestMethodGET]]; // Optional parameter is ?page=2
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Autocomplete for Titles"
-                                         pathPattern:@"/api/v1/titles/autocomplete/"
-                                              method:RKRequestMethodGET]]; // Required parameter is ?search=spider
-    
-    // Publishers
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Publisher Collection"
-                                         pathPattern:@"/api/v1/publishers/"
-                                              method:RKRequestMethodGET]];
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Publisher"
-                                         pathPattern:@"/api/v1/publishers/:publisherID"
-                                              method:RKRequestMethodGET]];
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Titles for Publisher"
-                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/:publisherID/titles/" withDictionary:parameters]
-                                              method:RKRequestMethodGET]]; // Optional parameter is ?page=2
-    
-    // Users
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Login"
-                                         pathPattern:@"/api/v1/users/login"
-                                              method:RKRequestMethodGET]];
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"User Pull List"
-                                         pathPattern:@"/api/v1/users/pull_list/"
-                                              method:RKRequestMethodGET]];
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Add Title to Pull List"
-                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/users/:userID/pull_list/" withDictionary:parameters]
-                                              method:RKRequestMethodPOST]]; // Required parameter is ?title_id=20
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Remove Title from Pull List"
-                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/users/:userID/pull_list/" withDictionary:parameters]
-                                              method:RKRequestMethodDELETE]]; // Required parameter is ?title_id=20
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Bundle Resources for User"
-                                         pathPattern:@"/api/v1/users/id/bundles/"
-                                              method:RKRequestMethodGET]];
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Latest Bundle"
-                                         pathPattern:@"/api/v1/users/id/bundles/latest"
-                                              method:RKRequestMethodGET]];
-    
-    return router;
-}
-
-- (NSArray *)responseDescriptors
-{
-    RKObjectMapping *issueMapping = [self getIssueMapping];
-    RKObjectMapping *userMapping = [self getUserMapping];
-    
-    
-    RKResponseDescriptor *thisWeekResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
-                                                                                                    method:RKRequestMethodAny
-                                                                                               pathPattern:@"/api/v1/issues/thisweek/"
-                                                                                                   keyPath:@"issues"
-                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    RKResponseDescriptor *issueResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
-                                                                                                 method:RKRequestMethodAny
-                                                                                            pathPattern:@"/api/v1/issues/:longboxedID"
-                                                                                                keyPath:nil
-                                                                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    return @[thisWeekResponseDescriptor, issueResponseDescriptor];
-}
-
 
 - (void)fetchWithRouteName:(NSString *)routeName object:(id)object queryParameters:(NSDictionary *)parameters credentials:(BOOL)credentials completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion {
     
-    
+    // Set up the routers with NSString names and parameters
+    RKRouter *APIRouter = [LBXRouter routerWithQueryParameters:parameters];
 
     // Set up the object mapping and response descriptors
-    NSArray *responseDescriptors = [self responseDescriptors];
+    NSArray *responseDescriptors = [LBXDescriptors responseDescriptors];
     
-    // Set up the routers with NSString names and parameters
-    RKRouter *APIRouter = [self setupRouterWithQueryParameters:parameters];
-    
+    // Create the URL request with the proper routing
     NSMutableURLRequest *request = [NSURLRequest requestWithURL:[APIRouter URLForRouteNamed:routeName method:nil object:object]];
     
     // Auth
