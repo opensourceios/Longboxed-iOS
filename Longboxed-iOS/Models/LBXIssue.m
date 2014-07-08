@@ -12,7 +12,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"\n\nComplete Title: %@\n\nID: %@\n\nPublisher: %@\n\nDescription: %@\n\nRelease Date: %@\n\n", _completeTitle, _longboxedID, _publisher.name, _issueDescription, _releaseDate];
+    return [NSString stringWithFormat:@"\n\nComplete Title: %@\n\nID: %@\n\nPublisher: %@\n\nDescription: %@\n\nRelease Date: %@\n\n", _completeTitle, _issueID, _publisher.name, _issueDescription, _releaseDate];
 }
 
 

@@ -16,7 +16,7 @@
 @property (nonatomic, copy) NSURL *coverImage;
 @property (nonatomic, copy) NSString *issueDescription;
 @property (nonatomic, copy) NSString *diamondID;
-@property (nonatomic, copy) NSNumber *longboxedID;
+@property (nonatomic, copy) NSNumber *issueID;
 @property (nonatomic, copy) NSNumber *issueNumber;
 @property (nonatomic, copy) NSNumber *price;
 @property (nonatomic, retain) LBXPublisher *publisher;

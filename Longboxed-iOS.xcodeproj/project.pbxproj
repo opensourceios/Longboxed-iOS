@@ -12,6 +12,8 @@
 		E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00F9196A1A9C005FCF25 /* LBXIssue.m */; };
 		E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */; };
 		E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FF196A2004005FCF25 /* LBXTitle.m */; };
+		E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AEF196B72D80094979A /* NSString+URLQuery.m */; };
+		E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF2196B7ED30094979A /* LBXUser.m */; };
 		E555D38A19624DEC003B97C0 /* LBXPullList.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38919624DEC003B97C0 /* LBXPullList.m */; };
 		E555D38F196359D1003B97C0 /* LBXAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38E196359D1003B97C0 /* LBXAPITests.m */; };
 		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
@@ -85,6 +87,10 @@
 		E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisher.m; path = Models/LBXPublisher.m; sourceTree = "<group>"; };
 		E51D00FE196A2004005FCF25 /* LBXTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitle.h; path = Models/LBXTitle.h; sourceTree = "<group>"; };
 		E51D00FF196A2004005FCF25 /* LBXTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitle.m; path = Models/LBXTitle.m; sourceTree = "<group>"; };
+		E54A6AEE196B72D80094979A /* NSString+URLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URLQuery.h"; path = "Categories/NSString+URLQuery.h"; sourceTree = "<group>"; };
+		E54A6AEF196B72D80094979A /* NSString+URLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+URLQuery.m"; path = "Categories/NSString+URLQuery.m"; sourceTree = "<group>"; };
+		E54A6AF1196B7ED30094979A /* LBXUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXUser.h; path = Models/LBXUser.h; sourceTree = "<group>"; };
+		E54A6AF2196B7ED30094979A /* LBXUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXUser.m; path = Models/LBXUser.m; sourceTree = "<group>"; };
 		E555D38819624DEC003B97C0 /* LBXPullList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullList.h; path = Models/LBXPullList.h; sourceTree = "<group>"; };
 		E555D38919624DEC003B97C0 /* LBXPullList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullList.m; path = Models/LBXPullList.m; sourceTree = "<group>"; };
 		E555D38E196359D1003B97C0 /* LBXAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXAPITests.m; sourceTree = "<group>"; };
@@ -198,6 +204,8 @@
 		E51D00F4196A1A6F005FCF25 /* New Models */ = {
 			isa = PBXGroup;
 			children = (
+				E54A6AF1196B7ED30094979A /* LBXUser.h */,
+				E54A6AF2196B7ED30094979A /* LBXUser.m */,
 				E51D00F8196A1A9C005FCF25 /* LBXIssue.h */,
 				E51D00F9196A1A9C005FCF25 /* LBXIssue.m */,
 				E51D00FB196A1FF2005FCF25 /* LBXPublisher.h */,
@@ -454,6 +462,8 @@
 			children = (
 				E5A773D719623F52002654E7 /* NSData+Base64.h */,
 				E5A773D819623F52002654E7 /* NSData+Base64.m */,
+				E54A6AEE196B72D80094979A /* NSString+URLQuery.h */,
+				E54A6AEF196B72D80094979A /* NSString+URLQuery.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -700,10 +710,12 @@
 				E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */,
 				E57D4952196118950014A13F /* RECommonFunctions.m in Sources */,
 				E57D498219611C950014A13F /* SVWebViewControllerActivitySafari.m in Sources */,
+				E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */,
 				E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */,
 				E5F1873B1963A971006C4C26 /* LBXBundle.m in Sources */,
 				E57D4955196118950014A13F /* REMenuItem.m in Sources */,
 				E57D496519611BB30014A13F /* SVWebViewController.m in Sources */,
+				E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */,
 				E57D497119611C7C0014A13F /* SVWebViewControllerActivity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

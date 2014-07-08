@@ -8,6 +8,7 @@
 
 #import "LBXClient.h"
 #import "NSData+Base64.h"
+#import "NSString+URLQuery.h"
 
 #import <UICKeyChainStore.h>
 
@@ -69,12 +70,17 @@
     [task resume];
 }
 
-
-//- (void)fetchWithMapping:(RKObjectMapping *)mapping andPathPattern(NSString *)pathPattern
-//{
-//    
-//}
-
+- (RKObjectMapping *)getUserMapping
+{
+    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[LBXUser class]];
+    [userMapping addAttributeMappingsFromDictionary:@{ @"email": @"email",
+                                                       @"first_name": @"firstName",
+                                                       @"id": @"userID",
+                                                       @"last_name": @"lastName",
+                                                       @"roles": @"roles"
+                                                    }];
+    return userMapping;
+}
 
 - (RKObjectMapping *)getTitleMapping
 {
@@ -103,7 +109,7 @@
                                                         @"cover_image": @"coverImage",
                                                         @"description": @"issueDescription",
                                                         @"diamond_id": @"diamondID",
-                                                        @"id": @"longboxedID",
+                                                        @"id": @"issueID",
                                                         @"issue_number": @"issueNumber",
                                                         @"price": @"price",
                                                         @"release_date": @"releaseDate"
@@ -124,49 +130,115 @@
     return issueMapping;
 }
 
-- (void)setupRouter
+// Routing
+- (RKRouter *)setupRouterWithQueryParameters:(NSDictionary *)parameters
 {
     NSString *urlString = @"http://www.longboxed.com";
-    RKObjectManager *newManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:urlString]];
-    [RKObjectManager setSharedManager:newManager];
-    
-    // Class Routing
-    [[RKObjectManager sharedManager].router.routeSet addRoute:[RKRoute routeWithClass:[LBXIssue class] pathPattern:@"/api/v1/issues/:longboxedID" method:RKRequestMethodGET]];
-    
-    [[RKObjectManager sharedManager].router.routeSet addRoute:[RKRoute routeWithClass:[LBXPublisher class] pathPattern:@"/api/v1/publishers/publisherID" method:RKRequestMethodGET]];
+    RKRouter *router = [[RKRouter alloc] initWithBaseURL:[NSURL URLWithString:urlString]];
 
-//    [manager.router.routeSet addRoute:[RKRoute routeWithName:@"Issue" pathPattern:@"/api/v1/issues/:issue" method:RKRequestMethodGET]];
+    // Issues
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Issues Collection"
+                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/issues/" withDictionary:parameters]
+                                              method:RKRequestMethodGET]]; // Required parameter is ?date=2014-06-25
     
-//    // Relationship Routing
-//    [manager.router.routeSet addRoute:[RKRoute routeWithRelationshipName:@"amenities" objectClass:[GGAirport class] pathPattern:@"/airports/:airportID/amenities.json" method:RKRequestMethodGET]];
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Issues Collection for Current Week"
+                                         pathPattern:@"/api/v1/issues/thisweek/"
+                                              method:RKRequestMethodGET]];
     
-//    // Named Routes
-//    [manager.router.routeSet addRoute:[RKRoute routeWithName:@"thumbs_down_review" resourcePathPattern:@"/reviews/:reviewID/thumbs_down" method:RKRequestMethodPOST]];
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Issue"
+                                         pathPattern:@"/api/v1/issues/:issueID"
+                                              method:RKRequestMethodGET]];
+    
+    // Titles
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Titles Collection"
+                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/titles/" withDictionary:parameters]
+                                              method:RKRequestMethodGET]]; // Optional parameter is ?page=2
+    
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Title"
+                                         pathPattern:@"/api/v1/titles/:titleID"
+                                              method:RKRequestMethodGET]];
+    
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Issues for Title"
+                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/titles/:titleID/issues/" withDictionary:parameters]
+                                              method:RKRequestMethodGET]]; // Optional parameter is ?page=2
+    
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Autocomplete for Titles"
+                                         pathPattern:@"/api/v1/titles/autocomplete/"
+                                              method:RKRequestMethodGET]]; // Required parameter is ?search=spider
+    
+    // Publishers
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Publisher Collection"
+                                         pathPattern:@"/api/v1/publishers/"
+                                              method:RKRequestMethodGET]];
+    
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Publisher"
+                                         pathPattern:@"/api/v1/publishers/:publisherID"
+                                              method:RKRequestMethodGET]];
+    
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Titles for Publisher"
+                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/:publisherID/titles/" withDictionary:parameters]
+                                              method:RKRequestMethodGET]]; // Optional parameter is ?page=2
+    
+    // Users
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Login"
+                                         pathPattern:@"/api/v1/users/login"
+                                              method:RKRequestMethodGET]];
+    
+    [router.routeSet addRoute:[RKRoute routeWithName:@"User Pull List"
+                                         pathPattern:@"/api/v1/users/pull_list/"
+                                              method:RKRequestMethodGET]];
+    
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Add Title to Pull List"
+                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/users/:userID/pull_list/" withDictionary:parameters]
+                                              method:RKRequestMethodPOST]]; // Required parameter is ?title_id=20
+    
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Remove Title from Pull List"
+                                         pathPattern:[NSString addQueryStringToUrlString:@"/api/v1/users/:userID/pull_list/" withDictionary:parameters]
+                                              method:RKRequestMethodDELETE]]; // Required parameter is ?title_id=20
+    
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Bundle Resources for User"
+                                         pathPattern:@"/api/v1/users/id/bundles/"
+                                              method:RKRequestMethodGET]];
+    
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Latest Bundle"
+                                         pathPattern:@"/api/v1/users/id/bundles/latest"
+                                              method:RKRequestMethodGET]];
+    
+    return router;
+}
+
+- (NSArray *)responseDescriptors
+{
+    RKObjectMapping *issueMapping = [self getIssueMapping];
+    RKObjectMapping *userMapping = [self getUserMapping];
+    
+    
+    RKResponseDescriptor *thisWeekResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
+                                                                                                    method:RKRequestMethodAny
+                                                                                               pathPattern:@"/api/v1/issues/thisweek/"
+                                                                                                   keyPath:@"issues"
+                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    RKResponseDescriptor *issueResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
+                                                                                                 method:RKRequestMethodAny
+                                                                                            pathPattern:@"/api/v1/issues/:longboxedID"
+                                                                                                keyPath:nil
+                                                                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    return @[thisWeekResponseDescriptor, issueResponseDescriptor];
 }
 
 
-- (void)fetchWithURLString:(NSString *)urlString andCredentials:(BOOL)credentials completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion {
+- (void)fetchWithRouteName:(NSString *)routeName object:(id)object queryParameters:(NSDictionary *)parameters credentials:(BOOL)credentials completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion {
     
-    
-    RKObjectMapping *issueMapping = [self getIssueMapping];
     
 
-    RKResponseDescriptor *thisWeekResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
-                                                                                            method:RKRequestMethodAny
-                                                                                       pathPattern:@"/api/v1/issues/thisweek/"
-                                                                                           keyPath:@"issues"
-                                                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    // Set up the object mapping and response descriptors
+    NSArray *responseDescriptors = [self responseDescriptors];
     
-    RKResponseDescriptor *issueResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
-                                                                                            method:RKRequestMethodAny
-                                                                                       pathPattern:@"/api/v1/issues/:longboxedID"
-                                                                                           keyPath:nil
-                                                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    // Set up the routers with NSString names and parameters
+    RKRouter *APIRouter = [self setupRouterWithQueryParameters:parameters];
     
-    [self setupRouter];
-    
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.longboxed.com/api/v1/%@", urlString]];
-    NSMutableURLRequest *request = [NSURLRequest requestWithURL:URL];
+    NSMutableURLRequest *request = [NSURLRequest requestWithURL:[APIRouter URLForRouteNamed:routeName method:nil object:object]];
     
     // Auth
     if (credentials) {
@@ -177,7 +249,7 @@
         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     }
     
-    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ thisWeekResponseDescriptor, issueResponseDescriptor ]];
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:responseDescriptors];
     [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         if (completion) {
             completion(mappingResult, operation, nil);
@@ -193,7 +265,7 @@
 }
 
 - (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    [self fetchWithURLString:@"issues/thisweek/" andCredentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self fetchWithRouteName:@"Issues Collection for Current Week" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         NSArray *thisWeeksIssuesArray = mappingResult.array;
         completion(thisWeeksIssuesArray, response, error);
     }];
@@ -215,8 +287,12 @@
     [self fetch:[NSString stringWithFormat:@"issues/?date=%@", date] withCredentials:NO completion:completion];
 }
 
-- (void)fetchIssue:(int)issue withCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion {
-    [self fetchWithURLString:[NSString stringWithFormat:@"issues/%i", issue] andCredentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+- (void)fetchIssue:(int)issueID withCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion {
+    // Create an LBXIssue object for the payload
+    LBXIssue *requestIssue = [LBXIssue new];
+    requestIssue.issueID = [NSNumber numberWithInt:issueID];
+    
+    [self fetchWithRouteName:@"Issue" object:requestIssue queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.firstObject, response, error);
     }];
 }

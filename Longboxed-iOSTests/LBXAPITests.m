@@ -58,13 +58,13 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
-            [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"id"]] forKey:@"id"];
+            [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"user"][@"id"]] forKey:@"id"];
             [store synchronize];
             [self.client fetchPullListWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
                 NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-                int responseStatusCode = [httpResponse statusCode];
+                int responseStatusCode = (int)[httpResponse statusCode];
                 XCTAssertEqual(responseStatusCode, 200, @"Pull list endpoint is returning a status code %d", responseStatusCode);
-                XCTAssertNotNil(json[@"pull_list"], @"Pull list JSON is returning %@", json);
+                XCTAssertNotNil(json[@"pull_list"][0][@"id"], @"Pull list JSON is returning %@", json);
                 *done = YES;
             }];
         }];
@@ -75,11 +75,11 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
-            [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"id"]] forKey:@"id"];
+            [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"user"][@"id"]] forKey:@"id"];
             [store synchronize];
             [self.client fetchBundlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
                 NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-                int responseStatusCode = [httpResponse statusCode];
+                int responseStatusCode = (int)[httpResponse statusCode];
                 XCTAssertEqual(responseStatusCode, 200, @"Bundles endpoint is returning a status code %d", responseStatusCode);
                 XCTAssertNotNil(json[@"bundles"], @"Bundles JSON is returning %@", json);
                 *done = YES;
@@ -93,9 +93,9 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = [httpResponse statusCode];
+            int responseStatusCode = (int)[httpResponse statusCode];
             XCTAssertEqual(responseStatusCode, 200, @"Log In endpoint is returning a status code %d", responseStatusCode);
-            XCTAssertNotNil(json[@"id"], @"Log in JSON is returning %@", json);
+            XCTAssertNotNil(json[@"user"][@"id"], @"Log in JSON is returning %@", json);
             *done = YES;
         }];
     });
@@ -105,7 +105,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 {
     hxRunInMainLoop(^(BOOL *done) {
        [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *thisWeeksIssuesArray, RKObjectRequestOperation *response, NSError *error) {
-            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Log In endpoint is returning a status code %d", response.HTTPRequestOperation.response.statusCode);
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Log In endpoint is returning a status code %ldd",(long) response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotNil(thisWeeksIssuesArray[0], @"/issues/thisweek/ JSON is returning nil");
             *done = YES;
         }];
@@ -117,7 +117,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchIssuesWithDate:@"2014-06-25" withCompletion:^(id json, NSURLResponse *response, NSError *error) {
             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = [httpResponse statusCode];
+            int responseStatusCode = (int)[httpResponse statusCode];
             XCTAssertEqual(responseStatusCode, 200, @"Issues with date endpoint is returning a status code %d", responseStatusCode);
             XCTAssertNotNil(json[@"date"], @"Issues with date JSON is returning %@", json);
             *done = YES;
@@ -128,8 +128,8 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testIssueEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchIssue:70 withCompletion:^(LBXIssue *issueObject, RKObjectRequestOperation *response, NSError *error) {
-            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issue endpoint is returning a status code %d", response.HTTPRequestOperation.response.statusCode);
+        [self.client fetchIssue:20 withCompletion:^(LBXIssue *issueObject, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issue endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotNil(issueObject, @"Pull list JSON is returning %@", issueObject);
             NSLog(@"%@", issueObject);
             *done = YES;
@@ -142,9 +142,9 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchTitle:70 withCompletion:^(id json, NSURLResponse *response, NSError *error) {
             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = [httpResponse statusCode];
+            int responseStatusCode = (int)[httpResponse statusCode];
             XCTAssertEqual(responseStatusCode, 200, @"Title endpoint is returning a status code %d", responseStatusCode);
-            XCTAssertNotNil(json[@"id"], @"Title JSON is returning %@", json);
+            XCTAssertNotNil(json[@"title"][@"id"], @"Title JSON is returning %@", json);
             *done = YES;
         }];
     });
@@ -155,7 +155,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchTitlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = [httpResponse statusCode];
+            int responseStatusCode = (int)[httpResponse statusCode];
             XCTAssertEqual(responseStatusCode, 200, @"Titles w/ num endpoint is returning a status code %d", responseStatusCode);
             XCTAssertNotNil(json[@"count"], @"Titles w/ num JSON is returning %@", json);
             *done = YES;
@@ -168,7 +168,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchPublishersWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = [httpResponse statusCode];
+            int responseStatusCode = (int)[httpResponse statusCode];
             XCTAssertEqual(responseStatusCode, 200, @"Publisher endpoint is returning a status code %d", responseStatusCode);
             XCTAssertNotNil(json[@"publishers"], @"Publisher JSON is returning %@", json);
             *done = YES;
@@ -181,9 +181,9 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchPublisher:4 withCompletion:^(id json, NSURLResponse *response, NSError *error) {
             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = [httpResponse statusCode];
+            int responseStatusCode = (int)[httpResponse statusCode];
             XCTAssertEqual(responseStatusCode, 200, @"Publisher w/ num endpoint is returning a status code %d", responseStatusCode);
-            XCTAssertNotNil(json[@"id"], @"Publisher w/ num JSON is returning %@", json);
+            XCTAssertNotNil(json[@"publisher"][@"id"], @"Publisher w/ num JSON is returning %@", json);
             *done = YES;
         }];
     });

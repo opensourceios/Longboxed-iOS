@@ -12,6 +12,7 @@
 #import "LBXTitle.h"
 #import "LBXIssue.h"
 #import "LBXPublisher.h"
+#import "LBXUser.h"
 
 @interface LBXClient : NSObject
 
