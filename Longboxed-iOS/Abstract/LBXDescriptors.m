@@ -22,9 +22,10 @@
     RKObjectMapping *publisherMapping = mapper.publisherMapping;
     RKObjectMapping *titleMapping = mapper.titleMapping;
     RKObjectMapping *bundleMapping = mapper.bundleMapping;
+    RKObjectMapping *paginationMapping = mapper.paginationMapping;
     
     NSDictionary *endpointDict = [LBXEndpoints endpoints];
-    
+//  TODO: Add pagination to the rest of the responses
     // Issues
     RKResponseDescriptor *issuesCollectionResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
@@ -32,6 +33,14 @@
                                             pathPattern:endpointDict[@"Issues Collection"]
                                                 keyPath:@"issues"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    RKResponseDescriptor *issuesCollectionPaginationResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:paginationMapping
+                                                 method:RKRequestMethodAny
+                                            pathPattern:endpointDict[@"Issues Collection"]
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]; // Pagination
+    
+    
     
     RKResponseDescriptor *issuesCollectionForCurrentWeekResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
@@ -145,6 +154,7 @@
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     return @[issuesCollectionResponseDescriptor,
+             issuesCollectionPaginationResponseDescriptor,
              issuesCollectionForCurrentWeekResponseDescriptor,
              issueResponseDescriptor,
              titlesCollectionResponseDescriptor,

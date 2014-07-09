@@ -54,10 +54,54 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     [store synchronize]; // Write to keychain.
 }
 
+///////////////
+// Issues Tests
+///////////////
+
+- (void)testIssuesCollectionEndpoint
+{
+    hxRunInMainLoop(^(BOOL *done) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [self.client fetchIssuesCollectionWithDate:[dateFormatter dateFromString:@"2014-06-25"]
+                                              page:1
+                                        completion:^(NSArray *json, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues with date endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+            XCTAssertNotNil(json[0], @"Issues with date JSON is returning %@", json);
+            *done = YES;
+        }];
+    });
+}
+
+- (void)testIssuesCollectionForCurrentWeekEndpoint
+{
+    hxRunInMainLoop(^(BOOL *done) {
+        [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *thisWeeksIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Log In endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+            XCTAssertNotNil(thisWeeksIssuesArray[0], @"/issues/thisweek/ JSON is returning nil");
+            *done = YES;
+        }];
+    });
+}
+
+- (void)testIssueEndpoint
+{
+    hxRunInMainLoop(^(BOOL *done) {
+        [self.client fetchIssue:20 withCompletion:^(LBXIssue *issueObject, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issue endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
+            XCTAssertNotNil(issueObject, @"Pull list JSON is returning %@", issueObject);
+            NSLog(@"%@", issueObject);
+            *done = YES;
+        }];
+    });
+}
+
+
+
 - (void)testPullListEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        [self.client fetchLogInWithCompletion:^(id json, RKObjectRequestOperation *response, NSError *error) {
             [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"user"][@"id"]] forKey:@"id"];
             [store synchronize];
             [self.client fetchPullListWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
@@ -74,7 +118,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testBundlesEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+        [self.client fetchLogInWithCompletion:^(id json, RKObjectRequestOperation *response, NSError *error) {
             [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"user"][@"id"]] forKey:@"id"];
             [store synchronize];
             [self.client fetchBundlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
@@ -91,47 +135,9 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testLogInEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchLogInWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
-            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = (int)[httpResponse statusCode];
-            XCTAssertEqual(responseStatusCode, 200, @"Log In endpoint is returning a status code %d", responseStatusCode);
-            XCTAssertNotNil(json[@"user"][@"id"], @"Log in JSON is returning %@", json);
-            *done = YES;
-        }];
-    });
-}
-
-- (void)testThisWeekEndpoint
-{
-    hxRunInMainLoop(^(BOOL *done) {
-       [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *thisWeeksIssuesArray, RKObjectRequestOperation *response, NSError *error) {
-            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Log In endpoint is returning a status code %ldd",(long) response.HTTPRequestOperation.response.statusCode);
-            XCTAssertNotNil(thisWeeksIssuesArray[0], @"/issues/thisweek/ JSON is returning nil");
-            *done = YES;
-        }];
-    });
-}
-
-- (void)testIssuesWithDateEndpoint
-{
-    hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchIssuesWithDate:@"2014-06-25" withCompletion:^(id json, NSURLResponse *response, NSError *error) {
-            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            int responseStatusCode = (int)[httpResponse statusCode];
-            XCTAssertEqual(responseStatusCode, 200, @"Issues with date endpoint is returning a status code %d", responseStatusCode);
-            XCTAssertNotNil(json[@"date"], @"Issues with date JSON is returning %@", json);
-            *done = YES;
-        }];
-    });
-}
-
-- (void)testIssueEndpoint
-{
-    hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchIssue:20 withCompletion:^(LBXIssue *issueObject, RKObjectRequestOperation *response, NSError *error) {
-            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issue endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
-            XCTAssertNotNil(issueObject, @"Pull list JSON is returning %@", issueObject);
-            NSLog(@"%@", issueObject);
+        [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Log In endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+            XCTAssertNotNil(user.userID, @"Log in JSON is returning %@", user);
             *done = YES;
         }];
     });

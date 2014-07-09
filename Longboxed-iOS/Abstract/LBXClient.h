@@ -16,8 +16,11 @@
 
 @interface LBXClient : NSObject
 
+// Issues
+- (void)fetchIssuesCollectionWithDate:(NSDate *)date page:(int)page completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
 - (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
-- (void)fetchLogInWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
+- (void)fetchIssueWithCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion;
+- (void)fetchLogInWithCompletion:(void (^)(LBXUser*, RKObjectRequestOperation*, NSError*))completion;
 - (void)fetchPullListWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
 - (void)fetchBundlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;
 - (void)fetchIssuesWithDate:(NSString *)date withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion;

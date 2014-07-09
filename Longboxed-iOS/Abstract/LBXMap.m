@@ -89,4 +89,14 @@
     return issueMapping;
 }
 
+- (RKObjectMapping *)paginationMapping
+{
+    RKObjectMapping *paginationMapping = [RKObjectMapping mappingForClass:[RKPaginator class]];
+    [paginationMapping addAttributeMappingsFromDictionary:@{
+                                                            @"total" :   @"objectCount",
+                                                            @"count" :   @"perPage"
+                                                            }];
+    return paginationMapping;
+}
+
 @end

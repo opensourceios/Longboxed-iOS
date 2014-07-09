@@ -16,6 +16,7 @@
 - (RKObjectMapping *)titleMapping;
 - (RKObjectMapping *)publisherMapping;
 - (RKObjectMapping *)issueMapping;
+- (RKObjectMapping *)paginationMapping;
 
 
 @end

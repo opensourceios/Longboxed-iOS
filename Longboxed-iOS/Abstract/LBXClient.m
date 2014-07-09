@@ -74,7 +74,6 @@
     [task resume];
 }
 
-
 - (void)fetchWithRouteName:(NSString *)routeName object:(id)object queryParameters:(NSDictionary *)parameters credentials:(BOOL)credentials completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion {
     
     // Set up the routers with NSString names and parameters
@@ -84,7 +83,7 @@
     NSArray *responseDescriptors = [LBXDescriptors responseDescriptors];
     
     // Create the URL request with the proper routing
-    NSMutableURLRequest *request = [NSURLRequest requestWithURL:[APIRouter URLForRouteNamed:routeName method:nil object:object]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[APIRouter URLForRouteNamed:routeName method:nil object:object]];
     
     // Auth
     if (credentials) {
@@ -110,6 +109,21 @@
     [objectRequestOperation start];
 }
 
+- (void)fetchIssuesCollectionWithDate:(NSDate *)date page:(int)page completion:(void (^)(NSArray *, RKObjectRequestOperation *, NSError *))completion
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    // For debugging
+//    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
+//    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date]};
+    [self fetchWithRouteName:@"Issues Collection" object:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        NSArray *issuesCollectionArray = mappingResult.array;
+        completion(issuesCollectionArray, response, error);
+    }];
+}
+
 - (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     [self fetchWithRouteName:@"Issues Collection for Current Week" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         NSArray *thisWeeksIssuesArray = mappingResult.array;
@@ -117,8 +131,10 @@
     }];
 }
 
-- (void)fetchLogInWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:@"users/login" withCredentials:YES completion:completion];
+- (void)fetchLogInWithCompletion:(void (^)(LBXUser*, RKObjectRequestOperation*, NSError*))completion {
+    [self fetchWithRouteName:@"Login" object:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.firstObject, response, error);
+    }];
 }
 
 - (void)fetchPullListWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
