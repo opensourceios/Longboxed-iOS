@@ -64,6 +64,12 @@
                                             pathPattern:endpointDict[@"Titles Collection"]
                                                 keyPath:@"titles"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    RKResponseDescriptor *titlesCollectionPaginationResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:paginationMapping
+                                                 method:RKRequestMethodAny
+                                            pathPattern:endpointDict[@"Titles Collection"]
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]; // Pagination
     
     RKResponseDescriptor *titleResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
@@ -78,6 +84,12 @@
                                             pathPattern:endpointDict[@"Issues for Title"]
                                                 keyPath:@"issues"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    RKResponseDescriptor *issuesForTitlePaginationResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:paginationMapping
+                                                 method:RKRequestMethodAny
+                                            pathPattern:endpointDict[@"Issues for Title"]
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]; // Pagination
     
     RKResponseDescriptor *autocompleteForTitlesResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
@@ -93,6 +105,12 @@
                                             pathPattern:endpointDict[@"Publisher Collection"]
                                                 keyPath:@"publishers"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    RKResponseDescriptor *publisherCollectionPaginationResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:paginationMapping
+                                                 method:RKRequestMethodAny
+                                            pathPattern:endpointDict[@"Publisher Collection"]
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]; // Pagination
     
     RKResponseDescriptor *publisherResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:publisherMapping
@@ -102,10 +120,16 @@
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     RKResponseDescriptor *titlesForPublisherResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:publisherMapping
+    [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
                                                  method:RKRequestMethodAny
                                             pathPattern:endpointDict[@"Titles for Publisher"]
                                                 keyPath:@"titles"
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    RKResponseDescriptor *titlesForPublisherPaginationResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
+                                                 method:RKRequestMethodAny
+                                            pathPattern:endpointDict[@"Titles for Publisher"]
+                                                keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     // Users
@@ -114,33 +138,33 @@
     RKResponseDescriptor *loginResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:userMapping
                                                  method:RKRequestMethodAny
-                                            pathPattern:endpointDict[@"login"]
+                                            pathPattern:endpointDict[@"Login"]
                                                 keyPath:@"user"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     RKResponseDescriptor *userPullListResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:userMapping
-                                                 method:RKRequestMethodAny
+    [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"User Pull List"]
                                                 keyPath:@"pull_list"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     RKResponseDescriptor *userPullListDeleteDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:userMapping
-                                                 method:RKRequestMethodAny
-                                            pathPattern:endpointDict[@"Add Title to Pull List"]
-                                                keyPath:@"pull_list"
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    RKResponseDescriptor *userPullListPostDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:userMapping
-                                                 method:RKRequestMethodAny
+    [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
+                                                 method:RKRequestMethodDELETE
                                             pathPattern:endpointDict[@"Remove Title from Pull List"]
                                                 keyPath:@"pull_list"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
+    RKResponseDescriptor *userPullListPostDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
+                                                 method:RKRequestMethodPOST
+                                            pathPattern:endpointDict[@"Add Title to Pull List"]
+                                                keyPath:@"pull_list"
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
     RKResponseDescriptor *bundleResourcesForUserResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:publisherMapping
+    [RKResponseDescriptor responseDescriptorWithMapping:bundleMapping
                                                  method:RKRequestMethodAny
                                             pathPattern:endpointDict[@"Bundle Resources for User"]
                                                 keyPath:@"bundles"
@@ -158,12 +182,16 @@
              issuesCollectionForCurrentWeekResponseDescriptor,
              issueResponseDescriptor,
              titlesCollectionResponseDescriptor,
+             titlesCollectionPaginationResponseDescriptor,
              titleResponseDescriptor,
              issuesForTitleResponseDescriptor,
+             issuesForTitlePaginationResponseDescriptor,
              autocompleteForTitlesResponseDescriptor,
              publisherCollectionResponseDescriptor,
+             publisherCollectionPaginationResponseDescriptor,
              publisherResponseDescriptor,
              titlesForPublisherResponseDescriptor,
+             titlesForPublisherPaginationResponseDescriptor,
              loginResponseDescriptor,
              userPullListResponseDescriptor,
              userPullListPostDescriptor,

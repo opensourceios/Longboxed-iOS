@@ -37,9 +37,9 @@
     [userMapping addAttributeMappingsFromDictionary:@{ @"email"     : @"email",
                                                        @"first_name": @"firstName",
                                                        @"id"        : @"userID",
-                                                       @"last_name" : @"lastName",
-                                                       @"roles"     : @"roles"
+                                                       @"last_name" : @"lastName"
                                                        }];
+    [userMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"roles"]];
     return userMapping;
 }
 
@@ -47,8 +47,15 @@
 {
     RKObjectMapping* titleMapping = [RKObjectMapping mappingForClass:[LBXTitle class]];
     [titleMapping addAttributeMappingsFromDictionary:@{ @"id"   : @"titleID",
-                                                        @"name" : @"name"
+                                                        @"issue_count" : @"issueCount",
+                                                        @"name" : @"name",
+                                                        @"subscribers" : @"subscribers"
                                                         }];
+    
+    RKObjectMapping *publisherMapping = [self publisherMapping];
+    [titleMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"publisher"
+                                                                                 toKeyPath:@"publisher"
+                                                                               withMapping:publisherMapping]];
     return titleMapping;
 }
 

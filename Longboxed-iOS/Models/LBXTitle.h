@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "LBXPublisher.h"
+
 @interface LBXTitle : NSObject
 
 @property (nonatomic, copy) NSNumber *titleID;
+@property (nonatomic, copy) NSNumber *issueCount;
 @property (nonatomic, copy) NSString *name;
-
+@property (nonatomic, retain) LBXPublisher *publisher;
+@property (nonatomic, copy) NSNumber *subscribers;
 
 @end

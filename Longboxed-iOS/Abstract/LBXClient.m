@@ -109,7 +109,9 @@
     [objectRequestOperation start];
 }
 
-- (void)fetchIssuesCollectionWithDate:(NSDate *)date page:(int)page completion:(void (^)(NSArray *, RKObjectRequestOperation *, NSError *))completion
+// Issues
+// TODO: Add pagination parameter to the rest of the methods? Maybe?
+- (void)fetchIssuesCollectionWithDate:(NSDate *)date page:(NSNumber*)page completion:(void (^)(NSArray *, RKObjectRequestOperation *, NSError *))completion
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
@@ -118,62 +120,146 @@
 //    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
     NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date]};
     [self fetchWithRouteName:@"Issues Collection" object:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-        
-        NSArray *issuesCollectionArray = mappingResult.array;
-        completion(issuesCollectionArray, response, error);
+        completion(mappingResult.array, response, error);
     }];
 }
 
 - (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     [self fetchWithRouteName:@"Issues Collection for Current Week" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-        NSArray *thisWeeksIssuesArray = mappingResult.array;
-        completion(thisWeeksIssuesArray, response, error);
+        completion(mappingResult.array, response, error);
     }];
 }
 
-- (void)fetchLogInWithCompletion:(void (^)(LBXUser*, RKObjectRequestOperation*, NSError*))completion {
-    [self fetchWithRouteName:@"Login" object:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-        completion(mappingResult.firstObject, response, error);
-    }];
-}
-
-- (void)fetchPullListWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:[NSString stringWithFormat:@"users/%@/pull_list/", [UICKeyChainStore keyChainStore][@"id"]] withCredentials:YES completion:completion];
-}
-
-- (void)fetchBundlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:[NSString stringWithFormat:@"users/%@/bundles/", [UICKeyChainStore keyChainStore][@"id"]] withCredentials:YES completion:completion];
-}
-
-- (void)fetchIssuesWithDate:(NSString *)date withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:[NSString stringWithFormat:@"issues/?date=%@", date] withCredentials:NO completion:completion];
-}
-
-- (void)fetchIssue:(int)issueID withCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion {
+- (void)fetchIssue:(NSNumber*)issueID withCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion {
     // Create an LBXIssue object for the payload
     LBXIssue *requestIssue = [LBXIssue new];
-    requestIssue.issueID = [NSNumber numberWithInt:issueID];
+    requestIssue.issueID = issueID;
     
     [self fetchWithRouteName:@"Issue" object:requestIssue queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.firstObject, response, error);
     }];
 }
 
-- (void)fetchTitlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:@"titles/" withCredentials:NO completion:completion];
+// Titles
+- (void)fetchTitlesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    [self fetchWithRouteName:@"Titles Collection" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
 }
 
-- (void)fetchTitle:(int)title withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:[NSString stringWithFormat:@"titles/%i", title] withCredentials:NO completion:completion];
+- (void)fetchTitle:(NSNumber*)titleID withCompletion:(void (^)(LBXTitle*, RKObjectRequestOperation*, NSError*))completion {
+    // Create an LBXIssue object for the payload
+    LBXTitle *requestTitle = [LBXTitle new];
+    requestTitle.titleID = titleID;
+    
+    [self fetchWithRouteName:@"Title" object:requestTitle queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.firstObject, response, error);
+    }];
 }
 
-- (void)fetchPublishersWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:@"publishers/" withCredentials:NO completion:completion];
+- (void)fetchIssuesForTitle:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    // Create an LBXTitle object for the payload
+    LBXTitle *requestTitle = [LBXTitle new];
+    requestTitle.titleID = titleID;
+    
+    [self fetchWithRouteName:@"Issues for Title" object:requestTitle queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
 }
 
-- (void)fetchPublisher:(int)publisher withCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:[NSString stringWithFormat:@"publishers/%i", publisher] withCredentials:NO completion:completion];
+// Publishers
+- (void)fetchPublishersWithCompletion:(void (^)(NSArray *, RKObjectRequestOperation*, NSError*))completion {
+    [self fetchWithRouteName:@"Publisher Collection" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
 }
+
+- (void)fetchPublisher:(NSNumber*)publisherID withCompletion:(void (^)(LBXPublisher*, RKObjectRequestOperation*, NSError*))completion {
+    // Create an LBXPublisher object for the payload
+    LBXPublisher *requestPublisher = [LBXPublisher new];
+    requestPublisher.publisherID = publisherID;
+    [self fetchWithRouteName:@"Publisher" object:requestPublisher queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.firstObject, response, error);
+    }];
+}
+
+- (void)fetchTitlesForPublisher:(NSNumber*)publisherID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    // Create an LBXPublisher object for the payload
+    LBXPublisher *requestPublisher = [LBXPublisher new];
+    requestPublisher.publisherID = publisherID;
+    [self fetchWithRouteName:@"Titles for Publisher" object:requestPublisher queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
+}
+
+
+// Users
+- (void)fetchLogInWithCompletion:(void (^)(LBXUser*, RKObjectRequestOperation*, NSError*))completion {
+    [self fetchWithRouteName:@"Login" object:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        // Store the user ID
+        LBXUser *user = [LBXUser new];
+        user = mappingResult.firstObject;
+        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+        [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
+        [store synchronize];
+        
+        completion(mappingResult.firstObject, response, error);
+    }];
+}
+
+- (void)fetchPullListWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    // Create a user with the id to put in the URL path
+    LBXUser *user = [LBXUser new];
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    user.userID = [f numberFromString:store[@"id"]];
+    
+    [self fetchWithRouteName:@"User Pull List" object:user queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
+}
+
+- (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    // Create a user with the id to put in the URL path
+    LBXUser *user = [LBXUser new];
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    user.userID = [f numberFromString:store[@"id"]];
+    
+    NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
+    
+    [self fetchWithRouteName:@"Add Title to Pull List" object:user queryParameters:parameters credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
+}
+
+- (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    // Create a user with the id to put in the URL path
+    LBXUser *user = [LBXUser new];
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    user.userID = [f numberFromString:store[@"id"]];
+    
+    NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
+    
+    [self fetchWithRouteName:@"Remove Title from Pull List" object:user queryParameters:parameters credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
+}
+
+- (void)fetchBundlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
+    [self fetch:[NSString stringWithFormat:@"users/%@/bundles/", [UICKeyChainStore keyChainStore][@"id"]] withCredentials:YES completion:completion];
+}
+
+
+
+
+
+
 
 
 // http://oleb.net/blog/2009/09/managing-the-network-activity-indicator/

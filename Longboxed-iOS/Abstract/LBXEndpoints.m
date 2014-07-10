@@ -21,13 +21,13 @@
             @"Autocomplete for Titles"            : @"/api/v1/titles/autocomplete/",
             @"Publisher Collection"               : @"/api/v1/publishers/",
             @"Publisher"                          : @"/api/v1/publishers/:publisherID",
-            @"Titles for Publisher"               : @"/api/v1/:publisherID/titles/",
+            @"Titles for Publisher"               : @"/api/v1/publishers/:publisherID/titles/",
             @"Login"                              : @"/api/v1/users/login",
-            @"User Pull List"                     : @"/api/v1/users/pull_list/",
+            @"User Pull List"                     : @"/api/v1/users/:userID/pull_list/",
             @"Add Title to Pull List"             : @"/api/v1/users/:userID/pull_list/",
             @"Remove Title from Pull List"        : @"/api/v1/users/:userID/pull_list/",
-            @"Bundle Resources for User"          : @"/api/v1/users/id/bundles/",
-            @"Latest Bundle"                      : @"/api/v1/users/id/bundles/latest"
+            @"Bundle Resources for User"          : @"/api/v1/users/:userID/bundles/",
+            @"Latest Bundle"                      : @"/api/v1/users/:userID/bundles/latest"
             };
 }
 
