@@ -9,6 +9,8 @@
 #import "LBXDescriptors.h"
 #import "LBXMap.h"
 #import "LBXEndpoints.h"
+#import "LBXUser.h"
+#import "LBXTitle.h"
 
 @implementation LBXDescriptors
 
@@ -156,12 +158,9 @@
                                                 keyPath:@"pull_list"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    RKResponseDescriptor *userPullListPostDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
-                                                 method:RKRequestMethodPOST
-                                            pathPattern:endpointDict[@"Add Title to Pull List"]
-                                                keyPath:@"pull_list"
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    RKObjectMapping *userRequestMapping = [RKObjectMapping requestMapping];
+    RKRequestDescriptor *userPullListPostDescriptor =
+    [RKRequestDescriptor requestDescriptorWithMapping:userRequestMapping objectClass:[LBXUser class] rootKeyPath:@"pull_list" method:RKRequestMethodPOST];
     
     RKResponseDescriptor *bundleResourcesForUserResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:bundleMapping

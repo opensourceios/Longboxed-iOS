@@ -25,7 +25,7 @@
             @"Login"                              : @"/api/v1/users/login",
             @"User Pull List"                     : @"/api/v1/users/:userID/pull_list/",
             @"Add Title to Pull List"             : @"/api/v1/users/:userID/pull_list/",
-            @"Remove Title from Pull List"        : @"/api/v1/users/:userID/pull_list/",
+            @"Remove Title from Pull List"        : @"/api/v1/users/:userID/pull_list/:titleID",
             @"Bundle Resources for User"          : @"/api/v1/users/:userID/bundles/",
             @"Latest Bundle"                      : @"/api/v1/users/:userID/bundles/latest"
             };

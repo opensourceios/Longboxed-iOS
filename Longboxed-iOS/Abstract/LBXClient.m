@@ -83,7 +83,9 @@
     NSArray *responseDescriptors = [LBXDescriptors responseDescriptors];
     
     // Create the URL request with the proper routing
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[APIRouter URLForRouteNamed:routeName method:nil object:object]];
+    LBXTitle *title = [LBXTitle new];
+    title.titleID = [NSNumber numberWithInt:1];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[APIRouter URLForObject:object method:RKRequestMethodPOST]];
     
     // Auth
     if (credentials) {
@@ -228,6 +230,9 @@
     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
     [f setNumberStyle:NSNumberFormatterDecimalStyle];
     user.userID = [f numberFromString:store[@"id"]];
+    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+
     
     NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
     
