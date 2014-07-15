@@ -12,7 +12,7 @@
 @interface LBXBundle : NSObject
 
 @property (nonatomic, copy) NSNumber *bundleID;
-@property (nonatomic, copy) LBXIssue *issue;
+@property (nonatomic, retain) NSArray *issues;
 @property (nonatomic, copy) NSDate *lastUpdatedDate;
 @property (nonatomic, copy) NSDate *releaseDate;
 

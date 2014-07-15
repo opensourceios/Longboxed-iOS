@@ -222,6 +222,16 @@
     }];
 }
 
+- (void)fetchAutocompleteForTitle:(NSString*)title withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    // Create an LBXTitle object for the payload
+    LBXTitle *requestTitle = [LBXTitle new];
+    requestTitle.name = title;
+    
+    [self GETWithRouteName:@"Autocomplete for Title" object:nil queryParameters:@{@"query": title} credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
+}
+
 // Publishers
 - (void)fetchPublishersWithCompletion:(void (^)(NSArray *, RKObjectRequestOperation*, NSError*))completion {
     [self GETWithRouteName:@"Publisher Collection" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
@@ -300,6 +310,32 @@
         [self fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *err) {
             completion(pullListArray, resp, err);
         }];
+    }];
+}
+
+- (void)fetchBundleResourcesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    // Create a user with the id to put in the URL path
+    LBXUser *user = [LBXUser new];
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    user.userID = [f numberFromString:store[@"id"]];
+    
+    [self GETWithRouteName:@"Bundle Resources for User" object:user queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
+}
+
+- (void)fetchLatestBundleWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    // Create a user with the id to put in the URL path
+    LBXUser *user = [LBXUser new];
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    user.userID = [f numberFromString:store[@"id"]];
+    
+    [self GETWithRouteName:@"Latest Bundle" object:user queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.firstObject, response, error);
     }];
 }
 

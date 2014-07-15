@@ -12,12 +12,13 @@
 #import "LBXIssue.h"
 #import "LBXPublisher.h"
 #import "LBXTitle.h"
+#import "LBXBundle.h"
 
 @implementation LBXMap
 
 - (RKObjectMapping *)bundleMapping
 {
-    RKObjectMapping* bundleMapping = [RKObjectMapping mappingForClass:[LBXUser class]];
+    RKObjectMapping* bundleMapping = [RKObjectMapping mappingForClass:[LBXBundle class]];
     [bundleMapping addAttributeMappingsFromDictionary:@{ @"id"           : @"bundleID",
                                                          @"last_updated" : @"lastUpdatedDate",
                                                          @"release_date" : @"releaseDate"

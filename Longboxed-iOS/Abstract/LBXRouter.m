@@ -53,8 +53,8 @@
                                                                           withDictionary:parameters]
                                               method:RKRequestMethodGET]]; // Optional parameter is ?page=2
     
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Autocomplete for Titles"
-                                         pathPattern:endpointDict[@"Autocomplete for Titles"]
+    [router.routeSet addRoute:[RKRoute routeWithName:@"Autocomplete for Title"
+                                         pathPattern:[NSString addQueryStringToUrlString: endpointDict[@"Autocomplete for Title"] withDictionary:parameters]
                                               method:RKRequestMethodGET]]; // Required parameter is ?search=spider
     
     // Publishers

@@ -18,7 +18,7 @@
             @"Titles Collection"                  : @"/api/v1/titles/",
             @"Title"                              : @"/api/v1/titles/:titleID",
             @"Issues for Title"                   : @"/api/v1/titles/:titleID/issues/",
-            @"Autocomplete for Titles"            : @"/api/v1/titles/autocomplete/",
+            @"Autocomplete for Title"             : @"/api/v1/titles/autocomplete/",
             @"Publisher Collection"               : @"/api/v1/publishers/",
             @"Publisher"                          : @"/api/v1/publishers/:publisherID",
             @"Titles for Publisher"               : @"/api/v1/publishers/:publisherID/titles/",

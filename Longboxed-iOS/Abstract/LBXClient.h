@@ -24,6 +24,7 @@
 - (void)fetchTitlesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
 - (void)fetchTitle:(NSNumber *)titleID withCompletion:(void (^)(LBXTitle*, RKObjectRequestOperation*, NSError*))completion;
 - (void)fetchIssuesForTitle:(NSNumber *)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
+- (void)fetchAutocompleteForTitle:(NSString*)title withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
 // Publishers
 - (void)fetchPublishersWithCompletion:(void (^)(NSArray *, RKObjectRequestOperation*, NSError*))completion;
 - (void)fetchPublisher:(NSNumber *)publisherID withCompletion:(void (^)(LBXPublisher*, RKObjectRequestOperation*, NSError*))completion;
@@ -33,6 +34,8 @@
 - (void)fetchPullListWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
 - (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
 - (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
+- (void)fetchBundleResourcesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
+- (void)fetchLatestBundleWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
 
 
 

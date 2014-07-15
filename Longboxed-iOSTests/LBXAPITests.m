@@ -126,7 +126,18 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testIssuesForTitleEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchIssuesForTitle:[NSNumber numberWithInt:70] withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchIssuesForTitle:[NSNumber numberWithInt:120] withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues for title endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
+            XCTAssertNotNil(titleArray, @"Issues for title JSON is returning nil");
+            *done = YES;
+        }];
+    });
+}
+
+- (void)testAutocompleteForTitleEndpoint
+{
+    hxRunInMainLoop(^(BOOL *done) {
+        [self.client fetchAutocompleteForTitle:@"Spider" withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues for title endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotNil(titleArray, @"Issues for title JSON is returning nil");
             *done = YES;
@@ -233,6 +244,32 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
                     XCTAssertNil(nilCheck, @"Title was not removed from pull list");
                     *done = YES;
                 }];
+            }];
+        }];
+    });
+}
+
+- (void)testBundleResourcesEndpoint
+{
+    hxRunInMainLoop(^(BOOL *done) {
+        [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
+            [self.client fetchBundleResourcesWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+                XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+                XCTAssertNotNil(pullListArray, @"Bundle resources JSON is returning nil");
+                *done = YES;
+            }];
+        }];
+    });
+}
+
+- (void)testLatestBundleEndpoint
+{
+    hxRunInMainLoop(^(BOOL *done) {
+        [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
+            [self.client fetchLatestBundleWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+                XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+                XCTAssertNotNil(pullListArray, @"Bundle resources JSON is returning nil");
+                *done = YES;
             }];
         }];
     });

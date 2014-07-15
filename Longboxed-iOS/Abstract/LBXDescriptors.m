@@ -94,7 +94,7 @@
     RKResponseDescriptor *autocompleteForTitlesResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
                                                  method:RKRequestMethodAny
-                                            pathPattern:endpointDict[@"Autocomplete for Titles"]
+                                            pathPattern:endpointDict[@"Autocomplete for Title"]
                                                 keyPath:@"suggestions"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
