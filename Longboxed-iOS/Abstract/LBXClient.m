@@ -10,8 +10,10 @@
 #import "LBXMap.h"
 #import "LBXRouter.h"
 #import "LBXDescriptors.h"
+#import "LBXEndpoints.h"
 
 #import "NSData+Base64.h"
+#import "NSString+URLQuery.h"
 
 #import <UICKeyChainStore.h>
 
@@ -74,19 +76,26 @@
     [task resume];
 }
 
-- (void)fetchWithRouteName:(NSString *)routeName object:(id)object queryParameters:(NSDictionary *)parameters credentials:(BOOL)credentials completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion {
+- (void)GETWithRouteName:(NSString *)routeName
+                  object:(id)object
+         queryParameters:(NSDictionary *)parameters
+             credentials:(BOOL)credentials
+              completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion
+{
     
     // Set up the routers with NSString names and parameters
-    RKRouter *APIRouter = [LBXRouter routerWithQueryParameters:parameters];
+    LBXRouter *router = [LBXRouter new];
+    RKRouter *APIRouter = [router routerWithQueryParameters:parameters];
 
     // Set up the object mapping and response descriptors
-    NSArray *responseDescriptors = [LBXDescriptors responseDescriptors];
+    NSArray *responseDescriptors = [LBXDescriptors GETResponseDescriptors];
     
     // Create the URL request with the proper routing
     LBXTitle *title = [LBXTitle new];
     title.titleID = [NSNumber numberWithInt:1];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[APIRouter URLForObject:object method:RKRequestMethodPOST]];
     
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[APIRouter URLForRouteNamed:routeName method:nil object:object]];
+
     // Auth
     if (credentials) {
         UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
@@ -111,6 +120,95 @@
     [objectRequestOperation start];
 }
 
+// Using AFNetworking for the POST and DELETE requests
+// instead of over-abstracting things with RESTKIT
+- (void)POSTWithRouteName:(NSString *)routeName
+          queryParameters:(NSDictionary *)parameters
+              credentials:(BOOL)credentials
+               completion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion
+{
+    // Set up the URL route with the parameter suffix
+    NSDictionary *endpointDict = [LBXEndpoints endpoints];
+    
+    AFHTTPClient *client = [self setupAFNetworkingRouter];
+    
+    // Auth
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    [client setAuthorizationHeaderWithUsername:store[@"username"] password:store[@"password"]];
+    
+    NSString *postPath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
+                                               withDictionary:parameters] stringByReplacingOccurrencesOfString:@":userID" withString:store[@"id"]];
+    
+    [client postPath:postPath
+          parameters:nil
+             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                 
+                // Response currently being just mapped to a dict.
+                // TODO: Map response to an array of LBXTitles. 
+                 NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+                 
+                 if (completion) {
+                     completion(jsonFromData, operation, nil);
+                 }
+                 
+             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 if (completion) {
+                     completion(nil, operation, error);
+                 }
+             }];
+
+}
+
+// Using AFNetworking for the POST and DELETE requests
+// instead of over-abstracting things with RESTKIT
+- (void)DELETEWithRouteName:(NSString *)routeName
+          queryParameters:(NSDictionary *)parameters
+              credentials:(BOOL)credentials
+               completion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion
+{
+    // Set up the URL route with the parameter suffix
+    NSDictionary *endpointDict = [LBXEndpoints endpoints];
+    
+    AFHTTPClient *client = [self setupAFNetworkingRouter];
+    
+    // Auth
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    [client setAuthorizationHeaderWithUsername:store[@"username"] password:store[@"password"]];
+    
+    NSString *deletePath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
+                                               withDictionary:parameters] stringByReplacingOccurrencesOfString:@":userID" withString:store[@"id"]];
+    
+    [client deletePath:deletePath
+          parameters:nil
+             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                 
+                 // Response currently being just mapped to a dict.
+                 // TODO: Map response to an array of LBXTitles.
+                 NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+                 
+                 if (completion) {
+                     completion(jsonFromData, operation, nil);
+                 }
+                 
+             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 if (completion) {
+                     completion(nil, operation, error);
+                 }
+             }];
+    
+}
+
+- (AFHTTPClient *)setupAFNetworkingRouter
+{
+    // Prepare the request
+    LBXRouter *router = [LBXRouter new];
+    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:router.baseURLString]];
+    [client setParameterEncoding:AFJSONParameterEncoding];
+    [client setDefaultHeader:@"Accept" value:@"application/json"];
+    
+    return client;
+}
+
 // Issues
 // TODO: Add pagination parameter to the rest of the methods? Maybe?
 - (void)fetchIssuesCollectionWithDate:(NSDate *)date page:(NSNumber*)page completion:(void (^)(NSArray *, RKObjectRequestOperation *, NSError *))completion
@@ -121,13 +219,13 @@
 //    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
 //    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
     NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date]};
-    [self fetchWithRouteName:@"Issues Collection" object:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Issues Collection" object:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
 
 - (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    [self fetchWithRouteName:@"Issues Collection for Current Week" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Issues Collection for Current Week" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
@@ -137,14 +235,14 @@
     LBXIssue *requestIssue = [LBXIssue new];
     requestIssue.issueID = issueID;
     
-    [self fetchWithRouteName:@"Issue" object:requestIssue queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Issue" object:requestIssue queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.firstObject, response, error);
     }];
 }
 
 // Titles
 - (void)fetchTitlesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    [self fetchWithRouteName:@"Titles Collection" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Titles Collection" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
@@ -154,7 +252,7 @@
     LBXTitle *requestTitle = [LBXTitle new];
     requestTitle.titleID = titleID;
     
-    [self fetchWithRouteName:@"Title" object:requestTitle queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Title" object:requestTitle queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.firstObject, response, error);
     }];
 }
@@ -164,14 +262,14 @@
     LBXTitle *requestTitle = [LBXTitle new];
     requestTitle.titleID = titleID;
     
-    [self fetchWithRouteName:@"Issues for Title" object:requestTitle queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Issues for Title" object:requestTitle queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
 
 // Publishers
 - (void)fetchPublishersWithCompletion:(void (^)(NSArray *, RKObjectRequestOperation*, NSError*))completion {
-    [self fetchWithRouteName:@"Publisher Collection" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Publisher Collection" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
@@ -180,7 +278,7 @@
     // Create an LBXPublisher object for the payload
     LBXPublisher *requestPublisher = [LBXPublisher new];
     requestPublisher.publisherID = publisherID;
-    [self fetchWithRouteName:@"Publisher" object:requestPublisher queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Publisher" object:requestPublisher queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.firstObject, response, error);
     }];
 }
@@ -189,7 +287,7 @@
     // Create an LBXPublisher object for the payload
     LBXPublisher *requestPublisher = [LBXPublisher new];
     requestPublisher.publisherID = publisherID;
-    [self fetchWithRouteName:@"Titles for Publisher" object:requestPublisher queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Titles for Publisher" object:requestPublisher queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
@@ -197,7 +295,7 @@
 
 // Users
 - (void)fetchLogInWithCompletion:(void (^)(LBXUser*, RKObjectRequestOperation*, NSError*))completion {
-    [self fetchWithRouteName:@"Login" object:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Login" object:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         // Store the user ID
         LBXUser *user = [LBXUser new];
@@ -214,45 +312,34 @@
     // Create a user with the id to put in the URL path
     LBXUser *user = [LBXUser new];
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
     [f setNumberStyle:NSNumberFormatterDecimalStyle];
     user.userID = [f numberFromString:store[@"id"]];
     
-    [self fetchWithRouteName:@"User Pull List" object:user queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"User Pull List" object:user queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
 
-- (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    // Create a user with the id to put in the URL path
-    LBXUser *user = [LBXUser new];
-    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-    [f setNumberStyle:NSNumberFormatterDecimalStyle];
-    user.userID = [f numberFromString:store[@"id"]];
-    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+- (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
 
-    
     NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
     
-    [self fetchWithRouteName:@"Add Title to Pull List" object:user queryParameters:parameters credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-        completion(mappingResult.array, response, error);
+    [self POSTWithRouteName:@"Add Title to Pull List" queryParameters:parameters credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+        
+        // TODO: Refetch the pull list for Core Data Storage
+        completion(resultDict[@"pull_list"], response, error);
     }];
 }
 
-- (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    // Create a user with the id to put in the URL path
-    LBXUser *user = [LBXUser new];
-    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-    [f setNumberStyle:NSNumberFormatterDecimalStyle];
-    user.userID = [f numberFromString:store[@"id"]];
+- (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
     
     NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
     
-    [self fetchWithRouteName:@"Remove Title from Pull List" object:user queryParameters:parameters credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-        completion(mappingResult.array, response, error);
+    [self DELETEWithRouteName:@"Add Title to Pull List" queryParameters:parameters credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+        
+        // TODO: Refetch the pull list for Core Data Storage
+        completion(resultDict[@"pull_list"], response, error);
     }];
 }
 

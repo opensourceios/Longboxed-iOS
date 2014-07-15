@@ -10,6 +10,6 @@
 
 @interface LBXDescriptors : NSObject
 
-+ (NSArray *)responseDescriptors;
++ (NSArray *)GETResponseDescriptors;
 
 @end

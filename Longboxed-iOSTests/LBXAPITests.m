@@ -51,6 +51,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     [super tearDown];
     [UICKeyChainStore removeItemForKey:@"username"];
     [UICKeyChainStore removeItemForKey:@"password"];
+    [UICKeyChainStore removeItemForKey:@"id"];
     [store synchronize]; // Write to keychain.
 }
 
@@ -198,31 +199,40 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     });
 }
 
-- (void)testAddTitleToPullListEndpoint
+- (void)testAddandRemovePullListTitleEndpoint
 {
+    int issueNum = 28;
+
+    // Add a title
+    __weak typeof(self)weakSelf = self;
+    
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
-            [self.client addTitleToPullList:[NSNumber numberWithInt:1] withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-                XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Att to pull list endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+            [weakSelf.client addTitleToPullList:[NSNumber numberWithInt:issueNum] withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *resp, NSError *error) {
+                
+                
+                XCTAssertEqual(resp.response.statusCode, 200, @"Add to pull list endpoint is returning a status code %ldd", (long)resp.response.statusCode);
+                
+                // Check for the title in the pull list response
                 NSNumber *nilCheck;
-                for (LBXTitle *title in pullListArray) {
-                    if (title.titleID == [NSNumber numberWithInt:1]) nilCheck = title.titleID;
+                for (NSDictionary *title in pullListArray) {
+                    if ([title[@"id"] intValue] == (long)issueNum) nilCheck = title[@"id"];
                 }
                 XCTAssertNotNil(nilCheck, @"Title was not added to pull list");
-                *done = YES;
-            }];
-        }];
-    });
-}
-
-- (void)testRemoveTitleFromPullListEndpoint
-{
-    hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
-            [self.client addTitleToPullList:[NSNumber numberWithInt:1]  withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-                XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Att to pull list endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
-                XCTAssertNotNil(pullListArray, @"Add to pull list JSON is returning nil");
-                *done = YES;
+                
+                // Then remove it
+                [self.client removeTitleFromPullList:[NSNumber numberWithInt:issueNum] withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *resp, NSError *error) {
+                        
+                    XCTAssertEqual(resp.response.statusCode, 200, @"Add to pull list endpoint is returning a status code %ldd", (long)resp.response.statusCode);
+                    
+                    // Check for the title in the pull list response
+                    NSNumber *nilCheck;
+                    for (NSDictionary *title in pullListArray) {
+                        if ([title[@"id"] intValue] == (long)issueNum) nilCheck = title[@"id"];
+                    }
+                    XCTAssertNil(nilCheck, @"Title was not removed from pull list");
+                    *done = YES;
+                }];
             }];
         }];
     });
@@ -231,25 +241,21 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 
 /// TODO: Add popular/date?= test
 
-- (void)testBundlesEndpoint
-{
-    hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchLogInWithCompletion:^(id json, RKObjectRequestOperation *response, NSError *error) {
-            [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"user"][@"id"]] forKey:@"id"];
-            [store synchronize];
-            [self.client fetchBundlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
-                NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-                int responseStatusCode = (int)[httpResponse statusCode];
-                XCTAssertEqual(responseStatusCode, 200, @"Bundles endpoint is returning a status code %d", responseStatusCode);
-                XCTAssertNotNil(json[@"bundles"], @"Bundles JSON is returning %@", json);
-                *done = YES;
-            }];
-        }];
-    });
-}
-
-
-
-
+//- (void)testBundlesEndpoint
+//{
+//    hxRunInMainLoop(^(BOOL *done) {
+//        [self.client fetchLogInWithCompletion:^(id json, RKObjectRequestOperation *response, NSError *error) {
+//            [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"user"][@"id"]] forKey:@"id"];
+//            [store synchronize];
+//            [self.client fetchBundlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
+//                NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+//                int responseStatusCode = (int)[httpResponse statusCode];
+//                XCTAssertEqual(responseStatusCode, 200, @"Bundles endpoint is returning a status code %d", responseStatusCode);
+//                XCTAssertNotNil(json[@"bundles"], @"Bundles JSON is returning %@", json);
+//                *done = YES;
+//            }];
+//        }];
+//    });
+//}
 
 @end

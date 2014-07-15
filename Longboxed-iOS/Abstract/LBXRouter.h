@@ -11,6 +11,8 @@
 
 @interface LBXRouter : NSObject
 
-+ (RKRouter *)routerWithQueryParameters:(NSDictionary *)parameters;
+@property (nonatomic, copy) NSString *baseURLString;
+
+- (RKRouter *)routerWithQueryParameters:(NSDictionary *)parameters;
 
 @end

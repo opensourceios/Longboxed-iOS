@@ -12,11 +12,15 @@
 
 @implementation LBXRouter
 
-// Routing
-+ (RKRouter *)routerWithQueryParameters:(NSDictionary *)parameters
+- (NSString *)baseURLString
 {
-    NSString *urlString = @"http://www.longboxed.com";
-    RKRouter *router = [[RKRouter alloc] initWithBaseURL:[NSURL URLWithString:urlString]];
+    return @"http://www.longboxed.com";
+}
+
+// Routing
+- (RKRouter *)routerWithQueryParameters:(NSDictionary *)parameters
+{
+    RKRouter *router = [[RKRouter alloc] initWithBaseURL:[NSURL URLWithString:self.baseURLString]];
     
     NSDictionary *endpointDict = [LBXEndpoints endpoints];
     
@@ -75,16 +79,6 @@
     [router.routeSet addRoute:[RKRoute routeWithName:@"User Pull List"
                                          pathPattern:endpointDict[@"User Pull List"]
                                               method:RKRequestMethodGET]];
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Add Title to Pull List"
-                                         pathPattern:[NSString addQueryStringToUrlString:endpointDict[@"Add Title to Pull List"]
-                                                                          withDictionary:parameters]
-                                              method:RKRequestMethodPOST]]; // Required parameter is ?title_id=20
-    
-    [router.routeSet addRoute:[RKRoute routeWithName:@"Remove Title from Pull List"
-                                         pathPattern:[NSString addQueryStringToUrlString:endpointDict[@"Remove Title from Pull List"]
-                                                                          withDictionary:parameters]
-                                              method:RKRequestMethodDELETE]]; // Required parameter is ?title_id=20
     
     [router.routeSet addRoute:[RKRoute routeWithName:@"Bundle Resources for User"
                                          pathPattern:endpointDict[@"Bundle Resources for User"]
