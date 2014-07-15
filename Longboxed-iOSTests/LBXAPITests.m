@@ -91,7 +91,6 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
         [self.client fetchIssue:[NSNumber numberWithInt:20] withCompletion:^(LBXIssue *issueObject, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issue endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotNil(issueObject, @"Issue JSON is returning %@", issueObject);
-            NSLog(@"%@", issueObject);
             *done = YES;
         }];
     });
@@ -201,34 +200,35 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 
 - (void)testAddandRemovePullListTitleEndpoint
 {
-    int issueNum = 28;
+    NSNumber *issueNum = [NSNumber numberWithLong:28];
 
     // Add a title
     __weak typeof(self)weakSelf = self;
     
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
-            [weakSelf.client addTitleToPullList:[NSNumber numberWithInt:issueNum] withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *resp, NSError *error) {
+            [weakSelf.client addTitleToPullList:issueNum withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *error) {
                 
                 
-                XCTAssertEqual(resp.response.statusCode, 200, @"Add to pull list endpoint is returning a status code %ldd", (long)resp.response.statusCode);
+                XCTAssertEqual(resp.HTTPRequestOperation.response.statusCode, 200, @"Add to pull list endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
                 
                 // Check for the title in the pull list response
-                NSNumber *nilCheck;
-                for (NSDictionary *title in pullListArray) {
-                    if ([title[@"id"] intValue] == (long)issueNum) nilCheck = title[@"id"];
+                id nilCheck;
+                for (LBXTitle *title in pullListArray) {
+                    if (title.titleID == issueNum) nilCheck = title.titleID;
                 }
+
                 XCTAssertNotNil(nilCheck, @"Title was not added to pull list");
                 
                 // Then remove it
-                [self.client removeTitleFromPullList:[NSNumber numberWithInt:issueNum] withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *resp, NSError *error) {
-                        
-                    XCTAssertEqual(resp.response.statusCode, 200, @"Add to pull list endpoint is returning a status code %ldd", (long)resp.response.statusCode);
+                [self.client removeTitleFromPullList:issueNum withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *error) {
+                    
+                    XCTAssertEqual(resp.HTTPRequestOperation.response.statusCode, 200, @"Add to pull list endpoint is returning a status code %ldd", (long)resp.HTTPRequestOperation.response.statusCode);
                     
                     // Check for the title in the pull list response
                     NSNumber *nilCheck;
-                    for (NSDictionary *title in pullListArray) {
-                        if ([title[@"id"] intValue] == (long)issueNum) nilCheck = title[@"id"];
+                    for (LBXTitle *title in pullListArray) {
+                        if (title.titleID == issueNum) nilCheck = title.titleID;
                     }
                     XCTAssertNil(nilCheck, @"Title was not removed from pull list");
                     *done = YES;

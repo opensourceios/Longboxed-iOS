@@ -32,50 +32,6 @@
     return self;
 }
 
-// TODO: Remove this
-- (void)fetch:(NSString *)location withCredentials:(BOOL)credentials completion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self.class setNetworkActivityIndicatorVisible:YES];
-    
-    NSString *urlString = [NSString stringWithFormat:@"http://www.longboxed.com/api/v1/%@",location];
-    
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    
-    // Auth if necessary
-    if (credentials) {
-        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", store[@"username"], store[@"password"]];
-        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    }
-    
-    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        [self.class setNetworkActivityIndicatorVisible:NO];
-        
-        if (error) {
-            NSLog(@"%@",error);
-            
-            if (completion) {
-                completion(nil, response, error);
-            }
-        }
-        else {
-            NSError *error2 = nil;
-            id json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-            
-            if (error2) {
-                NSLog(@"%@",error2);
-            }
-            if (completion) {
-                completion(json, response, error2);
-            }
-        }
-    }];
-    [task resume];
-}
-
 - (void)GETWithRouteName:(NSString *)routeName
                   object:(id)object
          queryParameters:(NSDictionary *)parameters
@@ -177,7 +133,7 @@
     
     NSString *deletePath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
                                                withDictionary:parameters] stringByReplacingOccurrencesOfString:@":userID" withString:store[@"id"]];
-    
+    NSLog(@"about to delete");
     [client deletePath:deletePath
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -187,6 +143,7 @@
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                  
                  if (completion) {
+                     NSLog(@"deleted");
                      completion(jsonFromData, operation, nil);
                  }
                  
@@ -216,8 +173,6 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     // For debugging
-//    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
-//    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
     NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date]};
     [self GETWithRouteName:@"Issues Collection" object:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
@@ -321,38 +276,32 @@
     }];
 }
 
-- (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
+- (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
     NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
     
     [self POSTWithRouteName:@"Add Title to Pull List" queryParameters:parameters credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         
-        // TODO: Refetch the pull list for Core Data Storage
-        completion(resultDict[@"pull_list"], response, error);
+        // Refetch the pull list for Core Data Storage purposes
+        [self fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *err) {
+            completion(pullListArray, resp, err);
+            NSLog(@"done");
+        }];
     }];
 }
 
-- (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
+- (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
     NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
     
     [self DELETEWithRouteName:@"Add Title to Pull List" queryParameters:parameters credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         
-        // TODO: Refetch the pull list for Core Data Storage
-        completion(resultDict[@"pull_list"], response, error);
+        // Refetch the pull list for Core Data Storage purposes
+        [self fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *err) {
+            completion(pullListArray, resp, err);
+        }];
     }];
 }
-
-- (void)fetchBundlesWithCompletion:(void (^)(id, NSURLResponse*, NSError*))completion {
-    [self fetch:[NSString stringWithFormat:@"users/%@/bundles/", [UICKeyChainStore keyChainStore][@"id"]] withCredentials:YES completion:completion];
-}
-
-
-
-
-
-
-
 
 // http://oleb.net/blog/2009/09/managing-the-network-activity-indicator/
 + (void)setNetworkActivityIndicatorVisible:(BOOL)setVisible {
