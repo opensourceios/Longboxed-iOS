@@ -14,7 +14,7 @@
 
 - (NSString *)baseURLString
 {
-    return @"http://www.longboxed.com";
+    return @"http://longboxed-staging.herokuapp.com";
 }
 
 // Routing

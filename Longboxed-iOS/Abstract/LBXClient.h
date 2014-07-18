@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit.h>
+#import <RestKit/CoreData.h>
 
 #import "LBXTitle.h"
 #import "LBXIssue.h"

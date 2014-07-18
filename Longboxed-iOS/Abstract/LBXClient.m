@@ -100,7 +100,7 @@
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  
                 // Response currently being just mapped to a dict.
-                // TODO: Map response to an array of LBXTitles. 
+                // TODO: Map response to an array of LBXTitles.
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                  
                  if (completion) {

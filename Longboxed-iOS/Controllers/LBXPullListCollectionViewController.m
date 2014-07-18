@@ -7,7 +7,6 @@
 //
 
 #import "LBXPullListCollectionViewController.h"
-#import "LBXDataStore.h"
 #import "LBXPullList.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
@@ -306,15 +305,15 @@ CGFloat cellWidth;
 
 - (void)refresh
 {
-    [[LBXDataStore sharedStore] fetchPullList:^(NSArray *response, NSError *error) {
-        _pullListComics = [[LBXPullList alloc] initPullList:response];
-        tableViewRows = _pullListComics.longboxedIDs.count;
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.collectionView reloadData];
-            [_refreshControl endRefreshing];
-        });
-    }];
+//    [[LBXDataStore sharedStore] fetchPullList:^(NSArray *response, NSError *error) {
+//        _pullListComics = [[LBXPullList alloc] initPullList:response];
+//        tableViewRows = _pullListComics.longboxedIDs.count;
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.collectionView reloadData];
+//            [_refreshControl endRefreshing];
+//        });
+//    }];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

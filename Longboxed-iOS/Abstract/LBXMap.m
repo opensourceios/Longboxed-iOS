@@ -25,7 +25,6 @@
                                                          }];
     
     RKObjectMapping *issueMapping = [self issueMapping];
-    // TODO: Note that this is an array of issues. Read how to handle this. I don't believe this is correct
     [bundleMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"issues"
                                                                                   toKeyPath:@"issues"
                                                                                 withMapping:issueMapping]];

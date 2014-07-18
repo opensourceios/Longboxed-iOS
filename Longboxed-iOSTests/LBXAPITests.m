@@ -126,7 +126,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testIssuesForTitleEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchIssuesForTitle:[NSNumber numberWithInt:120] withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchIssuesForTitle:[NSNumber numberWithInt:40] withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues for title endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotNil(titleArray, @"Issues for title JSON is returning nil");
             *done = YES;
@@ -274,25 +274,5 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
         }];
     });
 }
-
-
-/// TODO: Add popular/date?= test
-
-//- (void)testBundlesEndpoint
-//{
-//    hxRunInMainLoop(^(BOOL *done) {
-//        [self.client fetchLogInWithCompletion:^(id json, RKObjectRequestOperation *response, NSError *error) {
-//            [UICKeyChainStore setString:[NSString stringWithFormat:@"%@",json[@"user"][@"id"]] forKey:@"id"];
-//            [store synchronize];
-//            [self.client fetchBundlesWithCompletion:^(id json, NSURLResponse *response, NSError *error) {
-//                NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-//                int responseStatusCode = (int)[httpResponse statusCode];
-//                XCTAssertEqual(responseStatusCode, 200, @"Bundles endpoint is returning a status code %d", responseStatusCode);
-//                XCTAssertNotNil(json[@"bundles"], @"Bundles JSON is returning %@", json);
-//                *done = YES;
-//            }];
-//        }];
-//    });
-//}
 
 @end

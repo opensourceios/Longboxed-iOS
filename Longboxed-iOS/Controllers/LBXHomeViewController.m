@@ -8,7 +8,6 @@
 
 #import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
-#import "LBXDataStore.h"
 #import "LBXThisWeeksComics.h"
 #import "LBXBundleOld.h"
 #import "EasyTableView.h"
@@ -83,20 +82,20 @@ LBXNavigationViewController *navigationController;
 
 - (void)refresh
 {
-    [[LBXDataStore sharedStore] fetchThisWeeksComics:^(NSArray *response, NSError *error) {
-        _thisWeeksComics = [[LBXThisWeeksComics alloc] initThisWeeksComicsWithIssues:response];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self setupEasyTableViewWithNumCells:_thisWeeksComics.longboxedIDs.count];
-        });
-    }];
+//    [[LBXDataStore sharedStore] fetchThisWeeksComics:^(NSArray *response, NSError *error) {
+//        _thisWeeksComics = [[LBXThisWeeksComics alloc] initThisWeeksComicsWithIssues:response];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self setupEasyTableViewWithNumCells:_thisWeeksComics.longboxedIDs.count];
+//        });
+//    }];
     
     if ([UICKeyChainStore keyChainStore][@"id"]) {
-        [[LBXDataStore sharedStore] fetchBundles:^(NSArray *response, NSError *error) {
-            _bundle = [[LBXBundleOld alloc] initBundle:response];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)_bundle.longboxedIDs.count];
-            });
-        }];
+//        [[LBXDataStore sharedStore] fetchBundles:^(NSArray *response, NSError *error) {
+//            _bundle = [[LBXBundleOld alloc] initBundle:response];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)_bundle.longboxedIDs.count];
+//            });
+//        }];
     }
     else _bundleCountLabel.text = @"0";
 }
