@@ -10,9 +10,20 @@
 
 @implementation LBXIssue
 
+@dynamic completeTitle;
+@dynamic coverImage;
+@dynamic issueDescription;
+@dynamic diamondID;
+@dynamic issueID;
+@dynamic issueNumber;
+@dynamic price;
+@dynamic publisher;
+@dynamic releaseDate;
+@dynamic title;
+
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"\n\nComplete Title: %@\n\nID: %@\n\nPublisher: %@\n\nDescription: %@\n\nRelease Date: %@\n\n", _completeTitle, _issueID, _publisher.name, _issueDescription, _releaseDate];
+    return [NSString stringWithFormat:@"\n\nComplete Title: %@\n\nID: %@\n\nPublisher: %@\n\nDescription: %@\n\nRelease Date: %@\n\n", self.completeTitle, self.issueID, self.publisher.name, self.issueDescription, self.releaseDate];
 }
 
 

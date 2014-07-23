@@ -11,12 +11,12 @@
 
 @interface LBXMap : NSObject
 
-- (RKObjectMapping *)bundleMapping;
-- (RKObjectMapping *)userMapping;
-- (RKObjectMapping *)titleMapping;
-- (RKObjectMapping *)publisherMapping;
-- (RKObjectMapping *)issueMapping;
-- (RKObjectMapping *)paginationMapping;
+- (RKEntityMapping *)bundleMapping;
+- (RKEntityMapping *)userMapping;
+- (RKEntityMapping *)titleMapping;
+- (RKEntityMapping *)publisherMapping;
+- (RKEntityMapping *)issueMapping;
+- (RKEntityMapping *)paginationMapping;
 
 
 @end

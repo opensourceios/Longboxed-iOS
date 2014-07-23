@@ -16,63 +16,69 @@
 
 @implementation LBXMap
 
-- (RKObjectMapping *)bundleMapping
+- (RKEntityMapping *)bundleMapping
 {
-    RKObjectMapping* bundleMapping = [RKObjectMapping mappingForClass:[LBXBundle class]];
+    RKEntityMapping* bundleMapping = [RKEntityMapping mappingForClass:[LBXBundle class]];
     [bundleMapping addAttributeMappingsFromDictionary:@{ @"id"           : @"bundleID",
                                                          @"last_updated" : @"lastUpdatedDate",
                                                          @"release_date" : @"releaseDate"
                                                          }];
     
-    RKObjectMapping *issueMapping = [self issueMapping];
+    RKEntityMapping *issueMapping = [self issueMapping];
     [bundleMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"issues"
                                                                                   toKeyPath:@"issues"
                                                                                 withMapping:issueMapping]];
+    bundleMapping.identificationAttributes = @[ @"bindleID" ];
+    
     return bundleMapping;
 }
 
-- (RKObjectMapping *)userMapping
+- (RKEntityMapping *)userMapping
 {
-    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[LBXUser class]];
+    RKEntityMapping* userMapping = [RKEntityMapping mappingForClass:[LBXUser class]];
     [userMapping addAttributeMappingsFromDictionary:@{ @"email"     : @"email",
                                                        @"first_name": @"firstName",
                                                        @"id"        : @"userID",
                                                        @"last_name" : @"lastName"
                                                        }];
     [userMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"roles"]];
+    userMapping.identificationAttributes = @[ @"userID" ];
     return userMapping;
 }
 
-- (RKObjectMapping *)titleMapping
+- (RKEntityMapping *)titleMapping
 {
-    RKObjectMapping* titleMapping = [RKObjectMapping mappingForClass:[LBXTitle class]];
+    RKEntityMapping* titleMapping = [RKEntityMapping mappingForClass:[LBXTitle class]];
     [titleMapping addAttributeMappingsFromDictionary:@{ @"id"   : @"titleID",
                                                         @"issue_count" : @"issueCount",
                                                         @"name" : @"name",
                                                         @"subscribers" : @"subscribers"
                                                         }];
     
-    RKObjectMapping *publisherMapping = [self publisherMapping];
+    RKEntityMapping *publisherMapping = [self publisherMapping];
     [titleMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"publisher"
                                                                                  toKeyPath:@"publisher"
                                                                                withMapping:publisherMapping]];
+    titleMapping.identificationAttributes = @[ @"titleID" ];
+    [titleMapping addConnectionForRelationship:@"publisher" connectedBy:@{@"publisherID": @"publisher.publisherID"}];
     return titleMapping;
 }
 
-- (RKObjectMapping *)publisherMapping
+- (RKEntityMapping *)publisherMapping
 {
-    RKObjectMapping* publisherMapping = [RKObjectMapping mappingForClass:[LBXPublisher class]];
+    RKEntityMapping* publisherMapping = [RKEntityMapping mappingForClass:[LBXPublisher class]];
     [publisherMapping addAttributeMappingsFromDictionary:@{ @"id"          : @"publisherID",
                                                             @"issue_count" : @"issueCount",
                                                             @"name"        : @"name",
                                                             @"title_count" : @"titleCount"
                                                             }];
+    publisherMapping.identificationAttributes = @[ @"publisherID" ];
     return publisherMapping;
 }
 
-- (RKObjectMapping *)issueMapping
+- (RKEntityMapping *)issueMapping
 {
-    RKObjectMapping* issueMapping = [RKObjectMapping mappingForClass:[LBXIssue class]];
+    RKEntityMapping* issueMapping = [RKEntityMapping mappingForClass:[LBXIssue class]];
     [issueMapping addAttributeMappingsFromDictionary:@{ @"complete_title" : @"completeTitle",
                                                         @"cover_image"    : @"coverImage",
                                                         @"description"    : @"issueDescription",
@@ -83,8 +89,8 @@
                                                         @"release_date"   : @"releaseDate"
                                                         }];
     
-    RKObjectMapping *publisherMapping = [self publisherMapping];
-    RKObjectMapping *titleMapping = [self titleMapping];
+    RKEntityMapping *publisherMapping = [self publisherMapping];
+    RKEntityMapping *titleMapping = [self titleMapping];
     
     [issueMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"publisher"
                                                                                  toKeyPath:@"publisher"
@@ -93,12 +99,15 @@
     [issueMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"title"
                                                                                  toKeyPath:@"title"
                                                                                withMapping:titleMapping]];
+    issueMapping.identificationAttributes = @[ @"issueID" ];
+    [issueMapping addConnectionForRelationship:@"publisher" connectedBy:@{@"publisherID": @"publisher.publisherID"}];
+    [issueMapping addConnectionForRelationship:@"title" connectedBy:@{@"titleID": @"title.titleID"}];
     return issueMapping;
 }
 
-- (RKObjectMapping *)paginationMapping
+- (RKEntityMapping *)paginationMapping
 {
-    RKObjectMapping *paginationMapping = [RKObjectMapping mappingForClass:[RKPaginator class]];
+    RKEntityMapping *paginationMapping = [RKEntityMapping mappingForClass:[RKPaginator class]];
     [paginationMapping addAttributeMappingsFromDictionary:@{
                                                             @"total" :   @"objectCount",
                                                             @"count" :   @"perPage"

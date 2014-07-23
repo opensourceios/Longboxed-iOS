@@ -7,20 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/CoreData.h>
 #import "LBXPublisher.h"
 #import "LBXTitle.h"
 
-@interface LBXIssue : NSObject
+@interface LBXIssue : NSManagedObject
 
-@property (nonatomic, copy) NSString *completeTitle;
-@property (nonatomic, copy) NSURL *coverImage;
-@property (nonatomic, copy) NSString *issueDescription;
-@property (nonatomic, copy) NSString *diamondID;
-@property (nonatomic, copy) NSNumber *issueID;
-@property (nonatomic, copy) NSNumber *issueNumber;
-@property (nonatomic, copy) NSNumber *price;
+@property (nonatomic, retain) NSString *completeTitle;
+@property (nonatomic, retain) NSURL *coverImage;
+@property (nonatomic, retain) NSString *issueDescription;
+@property (nonatomic, retain) NSString *diamondID;
+@property (nonatomic, retain) NSNumber *issueID;
+@property (nonatomic, retain) NSNumber *issueNumber;
+@property (nonatomic, retain) NSNumber *price;
 @property (nonatomic, retain) LBXPublisher *publisher;
-@property (nonatomic, copy) NSDate *releaseDate;
+@property (nonatomic, retain) NSDate *releaseDate;
 @property (nonatomic, retain) LBXTitle *title;
 
 @end

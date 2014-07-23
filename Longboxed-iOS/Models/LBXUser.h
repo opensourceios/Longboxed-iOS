@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/CoreData.h>
 
-@interface LBXUser : NSObject
+@interface LBXUser : NSManagedObject
 
-@property (nonatomic, copy) NSString *email;
-@property (nonatomic, copy) NSString *firstName;
-@property (nonatomic, copy) NSNumber *userID;
-@property (nonatomic, copy) NSString *lastName;
-@property (nonatomic, copy) NSString *roles;
+@property (nonatomic, retain) NSString *email;
+@property (nonatomic, retain) NSString *firstName;
+@property (nonatomic, retain) NSNumber *userID;
+@property (nonatomic, retain) NSString *lastName;
+@property (nonatomic, retain) NSString *roles;
 
 @end

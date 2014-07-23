@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/CoreData.h>
 #import "LBXIssue.h"
 
-@interface LBXBundle : NSObject
+@interface LBXBundle : NSManagedObject
 
-@property (nonatomic, copy) NSNumber *bundleID;
+@property (nonatomic, retain) NSNumber *bundleID;
 @property (nonatomic, retain) NSArray *issues;
-@property (nonatomic, copy) NSDate *lastUpdatedDate;
-@property (nonatomic, copy) NSDate *releaseDate;
+@property (nonatomic, retain) NSDate *lastUpdatedDate;
+@property (nonatomic, retain) NSDate *releaseDate;
 
 @end

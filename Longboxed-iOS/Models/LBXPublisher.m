@@ -10,4 +10,9 @@
 
 @implementation LBXPublisher
 
+@dynamic publisherID;
+@dynamic issueCount;
+@dynamic name;
+@dynamic titleCount;
+
 @end

@@ -10,4 +10,10 @@
 
 @implementation LBXUser
 
+@dynamic email;
+@dynamic firstName;
+@dynamic userID;
+@dynamic lastName;
+@dynamic roles;
+
 @end

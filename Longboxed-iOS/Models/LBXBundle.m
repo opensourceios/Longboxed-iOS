@@ -10,4 +10,9 @@
 
 @implementation LBXBundle
 
+@dynamic bundleID;
+@dynamic issues;
+@dynamic lastUpdatedDate;
+@dynamic releaseDate;
+
 @end

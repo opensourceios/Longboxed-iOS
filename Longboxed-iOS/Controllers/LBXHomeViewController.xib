@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LBXHomeViewController">
             <connections>
                 <outlet property="bundleCountLabel" destination="NOS-cB-73G" id="Ncw-AA-KLH"/>
+                <outlet property="issuesInYourBundleThisWeekLabel" destination="Rbl-MC-QND" id="ik6-VV-DMY"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

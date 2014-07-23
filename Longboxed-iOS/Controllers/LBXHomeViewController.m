@@ -28,6 +28,7 @@
 @property (nonatomic) LBXBundleOld *bundle;
 @property (nonatomic) EasyTableView *easyTableView;
 @property (nonatomic, strong) IBOutlet UILabel *bundleCountLabel;
+@property (nonatomic, strong) IBOutlet UILabel *issuesInYourBundleThisWeekLabel;
 
 @end
 
@@ -94,6 +95,11 @@ LBXNavigationViewController *navigationController;
 //            _bundle = [[LBXBundleOld alloc] initBundle:response];
 //            dispatch_async(dispatch_get_main_queue(), ^{
 //                _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)_bundle.longboxedIDs.count];
+        _issuesInYourBundleThisWeekLabel.text = @"issues in your bundle this week";
+        // Change the text of "issues" to "issue" if count is 1
+        if ((unsigned long)_bundle.longboxedIDs.count == 1) {
+            _issuesInYourBundleThisWeekLabel.text = @"issue in your bundle this week";
+        }
 //            });
 //        }];
     }
