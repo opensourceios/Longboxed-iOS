@@ -17,13 +17,12 @@
 // Descriptors for handling the JSON responses and creating objects
 + (NSArray *)GETResponseDescriptors
 {
-    LBXMap *mapper = [LBXMap new];
     // Instantiate the KVC mappings
-    RKObjectMapping *userMapping = mapper.userMapping;
-    RKObjectMapping *issueMapping = mapper.issueMapping;
-    RKObjectMapping *publisherMapping = mapper.publisherMapping;
-    RKObjectMapping *titleMapping = mapper.titleMapping;
-    RKObjectMapping *bundleMapping = mapper.bundleMapping;
+    RKEntityMapping *userMapping = [LBXMap map].userMapping;
+    RKEntityMapping *issueMapping = [LBXMap map].issueMapping;
+    RKEntityMapping *publisherMapping = [LBXMap map].publisherMapping;
+    RKEntityMapping *titleMapping = [LBXMap map].titleMapping;
+    RKEntityMapping *bundleMapping = [LBXMap map].bundleMapping;
 //    RKObjectMapping *paginationMapping = mapper.paginationMapping;
     
     NSDictionary *endpointDict = [LBXEndpoints endpoints];

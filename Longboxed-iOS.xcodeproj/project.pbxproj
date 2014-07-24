@@ -63,6 +63,7 @@
 		E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D819623F52002654E7 /* NSData+Base64.m */; };
 		E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXLoginViewController.m */; };
 		E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */; };
+		E5C4D405197F3DAC0036DD9A /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5C4D403197F3DAC0036DD9A /* LBXCoreData.xcdatamodeld */; };
 		E5F18720196378E4006C4C26 /* LBXPullListCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1871F196378E4006C4C26 /* LBXPullListCollectionViewController.m */; };
 		E5F18724196382BA006C4C26 /* LBXHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F18722196382BA006C4C26 /* LBXHomeViewController.m */; };
 		E5F1873219638BBC006C4C26 /* EasyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1873119638BBC006C4C26 /* EasyTableView.m */; };
@@ -174,6 +175,7 @@
 		E5A773DA19624A52002654E7 /* LBXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLoginViewController.h; path = Controllers/LBXLoginViewController.h; sourceTree = "<group>"; };
 		E5A773DB19624A52002654E7 /* LBXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLoginViewController.m; path = Controllers/LBXLoginViewController.m; sourceTree = "<group>"; };
 		E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXLoginViewController.xib; path = Controllers/LBXLoginViewController.xib; sourceTree = "<group>"; };
+		E5C4D404197F3DAC0036DD9A /* LBXCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LBXCoreData.xcdatamodel; sourceTree = "<group>"; };
 		E5F1871E196378E4006C4C26 /* LBXPullListCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListCollectionViewController.h; path = Controllers/LBXPullListCollectionViewController.h; sourceTree = "<group>"; };
 		E5F1871F196378E4006C4C26 /* LBXPullListCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListCollectionViewController.m; path = Controllers/LBXPullListCollectionViewController.m; sourceTree = "<group>"; };
 		E5F18721196382BA006C4C26 /* LBXHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXHomeViewController.h; path = Controllers/LBXHomeViewController.h; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 		E57D48CC196068E10014A13F /* Longboxed-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				E5C4D406197F3DB10036DD9A /* CoreData */,
 				E57D49131960A21D0014A13F /* Abstract */,
 				E57D49141960A2350014A13F /* AppDelegate */,
 				E51D00F4196A1A6F005FCF25 /* New Models */,
@@ -486,6 +489,14 @@
 				E54A6AEF196B72D80094979A /* NSString+URLQuery.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		E5C4D406197F3DB10036DD9A /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				E5C4D403197F3DAC0036DD9A /* LBXCoreData.xcdatamodeld */,
+			);
+			name = CoreData;
 			sourceTree = "<group>";
 		};
 		E5F1872619638980006C4C26 /* EasyTableView */ = {
@@ -721,6 +732,7 @@
 				E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */,
 				E57D490B196096260014A13F /* LBXThisWeekCollectionViewController.m in Sources */,
 				E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */,
+				E5C4D405197F3DAC0036DD9A /* LBXCoreData.xcdatamodeld in Sources */,
 				E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */,
 				E5F1873219638BBC006C4C26 /* EasyTableView.m in Sources */,
 				E57D496319611BB30014A13F /* SVModalWebViewController.m in Sources */,
@@ -1117,6 +1129,20 @@
 			defaultConfigurationName = AppStore;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E5C4D403197F3DAC0036DD9A /* LBXCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E5C4D404197F3DAC0036DD9A /* LBXCoreData.xcdatamodel */,
+			);
+			currentVersion = E5C4D404197F3DAC0036DD9A /* LBXCoreData.xcdatamodel */;
+			name = LBXCoreData.xcdatamodeld;
+			path = CoreData/LBXCoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E57D48BB196068E10014A13F /* Project object */;
 }

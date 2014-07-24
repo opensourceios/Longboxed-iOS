@@ -14,11 +14,32 @@
 #import "LBXTitle.h"
 #import "LBXBundle.h"
 
+#import "LBXAppDelegate.h"
+
 @implementation LBXMap
+
+static LBXMap *map;
+
+// Singleton for accessing the same instance in multiple view controllers
++ (void)initialize
+{
+    static BOOL initialized = NO;
+    if(!initialized)
+    {
+        initialized = YES;
+        map = [[LBXMap alloc] init];
+    }
+}
+
++ (LBXMap *)map
+{
+    [self initialize];
+    return map;
+}
 
 - (RKEntityMapping *)bundleMapping
 {
-    RKEntityMapping* bundleMapping = [RKEntityMapping mappingForClass:[LBXBundle class]];
+    RKEntityMapping* bundleMapping = [RKEntityMapping mappingForEntityForName:@"Bundle" inManagedObjectStore:self.managedObjectStore];
     [bundleMapping addAttributeMappingsFromDictionary:@{ @"id"           : @"bundleID",
                                                          @"last_updated" : @"lastUpdatedDate",
                                                          @"release_date" : @"releaseDate"
@@ -28,14 +49,14 @@
     [bundleMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"issues"
                                                                                   toKeyPath:@"issues"
                                                                                 withMapping:issueMapping]];
-    bundleMapping.identificationAttributes = @[ @"bindleID" ];
+    bundleMapping.identificationAttributes = @[ @"bundleID" ];
     
     return bundleMapping;
 }
 
 - (RKEntityMapping *)userMapping
 {
-    RKEntityMapping* userMapping = [RKEntityMapping mappingForClass:[LBXUser class]];
+    RKEntityMapping* userMapping = [RKEntityMapping mappingForEntityForName:@"User" inManagedObjectStore:self.managedObjectStore];
     [userMapping addAttributeMappingsFromDictionary:@{ @"email"     : @"email",
                                                        @"first_name": @"firstName",
                                                        @"id"        : @"userID",
@@ -48,7 +69,7 @@
 
 - (RKEntityMapping *)titleMapping
 {
-    RKEntityMapping* titleMapping = [RKEntityMapping mappingForClass:[LBXTitle class]];
+    RKEntityMapping* titleMapping = [RKEntityMapping mappingForEntityForName:@"Title" inManagedObjectStore:self.managedObjectStore];
     [titleMapping addAttributeMappingsFromDictionary:@{ @"id"   : @"titleID",
                                                         @"issue_count" : @"issueCount",
                                                         @"name" : @"name",
@@ -60,13 +81,13 @@
                                                                                  toKeyPath:@"publisher"
                                                                                withMapping:publisherMapping]];
     titleMapping.identificationAttributes = @[ @"titleID" ];
-    [titleMapping addConnectionForRelationship:@"publisher" connectedBy:@{@"publisherID": @"publisher.publisherID"}];
+    //[titleMapping addConnectionForRelationship:@"publisher" connectedBy:@{@"publisherID": @"publisher.publisherID"}];
     return titleMapping;
 }
 
 - (RKEntityMapping *)publisherMapping
 {
-    RKEntityMapping* publisherMapping = [RKEntityMapping mappingForClass:[LBXPublisher class]];
+    RKEntityMapping* publisherMapping = [RKEntityMapping mappingForEntityForName:@"Publisher" inManagedObjectStore:self.managedObjectStore];
     [publisherMapping addAttributeMappingsFromDictionary:@{ @"id"          : @"publisherID",
                                                             @"issue_count" : @"issueCount",
                                                             @"name"        : @"name",
@@ -78,7 +99,7 @@
 
 - (RKEntityMapping *)issueMapping
 {
-    RKEntityMapping* issueMapping = [RKEntityMapping mappingForClass:[LBXIssue class]];
+    RKEntityMapping* issueMapping = [RKEntityMapping mappingForEntityForName:@"Issue" inManagedObjectStore:self.managedObjectStore];
     [issueMapping addAttributeMappingsFromDictionary:@{ @"complete_title" : @"completeTitle",
                                                         @"cover_image"    : @"coverImage",
                                                         @"description"    : @"issueDescription",
@@ -100,8 +121,8 @@
                                                                                  toKeyPath:@"title"
                                                                                withMapping:titleMapping]];
     issueMapping.identificationAttributes = @[ @"issueID" ];
-    [issueMapping addConnectionForRelationship:@"publisher" connectedBy:@{@"publisherID": @"publisher.publisherID"}];
-    [issueMapping addConnectionForRelationship:@"title" connectedBy:@{@"titleID": @"title.titleID"}];
+//    [issueMapping addConnectionForRelationship:@"publisher" connectedBy:@{@"publisherID": @"publisherID"}];
+//    [issueMapping addConnectionForRelationship:@"title" connectedBy:@{@"titleID": @"titleID"}];
     return issueMapping;
 }
 

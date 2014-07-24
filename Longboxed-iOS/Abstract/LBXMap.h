@@ -11,6 +11,8 @@
 
 @interface LBXMap : NSObject
 
+@property (strong, nonatomic) RKManagedObjectStore *managedObjectStore;
+
 - (RKEntityMapping *)bundleMapping;
 - (RKEntityMapping *)userMapping;
 - (RKEntityMapping *)titleMapping;
@@ -18,5 +20,6 @@
 - (RKEntityMapping *)issueMapping;
 - (RKEntityMapping *)paginationMapping;
 
++ (LBXMap *)map;
 
 @end

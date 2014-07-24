@@ -64,7 +64,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        [self.client fetchIssuesCollectionWithDate:[dateFormatter dateFromString:@"2014-06-25"]
+        [self.client fetchIssuesCollectionWithDate:[dateFormatter dateFromString:@"2014-07-16"]
                                               page:[NSNumber numberWithInt:1]
                                         completion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues with date endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
@@ -79,7 +79,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *thisWeeksIssuesArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues collection for current week endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
-            XCTAssertNotNil(thisWeeksIssuesArray, @"/issues/thisweek/ JSON is returning nil");
+            XCTAssertNotEqual(thisWeeksIssuesArray.count, 0, @"/issues/thisweek/ JSON is returning nil");
             *done = YES;
         }];
     });
@@ -105,7 +105,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchTitlesWithCompletion:^(NSArray *titlesArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Title endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
-            XCTAssertNotNil(titlesArray, @"Titles JSON is returning nil");
+            XCTAssertNotEqual(titlesArray.count, 0, @"Titles JSON is returning nil");
             *done = YES;
         }];
     });
@@ -128,7 +128,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchIssuesForTitle:[NSNumber numberWithInt:40] withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues for title endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
-            XCTAssertNotNil(titleArray, @"Issues for title JSON is returning nil");
+            XCTAssertNotEqual(titleArray.count, 0, @"Issues for title JSON is returning nil");
             *done = YES;
         }];
     });
@@ -139,7 +139,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchAutocompleteForTitle:@"Spider" withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues for title endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
-            XCTAssertNotNil(titleArray, @"Issues for title JSON is returning nil");
+            XCTAssertNotEqual(titleArray.count, 0, @"Issues for title JSON is returning nil");
             *done = YES;
         }];
     });
@@ -155,7 +155,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchPublishersWithCompletion:^(NSArray *publishersArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Publisher endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
-            XCTAssertNotNil(publishersArray, @"Publisher JSON is returning nil");
+            XCTAssertNotEqual(publishersArray.count, 0, @"Publisher JSON is returning nil");
             *done = YES;
         }];
     });
@@ -177,7 +177,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchTitlesForPublisher:[NSNumber numberWithInt:4] withCompletion:^(NSArray *publisherArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Titles for publisher endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
-            XCTAssertNotNil(publisherArray, @"Publisher w/ num JSON is returning nil");
+            XCTAssertNotEqual(publisherArray.count, 0, @"Publisher w/ num JSON is returning nil");
             *done = YES;
         }];
     });
@@ -202,7 +202,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
             [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
                 XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Pull list endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
-                XCTAssertNotNil(pullListArray, @"Pull list JSON is returning nil");
+                XCTAssertNotEqual(pullListArray.count, 0, @"Pull list JSON is returning nil");
                 *done = YES;
             }];
         }];
@@ -255,7 +255,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
             [self.client fetchBundleResourcesWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
                 XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
-                XCTAssertNotNil(pullListArray, @"Bundle resources JSON is returning nil");
+                XCTAssertNotEqual(pullListArray.count, 0, @"Bundle resources JSON is returning nil");
                 *done = YES;
             }];
         }];
@@ -268,7 +268,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
             [self.client fetchLatestBundleWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
                 XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
-                XCTAssertNotNil(pullListArray, @"Bundle resources JSON is returning nil");
+                XCTAssertNotEqual(pullListArray.count, 0, @"Bundle resources JSON is returning nil");
                 *done = YES;
             }];
         }];

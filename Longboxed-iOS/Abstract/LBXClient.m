@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
+#import <RestKit/CoreData.h>
+#import <UICKeyChainStore.h>
+
 #import "LBXClient.h"
 #import "LBXMap.h"
 #import "LBXRouter.h"
@@ -14,8 +17,6 @@
 
 #import "NSData+Base64.h"
 #import "NSString+URLQuery.h"
-
-#import <UICKeyChainStore.h>
 
 @interface LBXClient()
 
@@ -45,10 +46,6 @@
 
     // Set up the object mapping and response descriptors
     NSArray *responseDescriptors = [LBXDescriptors GETResponseDescriptors];
-    
-    // Create the URL request with the proper routing
-    LBXTitle *title = [LBXTitle new];
-    title.titleID = [NSNumber numberWithInt:1];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[APIRouter URLForRouteNamed:routeName method:nil object:object]];
 
