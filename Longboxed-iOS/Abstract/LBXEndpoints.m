@@ -14,6 +14,7 @@
 {
   return  @{@"Issues Collection"                  : @"/api/v1/issues/",
             @"Issues Collection for Current Week" : @"/api/v1/issues/thisweek/",
+            @"Popular Issues for Current Week"    : @"/api/v1/issues/popular/",
             @"Issue"                              : @"/api/v1/issues/:issueID",
             @"Titles Collection"                  : @"/api/v1/titles/",
             @"Title"                              : @"/api/v1/titles/:titleID",

@@ -80,7 +80,9 @@
             completion(mappingResult, operation, nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"failure");
+        if (completion) {
+            completion(nil, operation, error);
+        }
     }];
 }
 
