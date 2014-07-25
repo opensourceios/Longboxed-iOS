@@ -18,28 +18,9 @@
 
 @implementation LBXMap
 
-static LBXMap *map;
-
-// Singleton for accessing the same instance in multiple view controllers
-+ (void)initialize
-{
-    static BOOL initialized = NO;
-    if(!initialized)
-    {
-        initialized = YES;
-        map = [[LBXMap alloc] init];
-    }
-}
-
-+ (LBXMap *)map
-{
-    [self initialize];
-    return map;
-}
-
 - (RKEntityMapping *)bundleMapping
 {
-    RKEntityMapping* bundleMapping = [RKEntityMapping mappingForEntityForName:@"Bundle" inManagedObjectStore:self.managedObjectStore];
+    RKEntityMapping* bundleMapping = [RKEntityMapping mappingForEntityForName:@"Bundle" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
     [bundleMapping addAttributeMappingsFromDictionary:@{ @"id"           : @"bundleID",
                                                          @"last_updated" : @"lastUpdatedDate",
                                                          @"release_date" : @"releaseDate"
@@ -56,7 +37,7 @@ static LBXMap *map;
 
 - (RKEntityMapping *)userMapping
 {
-    RKEntityMapping* userMapping = [RKEntityMapping mappingForEntityForName:@"User" inManagedObjectStore:self.managedObjectStore];
+    RKEntityMapping* userMapping = [RKEntityMapping mappingForEntityForName:@"User" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
     [userMapping addAttributeMappingsFromDictionary:@{ @"email"     : @"email",
                                                        @"first_name": @"firstName",
                                                        @"id"        : @"userID",
@@ -69,7 +50,7 @@ static LBXMap *map;
 
 - (RKEntityMapping *)titleMapping
 {
-    RKEntityMapping* titleMapping = [RKEntityMapping mappingForEntityForName:@"Title" inManagedObjectStore:self.managedObjectStore];
+    RKEntityMapping* titleMapping = [RKEntityMapping mappingForEntityForName:@"Title" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
     [titleMapping addAttributeMappingsFromDictionary:@{ @"id"   : @"titleID",
                                                         @"issue_count" : @"issueCount",
                                                         @"name" : @"name",
@@ -87,7 +68,7 @@ static LBXMap *map;
 
 - (RKEntityMapping *)publisherMapping
 {
-    RKEntityMapping* publisherMapping = [RKEntityMapping mappingForEntityForName:@"Publisher" inManagedObjectStore:self.managedObjectStore];
+    RKEntityMapping* publisherMapping = [RKEntityMapping mappingForEntityForName:@"Publisher" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
     [publisherMapping addAttributeMappingsFromDictionary:@{ @"id"          : @"publisherID",
                                                             @"issue_count" : @"issueCount",
                                                             @"name"        : @"name",
@@ -99,7 +80,7 @@ static LBXMap *map;
 
 - (RKEntityMapping *)issueMapping
 {
-    RKEntityMapping* issueMapping = [RKEntityMapping mappingForEntityForName:@"Issue" inManagedObjectStore:self.managedObjectStore];
+    RKEntityMapping* issueMapping = [RKEntityMapping mappingForEntityForName:@"Issue" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
     [issueMapping addAttributeMappingsFromDictionary:@{ @"complete_title" : @"completeTitle",
                                                         @"cover_image"    : @"coverImage",
                                                         @"description"    : @"issueDescription",

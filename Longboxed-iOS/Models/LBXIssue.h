@@ -14,7 +14,7 @@
 @interface LBXIssue : NSManagedObject
 
 @property (nonatomic, retain) NSString *completeTitle;
-@property (nonatomic, retain) NSURL *coverImage;
+@property (nonatomic, retain) NSString *coverImage;
 @property (nonatomic, retain) NSString *issueDescription;
 @property (nonatomic, retain) NSString *diamondID;
 @property (nonatomic, retain) NSNumber *issueID;

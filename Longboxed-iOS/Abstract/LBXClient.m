@@ -41,36 +41,47 @@
 {
     
     // Set up the routers with NSString names and parameters
-    LBXRouter *router = [LBXRouter new];
-    RKRouter *APIRouter = [router routerWithQueryParameters:parameters];
-
-    // Set up the object mapping and response descriptors
-    NSArray *responseDescriptors = [LBXDescriptors GETResponseDescriptors];
+//    LBXRouter *router = [LBXRouter new];
+//    RKRouter *APIRouter = [router routerWithQueryParameters:parameters];
+//
+//    // Set up the object mapping and response descriptors
+//    NSArray *responseDescriptors = [LBXDescriptors GETResponseDescriptors];
+//    
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[APIRouter URLForRouteNamed:routeName method:nil object:object]];
+//
+//    // Auth
+//    if (credentials) {
+//        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+//        NSString *authStr = [NSString stringWithFormat:@"%@:%@", store[@"username"], store[@"password"]];
+//        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+//        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
+//        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+//    }
+//    
+//    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:responseDescriptors];
+//    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+//        if (completion) {
+//            completion(mappingResult, operation, nil);
+//        }
+//    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+//        RKLogError(@"Operation failed with error: %@", error);
+//        if (completion) {
+//            completion(nil, operation, error);
+//        }
+//    }];
+//    
+//    [objectRequestOperation start];
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[APIRouter URLForRouteNamed:routeName method:nil object:object]];
-
-    // Auth
-    if (credentials) {
-        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", store[@"username"], store[@"password"]];
-        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    }
+    NSDictionary *endpointDict = [LBXEndpoints endpoints];
     
-    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:responseDescriptors];
-    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    [RKObjectManager.sharedManager getObjectsAtPath:endpointDict[@"Issues Collection for Current Week"] parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult)
+    {
         if (completion) {
             completion(mappingResult, operation, nil);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        RKLogError(@"Operation failed with error: %@", error);
-        if (completion) {
-            completion(nil, operation, error);
-        }
+        NSLog(@"failure");
     }];
-    
-    [objectRequestOperation start];
 }
 
 // Using AFNetworking for the POST and DELETE requests
@@ -176,7 +187,7 @@
     }];
 }
 
-- (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+- (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation *, NSError*))completion {
     [self GETWithRouteName:@"Issues Collection for Current Week" object:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];

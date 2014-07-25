@@ -8,7 +8,7 @@
     <entity name="Issue" representedClassName="LBXIssue" syncable="YES">
         <attribute name="completeTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="coverImage" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="diamondID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="diamondID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="issueDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="issueID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="issueNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -41,10 +41,10 @@
         <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="User" positionX="-63" positionY="-18" width="128" height="120"/>
-        <element name="Issue" positionX="-54" positionY="27" width="128" height="193"/>
+        <element name="Bundle" positionX="0" positionY="117" width="128" height="88"/>
+        <element name="Issue" positionX="-54" positionY="27" width="128" height="195"/>
         <element name="Publisher" positionX="-36" positionY="99" width="128" height="133"/>
         <element name="Title" positionX="-18" positionY="108" width="128" height="133"/>
-        <element name="Bundle" positionX="0" positionY="117" width="128" height="88"/>
+        <element name="User" positionX="-63" positionY="-18" width="128" height="120"/>
     </elements>
 </model>

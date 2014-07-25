@@ -8,12 +8,16 @@
 
 #import <RestKit/CoreData.h>
 #import <RestKit/RestKit.h>
+#import <UICKeyChainStore.h>
+
+#import "NSData+Base64.h"
 
 #import "LBXAppDelegate.h"
 #import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
 #import "LBXRouter.h"
 #import "LBXMap.h"
+#import "LBXDescriptors.h"
 
 #import "HockeySDK.h"
 
@@ -21,46 +25,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    RKLogConfigureByName("RestKit/ObjectMapping*", RKLogLevelTrace);
-    // Initialize RestKit
-    LBXRouter *router = [LBXRouter new];
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:router.baseURLString]];
-    NSURL * modelURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"LBXCoreData" ofType:@"momd"]];
-    NSManagedObjectModel *managedObjectModel = [[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL] mutableCopy];
-    
-    [LBXMap map].managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
-    objectManager.managedObjectStore = [LBXMap map].managedObjectStore;
-    
-    [[LBXMap map].managedObjectStore createPersistentStoreCoordinator];
-    NSError *error;
-    
-    BOOL success = RKEnsureDirectoryExistsAtPath(RKApplicationDataDirectory(), &error);
-    if (! success) {
-        RKLogError(@"Failed to create Application Data Directory at path '%@': %@", RKApplicationDataDirectory(), error);
-    }
-    NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentPath = [searchPaths objectAtIndex:0];
-    NSPersistentStore *persistentStore = [[LBXMap map].managedObjectStore addSQLitePersistentStoreAtPath:[NSString stringWithFormat:@"%@/CoreData.sqlite", documentPath] fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
-    RKLogError(@"%@", documentPath);
-    if (!persistentStore) {
-        RKLogError(@"Failed adding persistent store at path '%@': %@", documentPath, error);
-    }
-    [[LBXMap map].managedObjectStore createManagedObjectContexts];
-    [LBXMap map].managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:[LBXMap map].managedObjectStore.persistentStoreManagedObjectContext];
-    
-//    [managedObjectStore createPersistentStoreCoordinator];
-//    NSString *storePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"RKTwitter.sqlite"];
-//    NSString *seedPath = [[NSBundle mainBundle] pathForResource:@"RKSeedDatabase" ofType:@"sqlite"];
-//    NSError *error;
-//    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:storePath fromSeedDatabaseAtPath:seedPath withConfiguration:nil options:nil error:&error];
-//    NSAssert(persistentStore, @"Failed to add persistent store with error: %@", error);
-//    
-//    // Create the managed object contexts
-//    [managedObjectStore createManagedObjectContexts];
-//    
-//    // Configure a managed object cache to ensure we do not create duplicate objects
-//    managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];
-//    
+    [self setupRestKit];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -109,6 +74,57 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)setupRestKit {
+    RKLogConfigureByName("RestKit/ObjectMapping*", RKLogLevelTrace);
+    // Initialize RestKit
+    LBXRouter *router = [LBXRouter new];
+    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:router.baseURLString]];
+    
+    // Auth
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", store[@"username"], store[@"password"]];
+    NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
+    [[manager HTTPClient] setDefaultHeader:@"Authorization" value:authValue];
+    
+    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
+    manager.managedObjectStore = managedObjectStore;
+    
+    RKObjectMapping *errorMapping = [RKObjectMapping mappingForClass:[RKErrorMessage class]];
+    
+    [errorMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"errorMessage"]];
+    
+    RKResponseDescriptor *errorDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:errorMapping
+                                                                                         method:RKRequestMethodAny
+                                                                                    pathPattern:nil
+                                                                                        keyPath:@"error"
+                                                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassClientError)];
+    
+    [manager addResponseDescriptorsFromArray:@[errorDescriptor]];
+    [manager addResponseDescriptorsFromArray:[LBXDescriptors GETResponseDescriptors]];
+    
+    /**
+     Complete Core Data stack initialization
+     */
+    [managedObjectStore createPersistentStoreCoordinator];
+    
+    NSString *storePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"CoreData.sqlite"];
+    
+    NSError *error;
+    
+    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:storePath fromSeedDatabaseAtPath:nil  withConfiguration:nil options:@{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES} error:&error];
+    
+    NSAssert(persistentStore, @"Failed to add persistent store with error: %@", error);
+    
+    // Create the managed object contexts
+    [managedObjectStore createManagedObjectContexts];
+    
+    // Configure a managed object cache to ensure we do not create duplicate objects
+    managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];
+
 }
 
 @end

@@ -20,6 +20,4 @@
 - (RKEntityMapping *)issueMapping;
 - (RKEntityMapping *)paginationMapping;
 
-+ (LBXMap *)map;
-
 @end
