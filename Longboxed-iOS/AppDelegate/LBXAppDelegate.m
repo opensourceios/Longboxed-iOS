@@ -12,8 +12,9 @@
 #import "LBXAppDelegate.h"
 #import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
-#import "LBXRouter.h"
+#import "LBXClient.h"
 #import "LBXMap.h"
+#import "LBXEndpoints.h"
 #import "LBXDescriptors.h"
 
 #import "HockeySDK.h"
@@ -78,11 +79,10 @@
     RKLogConfigureByName("RestKit/CoreData", RKLogLevelDebug);
     
     // Initialize RestKit
-    LBXRouter *router = [LBXRouter new];
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:router.baseURLString]];
+    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:[LBXEndpoints baseURLString]]];
     
     // Auth
-    [router setAuth];
+    [LBXClient setAuth];
     
     NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
     RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];

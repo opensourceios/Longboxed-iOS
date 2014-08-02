@@ -45,6 +45,7 @@
                                                        }];
     [userMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"roles"]];
     userMapping.identificationAttributes = @[ @"userID" ];
+    
     return userMapping;
 }
 
@@ -62,7 +63,7 @@
                                                                                  toKeyPath:@"publisher"
                                                                                withMapping:publisherMapping]];
     titleMapping.identificationAttributes = @[ @"titleID" ];
-    //[titleMapping addConnectionForRelationship:@"publisher" connectedBy:@{@"publisherID": @"publisher.publisherID"}];
+    
     return titleMapping;
 }
 
@@ -75,6 +76,7 @@
                                                             @"title_count" : @"titleCount"
                                                             }];
     publisherMapping.identificationAttributes = @[ @"publisherID" ];
+    
     return publisherMapping;
 }
 
@@ -102,8 +104,7 @@
                                                                                  toKeyPath:@"title"
                                                                                withMapping:titleMapping]];
     issueMapping.identificationAttributes = @[ @"issueID" ];
-//    [issueMapping addConnectionForRelationship:@"publisher" connectedBy:@{@"publisherID": @"publisherID"}];
-//    [issueMapping addConnectionForRelationship:@"title" connectedBy:@{@"titleID": @"titleID"}];
+    
     return issueMapping;
 }
 

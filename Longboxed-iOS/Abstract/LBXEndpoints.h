@@ -10,6 +10,8 @@
 
 @interface LBXEndpoints : NSObject
 
++ (NSString *)baseURLString;
+
 // Dictionary with all the endpoints and the respective titles from
 // http://docs.longboxed.apiary.io
 + (NSDictionary *)endpoints;

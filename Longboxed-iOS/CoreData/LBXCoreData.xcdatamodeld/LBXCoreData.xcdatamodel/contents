@@ -4,6 +4,7 @@
         <attribute name="bundleID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="releaseDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="issues" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Issue" syncable="YES"/>
     </entity>
     <entity name="Issue" representedClassName="LBXIssue" syncable="YES">
         <attribute name="completeTitle" optional="YES" attributeType="String" syncable="YES"/>
@@ -41,7 +42,7 @@
         <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Bundle" positionX="70" positionY="-126" width="128" height="88"/>
+        <element name="Bundle" positionX="70" positionY="-126" width="128" height="105"/>
         <element name="Issue" positionX="-198" positionY="32" width="128" height="193"/>
         <element name="Publisher" positionX="295" positionY="-70" width="128" height="133"/>
         <element name="Title" positionX="54" positionY="137" width="128" height="133"/>

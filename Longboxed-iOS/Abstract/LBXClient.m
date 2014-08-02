@@ -28,11 +28,20 @@
 
 @implementation LBXClient
 
-- (instancetype)init {
-    if (self = [super init]) {
-        _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    }
-    return self;
+//- (instancetype)init {
+//    if (self = [super init]) {
+//        _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+//    }
+//    return self;
+//}
+
++ (void)setAuth
+{
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", store[@"username"], store[@"password"]];
+    NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
+    [[[RKObjectManager sharedManager] HTTPClient] setDefaultHeader:@"Authorization" value:authValue];
 }
 
 - (void)GETWithRouteName:(NSString *)routeName
@@ -41,43 +50,9 @@
              credentials:(BOOL)credentials
               completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion
 {
-    
-    // Set up the routers with NSString names and parameters
-//    LBXRouter *router = [LBXRouter new];
-//    RKRouter *APIRouter = [router routerWithQueryParameters:parameters];
-//
-//    // Set up the object mapping and response descriptors
-//    NSArray *responseDescriptors = [LBXDescriptors GETResponseDescriptors];
-//    
-//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[APIRouter URLForRouteNamed:routeName method:nil object:object]];
-//
-//    // Auth
-//    if (credentials) {
-//        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-//        NSString *authStr = [NSString stringWithFormat:@"%@:%@", store[@"username"], store[@"password"]];
-//        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
-//        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
-//        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-//    }
-//    
-//    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:responseDescriptors];
-//    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-//        if (completion) {
-//            completion(mappingResult, operation, nil);
-//        }
-//    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-//        RKLogError(@"Operation failed with error: %@", error);
-//        if (completion) {
-//            completion(nil, operation, error);
-//        }
-//    }];
-//    
-//    [objectRequestOperation start];
-    
     if (credentials) {
         // Set the shared manager auth
-        LBXRouter *router = [LBXRouter new];
-        [router setAuth];
+        [LBXClient setAuth];
     }
     
     NSDictionary *endpointDict = [LBXEndpoints endpoints];
@@ -181,8 +156,7 @@
 - (AFHTTPClient *)setupAFNetworkingRouter
 {
     // Prepare the request
-    LBXRouter *router = [LBXRouter new];
-    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:router.baseURLString]];
+    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:[LBXEndpoints baseURLString]]];
     [client setParameterEncoding:AFJSONParameterEncoding];
     [client setDefaultHeader:@"Accept" value:@"application/json"];
     
@@ -288,21 +262,32 @@
 // Users
 - (void)fetchLogInWithCompletion:(void (^)(LBXUser*, RKObjectRequestOperation*, NSError*))completion {
     [self GETWithRouteName:@"Login" objectDictParams:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        // Store the user ID
+        LBXUser *user = mappingResult.firstObject;
+        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+        
+        [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
+        [store synchronize];
 
         completion(mappingResult.firstObject, response, error);
     }];
 }
 
 - (void)fetchPullListWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    // Create a user with the id to put in the URL path
-//    LBXUser *user = [LBXUser new];
-//    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-//    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-//    [f setNumberStyle:NSNumberFormatterDecimalStyle];
-//    user.userID = [f numberFromString:store[@"id"]];
     
+    // Fetch the user's ID from core data
+//    NSManagedObjectContext* context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+//    NSError *error = nil;
+//    NSEntityDescription *entityDescription = [NSEntityDescription
+//                                              entityForName:@"User" inManagedObjectContext: context];
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    [request setEntity:entityDescription];
+//    NSArray *dtContents = [context executeFetchRequest:request error:&error];
+//    LBXUser *user = dtContents.firstObject;
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
     NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"userID", @"1",
+                        @"userID", store[@"id"],
                         nil];
    
     [self GETWithRouteName:@"User Pull List" objectDictParams:params queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
@@ -338,29 +323,27 @@
 }
 
 - (void)fetchBundleResourcesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    // Create a user with the id to put in the URL path
-//    LBXUser *user = [LBXUser new];
-//    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-//    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-//    [f setNumberStyle:NSNumberFormatterDecimalStyle];
-//    user.userID = [f numberFromString:store[@"id"]];
-//    
-//    [self GETWithRouteName:@"Bundle Resources for User" objectDictParams:user queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-//        completion(mappingResult.array, response, error);
-//    }];
+
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
+                        @"userID", store[@"id"],
+                        nil];
+    
+    [self GETWithRouteName:@"Bundle Resources for User" objectDictParams:params queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
 }
 
 - (void)fetchLatestBundleWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    // Create a user with the id to put in the URL path
-//    LBXUser *user = [LBXUser new];
-//    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-//    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-//    [f setNumberStyle:NSNumberFormatterDecimalStyle];
-//    user.userID = [f numberFromString:store[@"id"]];
-//    
-//    [self GETWithRouteName:@"Latest Bundle" objectDictParams:user queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-//        completion(mappingResult.firstObject, response, error);
-//    }];
+
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
+                        @"userID", store[@"id"],
+                        nil];
+    
+    [self GETWithRouteName:@"Latest Bundle" objectDictParams:params queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
 }
 
 // http://oleb.net/blog/2009/09/managing-the-network-activity-indicator/

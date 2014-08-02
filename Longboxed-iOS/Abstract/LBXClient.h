@@ -17,6 +17,8 @@
 
 @interface LBXClient : NSObject
 
++ (void)setAuth;
+
 // Issues
 - (void)fetchIssuesCollectionWithDate:(NSDate *)date page:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
 - (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation *, NSError*))completion;

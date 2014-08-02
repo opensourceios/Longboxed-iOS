@@ -10,6 +10,11 @@
 
 @implementation LBXEndpoints
 
++ (NSString *)baseURLString
+{
+    return @"http://longboxed-staging.herokuapp.com";
+}
+
 + (NSDictionary *)endpoints
 {
   return  @{@"Issues Collection"                  : @"/api/v1/issues/",
