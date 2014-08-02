@@ -13,7 +13,7 @@
 @interface LBXBundle : NSManagedObject
 
 @property (nonatomic, retain) NSNumber *bundleID;
-@property (nonatomic, retain) NSArray *issues;
+@property (nonatomic, retain) NSSet *issues;
 @property (nonatomic, retain) NSDate *lastUpdatedDate;
 @property (nonatomic, retain) NSDate *releaseDate;
 

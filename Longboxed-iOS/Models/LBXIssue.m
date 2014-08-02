@@ -26,5 +26,4 @@
     return [NSString stringWithFormat:@"\n\nComplete Title: %@\n\nID: %@\n\nPublisher: %@\n\nDescription: %@\n\nRelease Date: %@\n\n", self.completeTitle, self.issueID, self.publisher.name, self.issueDescription, self.releaseDate];
 }
 
-
 @end

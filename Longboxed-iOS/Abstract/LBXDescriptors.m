@@ -31,7 +31,7 @@
     // Issues
     RKResponseDescriptor *issuesCollectionResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Issues Collection"]
                                                 keyPath:@"issues"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -44,14 +44,14 @@
     
     RKResponseDescriptor *issuesCollectionForCurrentWeekResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Issues Collection for Current Week"]
                                                 keyPath:@"issues"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     RKResponseDescriptor *popularIssuesCurrentWeekResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Popular Issues for Current Week"]
                                                 keyPath:@"issues"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -59,7 +59,7 @@
     
     RKResponseDescriptor *issueResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Issue"]
                                                 keyPath:@"issue"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -67,7 +67,7 @@
     // Titles
     RKResponseDescriptor *titlesCollectionResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Titles Collection"]
                                                 keyPath:@"titles"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -80,14 +80,14 @@
     
     RKResponseDescriptor *titleResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Title"]
                                                 keyPath:@"title"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     RKResponseDescriptor *issuesForTitleResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Issues for Title"]
                                                 keyPath:@"issues"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -100,7 +100,7 @@
     
     RKResponseDescriptor *autocompleteForTitlesResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Autocomplete for Title"]
                                                 keyPath:@"suggestions"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -108,7 +108,7 @@
     // Publishers
     RKResponseDescriptor *publisherCollectionResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:publisherMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Publisher Collection"]
                                                 keyPath:@"publishers"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -121,14 +121,14 @@
     
     RKResponseDescriptor *publisherResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:publisherMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Publisher"]
                                                 keyPath:@"publisher"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     RKResponseDescriptor *titlesForPublisherResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
-                                                 method:RKRequestMethodAny
+                                                 method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Titles for Publisher"]
                                                 keyPath:@"titles"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];

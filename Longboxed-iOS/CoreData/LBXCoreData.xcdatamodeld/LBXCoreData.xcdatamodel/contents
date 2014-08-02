@@ -31,7 +31,7 @@
         <attribute name="subscribers" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="titleID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="issue" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Issue" inverseName="title" inverseEntity="Issue" syncable="YES"/>
-        <relationship name="publisher" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Publisher" inverseName="title" inverseEntity="Publisher" syncable="YES"/>
+        <relationship name="publisher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Publisher" inverseName="title" inverseEntity="Publisher" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="LBXUser" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
@@ -41,10 +41,10 @@
         <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Bundle" positionX="0" positionY="117" width="128" height="88"/>
-        <element name="Issue" positionX="-54" positionY="27" width="128" height="193"/>
-        <element name="Publisher" positionX="-36" positionY="99" width="128" height="135"/>
-        <element name="Title" positionX="-18" positionY="108" width="128" height="133"/>
-        <element name="User" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="Bundle" positionX="70" positionY="-126" width="128" height="88"/>
+        <element name="Issue" positionX="-198" positionY="32" width="128" height="193"/>
+        <element name="Publisher" positionX="295" positionY="-70" width="128" height="133"/>
+        <element name="Title" positionX="54" positionY="137" width="128" height="133"/>
+        <element name="User" positionX="-126" positionY="-135" width="128" height="120"/>
     </elements>
 </model>

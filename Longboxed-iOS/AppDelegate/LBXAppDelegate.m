@@ -8,9 +8,6 @@
 
 #import <RestKit/CoreData.h>
 #import <RestKit/RestKit.h>
-#import <UICKeyChainStore.h>
-
-#import "NSData+Base64.h"
 
 #import "LBXAppDelegate.h"
 #import "LBXHomeViewController.h"
@@ -77,17 +74,15 @@
 }
 
 - (void)setupRestKit {
-    RKLogConfigureByName("RestKit/ObjectMapping*", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit*", RKLogLevelDebug); // set all RestKit logs to warning (leaving the app-specific log untouched).
+    RKLogConfigureByName("RestKit/CoreData", RKLogLevelDebug);
+    
     // Initialize RestKit
     LBXRouter *router = [LBXRouter new];
     RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:router.baseURLString]];
     
     // Auth
-    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", store[@"username"], store[@"password"]];
-    NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
-    [[manager HTTPClient] setDefaultHeader:@"Authorization" value:authValue];
+    [router setAuth];
     
     NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
     RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
@@ -111,7 +106,7 @@
      */
     [managedObjectStore createPersistentStoreCoordinator];
     
-    NSString *storePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"CoreData.sqlite"];
+    NSString *storePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"Longboxed-iOS.sqlite"];
     
     NSError *error;
     

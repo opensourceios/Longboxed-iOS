@@ -13,6 +13,8 @@
 
 @property (nonatomic, copy) NSString *baseURLString;
 
-- (RKRouter *)routerWithQueryParameters:(NSDictionary *)parameters;
+//- (RKRouter *)routerWithQueryParameters:(NSDictionary *)parameters;
+- (void)setAuth;
+
 
 @end

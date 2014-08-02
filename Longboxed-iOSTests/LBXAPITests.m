@@ -88,7 +88,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testIssueEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchIssue:[NSNumber numberWithInt:20] withCompletion:^(LBXIssue *issueObject, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchIssue:[NSNumber numberWithInt:400] withCompletion:^(LBXIssue *issueObject, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issue endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotNil(issueObject, @"Issue JSON is returning %@", issueObject);
             *done = YES;
@@ -100,10 +100,10 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 ///////////////
 // Titles Tests
 ///////////////
-- (void)testTitleEndpoint
+- (void)testTitleCollectionEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchTitlesWithCompletion:^(NSArray *titlesArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchTitleCollectionWithCompletion:^(NSArray *titlesArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Title endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotEqual(titlesArray.count, 0, @"Titles JSON is returning nil");
             *done = YES;
