@@ -12,7 +12,13 @@
 
 + (NSString *)baseURLString
 {
-    return @"http://longboxed-staging.herokuapp.com";
+    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.longboxed.Longboxed-iOSAlpha"]) {
+        return @"http://longboxed-staging.herokuapp.com";
+    }
+    else {
+        return @"http://www.longboxed.com";
+    }
+    
 }
 
 + (NSDictionary *)endpoints
