@@ -43,7 +43,6 @@
 		E54A6AF9196B9E8B0094979A /* LBXBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF8196B9E8B0094979A /* LBXBundle.m */; };
 		E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AFB196BA45F0094979A /* LBXMap.m */; };
 		E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AFE196BA5D70094979A /* LBXEndpoints.m */; };
-		E54A6B02196BA6930094979A /* LBXRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6B01196BA6930094979A /* LBXRouter.m */; };
 		E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6B04196BA7CF0094979A /* LBXDescriptors.m */; };
 		E555D38A19624DEC003B97C0 /* LBXPullList.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38919624DEC003B97C0 /* LBXPullList.m */; };
 		E555D38F196359D1003B97C0 /* LBXAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38E196359D1003B97C0 /* LBXAPITests.m */; };
@@ -185,8 +184,6 @@
 		E54A6AFB196BA45F0094979A /* LBXMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXMap.m; path = Abstract/LBXMap.m; sourceTree = "<group>"; };
 		E54A6AFD196BA5D70094979A /* LBXEndpoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXEndpoints.h; path = Abstract/LBXEndpoints.h; sourceTree = "<group>"; };
 		E54A6AFE196BA5D70094979A /* LBXEndpoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXEndpoints.m; path = Abstract/LBXEndpoints.m; sourceTree = "<group>"; };
-		E54A6B00196BA6930094979A /* LBXRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXRouter.h; path = Abstract/LBXRouter.h; sourceTree = "<group>"; };
-		E54A6B01196BA6930094979A /* LBXRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXRouter.m; path = Abstract/LBXRouter.m; sourceTree = "<group>"; };
 		E54A6B03196BA7CF0094979A /* LBXDescriptors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDescriptors.h; path = Abstract/LBXDescriptors.h; sourceTree = "<group>"; };
 		E54A6B04196BA7CF0094979A /* LBXDescriptors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDescriptors.m; path = Abstract/LBXDescriptors.m; sourceTree = "<group>"; };
 		E555D38819624DEC003B97C0 /* LBXPullList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullList.h; path = Models/LBXPullList.h; sourceTree = "<group>"; };
@@ -553,8 +550,6 @@
 			children = (
 				E54A6AFD196BA5D70094979A /* LBXEndpoints.h */,
 				E54A6AFE196BA5D70094979A /* LBXEndpoints.m */,
-				E54A6B00196BA6930094979A /* LBXRouter.h */,
-				E54A6B01196BA6930094979A /* LBXRouter.m */,
 				E54A6AFA196BA45F0094979A /* LBXMap.h */,
 				E54A6AFB196BA45F0094979A /* LBXMap.m */,
 				E54A6B03196BA7CF0094979A /* LBXDescriptors.h */,
@@ -967,7 +962,6 @@
 				E510AFA8198C7B7D004A7225 /* UIButton+NBUAdditions.m in Sources */,
 				E555D38A19624DEC003B97C0 /* LBXPullList.m in Sources */,
 				E510AF96198C7B7D004A7225 /* RKDirectory.m in Sources */,
-				E54A6B02196BA6930094979A /* LBXRouter.m in Sources */,
 				E57D49071960961E0014A13F /* ParallaxLayoutAttributes.m in Sources */,
 				E510AF91198C7B7D004A7225 /* NSData+RKAdditions.m in Sources */,
 				E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */,

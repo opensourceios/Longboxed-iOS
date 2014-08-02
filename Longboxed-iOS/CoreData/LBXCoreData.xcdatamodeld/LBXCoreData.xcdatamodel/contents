@@ -4,7 +4,7 @@
         <attribute name="bundleID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="releaseDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="issues" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Issue" syncable="YES"/>
+        <relationship name="issues" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Issue" inverseName="bundle" inverseEntity="Issue" syncable="YES"/>
     </entity>
     <entity name="Issue" representedClassName="LBXIssue" syncable="YES">
         <attribute name="completeTitle" optional="YES" attributeType="String" syncable="YES"/>
@@ -15,6 +15,7 @@
         <attribute name="issueNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
         <attribute name="releaseDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="bundle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bundle" inverseName="issues" inverseEntity="Bundle" syncable="YES"/>
         <relationship name="publisher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Publisher" inverseName="issue" inverseEntity="Publisher" syncable="YES"/>
         <relationship name="title" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Title" inverseName="issue" inverseEntity="Title" syncable="YES"/>
     </entity>
@@ -43,7 +44,7 @@
     </entity>
     <elements>
         <element name="Bundle" positionX="70" positionY="-126" width="128" height="105"/>
-        <element name="Issue" positionX="-198" positionY="32" width="128" height="193"/>
+        <element name="Issue" positionX="-198" positionY="32" width="128" height="208"/>
         <element name="Publisher" positionX="295" positionY="-70" width="128" height="133"/>
         <element name="Title" positionX="54" positionY="137" width="128" height="133"/>
         <element name="User" positionX="-126" positionY="-135" width="128" height="120"/>

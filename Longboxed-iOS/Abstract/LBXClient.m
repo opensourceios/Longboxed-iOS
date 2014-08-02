@@ -11,7 +11,6 @@
 
 #import "LBXClient.h"
 #import "LBXMap.h"
-#import "LBXRouter.h"
 #import "LBXDescriptors.h"
 #import "LBXEndpoints.h"
 
@@ -27,13 +26,6 @@
 @end
 
 @implementation LBXClient
-
-//- (instancetype)init {
-//    if (self = [super init]) {
-//        _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-//    }
-//    return self;
-//}
 
 + (void)setAuth
 {
