@@ -28,9 +28,7 @@
 		E510AFAB198C7B7D004A7225 /* UINavigationController+NBUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEF3198C7B7D004A7225 /* UINavigationController+NBUAdditions.m */; };
 		E510AFAC198C7B7D004A7225 /* UIResponder+NBUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEF5198C7B7D004A7225 /* UIResponder+NBUAdditions.m */; };
 		E510AFAD198C7B7D004A7225 /* UIScrollView+NBUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEF7198C7B7D004A7225 /* UIScrollView+NBUAdditions.m */; };
-		E510AFAE198C7B7D004A7225 /* UITabBarController+NBUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEF9198C7B7D004A7225 /* UITabBarController+NBUAdditions.m */; };
 		E510AFAF198C7B7D004A7225 /* UIView+NBUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEFB198C7B7D004A7225 /* UIView+NBUAdditions.m */; };
-		E510AFB0198C7B7D004A7225 /* UIViewController+NBUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEFD198C7B7D004A7225 /* UIViewController+NBUAdditions.m */; };
 		E510AFB1198C7B7D004A7225 /* UIWebView+NBUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEFF198C7B7D004A7225 /* UIWebView+NBUAdditions.m */; };
 		E510AFB2198C7B7D004A7225 /* NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF01198C7B7D004A7225 /* NBUKit.m */; };
 		E510AFB3198C7B7D004A7225 /* NBULog+NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF04198C7B7D004A7225 /* NBULog+NBUKit.m */; };
@@ -152,12 +150,8 @@
 		E510AEF5198C7B7D004A7225 /* UIResponder+NBUAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIResponder+NBUAdditions.m"; sourceTree = "<group>"; };
 		E510AEF6198C7B7D004A7225 /* UIScrollView+NBUAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+NBUAdditions.h"; sourceTree = "<group>"; };
 		E510AEF7198C7B7D004A7225 /* UIScrollView+NBUAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+NBUAdditions.m"; sourceTree = "<group>"; };
-		E510AEF8198C7B7D004A7225 /* UITabBarController+NBUAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+NBUAdditions.h"; sourceTree = "<group>"; };
-		E510AEF9198C7B7D004A7225 /* UITabBarController+NBUAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+NBUAdditions.m"; sourceTree = "<group>"; };
 		E510AEFA198C7B7D004A7225 /* UIView+NBUAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+NBUAdditions.h"; sourceTree = "<group>"; };
 		E510AEFB198C7B7D004A7225 /* UIView+NBUAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NBUAdditions.m"; sourceTree = "<group>"; };
-		E510AEFC198C7B7D004A7225 /* UIViewController+NBUAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+NBUAdditions.h"; sourceTree = "<group>"; };
-		E510AEFD198C7B7D004A7225 /* UIViewController+NBUAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+NBUAdditions.m"; sourceTree = "<group>"; };
 		E510AEFE198C7B7D004A7225 /* UIWebView+NBUAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+NBUAdditions.h"; sourceTree = "<group>"; };
 		E510AEFF198C7B7D004A7225 /* UIWebView+NBUAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+NBUAdditions.m"; sourceTree = "<group>"; };
 		E510AF00198C7B7D004A7225 /* NBUKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBUKit.h; sourceTree = "<group>"; };
@@ -386,12 +380,8 @@
 				E510AEF5198C7B7D004A7225 /* UIResponder+NBUAdditions.m */,
 				E510AEF6198C7B7D004A7225 /* UIScrollView+NBUAdditions.h */,
 				E510AEF7198C7B7D004A7225 /* UIScrollView+NBUAdditions.m */,
-				E510AEF8198C7B7D004A7225 /* UITabBarController+NBUAdditions.h */,
-				E510AEF9198C7B7D004A7225 /* UITabBarController+NBUAdditions.m */,
 				E510AEFA198C7B7D004A7225 /* UIView+NBUAdditions.h */,
 				E510AEFB198C7B7D004A7225 /* UIView+NBUAdditions.m */,
-				E510AEFC198C7B7D004A7225 /* UIViewController+NBUAdditions.h */,
-				E510AEFD198C7B7D004A7225 /* UIViewController+NBUAdditions.m */,
 				E510AEFE198C7B7D004A7225 /* UIWebView+NBUAdditions.h */,
 				E510AEFF198C7B7D004A7225 /* UIWebView+NBUAdditions.m */,
 			);
@@ -939,7 +929,6 @@
 				E510AFAB198C7B7D004A7225 /* UINavigationController+NBUAdditions.m in Sources */,
 				E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */,
 				E5F18724196382BA006C4C26 /* LBXHomeViewController.m in Sources */,
-				E510AFAE198C7B7D004A7225 /* UITabBarController+NBUAdditions.m in Sources */,
 				E57D497919611C8E0014A13F /* SVWebViewControllerActivityChrome.m in Sources */,
 				E57D49121960A2180014A13F /* LBXClient.m in Sources */,
 				E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */,
@@ -966,7 +955,6 @@
 				E510AF91198C7B7D004A7225 /* NSData+RKAdditions.m in Sources */,
 				E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */,
 				E57D4952196118950014A13F /* RECommonFunctions.m in Sources */,
-				E510AFB0198C7B7D004A7225 /* UIViewController+NBUAdditions.m in Sources */,
 				E57D498219611C950014A13F /* SVWebViewControllerActivitySafari.m in Sources */,
 				E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */,
 				E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */,
