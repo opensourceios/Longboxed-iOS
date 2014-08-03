@@ -154,6 +154,24 @@ CGFloat cellWidth;
     textView.text = string;
 }
 
+- (void)refresh
+{
+    _client = [LBXClient new];
+    
+    // Fetch this weeks comics
+    [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        _pullListArray = [LBXTitle MR_findAllSortedBy:@"name" ascending:YES];
+    
+        tableViewRows = _pullListArray.count;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+            [_refreshControl endRefreshing];
+        });
+    }];
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -304,23 +322,6 @@ CGFloat cellWidth;
     
     
     return cell;
-}
-
-- (void)refresh
-{
-    _client = [LBXClient new];
-    
-    // Fetch this weeks comics
-    [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        
-        _pullListArray = pullListArray;
-        tableViewRows = _pullListArray.count;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.collectionView reloadData];
-            [_refreshControl endRefreshing];
-        });
-    }];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

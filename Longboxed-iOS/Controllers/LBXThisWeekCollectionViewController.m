@@ -156,6 +156,37 @@ CGFloat cellWidth;
     textView.text = string;
 }
 
+- (void)refresh
+{
+    _client = [LBXClient new];
+    
+    // Fetch this weeks comics
+    [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        // Get the date for this Tuesday (since comics are released on Wednesday)
+        NSDate *referenceDate = [NSDate date];
+        NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *mincomp = [cal components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:referenceDate];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"e"];
+        while ([[formatter stringFromDate:[cal dateFromComponents:mincomp]] intValue] != 3)
+            mincomp.day += 1;
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        // Use that date to fetch from Core Data all issues with a release date after
+        // this Tuesday (i.e., this Wednesday)
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", [cal dateFromComponents:mincomp]];
+        _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+        
+        tableViewRows = _thisWeeksComicsArray.count;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+            [_refreshControl endRefreshing];
+        });
+    }];
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -305,23 +336,6 @@ CGFloat cellWidth;
     
     
     return cell;
-}
-
-- (void)refresh
-{
-    _client = [LBXClient new];
-    
-    // Fetch this weeks comics
-    [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        
-        _thisWeeksComicsArray = pullListArray;
-        tableViewRows = _thisWeeksComicsArray.count;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.collectionView reloadData];
-            [_refreshControl endRefreshing];
-        });
-    }];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

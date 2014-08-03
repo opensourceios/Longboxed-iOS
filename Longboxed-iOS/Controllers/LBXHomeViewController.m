@@ -88,20 +88,11 @@ LBXNavigationViewController *navigationController;
 {
     _client = [LBXClient new];
     
-    // Fetch this weeks comics
-    [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        
-        _thisWeeksComicsArray = [[NSArray alloc] initWithArray:pullListArray];
-        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self setupEasyTableViewWithNumCells:_thisWeeksComicsArray.count];
-//        });
-    }];
-    
     if ([UICKeyChainStore keyChainStore][@"id"]) {
         // Fetch the users bundles
         [self.client fetchBundleResourcesWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
 
+            // Get the bundles from Core Data
             _latestBundle = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
             
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -123,40 +114,7 @@ LBXNavigationViewController *navigationController;
     else {
         _bundleCountLabel.text = @"0";
     }
-    
-    // Fetch the user's ID from core data
-//    NSManagedObjectContext* context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
-//    NSError *error = nil;
-//    NSEntityDescription *entityDescription = [NSEntityDescription
-//                                              entityForName:@"User" inManagedObjectContext: context];
-//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-//    [request setEntity:entityDescription];
-//    NSArray *dtContents = [context executeFetchRequest:request error:&error];
-//    LBXUser *user = dtContents.firstObject;
-//
-
-    
 }
-//
-//- (void)persistNewBundleWithBundleID:(NSNumber *)bundleID
-//                              issues:(NSNumber *)issues
-//                     lastUpdatedDate:(NSDate *)lastUpdatedDate
-//                         releaseDate:(NSDate *)releaseDate
-//{
-//
-//    // Get the local context
-//    NSManagedObjectContext *localContext    = [NSManagedObjectContext MR_contextForCurrentThread];
-//    
-//    // Create a new Person in the current thread context
-//    Person *person                          = [Person MR_createInContext:localContext];
-//    person.firstname                        = firstname;
-//    person.lastname                         = lastname;
-//    person.age                              = age;
-//    
-//    // Save the modification in the local context
-//    // With MagicalRecords 2.0.8 or newer you should use the MR_saveNestedContexts
-//    [localContext MR_save];
-//}
 
 #pragma mark EasyTableView Initialization
 
