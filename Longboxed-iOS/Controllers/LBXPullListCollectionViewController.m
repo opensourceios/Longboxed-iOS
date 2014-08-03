@@ -21,6 +21,7 @@
 
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) UISearchDisplayController *searchBarController;
 
 @property (nonatomic) NSArray *pullListArray;
 @property (nonatomic) LBXClient *client;
@@ -54,6 +55,10 @@ CGFloat cellWidth;
     if (self == nil) {
         return nil;
     }
+    
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(search)];
+    self.navigationItem.leftBarButtonItem = actionButton;
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 
     return self;
 }
@@ -195,9 +200,6 @@ CGFloat cellWidth;
     static NSString *cellIdentifier = @"PhotoCell";
     __weak ParallaxPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    // grab bound for contentView
-    CGRect contentViewBound = cell.comicImageView.bounds;
-    
     LBXPullListTitle *title = [_pullListArray objectAtIndex:indexPath.row];
     
     NSString *titleString = title.name;
@@ -210,115 +212,23 @@ CGFloat cellWidth;
         subscriberString = @"";
     }
     
-    // If an image exists, fetch it. Else use the generated UIImage
-    if (1==2) {
-        
-        NSString *urlString = nil;
-        
-        // Show the network activity icon
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-        
-        cell.comicTitleLabel.text = nil;
-        cell.comicPublisherLabel.text = nil;
-        cell.comicIssueLabel.text = nil;
-        
-        [cell.activityIndicator startAnimating];
-        
-        // Get the image from the URL and set it
-        [cell.comicImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]] placeholderImage:[UIImage imageNamed:@"black"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-            
-            [cell.activityIndicator stopAnimating];
-            
-            // Darken the image
-            UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.height*2)];
-            [overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
-            NSArray *viewsToRemove = [cell.comicImageView subviews];
-            for (UIView *v in viewsToRemove) [v removeFromSuperview];
-            [cell.comicImageView addSubview:overlay];
-            
-            // Hide the network activity icon
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-            
-            if (request) {
-                
-                // Hide the network activity icon
-                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-                
-                [UIView transitionWithView:cell.comicImageView
-                                  duration:0.5f
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{[cell.comicImageView setImage:image];}
-                                completion:NULL];
-                
-                [UIView transitionWithView:cell.comicTitleLabel
-                                  duration:0.5f
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{// Set the image label properties to center it in the cell
-                                    [self setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];}
-                                completion:NULL];
-                
-                [UIView transitionWithView:cell.comicPublisherLabel
-                                  duration:0.5f
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{[cell.comicPublisherLabel setText:publisherString];}
-                                completion:NULL];
-                
-                [UIView transitionWithView:cell.comicIssueLabel
-                                  duration:0.5f
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{[cell.comicIssueLabel setText:subscriberString];}
-                                completion:NULL];
-            }
-            else {
-                // Set the image label properties to center it in the cell
-                [self setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
-                cell.comicImageView.image = image;
-                cell.comicPublisherLabel.text = publisherString;
-                cell.comicIssueLabel.text = subscriberString;
-            }
-            
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            
-            [cell.activityIndicator stopAnimating];
-            
-            // Hide the network activity icon
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-            
-            // Don't show the error for NSURLErrorDomain -999 because that's just a cancelled image request due to scrolling
-            if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-                [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
-                                                               description:@"Check your network connection."
-                                                                      type:TWMessageBarMessageTypeError];
-            }
-        }];
-
-        CGRect imageViewFrame = cell.comicImageView.frame;
-        // change x position
-        imageViewFrame.origin.y = contentViewBound.size.height - imageViewFrame.size.height;
-        // assign the new frame
-        cell.comicImageView.frame = imageViewFrame;
-        cell.comicImageView.contentMode = UIViewContentModeScaleAspectFill;
-    }
+    UIImage *defaultImage = nil;
+    cell.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:0.2];
     
-    else {
-        UIImage *defaultImage = nil;
-        cell.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:0.2];
-        
-        cell.comicPublisherLabel.text = publisherString;
-        cell.comicIssueLabel.text = subscriberString;
-        
-        // Darken the image
-        UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.height*2)];
-        [overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
-        NSArray *viewsToRemove = [cell.comicImageView subviews];
-        for (UIView *v in viewsToRemove) [v removeFromSuperview];
-        [cell.comicImageView addSubview:overlay];
-        
-        cell.comicImageView.image = defaultImage;
-        
-        // Set the image label properties to center it in the cell
-        [self setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
-    }
+    cell.comicPublisherLabel.text = publisherString;
+    cell.comicIssueLabel.text = subscriberString;
+    
+    // Darken the image
+    UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.height*2)];
+    [overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+    NSArray *viewsToRemove = [cell.comicImageView subviews];
+    for (UIView *v in viewsToRemove) [v removeFromSuperview];
+    [cell.comicImageView addSubview:overlay];
+    
+    cell.comicImageView.image = defaultImage;
+    
+    // Set the image label properties to center it in the cell
+    [self setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
 
     
     // Pass the maximum parallax offset to the cell.
