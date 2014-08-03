@@ -268,15 +268,6 @@
 
 - (void)fetchPullListWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
-    // Fetch the user's ID from core data
-//    NSManagedObjectContext* context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
-//    NSError *error = nil;
-//    NSEntityDescription *entityDescription = [NSEntityDescription
-//                                              entityForName:@"User" inManagedObjectContext: context];
-//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-//    [request setEntity:entityDescription];
-//    NSArray *dtContents = [context executeFetchRequest:request error:&error];
-//    LBXUser *user = dtContents.firstObject;
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
     NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
                         @"userID", store[@"id"],

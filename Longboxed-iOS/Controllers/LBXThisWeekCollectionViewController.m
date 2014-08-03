@@ -8,6 +8,7 @@
 
 #import "LBXThisWeekCollectionViewController.h"
 #import "LBXThisWeeksComics.h"
+#import "LBXClient.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
 #import "LBXNavigationViewController.h"
@@ -21,7 +22,8 @@
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
-@property (nonatomic) LBXThisWeeksComics *thisWeeksComics;
+@property (nonatomic) NSArray *thisWeeksComicsArray;
+@property (nonatomic) LBXClient *client;
 
 @end
 
@@ -100,6 +102,8 @@ CGFloat cellWidth;
              forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:_refreshControl];
     
+    _thisWeeksComicsArray = [NSArray new];
+    
     // Refresh the table view
     [self refresh];
 }
@@ -170,23 +174,25 @@ CGFloat cellWidth;
     static NSString *cellIdentifier = @"PhotoCell";
     __weak ParallaxPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
+    LBXIssue *issue = [_thisWeeksComicsArray objectAtIndex:indexPath.row];
+    
     // grab bound for contentView
     CGRect contentViewBound = cell.comicImageView.bounds;
     
-    NSString *titleString = [_thisWeeksComics.titles objectAtIndex:indexPath.row];
-    NSString *publisherString = [_thisWeeksComics.publishers objectAtIndex:indexPath.row];
+    NSString *titleString = issue.title.name;
+    NSString *publisherString = issue.publisher.name;
     NSString *issueString;
-    if (![[NSString stringWithFormat:@"%@", [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row]] isEqualToString:@""]) {
-        issueString = [NSString stringWithFormat:@"#%@", [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row]];
+    if (![[NSString stringWithFormat:@"%@", issue.issueNumber] isEqualToString:@""]) {
+        issueString = [NSString stringWithFormat:@"#%@", issue.issueNumber];
     }
     else {
-        issueString = [_thisWeeksComics.issueNumbers objectAtIndex:indexPath.row];
+        issueString = @"";
     }
     
     // If an image exists, fetch it. Else use the generated UIImage
-    if ([_thisWeeksComics.coverImages objectAtIndex:indexPath.row] != (id)[NSNull null]) {
+    if (issue.coverImage != (id)[NSNull null]) {
         
-        NSString *urlString = [_thisWeeksComics.coverImages objectAtIndex:indexPath.row];
+        NSString *urlString = issue.coverImage;
         
         // Show the network activity icon
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
@@ -304,20 +310,25 @@ CGFloat cellWidth;
 
 - (void)refresh
 {
-//    [[LBXDataStore sharedStore] fetchThisWeeksComics:^(NSArray *response, NSError *error) {
-//        _thisWeeksComics = [[LBXThisWeeksComics alloc] initThisWeeksComicsWithIssues:response];
-//        tableViewRows = _thisWeeksComics.longboxedIDs.count;
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.collectionView reloadData];
-//            [_refreshControl endRefreshing];
-//        });
-//    }];    
+    _client = [LBXClient new];
+    
+    // Fetch this weeks comics
+    [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        _thisWeeksComicsArray = pullListArray;
+        tableViewRows = _thisWeeksComicsArray.count;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+            [_refreshControl endRefreshing];
+        });
+    }];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *diamondID = [_thisWeeksComics.diamondIDs objectAtIndex:indexPath.row];
+    LBXIssue *issue = [_thisWeeksComicsArray objectAtIndex:indexPath.row];
+    NSString *diamondID = issue.diamondID;
     
     if (![diamondID isEqualToString:@""]) {
         NSString *webURL = [@"http://www.longboxed.com/issue/" stringByAppendingString:diamondID];
@@ -342,7 +353,7 @@ CGFloat cellWidth;
     // Cell height must take maximum possible parallax offset into account.
     ParallaxFlowLayout *layout = (ParallaxFlowLayout *)self.collectionViewLayout;
     cellWidth = CGRectGetWidth(self.collectionView.bounds) - layout.sectionInset.left - layout.sectionInset.right;
-    switch (_thisWeeksComics.longboxedIDs.count) {
+    switch (_thisWeeksComicsArray.count) {
         case 0:
         case 1:
             return CGSizeMake(cellWidth, TABLE_HEIGHT_ONE);

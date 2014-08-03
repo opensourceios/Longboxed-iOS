@@ -75,8 +75,13 @@
 }
 
 - (void)setupRestKit {
-    RKLogConfigureByName("RestKit*", RKLogLevelDebug); // set all RestKit logs to warning (leaving the app-specific log untouched).
-    RKLogConfigureByName("RestKit/CoreData", RKLogLevelDebug);
+    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.longboxed.Longboxed-iOSAlpha"]) {
+        RKLogConfigureByName("RestKit*", RKLogLevelDebug); // set all RestKit logs to warning (leaving the app-specific log untouched).
+        RKLogConfigureByName("RestKit/CoreData", RKLogLevelDebug);
+    }
+    else {
+        RKLogConfigureByName("*", RKLogLevelOff)
+    }
     
     // Initialize RestKit
     RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:[LBXEndpoints baseURLString]]];

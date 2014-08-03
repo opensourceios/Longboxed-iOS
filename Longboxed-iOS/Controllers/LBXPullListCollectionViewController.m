@@ -8,6 +8,7 @@
 
 #import "LBXPullListCollectionViewController.h"
 #import "LBXPullList.h"
+#import "LBXClient.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
 #import "LBXNavigationViewController.h"
@@ -21,7 +22,8 @@
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
-@property (nonatomic) LBXPullList *pullListComics;
+@property (nonatomic) NSArray *pullListArray;
+@property (nonatomic) LBXClient *client;
 
 @end
 
@@ -173,14 +175,16 @@ CGFloat cellWidth;
     // grab bound for contentView
     CGRect contentViewBound = cell.comicImageView.bounds;
     
-    NSString *titleString = [_pullListComics.names objectAtIndex:indexPath.row];
-    NSString *publisherString = [_pullListComics.publishers objectAtIndex:indexPath.row];
-    NSString *issueString;
-    if (![[NSString stringWithFormat:@"%@", [_pullListComics.subscribers objectAtIndex:indexPath.row]] isEqualToString:@""]) {
-        issueString = [NSString stringWithFormat:@"%@ Issues", [_pullListComics.issueCount objectAtIndex:indexPath.row]];
+    LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
+    
+    NSString *titleString = title.name;
+    NSString *publisherString = title.publisher.name;
+    NSString *subscriberString;
+    if (![[NSString stringWithFormat:@"%@", title.subscribers] isEqualToString:@""]) {
+        subscriberString = [NSString stringWithFormat:@"#%@", title.subscribers];
     }
     else {
-        issueString = [_pullListComics.subscribers objectAtIndex:indexPath.row];
+        subscriberString = @"";
     }
     
     // If an image exists, fetch it. Else use the generated UIImage
@@ -239,7 +243,7 @@ CGFloat cellWidth;
                 [UIView transitionWithView:cell.comicIssueLabel
                                   duration:0.5f
                                    options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{[cell.comicIssueLabel setText:issueString];}
+                                animations:^{[cell.comicIssueLabel setText:subscriberString];}
                                 completion:NULL];
             }
             else {
@@ -247,7 +251,7 @@ CGFloat cellWidth;
                 [self setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
                 cell.comicImageView.image = image;
                 cell.comicPublisherLabel.text = publisherString;
-                cell.comicIssueLabel.text = issueString;
+                cell.comicIssueLabel.text = subscriberString;
             }
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
@@ -278,7 +282,7 @@ CGFloat cellWidth;
         cell.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:0.2];
         
         cell.comicPublisherLabel.text = publisherString;
-        cell.comicIssueLabel.text = issueString;
+        cell.comicIssueLabel.text = subscriberString;
         
         // Darken the image
         UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.height*2)];
@@ -305,21 +309,25 @@ CGFloat cellWidth;
 
 - (void)refresh
 {
-//    [[LBXDataStore sharedStore] fetchPullList:^(NSArray *response, NSError *error) {
-//        _pullListComics = [[LBXPullList alloc] initPullList:response];
-//        tableViewRows = _pullListComics.longboxedIDs.count;
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.collectionView reloadData];
-//            [_refreshControl endRefreshing];
-//        });
-//    }];
+    _client = [LBXClient new];
+    
+    // Fetch this weeks comics
+    [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        _pullListArray = pullListArray;
+        tableViewRows = _pullListArray.count;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+            [_refreshControl endRefreshing];
+        });
+    }];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    NSString *diamondID = [_pullListComics.longboxedIDs objectAtIndex:indexPath.row];
+    LBXIssue *issue = [_pullListArray objectAtIndex:indexPath.row];
+    NSString *diamondID = issue.diamondID;
     
     if (![diamondID isEqualToString:@""]) {
         NSString *webURL = [@"http://www.longboxed.com/issue/" stringByAppendingString:diamondID];
@@ -344,7 +352,7 @@ CGFloat cellWidth;
     // Cell height must take maximum possible parallax offset into account.
     ParallaxFlowLayout *layout = (ParallaxFlowLayout *)self.collectionViewLayout;
     cellWidth = CGRectGetWidth(self.collectionView.bounds) - layout.sectionInset.left - layout.sectionInset.right;
-    switch (_pullListComics.longboxedIDs.count) {
+    switch (_pullListArray.count) {
         case 0:
         case 1:
             return CGSizeMake(cellWidth, TABLE_HEIGHT_ONE);

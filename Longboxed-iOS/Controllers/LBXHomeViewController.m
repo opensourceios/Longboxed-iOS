@@ -8,9 +8,10 @@
 
 #import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
-#import "LBXThisWeeksComics.h"
 #import "LBXBundleOld.h"
 #import "EasyTableView.h"
+#import "LBXClient.h"
+#import "LBXBundle.h"
 
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
@@ -22,13 +23,15 @@
 #define IMAGE_TAG					101
 #define TITLE_FONT_SIZE				16
 
-@interface LBXHomeViewController ()<EasyTableViewDelegate>
+@interface LBXHomeViewController () <EasyTableViewDelegate>
 
-@property (nonatomic) LBXThisWeeksComics *thisWeeksComics;
-@property (nonatomic) LBXBundleOld *bundle;
+@property (nonatomic) LBXClient *client;
 @property (nonatomic) EasyTableView *easyTableView;
 @property (nonatomic, strong) IBOutlet UILabel *bundleCountLabel;
 @property (nonatomic, strong) IBOutlet UILabel *issuesInYourBundleThisWeekLabel;
+@property (nonatomic) NSArray *latestBundle;
+@property (nonatomic) NSArray *thisWeeksComicsArray;
+
 
 @end
 
@@ -56,6 +59,7 @@ LBXNavigationViewController *navigationController;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     _bundleCountLabel.text = @"";
+    
     [self refresh];
 }
 
@@ -83,27 +87,42 @@ LBXNavigationViewController *navigationController;
 
 - (void)refresh
 {
-//    [[LBXDataStore sharedStore] fetchThisWeeksComics:^(NSArray *response, NSError *error) {
-//        _thisWeeksComics = [[LBXThisWeeksComics alloc] initThisWeeksComicsWithIssues:response];
+    _client = [LBXClient new];
+    
+    // Fetch this weeks comics
+    [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        _thisWeeksComicsArray = [[NSArray alloc] initWithArray:pullListArray];
+        
 //        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self setupEasyTableViewWithNumCells:_thisWeeksComics.longboxedIDs.count];
+//            [self setupEasyTableViewWithNumCells:_thisWeeksComicsArray.count];
 //        });
-//    }];
+    }];
     
     if ([UICKeyChainStore keyChainStore][@"id"]) {
-//        [[LBXDataStore sharedStore] fetchBundles:^(NSArray *response, NSError *error) {
-//            _bundle = [[LBXBundleOld alloc] initBundle:response];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)_bundle.longboxedIDs.count];
-        _issuesInYourBundleThisWeekLabel.text = @"issues in your bundle this week";
-        // Change the text of "issues" to "issue" if count is 1
-        if ((unsigned long)_bundle.longboxedIDs.count == 1) {
-            _issuesInYourBundleThisWeekLabel.text = @"issue in your bundle this week";
-        }
-//            });
-//        }];
+        // Fetch the user's latest bundle
+        [self.client fetchLatestBundleWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+            
+            _latestBundle = [[NSArray alloc] initWithArray:pullListArray];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _bundleCountLabel.text = @"0";
+                LBXBundle *bundle;
+                if (_latestBundle.count != 0) {
+                    bundle = _latestBundle[0];
+                    [self setupEasyTableViewWithNumCells:bundle.issues.count];
+                    _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)bundle.issues.count];
+                }
+                _issuesInYourBundleThisWeekLabel.text = @"issues in your bundle this week";
+                // Change the text of "issues" to "issue" if count is 1
+                if ((unsigned long)bundle.issues.count == 1) {
+                    _issuesInYourBundleThisWeekLabel.text = @"issue in your bundle this week";
+                }
+            });
+        }];
     }
-    else _bundleCountLabel.text = @"0";
+    else {
+        _bundleCountLabel.text = @"0";
+    }
 }
 
 #pragma mark EasyTableView Initialization
@@ -146,10 +165,16 @@ LBXNavigationViewController *navigationController;
 	__weak UIImageView *comicImageView = (UIImageView *)[view viewWithTag:IMAGE_TAG];
     CGRect contentViewBound = comicImageView.bounds;
     
+    LBXIssue *issue;
+    if (_latestBundle.count != 0) {
+        LBXBundle *bundle = _latestBundle[0];
+        issue = [[bundle.issues allObjects] objectAtIndex:indexPath.row];
+    }
+    
     // If an image exists, fetch it. Else use the generated UIImage
-    if ([_thisWeeksComics.coverImages objectAtIndex:indexPath.row] != (id)[NSNull null]) {
+    if (issue.coverImage != (id)[NSNull null]) {
         
-        NSString *urlString = [_thisWeeksComics.coverImages objectAtIndex:indexPath.row];
+        NSString *urlString = issue.coverImage;
         
         // Show the network activity icon
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
