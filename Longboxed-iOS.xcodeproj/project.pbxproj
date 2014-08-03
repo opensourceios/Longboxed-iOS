@@ -37,6 +37,7 @@
 		E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00F9196A1A9C005FCF25 /* LBXIssue.m */; };
 		E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */; };
 		E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FF196A2004005FCF25 /* LBXTitle.m */; };
+		E537121E198ED1450065D57A /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E537121D198ED1450065D57A /* UIImage+ImageEffects.m */; };
 		E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AEF196B72D80094979A /* NSString+URLQuery.m */; };
 		E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF2196B7ED30094979A /* LBXUser.m */; };
 		E54A6AF9196B9E8B0094979A /* LBXBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF8196B9E8B0094979A /* LBXBundle.m */; };
@@ -166,6 +167,8 @@
 		E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisher.m; path = Models/LBXPublisher.m; sourceTree = "<group>"; };
 		E51D00FE196A2004005FCF25 /* LBXTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitle.h; path = Models/LBXTitle.h; sourceTree = "<group>"; };
 		E51D00FF196A2004005FCF25 /* LBXTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitle.m; path = Models/LBXTitle.m; sourceTree = "<group>"; };
+		E537121C198ED1450065D57A /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "Categories/UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		E537121D198ED1450065D57A /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "Categories/UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		E54A6AEE196B72D80094979A /* NSString+URLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URLQuery.h"; path = "Categories/NSString+URLQuery.h"; sourceTree = "<group>"; };
 		E54A6AEF196B72D80094979A /* NSString+URLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+URLQuery.m"; path = "Categories/NSString+URLQuery.m"; sourceTree = "<group>"; };
 		E54A6AF1196B7ED30094979A /* LBXUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXUser.h; path = Models/LBXUser.h; sourceTree = "<group>"; };
@@ -653,6 +656,8 @@
 		E5A773D619623E8B002654E7 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				E537121C198ED1450065D57A /* UIImage+ImageEffects.h */,
+				E537121D198ED1450065D57A /* UIImage+ImageEffects.m */,
 				E5A773D719623F52002654E7 /* NSData+Base64.h */,
 				E5A773D819623F52002654E7 /* NSData+Base64.m */,
 				E54A6AEE196B72D80094979A /* NSString+URLQuery.h */,
@@ -932,6 +937,7 @@
 				E57D4955196118950014A13F /* REMenuItem.m in Sources */,
 				E57D496519611BB30014A13F /* SVWebViewController.m in Sources */,
 				E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */,
+				E537121E198ED1450065D57A /* UIImage+ImageEffects.m in Sources */,
 				E510AF92198C7B7D004A7225 /* NSDictionary+RKAdditions.m in Sources */,
 				E57D497119611C7C0014A13F /* SVWebViewControllerActivity.m in Sources */,
 				E510AF8F198C7B7D004A7225 /* NSArray+RKAdditions.m in Sources */,

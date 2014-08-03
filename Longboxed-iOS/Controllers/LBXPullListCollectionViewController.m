@@ -13,15 +13,18 @@
 #import "ParallaxPhotoCell.h"
 #import "LBXNavigationViewController.h"
 #import "SVWebViewController.h"
+#import "UIImage+ImageEffects.h"
 
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
 
-@interface LBXPullListCollectionViewController () <UICollectionViewDelegateFlowLayout>
+@interface LBXPullListCollectionViewController () <UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UISearchDisplayDelegate>
 
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) UISearchDisplayController *searchBarController;
+@property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UISearchDisplayController *searchBarController;
+@property (nonatomic, strong) UIImageView *blurImageView;
 
 @property (nonatomic) NSArray *pullListArray;
 @property (nonatomic) LBXClient *client;
@@ -114,6 +117,15 @@ CGFloat cellWidth;
         // Refresh the table view
         [self refresh];
     }
+    
+    _searchBar = [UISearchBar new];
+    _searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar
+                                                             contentsController:self];
+    _searchBarController.delegate = self;
+    
+    [self.view addSubview:_searchBar];
+    _searchBar.delegate = self;
+    _searchBar.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, _searchBar.frame.size.height);
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -165,6 +177,23 @@ CGFloat cellWidth;
     textView.text = string;
 }
 
+- (void)search
+{
+    // Blur the current screen
+    [self blurScreen];
+    // Put the search bar in front of the blurred view
+    [self.view bringSubviewToFront:_searchBar];
+    
+    // Show the search bar
+    _searchBar.hidden = NO;
+    //_searchBar.translucent = YES;
+    _searchBar.backgroundImage = [UIImage new];
+    _searchBar.scopeBarBackgroundImage = [UIImage new];
+    [_searchBar becomeFirstResponder];
+    [self.searchDisplayController setActive:YES animated:YES];
+
+}
+
 - (void)refresh
 {
     _client = [LBXClient new];
@@ -181,6 +210,27 @@ CGFloat cellWidth;
             [_refreshControl endRefreshing];
         });
     }];
+}
+
+// Captures the current screen and blurs it
+- (void)blurScreen {
+    
+    UIScreen *screen = [UIScreen mainScreen];
+    UIGraphicsBeginImageContextWithOptions(self.view.frame.size, YES, screen.scale);
+    
+    [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:NO];
+    
+    UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *blurImage = [snapshot applyDarkEffect];
+    UIGraphicsEndImageContext();
+    
+    // Blur the current screen
+    _blurImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    _blurImageView.image = blurImage;
+    _blurImageView.contentMode = UIViewContentModeBottom;
+    _blurImageView.clipsToBounds = YES;
+    [self.view addSubview:_blurImageView];
+    
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -266,5 +316,75 @@ CGFloat cellWidth;
     }
     return CGSizeMake(cellWidth, TABLE_HEIGHT_FOUR);
 }
+
+#pragma mark UISearchBar methods
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self.searchBarController.searchResultsTableView setContentOffset:CGPointMake(self.searchBarController.searchResultsTableView.contentOffset.x, 0) animated:YES];
+    
+    // Delays on making the actor API calls
+//    if([searchText length] != 0) {
+//        float delay = 0.6;
+//        
+//        if (searchText.length > 3) {
+//            delay = 0.8;
+//        }
+//        [[JLTMDbClient sharedAPIInstance].operationQueue cancelAllOperations];
+//        
+//        // Clear any previously queued text changes
+//        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+//        
+//        [self performSelector:@selector(refreshActorResponseWithJLTMDBcall:)
+//                   withObject:@{@"JLTMDBCall":kJLTMDbSearchPerson, @"parameters":@{@"search_type":@"ngram",@"query":searchText}}
+//                   afterDelay:delay];
+//    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    // Hide the search bar when searching is completed
+    [self.searchDisplayController setActive:NO animated:NO];
+    _searchBar.hidden = YES;
+    [_blurImageView removeFromSuperview];
+}
+
+#pragma mark UISearchDisplayController methods
+
+// Added to fix UITableView bottom bounds in UISearchDisplayController
+- (void)searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
+// Added to fix UITableView bottom bounds in UISearchDisplayController
+- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+    
+    // If you scroll down in the search table view, this puts it back to the top next time you search
+    [self.searchDisplayController.searchResultsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    
+    // Remove the line separators if there is no results
+    self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
+}
+
+// Added to fix UITableView bottom bounds in UISearchDisplayController
+- (void) keyboardWillHide
+{
+    UITableView *tableView = [[self searchDisplayController] searchResultsTableView];
+    [tableView setContentInset:UIEdgeInsetsZero];
+    [tableView setScrollIndicatorInsets:UIEdgeInsetsZero];
+}
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
+{
+    // Make the background of the search results transparent
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectZero];
+    backView.backgroundColor = [UIColor clearColor];
+    controller.searchResultsTableView.backgroundView = backView;
+    controller.searchResultsTableView.backgroundColor = [UIColor clearColor];
+}
+
 
 @end
