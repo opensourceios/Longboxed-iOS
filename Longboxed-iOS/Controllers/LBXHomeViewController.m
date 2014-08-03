@@ -45,6 +45,10 @@ LBXNavigationViewController *navigationController;
         // Custom initialization
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
         
+        UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
+        self.navigationItem.leftBarButtonItem = actionButton;
+        [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
+        
         LBXNavigationViewController *navController = [LBXNavigationViewController new];
         [navController addPaperButtonToViewController:self];
         
@@ -130,8 +134,16 @@ LBXNavigationViewController *navigationController;
 
 - (void)setupEasyTableViewWithNumCells:(NSUInteger)count {
 	CGRect frameRect = CGRectMake(0, (self.view.frame.size.height + self.navigationController.navigationBar.frame.size.height)/2, self.view.bounds.size.width, (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height-44)/2);
+    
+    // Remove the EasyTableView if one already exists
+    for (UIView *subView in self.view.subviews) {
+        if ([subView isKindOfClass:[EasyTableView class]]) {
+            [subView removeFromSuperview];
+        }
+    }
+    
 	EasyTableView *view	= [[EasyTableView alloc] initWithFrame:frameRect numberOfColumns:count ofWidth:180];
-
+    
 	self.easyTableView	= view;
 	
 	self.easyTableView.delegate						= self;

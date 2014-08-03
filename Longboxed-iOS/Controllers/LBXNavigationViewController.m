@@ -127,7 +127,7 @@ PaperButton *button;
 
 # pragma mark Private Methods
 
-- (void) setupMenu
+- (void)setupMenu
 {
     self.menu.backgroundAlpha = 0.5;
     self.menu.backgroundColor = [UIColor whiteColor];

@@ -78,8 +78,6 @@
 		E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D497C19611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png */; };
 		E57D498219611C950014A13F /* SVWebViewControllerActivitySafari.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D497E19611C950014A13F /* SVWebViewControllerActivitySafari.m */; };
 		E57D498319611C950014A13F /* SVWebViewControllerActivitySafari@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D497F19611C950014A13F /* SVWebViewControllerActivitySafari@2x.png */; };
-		E57D498619611E380014A13F /* hamburger-button.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D498419611E380014A13F /* hamburger-button.png */; };
-		E57D498719611E380014A13F /* hamburger-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D498519611E380014A13F /* hamburger-button@2x.png */; };
 		E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E587FB4F1964E2E5006A3DDB /* PaperButton.m */; };
 		E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5977737198EAC7D0047E261 /* LBXPullListTitle.m */; };
 		E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */; };
@@ -234,8 +232,6 @@
 		E57D497D19611C950014A13F /* SVWebViewControllerActivitySafari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVWebViewControllerActivitySafari.h; path = Extras/SVWebViewController/UIActivities/Safari/SVWebViewControllerActivitySafari.h; sourceTree = "<group>"; };
 		E57D497E19611C950014A13F /* SVWebViewControllerActivitySafari.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVWebViewControllerActivitySafari.m; path = Extras/SVWebViewController/UIActivities/Safari/SVWebViewControllerActivitySafari.m; sourceTree = "<group>"; };
 		E57D497F19611C950014A13F /* SVWebViewControllerActivitySafari@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SVWebViewControllerActivitySafari@2x.png"; path = "Extras/SVWebViewController/UIActivities/Safari/SVWebViewControllerActivitySafari@2x.png"; sourceTree = "<group>"; };
-		E57D498419611E380014A13F /* hamburger-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hamburger-button.png"; path = "Assets/hamburger-button.png"; sourceTree = SOURCE_ROOT; };
-		E57D498519611E380014A13F /* hamburger-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hamburger-button@2x.png"; path = "Assets/hamburger-button@2x.png"; sourceTree = SOURCE_ROOT; };
 		E587FB4E1964E2B3006A3DDB /* PaperButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PaperButton.h; path = Extras/Pop/PaperButton.h; sourceTree = "<group>"; };
 		E587FB4F1964E2E5006A3DDB /* PaperButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperButton.m; path = Extras/Pop/PaperButton.m; sourceTree = "<group>"; };
 		E5977736198EAC7D0047E261 /* LBXPullListTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListTitle.h; path = Models/LBXPullListTitle.h; sourceTree = "<group>"; };
@@ -563,8 +559,6 @@
 			children = (
 				E5F18733196391D2006C4C26 /* longboxed_full.png */,
 				E5F18734196391D2006C4C26 /* longboxed_full@2x.png */,
-				E57D498419611E380014A13F /* hamburger-button.png */,
-				E57D498519611E380014A13F /* hamburger-button@2x.png */,
 				E57D49231960B8F40014A13F /* black.png */,
 			);
 			name = Assets;
@@ -762,14 +756,12 @@
 				E57D496419611BB30014A13F /* SVWebViewController.bundle in Resources */,
 				E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */,
 				E57D498019611C950014A13F /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
-				E57D498719611E380014A13F /* hamburger-button@2x.png in Resources */,
 				E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
 				E57D498319611C950014A13F /* SVWebViewControllerActivitySafari@2x.png in Resources */,
 				E57D49241960B8F40014A13F /* black.png in Resources */,
 				E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
 				E57D497819611C8E0014A13F /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
-				E57D498619611E380014A13F /* hamburger-button.png in Resources */,
 				E57D497A19611C8E0014A13F /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				E5F187381963A635006C4C26 /* LBXHomeViewController.xib in Resources */,
 				E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */,
