@@ -7,7 +7,6 @@
 //
 
 #import "LBXPullListCollectionViewController.h"
-#import "LBXPullList.h"
 #import "LBXClient.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"

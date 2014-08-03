@@ -8,7 +8,6 @@
 
 #import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
-#import "LBXBundleOld.h"
 #import "EasyTableView.h"
 #import "LBXClient.h"
 #import "LBXBundle.h"

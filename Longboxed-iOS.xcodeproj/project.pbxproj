@@ -42,7 +42,6 @@
 		E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AFB196BA45F0094979A /* LBXMap.m */; };
 		E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AFE196BA5D70094979A /* LBXEndpoints.m */; };
 		E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6B04196BA7CF0094979A /* LBXDescriptors.m */; };
-		E555D38A19624DEC003B97C0 /* LBXPullList.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38919624DEC003B97C0 /* LBXPullList.m */; };
 		E555D38F196359D1003B97C0 /* LBXAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38E196359D1003B97C0 /* LBXAPITests.m */; };
 		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
 		E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C8196068E10014A13F /* CoreGraphics.framework */; };
@@ -60,7 +59,6 @@
 		E57D490B196096260014A13F /* LBXThisWeekCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D490A196096260014A13F /* LBXThisWeekCollectionViewController.m */; };
 		E57D49121960A2180014A13F /* LBXClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49111960A2180014A13F /* LBXClient.m */; };
 		E57D49241960B8F40014A13F /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D49231960B8F40014A13F /* black.png */; };
-		E57D49271960C8A70014A13F /* LBXThisWeeksComics.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49261960C8A70014A13F /* LBXThisWeeksComics.m */; };
 		E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D494219610C970014A13F /* LBXAppDelegate.m */; };
 		E57D4952196118950014A13F /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D4949196118950014A13F /* RECommonFunctions.m */; };
 		E57D4953196118950014A13F /* REMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D494B196118950014A13F /* REMenu.m */; };
@@ -93,7 +91,6 @@
 		E5F18735196391D2006C4C26 /* longboxed_full.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F18733196391D2006C4C26 /* longboxed_full.png */; };
 		E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F18734196391D2006C4C26 /* longboxed_full@2x.png */; };
 		E5F187381963A635006C4C26 /* LBXHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5F187371963A635006C4C26 /* LBXHomeViewController.xib */; };
-		E5F1873B1963A971006C4C26 /* LBXBundleOld.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1873A1963A971006C4C26 /* LBXBundleOld.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,8 +177,6 @@
 		E54A6AFE196BA5D70094979A /* LBXEndpoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXEndpoints.m; path = Abstract/LBXEndpoints.m; sourceTree = "<group>"; };
 		E54A6B03196BA7CF0094979A /* LBXDescriptors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDescriptors.h; path = Abstract/LBXDescriptors.h; sourceTree = "<group>"; };
 		E54A6B04196BA7CF0094979A /* LBXDescriptors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDescriptors.m; path = Abstract/LBXDescriptors.m; sourceTree = "<group>"; };
-		E555D38819624DEC003B97C0 /* LBXPullList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullList.h; path = Models/LBXPullList.h; sourceTree = "<group>"; };
-		E555D38919624DEC003B97C0 /* LBXPullList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullList.m; path = Models/LBXPullList.m; sourceTree = "<group>"; };
 		E555D38E196359D1003B97C0 /* LBXAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXAPITests.m; sourceTree = "<group>"; };
 		E57D48C3196068E10014A13F /* Longboxed-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Longboxed-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E57D48C6196068E10014A13F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -207,8 +202,6 @@
 		E57D49101960A2180014A13F /* LBXClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXClient.h; path = Abstract/LBXClient.h; sourceTree = "<group>"; };
 		E57D49111960A2180014A13F /* LBXClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXClient.m; path = Abstract/LBXClient.m; sourceTree = "<group>"; };
 		E57D49231960B8F40014A13F /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = black.png; path = Assets/black.png; sourceTree = SOURCE_ROOT; };
-		E57D49251960C8A70014A13F /* LBXThisWeeksComics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXThisWeeksComics.h; path = Models/LBXThisWeeksComics.h; sourceTree = "<group>"; };
-		E57D49261960C8A70014A13F /* LBXThisWeeksComics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXThisWeeksComics.m; path = Models/LBXThisWeeksComics.m; sourceTree = "<group>"; };
 		E57D494119610C970014A13F /* LBXAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXAppDelegate.h; path = AppDelegate/LBXAppDelegate.h; sourceTree = "<group>"; };
 		E57D494219610C970014A13F /* LBXAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXAppDelegate.m; path = AppDelegate/LBXAppDelegate.m; sourceTree = "<group>"; };
 		E57D4948196118950014A13F /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RECommonFunctions.h; path = Extras/REMenu/RECommonFunctions.h; sourceTree = "<group>"; };
@@ -259,8 +252,6 @@
 		E5F18733196391D2006C4C26 /* longboxed_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = longboxed_full.png; path = Assets/longboxed_full.png; sourceTree = SOURCE_ROOT; };
 		E5F18734196391D2006C4C26 /* longboxed_full@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "longboxed_full@2x.png"; path = "Assets/longboxed_full@2x.png"; sourceTree = SOURCE_ROOT; };
 		E5F187371963A635006C4C26 /* LBXHomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXHomeViewController.xib; path = Controllers/LBXHomeViewController.xib; sourceTree = "<group>"; };
-		E5F187391963A971006C4C26 /* LBXBundleOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXBundleOld.h; path = Models/LBXBundleOld.h; sourceTree = "<group>"; };
-		E5F1873A1963A971006C4C26 /* LBXBundleOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXBundleOld.m; path = Models/LBXBundleOld.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -406,7 +397,7 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
-		E51D00F4196A1A6F005FCF25 /* New Models */ = {
+		E51D00F4196A1A6F005FCF25 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				E54A6AF1196B7ED30094979A /* LBXUser.h */,
@@ -420,7 +411,7 @@
 				E54A6AF7196B9E8B0094979A /* LBXBundle.h */,
 				E54A6AF8196B9E8B0094979A /* LBXBundle.m */,
 			);
-			name = "New Models";
+			name = Models;
 			sourceTree = "<group>";
 		};
 		E57D48BA196068E10014A13F = {
@@ -461,8 +452,7 @@
 				E5C4D406197F3DB10036DD9A /* CoreData */,
 				E57D49131960A21D0014A13F /* Abstract */,
 				E57D49141960A2350014A13F /* AppDelegate */,
-				E51D00F4196A1A6F005FCF25 /* New Models */,
-				E57D49151960A2590014A13F /* Models */,
+				E51D00F4196A1A6F005FCF25 /* Models */,
 				E57D48FF1960960E0014A13F /* Controllers */,
 				E57D48FE1960960A0014A13F /* Views */,
 				E5A773D619623E8B002654E7 /* Categories */,
@@ -557,19 +547,6 @@
 				E57D494219610C970014A13F /* LBXAppDelegate.m */,
 			);
 			name = AppDelegate;
-			sourceTree = "<group>";
-		};
-		E57D49151960A2590014A13F /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				E555D38819624DEC003B97C0 /* LBXPullList.h */,
-				E555D38919624DEC003B97C0 /* LBXPullList.m */,
-				E5F187391963A971006C4C26 /* LBXBundleOld.h */,
-				E5F1873A1963A971006C4C26 /* LBXBundleOld.m */,
-				E57D49251960C8A70014A13F /* LBXThisWeeksComics.h */,
-				E57D49261960C8A70014A13F /* LBXThisWeeksComics.m */,
-			);
-			name = Models;
 			sourceTree = "<group>";
 		};
 		E57D49221960B8E80014A13F /* Assets */ = {
@@ -945,11 +922,9 @@
 				E510AFB2198C7B7D004A7225 /* NBUKit.m in Sources */,
 				E57D4953196118950014A13F /* REMenu.m in Sources */,
 				E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */,
-				E57D49271960C8A70014A13F /* LBXThisWeeksComics.m in Sources */,
 				E510AFAF198C7B7D004A7225 /* UIView+NBUAdditions.m in Sources */,
 				E57D4954196118950014A13F /* REMenuContainerView.m in Sources */,
 				E510AFA8198C7B7D004A7225 /* UIButton+NBUAdditions.m in Sources */,
-				E555D38A19624DEC003B97C0 /* LBXPullList.m in Sources */,
 				E510AF96198C7B7D004A7225 /* RKDirectory.m in Sources */,
 				E57D49071960961E0014A13F /* ParallaxLayoutAttributes.m in Sources */,
 				E510AF91198C7B7D004A7225 /* NSData+RKAdditions.m in Sources */,
@@ -959,7 +934,6 @@
 				E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */,
 				E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */,
 				E510AFA5198C7B7D004A7225 /* NSFileManager+NBUAdditions.m in Sources */,
-				E5F1873B1963A971006C4C26 /* LBXBundleOld.m in Sources */,
 				E510AF93198C7B7D004A7225 /* NSString+RKAdditions.m in Sources */,
 				E57D4955196118950014A13F /* REMenuItem.m in Sources */,
 				E57D496519611BB30014A13F /* SVWebViewController.m in Sources */,

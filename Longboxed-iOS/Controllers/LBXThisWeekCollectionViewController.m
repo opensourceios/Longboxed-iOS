@@ -7,7 +7,6 @@
 //
 
 #import "LBXThisWeekCollectionViewController.h"
-#import "LBXThisWeeksComics.h"
 #import "LBXClient.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
