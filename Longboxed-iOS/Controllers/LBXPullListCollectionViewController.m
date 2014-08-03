@@ -330,25 +330,6 @@ CGFloat cellWidth;
     return cell;
 }
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    LBXIssue *issue = [_pullListArray objectAtIndex:indexPath.row];
-    NSString *diamondID = issue.diamondID;
-    
-    if (![diamondID isEqualToString:@""]) {
-        NSString *webURL = [@"http://www.longboxed.com/issue/" stringByAppendingString:diamondID];
-        SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithAddress:webURL];
-        webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
-        webViewController.barsTintColor = [UIColor blackColor];
-        [self presentViewController:webViewController animated:YES completion:NULL];
-    }
-    else {
-        [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Can't Open Webpage"
-                                                       description:@"No Longboxed page exists for this movie."
-                                                              type:TWMessageBarMessageTypeError];
-    }
-}
-
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
