@@ -33,6 +33,7 @@
 		E510AFB2198C7B7D004A7225 /* NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF01198C7B7D004A7225 /* NBUKit.m */; };
 		E510AFB3198C7B7D004A7225 /* NBULog+NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF04198C7B7D004A7225 /* NBULog+NBUKit.m */; };
 		E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AFF4198C7D09004A7225 /* NBUCore.m */; };
+		E5165E49198E8618001CDECA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5165E48198E8618001CDECA /* CoreData.framework */; };
 		E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00F9196A1A9C005FCF25 /* LBXIssue.m */; };
 		E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */; };
 		E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FF196A2004005FCF25 /* LBXTitle.m */; };
@@ -159,6 +160,7 @@
 		E510AFF2198C7D09004A7225 /* NBUAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBUAvailability.h; sourceTree = "<group>"; };
 		E510AFF3198C7D09004A7225 /* NBUCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBUCore.h; sourceTree = "<group>"; };
 		E510AFF4198C7D09004A7225 /* NBUCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBUCore.m; sourceTree = "<group>"; };
+		E5165E48198E8618001CDECA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E51D00F8196A1A9C005FCF25 /* LBXIssue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssue.h; path = Models/LBXIssue.h; sourceTree = "<group>"; };
 		E51D00F9196A1A9C005FCF25 /* LBXIssue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssue.m; path = Models/LBXIssue.m; sourceTree = "<group>"; };
 		E51D00FB196A1FF2005FCF25 /* LBXPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisher.h; path = Models/LBXPublisher.h; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5165E49198E8618001CDECA /* CoreData.framework in Frameworks */,
 				E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */,
 				E57D48CB196068E10014A13F /* UIKit.framework in Frameworks */,
 				E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */,
@@ -437,6 +440,7 @@
 		E57D48C5196068E10014A13F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E5165E48198E8618001CDECA /* CoreData.framework */,
 				E57D48C6196068E10014A13F /* Foundation.framework */,
 				E57D48C8196068E10014A13F /* CoreGraphics.framework */,
 				E57D48CA196068E10014A13F /* UIKit.framework */,
@@ -860,7 +864,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\n\nbundleIdentifier=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INFOPLIST_FILE\")\nbundleDisplayName=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n\nif [ $CONFIGURATION == AppStore ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS\"\nbundleDisplayName=\"Longboxed\"\nelif [ $CONFIGURATION == Beta ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSBeta\"\nbundleDisplayName=\"Longboxed β\"\nelse\nbundleIdentifier=\"com.longboxed.Longboxed-iOSAlpha\"\nbundleDisplayName=\"Longboxed α\"\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $bundleIdentifier\" \"$INFOPLIST_FILE\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $bundleDisplayName\" \"$INFOPLIST_FILE\"\n";
+			shellScript = "#!/bin/bash\n\n\nbundleIdentifier=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INFOPLIST_FILE\")\nbundleDisplayName=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n\nif [ $CONFIGURATION == AppStore ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS\"\nbundleDisplayName=\"Longboxed\"\n\nelif [ $CONFIGURATION == Beta ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSBeta\"\nbundleDisplayName=\"Longboxed β\"\n\nelif [ $CONFIGURATION == Alpha ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSAlpha\"\nbundleDisplayName=\"Longboxed α\"\n\nelse\nbundleIdentifier=\"com.longboxed.Longboxed-iOSDebug\"\nbundleDisplayName=\"Longboxed Δ\"\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $bundleIdentifier\" \"$INFOPLIST_FILE\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $bundleDisplayName\" \"$INFOPLIST_FILE\"\n";
 		};
 		E57D48FC19606A500014A13F /* Increment Build Number */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -20,7 +20,7 @@
 
 - (RKEntityMapping *)bundleMapping
 {
-    RKEntityMapping* bundleMapping = [RKEntityMapping mappingForEntityForName:@"Bundle" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
+    RKEntityMapping* bundleMapping = [RKEntityMapping mappingForEntityForName:@"LBXBundle" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
     [bundleMapping addAttributeMappingsFromDictionary:@{ @"id"           : @"bundleID",
                                                          @"last_updated" : @"lastUpdatedDate",
                                                          @"release_date" : @"releaseDate"
@@ -37,7 +37,7 @@
 
 - (RKEntityMapping *)userMapping
 {
-    RKEntityMapping* userMapping = [RKEntityMapping mappingForEntityForName:@"User" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
+    RKEntityMapping* userMapping = [RKEntityMapping mappingForEntityForName:@"LBXUser" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
     [userMapping addAttributeMappingsFromDictionary:@{ @"email"     : @"email",
                                                        @"first_name": @"firstName",
                                                        @"id"        : @"userID",
@@ -51,7 +51,7 @@
 
 - (RKEntityMapping *)titleMapping
 {
-    RKEntityMapping* titleMapping = [RKEntityMapping mappingForEntityForName:@"Title" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
+    RKEntityMapping* titleMapping = [RKEntityMapping mappingForEntityForName:@"LBXTitle" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
     [titleMapping addAttributeMappingsFromDictionary:@{ @"id"   : @"titleID",
                                                         @"issue_count" : @"issueCount",
                                                         @"name" : @"name",
@@ -69,7 +69,7 @@
 
 - (RKEntityMapping *)publisherMapping
 {
-    RKEntityMapping* publisherMapping = [RKEntityMapping mappingForEntityForName:@"Publisher" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
+    RKEntityMapping* publisherMapping = [RKEntityMapping mappingForEntityForName:@"LBXPublisher" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
     [publisherMapping addAttributeMappingsFromDictionary:@{ @"id"          : @"publisherID",
                                                             @"issue_count" : @"issueCount",
                                                             @"name"        : @"name",
@@ -82,7 +82,7 @@
 
 - (RKEntityMapping *)issueMapping
 {
-    RKEntityMapping* issueMapping = [RKEntityMapping mappingForEntityForName:@"Issue" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
+    RKEntityMapping* issueMapping = [RKEntityMapping mappingForEntityForName:@"LBXIssue" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
     [issueMapping addAttributeMappingsFromDictionary:@{ @"complete_title" : @"completeTitle",
                                                         @"cover_image"    : @"coverImage",
                                                         @"description"    : @"issueDescription",

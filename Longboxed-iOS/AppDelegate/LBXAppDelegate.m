@@ -8,6 +8,7 @@
 
 #import <RestKit/CoreData.h>
 #import <RestKit/RestKit.h>
+#import "CoreData+MagicalRecord.h"
 
 #import "LBXAppDelegate.h"
 #import "LBXHomeViewController.h"
@@ -18,6 +19,12 @@
 #import "LBXDescriptors.h"
 
 #import "HockeySDK.h"
+
+// Use a class extension to expose access to MagicalRecord's private setter methods
+@interface NSManagedObjectContext ()
++ (void)MR_setRootSavingContext:(NSManagedObjectContext *)context;
++ (void)MR_setDefaultContext:(NSManagedObjectContext *)moc;
+@end
 
 @implementation LBXAppDelegate
 
@@ -31,6 +38,8 @@
     LBXHomeViewController *dashboardViewController = [LBXHomeViewController new];
     
     self.window.rootViewController = [[LBXNavigationViewController alloc] initWithRootViewController:dashboardViewController];
+    dashboardViewController.managedObjectContext = [NSManagedObjectContext MR_defaultContext];
+    
     [self.window makeKeyAndVisible];
     
     // Hockey app needs to be the last 3rd party integration in this method
@@ -75,7 +84,7 @@
 }
 
 - (void)setupRestKit {
-    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.longboxed.Longboxed-iOSAlpha"]) {
+    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.longboxed.Longboxed-iOSDebug"]) {
         RKLogConfigureByName("RestKit*", RKLogLevelDebug); // set all RestKit logs to warning (leaving the app-specific log untouched).
         RKLogConfigureByName("RestKit/CoreData", RKLogLevelDebug);
     }
@@ -121,6 +130,11 @@
     
     // Create the managed object contexts
     [managedObjectStore createManagedObjectContexts];
+    
+    // Configure MagicalRecord to use RestKit's Core Data stack
+    [NSPersistentStoreCoordinator MR_setDefaultStoreCoordinator:managedObjectStore.persistentStoreCoordinator];
+    [NSManagedObjectContext MR_setRootSavingContext:managedObjectStore.persistentStoreManagedObjectContext];
+    [NSManagedObjectContext MR_setDefaultContext:managedObjectStore.mainQueueManagedObjectContext];
     
     // Configure a managed object cache to ensure we do not create duplicate objects
     managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];

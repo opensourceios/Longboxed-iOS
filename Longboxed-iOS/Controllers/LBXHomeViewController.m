@@ -99,15 +99,16 @@ LBXNavigationViewController *navigationController;
     }];
     
     if ([UICKeyChainStore keyChainStore][@"id"]) {
-        // Fetch the user's latest bundle
-        [self.client fetchLatestBundleWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        // Fetch the users bundles
+        [self.client fetchBundleResourcesWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+
+            _latestBundle = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
             
-            _latestBundle = [[NSArray alloc] initWithArray:pullListArray];
             dispatch_async(dispatch_get_main_queue(), ^{
                 _bundleCountLabel.text = @"0";
                 LBXBundle *bundle;
-                if (_latestBundle.count != 0) {
-                    bundle = _latestBundle[0];
+                if (_latestBundle.firstObject) {
+                    bundle = _latestBundle.firstObject;
                     [self setupEasyTableViewWithNumCells:bundle.issues.count];
                     _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)bundle.issues.count];
                 }
@@ -122,7 +123,40 @@ LBXNavigationViewController *navigationController;
     else {
         _bundleCountLabel.text = @"0";
     }
+    
+    // Fetch the user's ID from core data
+//    NSManagedObjectContext* context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+//    NSError *error = nil;
+//    NSEntityDescription *entityDescription = [NSEntityDescription
+//                                              entityForName:@"User" inManagedObjectContext: context];
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    [request setEntity:entityDescription];
+//    NSArray *dtContents = [context executeFetchRequest:request error:&error];
+//    LBXUser *user = dtContents.firstObject;
+//
+
+    
 }
+//
+//- (void)persistNewBundleWithBundleID:(NSNumber *)bundleID
+//                              issues:(NSNumber *)issues
+//                     lastUpdatedDate:(NSDate *)lastUpdatedDate
+//                         releaseDate:(NSDate *)releaseDate
+//{
+//
+//    // Get the local context
+//    NSManagedObjectContext *localContext    = [NSManagedObjectContext MR_contextForCurrentThread];
+//    
+//    // Create a new Person in the current thread context
+//    Person *person                          = [Person MR_createInContext:localContext];
+//    person.firstname                        = firstname;
+//    person.lastname                         = lastname;
+//    person.age                              = age;
+//    
+//    // Save the modification in the local context
+//    // With MagicalRecords 2.0.8 or newer you should use the MR_saveNestedContexts
+//    [localContext MR_save];
+//}
 
 #pragma mark EasyTableView Initialization
 
@@ -165,10 +199,11 @@ LBXNavigationViewController *navigationController;
     CGRect contentViewBound = comicImageView.bounds;
     
     LBXIssue *issue;
-    if (_latestBundle.count != 0) {
-        LBXBundle *bundle = _latestBundle[0];
+    if (_latestBundle.firstObject) {
+        LBXBundle *bundle = _latestBundle.firstObject;
         issue = [[bundle.issues allObjects] objectAtIndex:indexPath.row];
     }
+    else return;
     
     // If an image exists, fetch it. Else use the generated UIImage
     if (issue.coverImage != (id)[NSNull null]) {

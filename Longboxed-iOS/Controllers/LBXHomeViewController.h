@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LBXHomeViewController : UIViewController
+@interface LBXHomeViewController : UIViewController <NSFetchedResultsControllerDelegate>
+
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @end
