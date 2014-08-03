@@ -171,13 +171,6 @@ PaperButton *button;
     [[UINavigationBar appearance] setTitleTextAttributes: fontDict];
 }
 
-// For the view controllers contained in the nav controller
-- (NSDictionary *)getHamburgerButtonAttributes
-{
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
-}
-
 - (void)toggleMenu
 {
     if (self.menu.isOpen) {

@@ -59,7 +59,12 @@ LBXNavigationViewController *navigationController;
     // Do any additional setup after loading the view from its nib.
     _bundleCountLabel.text = @"";
     
-    [self refresh];
+    _latestBundle = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+    [self configureBundleLabels];
+    
+    if (_latestBundle.count == 0) {
+        [self refresh];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -94,26 +99,31 @@ LBXNavigationViewController *navigationController;
 
             // Get the bundles from Core Data
             _latestBundle = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _bundleCountLabel.text = @"0";
-                LBXBundle *bundle;
-                if (_latestBundle.firstObject) {
-                    bundle = _latestBundle.firstObject;
-                    [self setupEasyTableViewWithNumCells:bundle.issues.count];
-                    _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)bundle.issues.count];
-                }
-                _issuesInYourBundleThisWeekLabel.text = @"issues in your bundle this week";
-                // Change the text of "issues" to "issue" if count is 1
-                if ((unsigned long)bundle.issues.count == 1) {
-                    _issuesInYourBundleThisWeekLabel.text = @"issue in your bundle this week";
-                }
-            });
+            [self configureBundleLabels];
+
         }];
     }
     else {
         _bundleCountLabel.text = @"0";
     }
+}
+
+- (void)configureBundleLabels
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _bundleCountLabel.text = @"0";
+        LBXBundle *bundle;
+        if (_latestBundle.firstObject) {
+            bundle = _latestBundle.firstObject;
+            [self setupEasyTableViewWithNumCells:bundle.issues.count];
+            _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)bundle.issues.count];
+        }
+        _issuesInYourBundleThisWeekLabel.text = @"issues in your bundle this week";
+        // Change the text of "issues" to "issue" if count is 1
+        if ((unsigned long)bundle.issues.count == 1) {
+            _issuesInYourBundleThisWeekLabel.text = @"issue in your bundle this week";
+        }
+    });
 }
 
 #pragma mark EasyTableView Initialization

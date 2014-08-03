@@ -16,6 +16,7 @@
 - (RKEntityMapping *)bundleMapping;
 - (RKEntityMapping *)userMapping;
 - (RKEntityMapping *)titleMapping;
+- (RKEntityMapping *)pullListMapping;
 - (RKEntityMapping *)publisherMapping;
 - (RKEntityMapping *)issueMapping;
 - (RKEntityMapping *)paginationMapping;

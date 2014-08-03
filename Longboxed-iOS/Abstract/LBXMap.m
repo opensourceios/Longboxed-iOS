@@ -52,9 +52,9 @@
 - (RKEntityMapping *)titleMapping
 {
     RKEntityMapping* titleMapping = [RKEntityMapping mappingForEntityForName:@"LBXTitle" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
-    [titleMapping addAttributeMappingsFromDictionary:@{ @"id"   : @"titleID",
+    [titleMapping addAttributeMappingsFromDictionary:@{ @"id"          : @"titleID",
                                                         @"issue_count" : @"issueCount",
-                                                        @"name" : @"name",
+                                                        @"name"        : @"name",
                                                         @"subscribers" : @"subscribers"
                                                         }];
     
@@ -65,6 +65,24 @@
     titleMapping.identificationAttributes = @[ @"titleID" ];
     
     return titleMapping;
+}
+
+- (RKEntityMapping *)pullListMapping
+{
+    RKEntityMapping* pullListMapping = [RKEntityMapping mappingForEntityForName:@"LBXPullListTitle" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
+    [pullListMapping addAttributeMappingsFromDictionary:@{ @"id"          : @"titleID",
+                                                           @"issue_count" : @"issueCount",
+                                                           @"name"        : @"name",
+                                                           @"subscribers" : @"subscribers"
+                                                        }];
+    
+    RKEntityMapping *publisherMapping = [self publisherMapping];
+    [pullListMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"publisher"
+                                                                                    toKeyPath:@"publisher"
+                                                                                  withMapping:publisherMapping]];
+    pullListMapping.identificationAttributes = @[ @"titleID" ];
+    
+    return pullListMapping;
 }
 
 - (RKEntityMapping *)publisherMapping

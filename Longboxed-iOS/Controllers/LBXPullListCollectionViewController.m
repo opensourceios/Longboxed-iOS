@@ -8,6 +8,7 @@
 
 #import "LBXPullListCollectionViewController.h"
 #import "LBXClient.h"
+#import "LBXPullListTitle.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
 #import "LBXNavigationViewController.h"
@@ -101,8 +102,13 @@ CGFloat cellWidth;
              forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:_refreshControl];
     
-    // Refresh the table view
-    [self refresh];
+    _pullListArray = [LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES];
+    tableViewRows = _pullListArray.count;
+    
+    if (_pullListArray.count == 0) {
+        // Refresh the table view
+        [self refresh];
+    }
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -161,7 +167,7 @@ CGFloat cellWidth;
     // Fetch this weeks comics
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
-        _pullListArray = [LBXTitle MR_findAllSortedBy:@"name" ascending:YES];
+        _pullListArray = [LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES];
     
         tableViewRows = _pullListArray.count;
         
@@ -192,7 +198,7 @@ CGFloat cellWidth;
     // grab bound for contentView
     CGRect contentViewBound = cell.comicImageView.bounds;
     
-    LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
+    LBXPullListTitle *title = [_pullListArray objectAtIndex:indexPath.row];
     
     NSString *titleString = title.name;
     NSString *publisherString = title.publisher.name;

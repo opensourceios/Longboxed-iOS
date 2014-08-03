@@ -23,6 +23,7 @@
     RKObjectMapping *issueMapping = mapper.issueMapping;
     RKObjectMapping *publisherMapping = mapper.publisherMapping;
     RKObjectMapping *titleMapping = mapper.titleMapping;
+    RKObjectMapping *pullListMapping = mapper.pullListMapping;
     RKObjectMapping *bundleMapping = mapper.bundleMapping;
 //    RKObjectMapping *paginationMapping = mapper.paginationMapping;
     
@@ -150,7 +151,7 @@
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     RKResponseDescriptor *userPullListResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
+    [RKResponseDescriptor responseDescriptorWithMapping:pullListMapping
                                                  method:RKRequestMethodAny
                                             pathPattern:endpointDict[@"User Pull List"]
                                                 keyPath:@"pull_list"

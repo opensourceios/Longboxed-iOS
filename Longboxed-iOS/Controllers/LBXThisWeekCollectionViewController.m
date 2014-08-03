@@ -103,8 +103,18 @@ CGFloat cellWidth;
     
     _thisWeeksComicsArray = [NSArray new];
     
-    // Refresh the table view
-    [self refresh];
+    // Fetch from Core Data all issues with a release date after this Tuesday
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", [self getThisTuesday]];
+    _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+    
+    tableViewRows = _thisWeeksComicsArray.count;
+    [self.collectionView reloadData];
+    [_refreshControl endRefreshing];
+    
+    if (_thisWeeksComicsArray.count == 0) {
+        // Refresh the table view
+        [self refresh];
+    }
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -163,19 +173,8 @@ CGFloat cellWidth;
     // Fetch this weeks comics
     [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
-        // Get the date for this Tuesday (since comics are released on Wednesday)
-        NSDate *referenceDate = [NSDate date];
-        NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-        NSDateComponents *mincomp = [cal components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:referenceDate];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"e"];
-        while ([[formatter stringFromDate:[cal dateFromComponents:mincomp]] intValue] != 3)
-            mincomp.day += 1;
-        [formatter setDateFormat:@"yyyy-MM-dd"];
-        
-        // Use that date to fetch from Core Data all issues with a release date after
-        // this Tuesday (i.e., this Wednesday)
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", [cal dateFromComponents:mincomp]];
+        // Fetch from Core Data all issues with a release date after this Tuesday
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", [self getThisTuesday]];
         _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
         
         tableViewRows = _thisWeeksComicsArray.count;
@@ -185,6 +184,21 @@ CGFloat cellWidth;
             [_refreshControl endRefreshing];
         });
     }];
+}
+
+- (NSDate *)getThisTuesday
+{
+    // Get the date for this Tuesday (since comics are released on Wednesday)
+    NSDate *referenceDate = [NSDate date];
+    NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *mincomp = [cal components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:referenceDate];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"e"];
+    while ([[formatter stringFromDate:[cal dateFromComponents:mincomp]] intValue] != 3)
+        mincomp.day += 1;
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    return [cal dateFromComponents:mincomp];
 }
 
 #pragma mark - UICollectionViewDataSource

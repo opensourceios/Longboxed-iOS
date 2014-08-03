@@ -287,7 +287,6 @@
         // Refetch the pull list for Core Data Storage purposes
         [self fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *err) {
             completion(pullListArray, resp, err);
-            NSLog(@"done");
         }];
     }];
 }
