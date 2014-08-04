@@ -116,14 +116,13 @@ CGFloat cellWidth;
     
     _client = [LBXClient new];
     
-    _pullListArray = [LBXPullListTitle MR_findAllSortedBy:nil ascending:YES];
+    _pullListArray = [self sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
     
     if (_pullListArray.count == 0) {
         // Refresh the table view
         [self refresh];
     }
     else {
-        _pullListArray = [self sortedArray:_pullListArray basedOffObjectProperty:@"name"];
         tableViewRows = _pullListArray.count;
         [self.collectionView reloadData];
     }
@@ -247,10 +246,7 @@ CGFloat cellWidth;
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            
-            _pullListArray = [LBXPullListTitle MR_findAllSortedBy:nil ascending:YES];
-
-            _pullListArray = [self sortedArray:_pullListArray basedOffObjectProperty:@"name"];
+            _pullListArray = [self sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
             tableViewRows = _pullListArray.count;
             
             dispatch_async(dispatch_get_main_queue(), ^{

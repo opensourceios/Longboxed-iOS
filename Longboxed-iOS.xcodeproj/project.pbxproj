@@ -884,7 +884,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\n\nbundleIdentifier=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INFOPLIST_FILE\")\nbundleDisplayName=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n\nif [ $CONFIGURATION == AppStore ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS\"\nbundleDisplayName=\"Longboxed\"\n\nelif [ $CONFIGURATION == Beta ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSBeta\"\nbundleDisplayName=\"Longboxed β\"\n\nelif [ $CONFIGURATION == Alpha ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSAlpha\"\nbundleDisplayName=\"Longboxed α\"\n\nelse\nbundleIdentifier=\"com.longboxed.Longboxed-iOSDebug\"\nbundleDisplayName=\"Longboxed Δ\"\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $bundleIdentifier\" \"$INFOPLIST_FILE\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $bundleDisplayName\" \"$INFOPLIST_FILE\"\n";
+			shellScript = "#!/bin/bash\n\n\nbundleIdentifier=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INFOPLIST_FILE\")\nbundleDisplayName=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n\nif [ $CONFIGURATION == AppStore ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS\"\nbundleDisplayName=\"Longboxed\"\n\nelif [ $CONFIGURATION == Beta ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSBeta\"\nbundleDisplayName=\"Longboxed β\"\n\nelif [ $CONFIGURATION == Alpha ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSAlpha\"\nbundleDisplayName=\"Longboxed α\"\n\nelif [ $CONFIGURATION == Staging ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS-Staging\"\nbundleDisplayName=\"Longboxed ε\"\n\nelse\nbundleIdentifier=\"com.longboxed.Longboxed-iOSDebug\"\nbundleDisplayName=\"Longboxed Δ\"\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $bundleIdentifier\" \"$INFOPLIST_FILE\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $bundleDisplayName\" \"$INFOPLIST_FILE\"\n";
 		};
 		E57D48FC19606A500014A13F /* Increment Build Number */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1307,6 +1307,83 @@
 			};
 			name = Beta;
 		};
+		E58B7B6E198F32FC00B4D8A2 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Staging;
+		};
+		E58B7B6F198F32FC00B4D8A2 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AD8046282F84878BFC9B82F /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Staging;
+		};
+		E58B7B70198F32FC00B4D8A2 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AD8046282F84878BFC9B82F /* Pods.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Staging;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1314,6 +1391,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E57D48ED196068E10014A13F /* Debug */,
+				E58B7B6E198F32FC00B4D8A2 /* Staging */,
 				E57D48F8196069800014A13F /* Beta */,
 				E57D48F5196069610014A13F /* Alpha */,
 				E57D48EE196068E10014A13F /* AppStore */,
@@ -1325,6 +1403,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E57D48F0196068E10014A13F /* Debug */,
+				E58B7B6F198F32FC00B4D8A2 /* Staging */,
 				E57D48F9196069800014A13F /* Beta */,
 				E57D48F6196069610014A13F /* Alpha */,
 				E57D48F1196068E10014A13F /* AppStore */,
@@ -1336,6 +1415,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E57D48F3196068E10014A13F /* Debug */,
+				E58B7B70198F32FC00B4D8A2 /* Staging */,
 				E57D48FA196069800014A13F /* Beta */,
 				E57D48F7196069610014A13F /* Alpha */,
 				E57D48F4196068E10014A13F /* AppStore */,
