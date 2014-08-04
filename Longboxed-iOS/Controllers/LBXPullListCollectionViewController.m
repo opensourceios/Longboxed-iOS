@@ -15,9 +15,11 @@
 #import "LBXNavigationViewController.h"
 #import "SVWebViewController.h"
 #import "UIImage+ImageEffects.h"
+#import "UIColor+customColors.h"
 
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
 @interface LBXPullListCollectionViewController () <UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -325,7 +327,7 @@ CGFloat cellWidth;
     }
     
     UIImage *defaultImage = nil;
-    cell.backgroundColor = [UIColor colorWithRed:74/255.0 green:74/255.0 blue:74/255.0 alpha:0.9];
+    cell.backgroundColor = [UIColor LBXGrayColor];
     
     cell.comicPublisherLabel.text = publisherString;
     cell.comicIssueLabel.text = subscriberString;
@@ -426,8 +428,11 @@ CGFloat cellWidth;
     cell.imageView.image = nil;
     
     if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-        NSLog(@"IndexPath.row: %li\nalreadyExistingTitles: %@ ln=%li\nTitle name: %@\n\n", (long)indexPath.row, [_alreadyExistingTitles objectAtIndex:indexPath.row], (unsigned long)_alreadyExistingTitles.count, title.name);
-        cell.imageView.image = [UIImage imageNamed:@"check"];
+        int checksize = 80;
+        FAKFontAwesome *starIcon = [FAKFontAwesome checkIconWithSize:checksize];
+        [starIcon addAttribute:NSForegroundColorAttributeName value:[UIColor LBXGreenColor]];
+        UIImage *iconImage = [starIcon imageWithSize:CGSizeMake(checksize, checksize)];
+        cell.imageView.image = iconImage;
         
         // Disable selection of the row
         cell.selectionStyle = UITableViewCellSelectionStyleNone;

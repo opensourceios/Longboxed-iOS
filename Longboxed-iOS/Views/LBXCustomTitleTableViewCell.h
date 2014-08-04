@@ -10,9 +10,9 @@
 
 @interface LBXCustomTitleTableViewCell : UITableViewCell
 
-#define IMAGE_SIZE 20
+#define IMAGE_SIZE 25
 #define IMAGE_RIGHT_OFFSET 20
-#define IMAGE_TOP_OFFSET 10
+#define IMAGE_TOP_OFFSET 8
 #define IMAGE_TEXT_OFFSET 50
 
 @end
