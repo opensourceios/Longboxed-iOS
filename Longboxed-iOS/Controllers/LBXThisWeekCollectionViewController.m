@@ -105,9 +105,7 @@ CGFloat cellWidth;
     
     _client = [LBXClient new];
     
-    // Fetch from Core Data all issues with a release date after this Tuesday
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", [self getThisTuesday]];
-    _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+    [self setThisWeeksComicsArrayWithLatestIssues];
     
     tableViewRows = _thisWeeksComicsArray.count;
     [self.collectionView reloadData];
@@ -174,9 +172,8 @@ CGFloat cellWidth;
     [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            // Fetch from Core Data all issues with a release date after this Tuesday
-            NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", [self getThisTuesday]];
-            _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+           
+            [self setThisWeeksComicsArrayWithLatestIssues];
             
             tableViewRows = _thisWeeksComicsArray.count;
             
@@ -196,19 +193,16 @@ CGFloat cellWidth;
     }];
 }
 
-- (NSDate *)getThisTuesday
+- (void)setThisWeeksComicsArrayWithLatestIssues
 {
-    // Get the date for this Tuesday (since comics are released on Wednesday)
-    NSDate *referenceDate = [NSDate date];
-    NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *mincomp = [cal components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:referenceDate];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"e"];
-    while ([[formatter stringFromDate:[cal dateFromComponents:mincomp]] intValue] != 3)
-        mincomp.day += 1;
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    // Get the latest issue in the database
+    NSArray *issues = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO];
+    LBXIssue *issue = [issues objectAtIndex:0];
     
-    return [cal dateFromComponents:mincomp];
+    // Subtract one day from it
+    NSDate *sevenDaysAgo = [issue.releaseDate dateByAddingTimeInterval:-1*24*60*60];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", sevenDaysAgo];
+    _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
 }
 
 #pragma mark - UICollectionViewDataSource
