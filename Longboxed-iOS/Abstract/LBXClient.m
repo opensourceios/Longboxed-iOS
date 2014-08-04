@@ -13,6 +13,7 @@
 #import "LBXMap.h"
 #import "LBXDescriptors.h"
 #import "LBXEndpoints.h"
+#import "LBXPullListTitle.h"
 
 #import "NSData+Base64.h"
 #import "NSString+URLQuery.h"
@@ -123,7 +124,6 @@
     
     NSString *deletePath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
                                                withDictionary:parameters] stringByReplacingOccurrencesOfString:@":userID" withString:store[@"id"]];
-    NSLog(@"about to delete");
     [client deletePath:deletePath
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -133,7 +133,6 @@
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                  
                  if (completion) {
-                     NSLog(@"deleted");
                      completion(jsonFromData, operation, nil);
                  }
                  
@@ -169,7 +168,9 @@
 }
 
 - (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation *, NSError*))completion {
+    
     [self GETWithRouteName:@"Issues Collection for Current Week" objectDictParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
         completion(mappingResult.array, response, error);
     }];
 }
@@ -272,8 +273,18 @@
     NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
                         @"userID", store[@"id"],
                         nil];
-   
+    
+    NSArray *previousPullList = [LBXPullListTitle MR_findAllSortedBy:nil ascending:NO];
+    
     [self GETWithRouteName:@"User Pull List" objectDictParams:params queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        // Delete any entities that may have been removed from the pull list
+        for (LBXTitle *title in previousPullList) {
+            if (![mappingResult.array containsObject:title]) {
+                NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", title.titleID];
+                [LBXPullListTitle deleteAllMatchingPredicate:predicate];
+            }
+        }
         completion(mappingResult.array, response, error);
     }];
 }

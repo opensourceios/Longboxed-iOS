@@ -226,8 +226,6 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
                 // Check for the title in the pull list response
                 NSNumber *nilCheck;
                 for (LBXTitle *title in pullListArray) {
-                    NSLog(@"%@", title.titleID);
-                    NSLog(@"%@", titleNum);
                     if ([title.titleID isEqualToNumber:titleNum]) nilCheck = title.titleID;
                 }
 

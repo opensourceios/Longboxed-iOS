@@ -18,7 +18,6 @@
 
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
-#import <FAImageView.h>
 
 @interface LBXPullListCollectionViewController () <UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -115,12 +114,15 @@ CGFloat cellWidth;
              forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:_refreshControl];
     
-    _pullListArray = [LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES];
-    tableViewRows = _pullListArray.count;
+    _pullListArray = [LBXPullListTitle MR_findAllSortedBy:nil ascending:YES];
     
     if (_pullListArray.count == 0) {
         // Refresh the table view
         [self refresh];
+    }
+    else {
+        tableViewRows = _pullListArray.count;
+        [self.collectionView reloadData];
     }
     
     _client = [LBXClient new];
@@ -240,11 +242,12 @@ CGFloat cellWidth;
 
 - (void)refresh
 {
-    // Fetch this weeks comics
+    // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            _pullListArray = [LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES];
+            
+            _pullListArray = [LBXPullListTitle MR_findAllSortedBy:nil ascending:YES];
         
             tableViewRows = _pullListArray.count;
             
@@ -334,7 +337,6 @@ CGFloat cellWidth;
     // The cell needs this information to configure the constraints for its image view.
     ParallaxFlowLayout *layout = (ParallaxFlowLayout *)self.collectionViewLayout;
     cell.maxParallaxOffset = layout.maxParallaxOffset;
-    
     
     return cell;
 }
