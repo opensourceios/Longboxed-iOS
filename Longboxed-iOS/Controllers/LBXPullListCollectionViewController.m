@@ -419,8 +419,12 @@ CGFloat cellWidth;
     cell.imageView.backgroundColor = [UIColor clearColor];
     // Make the search table view test and cell separators white
     LBXTitle *title = [_searchResultsArray objectAtIndex:indexPath.row];
-    
     NSString *text = title.name;
+    
+    // Nil out all imageviews so that only the
+    // ones necessary have checkmarks
+    cell.imageView.image = nil;
+    
     if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
         NSLog(@"IndexPath.row: %li\nalreadyExistingTitles: %@ ln=%li\nTitle name: %@\n\n", (long)indexPath.row, [_alreadyExistingTitles objectAtIndex:indexPath.row], (unsigned long)_alreadyExistingTitles.count, title.name);
         cell.imageView.image = [UIImage imageNamed:@"check"];
