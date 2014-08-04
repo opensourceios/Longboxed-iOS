@@ -114,6 +114,8 @@ CGFloat cellWidth;
              forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:_refreshControl];
     
+    _client = [LBXClient new];
+    
     _pullListArray = [LBXPullListTitle MR_findAllSortedBy:nil ascending:YES];
     
     if (_pullListArray.count == 0) {
@@ -121,11 +123,10 @@ CGFloat cellWidth;
         [self refresh];
     }
     else {
+        _pullListArray = [self sortedArray:_pullListArray basedOffObjectProperty:@"name"];
         tableViewRows = _pullListArray.count;
         [self.collectionView reloadData];
     }
-    
-    _client = [LBXClient new];
     
     _searchBar = [UISearchBar new];
     _searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar
@@ -248,7 +249,8 @@ CGFloat cellWidth;
         if (!error) {
             
             _pullListArray = [LBXPullListTitle MR_findAllSortedBy:nil ascending:YES];
-        
+
+            _pullListArray = [self sortedArray:_pullListArray basedOffObjectProperty:@"name"];
             tableViewRows = _pullListArray.count;
             
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -260,8 +262,20 @@ CGFloat cellWidth;
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
                                                            description:@"Check your network connection."
                                                                   type:TWMessageBarMessageTypeError];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_refreshControl endRefreshing];
+            });
         }
     }];
+}
+
+- (NSArray *)sortedArray:(NSArray *)array basedOffObjectProperty:(NSString *)property
+{
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:property
+                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    return [array sortedArrayUsingDescriptors:sortDescriptors];
 }
 
 // Captures the current screen and blurs it

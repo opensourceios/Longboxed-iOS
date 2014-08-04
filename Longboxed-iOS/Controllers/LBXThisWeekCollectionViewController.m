@@ -189,6 +189,9 @@ CGFloat cellWidth;
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
                                                            description:@"Check your network connection."
                                                                   type:TWMessageBarMessageTypeError];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_refreshControl endRefreshing];
+            });
         }
     }];
 }
