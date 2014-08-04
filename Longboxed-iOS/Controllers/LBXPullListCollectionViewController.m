@@ -422,6 +422,7 @@ CGFloat cellWidth;
     
     NSString *text = title.name;
     if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+        NSLog(@"IndexPath.row: %li\nalreadyExistingTitles: %@ ln=%li\nTitle name: %@\n\n", (long)indexPath.row, [_alreadyExistingTitles objectAtIndex:indexPath.row], (unsigned long)_alreadyExistingTitles.count, title.name);
         cell.imageView.image = [UIImage imageNamed:@"check"];
         
         // Disable selection of the row
@@ -493,14 +494,9 @@ CGFloat cellWidth;
 #pragma mark UISearchDisplayController methods
 
 // Added to fix UITableView bottom bounds in UISearchDisplayController
-- (void)searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-}
-
-// Added to fix UITableView bottom bounds in UISearchDisplayController
 - (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
 {
+    // Added to fix UITableView bottom bounds in UISearchDisplayController
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
     
     // If you scroll down in the search table view, this puts it back to the top next time you search
@@ -520,6 +516,9 @@ CGFloat cellWidth;
 
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
 {
+    // Added to fix UITableView bottom bounds in UISearchDisplayController
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+    
     // Make the background of the search results transparent
     UIView *backView = [[UIView alloc] initWithFrame:CGRectZero];
     backView.backgroundColor = [UIColor clearColor];
