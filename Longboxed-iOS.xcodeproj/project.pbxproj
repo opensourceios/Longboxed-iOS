@@ -38,6 +38,10 @@
 		E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */; };
 		E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FF196A2004005FCF25 /* LBXTitle.m */; };
 		E537121E198ED1450065D57A /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E537121D198ED1450065D57A /* UIImage+ImageEffects.m */; };
+		E5371222198EEAFE0065D57A /* LBXCustomTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5371221198EEAFE0065D57A /* LBXCustomTitleTableViewCell.m */; };
+		E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5371227198EF9300065D57A /* FontAwesome.ttf */; };
+		E537122A198EFEE90065D57A /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = E5371229198EFEE90065D57A /* check.png */; };
+		E537122C198F031A0065D57A /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E537122B198F031A0065D57A /* check@2x.png */; };
 		E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AEF196B72D80094979A /* NSString+URLQuery.m */; };
 		E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF2196B7ED30094979A /* LBXUser.m */; };
 		E54A6AF9196B9E8B0094979A /* LBXBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF8196B9E8B0094979A /* LBXBundle.m */; };
@@ -169,6 +173,11 @@
 		E51D00FF196A2004005FCF25 /* LBXTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitle.m; path = Models/LBXTitle.m; sourceTree = "<group>"; };
 		E537121C198ED1450065D57A /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "Categories/UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		E537121D198ED1450065D57A /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "Categories/UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		E5371220198EEAFE0065D57A /* LBXCustomTitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXCustomTitleTableViewCell.h; path = Views/LBXCustomTitleTableViewCell.h; sourceTree = "<group>"; };
+		E5371221198EEAFE0065D57A /* LBXCustomTitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXCustomTitleTableViewCell.m; path = Views/LBXCustomTitleTableViewCell.m; sourceTree = "<group>"; };
+		E5371227198EF9300065D57A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		E5371229198EFEE90065D57A /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = Assets/check.png; sourceTree = SOURCE_ROOT; };
+		E537122B198F031A0065D57A /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check@2x.png"; path = "Assets/check@2x.png"; sourceTree = SOURCE_ROOT; };
 		E54A6AEE196B72D80094979A /* NSString+URLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URLQuery.h"; path = "Categories/NSString+URLQuery.h"; sourceTree = "<group>"; };
 		E54A6AEF196B72D80094979A /* NSString+URLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+URLQuery.m"; path = "Categories/NSString+URLQuery.m"; sourceTree = "<group>"; };
 		E54A6AF1196B7ED30094979A /* LBXUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXUser.h; path = Models/LBXUser.h; sourceTree = "<group>"; };
@@ -422,6 +431,15 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		E5371226198EF9300065D57A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E5371227198EF9300065D57A /* FontAwesome.ttf */,
+			);
+			name = Fonts;
+			path = Extras/Fonts;
+			sourceTree = "<group>";
+		};
 		E57D48BA196068E10014A13F = {
 			isa = PBXGroup;
 			children = (
@@ -509,6 +527,8 @@
 				E57D49021960961E0014A13F /* ParallaxLayoutAttributes.h */,
 				E57D49031960961E0014A13F /* ParallaxLayoutAttributes.m */,
 				E57D49041960961E0014A13F /* ParallaxPhotoCell.h */,
+				E5371220198EEAFE0065D57A /* LBXCustomTitleTableViewCell.h */,
+				E5371221198EEAFE0065D57A /* LBXCustomTitleTableViewCell.m */,
 				E57D49051960961E0014A13F /* ParallaxPhotoCell.m */,
 			);
 			name = Views;
@@ -560,6 +580,8 @@
 		E57D49221960B8E80014A13F /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E537122B198F031A0065D57A /* check@2x.png */,
+				E5371229198EFEE90065D57A /* check.png */,
 				E5F18733196391D2006C4C26 /* longboxed_full.png */,
 				E5F18734196391D2006C4C26 /* longboxed_full@2x.png */,
 				E57D49231960B8F40014A13F /* black.png */,
@@ -587,6 +609,7 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				E5371226198EF9300065D57A /* Fonts */,
 				E510AD79198C7B7C004A7225 /* iOS-NBUKit */,
 				E587FB4D1964E2A9006A3DDB /* Pop */,
 				E5F1872619638980006C4C26 /* EasyTableView */,
@@ -768,7 +791,10 @@
 				E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
 				E57D497819611C8E0014A13F /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
 				E57D497A19611C8E0014A13F /* SVWebViewControllerActivityChrome@2x.png in Resources */,
+				E537122A198EFEE90065D57A /* check.png in Resources */,
 				E5F187381963A635006C4C26 /* LBXHomeViewController.xib in Resources */,
+				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,
+				E537122C198F031A0065D57A /* check@2x.png in Resources */,
 				E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */,
 				E57D497719611C8E0014A13F /* SVWebViewControllerActivityChrome-iPad.png in Resources */,
 				E5F18735196391D2006C4C26 /* longboxed_full.png in Resources */,
@@ -909,6 +935,7 @@
 				E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */,
 				E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */,
 				E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */,
+				E5371222198EEAFE0065D57A /* LBXCustomTitleTableViewCell.m in Sources */,
 				E510AFA9198C7B7D004A7225 /* UIImage+NBUAdditions.m in Sources */,
 				E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */,
 				E57D490B196096260014A13F /* LBXThisWeekCollectionViewController.m in Sources */,

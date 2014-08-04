@@ -7,6 +7,7 @@
 //
 
 #import "LBXPullListCollectionViewController.h"
+#import "LBXCustomTitleTableViewCell.h"
 #import "LBXClient.h"
 #import "LBXPullListTitle.h"
 #import "ParallaxFlowLayout.h"
@@ -17,8 +18,9 @@
 
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
+#import <FAImageView.h>
 
-@interface LBXPullListCollectionViewController () <UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UISearchDisplayDelegate>
+@interface LBXPullListCollectionViewController () <UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -27,6 +29,8 @@
 @property (nonatomic, strong) UIImageView *blurImageView;
 
 @property (nonatomic) NSArray *pullListArray;
+@property (nonatomic) NSArray *searchResultsArray;
+@property (nonatomic) NSMutableArray *alreadyExistingTitles;
 @property (nonatomic) LBXClient *client;
 
 @end
@@ -43,9 +47,10 @@ static const NSUInteger TABLE_HEIGHT_TWO = 252;
 static const NSUInteger TABLE_HEIGHT_ONE = 504;
 static const NSUInteger TITLE_FONT_SIZE = 36;
 
+static const NSUInteger SEARCH_TABLE_HEIGHT = 66;
+
 NSInteger tableViewRows;
 CGFloat cellWidth;
-
 
 - (id)init
 {
@@ -59,9 +64,9 @@ CGFloat cellWidth;
         return nil;
     }
     
-    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(search)];
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(setupSearchView)];
     self.navigationItem.leftBarButtonItem = actionButton;
-    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor blackColor]];
 
     return self;
 }
@@ -118,10 +123,14 @@ CGFloat cellWidth;
         [self refresh];
     }
     
+    _client = [LBXClient new];
+    
     _searchBar = [UISearchBar new];
     _searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar
                                                              contentsController:self];
     _searchBarController.delegate = self;
+    _searchBarController.searchResultsDataSource = self;
+    _searchBarController.searchResultsDelegate = self;
     
     [self.view addSubview:_searchBar];
     _searchBar.delegate = self;
@@ -177,8 +186,11 @@ CGFloat cellWidth;
     textView.text = string;
 }
 
-- (void)search
+- (void)setupSearchView
 {
+    // Close the nav menu if it is open
+    [navigationController.menu close];
+    
     // Blur the current screen
     [self blurScreen];
     // Put the search bar in front of the blurred view
@@ -186,7 +198,7 @@ CGFloat cellWidth;
     
     // Show the search bar
     _searchBar.hidden = NO;
-    //_searchBar.translucent = YES;
+    _searchBar.translucent = YES;
     _searchBar.backgroundImage = [UIImage new];
     _searchBar.scopeBarBackgroundImage = [UIImage new];
     [_searchBar becomeFirstResponder];
@@ -194,21 +206,58 @@ CGFloat cellWidth;
 
 }
 
+- (void)searchLongboxedWithText:(NSString *)searchText {
+    // Search
+    [self.client fetchAutocompleteForTitle:searchText withCompletion:^(NSArray *searchResultsArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            
+            // Create an array of titles names already in pull list so the can't be added twice
+            [_alreadyExistingTitles removeAllObjects];
+            _alreadyExistingTitles = [NSMutableArray new];
+            for (LBXTitle *title in searchResultsArray) {
+                LBXTitle *existingTitle = [LBXPullListTitle MR_findFirstByAttribute:@"name" withValue:title.name];
+                if (!existingTitle) {
+                    [_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
+                }
+                else {
+                    [_alreadyExistingTitles addObject:[NSNumber numberWithBool:YES]];
+                }
+            }
+            self.searchResultsArray = [[NSArray alloc] initWithArray:searchResultsArray];
+            
+            dispatch_async(dispatch_get_main_queue(),^{
+                [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+            });
+        }
+        else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
+            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
+                                                           description:@"Check your network connection."
+                                                                  type:TWMessageBarMessageTypeError];
+        }
+    }];
+}
+
 - (void)refresh
 {
-    _client = [LBXClient new];
-    
     // Fetch this weeks comics
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
-        _pullListArray = [LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES];
-    
-        tableViewRows = _pullListArray.count;
+        if (!error) {
+            _pullListArray = [LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.collectionView reloadData];
-            [_refreshControl endRefreshing];
-        });
+            tableViewRows = _pullListArray.count;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.collectionView reloadData];
+                [_refreshControl endRefreshing];
+            });
+        }
+        else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
+            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
+                                                           description:@"Check your network connection."
+                                                                  type:TWMessageBarMessageTypeError];
+        }
     }];
 }
 
@@ -263,7 +312,7 @@ CGFloat cellWidth;
     }
     
     UIImage *defaultImage = nil;
-    cell.backgroundColor = [UIColor colorWithRed:220/255.0 green:220/255.0 blue:220/255.0 alpha:0.2];
+    cell.backgroundColor = [UIColor colorWithRed:74/255.0 green:74/255.0 blue:74/255.0 alpha:0.9];
     
     cell.comicPublisherLabel.text = publisherString;
     cell.comicIssueLabel.text = subscriberString;
@@ -317,6 +366,85 @@ CGFloat cellWidth;
     return CGSizeMake(cellWidth, TABLE_HEIGHT_FOUR);
 }
 
+#pragma mark UITableView methods
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    return [_searchResultsArray count];
+}
+
+// Change the Height of the Cell [Default is 44]:
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    return SEARCH_TABLE_HEIGHT;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    [[UITableViewCell appearance] setBackgroundColor:[UIColor clearColor]];
+    
+    LBXCustomTitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil) {
+        
+        cell = [[LBXCustomTitleTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:CellIdentifier];
+        [cell layoutSubviews];
+    }
+    
+    // Set the line separator to go all the way across
+    [_searchBarController.searchResultsTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    cell.textLabel.numberOfLines = 0;
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
+    
+    // Make the added images circles in the search table view
+    cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height/2;
+    cell.imageView.layer.borderWidth = 0;
+    
+    cell.imageView.backgroundColor = [UIColor clearColor];
+    // Make the search table view test and cell separators white
+    LBXTitle *title = [_searchResultsArray objectAtIndex:indexPath.row];
+    
+    NSString *text = title.name;
+    if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+        cell.imageView.image = [UIImage imageNamed:@"check"];
+        
+        // Disable selection of the row
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    
+    cell.textLabel.text = text;
+    cell.textLabel.textColor = [UIColor whiteColor];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.searchDisplayController setActive:NO animated:NO];
+
+    LBXTitle *selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
+    
+    __block typeof(self) bself = self;
+    [self.client addTitleToPullList:selectedTitle.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Success!"
+                                                           description:[NSString stringWithFormat:@"%@ has been added to your pull list", selectedTitle.name]
+                                                                  type:TWMessageBarMessageTypeSuccess];
+            
+            [bself refresh];
+        }
+        else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
+            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
+                                                           description:@"Check your network connection."
+                                                                  type:TWMessageBarMessageTypeError];
+        }
+    }];
+}
+
 #pragma mark UISearchBar methods
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -324,29 +452,30 @@ CGFloat cellWidth;
     [self.searchBarController.searchResultsTableView setContentOffset:CGPointMake(self.searchBarController.searchResultsTableView.contentOffset.x, 0) animated:YES];
     
     // Delays on making the actor API calls
-//    if([searchText length] != 0) {
-//        float delay = 0.6;
-//        
-//        if (searchText.length > 3) {
-//            delay = 0.8;
-//        }
-//        [[JLTMDbClient sharedAPIInstance].operationQueue cancelAllOperations];
-//        
-//        // Clear any previously queued text changes
-//        [NSObject cancelPreviousPerformRequestsWithTarget:self];
-//        
-//        [self performSelector:@selector(refreshActorResponseWithJLTMDBcall:)
-//                   withObject:@{@"JLTMDBCall":kJLTMDbSearchPerson, @"parameters":@{@"search_type":@"ngram",@"query":searchText}}
-//                   afterDelay:delay];
-//    }
+    if([searchText length] != 0) {
+        float delay = 0.5;
+        
+        if (searchText.length > 3) {
+            delay = 0.3;
+        }
+        
+        // Clear any previously queued text changes
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+        
+        [self performSelector:@selector(searchLongboxedWithText:)
+                   withObject:searchText
+                   afterDelay:delay];
+    }
+}
+
+- (void)refreshSearchTableView
+{
+    [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    // Hide the search bar when searching is completed
-    [self.searchDisplayController setActive:NO animated:NO];
-    _searchBar.hidden = YES;
-    [_blurImageView removeFromSuperview];
+    [self endSearch];
 }
 
 #pragma mark UISearchDisplayController methods
@@ -370,7 +499,7 @@ CGFloat cellWidth;
 }
 
 // Added to fix UITableView bottom bounds in UISearchDisplayController
-- (void) keyboardWillHide
+- (void)keyboardWillHide
 {
     UITableView *tableView = [[self searchDisplayController] searchResultsTableView];
     [tableView setContentInset:UIEdgeInsetsZero];
@@ -384,6 +513,19 @@ CGFloat cellWidth;
     backView.backgroundColor = [UIColor clearColor];
     controller.searchResultsTableView.backgroundView = backView;
     controller.searchResultsTableView.backgroundColor = [UIColor clearColor];
+}
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+{
+    [self endSearch];
+}
+
+- (void)endSearch
+{
+    // Hide the search bar when searching is completed
+    [self.searchDisplayController setActive:NO animated:NO];
+    _searchBar.hidden = YES;
+    [_blurImageView removeFromSuperview];
 }
 
 

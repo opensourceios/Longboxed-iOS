@@ -47,7 +47,7 @@ LBXNavigationViewController *navigationController;
         
         UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
         self.navigationItem.leftBarButtonItem = actionButton;
-        [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
+        [self.navigationItem.leftBarButtonItem setTintColor:[UIColor blackColor]];
         
         LBXNavigationViewController *navController = [LBXNavigationViewController new];
         [navController addPaperButtonToViewController:self];
@@ -65,6 +65,8 @@ LBXNavigationViewController *navigationController;
     
     _latestBundle = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
     [self configureBundleLabels];
+    
+    _client = [LBXClient new];
     
     if (_latestBundle.count == 0) {
         [self refresh];
@@ -95,16 +97,20 @@ LBXNavigationViewController *navigationController;
 
 - (void)refresh
 {
-    _client = [LBXClient new];
-    
     if ([UICKeyChainStore keyChainStore][@"id"]) {
         // Fetch the users bundles
         [self.client fetchBundleResourcesWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-
-            // Get the bundles from Core Data
-            _latestBundle = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
-            [self configureBundleLabels];
-
+            
+            if (!error) {
+                // Get the bundles from Core Data
+                _latestBundle = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+                [self configureBundleLabels];
+            }
+            else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
+                [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
+                                                                   description:@"Check your network connection."
+                                                                          type:TWMessageBarMessageTypeError];
+            }
         }];
     }
     else {

@@ -115,11 +115,11 @@ PaperButton *button;
 {
     button = [PaperButton button];
     [button addTarget:viewController.navigationController action:@selector(toggleMenu) forControlEvents:UIControlEventTouchUpInside];
-    button.tintColor = [UIColor lightGrayColor];
+    button.tintColor = [UIColor blackColor];
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     viewController.navigationItem.rightBarButtonItem = barButton;
     
-    [viewController.navigationItem.rightBarButtonItem setTintColor:[UIColor lightGrayColor]];
+    [viewController.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
                               [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
     [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
@@ -141,7 +141,7 @@ PaperButton *button;
     self.menu.borderWidth = 0.0;
     self.menu.highlightedTextShadowOffset = CGSizeMake(0, 0);
     self.menu.highlightedTextColor = [UIColor whiteColor];
-    self.menu.highlightedBackgroundColor = [UIColor blackColor];
+    self.menu.highlightedBackgroundColor = [UIColor colorWithRed:74/255.0 green:74/255.0 blue:74/255.0 alpha:1.0];
     
     self.menu.imageOffset = CGSizeMake(5, -1);
     self.menu.waitUntilAnimationIsComplete = NO;

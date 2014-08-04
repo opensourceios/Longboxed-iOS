@@ -103,6 +103,8 @@ CGFloat cellWidth;
     
     _thisWeeksComicsArray = [NSArray new];
     
+    _client = [LBXClient new];
+    
     // Fetch from Core Data all issues with a release date after this Tuesday
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", [self getThisTuesday]];
     _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
@@ -168,21 +170,26 @@ CGFloat cellWidth;
 
 - (void)refresh
 {
-    _client = [LBXClient new];
-    
     // Fetch this weeks comics
     [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
-        // Fetch from Core Data all issues with a release date after this Tuesday
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", [self getThisTuesday]];
-        _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
-        
-        tableViewRows = _thisWeeksComicsArray.count;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.collectionView reloadData];
-            [_refreshControl endRefreshing];
-        });
+        if (!error) {
+            // Fetch from Core Data all issues with a release date after this Tuesday
+            NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", [self getThisTuesday]];
+            _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+            
+            tableViewRows = _thisWeeksComicsArray.count;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.collectionView reloadData];
+                [_refreshControl endRefreshing];
+            });
+        }
+        else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
+            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
+                                                           description:@"Check your network connection."
+                                                                  type:TWMessageBarMessageTypeError];
+        }
     }];
 }
 
