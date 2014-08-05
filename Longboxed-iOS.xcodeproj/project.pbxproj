@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4410A30038BE4D6282AAFEBB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; };
+		7A07AC5BCD7045119317C8CF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		CDE56D0EB54A49F3B06F8E78 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; };
 		E510AF8F198C7B7D004A7225 /* NSArray+RKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEBF198C7B7D004A7225 /* NSArray+RKAdditions.m */; };
 		E510AF90198C7B7D004A7225 /* NSBundle+RKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEC1198C7B7D004A7225 /* NSBundle+RKAdditions.m */; };
@@ -197,6 +197,19 @@
 		E54A6B03196BA7CF0094979A /* LBXDescriptors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDescriptors.h; path = Abstract/LBXDescriptors.h; sourceTree = "<group>"; };
 		E54A6B04196BA7CF0094979A /* LBXDescriptors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDescriptors.m; path = Abstract/LBXDescriptors.m; sourceTree = "<group>"; };
 		E555D38E196359D1003B97C0 /* LBXAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXAPITests.m; sourceTree = "<group>"; };
+		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
+		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
+		E575162219908AD00052D4C4 /* libPods-HockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-HockeySDK.a"; path = "Pods/build/Debug-iphoneos/libPods-HockeySDK.a"; sourceTree = "<group>"; };
+		E575162319908AD00052D4C4 /* libPods-ISO8601DateFormatterValueTransformer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-ISO8601DateFormatterValueTransformer.a"; path = "Pods/build/Debug-iphoneos/libPods-ISO8601DateFormatterValueTransformer.a"; sourceTree = "<group>"; };
+		E575162419908AD00052D4C4 /* libPods-MagicalRecord.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-MagicalRecord.a"; path = "Pods/build/Debug-iphoneos/libPods-MagicalRecord.a"; sourceTree = "<group>"; };
+		E575162519908AD00052D4C4 /* libPods-MCSwipeTableViewCell.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-MCSwipeTableViewCell.a"; path = "Pods/build/Debug-iphoneos/libPods-MCSwipeTableViewCell.a"; sourceTree = "<group>"; };
+		E575162619908AD00052D4C4 /* libPods-pop.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-pop.a"; path = "Pods/build/Debug-iphoneos/libPods-pop.a"; sourceTree = "<group>"; };
+		E575162719908AD00052D4C4 /* libPods-RestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-RestKit.a"; path = "Pods/build/Debug-iphoneos/libPods-RestKit.a"; sourceTree = "<group>"; };
+		E575162819908AD00052D4C4 /* libPods-RKValueTransformers.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-RKValueTransformers.a"; path = "Pods/build/Debug-iphoneos/libPods-RKValueTransformers.a"; sourceTree = "<group>"; };
+		E575162919908AD00052D4C4 /* libPods-SOCKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SOCKit.a"; path = "Pods/build/Debug-iphoneos/libPods-SOCKit.a"; sourceTree = "<group>"; };
+		E575162A19908AD00052D4C4 /* libPods-TransitionKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-TransitionKit.a"; path = "Pods/build/Debug-iphoneos/libPods-TransitionKit.a"; sourceTree = "<group>"; };
+		E575162B19908AD00052D4C4 /* libPods-TWMessageBarManager.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-TWMessageBarManager.a"; path = "Pods/build/Debug-iphoneos/libPods-TWMessageBarManager.a"; sourceTree = "<group>"; };
+		E575162C19908AD00052D4C4 /* libPods-UICKeyChainStore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-UICKeyChainStore.a"; path = "Pods/build/Debug-iphoneos/libPods-UICKeyChainStore.a"; sourceTree = "<group>"; };
 		E57D48C3196068E10014A13F /* Longboxed-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Longboxed-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E57D48C6196068E10014A13F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E57D48C8196068E10014A13F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -282,7 +295,7 @@
 				E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */,
 				E57D48CB196068E10014A13F /* UIKit.framework in Frameworks */,
 				E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */,
-				4410A30038BE4D6282AAFEBB /* libPods.a in Frameworks */,
+				7A07AC5BCD7045119317C8CF /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +482,19 @@
 		E57D48C5196068E10014A13F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E575162019908AD00052D4C4 /* libPods-AFNetworking.a */,
+				E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */,
+				E575162219908AD00052D4C4 /* libPods-HockeySDK.a */,
+				E575162319908AD00052D4C4 /* libPods-ISO8601DateFormatterValueTransformer.a */,
+				E575162419908AD00052D4C4 /* libPods-MagicalRecord.a */,
+				E575162519908AD00052D4C4 /* libPods-MCSwipeTableViewCell.a */,
+				E575162619908AD00052D4C4 /* libPods-pop.a */,
+				E575162719908AD00052D4C4 /* libPods-RestKit.a */,
+				E575162819908AD00052D4C4 /* libPods-RKValueTransformers.a */,
+				E575162919908AD00052D4C4 /* libPods-SOCKit.a */,
+				E575162A19908AD00052D4C4 /* libPods-TransitionKit.a */,
+				E575162B19908AD00052D4C4 /* libPods-TWMessageBarManager.a */,
+				E575162C19908AD00052D4C4 /* libPods-UICKeyChainStore.a */,
 				E5165E48198E8618001CDECA /* CoreData.framework */,
 				E57D48C6196068E10014A13F /* Foundation.framework */,
 				E57D48C8196068E10014A13F /* CoreGraphics.framework */,
