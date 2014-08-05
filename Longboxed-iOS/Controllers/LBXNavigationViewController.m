@@ -10,10 +10,11 @@
 
 #import "LBXNavigationViewController.h"
 #import "LBXHomeViewController.h"
-#import "LBXPullListCollectionViewController.h"
+#import "LBXPullListViewController.h"
 #import "LBXThisWeekCollectionViewController.h"
 #import "LBXLoginViewController.h"
 #import "PaperButton.h"
+#import "UIFont+customFonts.h"
 
 #import <POP/POP.h>
 
@@ -59,7 +60,7 @@ PaperButton *button;
                                                            image:[UIImage imageNamed:@"Icon_Activity"]
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
-                                                              LBXPullListCollectionViewController *controller = [[LBXPullListCollectionViewController alloc] init];
+                                                              LBXPullListViewController *controller = [[LBXPullListViewController alloc] init];
                                                               controller.title = @"Pull List";
                                                               
                                                               [self addPaperButtonToViewController:controller];
@@ -121,7 +122,7 @@ PaperButton *button;
     
     [viewController.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+                               [UIColor blackColor], NSForegroundColorAttributeName, nil];
     [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
 }
 
@@ -132,7 +133,7 @@ PaperButton *button;
     self.menu.backgroundAlpha = 0.5;
     self.menu.backgroundColor = [UIColor whiteColor];
     self.menu.textColor = [UIColor blackColor];
-    self.menu.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
+    self.menu.font = [UIFont menuFont];
     self.menu.textShadowOffset = CGSizeMake(0, 0);
     self.menu.textOffset = CGSizeMake(0, 0);
     self.menu.subtitleTextShadowOffset = CGSizeMake(0, 0);
@@ -167,7 +168,7 @@ PaperButton *button;
 {
     [super setTitle:title];
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [UIFont fontWithName:@"HelveticaNeue-Thin" size:20.0], NSFontAttributeName,nil];
+                              [UIFont navTitleFont], NSFontAttributeName,nil];
     [[UINavigationBar appearance] setTitleTextAttributes: fontDict];
 }
 

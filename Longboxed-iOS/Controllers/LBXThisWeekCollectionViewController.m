@@ -12,6 +12,7 @@
 #import "ParallaxPhotoCell.h"
 #import "LBXNavigationViewController.h"
 #import "SVWebViewController.h"
+#import "UIFont+customFonts.h"
 
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
@@ -36,7 +37,6 @@ static const NSUInteger TABLE_HEIGHT_FOUR = 126;
 static const NSUInteger TABLE_HEIGHT_THREE = 168;
 static const NSUInteger TABLE_HEIGHT_TWO = 252;
 static const NSUInteger TABLE_HEIGHT_ONE = 504;
-static const NSUInteger TITLE_FONT_SIZE = 36;
 
 NSInteger tableViewRows;
 CGFloat cellWidth;
@@ -74,7 +74,7 @@ CGFloat cellWidth;
     _noResultsLabel.frame = CGRectMake(self.view.frame.origin.x + 30, self.view.frame.origin.y, self.view.frame.size.width - 60, self.view.frame.size.height);
     _noResultsLabel.textAlignment = NSTextAlignmentCenter;
     _noResultsLabel.textColor = [UIColor whiteColor];
-    _noResultsLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:24];
+    _noResultsLabel.font = [UIFont noResultsFont];
     _noResultsLabel.numberOfLines = 0;
     
     _noResultsLabel.frame = CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y, self.view.frame.size.width - 40, self.view.frame.size.height);
@@ -111,10 +111,8 @@ CGFloat cellWidth;
     [self.collectionView reloadData];
     [_refreshControl endRefreshing];
     
-    if (_thisWeeksComicsArray.count == 0) {
-        // Refresh the table view
-        [self refresh];
-    }
+    // Refresh the collection view
+    [self refresh];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -150,7 +148,7 @@ CGFloat cellWidth;
   inBoundsOfView:(UIView *)view
 {
     UIFont *textFont = [UIFont new];
-    textFont = [UIFont fontWithName:@"HelveticaNeue-Thin" size:TITLE_FONT_SIZE];
+    textFont = [UIFont collectionTitleFont];
     
     textView.font = textFont;
     

@@ -8,6 +8,7 @@
 
 #import "ParallaxPhotoCell.h"
 #import "ParallaxLayoutAttributes.h"
+#import "UIFont+customFonts.h"
 
 @interface ParallaxPhotoCell ()
 
@@ -74,7 +75,7 @@
 {
     _comicPublisherLabel = [UILabel new];
     self.comicPublisherLabel.textColor = [UIColor whiteColor];
-    self.comicPublisherLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    self.comicPublisherLabel.font = [UIFont collectionSubtitleFont];
     self.comicPublisherLabel.textAlignment = NSTextAlignmentRight;
     self.comicPublisherLabel.backgroundColor = [UIColor clearColor];
     
@@ -88,7 +89,7 @@
 {
     _comicIssueLabel = [UILabel new];
     self.comicIssueLabel.textColor = [UIColor whiteColor];
-    self.comicIssueLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    self.comicIssueLabel.font = [UIFont collectionSubtitleFont];
     self.comicIssueLabel.textAlignment = NSTextAlignmentLeft;
     self.comicIssueLabel.backgroundColor = [UIColor clearColor];
     

@@ -68,9 +68,7 @@ LBXNavigationViewController *navigationController;
     
     _client = [LBXClient new];
     
-    if (_latestBundle.count == 0) {
-        [self refresh];
-    }
+    [self refresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated

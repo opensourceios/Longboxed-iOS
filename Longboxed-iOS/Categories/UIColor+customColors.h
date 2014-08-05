@@ -12,5 +12,6 @@
 
 + (UIColor *)LBXGreenColor;
 + (UIColor *)LBXGrayColor;
++ (UIColor *)LBXRedColor;
 
 @end

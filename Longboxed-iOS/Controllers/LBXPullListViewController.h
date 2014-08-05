@@ -8,6 +8,6 @@
 
 @import UIKit;
 
-@interface LBXPullListCollectionViewController : UICollectionViewController
+@interface LBXPullListViewController : UITableViewController
 
 @end
