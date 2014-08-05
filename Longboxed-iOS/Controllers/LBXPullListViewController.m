@@ -130,15 +130,6 @@ CGFloat cellWidth;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    for (NSString* family in [UIFont familyNames])
-    {
-        //NSLog(@"%@", family);
-        
-        for (NSString* name in [UIFont fontNamesForFamilyName: family])
-        {
-            if ([name rangeOfString:@"AvenirNext"].location != NSNotFound) NSLog(@"  %@", name);
-        }
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
