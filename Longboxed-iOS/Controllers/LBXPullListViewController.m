@@ -43,7 +43,7 @@
 
 LBXNavigationViewController *navigationController;
 
-static const NSUInteger PULL_LIST_TABLE_HEIGHT = 88;
+static const NSUInteger PULL_LIST_TABLE_HEIGHT = 110;
 static const NSUInteger SEARCH_TABLE_HEIGHT = 66;
 
 NSInteger tableViewRows;
@@ -351,12 +351,51 @@ CGFloat cellWidth;
     UIGraphicsEndImageContext();
     
     // Blur the current screen
-    _blurImageView = [[UIImageView alloc] initWithFrame:self.view.superview.bounds];
+    // Have to drop the blur view down the height of the nav bar to
+    // make things align because it disappears and the table view
+    // goes up 44px (nav bar height)
+    _blurImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.bounds.size.width, self.view.bounds.size.height)];
     _blurImageView.image = blurImage;
     _blurImageView.contentMode = UIViewContentModeBottom;
     _blurImageView.clipsToBounds = YES;
     [self.view addSubview:_blurImageView];
     
+}
+
+- (NSString *)fuzzyTimeBetweenStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate
+{
+    #define SECOND 1
+    #define MINUTE (60 * SECOND)
+    #define HOUR (60 * MINUTE)
+    #define DAY (24 * HOUR)
+    #define MONTH (30 * DAY)
+    //http://stackoverflow.com/questions/1052951/fuzzy-date-algorithm-in-objective-c
+    //Calculate the delta in seconds between the two dates
+    NSTimeInterval delta = [endDate timeIntervalSinceDate:startDate];
+
+    if (delta < 24 * HOUR)
+    {
+        return @"Today";
+    }
+    if (delta < 48 * HOUR)
+    {
+        return @"Yesterday";
+    }
+    if (delta < 30 * DAY)
+    {
+        int days = floor((double)delta/DAY);
+        return [NSString stringWithFormat:@"%d days ago", days];
+    }
+    if (delta < 12 * MONTH)
+    {
+        int months = floor((double)delta/MONTH);
+        return months <= 1 ? @"One month ago" : [NSString stringWithFormat:@"%d months ago", months];
+    }
+    else
+    {
+        int years = floor((double)delta/MONTH/12.0);
+        return years <= 1 ? @"One year ago" : [NSString stringWithFormat:@"%d years ago", years];
+    }
 }
 
 #pragma mark UITableView methods
@@ -488,8 +527,14 @@ CGFloat cellWidth;
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
             [formatter setDateFormat:@"MM-dd-yyyy"];
+            NSString *timeStamp = [formatter stringFromDate:issue.releaseDate];
+            NSDate *gmtReleaseDate = [formatter dateFromString:timeStamp];
+            // Add four hours because date is set to 20:00 by RestKit
+            NSTimeInterval secondsInFourHours = 4 * 60 * 60;
             
-            cell.subscribersLabel.text = [NSString stringWithFormat:@"%@", [formatter stringFromDate:issue.releaseDate]];
+            NSString *daysSinceLastIssue = [NSString stringWithFormat:@"%@", [self fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInFourHours] andEndDate:[NSDate date]]];
+            
+            cell.subscribersLabel.text = [NSString stringWithFormat:@"Issue %@ was %@", issue.issueNumber, daysSinceLastIssue];
             
             // Get the image from the URL and set it
             [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"black"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
