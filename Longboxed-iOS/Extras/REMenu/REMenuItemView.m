@@ -117,7 +117,7 @@
     //
     CGFloat verticalOffset = floor((self.frame.size.height - self.item.image.size.height) / 2.0);
     CGFloat horizontalOffset = floor((self.menu.itemHeight - self.item.image.size.height) / 2.0);
-    CGFloat x = (self.menu.imageAlignment == REMenuImageAlignmentLeft) ? horizontalOffset + self.menu.imageOffset.width*1 :
+    CGFloat x = (self.menu.imageAlignment == REMenuImageAlignmentLeft) ? horizontalOffset + self.menu.imageOffset.width :
                                                                          self.titleLabel.frame.size.width - (horizontalOffset + self.menu.imageOffset.width + self.item.image.size.width);
     self.imageView.frame = CGRectMake(x, verticalOffset + self.menu.imageOffset.height, self.item.image.size.width, self.item.image.size.height);
     if ([self.imageView respondsToSelector:@selector(setTintColor:)]) {

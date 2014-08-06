@@ -21,9 +21,8 @@
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
-#import <MCSwipeTableViewCell.h>
 
-@interface LBXPullListViewController () <MCSwipeTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -33,7 +32,6 @@
 @property (nonatomic, strong) NSArray *searchResultsArray;
 @property (nonatomic, strong) NSMutableArray *alreadyExistingTitles;
 @property (nonatomic, strong) LBXClient *client;
-@property (nonatomic, strong) MCSwipeTableViewCell *cellToDelete;
 
 @end
 
@@ -395,11 +393,11 @@ CGFloat cellWidth;
         
         static NSString *CellIdentifier = @"Cell";
         
-        MCSwipeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if (cell == nil) {
             
-            cell = [[MCSwipeTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
             
             // Remove inset of iOS 7 separators.
             if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
@@ -412,11 +410,6 @@ CGFloat cellWidth;
             cell.contentView.backgroundColor = [UIColor whiteColor];
         }
         
-        // Setting the default inactive state color to the tableView background color.
-        [cell setDefaultColor:self.tableView.backgroundView.backgroundColor];
-        [cell setDelegate:self];
-        cell.defaultColor = [UIColor lightGrayColor];
-        
         // Configure the cell...
         LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
         cell.textLabel.font = [UIFont pullListTitleFont];
@@ -427,35 +420,6 @@ CGFloat cellWidth;
         cell.detailTextLabel.font = [UIFont pullListSubtitleFont];
         cell.detailTextLabel.text = title.publisher.name;
         
-        int iconSize = 30;
-        
-        // Delete cross
-        FAKFontAwesome *crossIcon = [FAKFontAwesome timesIconWithSize:iconSize];
-        [crossIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-        UIImage *iconImage = [crossIcon imageWithSize:CGSizeMake(iconSize, iconSize)];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:iconImage];
-        imageView.contentMode = UIViewContentModeCenter;
-        UIView *crossView = imageView;
-        
-        [cell setSwipeGestureWithView:crossView color:[UIColor LBXRedColor] mode:MCSwipeTableViewCellModeExit state:MCSwipeTableViewCellState3 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
-            
-                _cellToDelete = cell;
-            
-                LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
-            
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Delete?"
-                                                                    message:[NSString stringWithFormat:@"Are you sure your want to delete %@?", title.name]
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"No"
-                                                          otherButtonTitles:@"Yes", nil];
-                [alertView show];
-
-        }];
-        
-        // Snap the cell back if the swipe wasn't far enough
-        [cell swipeToOriginWithCompletion:^{
-            
-        }];
         return cell;
     }
 }
@@ -483,6 +447,26 @@ CGFloat cellWidth;
 - (void)refreshSearchTableView
 {
     [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return NO;
+    }
+    else {
+        // Return YES if you want the specified item to be editable.
+        return YES;
+    }
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        //add code here for when you hit delete
+        [self deleteTitle:[_pullListArray objectAtIndex:[self.tableView indexPathForCell:[tableView cellForRowAtIndexPath:indexPath]].row]];
+        [_pullListArray removeObjectAtIndex:[self.tableView indexPathForCell:[tableView cellForRowAtIndexPath:indexPath]].row];
+        [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[tableView cellForRowAtIndexPath:indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
+    }
 }
 
 #pragma mark UISearchBar methods
@@ -542,26 +526,6 @@ CGFloat cellWidth;
     [self.searchDisplayController setActive:NO animated:NO];
     _searchBar.hidden = YES;
     [_blurImageView removeFromSuperview];
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    // No
-    if (buttonIndex == 0) {
-        [_cellToDelete swipeToOriginWithCompletion:^{
-            
-        }];
-        _cellToDelete = nil;
-    }
-    
-    // Yes
-    else {
-        [self deleteTitle:[_pullListArray objectAtIndex:[self.tableView indexPathForCell:_cellToDelete].row]];
-        [_pullListArray removeObjectAtIndex:[self.tableView indexPathForCell:_cellToDelete].row];
-        [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:_cellToDelete]] withRowAnimation:UITableViewRowAnimationLeft];
-    }
 }
 
 
