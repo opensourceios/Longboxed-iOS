@@ -13,6 +13,8 @@
 + (UIFont *)menuFont;
 + (UIFont *)navTitleFont;
 + (UIFont *)searchFont;
++ (UIFont *)searchCancelFont;
++ (UIFont *)searchPlaceholderFont;
 + (UIFont *)noResultsFont;
 + (UIFont *)collectionTitleFont;
 + (UIFont *)collectionSubtitleFont;

@@ -119,6 +119,8 @@ CGFloat cellWidth;
     [self.view addSubview:_searchBar];
     _searchBar.delegate = self;
     _searchBar.hidden = YES;
+    _searchBar.placeholder = @"Add Title to Pull List";
+    _searchBar.backgroundColor = [UIColor clearColor];
     _searchBar.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, _searchBar.frame.size.height);
 }
 
@@ -129,6 +131,18 @@ CGFloat cellWidth;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    // SearchBar cancel button font
+    [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
+    NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
+    
+    // SearchBar placeholder text font
+    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
+    
+    // SearchBar cursor color
+    [[UISearchBar appearance] setTintColor:[UIColor blackColor]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
