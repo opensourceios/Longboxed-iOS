@@ -10,8 +10,4 @@
 
 @interface LBXPullListViewController : UITableViewController
 
-@property (nonatomic, strong) NSMutableArray *pullListArray;
-
-- (void)refresh;
-
 @end

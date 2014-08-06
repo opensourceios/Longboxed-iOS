@@ -126,7 +126,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testIssuesForTitleEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchIssuesForTitle:[NSNumber numberWithInt:40] withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchIssuesForTitle:[NSNumber numberWithInt:103] withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues for title endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotEqual(titleArray.count, 0, @"Issues for title JSON is returning nil");
             *done = YES;

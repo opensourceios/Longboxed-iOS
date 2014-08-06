@@ -58,7 +58,7 @@
 
 + (UIFont *)pullListSubtitleFont
 {
-    return [UIFont fontWithName:@"AvenirNext-UltraLightItalic" size:20.0];
+    return [UIFont fontWithName:@"AvenirNext-UltraLightItalic" size:18.0];
 }
 
 @end

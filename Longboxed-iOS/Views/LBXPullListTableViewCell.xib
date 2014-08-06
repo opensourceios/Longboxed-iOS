@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PullListCell" rowHeight="88" id="O13-76-aMj" customClass="LBXPullListTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="319" height="94"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O13-76-aMj" id="cFP-HG-ASj">
+                <rect key="frame" x="0.0" y="0.0" width="319" height="93"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="223" translatesAutoresizingMaskIntoConstraints="NO" id="YOC-Ab-WRa">
+                        <rect key="frame" x="76" y="4" width="223" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="20"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="252" text="Publisher" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MAq-vG-DQv">
+                        <rect key="frame" x="76" y="64" width="143" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="AvenirNext-UltraLightItalic" family="Avenir Next" pointSize="18"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subscribers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qpq-fq-gNt">
+                        <rect key="frame" x="227" y="69" width="72" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="AvenirNext-UltraLight" family="Avenir Next" pointSize="14"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hj9-LY-meO">
+                        <rect key="frame" x="8" y="9" width="60" height="76"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="RRr-1C-GHl"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="Hj9-LY-meO" secondAttribute="bottom" constant="8" id="AQ4-Qv-Sqp"/>
+                    <constraint firstAttribute="trailing" secondItem="YOC-Ab-WRa" secondAttribute="trailing" constant="20" id="Feq-sV-0R5"/>
+                    <constraint firstItem="YOC-Ab-WRa" firstAttribute="leading" secondItem="Hj9-LY-meO" secondAttribute="trailing" constant="8" id="I0v-G2-lL2"/>
+                    <constraint firstAttribute="bottom" secondItem="Qpq-fq-gNt" secondAttribute="bottom" constant="4" id="PVH-ZW-bmV"/>
+                    <constraint firstItem="YOC-Ab-WRa" firstAttribute="top" secondItem="cFP-HG-ASj" secondAttribute="top" constant="4" id="Q1H-ha-DwK"/>
+                    <constraint firstItem="Hj9-LY-meO" firstAttribute="top" secondItem="cFP-HG-ASj" secondAttribute="top" constant="9" id="Y6D-Zy-2Ok"/>
+                    <constraint firstAttribute="trailing" secondItem="Qpq-fq-gNt" secondAttribute="trailing" constant="20" id="ZGt-bI-tqU"/>
+                    <constraint firstItem="Hj9-LY-meO" firstAttribute="leading" secondItem="cFP-HG-ASj" secondAttribute="leading" constant="8" id="bBa-lo-5PE"/>
+                    <constraint firstItem="Qpq-fq-gNt" firstAttribute="leading" secondItem="MAq-vG-DQv" secondAttribute="trailing" constant="8" id="mWB-6I-5fN"/>
+                    <constraint firstAttribute="bottom" secondItem="MAq-vG-DQv" secondAttribute="bottom" constant="4" id="qvw-cp-HPw"/>
+                    <constraint firstItem="MAq-vG-DQv" firstAttribute="leading" secondItem="Hj9-LY-meO" secondAttribute="trailing" constant="8" id="sB0-Jb-cGx"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="latestIssueImageView" destination="Hj9-LY-meO" id="xNT-E9-pUe"/>
+                <outlet property="publisherLabel" destination="MAq-vG-DQv" id="gRm-Dq-3wi"/>
+                <outlet property="subscribersLabel" destination="Qpq-fq-gNt" id="SYc-iS-RFu"/>
+                <outlet property="titleLabel" destination="YOC-Ab-WRa" id="Bs7-Gq-mvo"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Jay Hickey. All rights reserved.
 //
 
-#import "LBXCustomTitleTableViewCell.h"
+#import "LBXSearchTableViewCell.h"
 
-@implementation LBXCustomTitleTableViewCell
+@implementation LBXSearchTableViewCell
 
 // Creates circular images in table cells
 - (void)layoutSubviews {

@@ -7,12 +7,13 @@
 //
 
 #import "LBXPullListViewController.h"
-#import "LBXCustomTitleTableViewCell.h"
+#import "LBXSearchTableViewCell.h"
 #import "LBXClient.h"
 #import "LBXPullListTitle.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
 #import "LBXNavigationViewController.h"
+#import "LBXPullListTableViewCell.h"
 #import "SVWebViewController.h"
 #import "UIImage+ImageEffects.h"
 #import "UIColor+customColors.h"
@@ -22,7 +23,7 @@
 #import <TWMessageBarManager.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
 
-@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate>
 
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -32,6 +33,8 @@
 @property (nonatomic, strong) NSArray *searchResultsArray;
 @property (nonatomic, strong) NSMutableArray *alreadyExistingTitles;
 @property (nonatomic, strong) LBXClient *client;
+@property (nonatomic, strong) NSMutableArray *pullListArray;
+@property (nonatomic, strong) NSMutableArray *latestIssuesInPullListArray;
 
 @end
 
@@ -104,6 +107,8 @@ CGFloat cellWidth;
     
     _pullListArray = [NSMutableArray arrayWithArray:[self sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
 
+    _latestIssuesInPullListArray = [NSMutableArray new];
+    
     // Refresh the table view
     [self refresh];
     
@@ -223,10 +228,7 @@ CGFloat cellWidth;
             _pullListArray = [NSMutableArray arrayWithArray:[self sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             tableViewRows = _pullListArray.count;
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
-                [self.refreshControl endRefreshing];
-            });
+            [self getAllIssues];
         }
         else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
@@ -237,6 +239,49 @@ CGFloat cellWidth;
             });
         }
     }];
+}
+
+- (void)getAllIssues {
+    __block NSUInteger i = 1;
+    
+    // Fetch all the titles from the API so we can get the latest issue
+    for (LBXTitle *title in _pullListArray) {
+        [self.client fetchIssuesForTitle:title.titleID withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
+            // Wait until all titles in _pullListArray have been fetched
+            if (i == _pullListArray.count) {
+                if (!error) {
+                    
+                    // Fetch the latest of the issues from Core Data and append to _latestIssuesInPullListArray
+                    for (LBXTitle *title in _pullListArray) {
+                        NSLog(@"Searching for %@ (%@)", title.name, title.titleID);
+                        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
+                        NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+                        
+                        if (allIssuesArray.count == 0) {
+                            NSLog(@"Couldn't find %@ (%@)", title.name, title.titleID);
+                            [_latestIssuesInPullListArray addObject:@" "];
+                        }
+                        else {
+                            LBXIssue *issue = allIssuesArray[0];
+                            [_latestIssuesInPullListArray addObject:issue];
+                        }
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableView reloadData];
+                        [self.refreshControl endRefreshing];
+                    });
+                    
+                    
+                }
+                
+                else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
+                
+                }
+            }
+            i++;
+        }];
+    }
 }
 
 - (void)addTitle:(LBXTitle *)title
@@ -343,14 +388,14 @@ CGFloat cellWidth;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
-        static NSString *CellIdentifier = @"Cell";
+        static NSString *CellIdentifier = @"SearchCell";
         [[UITableViewCell appearance] setBackgroundColor:[UIColor clearColor]];
         
-        LBXCustomTitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        LBXSearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if (cell == nil) {
             
-            cell = [[LBXCustomTitleTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+            cell = [[LBXSearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                           reuseIdentifier:CellIdentifier];
             [cell layoutSubviews];
         }
@@ -389,15 +434,18 @@ CGFloat cellWidth;
         cell.textLabel.textColor = [UIColor whiteColor];
         return cell;
     }
+    
     else {
         
-        static NSString *CellIdentifier = @"Cell";
+        static NSString *CellIdentifier = @"PullListCell";
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if (cell == nil) {
+            // Custom cell as explained here: https://medium.com/p/9bee5824e722
+            [tableView registerNib:[UINib nibWithNibName:@"LBXPullListTableViewCell" bundle:nil] forCellReuseIdentifier:@"PullListCell"];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"PullListCell"];
             
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
             
             // Remove inset of iOS 7 separators.
             if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
@@ -410,20 +458,58 @@ CGFloat cellWidth;
             cell.contentView.backgroundColor = [UIColor whiteColor];
         }
         
-        // Configure the cell...
-        LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
-        cell.textLabel.font = [UIFont pullListTitleFont];
-        cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping; // Pre-iOS6 use UILineBreakModeWordWrap
-        cell.textLabel.numberOfLines = 2;  // 0 means no max.
-        cell.textLabel.text = title.name;
-        
-        cell.detailTextLabel.font = [UIFont pullListSubtitleFont];
-        cell.detailTextLabel.text = title.publisher.name;
-        
         return cell;
     }
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(LBXPullListTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Configure the pull list cell info
+    if (tableView != self.searchDisplayController.searchResultsTableView) {
+        // Configure the cell...
+        LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
+        
+        cell.titleLabel.font = [UIFont pullListTitleFont];
+        cell.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        cell.titleLabel.text = title.name;
+        cell.titleLabel.numberOfLines = 0;
+
+        cell.publisherLabel.font = [UIFont pullListSubtitleFont];
+        cell.publisherLabel.text = title.publisher.name;
+        
+        cell.subscribersLabel.text = [NSString stringWithFormat:@"%@ subscribers", title.subscribers];
+        
+        cell.latestIssueImageView.image = nil;
+        
+        if (_latestIssuesInPullListArray.count != 0 && [[_latestIssuesInPullListArray objectAtIndex:indexPath.row] isKindOfClass:[LBXIssue class]]) {
+        
+            LBXIssue *issue = [_latestIssuesInPullListArray objectAtIndex:indexPath.row];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+            [formatter setDateFormat:@"MM-dd-yyyy"];
+            
+            cell.subscribersLabel.text = [NSString stringWithFormat:@"%@", [formatter stringFromDate:issue.releaseDate]];
+            
+            // Get the image from the URL and set it
+            [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"black"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                
+                [UIView transitionWithView:cell.imageView
+                                  duration:0.5f
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{[cell.latestIssueImageView setImage:image];}
+                                completion:NULL];
+                
+            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                
+
+            }];
+        }
+//        else {
+//            [cell.latestIssueImageView removeFromSuperview];
+//        }
+    }
+}
 
 
 - (UIView *)viewWithImageName:(NSString *)imageName {

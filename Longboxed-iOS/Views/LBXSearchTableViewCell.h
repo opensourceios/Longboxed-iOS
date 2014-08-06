@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LBXCustomTitleTableViewCell : UITableViewCell
+@interface LBXSearchTableViewCell : UITableViewCell
 
 #define IMAGE_SIZE 25
 #define IMAGE_RIGHT_OFFSET 20

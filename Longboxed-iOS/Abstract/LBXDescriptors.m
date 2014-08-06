@@ -87,7 +87,7 @@
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     RKResponseDescriptor *issuesForTitleResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:titleMapping
+    [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:endpointDict[@"Issues for Title"]
                                                 keyPath:@"issues"
