@@ -46,8 +46,8 @@ LBXNavigationViewController *navigationController;
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
         
         UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
-        self.navigationItem.leftBarButtonItem = actionButton;
-        [self.navigationItem.leftBarButtonItem setTintColor:[UIColor blackColor]];
+        self.navigationItem.rightBarButtonItem = actionButton;
+        [self.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
         
         LBXNavigationViewController *navController = [LBXNavigationViewController new];
         [navController addPaperButtonToViewController:self];

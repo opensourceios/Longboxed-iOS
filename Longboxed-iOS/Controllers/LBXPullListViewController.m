@@ -30,7 +30,6 @@
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UISearchDisplayController *searchBarController;
 @property (nonatomic, strong) UIImageView *blurImageView;
-@property (nonatomic, strong) NSMutableArray *pullListArray;
 @property (nonatomic, strong) NSArray *searchResultsArray;
 @property (nonatomic, strong) NSMutableArray *alreadyExistingTitles;
 @property (nonatomic, strong) LBXClient *client;
@@ -58,8 +57,8 @@ CGFloat cellWidth;
     }
     
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(setupSearchView)];
-    self.navigationItem.leftBarButtonItem = actionButton;
-    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor blackColor]];
+    self.navigationItem.rightBarButtonItem = actionButton;
+    [self.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
 
     return self;
 }

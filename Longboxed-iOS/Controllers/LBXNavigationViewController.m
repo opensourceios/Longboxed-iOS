@@ -15,8 +15,10 @@
 #import "LBXLoginViewController.h"
 #import "PaperButton.h"
 #import "UIFont+customFonts.h"
+#import "UIColor+customColors.h"
 
 #import <POP/POP.h>
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
 @interface LBXNavigationViewController ()<UINavigationControllerDelegate>
 
@@ -33,8 +35,15 @@ PaperButton *button;
     [super viewDidLoad];
     
     __typeof (self) __weak weakSelf = self;
+    int checksize = 25;
+    
+    // Home icon
+    FAKFontAwesome *homeIcon = [FAKFontAwesome homeIconWithSize:checksize];
+    [homeIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *iconImage = [homeIcon imageWithSize:CGSizeMake(checksize, checksize)];
+    
     REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"Home"
-                                                            image:[UIImage imageNamed:@"Icon_Home"]
+                                                            image:iconImage
                                                  highlightedImage:nil
                                                            action:^(REMenuItem *item) {
                                                                LBXHomeViewController *controller = [[LBXHomeViewController alloc] init];
@@ -44,8 +53,14 @@ PaperButton *button;
                                                                
                                                                [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.6];
                                                            }];
+    
+    // Arrow with down circle icon
+    FAKFontAwesome *thisWeekIcon = [FAKFontAwesome arrowCircleODownIconWithSize:checksize];
+    [thisWeekIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    iconImage = [thisWeekIcon imageWithSize:CGSizeMake(checksize, checksize)];
+    
     REMenuItem *thisWeekItem = [[REMenuItem alloc] initWithTitle:@"This Week"
-                                                           image:[UIImage imageNamed:@"Icon_Home"]
+                                                           image:iconImage
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
                                                               LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
@@ -56,8 +71,13 @@ PaperButton *button;
                                                               [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.6];
                                                           }];
     
+    // List Icon
+    FAKFontAwesome *pullListIcon = [FAKFontAwesome listIconWithSize:checksize];
+    [pullListIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    iconImage = [pullListIcon imageWithSize:CGSizeMake(checksize, checksize)];
+    
     REMenuItem *activityItem = [[REMenuItem alloc] initWithTitle:@"Pull List"
-                                                           image:[UIImage imageNamed:@"Icon_Activity"]
+                                                           image:iconImage
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
                                                               LBXPullListViewController *controller = [[LBXPullListViewController alloc] init];
@@ -68,10 +88,16 @@ PaperButton *button;
                                                               [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.6];
                                                           }];
     
-    //    activityItem.badge = @"12";
+    
+//    activityItem.badge = @"12";
+    
+    // Sign In Icon
+    FAKFontAwesome *signInIcon = [FAKFontAwesome signInIconWithSize:checksize];
+    [signInIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    iconImage = [signInIcon imageWithSize:CGSizeMake(checksize, checksize)];
     
     REMenuItem *profileItem = [[REMenuItem alloc] initWithTitle:@"Log In"
-                                                          image:[UIImage imageNamed:@"Icon_Profile"]
+                                                          image:iconImage
                                                highlightedImage:nil
                                                          action:^(REMenuItem *item) {
                                                              LBXLoginViewController *controller = [[LBXLoginViewController alloc] init];
@@ -101,6 +127,12 @@ PaperButton *button;
         //NSLog(@"Menu did close");
     }];
     
+    self.menu.badgeLabelConfigurationBlock = ^(UILabel *badgeLabel, REMenuItem *item) {
+        badgeLabel.backgroundColor = [UIColor whiteColor];
+        badgeLabel.layer.borderColor = [UIColor blackColor].CGColor;
+        badgeLabel.textColor = [UIColor blackColor];
+    };
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -118,9 +150,9 @@ PaperButton *button;
     [button addTarget:viewController.navigationController action:@selector(toggleMenu) forControlEvents:UIControlEventTouchUpInside];
     button.tintColor = [UIColor blackColor];
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-    viewController.navigationItem.rightBarButtonItem = barButton;
+    viewController.navigationItem.leftBarButtonItem = barButton;
     
-    [viewController.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
+    [viewController.navigationItem.leftBarButtonItem setTintColor:[UIColor blackColor]];
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                [UIColor blackColor], NSForegroundColorAttributeName, nil];
     [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
