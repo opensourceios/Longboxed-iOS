@@ -270,9 +270,13 @@
 - (void)fetchPullListWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"userID", store[@"id"],
-                        nil];
+    NSString *params;
+    if (store[@"id"]) {
+        params = [NSDictionary dictionaryWithKeysAndObjects:
+                            @"userID", store[@"id"],
+                            nil];
+        
+    }
     
     NSArray *previousPullList = [LBXPullListTitle MR_findAllSortedBy:nil ascending:NO];
     
@@ -318,9 +322,13 @@
 - (void)fetchBundleResourcesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"userID", store[@"id"],
-                        nil];
+    NSString *params;
+    if (store[@"id"]) {
+        params = [NSDictionary dictionaryWithKeysAndObjects:
+                  @"userID", store[@"id"],
+                  nil];
+        
+    }
     
     [self GETWithRouteName:@"Bundle Resources for User" objectDictParams:params queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
@@ -330,9 +338,13 @@
 - (void)fetchLatestBundleWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"userID", store[@"id"],
-                        nil];
+    NSString *params;
+    if (store[@"id"]) {
+        params = [NSDictionary dictionaryWithKeysAndObjects:
+                  @"userID", store[@"id"],
+                  nil];
+        
+    }
     
     [self GETWithRouteName:@"Latest Bundle" objectDictParams:params queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);

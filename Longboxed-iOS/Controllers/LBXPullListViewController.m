@@ -57,7 +57,7 @@ CGFloat cellWidth;
         return nil;
     }
     
-    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(setupSearchView)];
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(setupSearchView)];
     self.navigationItem.leftBarButtonItem = actionButton;
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor blackColor]];
 
