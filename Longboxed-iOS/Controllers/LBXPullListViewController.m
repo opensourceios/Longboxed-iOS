@@ -23,7 +23,7 @@
 #import <TWMessageBarManager.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
 
-@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate>
+@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
 
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -43,7 +43,7 @@
 
 LBXNavigationViewController *navigationController;
 
-static const NSUInteger PULL_LIST_TABLE_HEIGHT = 110;
+static const NSUInteger PULL_LIST_TABLE_HEIGHT = 88;
 static const NSUInteger SEARCH_TABLE_HEIGHT = 66;
 
 NSInteger tableViewRows;
@@ -389,12 +389,12 @@ CGFloat cellWidth;
     if (delta < 12 * MONTH)
     {
         int months = floor((double)delta/MONTH);
-        return months <= 1 ? @"One month ago" : [NSString stringWithFormat:@"%d months ago", months];
+        return months <= 1 ? @"1 month ago" : [NSString stringWithFormat:@"%d months ago", months];
     }
     else
     {
         int years = floor((double)delta/MONTH/12.0);
-        return years <= 1 ? @"One year ago" : [NSString stringWithFormat:@"%d years ago", years];
+        return years <= 1 ? @"1 year ago" : [NSString stringWithFormat:@"%d years ago", years];
     }
 }
 
@@ -478,18 +478,19 @@ CGFloat cellWidth;
         
         static NSString *CellIdentifier = @"PullListCell";
         
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        LBXPullListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if (cell == nil) {
             // Custom cell as explained here: https://medium.com/p/9bee5824e722
             [tableView registerNib:[UINib nibWithNibName:@"LBXPullListTableViewCell" bundle:nil] forCellReuseIdentifier:@"PullListCell"];
             cell = [tableView dequeueReusableCellWithIdentifier:@"PullListCell"];
-            
-            
+
             // Remove inset of iOS 7 separators.
             if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
                 cell.separatorInset = UIEdgeInsetsZero;
             }
+
+            
             
             [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
             
@@ -509,14 +510,13 @@ CGFloat cellWidth;
         LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
         
         cell.titleLabel.font = [UIFont pullListTitleFont];
-        cell.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         cell.titleLabel.text = title.name;
-        cell.titleLabel.numberOfLines = 0;
-
-        cell.publisherLabel.font = [UIFont pullListSubtitleFont];
-        cell.publisherLabel.text = title.publisher.name;
+        cell.titleLabel.numberOfLines = 2;
         
-        cell.subscribersLabel.text = [NSString stringWithFormat:@"%@ subscribers", title.subscribers];
+        cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
+        cell.subtitleLabel.text = title.publisher.name;
+        cell.subtitleLabel.textColor = [UIColor grayColor];
         
         cell.latestIssueImageView.image = nil;
         
@@ -534,7 +534,13 @@ CGFloat cellWidth;
             
             NSString *daysSinceLastIssue = [NSString stringWithFormat:@"%@", [self fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInFourHours] andEndDate:[NSDate date]]];
             
-            cell.subscribersLabel.text = [NSString stringWithFormat:@"Issue %@ was %@", issue.issueNumber, daysSinceLastIssue];
+            NSString *issueString = @"issues";
+            if ([issue.issueNumber isEqual:@1]) {
+                issueString = @"issue";
+            }
+            
+            NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@ %@  •  %@", title.publisher.name, issue.issueNumber, issueString, daysSinceLastIssue];
+            cell.subtitleLabel.text = [subtitleString uppercaseString];
             
             // Get the image from the URL and set it
             [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"black"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
@@ -550,9 +556,9 @@ CGFloat cellWidth;
 
             }];
         }
-//        else {
-//            [cell.latestIssueImageView removeFromSuperview];
-//        }
+        else {
+            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        }
     }
 }
 

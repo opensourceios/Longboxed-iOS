@@ -52,6 +52,7 @@
 		E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6B04196BA7CF0094979A /* LBXDescriptors.m */; };
 		E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54F10951991D21B00DAD4FE /* LBXPullListTableViewCell.xib */; };
 		E54F10991991D28900DAD4FE /* LBXPullListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E54F10981991D28900DAD4FE /* LBXPullListTableViewCell.m */; };
+		E553F5981993213B003E1F5C /* NotAvailable.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E553F5971993213B003E1F5C /* NotAvailable.jpeg */; };
 		E555D38F196359D1003B97C0 /* LBXAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38E196359D1003B97C0 /* LBXAPITests.m */; };
 		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
 		E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C8196068E10014A13F /* CoreGraphics.framework */; };
@@ -201,6 +202,7 @@
 		E54F10951991D21B00DAD4FE /* LBXPullListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXPullListTableViewCell.xib; path = Views/LBXPullListTableViewCell.xib; sourceTree = "<group>"; };
 		E54F10971991D28900DAD4FE /* LBXPullListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListTableViewCell.h; path = Views/LBXPullListTableViewCell.h; sourceTree = "<group>"; };
 		E54F10981991D28900DAD4FE /* LBXPullListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListTableViewCell.m; path = Views/LBXPullListTableViewCell.m; sourceTree = "<group>"; };
+		E553F5971993213B003E1F5C /* NotAvailable.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = NotAvailable.jpeg; path = Assets/NotAvailable.jpeg; sourceTree = SOURCE_ROOT; };
 		E555D38E196359D1003B97C0 /* LBXAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXAPITests.m; sourceTree = "<group>"; };
 		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
@@ -620,6 +622,7 @@
 		E57D49221960B8E80014A13F /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E553F5971993213B003E1F5C /* NotAvailable.jpeg */,
 				E537122B198F031A0065D57A /* check@2x.png */,
 				E5371229198EFEE90065D57A /* check.png */,
 				E5F18733196391D2006C4C26 /* longboxed_full.png */,
@@ -841,6 +844,7 @@
 				E537122C198F031A0065D57A /* check@2x.png in Resources */,
 				E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */,
 				E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */,
+				E553F5981993213B003E1F5C /* NotAvailable.jpeg in Resources */,
 				E57D497719611C8E0014A13F /* SVWebViewControllerActivityChrome-iPad.png in Resources */,
 				E5F18735196391D2006C4C26 /* longboxed_full.png in Resources */,
 			);

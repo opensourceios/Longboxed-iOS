@@ -11,8 +11,7 @@
 @interface LBXPullListTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
-@property (nonatomic, weak) IBOutlet UILabel *publisherLabel;
-@property (nonatomic, weak) IBOutlet UILabel *subscribersLabel;
+@property (nonatomic, weak) IBOutlet UILabel *subtitleLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *latestIssueImageView;
 
 @end
