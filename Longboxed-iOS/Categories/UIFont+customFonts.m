@@ -7,17 +7,18 @@
 //
 
 #import "UIFont+customFonts.h"
+#import "UIFontDescriptor+AvenirNext.h"
 
 @implementation UIFont (customFonts)
 
 + (UIFont *)menuFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:20];
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:18];
 }
 
 + (UIFont *)navTitleFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:20];
+    return [UIFont menuFont];
 }
 
 + (UIFont *)searchFont
@@ -34,7 +35,6 @@
 {
     return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
 }
-
 
 + (UIFont *)noResultsFont
 {
@@ -53,12 +53,13 @@
 
 + (UIFont *)pullListTitleFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Medium" size:18.0];
+    // Set to 17, should be 18
+    return [UIFont fontWithDescriptor:[UIFontDescriptor preferredAvenirNextMediumFontDescriptorWithTextStyle:UIFontTextStyleHeadline] size: 0];
 }
 
 + (UIFont *)pullListSubtitleFont
 {
-    return [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:10.0];
+    return [UIFont fontWithDescriptor:[UIFontDescriptor preferredAvenirNextCondensedMediumFontDescriptorWithTextStyle:UIFontTextStyleCaption2] size: 0];
 }
 
 @end

@@ -517,6 +517,7 @@ CGFloat cellWidth;
         cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
         cell.subtitleLabel.text = title.publisher.name;
         cell.subtitleLabel.textColor = [UIColor grayColor];
+        cell.subtitleLabel.numberOfLines = 2;
         
         cell.latestIssueImageView.image = nil;
         
