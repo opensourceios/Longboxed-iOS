@@ -195,12 +195,14 @@ CGFloat cellWidth;
 {
     // Get the latest issue in the database
     NSArray *issues = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO];
-    LBXIssue *issue = [issues objectAtIndex:0];
-    
-    // Subtract one day from it
-    NSDate *sevenDaysAgo = [issue.releaseDate dateByAddingTimeInterval:-1*24*60*60];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", sevenDaysAgo];
-    _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+    if (issues.count) {
+        LBXIssue *issue = [issues objectAtIndex:0];
+        
+        // Subtract one day from it
+        NSDate *sevenDaysAgo = [issue.releaseDate dateByAddingTimeInterval:-1*24*60*60];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", sevenDaysAgo];
+        _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource

@@ -8,6 +8,7 @@
 
 #import "LBXLoginViewController.h"
 #import "LBXNavigationViewController.h"
+#import "LBXDatabaseManager.h"
 #import "LBXClient.h"
 
 #import <UICKeyChainStore.h>
@@ -87,7 +88,9 @@ UICKeyChainStore *store;
                     });
                 }
                 else {
+                    
                     [self removeCredentials];
+                    [LBXDatabaseManager flushDatabase];
                     
                     dispatch_async(dispatch_get_main_queue(),^{
                         [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Credentials"
@@ -106,6 +109,7 @@ UICKeyChainStore *store;
         case 1:
         {
             [self removeCredentials];
+            [LBXDatabaseManager flushDatabase];
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Logged Out"
                                                            description:@"Successfully logged out."
                                                                   type:TWMessageBarMessageTypeSuccess];

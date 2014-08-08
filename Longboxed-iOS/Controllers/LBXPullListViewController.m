@@ -22,6 +22,7 @@
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import <SVProgressHUD.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
 
@@ -221,6 +222,9 @@ CGFloat cellWidth;
 
 - (void)refresh
 {
+    if (![self.tableView numberOfRowsInSection:0]) {
+        [SVProgressHUD show];
+    }
     // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
@@ -234,10 +238,7 @@ CGFloat cellWidth;
                                                            description:@"Check your network connection."
                                                                   type:TWMessageBarMessageTypeError];
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-            [self.refreshControl endRefreshing];
-        });
+        [self getAllIssues];
     }];
 }
 
@@ -266,18 +267,15 @@ CGFloat cellWidth;
                             [_latestIssuesInPullListArray addObject:issue];
                         }
                     }
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.tableView reloadData];
-                        [self.refreshControl endRefreshing];
-                    });
-                    
-                    
                 }
-                
                 else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
                 
                 }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                    [self.refreshControl endRefreshing];
+                    [SVProgressHUD dismiss];
+                });
             }
             i++;
         }];
@@ -286,9 +284,10 @@ CGFloat cellWidth;
 
 - (void)addTitle:(LBXTitle *)title
 {
+    [SVProgressHUD show];
     __block typeof(self) bself = self;
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        
+        [SVProgressHUD dismiss];
         if (!error) {
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Added!"
                                                            description:[NSString stringWithFormat:@"%@ has been added to your pull list.", title.name]
@@ -308,9 +307,10 @@ CGFloat cellWidth;
 
 - (void)deleteTitle:(LBXTitle *)title
 {
+    [SVProgressHUD show];
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        
+        [SVProgressHUD dismiss];
         if (!error) {
             _pullListArray = [NSMutableArray arrayWithArray:[self sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             tableViewRows = _pullListArray.count;
@@ -524,17 +524,18 @@ CGFloat cellWidth;
         
         [self setCell:cell withTitle:title];
         
-        if ([cell.titleLabel.text isEqualToString:@""]) {
+        if (cell.latestIssueImageView.image == [UIImage imageNamed:@"NotAvailable"]) {
             [self.client fetchIssuesForTitle:title.titleID withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
                     if (!error) {
                         [self setCell:cell withTitle:title];
                     }
-                
                     else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
                         
                     }
-        
             }];
+        }
+        else {
+            [self setCell:cell withTitle:title];
         }
     }
 }

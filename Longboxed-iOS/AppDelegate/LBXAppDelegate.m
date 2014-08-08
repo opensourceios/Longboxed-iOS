@@ -6,31 +6,18 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
-#import <RestKit/CoreData.h>
-#import <RestKit/RestKit.h>
-#import "CoreData+MagicalRecord.h"
-
+#import "LBXDatabaseManager.h"
 #import "LBXAppDelegate.h"
 #import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
-#import "LBXClient.h"
-#import "LBXMap.h"
-#import "LBXEndpoints.h"
-#import "LBXDescriptors.h"
 
 #import "HockeySDK.h"
-
-// Use a class extension to expose access to MagicalRecord's private setter methods
-@interface NSManagedObjectContext ()
-+ (void)MR_setRootSavingContext:(NSManagedObjectContext *)context;
-+ (void)MR_setDefaultContext:(NSManagedObjectContext *)moc;
-@end
 
 @implementation LBXAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [self setupRestKit];
+    [LBXDatabaseManager setupRestKit];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -81,64 +68,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (void)setupRestKit {
-//    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.longboxed.Longboxed-iOSDebug"]) {
-//        RKLogConfigureByName("RestKit*", RKLogLevelDebug); // set all RestKit logs to warning (leaving the app-specific log untouched).
-//        RKLogConfigureByName("RestKit/CoreData", RKLogLevelDebug);
-//    }
-//    else {
-//        RKLogConfigureByName("*", RKLogLevelOff)
-//    }
-    
-    // Initialize RestKit
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:[LBXEndpoints baseURLString]]];
-    
-    // Auth
-    [LBXClient setAuth];
-    
-    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
-    RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
-    manager.managedObjectStore = managedObjectStore;
-    
-    RKObjectMapping *errorMapping = [RKObjectMapping mappingForClass:[RKErrorMessage class]];
-    
-    [errorMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"errorMessage"]];
-    
-    RKResponseDescriptor *errorDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:errorMapping
-                                                                                         method:RKRequestMethodAny
-                                                                                    pathPattern:nil
-                                                                                        keyPath:@"error"
-                                                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassClientError)];
-    
-    [manager addResponseDescriptorsFromArray:@[errorDescriptor]];
-    [manager addResponseDescriptorsFromArray:[LBXDescriptors GETResponseDescriptors]];
-    
-    /**
-     Complete Core Data stack initialization
-     */
-    [managedObjectStore createPersistentStoreCoordinator];
-    
-    NSString *storePath = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"Longboxed-iOS.sqlite"];
-    
-    NSError *error;
-    
-    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:storePath fromSeedDatabaseAtPath:nil  withConfiguration:nil options:@{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES} error:&error];
-    
-    NSAssert(persistentStore, @"Failed to add persistent store with error: %@", error);
-    
-    // Create the managed object contexts
-    [managedObjectStore createManagedObjectContexts];
-    
-    // Configure MagicalRecord to use RestKit's Core Data stack
-    [NSPersistentStoreCoordinator MR_setDefaultStoreCoordinator:managedObjectStore.persistentStoreCoordinator];
-    [NSManagedObjectContext MR_setRootSavingContext:managedObjectStore.persistentStoreManagedObjectContext];
-    [NSManagedObjectContext MR_setDefaultContext:managedObjectStore.mainQueueManagedObjectContext];
-    
-    // Configure a managed object cache to ensure we do not create duplicate objects
-    managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];
-
 }
 
 @end

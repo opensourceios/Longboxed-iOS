@@ -28,7 +28,7 @@
 
 + (UIFont *)searchCancelFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:18];
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:16];
 }
 
 + (UIFont *)searchPlaceholderFont

@@ -54,6 +54,8 @@
 		E54F10991991D28900DAD4FE /* LBXPullListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E54F10981991D28900DAD4FE /* LBXPullListTableViewCell.m */; };
 		E553F5981993213B003E1F5C /* NotAvailable.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E553F5971993213B003E1F5C /* NotAvailable.jpeg */; };
 		E553F59B19932D73003E1F5C /* UIFontDescriptor+AvenirNext.m in Sources */ = {isa = PBXBuildFile; fileRef = E553F59A19932D73003E1F5C /* UIFontDescriptor+AvenirNext.m */; };
+		E553F59F19946393003E1F5C /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = E553F59E19946393003E1F5C /* clear.png */; };
+		E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */; };
 		E555D38F196359D1003B97C0 /* LBXAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38E196359D1003B97C0 /* LBXAPITests.m */; };
 		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
 		E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C8196068E10014A13F /* CoreGraphics.framework */; };
@@ -206,6 +208,9 @@
 		E553F5971993213B003E1F5C /* NotAvailable.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = NotAvailable.jpeg; path = Assets/NotAvailable.jpeg; sourceTree = SOURCE_ROOT; };
 		E553F59919932D73003E1F5C /* UIFontDescriptor+AvenirNext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIFontDescriptor+AvenirNext.h"; path = "Categories/UIFontDescriptor+AvenirNext.h"; sourceTree = "<group>"; };
 		E553F59A19932D73003E1F5C /* UIFontDescriptor+AvenirNext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFontDescriptor+AvenirNext.m"; path = "Categories/UIFontDescriptor+AvenirNext.m"; sourceTree = "<group>"; };
+		E553F59E19946393003E1F5C /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clear.png; path = Assets/clear.png; sourceTree = SOURCE_ROOT; };
+		E553F5A01994691A003E1F5C /* LBXDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDatabaseManager.h; path = Abstract/LBXDatabaseManager.h; sourceTree = "<group>"; };
+		E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDatabaseManager.m; path = Abstract/LBXDatabaseManager.m; sourceTree = "<group>"; };
 		E555D38E196359D1003B97C0 /* LBXAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXAPITests.m; sourceTree = "<group>"; };
 		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
@@ -571,10 +576,10 @@
 				E57D49011960961E0014A13F /* ParallaxFlowLayout.m */,
 				E57D49021960961E0014A13F /* ParallaxLayoutAttributes.h */,
 				E57D49031960961E0014A13F /* ParallaxLayoutAttributes.m */,
+				E57D49051960961E0014A13F /* ParallaxPhotoCell.m */,
 				E57D49041960961E0014A13F /* ParallaxPhotoCell.h */,
 				E5371220198EEAFE0065D57A /* LBXSearchTableViewCell.h */,
 				E5371221198EEAFE0065D57A /* LBXSearchTableViewCell.m */,
-				E57D49051960961E0014A13F /* ParallaxPhotoCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -609,6 +614,8 @@
 				E54A6B04196BA7CF0094979A /* LBXDescriptors.m */,
 				E57D49101960A2180014A13F /* LBXClient.h */,
 				E57D49111960A2180014A13F /* LBXClient.m */,
+				E553F5A01994691A003E1F5C /* LBXDatabaseManager.h */,
+				E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */,
 			);
 			name = Abstract;
 			sourceTree = "<group>";
@@ -625,6 +632,7 @@
 		E57D49221960B8E80014A13F /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E553F59E19946393003E1F5C /* clear.png */,
 				E553F5971993213B003E1F5C /* NotAvailable.jpeg */,
 				E537122B198F031A0065D57A /* check@2x.png */,
 				E5371229198EFEE90065D57A /* check.png */,
@@ -842,6 +850,7 @@
 				E57D49241960B8F40014A13F /* black.png in Resources */,
 				E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
 				E57D497819611C8E0014A13F /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
+				E553F59F19946393003E1F5C /* clear.png in Resources */,
 				E57D497A19611C8E0014A13F /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				E537122A198EFEE90065D57A /* check.png in Resources */,
 				E5F187381963A635006C4C26 /* LBXHomeViewController.xib in Resources */,
@@ -1013,6 +1022,7 @@
 				E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */,
 				E57D4952196118950014A13F /* RECommonFunctions.m in Sources */,
 				E51A778E19904E1F00AD12A7 /* UIColor+customColors.m in Sources */,
+				E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */,
 				E57D498219611C950014A13F /* SVWebViewControllerActivitySafari.m in Sources */,
 				E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */,
 				E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */,
