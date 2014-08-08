@@ -13,7 +13,7 @@
 
 + (UIFont *)menuFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:18];
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:20];
 }
 
 + (UIFont *)navTitleFont

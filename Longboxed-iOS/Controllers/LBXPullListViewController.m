@@ -89,7 +89,7 @@ CGFloat cellWidth;
     
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
-    
+    self.tableView.rowHeight = PULL_LIST_TABLE_HEIGHT;
     self.tableView.alwaysBounceVertical = YES;
     
     // Special attribute set for title text color
@@ -227,17 +227,17 @@ CGFloat cellWidth;
         if (!error) {
             _pullListArray = [NSMutableArray arrayWithArray:[self sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             tableViewRows = _pullListArray.count;
-            
-            [self getAllIssues];
+        
         }
         else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
                                                            description:@"Check your network connection."
                                                                   type:TWMessageBarMessageTypeError];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.refreshControl endRefreshing];
-            });
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
+        });
     }];
 }
 
@@ -293,8 +293,10 @@ CGFloat cellWidth;
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Added!"
                                                            description:[NSString stringWithFormat:@"%@ has been added to your pull list.", title.name]
                                                                   type:TWMessageBarMessageTypeSuccess];
+            bself.pullListArray = [NSMutableArray arrayWithArray:[bself sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             
-            [bself refresh];
+//            [bself refresh];
+            [bself.tableView reloadData];
         }
         else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
@@ -510,65 +512,31 @@ CGFloat cellWidth;
         LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
         
         cell.titleLabel.font = [UIFont pullListTitleFont];
-        cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         cell.titleLabel.text = title.name;
+        cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         cell.titleLabel.numberOfLines = 2;
         
         cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
-        cell.subtitleLabel.text = title.publisher.name;
         cell.subtitleLabel.textColor = [UIColor grayColor];
         cell.subtitleLabel.numberOfLines = 2;
         
         cell.latestIssueImageView.image = nil;
         
-        if (_latestIssuesInPullListArray.count != 0 && [[_latestIssuesInPullListArray objectAtIndex:indexPath.row] isKindOfClass:[LBXIssue class]]) {
+        [self setCell:cell withTitle:title];
         
-            LBXIssue *issue = [_latestIssuesInPullListArray objectAtIndex:indexPath.row];
-            
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
-            [formatter setDateFormat:@"MM-dd-yyyy"];
-            NSString *timeStamp = [formatter stringFromDate:issue.releaseDate];
-            NSDate *gmtReleaseDate = [formatter dateFromString:timeStamp];
-            // Add four hours because date is set to 20:00 by RestKit
-            NSTimeInterval secondsInFourHours = 4 * 60 * 60;
-            
-            NSString *daysSinceLastIssue = [NSString stringWithFormat:@"%@", [self fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInFourHours] andEndDate:[NSDate date]]];
-            
-            NSString *issueString = @"issues";
-            if ([issue.issueNumber isEqual:@1]) {
-                issueString = @"issue";
-            }
-            
-            NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@ %@  •  %@", title.publisher.name, issue.issueNumber, issueString, daysSinceLastIssue];
-            cell.subtitleLabel.text = [subtitleString uppercaseString];
-            
-            // Get the image from the URL and set it
-            [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"black"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        if ([cell.titleLabel.text isEqualToString:@""]) {
+            [self.client fetchIssuesForTitle:title.titleID withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
+                    if (!error) {
+                        [self setCell:cell withTitle:title];
+                    }
                 
-                [UIView transitionWithView:cell.imageView
-                                  duration:0.5f
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{[cell.latestIssueImageView setImage:image];}
-                                completion:NULL];
-                
-            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                
-
+                    else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
+                        
+                    }
+        
             }];
         }
-        else {
-            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
-        }
     }
-}
-
-
-- (UIView *)viewWithImageName:(NSString *)imageName {
-    UIImage *image = [UIImage imageNamed:imageName];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.contentMode = UIViewContentModeCenter;
-    return imageView;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -580,11 +548,6 @@ CGFloat cellWidth;
         
         [self addTitle:selectedTitle];
     }
-}
-
-- (void)refreshSearchTableView
-{
-    [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -604,6 +567,59 @@ CGFloat cellWidth;
         [self deleteTitle:[_pullListArray objectAtIndex:[self.tableView indexPathForCell:[tableView cellForRowAtIndexPath:indexPath]].row]];
         [_pullListArray removeObjectAtIndex:[self.tableView indexPathForCell:[tableView cellForRowAtIndexPath:indexPath]].row];
         [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[tableView cellForRowAtIndexPath:indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
+    }
+}
+
+- (void)refreshSearchTableView
+{
+    [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (void)setCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
+    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+    
+    if (allIssuesArray.count != 0) {
+        LBXIssue *issue = allIssuesArray[0];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+        [formatter setDateFormat:@"MM-dd-yyyy"];
+        NSString *timeStamp = [formatter stringFromDate:issue.releaseDate];
+        NSDate *gmtReleaseDate = [formatter dateFromString:timeStamp];
+        // Add four hours because date is set to 20:00 by RestKit
+        NSTimeInterval secondsInFourHours = 4 * 60 * 60;
+        
+        NSString *daysSinceLastIssue = [NSString stringWithFormat:@"%@", [self fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInFourHours] andEndDate:[NSDate date]]];
+        
+        NSString *issueString = @"issues";
+        if ([issue.issueNumber isEqual:@1]) {
+            issueString = @"issue";
+        }
+        
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@ %@  •  %@", title.publisher.name, issue.issueNumber, issueString, daysSinceLastIssue];
+        
+        cell.titleLabel.text = title.name;
+        cell.subtitleLabel.text = [subtitleString uppercaseString];
+        
+        // Get the image from the URL and set it
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        
+            [UIView transitionWithView:cell.imageView
+                              duration:0.5f
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{[cell.latestIssueImageView setImage:image];}
+                            completion:NULL];
+            
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            
+            
+        }];
+    }
+    else {
+        cell.titleLabel.text = title.name;
+        cell.subtitleLabel.text = title.publisher.name;
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }
 }
 
