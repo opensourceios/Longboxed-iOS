@@ -10,6 +10,7 @@
 #import "LBXNavigationViewController.h"
 #import "LBXDatabaseManager.h"
 #import "LBXClient.h"
+#import "LBXMessageBar.h"
 
 #import <UICKeyChainStore.h>
 #import <TWMessageBarManager.h>
@@ -82,9 +83,7 @@ UICKeyChainStore *store;
                     dispatch_async(dispatch_get_main_queue(),^{
                         [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
                         [store synchronize];
-                        [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Log In Successful"
-                                                                   description:@"Logged in successfully."
-                                                                          type:TWMessageBarMessageTypeSuccess];
+                        [LBXMessageBar successfulLogin];
                     });
                 }
                 else {
@@ -93,9 +92,7 @@ UICKeyChainStore *store;
                     [LBXDatabaseManager flushDatabase];
                     
                     dispatch_async(dispatch_get_main_queue(),^{
-                        [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Incorrect Credentials"
-                                                                   description:@"Your username or password is incorrect."
-                                                                          type:TWMessageBarMessageTypeError];
+                        [LBXMessageBar incorrectCredentials];
                         _passwordField.text = @"";
                         [_usernameField becomeFirstResponder];
                     });
@@ -110,9 +107,7 @@ UICKeyChainStore *store;
         {
             [self removeCredentials];
             [LBXDatabaseManager flushDatabase];
-            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Logged Out"
-                                                           description:@"Successfully logged out."
-                                                                  type:TWMessageBarMessageTypeSuccess];
+            [LBXMessageBar successfulLogout];
             _usernameField.text = @"";
             _passwordField.text = @"";
             [_usernameField becomeFirstResponder];

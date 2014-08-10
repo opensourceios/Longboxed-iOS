@@ -22,11 +22,11 @@
 #import "UIColor+customColors.h"
 #import "UIFont+customFonts.h"
 #import "UIImage+ImageEffects.h"
+#import "LBXMessageBar.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
-#import <SVProgressHUD.h>
-#import <TWMessageBarManager.h>
 #import <UIImageView+AFNetworking.h>
+#import <SVProgressHUD.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
 
@@ -75,6 +75,11 @@ CGFloat cellWidth;
     
     // Background color for the swiping of the cells
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
+    [SVProgressHUD setBackgroundColor:[UIColor LBXGrayColor]];
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    
     
     _noResultsLabel = [UILabel new];
     
@@ -216,19 +221,14 @@ CGFloat cellWidth;
                 [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
             });
         }
-        else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
-                                                           description:@"Check your network connection."
-                                                                  type:TWMessageBarMessageTypeError];
+        else {
+            [LBXMessageBar displayError:error];
         }
     }];
 }
 
 - (void)refresh
 {
-    if (![self.tableView numberOfRowsInSection:0]) {
-        [SVProgressHUD show];
-    }
     // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
@@ -237,11 +237,9 @@ CGFloat cellWidth;
             tableViewRows = _pullListArray.count;
             [self getAllIssues];
         }
-        else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
-                                                           description:@"Check your network connection."
-                                                                  type:TWMessageBarMessageTypeError];
-            [SVProgressHUD dismiss];
+        else {
+            [LBXMessageBar displayError:error];
+            [self.refreshControl endRefreshing];
         }
     }];
 }
@@ -249,10 +247,13 @@ CGFloat cellWidth;
 - (void)getAllIssues {
     __block NSUInteger i = 1;
     
+    if (![self.tableView numberOfRowsInSection:0]) {
+        [self.refreshControl beginRefreshing];
+    }
+    
     // Fetch all the titles from the API so we can get the latest issue
     for (LBXTitle *title in _pullListArray) {
         [self.client fetchIssuesForTitle:title.titleID withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
-            [SVProgressHUD dismiss];
             // Wait until all titles in _pullListArray have been fetched
             if (i == _pullListArray.count) {
                 if (!error) {
@@ -271,13 +272,13 @@ CGFloat cellWidth;
                         }
                     }
                 }
-                else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-                
+                else {
+                    [LBXMessageBar displayError:error];
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.tableView reloadData];
-                    [self.refreshControl endRefreshing];
                 });
+                [self.refreshControl endRefreshing];
             }
             i++;
         }];
@@ -286,48 +287,40 @@ CGFloat cellWidth;
 
 - (void)addTitle:(LBXTitle *)title
 {
-    [SVProgressHUD show];
+    [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Adding %@", title.name]];
     __block typeof(self) bself = self;
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        [SVProgressHUD dismiss];
         if (!error) {
-            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Added!"
-                                                           description:[NSString stringWithFormat:@"%@ has been added to your pull list.", title.name]
-                                                                  type:TWMessageBarMessageTypeSuccess];
+            [SVProgressHUD showSuccessWithStatus:@"Added!"];
             bself.pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             
             [bself.tableView reloadData];
         }
-        else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
-                                                           description:@"Check your network connection."
-                                                                  type:TWMessageBarMessageTypeError];
+        else {
+            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to add %@\n%@", title.name, error.localizedDescription]];
         }
+        [bself.refreshControl endRefreshing];
     }];
 }
 
 - (void)deleteTitle:(LBXTitle *)title
 {
-    [SVProgressHUD show];
+    [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Deleting %@", title.name]];
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        [SVProgressHUD dismiss];
+        [self.refreshControl endRefreshing];
         if (!error) {
             _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             tableViewRows = _pullListArray.count;
             
-            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Deleted!"
-                                                           description:[NSString stringWithFormat:@"%@ has been deleted from your pull list.", title.name]
-                                                                  type:TWMessageBarMessageTypeInfo];
+            [SVProgressHUD showSuccessWithStatus:@"Deleted!"];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
         }
-        else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
-                                                           description:@"Check your network connection."
-                                                                  type:TWMessageBarMessageTypeError];
+        else {
+            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
     }];
 }
@@ -447,8 +440,6 @@ CGFloat cellWidth;
             if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
                 cell.separatorInset = UIEdgeInsetsZero;
             }
-
-            
             
             [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
             
@@ -485,8 +476,8 @@ CGFloat cellWidth;
                     if (!error) {
                         [self setCell:cell withTitle:title];
                     }
-                    else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-                        
+                    else {
+                        [LBXMessageBar displayError:error];
                     }
             }];
         }
@@ -563,8 +554,9 @@ CGFloat cellWidth;
                             completion:NULL];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            
-            
+            cell.titleLabel.text = title.name;
+            cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@ •  No Issues", title.publisher.name] uppercaseString];
+            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];            
         }];
     }
     else {

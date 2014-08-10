@@ -90,8 +90,6 @@
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  
-                // Response currently being just mapped to a dict.
-                // TODO: Map response to an array of LBXTitles.
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                  
                  if (completion) {
@@ -128,8 +126,6 @@
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  
-                 // Response currently being just mapped to a dict.
-                 // TODO: Map response to an array of LBXTitles.
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                  
                  if (completion) {
@@ -155,7 +151,6 @@
 }
 
 // Issues
-// TODO: Add pagination parameter to the rest of the methods? Maybe?
 - (void)fetchIssuesCollectionWithDate:(NSDate *)date page:(NSNumber*)page completion:(void (^)(NSArray *, RKObjectRequestOperation *, NSError *))completion
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

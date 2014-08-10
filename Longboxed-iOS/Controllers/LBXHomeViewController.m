@@ -11,6 +11,7 @@
 #import "LBXClient.h"
 #import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
+#import "LBXMessageBar.h"
 
 #import <TWMessageBarManager.h>
 #import <UICKeyChainStore.h>
@@ -104,10 +105,8 @@ LBXNavigationViewController *navigationController;
                 _latestBundle = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
                 [self configureBundleLabels];
             }
-            else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-                [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
-                                                                   description:@"Check your network connection."
-                                                                          type:TWMessageBarMessageTypeError];
+            else {
+                [LBXMessageBar displayError:error];
             }
         }];
     }
@@ -222,15 +221,10 @@ LBXNavigationViewController *navigationController;
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             
+            UIImage *defaultImage = [UIImage imageNamed:@"black"];
+            comicImageView.image = defaultImage;
             // Hide the network activity icon
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-            
-            // Don't show the error for NSURLErrorDomain -999 because that's just a cancelled image request due to scrolling
-            if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-                [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
-                                                               description:@"Check your network connection."
-                                                                      type:TWMessageBarMessageTypeError];
-            }
         }];
         
         CGRect imageViewFrame = comicImageView.frame;

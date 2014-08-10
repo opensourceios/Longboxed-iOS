@@ -12,6 +12,7 @@
 #import "ParallaxPhotoCell.h"
 #import "LBXNavigationViewController.h"
 #import "SVWebViewController.h"
+#import "LBXMessageBar.h"
 #import "UIFont+customFonts.h"
 
 #import <UIImageView+AFNetworking.h>
@@ -191,10 +192,8 @@ BOOL endOfThisWeeksComics;
                 [_refreshControl endRefreshing];
             });
         }
-        else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-            [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
-                                                           description:@"Check your network connection."
-                                                                  type:TWMessageBarMessageTypeError];
+        else {
+            [LBXMessageBar displayError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_refreshControl endRefreshing];
             });
@@ -324,12 +323,7 @@ BOOL endOfThisWeeksComics;
             // Hide the network activity icon
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             
-            // Don't show the error for NSURLErrorDomain -999 because that's just a cancelled image request due to scrolling
-            if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
-                [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
-                                                               description:@"Check your network connection."
-                                                                      type:TWMessageBarMessageTypeError];
-            }
+            [self setIssue:issue forCell:cell];
         }];
 
         CGRect imageViewFrame = cell.comicImageView.frame;
@@ -339,24 +333,8 @@ BOOL endOfThisWeeksComics;
         cell.comicImageView.frame = imageViewFrame;
         cell.comicImageView.contentMode = UIViewContentModeScaleAspectFill;
     }
-    
     else {
-        UIImage *defaultImage = [UIImage imageNamed:@"black"];
-        
-        cell.comicPublisherLabel.text = publisherString;
-        cell.comicIssueLabel.text = issueString;
-        
-        // Darken the image
-        UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.height*2)];
-        [overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
-        NSArray *viewsToRemove = [cell.comicImageView subviews];
-        for (UIView *v in viewsToRemove) [v removeFromSuperview];
-        [cell.comicImageView addSubview:overlay];
-        
-        cell.comicImageView.image = defaultImage;
-        
-        // Set the image label properties to center it in the cell
-        [self setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
+        [self setIssue:issue forCell:cell];
     }
 
     
@@ -375,6 +353,37 @@ BOOL endOfThisWeeksComics;
     return cell;
 }
 
+- (void)setIssue:(LBXIssue *)issue forCell:(ParallaxPhotoCell *)cell
+{
+    
+    NSString *titleString = issue.title.name;
+    NSString *publisherString = issue.publisher.name;
+    NSString *issueString;
+    if (![[NSString stringWithFormat:@"%@", issue.issueNumber] isEqualToString:@""]) {
+        issueString = [NSString stringWithFormat:@"Issue %@", issue.issueNumber];
+    }
+    else {
+        issueString = @"";
+    }
+    
+    UIImage *defaultImage = [UIImage imageNamed:@"black"];
+    
+    cell.comicPublisherLabel.text = publisherString;
+    cell.comicIssueLabel.text = issueString;
+    
+    // Darken the image
+    UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.height*2)];
+    [overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+    NSArray *viewsToRemove = [cell.comicImageView subviews];
+    for (UIView *v in viewsToRemove) [v removeFromSuperview];
+    [cell.comicImageView addSubview:overlay];
+    
+    cell.comicImageView.image = defaultImage;
+    
+    // Set the image label properties to center it in the cell
+    [self setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LBXIssue *issue = [_thisWeeksComicsArray objectAtIndex:indexPath.row];
@@ -388,9 +397,7 @@ BOOL endOfThisWeeksComics;
         [self presentViewController:webViewController animated:YES completion:NULL];
     }
     else {
-        [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Can't Open Webpage"
-                                                       description:@"No Longboxed page exists for this movie."
-                                                              type:TWMessageBarMessageTypeError];
+        [LBXMessageBar longboxedWebPageError];
     }
 }
 

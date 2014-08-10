@@ -16,6 +16,7 @@
 + (UIFont *)searchCancelFont;
 + (UIFont *)searchPlaceholderFont;
 + (UIFont *)noResultsFont;
++ (UIFont *)SVProgressHUDFont;
 + (UIFont *)collectionTitleFont;
 + (UIFont *)collectionSubtitleFont;
 + (UIFont *)pullListTitleFont;

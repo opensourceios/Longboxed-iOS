@@ -51,6 +51,11 @@
     return [UIFont fontWithName:@"AvenirNext-Regular" size:12];
 }
 
++ (UIFont *)SVProgressHUDFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
+}
+
 + (UIFont *)pullListTitleFont
 {
     // Set to 17, should be 18
