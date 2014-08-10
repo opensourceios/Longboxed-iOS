@@ -39,6 +39,9 @@
 		E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00F9196A1A9C005FCF25 /* LBXIssue.m */; };
 		E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */; };
 		E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FF196A2004005FCF25 /* LBXTitle.m */; };
+		E51F72B91997E15200F643EF /* NSDate+DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E51F72B81997E15200F643EF /* NSDate+DateUtilities.m */; };
+		E51F72BC1997E22D00F643EF /* NSArray+ArrayUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E51F72BB1997E22D00F643EF /* NSArray+ArrayUtilities.m */; };
+		E51F72BF1997E4A100F643EF /* LBXPullListServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E51F72BE1997E4A100F643EF /* LBXPullListServices.m */; };
 		E537121E198ED1450065D57A /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E537121D198ED1450065D57A /* UIImage+ImageEffects.m */; };
 		E5371222198EEAFE0065D57A /* LBXSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5371221198EEAFE0065D57A /* LBXSearchTableViewCell.m */; };
 		E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5371227198EF9300065D57A /* FontAwesome.ttf */; };
@@ -183,6 +186,12 @@
 		E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisher.m; path = Models/LBXPublisher.m; sourceTree = "<group>"; };
 		E51D00FE196A2004005FCF25 /* LBXTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitle.h; path = Models/LBXTitle.h; sourceTree = "<group>"; };
 		E51D00FF196A2004005FCF25 /* LBXTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitle.m; path = Models/LBXTitle.m; sourceTree = "<group>"; };
+		E51F72B71997E15200F643EF /* NSDate+DateUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+DateUtilities.h"; path = "Categories/NSDate+DateUtilities.h"; sourceTree = "<group>"; };
+		E51F72B81997E15200F643EF /* NSDate+DateUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+DateUtilities.m"; path = "Categories/NSDate+DateUtilities.m"; sourceTree = "<group>"; };
+		E51F72BA1997E22D00F643EF /* NSArray+ArrayUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+ArrayUtilities.h"; path = "Categories/NSArray+ArrayUtilities.h"; sourceTree = "<group>"; };
+		E51F72BB1997E22D00F643EF /* NSArray+ArrayUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+ArrayUtilities.m"; path = "Categories/NSArray+ArrayUtilities.m"; sourceTree = "<group>"; };
+		E51F72BD1997E4A100F643EF /* LBXPullListServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListServices.h; path = Abstract/LBXPullListServices.h; sourceTree = "<group>"; };
+		E51F72BE1997E4A100F643EF /* LBXPullListServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListServices.m; path = Abstract/LBXPullListServices.m; sourceTree = "<group>"; };
 		E537121C198ED1450065D57A /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "Categories/UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		E537121D198ED1450065D57A /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "Categories/UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		E5371220198EEAFE0065D57A /* LBXSearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSearchTableViewCell.h; path = Views/LBXSearchTableViewCell.h; sourceTree = "<group>"; };
@@ -616,6 +625,8 @@
 				E57D49111960A2180014A13F /* LBXClient.m */,
 				E553F5A01994691A003E1F5C /* LBXDatabaseManager.h */,
 				E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */,
+				E51F72BD1997E4A100F643EF /* LBXPullListServices.h */,
+				E51F72BE1997E4A100F643EF /* LBXPullListServices.m */,
 			);
 			name = Abstract;
 			sourceTree = "<group>";
@@ -745,6 +756,10 @@
 				E51A77901990823800AD12A7 /* UIFont+customFonts.m */,
 				E553F59919932D73003E1F5C /* UIFontDescriptor+AvenirNext.h */,
 				E553F59A19932D73003E1F5C /* UIFontDescriptor+AvenirNext.m */,
+				E51F72B71997E15200F643EF /* NSDate+DateUtilities.h */,
+				E51F72B81997E15200F643EF /* NSDate+DateUtilities.m */,
+				E51F72BA1997E22D00F643EF /* NSArray+ArrayUtilities.h */,
+				E51F72BB1997E22D00F643EF /* NSArray+ArrayUtilities.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -983,6 +998,7 @@
 				E510AF97198C7B7D004A7225 /* RKOrderedDictionary.m in Sources */,
 				E510AF98198C7B7D004A7225 /* UIImage+RKAdditions.m in Sources */,
 				E510AFB3198C7B7D004A7225 /* NBULog+NBUKit.m in Sources */,
+				E51F72BC1997E22D00F643EF /* NSArray+ArrayUtilities.m in Sources */,
 				E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */,
 				E510AF90198C7B7D004A7225 /* NSBundle+RKAdditions.m in Sources */,
 				E57D4956196118950014A13F /* REMenuItemView.m in Sources */,
@@ -1011,6 +1027,7 @@
 				E51A77911990823800AD12A7 /* UIFont+customFonts.m in Sources */,
 				E57D496319611BB30014A13F /* SVModalWebViewController.m in Sources */,
 				E510AFB2198C7B7D004A7225 /* NBUKit.m in Sources */,
+				E51F72BF1997E4A100F643EF /* LBXPullListServices.m in Sources */,
 				E57D4953196118950014A13F /* REMenu.m in Sources */,
 				E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */,
 				E510AFAF198C7B7D004A7225 /* UIView+NBUAdditions.m in Sources */,
@@ -1023,6 +1040,7 @@
 				E57D4952196118950014A13F /* RECommonFunctions.m in Sources */,
 				E51A778E19904E1F00AD12A7 /* UIColor+customColors.m in Sources */,
 				E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */,
+				E51F72B91997E15200F643EF /* NSDate+DateUtilities.m in Sources */,
 				E57D498219611C950014A13F /* SVWebViewControllerActivitySafari.m in Sources */,
 				E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */,
 				E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */,

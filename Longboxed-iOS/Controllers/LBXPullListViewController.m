@@ -15,9 +15,13 @@
 #import "LBXNavigationViewController.h"
 #import "LBXPullListTableViewCell.h"
 #import "SVWebViewController.h"
+
+// Categories
 #import "UIImage+ImageEffects.h"
 #import "UIColor+customColors.h"
 #import "UIFont+customFonts.h"
+#import "NSDate+DateUtilities.h"
+#import "NSArray+ArrayUtilities.h"
 
 #import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
@@ -106,7 +110,7 @@ CGFloat cellWidth;
     
     _client = [LBXClient new];
     
-    _pullListArray = [NSMutableArray arrayWithArray:[self sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+    _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
 
     _latestIssuesInPullListArray = [NSMutableArray new];
     
@@ -229,7 +233,7 @@ CGFloat cellWidth;
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            _pullListArray = [NSMutableArray arrayWithArray:[self sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+            _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             tableViewRows = _pullListArray.count;
         
         }
@@ -292,9 +296,8 @@ CGFloat cellWidth;
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Added!"
                                                            description:[NSString stringWithFormat:@"%@ has been added to your pull list.", title.name]
                                                                   type:TWMessageBarMessageTypeSuccess];
-            bself.pullListArray = [NSMutableArray arrayWithArray:[bself sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+            bself.pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             
-//            [bself refresh];
             [bself.tableView reloadData];
         }
         else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
@@ -312,7 +315,7 @@ CGFloat cellWidth;
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         [SVProgressHUD dismiss];
         if (!error) {
-            _pullListArray = [NSMutableArray arrayWithArray:[self sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+            _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             tableViewRows = _pullListArray.count;
             
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Deleted!"
@@ -329,15 +332,6 @@ CGFloat cellWidth;
                                                                   type:TWMessageBarMessageTypeError];
         }
     }];
-}
-
-- (NSArray *)sortedArray:(NSArray *)array basedOffObjectProperty:(NSString *)property
-{
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:property
-                                                 ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    return [array sortedArrayUsingDescriptors:sortDescriptors];
 }
 
 // Captures the current screen and blurs it
@@ -362,42 +356,6 @@ CGFloat cellWidth;
     _blurImageView.clipsToBounds = YES;
     [self.view addSubview:_blurImageView];
     
-}
-
-- (NSString *)fuzzyTimeBetweenStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate
-{
-    #define SECOND 1
-    #define MINUTE (60 * SECOND)
-    #define HOUR (60 * MINUTE)
-    #define DAY (24 * HOUR)
-    #define MONTH (30 * DAY)
-    //http://stackoverflow.com/questions/1052951/fuzzy-date-algorithm-in-objective-c
-    //Calculate the delta in seconds between the two dates
-    NSTimeInterval delta = [endDate timeIntervalSinceDate:startDate];
-
-    if (delta < 24 * HOUR)
-    {
-        return @"Today";
-    }
-    if (delta < 48 * HOUR)
-    {
-        return @"Yesterday";
-    }
-    if (delta < 30 * DAY)
-    {
-        int days = floor((double)delta/DAY);
-        return [NSString stringWithFormat:@"%d days ago", days];
-    }
-    if (delta < 12 * MONTH)
-    {
-        int months = floor((double)delta/MONTH);
-        return months <= 1 ? @"1 month ago" : [NSString stringWithFormat:@"%d months ago", months];
-    }
-    else
-    {
-        int years = floor((double)delta/MONTH/12.0);
-        return years <= 1 ? @"1 year ago" : [NSString stringWithFormat:@"%d years ago", years];
-    }
 }
 
 #pragma mark UITableView methods
@@ -590,15 +548,10 @@ CGFloat cellWidth;
         NSDate *gmtReleaseDate = [formatter dateFromString:timeStamp];
         // Add four hours because date is set to 20:00 by RestKit
         NSTimeInterval secondsInFourHours = 4 * 60 * 60;
+        NSLog(@"%@: %@", title.name, issue.releaseDate);
+        NSString *daysSinceLastIssue = [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInFourHours] andEndDate:[NSDate date]]];
         
-        NSString *daysSinceLastIssue = [NSString stringWithFormat:@"%@", [self fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInFourHours] andEndDate:[NSDate date]]];
-        
-        NSString *issueString = @"issues";
-        if ([issue.issueNumber isEqual:@1]) {
-            issueString = @"issue";
-        }
-        
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@ %@  •  %@", title.publisher.name, issue.issueNumber, issueString, daysSinceLastIssue];
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  Issue %@, %@", title.publisher.name, issue.issueNumber, daysSinceLastIssue];
         
         cell.titleLabel.text = title.name;
         cell.subtitleLabel.text = [subtitleString uppercaseString];
