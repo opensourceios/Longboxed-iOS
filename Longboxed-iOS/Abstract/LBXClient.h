@@ -21,7 +21,7 @@
 
 // Issues
 - (void)fetchIssuesCollectionWithDate:(NSDate *)date page:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
-- (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation *, NSError*))completion;
+- (void)fetchThisWeeksComicsWithPage:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation *, NSError*))completion;
 - (void)fetchIssue:(NSNumber *)issueID withCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion;
 // Titles
 - (void)fetchTitleCollectionWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;

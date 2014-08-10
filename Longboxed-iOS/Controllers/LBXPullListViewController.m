@@ -235,14 +235,14 @@ CGFloat cellWidth;
         if (!error) {
             _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             tableViewRows = _pullListArray.count;
-        
+            [self getAllIssues];
         }
         else if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
             [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Network Error"
                                                            description:@"Check your network connection."
                                                                   type:TWMessageBarMessageTypeError];
+            [SVProgressHUD dismiss];
         }
-        [self getAllIssues];
     }];
 }
 
@@ -252,18 +252,17 @@ CGFloat cellWidth;
     // Fetch all the titles from the API so we can get the latest issue
     for (LBXTitle *title in _pullListArray) {
         [self.client fetchIssuesForTitle:title.titleID withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
+            [SVProgressHUD dismiss];
             // Wait until all titles in _pullListArray have been fetched
             if (i == _pullListArray.count) {
                 if (!error) {
                     
                     // Fetch the latest of the issues from Core Data and append to _latestIssuesInPullListArray
                     for (LBXTitle *title in _pullListArray) {
-                        NSLog(@"Searching for %@ (%@)", title.name, title.titleID);
                         NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
                         NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
                         
                         if (allIssuesArray.count == 0) {
-                            NSLog(@"Couldn't find %@ (%@)", title.name, title.titleID);
                             [_latestIssuesInPullListArray addObject:@" "];
                         }
                         else {
@@ -278,7 +277,6 @@ CGFloat cellWidth;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.tableView reloadData];
                     [self.refreshControl endRefreshing];
-                    [SVProgressHUD dismiss];
                 });
             }
             i++;
@@ -548,7 +546,6 @@ CGFloat cellWidth;
         NSDate *gmtReleaseDate = [formatter dateFromString:timeStamp];
         // Add four hours because date is set to 20:00 by RestKit
         NSTimeInterval secondsInFourHours = 4 * 60 * 60;
-        NSLog(@"%@: %@", title.name, issue.releaseDate);
         NSString *daysSinceLastIssue = [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInFourHours] andEndDate:[NSDate date]]];
         
         NSString *subtitleString = [NSString stringWithFormat:@"%@  •  Issue %@, %@", title.publisher.name, issue.issueNumber, daysSinceLastIssue];

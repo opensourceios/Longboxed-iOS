@@ -19,6 +19,5 @@
 - (RKEntityMapping *)pullListMapping;
 - (RKEntityMapping *)publisherMapping;
 - (RKEntityMapping *)issueMapping;
-- (RKEntityMapping *)paginationMapping;
 
 @end

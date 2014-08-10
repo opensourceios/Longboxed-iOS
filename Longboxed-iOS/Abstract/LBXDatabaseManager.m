@@ -65,6 +65,8 @@
 //        RKLogConfigureByName("*", RKLogLevelOff)
 //    }
     
+    RKLogConfigureByName("*", RKLogLevelOff)
+    
     // Initialize RestKit
     RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:[LBXEndpoints baseURLString]]];
     

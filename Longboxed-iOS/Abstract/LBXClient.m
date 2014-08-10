@@ -167,9 +167,13 @@
     }];
 }
 
-- (void)fetchThisWeeksComicsWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation *, NSError*))completion {
+- (void)fetchThisWeeksComicsWithPage:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation *, NSError*))completion {
     
-    [self GETWithRouteName:@"Issues Collection for Current Week" objectDictParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    NSDictionary *objectDictParams;
+    if (![page isEqualToNumber:@1]) {
+        objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
+    }
+    [self GETWithRouteName:@"Issues Collection for Current Week" objectDictParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         completion(mappingResult.array, response, error);
     }];

@@ -21,6 +21,7 @@
 
 @property (nonatomic) LBXClient *client;
 @property (nonatomic) NSArray *thisWeeksComicsArray;
+@property (nonatomic) NSNumber *page;
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
@@ -39,6 +40,7 @@ static const NSUInteger TABLE_HEIGHT_ONE = 504;
 
 NSInteger tableViewRows;
 CGFloat cellWidth;
+BOOL endOfThisWeeksComics;
 
 
 - (id)init
@@ -83,6 +85,9 @@ CGFloat cellWidth;
 
     [self.view addSubview:_noResultsLabel];
     
+    _page = [[NSNumber alloc] initWithInt:1];
+    endOfThisWeeksComics = NO;
+    
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
     
@@ -96,7 +101,7 @@ CGFloat cellWidth;
     
     // Add refresh
     _refreshControl = [[UIRefreshControl alloc] init];
-    [_refreshControl addTarget:self action:@selector(refresh)
+    [_refreshControl addTarget:self action:@selector(refreshControlAction)
              forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:_refreshControl];
     
@@ -111,7 +116,7 @@ CGFloat cellWidth;
     [_refreshControl endRefreshing];
     
     // Refresh the collection view
-    [self refresh];
+    [self refreshControlAction];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -163,12 +168,19 @@ CGFloat cellWidth;
     textView.text = string;
 }
 
-- (void)refresh
+- (void)refreshControlAction
+{
+    [_refreshControl beginRefreshing];
+    [self refreshViewWithPage:@1];
+}
+
+- (void)refreshViewWithPage:(NSNumber *)page
 {
     // Fetch this weeks comics
-    [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client fetchThisWeeksComicsWithPage:page completion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            if (pullListArray.count == 0) endOfThisWeeksComics = YES;
            
             [self setThisWeeksComicsArrayWithLatestIssues];
             
@@ -189,6 +201,8 @@ CGFloat cellWidth;
         }
     }];
 }
+
+
 
 - (void)setThisWeeksComicsArrayWithLatestIssues
 {
@@ -230,7 +244,7 @@ CGFloat cellWidth;
     NSString *publisherString = issue.publisher.name;
     NSString *issueString;
     if (![[NSString stringWithFormat:@"%@", issue.issueNumber] isEqualToString:@""]) {
-        issueString = [NSString stringWithFormat:@"#%@", issue.issueNumber];
+        issueString = [NSString stringWithFormat:@"Issue %@", issue.issueNumber];
     }
     else {
         issueString = @"";
@@ -351,11 +365,17 @@ CGFloat cellWidth;
     ParallaxFlowLayout *layout = (ParallaxFlowLayout *)self.collectionViewLayout;
     cell.maxParallaxOffset = layout.maxParallaxOffset;
     
+    if ([indexPath row] == _thisWeeksComicsArray.count - 1 && !endOfThisWeeksComics) {
+        int value = [_page integerValue];
+        _page = [NSNumber numberWithInt:value+1];
+        [self refreshViewWithPage:_page];
+    }
+    
     
     return cell;
 }
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LBXIssue *issue = [_thisWeeksComicsArray objectAtIndex:indexPath.row];
     NSString *diamondID = issue.diamondID;
