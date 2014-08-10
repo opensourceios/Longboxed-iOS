@@ -572,7 +572,7 @@ CGFloat cellWidth;
     }
     else {
         cell.titleLabel.text = title.name;
-        cell.subtitleLabel.text = title.publisher.name;
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@ •  No Issues", title.publisher.name] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }
 }
