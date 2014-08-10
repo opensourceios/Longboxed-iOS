@@ -6,40 +6,40 @@
 //  Copyright (c) 2014 Jay Hickey. All rights reserved.
 //
 
-#import "LBXPullListViewController.h"
-#import "LBXSearchTableViewCell.h"
 #import "LBXClient.h"
-#import "LBXPullListTitle.h"
-#import "ParallaxFlowLayout.h"
-#import "ParallaxPhotoCell.h"
 #import "LBXNavigationViewController.h"
 #import "LBXPullListTableViewCell.h"
+#import "LBXPullListTitle.h"
+#import "LBXPullListViewController.h"
+#import "LBXSearchTableViewCell.h"
+#import "ParallaxFlowLayout.h"
+#import "ParallaxPhotoCell.h"
 #import "SVWebViewController.h"
 
 // Categories
-#import "UIImage+ImageEffects.h"
+#import "NSArray+ArrayUtilities.h"
+#import "NSDate+DateUtilities.h"
 #import "UIColor+customColors.h"
 #import "UIFont+customFonts.h"
-#import "NSDate+DateUtilities.h"
-#import "NSArray+ArrayUtilities.h"
+#import "UIImage+ImageEffects.h"
 
-#import <UIImageView+AFNetworking.h>
-#import <TWMessageBarManager.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <SVProgressHUD.h>
+#import <TWMessageBarManager.h>
+#import <UIImageView+AFNetworking.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
 
+@property (nonatomic, strong) LBXClient *client;
+@property (nonatomic, strong) NSArray *searchResultsArray;
+@property (nonatomic, strong) NSMutableArray *alreadyExistingTitles;
+@property (nonatomic, strong) NSMutableArray *latestIssuesInPullListArray;
+@property (nonatomic, strong) NSMutableArray *pullListArray;
+@property (nonatomic, strong) UIImageView *blurImageView;
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UISearchDisplayController *searchBarController;
-@property (nonatomic, strong) UIImageView *blurImageView;
-@property (nonatomic, strong) NSArray *searchResultsArray;
-@property (nonatomic, strong) NSMutableArray *alreadyExistingTitles;
-@property (nonatomic, strong) LBXClient *client;
-@property (nonatomic, strong) NSMutableArray *pullListArray;
-@property (nonatomic, strong) NSMutableArray *latestIssuesInPullListArray;
 
 @end
 

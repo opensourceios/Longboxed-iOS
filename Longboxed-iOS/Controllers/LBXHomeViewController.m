@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
+#import "EasyTableView.h"
+#import "LBXBundle.h"
+#import "LBXClient.h"
 #import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
-#import "EasyTableView.h"
-#import "LBXClient.h"
-#import "LBXBundle.h"
 
-#import <UIImageView+AFNetworking.h>
 #import <TWMessageBarManager.h>
 #import <UICKeyChainStore.h>
+#import <UIImageView+AFNetworking.h>
 
 #define TABLECELL_WIDTH				180
 
@@ -24,12 +24,12 @@
 
 @interface LBXHomeViewController () <EasyTableViewDelegate>
 
-@property (nonatomic) LBXClient *client;
 @property (nonatomic) EasyTableView *easyTableView;
-@property (nonatomic, strong) IBOutlet UILabel *bundleCountLabel;
-@property (nonatomic, strong) IBOutlet UILabel *issuesInYourBundleThisWeekLabel;
+@property (nonatomic) LBXClient *client;
 @property (nonatomic) NSArray *latestBundle;
 @property (nonatomic) NSArray *thisWeeksComicsArray;
+@property (nonatomic, strong) IBOutlet UILabel *bundleCountLabel;
+@property (nonatomic, strong) IBOutlet UILabel *issuesInYourBundleThisWeekLabel;
 
 
 @end

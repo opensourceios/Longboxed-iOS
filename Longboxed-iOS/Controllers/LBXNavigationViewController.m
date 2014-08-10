@@ -8,14 +8,14 @@
 //  Sample icons from http://icons8.com/download-free-icons-for-ios-tab-bar
 //
 
-#import "LBXNavigationViewController.h"
 #import "LBXHomeViewController.h"
+#import "LBXLoginViewController.h"
+#import "LBXNavigationViewController.h"
 #import "LBXPullListViewController.h"
 #import "LBXThisWeekCollectionViewController.h"
-#import "LBXLoginViewController.h"
 #import "PaperButton.h"
-#import "UIFont+customFonts.h"
 #import "UIColor+customColors.h"
+#import "UIFont+customFonts.h"
 
 #import <POP/POP.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>

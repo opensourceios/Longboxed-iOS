@@ -19,11 +19,10 @@
 
 @interface LBXThisWeekCollectionViewController () <UICollectionViewDelegateFlowLayout>
 
+@property (nonatomic) LBXClient *client;
+@property (nonatomic) NSArray *thisWeeksComicsArray;
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-
-@property (nonatomic) NSArray *thisWeeksComicsArray;
-@property (nonatomic) LBXClient *client;
 
 @end
 
