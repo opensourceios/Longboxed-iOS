@@ -15,6 +15,8 @@
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
 #import "SVWebViewController.h"
+#import "LBXTitleDetailViewController.h"
+#import "LBXTitleServices.h"
 
 // Categories
 #import "NSArray+ArrayUtilities.h"
@@ -25,7 +27,6 @@
 #import "LBXMessageBar.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
-#import <UIImageView+AFNetworking.h>
 #import <SVProgressHUD.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
@@ -469,12 +470,12 @@ CGFloat cellWidth;
         
         cell.latestIssueImageView.image = nil;
         
-        [self setCell:cell withTitle:title];
+        [LBXTitleServices setCell:cell withTitle:title];
         
         if (cell.latestIssueImageView.image == [UIImage imageNamed:@"NotAvailable"]) {
             [self.client fetchIssuesForTitle:title.titleID withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
                     if (!error) {
-                        [self setCell:cell withTitle:title];
+                        [LBXTitleServices setCell:cell withTitle:title];
                     }
                     else {
                         [LBXMessageBar displayError:error];
@@ -482,7 +483,7 @@ CGFloat cellWidth;
             }];
         }
         else {
-            [self setCell:cell withTitle:title];
+            [LBXTitleServices setCell:cell withTitle:title];
         }
     }
 }
@@ -495,6 +496,15 @@ CGFloat cellWidth;
         LBXTitle *selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
         
         [self addTitle:selectedTitle];
+    }
+    else {
+        LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image];
+        
+        LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
+        titleViewController.titleID = title.titleID;
+        titleViewController.latestIssueImage = cell.latestIssueImageView.image;
+        [self.navigationController pushViewController:titleViewController animated:YES];
     }
 }
 
@@ -521,49 +531,6 @@ CGFloat cellWidth;
 - (void)refreshSearchTableView
 {
     [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-}
-
-- (void)setCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
-    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
-    
-    if (allIssuesArray.count != 0) {
-        LBXIssue *issue = allIssuesArray[0];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
-        [formatter setDateFormat:@"MM-dd-yyyy"];
-        NSString *timeStamp = [formatter stringFromDate:issue.releaseDate];
-        NSDate *gmtReleaseDate = [formatter dateFromString:timeStamp];
-        // Add four hours because date is set to 20:00 by RestKit
-        NSTimeInterval secondsInFourHours = 4 * 60 * 60;
-        NSString *daysSinceLastIssue = [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInFourHours] andEndDate:[NSDate date]]];
-        
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  Issue %@, %@", title.publisher.name, issue.issueNumber, daysSinceLastIssue];
-        
-        cell.titleLabel.text = title.name;
-        cell.subtitleLabel.text = [subtitleString uppercaseString];
-        
-        // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-        
-            [UIView transitionWithView:cell.imageView
-                              duration:0.5f
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:^{[cell.latestIssueImageView setImage:image];}
-                            completion:NULL];
-            
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.titleLabel.text = title.name;
-            cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@ •  No Issues", title.publisher.name] uppercaseString];
-            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];            
-        }];
-    }
-    else {
-        cell.titleLabel.text = title.name;
-        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@ •  No Issues", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
-    }
 }
 
 #pragma mark UISearchBar methods

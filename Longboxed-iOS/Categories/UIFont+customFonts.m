@@ -41,6 +41,8 @@
     return [UIFont fontWithName:@"AvenirNext-Regular" size:24];
 }
 
+// Pull List View
+
 + (UIFont *)collectionTitleFont
 {
     return [UIFont fontWithName:@"AvenirNextCondensed-UltraLight" size:36];
@@ -65,6 +67,33 @@
 + (UIFont *)pullListSubtitleFont
 {
     return [UIFont fontWithDescriptor:[UIFontDescriptor preferredAvenirNextCondensedMediumFontDescriptorWithTextStyle:UIFontTextStyleCaption2] size: 0];
+}
+
+// Title Detail View
+
++ (UIFont *)titleDetailTitleFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:28];
+}
+
++ (UIFont *)titleDetailPublisherFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:18];
+}
+
++ (UIFont *)titleDetailSubscribersAndIssuesFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:12];
+}
+
++ (UIFont *)titleDetailLatestIssueFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:10];
+}
+
++ (UIFont *)titleDetailAddToPullListFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
 }
 
 @end

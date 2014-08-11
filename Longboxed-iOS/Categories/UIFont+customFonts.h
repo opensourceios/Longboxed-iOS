@@ -19,6 +19,11 @@
 + (UIFont *)SVProgressHUDFont;
 + (UIFont *)collectionTitleFont;
 + (UIFont *)collectionSubtitleFont;
++ (UIFont *)titleDetailLatestIssueFont;
++ (UIFont *)titleDetailSubscribersAndIssuesFont;
++ (UIFont *)titleDetailPublisherFont;
++ (UIFont *)titleDetailTitleFont;
++ (UIFont *)titleDetailAddToPullListFont;
 + (UIFont *)pullListTitleFont;
 + (UIFont *)pullListSubtitleFont;
 
