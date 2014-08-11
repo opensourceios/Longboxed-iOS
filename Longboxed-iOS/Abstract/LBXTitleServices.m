@@ -74,13 +74,13 @@
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             cell.titleLabel.text = title.name;
-            cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@  •  No Issues", title.publisher.name] uppercaseString];
+            cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@  •  %@ Issues", title.publisher.name, issue.issueNumber] uppercaseString];
             cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
         }];
     }
     else {
         cell.titleLabel.text = title.name;
-        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@  •  No Issues", title.publisher.name] uppercaseString];
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }
 }

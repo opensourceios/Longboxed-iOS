@@ -19,10 +19,11 @@
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
 
-@interface LBXTitleDetailViewController ()
+@interface LBXTitleDetailViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, copy) LBXTitle *detailTitle;
 @property (nonatomic, copy) LBXClient *client;
+@property (nonatomic, copy) LBXTitleDetailView *detailView;
 @property (nonatomic, copy) NSArray *pullListArray;
 @property (nonatomic, copy) NSArray *issuesForTitleArray;
 
@@ -33,9 +34,15 @@
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
 - (void)viewDidLoad {
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    [super viewDidLoad];
+    
+    // Calls perferredStatusBarStyle
+    [self setNeedsStatusBarAppearanceUpdate];
+    
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.backItem.title = @" ";
     self.title = _detailTitle.name;
     _client = [LBXClient new];
     
@@ -54,18 +61,29 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
      [UIImage imageNamed:@"arrow"]];
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+//                                                  forBarMetrics:UIBarMetricsDefault];
+//    self.navigationController.navigationBar.shadowImage = [UIImage new];
+//    self.navigationController.navigationBar.translucent = YES;
+//    self.navigationController.view.backgroundColor = [UIColor clearColor];
+    [self setNavBarAlpha:@0];
+
+    // Keep the section header on the top
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
 }
 
 - (UIView *)myOverView {
     //UIView *view = [[UIView alloc] initWithFrame:self.overView.bounds];
-    LBXTitleDetailView *detailView = [LBXTitleDetailView new];
-    detailView.frame = self.overView.frame;
-    detailView.bounds = self.overView.bounds;
-    detailView.titleLabel.text = _detailTitle.name;
-    detailView.titleLabel.font = [UIFont titleDetailTitleFont];
-    [detailView.titleLabel sizeToFit];
-    detailView.publisherLabel.text = [_detailTitle.publisher.name uppercaseString];
-    detailView.publisherLabel.font = [UIFont titleDetailPublisherFont];
+    _detailView = [LBXTitleDetailView new];
+    _detailView.frame = self.overView.frame;
+    _detailView.bounds = self.overView.bounds;
+    _detailView.titleLabel.text = _detailTitle.name;
+    _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
+    _detailView.titleLabel.numberOfLines = 2;
+    [_detailView.titleLabel sizeToFit];
+    _detailView.publisherLabel.text = [_detailTitle.publisher.name uppercaseString];
+    _detailView.publisherLabel.font = [UIFont titleDetailPublisherFont];
     
     NSString *issuesString;
     if ([_detailTitle.issueCount isEqualToNumber:@1]) {
@@ -83,8 +101,8 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         subscribersString = [NSString stringWithFormat:@"%@ Subscribers", _detailTitle.subscribers];
     }
     
-    detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
-    detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
+    _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
+    _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     
     if ([LBXTitleServices lastIssueForTitle:_detailTitle] != nil) {
         LBXIssue *issue = [LBXTitleServices lastIssueForTitle:_detailTitle];
@@ -94,31 +112,28 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         if ([timeSinceString hasPrefix:@"in"]) {
            subtitleString = [NSString stringWithFormat:@"Issue %@ will be released %@", issue.issueNumber, timeSinceString];
         }
-        detailView.latestIssueLabel.text = subtitleString;
+        _detailView.latestIssueLabel.text = subtitleString;
     }
     else {
-       // [detailView.latestIssueLabel removeFromSuperview];
+        _detailView.latestIssueLabel.text = @"";
     }
-    detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
+    _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
     
-    LBXIssue *issue = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
-    if (issue) {
-        [detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
-        detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
-    }
-    else {
-        [detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
-        detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
-    }
-    detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
-    detailView.addToPullListButton.layer.borderWidth = 1.0f;
-    detailView.addToPullListButton.layer.cornerRadius = 19.0f;
+    [self setPullListButton];
+    _detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
+    _detailView.addToPullListButton.layer.borderWidth = 1.0f;
+    _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
     
+    _detailView.latestIssueImageView.image = _latestIssueImage;
     
+    return _detailView;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self setNavBarAlpha:@1];
     
-    detailView.latestIssueImageView.image = _latestIssueImage;
-    
-    return detailView;
+    [super viewWillDisappear:animated];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -130,6 +145,19 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 }
 
 #pragma mark - Private methods
+
+- (void)setPullListButton
+{
+    LBXIssue *issue = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
+    if (issue) {
+        [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
+        _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+    }
+    else {
+        [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
+        _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+    }
+}
 
 - (void)setDetailTitleWithID:(NSNumber *)ID
 {
@@ -147,7 +175,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         else {
             [LBXMessageBar displayError:error];
         }
-        [self setOverView:self.myOverView];
+        [self setPullListButton];
         [self.view setNeedsDisplay];
     }];
 }
@@ -177,6 +205,11 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title == %@", _detailTitle];
     _issuesForTitleArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+}
+
+- (void)setNavBarAlpha:(NSNumber *)alpha
+{
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
 }
 
 
@@ -268,6 +301,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     
     cell.titleLabel.font = [UIFont pullListTitleFont];
     cell.titleLabel.text = issue.completeTitle;
+    
     cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     cell.titleLabel.numberOfLines = 2;
     
@@ -284,6 +318,20 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     // Setting the background color of the cell.
     cell.contentView.backgroundColor = [UIColor whiteColor];
 
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y > 0) {
+        [self setNavBarAlpha:@(1 - self.overView.alpha)];
+    }
+    else if (scrollView.contentOffset.y < -30.0) {
+        [self setNavBarAlpha:@(-scrollView.contentOffset.y/60.0)];
+    }
+    else {
+        [self setNavBarAlpha:@0];
+    }
+    return [super scrollViewDidScroll:scrollView];
 }
 
 @end

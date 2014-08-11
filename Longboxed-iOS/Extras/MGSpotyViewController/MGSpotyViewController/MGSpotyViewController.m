@@ -8,6 +8,7 @@
 
 #import "MGSpotyViewController.h"
 #import "UIImageView+LBBlurredImage.h"
+#import "LBXTitleDetailView.h"
 
 CGFloat const kMGOffsetEffects = 40.0;
 CGFloat const kMGOffsetBlurEffect = 2.0;
@@ -35,10 +36,10 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     //Create the view
     UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    [view setBackgroundColor:[UIColor grayColor]];
+    [view setBackgroundColor:[UIColor whiteColor]];
     
     //Configure the view
-    [_mainImageView setFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.width)];
+    [_mainImageView setFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.width * 3/4)];
     [_mainImageView setContentMode:UIViewContentModeScaleAspectFill];
     [_mainImageView setImageToBlur:_image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
     [view addSubview:_mainImageView];
@@ -52,7 +53,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     [_tableView setBackgroundColor:[UIColor clearColor]];
     [_tableView setDelegate:self];
     [_tableView setDataSource:self];
-    [view addSubview:_tableView];
+    [view insertSubview:_tableView belowSubview:_overView];
     
     //[_tableView setContentInset:UIEdgeInsetsMake(20.0, 0, 0, 0)];
     _startContentOffset = _tableView.contentOffset;
@@ -80,7 +81,6 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if(scrollView.contentOffset.y <= _startContentOffset.y) {
-        
         //Image size effects
         CGFloat absoluteY = ABS(scrollView.contentOffset.y);
         CGFloat diff = _startContentOffset.y - scrollView.contentOffset.y;
@@ -110,7 +110,43 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
             CGFloat scale = 1.0/kMGOffsetEffects;
             [overView setAlpha:1.0 - diff*scale];
         });
+    }
+    if (scrollView.contentOffset.y > _startContentOffset.y + 80) {
+        [self.view bringSubviewToFront:_tableView];
+        CGFloat diff =  scrollView.contentOffset.y- _startContentOffset.y-80;
+        CGFloat scale = (kLBBlurredImageDefaultBlurRadius/kMGOffsetEffects) / 55;
+        [_overView setAlpha:1.0 - diff*scale];
         
+    }
+    if (scrollView.contentOffset.y > _startContentOffset.y + 20) {
+        [self.view bringSubviewToFront:_tableView];
+        CGFloat diff =  scrollView.contentOffset.y- _startContentOffset.y-20;
+        CGFloat scale = (kLBBlurredImageDefaultBlurRadius/kMGOffsetEffects) / 25;
+        for (UIView *subView in _overView.subviews) {
+            if ([subView isKindOfClass:[LBXTitleDetailView class]]) {
+                for (UIView *subSubView in subView.subviews) {
+                    if ([subSubView isKindOfClass:[UIButton class]]) {
+                        subSubView.hidden = NO;
+                        UIButton *label = (UIButton *)subSubView;
+                        [label setAlpha:1.0 - diff*scale];
+                    }
+                }
+            }
+        }
+    }
+    else {
+        [self.view bringSubviewToFront:_overView];
+        for (UIView *subView in _overView.subviews) {
+            if ([subView isKindOfClass:[LBXTitleDetailView class]]) {
+                for (UIView *subSubView in subView.subviews) {
+                    if ([subSubView isKindOfClass:[UIButton class]]) {
+                        subSubView.hidden = NO;
+                        UIButton *label = (UIButton *)subSubView;
+                        [label setAlpha:1.0];
+                    }
+                }
+            }
+        }
     }
 }
 

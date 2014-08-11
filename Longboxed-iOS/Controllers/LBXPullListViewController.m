@@ -27,6 +27,7 @@
 #import "LBXMessageBar.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import <UIImageView+AFNetworking.h>
 #import <SVProgressHUD.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
@@ -470,12 +471,12 @@ CGFloat cellWidth;
         
         cell.latestIssueImageView.image = nil;
         
-        [LBXTitleServices setCell:cell withTitle:title];
+        [self setCell:cell withTitle:title];
         
         if (cell.latestIssueImageView.image == [UIImage imageNamed:@"NotAvailable"]) {
             [self.client fetchIssuesForTitle:title.titleID withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
                     if (!error) {
-                        [LBXTitleServices setCell:cell withTitle:title];
+                        [self setCell:cell withTitle:title];
                     }
                     else {
                         [LBXMessageBar displayError:error];
@@ -483,7 +484,7 @@ CGFloat cellWidth;
             }];
         }
         else {
-            [LBXTitleServices setCell:cell withTitle:title];
+            [self setCell:cell withTitle:title];
         }
     }
 }
@@ -531,6 +532,37 @@ CGFloat cellWidth;
 - (void)refreshSearchTableView
 {
     [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (void)setCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
+{
+    if ([LBXTitleServices lastIssueForTitle:title] != nil) {
+        LBXIssue *issue = [LBXTitleServices lastIssueForTitle:title];
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  Issue %@, %@", title.publisher.name, issue.issueNumber, [LBXTitleServices timeSinceLastIssueForTitle:title]];
+        
+        cell.titleLabel.text = title.name;
+        cell.subtitleLabel.text = [subtitleString uppercaseString];
+        
+        // Get the image from the URL and set it
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        
+            [UIView transitionWithView:cell.imageView
+                              duration:0.5f
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{[cell.latestIssueImageView setImage:image];}
+                            completion:NULL];
+            
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            cell.titleLabel.text = title.name;
+            cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@ •  No Issues", title.publisher.name] uppercaseString];
+            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];            
+        }];
+    }
+    else {
+        cell.titleLabel.text = title.name;
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@ •  No Issues", title.publisher.name] uppercaseString];
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+    }
 }
 
 #pragma mark UISearchBar methods
