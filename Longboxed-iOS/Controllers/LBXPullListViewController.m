@@ -158,11 +158,18 @@ CGFloat cellWidth;
     
     // SearchBar cursor color
     [[UISearchBar appearance] setTintColor:[UIColor blackColor]];
+    
+    NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
+    [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+    
+    // some over view controller could have changed our nav bar tint color, so reset it here
+    self.navigationController.navigationBar.tintColor = [UIColor darkGrayColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+   
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -492,6 +499,7 @@ CGFloat cellWidth;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.searchDisplayController setActive:NO animated:NO];
 
         LBXTitle *selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
@@ -554,13 +562,13 @@ CGFloat cellWidth;
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             cell.titleLabel.text = title.name;
-            cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@ •  No Issues", title.publisher.name] uppercaseString];
+            cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
             cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];            
         }];
     }
     else {
         cell.titleLabel.text = title.name;
-        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@ •  No Issues", title.publisher.name] uppercaseString];
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }
 }

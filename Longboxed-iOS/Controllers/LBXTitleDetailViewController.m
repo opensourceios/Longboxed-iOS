@@ -325,9 +325,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     if (scrollView.contentOffset.y > 0) {
         [self setNavBarAlpha:@(1 - self.overView.alpha)];
     }
-    else if (scrollView.contentOffset.y < -30.0) {
-        [self setNavBarAlpha:@(-scrollView.contentOffset.y/60.0)];
-    }
     else {
         [self setNavBarAlpha:@0];
     }

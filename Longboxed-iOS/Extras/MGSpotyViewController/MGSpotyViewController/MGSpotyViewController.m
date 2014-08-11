@@ -118,9 +118,9 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         [_overView setAlpha:1.0 - diff*scale];
         
     }
-    if (scrollView.contentOffset.y > _startContentOffset.y + 20) {
+    if (scrollView.contentOffset.y > _startContentOffset.y + 18) {
         [self.view bringSubviewToFront:_tableView];
-        CGFloat diff =  scrollView.contentOffset.y- _startContentOffset.y-20;
+        CGFloat diff =  scrollView.contentOffset.y- _startContentOffset.y-18;
         CGFloat scale = (kLBBlurredImageDefaultBlurRadius/kMGOffsetEffects) / 25;
         for (UIView *subView in _overView.subviews) {
             if ([subView isKindOfClass:[LBXTitleDetailView class]]) {
