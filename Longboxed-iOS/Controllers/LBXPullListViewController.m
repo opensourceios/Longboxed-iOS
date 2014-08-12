@@ -115,15 +115,6 @@ CGFloat cellWidth;
              forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl]; // So that the swipe cells aren't blocked
     
-    _client = [LBXClient new];
-    
-    _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
-
-    _latestIssuesInPullListArray = [NSMutableArray new];
-    
-    // Refresh the table view
-    [self refresh];
-    
     _searchBar = [UISearchBar new];
     _searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar
                                                              contentsController:self];
@@ -147,14 +138,25 @@ CGFloat cellWidth;
 {
     [super viewWillAppear:animated];
     
+    // Reload the pull list when using the back button on the title view
+    _client = [LBXClient new];
+    
+    _latestIssuesInPullListArray = [NSMutableArray new];
+    _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+    [self refresh];
+    [self.tableView reloadData];
+    
     // SearchBar cancel button font
     [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor whiteColor], NSForegroundColorAttributeName, nil];
     [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
     
     // SearchBar placeholder text font
     [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
+    
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor whiteColor];
     
     // SearchBar cursor color
     [[UISearchBar appearance] setTintColor:[UIColor blackColor]];
@@ -163,13 +165,14 @@ CGFloat cellWidth;
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
     
     // some over view controller could have changed our nav bar tint color, so reset it here
-    self.navigationController.navigationBar.tintColor = [UIColor darkGrayColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], NSFontAttributeName : [UIFont navTitleFont]}];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-   
 }
 
 - (void)viewWillDisappear:(BOOL)animated

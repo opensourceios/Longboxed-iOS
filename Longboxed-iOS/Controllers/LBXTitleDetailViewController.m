@@ -19,6 +19,8 @@
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
 
+#import <SVProgressHUD.h>
+
 @interface LBXTitleDetailViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, copy) LBXTitle *detailTitle;
@@ -32,6 +34,7 @@
 @implementation LBXTitleDetailViewController
 
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
+static BOOL addToListToggle = NO;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,8 +44,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    self.navigationController.navigationBar.backItem.title = @" ";
+    self.navigationController.navigationBar.backItem.title = @"dddd";
     self.title = _detailTitle.name;
     _client = [LBXClient new];
     
@@ -55,22 +57,36 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
     [self.navigationController.navigationBar setBackIndicatorImage:
      [UIImage imageNamed:@"arrow"]];
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
      [UIImage imageNamed:@"arrow"]];
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
-//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-//                                                  forBarMetrics:UIBarMetricsDefault];
-//    self.navigationController.navigationBar.shadowImage = [UIImage new];
-//    self.navigationController.navigationBar.translucent = YES;
-//    self.navigationController.view.backgroundColor = [UIColor clearColor];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
     [self setNavBarAlpha:@0];
 
     // Keep the section header on the top
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self setNavBarAlpha:@1];
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
 - (UIView *)myOverView {
@@ -129,13 +145,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     return _detailView;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [self setNavBarAlpha:@1];
-    
-    [super viewWillDisappear:animated];
-}
-
 - (BOOL)prefersStatusBarHidden {
     return NO;
 }
@@ -148,14 +157,45 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
 - (void)setPullListButton
 {
-    LBXIssue *issue = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
-    if (issue) {
+    _detailView.addToPullListButton.tag = 0;
+    [_detailView.addToPullListButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+    LBXTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
+    if (title) {
         [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
         _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+        addToListToggle = NO;
     }
     else {
         [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
         _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+        addToListToggle = YES;
+    }
+}
+
+- (IBAction)onClick:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    switch ([button tag]) {
+        case 0: // Add title to pull list
+        {
+            if (addToListToggle == NO) {
+                LBXTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
+                if (title != nil) {
+                    [[NSManagedObjectContext MR_defaultContext] deleteObject:title];
+                    [[NSManagedObjectContext MR_defaultContext] saveToPersistentStoreAndWait];
+                }
+                [self deleteTitle:_detailTitle];
+                addToListToggle = YES;
+                 [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
+                [self refresh];
+            }
+            else if (addToListToggle == YES) {
+                addToListToggle = NO;
+                [self addTitle:_detailTitle];
+                [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
+            }
+            break;
+        }
     }
 }
 
@@ -175,7 +215,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         else {
             [LBXMessageBar displayError:error];
         }
-        [self setPullListButton];
+//        [self setPullListButton];
         [self.view setNeedsDisplay];
     }];
 }
@@ -209,9 +249,46 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
 - (void)setNavBarAlpha:(NSNumber *)alpha
 {
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
 }
 
+- (void)addTitle:(LBXTitle *)title
+{
+    [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        if (!error) {
+        }
+        else {
+            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to add %@\n%@", title.name, error.localizedDescription]];
+        }
+    }];
+}
+
+- (void)deleteTitle:(LBXTitle *)title
+{
+    // Fetch pull list titles
+    [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        if (!error) {
+            _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+        }
+        else {
+            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
+        }
+    }];
+}
+
+- (void)refresh
+{
+    // Fetch pull list titles
+    [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+        }
+        else {
+            [LBXMessageBar displayError:error];
+        }
+    }];
+}
 
 #pragma mark - Setter overrides
 

@@ -11,6 +11,11 @@
 #import "NSDate+DateUtilities.h"
 
 #import <UIImageView+AFNetworking.h>
+#import <SVProgressHUD.h>
+
+@interface LBXTitleServices ()
+
+@end
 
 @implementation LBXTitleServices
 
@@ -89,7 +94,11 @@
 {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateStyle:NSDateFormatterLongStyle];
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  $%@", [formatter stringFromDate:issue.releaseDate], issue.price];
+    
+        NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
+        [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        [numFormatter setMinimumFractionDigits:2];
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  $%@", [formatter stringFromDate:issue.releaseDate], [numFormatter stringFromNumber:issue.price]];
         
         cell.titleLabel.text = issue.completeTitle;
         cell.subtitleLabel.text = [subtitleString uppercaseString];

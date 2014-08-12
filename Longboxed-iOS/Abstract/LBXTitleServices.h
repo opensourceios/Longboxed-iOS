@@ -6,10 +6,11 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "LBXTitle.h"
 #import "LBXIssue.h"
 #import "LBXPullListTableViewCell.h"
+
+#import <Foundation/Foundation.h>
 
 @interface LBXTitleServices : NSObject
 
