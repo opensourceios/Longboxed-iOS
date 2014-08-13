@@ -140,12 +140,7 @@ CGFloat cellWidth;
     
     [self.navigationController.navigationBar setBackgroundImage:nil
                                                   forBarMetrics:UIBarMetricsDefault];
-    
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    self.navigationController.navigationBar.shadowImage = nil;
-    self.navigationController.navigationBar.topItem.title = @"Pull List";
-    
-    
+
     // Reload the pull list when using the back button on the title view
     _client = [LBXClient new];
     
@@ -181,6 +176,10 @@ CGFloat cellWidth;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.navigationBar.shadowImage = nil;
+    self.navigationController.navigationBar.topItem.title = @"Pull List";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

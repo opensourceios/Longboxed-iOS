@@ -31,9 +31,9 @@
         [formatter setDateFormat:@"MM-dd-yyyy"];
         NSString *timeStamp = [formatter stringFromDate:issue.releaseDate];
         NSDate *gmtReleaseDate = [formatter dateFromString:timeStamp];
-        // Add four hours because date is set to 20:00 by RestKit
-        NSTimeInterval secondsInFourHours = 4 * 60 * 60;
-        return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInFourHours] andEndDate:[NSDate date]]];
+        // Subtract 20 hrs because time=20:00 by RestKit
+        NSTimeInterval secondsInTwentyHours = -20 * 60 * 60;
+        return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInTwentyHours] andEndDate:[NSDate date]]];
     }
     return @"";
 }
