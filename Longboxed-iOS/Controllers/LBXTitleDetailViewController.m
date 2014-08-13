@@ -357,11 +357,16 @@ static BOOL addToListToggle = NO;
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    NSInteger mySections = 1;
+    
+    return mySections + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (_issuesForTitleArray.count < 3) {
+    if (section != 1) {
+        return 0;
+    }
+    if (_issuesForTitleArray.count <= 3) {
         return 3;
     }
     
@@ -390,28 +395,31 @@ static BOOL addToListToggle = NO;
 - (void)tableView:(UITableView *)tableView willDisplayCell:(LBXPullListTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Configure the cell...
-    if (_issuesForTitleArray.count) {
-        LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
-        
-        cell.titleLabel.font = [UIFont pullListTitleFont];
-        cell.titleLabel.text = issue.completeTitle;
-        
-        cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        cell.titleLabel.numberOfLines = 2;
-        
-        cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
-        cell.subtitleLabel.textColor = [UIColor grayColor];
-        cell.subtitleLabel.numberOfLines = 2;
-        
-        cell.latestIssueImageView.image = nil;
-        
-        [LBXTitleServices setCell:cell withIssue:issue];
-        
-        [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
-        
-        // Setting the background color of the cell.
-        cell.contentView.backgroundColor = [UIColor whiteColor];
+    if (_issuesForTitleArray.count <= indexPath.row) {
+        return;
     }
+
+    LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
+    
+    cell.titleLabel.font = [UIFont pullListTitleFont];
+    cell.titleLabel.text = issue.completeTitle;
+    
+    cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    cell.titleLabel.numberOfLines = 2;
+    
+    cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
+    cell.subtitleLabel.textColor = [UIColor grayColor];
+    cell.subtitleLabel.numberOfLines = 2;
+    
+    cell.latestIssueImageView.image = nil;
+    
+    [LBXTitleServices setCell:cell withIssue:issue];
+    
+    [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+    
+    // Setting the background color of the cell.
+    cell.contentView.backgroundColor = [UIColor whiteColor];
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
