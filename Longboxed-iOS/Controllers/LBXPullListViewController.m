@@ -138,6 +138,14 @@ CGFloat cellWidth;
 {
     [super viewWillAppear:animated];
     
+    [self.navigationController.navigationBar setBackgroundImage:nil
+                                                  forBarMetrics:UIBarMetricsDefault];
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.navigationBar.shadowImage = nil;
+    self.navigationController.navigationBar.topItem.title = @"Pull List";
+    
+    
     // Reload the pull list when using the back button on the title view
     _client = [LBXClient new];
     
@@ -177,6 +185,7 @@ CGFloat cellWidth;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    self.navigationController.navigationBar.topItem.title = @" ";
     [super viewWillDisappear:animated];
 }
 
@@ -582,10 +591,10 @@ CGFloat cellWidth;
 {
     // Delays on making the actor API calls
     if([searchText length] != 0) {
-        float delay = 0.5;
+        float delay = 0.3;
         
         if (searchText.length > 3) {
-            delay = 0.3;
+            delay = 0.1;
         }
         
         // Clear any previously queued text changes

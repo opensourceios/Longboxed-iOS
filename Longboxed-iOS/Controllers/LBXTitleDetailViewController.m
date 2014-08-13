@@ -44,7 +44,6 @@ static BOOL addToListToggle = NO;
     
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
-    self.navigationController.navigationBar.backItem.title = @"dddd";
     self.title = _detailTitle.name;
     _client = [LBXClient new];
     
@@ -64,13 +63,22 @@ static BOOL addToListToggle = NO;
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
      [UIImage imageNamed:@"arrow"]];
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                  forBarMetrics:UIBarMetricsDefault];
-    
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor clearColor];
+
+    if (_detailView.latestIssueImageView.image.size.height > 200.0) {
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                      forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.shadowImage = [UIImage new];
+        
+        self.navigationController.navigationBar.translucent = YES;
+        self.navigationController.view.backgroundColor = [UIColor clearColor];
+    }
+    else {
+        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+    }
+
     [self setNavBarAlpha:@0];
 
     // Keep the section header on the top
@@ -120,20 +128,23 @@ static BOOL addToListToggle = NO;
     _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
     _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     
+        _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
     if ([LBXTitleServices lastIssueForTitle:_detailTitle] != nil) {
         LBXIssue *issue = [LBXTitleServices lastIssueForTitle:_detailTitle];
         NSString *timeSinceString = [LBXTitleServices timeSinceLastIssueForTitle:_detailTitle];
-        
+
         NSString *subtitleString = [NSString stringWithFormat:@"Issue %@ released %@", issue.issueNumber, timeSinceString];
         if ([timeSinceString hasPrefix:@"in"]) {
            subtitleString = [NSString stringWithFormat:@"Issue %@ will be released %@", issue.issueNumber, timeSinceString];
         }
         _detailView.latestIssueLabel.text = subtitleString;
     }
+    else if (!_issuesForTitleArray.count) {
+        _detailView.latestIssueLabel.text = @"No issues released";
+    }
     else {
         _detailView.latestIssueLabel.text = @"";
     }
-    _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
     
     [self setPullListButton];
     _detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
@@ -141,6 +152,7 @@ static BOOL addToListToggle = NO;
     _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
     
     _detailView.latestIssueImageView.image = _latestIssueImage;
+    [_detailView.latestIssueImageView sizeToFit];
     
     return _detailView;
 }
@@ -249,7 +261,12 @@ static BOOL addToListToggle = NO;
 
 - (void)setNavBarAlpha:(NSNumber *)alpha
 {
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
+    if (_detailView.latestIssueImageView.image.size.height > 200.0) {
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
+    }
+    else {
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], NSFontAttributeName : [UIFont navTitleFont]}];
+    }
 }
 
 - (void)addTitle:(LBXTitle *)title
@@ -340,16 +357,15 @@ static BOOL addToListToggle = NO;
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    NSInteger mySections = 1;
-    
-    return mySections + 1;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section == 1)
-        return _issuesForTitleArray.count;
+    if (_issuesForTitleArray.count < 3) {
+        return 3;
+    }
     
-    return 0;
+    return _issuesForTitleArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -374,27 +390,28 @@ static BOOL addToListToggle = NO;
 - (void)tableView:(UITableView *)tableView willDisplayCell:(LBXPullListTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Configure the cell...
-    LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
-    
-    cell.titleLabel.font = [UIFont pullListTitleFont];
-    cell.titleLabel.text = issue.completeTitle;
-    
-    cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    cell.titleLabel.numberOfLines = 2;
-    
-    cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
-    cell.subtitleLabel.textColor = [UIColor grayColor];
-    cell.subtitleLabel.numberOfLines = 2;
-    
-    cell.latestIssueImageView.image = nil;
-    
-    [LBXTitleServices setCell:cell withIssue:issue];
-    
-    [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
-    
-    // Setting the background color of the cell.
-    cell.contentView.backgroundColor = [UIColor whiteColor];
-
+    if (_issuesForTitleArray.count) {
+        LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
+        
+        cell.titleLabel.font = [UIFont pullListTitleFont];
+        cell.titleLabel.text = issue.completeTitle;
+        
+        cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        cell.titleLabel.numberOfLines = 2;
+        
+        cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
+        cell.subtitleLabel.textColor = [UIColor grayColor];
+        cell.subtitleLabel.numberOfLines = 2;
+        
+        cell.latestIssueImageView.image = nil;
+        
+        [LBXTitleServices setCell:cell withIssue:issue];
+        
+        [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+        
+        // Setting the background color of the cell.
+        cell.contentView.backgroundColor = [UIColor whiteColor];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

@@ -75,6 +75,11 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     }
 }
 
+- (void)setBlurImageViewFrame:(CGRect)frame
+{
+    [_mainImageView setFrame:frame];
+}
+
 
 #pragma mark - UIScrollView Delegate
 
