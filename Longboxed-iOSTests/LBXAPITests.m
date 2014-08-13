@@ -77,7 +77,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testIssuesCollectionForCurrentWeekEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchThisWeeksComicsWithCompletion:^(NSArray *thisWeeksIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchThisWeeksComicsWithPage:@1 completion:^(NSArray *thisWeeksIssuesArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues collection for current week endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotEqual(thisWeeksIssuesArray.count, 0, @"/issues/thisweek/ JSON is returning nil");
             *done = YES;
