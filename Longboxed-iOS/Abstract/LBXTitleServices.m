@@ -25,15 +25,13 @@
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
     
     if (allIssuesArray.count != 0) {
+        
         LBXIssue *issue = allIssuesArray[0];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
-        [formatter setDateFormat:@"MM-dd-yyyy"];
-        NSString *timeStamp = [formatter stringFromDate:issue.releaseDate];
-        NSDate *gmtReleaseDate = [formatter dateFromString:timeStamp];
-        // Subtract 20 hrs because time=20:00 by RestKit
-        NSTimeInterval secondsInTwentyHours = -20 * 60 * 60;
-        return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:[gmtReleaseDate dateByAddingTimeInterval:secondsInTwentyHours] andEndDate:[NSDate date]]];
+        
+        // Get an NSDate with the local time: http://stackoverflow.com/questions/3901474/iphone-nsdate-convert-gmt-to-local-time
+        NSDate* localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT]
+                                                   sinceDate:[NSDate date]];
+        return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:issue.releaseDate andEndDate:localDateTime]];
     }
     return @"";
 }
@@ -92,29 +90,30 @@
 
 + (void)setCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue
 {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateStyle:NSDateFormatterLongStyle];
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    [formatter setDateStyle:NSDateFormatterLongStyle];
+
+    NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
+    [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [numFormatter setMinimumFractionDigits:2];
+    NSString *subtitleString = [NSString stringWithFormat:@"%@  •  $%@", [formatter stringFromDate:issue.releaseDate], [numFormatter stringFromNumber:issue.price]];
     
-        NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
-        [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-        [numFormatter setMinimumFractionDigits:2];
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  $%@", [formatter stringFromDate:issue.releaseDate], [numFormatter stringFromNumber:issue.price]];
+    cell.titleLabel.text = issue.completeTitle;
+    cell.subtitleLabel.text = [subtitleString uppercaseString];
+    
+    // Get the image from the URL and set it
+    [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
-        cell.titleLabel.text = issue.completeTitle;
-        cell.subtitleLabel.text = [subtitleString uppercaseString];
+        [UIView transitionWithView:cell.imageView
+                          duration:0.5f
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{[cell.latestIssueImageView setImage:image];}
+                        completion:NULL];
         
-        // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-            
-            [UIView transitionWithView:cell.imageView
-                              duration:0.5f
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:^{[cell.latestIssueImageView setImage:image];}
-                            completion:NULL];
-            
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
-        }];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+    }];
 }
 
 @end

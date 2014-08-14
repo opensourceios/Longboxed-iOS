@@ -77,6 +77,12 @@
     RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
     manager.managedObjectStore = managedObjectStore;
     
+    //Add .SSS dateformatter to default formatters:
+    NSDateFormatter* restKitDates = [NSDateFormatter new];
+    [restKitDates setDateFormat:@"yyyy-MM-dd"];
+    [restKitDates setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+    [[RKValueTransformer defaultValueTransformer] insertValueTransformer:restKitDates atIndex:0];
+    
     RKObjectMapping *errorMapping = [RKObjectMapping mappingForClass:[RKErrorMessage class]];
     
     [errorMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"errorMessage"]];

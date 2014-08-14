@@ -327,7 +327,7 @@ static BOOL addToListToggle = NO;
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // Background color
-    view.tintColor = [UIColor lightGrayColor];
+    view.tintColor = [UIColor whiteColor];
     
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
