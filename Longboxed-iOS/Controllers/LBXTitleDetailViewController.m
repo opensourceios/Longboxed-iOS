@@ -50,12 +50,7 @@ static BOOL addToListToggle = NO;
     [self createPullListArray];
     [self createIssuesArray];
     
-    _detailView = [LBXTitleDetailView new];
-    _detailView.frame = self.overView.frame;
-    _detailView.bounds = self.overView.bounds;
     [self setDetailView];
-    _detailView.latestIssueImageView.image = _latestIssueImage;
-    [_detailView.latestIssueImageView sizeToFit];
     [self setOverView:_detailView];
     
     [self fetchTitle];
@@ -108,12 +103,28 @@ static BOOL addToListToggle = NO;
 
 - (void)setDetailView
 {
-    _detailView.titleLabel.text = _detailTitle.name;
+    _detailView = [LBXTitleDetailView new];
+    _detailView.frame = self.overView.frame;
+    _detailView.bounds = self.overView.bounds;
     _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
-    _detailView.titleLabel.numberOfLines = 2;
     [_detailView.titleLabel sizeToFit];
-    _detailView.publisherLabel.text = [_detailTitle.publisher.name uppercaseString];
     _detailView.publisherLabel.font = [UIFont titleDetailPublisherFont];
+    
+    [self updateDetailView];
+    
+    [self setPullListButton];
+    _detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
+    _detailView.addToPullListButton.layer.borderWidth = 1.0f;
+    _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
+    _detailView.latestIssueImageView.image = _latestIssueImage;
+    [_detailView.latestIssueImageView sizeToFit];
+}
+
+- (void)updateDetailView
+{
+    _detailView.titleLabel.numberOfLines = 2;
+    _detailView.titleLabel.text = _detailTitle.name;
+    _detailView.publisherLabel.text = [_detailTitle.publisher.name uppercaseString];
     
     NSString *issuesString;
     if ([_detailTitle.issueCount isEqualToNumber:@1]) {
@@ -151,12 +162,7 @@ static BOOL addToListToggle = NO;
     else {
         _detailView.latestIssueLabel.text = @"";
     }
-    
-    [self setPullListButton];
-    _detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
-    _detailView.addToPullListButton.layer.borderWidth = 1.0f;
-    _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
-    [self.overView layoutIfNeeded];
+    [self.view setNeedsDisplay];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -240,7 +246,7 @@ static BOOL addToListToggle = NO;
         
         if (!error) {
             _detailTitle = title;
-            [self setDetailView];
+            [self updateDetailView];
         }
         else {
             [LBXMessageBar displayError:error];
