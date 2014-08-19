@@ -242,7 +242,7 @@ static BOOL addToListToggle = NO;
 
 - (void)fetchTitle
 {
-    [_client fetchTitle:_detailTitle.titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {
+    [_client fetchTitle:_titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
             _detailTitle = title;
@@ -263,7 +263,7 @@ static BOOL addToListToggle = NO;
 - (void)fetchAllIssues
 {
     // Fetch pull list titles
-    [_client fetchIssuesForTitle:_detailTitle.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+    [_client fetchIssuesForTitle:_titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
             [self createIssuesArray];
