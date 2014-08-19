@@ -49,7 +49,16 @@ static BOOL addToListToggle = NO;
     
     [self createPullListArray];
     [self createIssuesArray];
-    [self setOverView:self.myOverView];
+    
+    _detailView = [LBXTitleDetailView new];
+    _detailView.frame = self.overView.frame;
+    _detailView.bounds = self.overView.bounds;
+    [self setDetailView];
+    _detailView.latestIssueImageView.image = _latestIssueImage;
+    [_detailView.latestIssueImageView sizeToFit];
+    [self setOverView:_detailView];
+    
+    [self fetchTitle];
     [self fetchPullList];
     [self fetchAllIssues];
 }
@@ -97,11 +106,8 @@ static BOOL addToListToggle = NO;
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
-- (UIView *)myOverView {
-    //UIView *view = [[UIView alloc] initWithFrame:self.overView.bounds];
-    _detailView = [LBXTitleDetailView new];
-    _detailView.frame = self.overView.frame;
-    _detailView.bounds = self.overView.bounds;
+- (void)setDetailView
+{
     _detailView.titleLabel.text = _detailTitle.name;
     _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
     _detailView.titleLabel.numberOfLines = 2;
@@ -128,14 +134,14 @@ static BOOL addToListToggle = NO;
     _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
     _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     
-        _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
+    _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
     if ([LBXTitleServices lastIssueForTitle:_detailTitle] != nil) {
         LBXIssue *issue = [LBXTitleServices lastIssueForTitle:_detailTitle];
         NSString *timeSinceString = [LBXTitleServices timeSinceLastIssueForTitle:_detailTitle];
-
+        
         NSString *subtitleString = [NSString stringWithFormat:@"Issue %@ released %@", issue.issueNumber, timeSinceString];
         if ([timeSinceString hasPrefix:@"in"]) {
-           subtitleString = [NSString stringWithFormat:@"Issue %@ will be released %@", issue.issueNumber, timeSinceString];
+            subtitleString = [NSString stringWithFormat:@"Issue %@ will be released %@", issue.issueNumber, timeSinceString];
         }
         _detailView.latestIssueLabel.text = subtitleString;
     }
@@ -150,11 +156,7 @@ static BOOL addToListToggle = NO;
     _detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
     _detailView.addToPullListButton.layer.borderWidth = 1.0f;
     _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
-    
-    _detailView.latestIssueImageView.image = _latestIssueImage;
-    [_detailView.latestIssueImageView sizeToFit];
-    
-    return _detailView;
+    [self.overView layoutIfNeeded];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -228,6 +230,21 @@ static BOOL addToListToggle = NO;
             [LBXMessageBar displayError:error];
         }
 //        [self setPullListButton];
+        [self.view setNeedsDisplay];
+    }];
+}
+
+- (void)fetchTitle
+{
+    [_client fetchTitle:_detailTitle.titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            _detailTitle = title;
+            [self setDetailView];
+        }
+        else {
+            [LBXMessageBar displayError:error];
+        }
         [self.view setNeedsDisplay];
     }];
 }

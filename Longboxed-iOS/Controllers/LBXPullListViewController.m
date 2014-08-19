@@ -144,10 +144,9 @@ CGFloat cellWidth;
     // Reload the pull list when using the back button on the title view
     _client = [LBXClient new];
     
-    _latestIssuesInPullListArray = [NSMutableArray new];
-    _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+    [self fillPullListArray];
+    [self fillLatestIssuesInPullListArray];
     [self refresh];
-    [self.tableView reloadData];
     
     // SearchBar cancel button font
     [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
@@ -247,13 +246,35 @@ CGFloat cellWidth;
     }];
 }
 
+- (void)fillPullListArray
+{
+    _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+}
+
+- (void)fillLatestIssuesInPullListArray
+{
+    // Fetch the latest of the issues from Core Data and append to _latestIssuesInPullListArray
+    for (LBXTitle *title in _pullListArray) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
+        NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+        
+        if (allIssuesArray.count == 0) {
+            [_latestIssuesInPullListArray addObject:@" "];
+        }
+        else {
+            LBXIssue *issue = allIssuesArray[0];
+            [_latestIssuesInPullListArray addObject:issue];
+        }
+    }
+}
+
 - (void)refresh
 {
     // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+            [self fillPullListArray];
             tableViewRows = _pullListArray.count;
             [self getAllIssues];
         }
@@ -261,6 +282,7 @@ CGFloat cellWidth;
             [LBXMessageBar displayError:error];
             [self.refreshControl endRefreshing];
         }
+        [self.tableView reloadData];
     }];
 }
 
@@ -278,19 +300,7 @@ CGFloat cellWidth;
             if (i == _pullListArray.count) {
                 if (!error) {
                     
-                    // Fetch the latest of the issues from Core Data and append to _latestIssuesInPullListArray
-                    for (LBXTitle *title in _pullListArray) {
-                        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
-                        NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
-                        
-                        if (allIssuesArray.count == 0) {
-                            [_latestIssuesInPullListArray addObject:@" "];
-                        }
-                        else {
-                            LBXIssue *issue = allIssuesArray[0];
-                            [_latestIssuesInPullListArray addObject:issue];
-                        }
-                    }
+                    [self fillLatestIssuesInPullListArray];
                 }
                 else {
                     [LBXMessageBar displayError:error];
@@ -490,20 +500,6 @@ CGFloat cellWidth;
         cell.latestIssueImageView.image = nil;
         
         [self setCell:cell withTitle:title];
-        
-        if (cell.latestIssueImageView.image == [UIImage imageNamed:@"NotAvailable"]) {
-            [self.client fetchIssuesForTitle:title.titleID withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
-                    if (!error) {
-                        [self setCell:cell withTitle:title];
-                    }
-                    else {
-                        [LBXMessageBar displayError:error];
-                    }
-            }];
-        }
-        else {
-            [self setCell:cell withTitle:title];
-        }
     }
 }
 
