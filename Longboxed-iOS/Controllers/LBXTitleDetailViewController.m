@@ -15,6 +15,7 @@
 #import "LBXTitleDetailView.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXTitleServices.h"
+#import "LBXIssueDetailViewController.h"
 
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
@@ -88,6 +89,9 @@ static BOOL addToListToggle = NO;
     // Keep the section header on the top
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
+    
+    NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
+    [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -98,6 +102,7 @@ static BOOL addToListToggle = NO;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self setNavBarAlpha:@1];
+    self.navigationController.navigationBar.topItem.title = @" ";
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
@@ -454,6 +459,16 @@ static BOOL addToListToggle = NO;
         [self setNavBarAlpha:@0];
     }
     return [super scrollViewDidScroll:scrollView];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image];
+    
+    LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
+    titleViewController.issueID = issue.issueID;
+    [self.navigationController pushViewController:titleViewController animated:YES];
 }
 
 @end
