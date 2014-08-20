@@ -61,7 +61,7 @@
 {
     if ([LBXTitleServices lastIssueForTitle:title] != nil) {
         LBXIssue *issue = [LBXTitleServices lastIssueForTitle:title];
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  Issue %@, %@", title.publisher.name, issue.issueNumber, [LBXTitleServices timeSinceLastIssueForTitle:title]];
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.publisher.name, [LBXTitleServices timeSinceLastIssueForTitle:title]];
         
         cell.titleLabel.text = title.name;
         cell.subtitleLabel.text = [subtitleString uppercaseString];
@@ -97,7 +97,7 @@
     NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
     [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     [numFormatter setMinimumFractionDigits:2];
-    NSString *subtitleString = [NSString stringWithFormat:@"%@  •  $%@", [formatter stringFromDate:issue.releaseDate], [numFormatter stringFromNumber:issue.price]];
+    NSString *subtitleString = [NSString stringWithFormat:@"%@", [formatter stringFromDate:issue.releaseDate]];
     
     cell.titleLabel.text = issue.completeTitle;
     cell.subtitleLabel.text = [subtitleString uppercaseString];

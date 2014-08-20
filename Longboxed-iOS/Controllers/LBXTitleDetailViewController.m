@@ -83,7 +83,7 @@ static BOOL addToListToggle = NO;
         self.navigationController.navigationBar.tintColor = [UIColor blackColor];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
     }
-
+    
     [self setNavBarAlpha:@0];
 
     // Keep the section header on the top
@@ -97,6 +97,16 @@ static BOOL addToListToggle = NO;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    self.navigationController.navigationBar.topItem.title = _detailTitle.name;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    if (self.tableView.contentOffset.y > 0) {
+        // Set the title alpha properly when returning from the issue view
+        [self setNavBarAlpha:@(1 - self.overView.alpha)];
+    }
+    else {
+        [self setNavBarAlpha:@0];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated

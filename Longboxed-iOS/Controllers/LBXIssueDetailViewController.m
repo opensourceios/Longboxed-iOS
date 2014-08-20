@@ -48,7 +48,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.title = @"hfjskf";
     
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
@@ -79,9 +78,15 @@
     [super viewDidLoad];
 }
 
-- (BOOL)prefersStatusBarHidden {
-    return YES;
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.navigationController.navigationBar.topItem.title = _issue.title.name;
 }
+
+//- (BOOL)prefersStatusBarHidden {
+//    return YES;
+//}
 
 - (void)didReceiveMemoryWarning
 {
