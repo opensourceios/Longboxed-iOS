@@ -106,6 +106,8 @@
                                                         @"description"    : @"issueDescription",
                                                         @"diamond_id"     : @"diamondID",
                                                         @"id"             : @"issueID",
+                                                        @"is_parent"      : @"isParent",
+                                                        @"alternates"     : @"alternates",
                                                         @"issue_number"   : @"issueNumber",
                                                         @"price"          : @"price",
                                                         @"release_date"   : @"releaseDate"

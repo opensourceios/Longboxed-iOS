@@ -11,6 +11,9 @@
 #import "UIImageView+LBBlurredImage.h"
 #import "UIFont+customFonts.h"
 #import "UIImage+ImageEffects.h"
+#import "PaperButton.h"
+
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
 @interface LBXIssueDetailViewController ()
 
@@ -18,6 +21,7 @@
 @property (nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (nonatomic) IBOutlet UIImageView *coverImageView;
 @property (nonatomic) IBOutlet UILabel *titleLabel;
+@property (nonatomic) PaperButton *closeButton;
 @property (nonatomic, copy) UIImage *issueImage;
 @property (nonatomic, copy) LBXIssue *issue;
 
@@ -39,7 +43,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
         // Custom initialization
     }
     return self;
@@ -63,6 +66,7 @@
     
     
     _issue = [LBXIssue MR_findFirstByAttribute:@"issueID" withValue:_issueID];
+    NSLog(@"Selected issue %@", _issue.issueID);
     
     _titleLabel.text = _issue.completeTitle;
     
@@ -71,6 +75,13 @@
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#[0-9]+;" options:NSRegularExpressionCaseInsensitive error:&error];
     NSString *modifiedString = [regex stringByReplacingMatchesInString:string options:0 range:NSMakeRange(0, [string length]) withTemplate:@""];
     _descriptionTextView.text = modifiedString;
+    
+    _closeButton = [PaperButton buttonWithOrigin:CGPointMake(16, 16)];
+    _closeButton.tintColor = [UIColor whiteColor];
+    [_closeButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_closeButton];
+    [_closeButton animateToClose];
+
 }
 
 - (void)viewDidLoad
@@ -84,14 +95,19 @@
     self.navigationController.navigationBar.topItem.title = _issue.title.name;
 }
 
-//- (BOOL)prefersStatusBarHidden {
-//    return YES;
-//}
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)buttonPressed:(UIButton *)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

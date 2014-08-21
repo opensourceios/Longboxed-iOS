@@ -23,6 +23,7 @@
 @property (nonatomic) LBXClient *client;
 @property (nonatomic) NSArray *thisWeeksComicsArray;
 @property (nonatomic) NSNumber *page;
+@property (nonatomic) NSDate *thisWeekDate;
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
@@ -181,7 +182,15 @@ BOOL endOfThisWeeksComics;
     [self.client fetchThisWeeksComicsWithPage:page completion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            if (pullListArray.count == 0) endOfThisWeeksComics = YES;
+            if (pullListArray.count == 0) {
+                endOfThisWeeksComics = YES;
+            }
+            else {
+                // Get this week date for fetching
+                // from core data later
+                LBXIssue *issue = pullListArray[0];
+                _thisWeekDate = issue.releaseDate;
+            }
            
             [self setThisWeeksComicsArrayWithLatestIssues];
             
@@ -208,11 +217,8 @@ BOOL endOfThisWeeksComics;
     // Get the latest issue in the database
     NSArray *issues = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO];
     if (issues.count) {
-        LBXIssue *issue = [issues objectAtIndex:0];
-        
         // Subtract one day from it
-        NSDate *sevenDaysAgo = [issue.releaseDate dateByAddingTimeInterval:-1*24*60*60];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"releaseDate > %@", sevenDaysAgo];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate == %@) AND (isParent == 1)", _thisWeekDate];
         _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
     }
 }

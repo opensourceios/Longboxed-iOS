@@ -19,6 +19,7 @@
 
 @implementation LBXTitleServices
 
+// This is for the pull list view
 + (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
@@ -88,6 +89,7 @@
     }
 }
 
+// This is for the title view
 + (void)setCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue
 {
     NSDateFormatter *formatter = [NSDateFormatter new];
@@ -99,8 +101,13 @@
     [numFormatter setMinimumFractionDigits:2];
     NSString *subtitleString = [NSString stringWithFormat:@"%@", [formatter stringFromDate:issue.releaseDate]];
     
-    cell.titleLabel.text = issue.completeTitle;
+    cell.titleLabel.text = [NSString stringWithFormat:@"Issue #%@", issue.issueNumber];
     cell.subtitleLabel.text = [subtitleString uppercaseString];
+    
+    // For issues without a release date
+    if ([subtitleString isEqualToString:@"(null)"]) {
+        cell.subtitleLabel.text = @"Release Date Unknown";
+    }
     
     // Get the image from the URL and set it
     [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {

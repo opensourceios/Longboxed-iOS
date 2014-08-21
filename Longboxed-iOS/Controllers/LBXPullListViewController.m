@@ -295,7 +295,7 @@ CGFloat cellWidth;
     
     // Fetch all the titles from the API so we can get the latest issue
     for (LBXTitle *title in _pullListArray) {
-        [self.client fetchIssuesForTitle:title.titleID withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchIssuesForTitle:title.titleID page:@1 withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
             // Wait until all titles in _pullListArray have been fetched
             if (i == _pullListArray.count) {
                 if (!error) {

@@ -29,6 +29,7 @@
 @property (nonatomic, copy) LBXTitleDetailView *detailView;
 @property (nonatomic, copy) NSArray *pullListArray;
 @property (nonatomic, copy) NSArray *issuesForTitleArray;
+@property (nonatomic) NSNumber *page;
 
 @end
 
@@ -36,6 +37,7 @@
 
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 static BOOL addToListToggle = NO;
+BOOL endOfIssues;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,6 +48,9 @@ static BOOL addToListToggle = NO;
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
     self.title = _detailTitle.name;
+    
+    endOfIssues = NO;
+    
     _client = [LBXClient new];
     
     [self createPullListArray];
@@ -56,7 +61,7 @@ static BOOL addToListToggle = NO;
     
     [self fetchTitle];
     [self fetchPullList];
-    [self fetchAllIssues];
+    [self fetchAllIssuesWithPage:@1];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -275,12 +280,17 @@ static BOOL addToListToggle = NO;
     _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
 }
 
-- (void)fetchAllIssues
+- (void)fetchAllIssuesWithPage:(NSNumber *)page
 {
+    NSLog(@"%@", page);
     // Fetch pull list titles
-    [_client fetchIssuesForTitle:_titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+    [_client fetchIssuesForTitle:_titleID page:page withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            if (pullListArray.count == 0) {
+                endOfIssues = YES;
+            }
+            
             [self createIssuesArray];
         }
         else {
@@ -293,8 +303,21 @@ static BOOL addToListToggle = NO;
 
 - (void)createIssuesArray
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title == %@", _detailTitle];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (isParent == 1)", _detailTitle];
     _issuesForTitleArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:_issuesForTitleArray];
+    
+    NSSortDescriptor *sortByIssueID = [NSSortDescriptor sortDescriptorWithKey:@"issueID" ascending:NO];
+    NSSortDescriptor *sortByIssueNumber = [NSSortDescriptor sortDescriptorWithKey:@"issueNumber" ascending:NO];
+    NSSortDescriptor *sortByIssueReleaseDate = [NSSortDescriptor sortDescriptorWithKey:@"releaseDate" ascending:NO];
+    
+    // Combine the two
+    NSArray *sortDescriptors = @[sortByIssueReleaseDate, sortByIssueNumber, sortByIssueID];
+    
+
+    _issuesForTitleArray = [mutableArray sortedArrayUsingDescriptors:sortDescriptors];
+    
 }
 
 - (void)setNavBarAlpha:(NSNumber *)alpha
@@ -427,6 +450,13 @@ static BOOL addToListToggle = NO;
         }
         
     }
+    
+    if ([indexPath row] == _issuesForTitleArray.count - 1 && !endOfIssues) {
+        int value = [_page integerValue];
+        _page = [NSNumber numberWithInt:value+1];
+        [self fetchAllIssuesWithPage:_page];
+    }
+    
     return cell;
 }
 
@@ -475,10 +505,15 @@ static BOOL addToListToggle = NO;
 {
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image];
+    titleViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     
     LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
     titleViewController.issueID = issue.issueID;
-    [self.navigationController pushViewController:titleViewController animated:YES];
+    [self presentViewController:titleViewController animated:YES completion:^(){
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
+        [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+    }];
 }
 
 @end

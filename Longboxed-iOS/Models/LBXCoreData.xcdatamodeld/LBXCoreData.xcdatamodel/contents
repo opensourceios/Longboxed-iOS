@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="LBXBundle" representedClassName="LBXBundle" syncable="YES">
         <attribute name="bundleID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="lastUpdatedDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -10,11 +10,13 @@
         <attribute name="completeTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="coverImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="diamondID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isParent" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="issueDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="issueID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="issueNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
         <attribute name="releaseDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="alternates" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LBXIssue" inverseName="alternates" inverseEntity="LBXIssue" syncable="YES"/>
         <relationship name="bundle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LBXBundle" inverseName="issues" inverseEntity="LBXBundle" syncable="YES"/>
         <relationship name="publisher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LBXPublisher" inverseName="issue" inverseEntity="LBXPublisher" syncable="YES"/>
         <relationship name="pullListTitle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LBXPullListTitle" inverseName="issue" inverseEntity="LBXPullListTitle" syncable="YES"/>
@@ -54,7 +56,7 @@
     </entity>
     <elements>
         <element name="LBXBundle" positionX="360" positionY="-132" width="128" height="105"/>
-        <element name="LBXIssue" positionX="-63" positionY="-36" width="128" height="223"/>
+        <element name="LBXIssue" positionX="-63" positionY="-36" width="128" height="255"/>
         <element name="LBXPublisher" positionX="-18" positionY="282" width="128" height="150"/>
         <element name="LBXPullListTitle" positionX="378" positionY="-9" width="128" height="28"/>
         <element name="LBXTitle" positionX="466" positionY="198" width="128" height="135"/>

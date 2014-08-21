@@ -18,6 +18,8 @@
 @property (nonatomic, retain) NSString *issueDescription;
 @property (nonatomic, retain) NSString *diamondID;
 @property (nonatomic, retain) NSNumber *issueID;
+@property (nonatomic, retain) NSNumber *isParent;
+@property (nonatomic, retain) LBXTitle *alternates;
 @property (nonatomic, retain) NSNumber *issueNumber;
 @property (nonatomic, retain) NSNumber *price;
 @property (nonatomic, retain) LBXPublisher *publisher;

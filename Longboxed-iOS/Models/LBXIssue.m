@@ -15,6 +15,8 @@
 @dynamic issueDescription;
 @dynamic diamondID;
 @dynamic issueID;
+@dynamic alternates;
+@dynamic isParent;
 @dynamic issueNumber;
 @dynamic price;
 @dynamic publisher;
