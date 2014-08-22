@@ -11,3 +11,4 @@ pod 'MagicalRecord/Shorthand'
 pod 'FontAwesomeKit', '~> 2.1.0'
 pod 'MCSwipeTableViewCell'
 pod 'SVProgressHUD', :head
+pod 'JTSImageViewController'

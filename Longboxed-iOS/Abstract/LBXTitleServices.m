@@ -48,6 +48,19 @@
     return nil;
 }
 
++ (NSString *)localTimeZoneStringWithDate:(NSDate *)date
+{
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    [formatter setDateStyle:NSDateFormatterLongStyle];
+    
+    NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
+    [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [numFormatter setMinimumFractionDigits:2];
+    return [formatter stringFromDate:date];
+}
+
+
 + (LBXIssue *)lastIssueForTitle:(LBXTitle *)title
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
@@ -92,16 +105,9 @@
 // This is for the title view
 + (void)setCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue
 {
-    NSDateFormatter *formatter = [NSDateFormatter new];
-    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-    [formatter setDateStyle:NSDateFormatterLongStyle];
-
-    NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
-    [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    [numFormatter setMinimumFractionDigits:2];
-    NSString *subtitleString = [NSString stringWithFormat:@"%@", [formatter stringFromDate:issue.releaseDate]];
+    NSString *subtitleString = [NSString stringWithFormat:@"%@", [self localTimeZoneStringWithDate:issue.releaseDate]];
     
-    cell.titleLabel.text = [NSString stringWithFormat:@"Issue #%@", issue.issueNumber];
+    cell.titleLabel.text = [NSString stringWithFormat:@"%@", issue.completeTitle];
     cell.subtitleLabel.text = [subtitleString uppercaseString];
     
     // For issues without a release date
@@ -122,5 +128,4 @@
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }];
 }
-
 @end
