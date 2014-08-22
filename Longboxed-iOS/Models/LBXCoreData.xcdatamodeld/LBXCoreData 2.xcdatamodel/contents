@@ -7,6 +7,7 @@
         <relationship name="issues" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LBXIssue" inverseName="bundle" inverseEntity="LBXIssue" syncable="YES"/>
     </entity>
     <entity name="LBXIssue" representedClassName="LBXIssue" syncable="YES">
+        <attribute name="alternates" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="completeTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="coverImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="diamondID" optional="YES" attributeType="String" syncable="YES"/>
@@ -16,7 +17,6 @@
         <attribute name="issueNumber" optional="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
         <attribute name="releaseDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="alternates" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LBXIssue" inverseName="alternates" inverseEntity="LBXIssue" syncable="YES"/>
         <relationship name="bundle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LBXBundle" inverseName="issues" inverseEntity="LBXBundle" syncable="YES"/>
         <relationship name="publisher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LBXPublisher" inverseName="issue" inverseEntity="LBXPublisher" syncable="YES"/>
         <relationship name="pullListTitle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LBXPullListTitle" inverseName="issue" inverseEntity="LBXPullListTitle" syncable="YES"/>

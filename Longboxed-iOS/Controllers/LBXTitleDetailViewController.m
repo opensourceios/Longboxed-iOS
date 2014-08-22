@@ -283,7 +283,6 @@ BOOL endOfIssues;
 
 - (void)fetchAllIssuesWithPage:(NSNumber *)page
 {
-    NSLog(@"%@", page);
     // Fetch pull list titles
     [_client fetchIssuesForTitle:_titleID page:page withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
@@ -504,11 +503,12 @@ BOOL endOfIssues;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
+    
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image];
+    LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image andAlternates:issue.alternates];
     titleViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     
-    LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
     titleViewController.issueID = issue.issueID;
     [self presentViewController:titleViewController animated:YES completion:^(){
         self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;

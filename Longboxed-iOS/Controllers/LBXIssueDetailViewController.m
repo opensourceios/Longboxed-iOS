@@ -29,6 +29,7 @@
 @property (nonatomic) IBOutlet UILabel *priceLabel;
 @property (nonatomic) IBOutlet UILabel *distributorCodeLabel;
 @property (nonatomic) IBOutlet UIButton *imageButton;
+@property (nonatomic) NSArray *alternates;
 @property (nonatomic) PaperButton *closeButton;
 @property (nonatomic, copy) UIImage *issueImage;
 @property (nonatomic, copy) LBXIssue *issue;
@@ -37,12 +38,13 @@
 
 @implementation LBXIssueDetailViewController
 
-- (instancetype)initWithMainImage:(UIImage *)image {
+- (instancetype)initWithMainImage:(UIImage *)image andAlternates:(NSArray *)alternates {
     if(self = [super init]) {
         _issueImage = [image copy];
         _backgroundCoverImageView = [UIImageView new];
         _descriptionTextView = [UITextView new];
         _coverImageView = [UIImageView new];
+        _alternates = alternates;
         
         // Set up pop close button
         _closeButton = [PaperButton button];
@@ -75,9 +77,9 @@
     [_issueImage applyDarkEffect];
     
     UIImage *blurredImage = [_issueImage applyBlurWithRadius:0.0
-                                             tintColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3]
-                                 saturationDeltaFactor:0.5
-                                             maskImage:nil];
+                                                   tintColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3]
+                                       saturationDeltaFactor:0.5
+                                                   maskImage:nil];
     
     [_coverImageView setImage:blurredImage];
     
@@ -97,17 +99,18 @@
     
     NSString *modifiedDescriptionString = [regex stringByReplacingMatchesInString:_issue.issueDescription options:0 range:NSMakeRange(0, [_issue.issueDescription length]) withTemplate:@""];
     _descriptionTextView.text = modifiedDescriptionString;
+    _descriptionTextView.selectable = NO;
     
     CGRect boundingRect = [modifiedDescriptionString boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 50, CGFLOAT_MAX)
                                              options:NSStringDrawingUsesLineFragmentOrigin
                                                     attributes: @{NSFontAttributeName : [UIFont titleDetailAddToPullListFont]}
                                              context:nil];
     
-    [_descriptionTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_descriptionTextView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[_descriptionTextView(==%d)]", MIN(MAX(44, (int)boundingRect.size.height), (int)self.view.frame.size.height/3)]
+    [_coverImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_coverImageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[_coverImageView(==%d)]", (int)self.view.frame.size.height/2]
                                                                                  options:0
                                                                                  metrics:nil
-                                                                                   views:NSDictionaryOfVariableBindings(_descriptionTextView)]];
+                                                                                   views:NSDictionaryOfVariableBindings(_coverImageView)]];
     
     [_imageButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _imageButton.tag = 1;
