@@ -85,25 +85,26 @@
     _issue = [LBXIssue MR_findFirstByAttribute:@"issueID" withValue:_issueID];
     NSLog(@"Selected issue %@", _issue.issueID);
     
-    _titleLabel.text = _issue.completeTitle;
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:_issue.completeTitle options:0 range:NSMakeRange(0, [_issue.completeTitle length]) withTemplate:@""];
+    _titleLabel.text = modifiedTitleString;
     _publisherLabel.text = _issue.publisher.name.uppercaseString;
     _releaseDateLabel.text = [LBXTitleServices localTimeZoneStringWithDate:_issue.releaseDate].uppercaseString;
     _priceLabel.text = [NSString stringWithFormat:@"$%.02f", [_issue.price floatValue]].uppercaseString;
     _distributorCodeLabel.text = _issue.diamondID.uppercaseString;
     
-    NSString *string = _issue.issueDescription;
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#[0-9]+;" options:NSRegularExpressionCaseInsensitive error:&error];
-    NSString *modifiedString = [regex stringByReplacingMatchesInString:string options:0 range:NSMakeRange(0, [string length]) withTemplate:@""];
-    _descriptionTextView.text = modifiedString;
+    NSString *modifiedDescriptionString = [regex stringByReplacingMatchesInString:_issue.issueDescription options:0 range:NSMakeRange(0, [_issue.issueDescription length]) withTemplate:@""];
+    _descriptionTextView.text = modifiedDescriptionString;
     
-    CGRect boundingRect = [modifiedString boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 20, CGFLOAT_MAX)
+    CGRect boundingRect = [modifiedDescriptionString boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 50, CGFLOAT_MAX)
                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                                    attributes: @{NSFontAttributeName : [UIFont titleDetailSubscribersAndIssuesFont]}
+                                                    attributes: @{NSFontAttributeName : [UIFont titleDetailAddToPullListFont]}
                                              context:nil];
     
     [_descriptionTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_descriptionTextView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[_descriptionTextView(==%d)]", (int)boundingRect.size.height+20]
+    [_descriptionTextView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[_descriptionTextView(==%d)]", MIN(MAX(44, (int)boundingRect.size.height), (int)self.view.frame.size.height/3)]
                                                                                  options:0
                                                                                  metrics:nil
                                                                                    views:NSDictionaryOfVariableBindings(_descriptionTextView)]];

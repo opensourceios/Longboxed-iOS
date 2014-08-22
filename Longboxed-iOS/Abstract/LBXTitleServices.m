@@ -107,7 +107,10 @@
 {
     NSString *subtitleString = [NSString stringWithFormat:@"%@", [self localTimeZoneStringWithDate:issue.releaseDate]];
     
-    cell.titleLabel.text = [NSString stringWithFormat:@"%@", issue.completeTitle];
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
+    NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:issue.completeTitle options:0 range:NSMakeRange(0, [issue.completeTitle length]) withTemplate:@""];
+    cell.titleLabel.text = [NSString stringWithFormat:@"%@", modifiedTitleString];
     cell.subtitleLabel.text = [subtitleString uppercaseString];
     
     // For issues without a release date
