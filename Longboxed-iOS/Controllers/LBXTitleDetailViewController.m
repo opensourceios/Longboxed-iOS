@@ -172,6 +172,7 @@ BOOL endOfIssues;
         
         NSString *subtitleString = [NSString stringWithFormat:@"Issue %@ released %@", issue.issueNumber, timeSinceString];
         if ([timeSinceString hasPrefix:@"in"]) {
+            NSLog(@"%@", issue.issueNumber);
             subtitleString = [NSString stringWithFormat:@"Issue %@ will be released %@", issue.issueNumber, timeSinceString];
         }
         _detailView.latestIssueLabel.text = subtitleString;

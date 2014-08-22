@@ -332,6 +332,7 @@
 		E5B6FCDD19983DFC0022F4CA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E5B6FCE31998497A0022F4CA /* LBXTitleServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleServices.h; path = Abstract/LBXTitleServices.h; sourceTree = "<group>"; };
 		E5B6FCE41998497A0022F4CA /* LBXTitleServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleServices.m; path = Abstract/LBXTitleServices.m; sourceTree = "<group>"; };
+		E5D9A87D19A6F46800BC06C1 /* LBXCoreData 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LBXCoreData 2.xcdatamodel"; sourceTree = "<group>"; };
 		E5F1871E196378E4006C4C26 /* LBXPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListViewController.h; path = Controllers/LBXPullListViewController.h; sourceTree = "<group>"; };
 		E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListViewController.m; path = Controllers/LBXPullListViewController.m; sourceTree = "<group>"; };
 		E5F18721196382BA006C4C26 /* LBXHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXHomeViewController.h; path = Controllers/LBXHomeViewController.h; sourceTree = "<group>"; };
@@ -1622,9 +1623,10 @@
 		E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				E5D9A87D19A6F46800BC06C1 /* LBXCoreData 2.xcdatamodel */,
 				E597773D198EADA60047E261 /* LBXCoreData.xcdatamodel */,
 			);
-			currentVersion = E597773D198EADA60047E261 /* LBXCoreData.xcdatamodel */;
+			currentVersion = E5D9A87D19A6F46800BC06C1 /* LBXCoreData 2.xcdatamodel */;
 			name = LBXCoreData.xcdatamodeld;
 			path = Models/LBXCoreData.xcdatamodeld;
 			sourceTree = "<group>";
