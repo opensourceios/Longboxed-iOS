@@ -9,12 +9,9 @@
                 <outlet property="backgroundCoverImageView" destination="aBL-sU-xc6" id="53F-rT-cFy"/>
                 <outlet property="coverImageView" destination="7n5-Ox-uRD" id="Vww-Zb-69B"/>
                 <outlet property="descriptionTextView" destination="17O-L3-uCM" id="vm7-rF-SD9"/>
-                <outlet property="distributorCodeLabel" destination="5PV-kH-d9x" id="mA3-f8-2RA"/>
                 <outlet property="imageButton" destination="Vma-Y9-sRu" id="u0g-F8-zmR"/>
-                <outlet property="priceLabel" destination="glF-i2-g6v" id="3nW-vO-bCF"/>
-                <outlet property="publisherLabel" destination="hwD-YK-vWH" id="kXu-oF-5DJ"/>
-                <outlet property="releaseDateLabel" destination="PFG-tu-jLb" id="PaC-KO-Pmu"/>
-                <outlet property="titleLabel" destination="aRo-CD-jhO" id="N3o-0L-mvW"/>
+                <outlet property="tableView" destination="0Z8-4H-02s" id="n8B-wM-9Zk"/>
+                <outlet property="titleLabel" destination="aRo-CD-jhO" id="Ve2-ve-H8O"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -27,7 +24,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="251" misplaced="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17O-L3-uCM">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" misplaced="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17O-L3-uCM">
                     <rect key="frame" x="20" y="555" width="296" height="9"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -35,7 +32,7 @@
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="aRo-CD-jhO">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="250" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="aRo-CD-jhO">
                     <rect key="frame" x="20" y="403" width="280" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="22"/>
@@ -70,97 +67,39 @@
                         <constraint firstAttribute="bottom" secondItem="Vma-Y9-sRu" secondAttribute="bottom" id="wfD-ef-tIg"/>
                     </constraints>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Publisher" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwD-YK-vWH">
-                    <rect key="frame" x="192" y="450" width="108" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Release Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFG-tu-jLb">
-                    <rect key="frame" x="192" y="478" width="108" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Distributor Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5PV-kH-d9x">
-                    <rect key="frame" x="192" y="534" width="108" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="glF-i2-g6v">
-                    <rect key="frame" x="192" y="506" width="108" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Publisher" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hHz-BK-GzT">
-                    <rect key="frame" x="20" y="450" width="59" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Release Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mdu-7B-UkI">
-                    <rect key="frame" x="20" y="478" width="84" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5yA-nE-jEH">
-                    <rect key="frame" x="20" y="506" width="31" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Distributor Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQX-Y7-8Jt">
-                    <rect key="frame" x="20" y="534" width="108" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="none" sectionIndexMinimumDisplayRowCount="4" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="0Z8-4H-02s">
+                    <rect key="frame" x="12" y="457" width="296" height="82"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="110" id="vGm-e4-FZo"/>
+                    </constraints>
+                    <color key="sectionIndexColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="xOa-O1-8iS"/>
+                        <outlet property="delegate" destination="-1" id="apt-QG-p5x"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="aBL-sU-xc6" secondAttribute="bottom" id="0cA-di-s8e"/>
-                <constraint firstItem="mdu-7B-UkI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="2h5-Od-Us7"/>
-                <constraint firstItem="hHz-BK-GzT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="2w0-ER-vO9"/>
                 <constraint firstItem="aBL-sU-xc6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="4gN-JJ-q0L"/>
                 <constraint firstItem="aRo-CD-jhO" firstAttribute="top" secondItem="cxE-aC-Qgp" secondAttribute="bottom" constant="16" id="6L3-Hk-mA2"/>
-                <constraint firstItem="5PV-kH-d9x" firstAttribute="top" secondItem="glF-i2-g6v" secondAttribute="bottom" constant="8" id="77H-CR-Pyu"/>
-                <constraint firstItem="aRo-CD-jhO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="7M2-xt-fSr"/>
-                <constraint firstAttribute="trailing" secondItem="hwD-YK-vWH" secondAttribute="trailing" constant="20" id="Adf-10-Pby"/>
-                <constraint firstItem="5yA-nE-jEH" firstAttribute="centerY" secondItem="glF-i2-g6v" secondAttribute="centerY" id="E3R-Ws-GEf"/>
-                <constraint firstAttribute="trailing" secondItem="aRo-CD-jhO" secondAttribute="trailing" constant="20" id="E7i-fn-lWh"/>
-                <constraint firstItem="PFG-tu-jLb" firstAttribute="centerY" secondItem="mdu-7B-UkI" secondAttribute="centerY" id="GeU-Ri-BQH"/>
-                <constraint firstAttribute="trailing" secondItem="5PV-kH-d9x" secondAttribute="trailing" constant="20" id="HC0-ps-Gic"/>
+                <constraint firstItem="aRo-CD-jhO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="7M2-xt-fSr"/>
+                <constraint firstItem="0Z8-4H-02s" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7kw-IW-LWv"/>
+                <constraint firstAttribute="trailing" secondItem="aRo-CD-jhO" secondAttribute="trailing" constant="16" id="E7i-fn-lWh"/>
                 <constraint firstAttribute="trailing" secondItem="cxE-aC-Qgp" secondAttribute="trailing" id="Hzo-J0-O5K"/>
-                <constraint firstItem="glF-i2-g6v" firstAttribute="top" secondItem="PFG-tu-jLb" secondAttribute="bottom" constant="8" id="Im6-TO-lDK"/>
-                <constraint firstItem="17O-L3-uCM" firstAttribute="top" secondItem="eQX-Y7-8Jt" secondAttribute="bottom" constant="1" id="Khz-Fh-kSq"/>
-                <constraint firstAttribute="trailing" secondItem="PFG-tu-jLb" secondAttribute="trailing" constant="20" id="Nxh-l9-z5K"/>
                 <constraint firstAttribute="trailing" secondItem="aBL-sU-xc6" secondAttribute="trailing" id="PzR-4a-0IY"/>
-                <constraint firstItem="eQX-Y7-8Jt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Q7a-Pb-SKK"/>
-                <constraint firstItem="5yA-nE-jEH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="R9O-uD-5wW"/>
                 <constraint firstAttribute="bottom" secondItem="17O-L3-uCM" secondAttribute="bottom" constant="8" id="ZFS-KE-JSj"/>
-                <constraint firstItem="5PV-kH-d9x" firstAttribute="leading" secondItem="PFG-tu-jLb" secondAttribute="leading" id="bCQ-N5-pRQ"/>
-                <constraint firstItem="5PV-kH-d9x" firstAttribute="leading" secondItem="glF-i2-g6v" secondAttribute="leading" id="cpj-gy-RwH"/>
+                <constraint firstItem="0Z8-4H-02s" firstAttribute="top" secondItem="aRo-CD-jhO" secondAttribute="bottom" constant="8" id="dJh-LN-6U9"/>
                 <constraint firstItem="17O-L3-uCM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="dYk-Gg-GE6"/>
-                <constraint firstItem="PFG-tu-jLb" firstAttribute="top" secondItem="hwD-YK-vWH" secondAttribute="bottom" constant="8" id="dZK-NC-akg"/>
-                <constraint firstItem="5PV-kH-d9x" firstAttribute="leading" secondItem="hwD-YK-vWH" secondAttribute="leading" id="eJQ-bS-e9r"/>
+                <constraint firstAttribute="trailing" secondItem="0Z8-4H-02s" secondAttribute="trailing" id="fpI-TB-epf"/>
                 <constraint firstAttribute="trailing" secondItem="17O-L3-uCM" secondAttribute="trailing" constant="4" id="gFO-P3-u2t"/>
-                <constraint firstItem="hHz-BK-GzT" firstAttribute="centerY" secondItem="hwD-YK-vWH" secondAttribute="centerY" id="gft-tA-MDl"/>
-                <constraint firstItem="hHz-BK-GzT" firstAttribute="top" secondItem="aRo-CD-jhO" secondAttribute="bottom" constant="8" id="hlt-en-n1z"/>
-                <constraint firstAttribute="trailing" secondItem="glF-i2-g6v" secondAttribute="trailing" constant="20" id="iXl-xm-gTz"/>
+                <constraint firstItem="17O-L3-uCM" firstAttribute="top" secondItem="0Z8-4H-02s" secondAttribute="bottom" constant="8" id="iKN-m0-l9I"/>
                 <constraint firstItem="cxE-aC-Qgp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="kej-CG-Ena"/>
                 <constraint firstItem="aBL-sU-xc6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="llE-UA-4aL"/>
-                <constraint firstItem="eQX-Y7-8Jt" firstAttribute="centerY" secondItem="5PV-kH-d9x" secondAttribute="centerY" id="tkX-p0-42J"/>
                 <constraint firstItem="cxE-aC-Qgp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="v56-Hx-vCZ"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>

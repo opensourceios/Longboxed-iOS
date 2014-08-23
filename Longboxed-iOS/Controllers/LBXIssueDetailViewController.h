@@ -15,5 +15,6 @@
 @property (nonatomic, retain) NSNumber *issueID;
 
 - (instancetype)initWithMainImage:(UIImage *)image andAlternates:(NSArray *)alternates;
+- (instancetype)initWithAlternates:(NSArray *)alternates;
 
 @end

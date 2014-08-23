@@ -131,4 +131,5 @@
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }];
 }
+
 @end

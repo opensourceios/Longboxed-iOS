@@ -114,6 +114,15 @@
 		E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */; };
 		E5B6FCE219983DFC0022F4CA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E5B6FCDD19983DFC0022F4CA /* README.md */; };
 		E5B6FCE51998497A0022F4CA /* LBXTitleServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCE41998497A0022F4CA /* LBXTitleServices.m */; };
+		E5D9A88E19A9193200BC06C1 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E5D9A87F19A9193200BC06C1 /* LICENSE */; };
+		E5D9A88F19A9193200BC06C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E5D9A88019A9193200BC06C1 /* README.md */; };
+		E5D9A89019A9193200BC06C1 /* JTSAnimatedGIFUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88319A9193200BC06C1 /* JTSAnimatedGIFUtility.m */; };
+		E5D9A89119A9193200BC06C1 /* JTSImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88519A9193200BC06C1 /* JTSImageInfo.m */; };
+		E5D9A89219A9193200BC06C1 /* JTSImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88719A9193200BC06C1 /* JTSImageViewController.m */; };
+		E5D9A89319A9193200BC06C1 /* JTSSimpleImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88919A9193200BC06C1 /* JTSSimpleImageDownloader.m */; };
+		E5D9A89419A9193200BC06C1 /* UIApplication+JTSImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88B19A9193200BC06C1 /* UIApplication+JTSImageViewController.m */; };
+		E5D9A89519A9193200BC06C1 /* UIImage+JTSImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88D19A9193200BC06C1 /* UIImage+JTSImageEffects.m */; };
+		E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */; };
 		E5F18720196378E4006C4C26 /* LBXPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */; };
 		E5F18724196382BA006C4C26 /* LBXHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F18722196382BA006C4C26 /* LBXHomeViewController.m */; };
 		E5F1873219638BBC006C4C26 /* EasyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1873119638BBC006C4C26 /* EasyTableView.m */; };
@@ -333,6 +342,22 @@
 		E5B6FCE31998497A0022F4CA /* LBXTitleServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleServices.h; path = Abstract/LBXTitleServices.h; sourceTree = "<group>"; };
 		E5B6FCE41998497A0022F4CA /* LBXTitleServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleServices.m; path = Abstract/LBXTitleServices.m; sourceTree = "<group>"; };
 		E5D9A87D19A6F46800BC06C1 /* LBXCoreData 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LBXCoreData 2.xcdatamodel"; sourceTree = "<group>"; };
+		E5D9A87F19A9193200BC06C1 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		E5D9A88019A9193200BC06C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		E5D9A88219A9193200BC06C1 /* JTSAnimatedGIFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSAnimatedGIFUtility.h; sourceTree = "<group>"; };
+		E5D9A88319A9193200BC06C1 /* JTSAnimatedGIFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSAnimatedGIFUtility.m; sourceTree = "<group>"; };
+		E5D9A88419A9193200BC06C1 /* JTSImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSImageInfo.h; sourceTree = "<group>"; };
+		E5D9A88519A9193200BC06C1 /* JTSImageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSImageInfo.m; sourceTree = "<group>"; };
+		E5D9A88619A9193200BC06C1 /* JTSImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSImageViewController.h; sourceTree = "<group>"; };
+		E5D9A88719A9193200BC06C1 /* JTSImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSImageViewController.m; sourceTree = "<group>"; };
+		E5D9A88819A9193200BC06C1 /* JTSSimpleImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSSimpleImageDownloader.h; sourceTree = "<group>"; };
+		E5D9A88919A9193200BC06C1 /* JTSSimpleImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSSimpleImageDownloader.m; sourceTree = "<group>"; };
+		E5D9A88A19A9193200BC06C1 /* UIApplication+JTSImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+JTSImageViewController.h"; sourceTree = "<group>"; };
+		E5D9A88B19A9193200BC06C1 /* UIApplication+JTSImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+JTSImageViewController.m"; sourceTree = "<group>"; };
+		E5D9A88C19A9193200BC06C1 /* UIImage+JTSImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+JTSImageEffects.h"; sourceTree = "<group>"; };
+		E5D9A88D19A9193200BC06C1 /* UIImage+JTSImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JTSImageEffects.m"; sourceTree = "<group>"; };
+		E5D9A89619A91EE300BC06C1 /* LBXIssueScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssueScrollViewController.h; path = Controllers/LBXIssueScrollViewController.h; sourceTree = "<group>"; };
+		E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueScrollViewController.m; path = Controllers/LBXIssueScrollViewController.m; sourceTree = "<group>"; };
 		E5F1871E196378E4006C4C26 /* LBXPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListViewController.h; path = Controllers/LBXPullListViewController.h; sourceTree = "<group>"; };
 		E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListViewController.m; path = Controllers/LBXPullListViewController.m; sourceTree = "<group>"; };
 		E5F18721196382BA006C4C26 /* LBXHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXHomeViewController.h; path = Controllers/LBXHomeViewController.h; sourceTree = "<group>"; };
@@ -655,6 +680,8 @@
 				E51F72C6199821A200F643EF /* Navigation */,
 				E51F72C31998219B00F643EF /* LBXTitleDetailViewController.h */,
 				E51F72C41998219B00F643EF /* LBXTitleDetailViewController.m */,
+				E5D9A89619A91EE300BC06C1 /* LBXIssueScrollViewController.h */,
+				E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */,
 				E51AB56D19A405940066FFF6 /* LBXIssueDetailViewController.h */,
 				E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */,
 				E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */,
@@ -726,6 +753,7 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				E5D9A87E19A9193200BC06C1 /* JTSImageViewController */,
 				E5B6FCD219983DFC0022F4CA /* MGSpotyViewController */,
 				E5371226198EF9300065D57A /* Fonts */,
 				E510AD79198C7B7C004A7225 /* iOS-NBUKit */,
@@ -859,6 +887,36 @@
 			path = ImageEffects;
 			sourceTree = "<group>";
 		};
+		E5D9A87E19A9193200BC06C1 /* JTSImageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E5D9A87F19A9193200BC06C1 /* LICENSE */,
+				E5D9A88019A9193200BC06C1 /* README.md */,
+				E5D9A88119A9193200BC06C1 /* Source */,
+			);
+			name = JTSImageViewController;
+			path = Extras/JTSImageViewController;
+			sourceTree = "<group>";
+		};
+		E5D9A88119A9193200BC06C1 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				E5D9A88219A9193200BC06C1 /* JTSAnimatedGIFUtility.h */,
+				E5D9A88319A9193200BC06C1 /* JTSAnimatedGIFUtility.m */,
+				E5D9A88419A9193200BC06C1 /* JTSImageInfo.h */,
+				E5D9A88519A9193200BC06C1 /* JTSImageInfo.m */,
+				E5D9A88619A9193200BC06C1 /* JTSImageViewController.h */,
+				E5D9A88719A9193200BC06C1 /* JTSImageViewController.m */,
+				E5D9A88819A9193200BC06C1 /* JTSSimpleImageDownloader.h */,
+				E5D9A88919A9193200BC06C1 /* JTSSimpleImageDownloader.m */,
+				E5D9A88A19A9193200BC06C1 /* UIApplication+JTSImageViewController.h */,
+				E5D9A88B19A9193200BC06C1 /* UIApplication+JTSImageViewController.m */,
+				E5D9A88C19A9193200BC06C1 /* UIImage+JTSImageEffects.h */,
+				E5D9A88D19A9193200BC06C1 /* UIImage+JTSImageEffects.m */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		E5F1872619638980006C4C26 /* EasyTableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -961,11 +1019,13 @@
 				E57D49241960B8F40014A13F /* black.png in Resources */,
 				E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */,
 				E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
+				E5D9A88F19A9193200BC06C1 /* README.md in Resources */,
 				E57D497819611C8E0014A13F /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
 				E553F59F19946393003E1F5C /* clear.png in Resources */,
 				E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */,
 				E57D497A19611C8E0014A13F /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				E5B6FCE219983DFC0022F4CA /* README.md in Resources */,
+				E5D9A88E19A9193200BC06C1 /* LICENSE in Resources */,
 				E537122A198EFEE90065D57A /* check.png in Resources */,
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,
 				E5F187381963A635006C4C26 /* LBXHomeViewController.xib in Resources */,
@@ -1104,6 +1164,8 @@
 				E510AF90198C7B7D004A7225 /* NSBundle+RKAdditions.m in Sources */,
 				E57D4956196118950014A13F /* REMenuItemView.m in Sources */,
 				E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */,
+				E5D9A89319A9193200BC06C1 /* JTSSimpleImageDownloader.m in Sources */,
+				E5D9A89419A9193200BC06C1 /* UIApplication+JTSImageViewController.m in Sources */,
 				E51AB57019A405940066FFF6 /* LBXIssueDetailViewController.m in Sources */,
 				E510AFAD198C7B7D004A7225 /* UIScrollView+NBUAdditions.m in Sources */,
 				E510AFAA198C7B7D004A7225 /* UIImageView+NBUAdditions.m in Sources */,
@@ -1115,8 +1177,10 @@
 				E54F10991991D28900DAD4FE /* LBXPullListTableViewCell.m in Sources */,
 				E57D497919611C8E0014A13F /* SVWebViewControllerActivityChrome.m in Sources */,
 				E553F59B19932D73003E1F5C /* UIFontDescriptor+AvenirNext.m in Sources */,
+				E5D9A89219A9193200BC06C1 /* JTSImageViewController.m in Sources */,
 				E57D49121960A2180014A13F /* LBXClient.m in Sources */,
 				E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */,
+				E5D9A89519A9193200BC06C1 /* UIImage+JTSImageEffects.m in Sources */,
 				E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */,
 				E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */,
 				E5371222198EEAFE0065D57A /* LBXSearchTableViewCell.m in Sources */,
@@ -1125,7 +1189,9 @@
 				E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */,
 				E5B6FCE51998497A0022F4CA /* LBXTitleServices.m in Sources */,
 				E57D490B196096260014A13F /* LBXThisWeekCollectionViewController.m in Sources */,
+				E5D9A89019A9193200BC06C1 /* JTSAnimatedGIFUtility.m in Sources */,
 				E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */,
+				E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */,
 				E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */,
 				E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */,
 				E510AF94198C7B7D004A7225 /* NSURL+RKAdditions.m in Sources */,
@@ -1162,6 +1228,7 @@
 				E510AF92198C7B7D004A7225 /* NSDictionary+RKAdditions.m in Sources */,
 				E57D497119611C7C0014A13F /* SVWebViewControllerActivity.m in Sources */,
 				E510AF8F198C7B7D004A7225 /* NSArray+RKAdditions.m in Sources */,
+				E5D9A89119A9193200BC06C1 /* JTSImageInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,7 @@
 #import "LBXTitleDetailViewController.h"
 #import "LBXTitleServices.h"
 #import "LBXIssueDetailViewController.h"
+#import "LBXIssueScrollViewController.h"
 
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
@@ -291,6 +292,20 @@ BOOL endOfIssues;
                 endOfIssues = YES;
             }
             
+            // Fetch all the alternate titles too
+            for (LBXIssue *issue in pullListArray) {
+                for (NSDictionary *dict in issue.alternates) {
+                    LBXClient *client = [LBXClient new];
+                    [client fetchIssue:dict[@"id"] withCompletion:^(LBXIssue *issue, RKObjectRequestOperation *response, NSError *error) {
+                        if (!error) {
+                        }
+                        else {
+                            [LBXMessageBar displayError:error];
+                        }
+                    }];
+                }
+            }
+            
             [self createIssuesArray];
         }
         else {
@@ -504,17 +519,18 @@ BOOL endOfIssues;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
-    
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image andAlternates:issue.alternates];
-    titleViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     
-    titleViewController.issueID = issue.issueID;
-    [self presentViewController:titleViewController animated:YES completion:^(){
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-        NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
-        [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
-    }];
+    // Set up the scroll view controller containment if there are alternate issues
+    if (issue.alternates) {
+        LBXIssueScrollViewController *scrollViewController = [[LBXIssueScrollViewController alloc] initWithIssue:issue andImage:cell.latestIssueImageView.image];
+        [self.navigationController pushViewController:scrollViewController animated:YES];
+    }
+    else {
+        LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image andAlternates:issue.alternates];
+        titleViewController.issueID = issue.issueID;
+        [self.navigationController pushViewController:titleViewController animated:YES];
+    }
 }
 
 @end
