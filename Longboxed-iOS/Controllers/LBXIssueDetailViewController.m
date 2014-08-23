@@ -19,14 +19,18 @@
 #import <QuartzCore/QuartzCore.h>
 #import <UIImageView+AFNetworking.h>
 
-@interface LBXIssueDetailViewController () <UITableViewDelegate>
+@interface LBXIssueDetailViewController ()
 
 @property (nonatomic) IBOutlet UIImageView *backgroundCoverImageView;
 @property (nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (nonatomic) IBOutlet UIImageView *coverImageView;
-@property (nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) IBOutlet UIButton *imageButton;
 @property (nonatomic) IBOutlet UILabel *titleLabel;
+@property (nonatomic) IBOutlet UILabel *subtitleLabel;
+@property (nonatomic) IBOutlet UILabel *distributorCodeLabel;
+@property (nonatomic) IBOutlet UILabel *priceLabel;
+@property (nonatomic) IBOutlet UILabel *publisherLabel;
+@property (nonatomic) IBOutlet UILabel *releaseDateLabel;
 
 @property (nonatomic) NSArray *alternates;
 @property (nonatomic) PaperButton *closeButton;
@@ -43,8 +47,6 @@
         _backgroundCoverImageView = [UIImageView new];
         _descriptionTextView = [UITextView new];
         _coverImageView = [UIImageView new];
-        _tableView = [UITableView new];
-        _tableView.delegate = self;
         _alternates = alternates;
     }
     return self;
@@ -55,8 +57,6 @@
         _backgroundCoverImageView = [UIImageView new];
         _descriptionTextView = [UITextView new];
         _coverImageView = [UIImageView new];
-        _tableView = [UITableView new];
-        _tableView.delegate = self;
         _alternates = alternates;
     }
     return self;
@@ -90,18 +90,35 @@
     NSError *error = nil;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
     
-    NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:_issue.completeTitle options:0 range:NSMakeRange(0, [_issue.completeTitle length]) withTemplate:@""];
-    _titleLabel.text = modifiedTitleString;
+    NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:_issue.title.name options:0 range:NSMakeRange(0, [_issue.title.name length]) withTemplate:@""];
+    
+    _titleLabel.text = [NSString stringWithFormat:@"%@ #%@", modifiedTitleString, _issue.issueNumber];
+    _subtitleLabel.text = _issue.subtitle.uppercaseString;
+    _distributorCodeLabel.text = _issue.diamondID.uppercaseString;
+    _priceLabel.text = [NSString stringWithFormat:@"$%.02f", [_issue.price floatValue]].uppercaseString;
+    _publisherLabel.text = _issue.publisher.name.uppercaseString;
+    _releaseDateLabel.text = [LBXTitleServices localTimeZoneStringWithDate:_issue.releaseDate].uppercaseString;
+    
+    if (!_issue.releaseDate) {
+        _releaseDateLabel.text = @"UNKNOWN";
+    }
+    if (!_issue.price) {
+        _priceLabel.text = @"UNKNOWN";
+    }
+    if (!_issue.publisher.name) {
+        _priceLabel.text = @"UNKNOWN";
+    }
+    if (!_issue.diamondID) {
+        _priceLabel.text = @"UNKNOWN";
+    }
     
     NSString *modifiedDescriptionString = [regex stringByReplacingMatchesInString:_issue.issueDescription options:0 range:NSMakeRange(0, [_issue.issueDescription length]) withTemplate:@""];
     _descriptionTextView.text = modifiedDescriptionString;
     _descriptionTextView.selectable = NO;
+    [_descriptionTextView scrollRangeToVisible:NSMakeRange(0, 0)]; // Scroll to the top
     
     [_imageButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _imageButton.tag = 1;
-    
-    self.tableView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.0];
-
 }
 
 - (void)viewDidLoad
@@ -109,9 +126,9 @@
     [super viewDidLoad];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
+    [super viewDidAppear:animated];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -187,84 +204,6 @@
                                                                             options:0
                                                                             metrics:nil
                                                                               views:NSDictionaryOfVariableBindings(_coverImageView)]];
-}
-
-#pragma mark UITableView methods
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 5;
-}
-
-// Change the Height of the Cell [Default is 44]:
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
-{
-    return 22;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [UITableViewCell new];
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UIImage *image = [UIImage imageNamed:@"arrow"];
-    image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.bounds = CGRectMake(imageView.frame.origin.x+10, imageView.frame.origin.y+10, imageView.frame.size.width, imageView.frame.size.height-10);
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    imageView.clipsToBounds = YES;
-    imageView.transform = CGAffineTransformMakeRotation(2*M_PI_2);
-    imageView.tintColor = [UIColor whiteColor];
-    
-    switch (indexPath.row) {
-        case 0:
-        {
-            cell.textLabel.text = _issue.publisher.name.uppercaseString;
-            cell.accessoryView = imageView;
-            break;
-        }
-        case 1:
-        {
-            cell.textLabel.text = [LBXTitleServices localTimeZoneStringWithDate:_issue.releaseDate].uppercaseString;
-            cell.accessoryView = imageView;
-            break;
-        }
-        case 2:
-        {
-            cell.textLabel.text = [NSString stringWithFormat:@"$%.02f", [_issue.price floatValue]].uppercaseString;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            break;
-        }
-        case 3:
-        {
-            cell.textLabel.text = _issue.diamondID.uppercaseString;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            break;
-        }
-        case 4:
-        {
-            cell.textLabel.text = @"3 VARIANT COVERS";
-            cell.accessoryView = imageView;
-        }
-            
-        default:
-            break;
-    }
-    
-    cell.textLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
-    cell.textLabel.textColor = [UIColor whiteColor];
-    
-    cell.backgroundColor = [UIColor clearColor];
-    cell.contentView.backgroundColor = [UIColor clearColor];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"selected row %ld", (long)indexPath.row);
 }
 
 @end

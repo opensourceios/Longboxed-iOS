@@ -109,6 +109,7 @@
                                                         @"is_parent"      : @"isParent",
                                                         @"alternates"     : @"alternates",
                                                         @"issue_number"   : @"issueNumber",
+                                                        @"other"          : @"subtitle",
                                                         @"price"          : @"price",
                                                         @"release_date"   : @"releaseDate"
                                                         }];

@@ -18,6 +18,7 @@
 @dynamic alternates;
 @dynamic isParent;
 @dynamic issueNumber;
+@dynamic subtitle;
 @dynamic price;
 @dynamic publisher;
 @dynamic releaseDate;

@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSNumber *isParent;
 @property (nonatomic, retain) NSArray *alternates;
 @property (nonatomic, retain) NSNumber *issueNumber;
+@property (nonatomic, retain) NSString *subtitle;
 @property (nonatomic, retain) NSNumber *price;
 @property (nonatomic, retain) LBXPublisher *publisher;
 @property (nonatomic, retain) NSDate *releaseDate;
