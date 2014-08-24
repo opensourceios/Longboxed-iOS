@@ -17,15 +17,18 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     CGPoint _startContentOffset;
     CGPoint _lastContentOffsetBlurEffect;
     UIImage *_image;
+    CGRect _frameRect;
 }
 
-- (instancetype)initWithMainImage:(UIImage *)image {
+- (instancetype)initWithMainImage:(UIImage *)image andTopViewFrame:(CGRect)frame
+{
     if(self = [super init]) {
         _image = [image copy];
         _mainImageView = [UIImageView new];
         [_mainImageView setImage:_image];
         _overView = [UIView new];
         _tableView = [UITableView new];
+        _frameRect = frame;
     }
     
     return self;
@@ -39,7 +42,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     [view setBackgroundColor:[UIColor whiteColor]];
     
     //Configure the view
-    [_mainImageView setFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.width * 3/4)];
+    [_mainImageView setFrame:_frameRect];
     [_mainImageView setContentMode:UIViewContentModeScaleAspectFill];
     [_mainImageView setImageToBlur:_image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
     [view addSubview:_mainImageView];

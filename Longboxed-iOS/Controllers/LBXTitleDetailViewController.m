@@ -5,8 +5,6 @@
 //  Created by johnrhickey on 8/10/14.
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
-#import <QuartzCore/QuartzCore.h>
-
 #import "LBXClient.h"
 #import "LBXMessageBar.h"
 #import "LBXPullListTableViewCell.h"
@@ -17,11 +15,13 @@
 #import "LBXTitleServices.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
+#import "LBXPublisherDetailViewController.h"
 
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
 
 #import <SVProgressHUD.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface LBXTitleDetailViewController () <UIScrollViewDelegate>
 
@@ -169,6 +169,8 @@ BOOL endOfIssues;
     // Move the arrow so it is on the right side of the publisher text
     _detailView.publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_detailView.publisherButton.imageView.frame.size.width, 0, _detailView.publisherButton.imageView.frame.size.width);
     _detailView.publisherButton.imageEdgeInsets = UIEdgeInsetsMake(0, _detailView.publisherButton.titleLabel.frame.size.width + 8, 0, -_detailView.publisherButton.titleLabel.frame.size.width);
+    _detailView.publisherButton.tag = 1;
+    [_detailView.publisherButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     
     _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
     if ([LBXTitleServices lastIssueForTitle:_detailTitle] != nil) {
@@ -241,6 +243,15 @@ BOOL endOfIssues;
                 [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
             }
             break;
+        }
+        case 1:
+        {
+            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImage:_detailView.latestIssueImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 1/2)];
+            
+            publisherViewController.publisherID = _detailTitle.publisher.publisherID;
+            publisherViewController.publisherImage = _detailView.latestIssueImageView.image;
+            
+            [self.navigationController pushViewController:publisherViewController animated:YES];
         }
     }
 }
@@ -423,15 +434,11 @@ BOOL endOfIssues;
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
     [header.textLabel setTextColor:[UIColor blackColor]];
     header.textLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
-    
-    // Another way to set the background color
-    // Note: does not preserve gradient effect of original header
-    // header.contentView.backgroundColor = [UIColor blackColor];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(section == 1)
-        return @"Issues";
+        return @"Titles";
     
     return nil;
 }

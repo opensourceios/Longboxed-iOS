@@ -8,6 +8,7 @@
 
 #import "LBXIssueDetailViewController.h"
 #import "LBXTitleServices.h"
+#import "LBXPublisherDetailViewController.h"
 
 #import "UIImageView+LBBlurredImage.h"
 #import "UIFont+customFonts.h"
@@ -185,12 +186,17 @@
         }
         case 1:
         {
-            NSLog(@"pressed 1");
+            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImage:_coverImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 1/2)];
+            
+            publisherViewController.publisherID = _issue.publisher.publisherID;
+            publisherViewController.publisherImage = _coverImageView.image;
+            
+            [self.navigationController pushViewController:publisherViewController animated:YES];
             break;
         }
         case 2:
         {
-            NSLog(@"pressed 2");
+            NSLog(@"Pressed date in issue view");
             break;
         }
     }

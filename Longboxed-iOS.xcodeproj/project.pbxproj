@@ -103,6 +103,8 @@
 		E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E156719A987ED002616F5 /* arrow_right@2x.png */; };
 		E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E156A19A98FB0002616F5 /* arrow_right_small.png */; };
 		E57E156D19A98FB0002616F5 /* arrow_right_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E156B19A98FB0002616F5 /* arrow_right_small@2x.png */; };
+		E57E157019A993F4002616F5 /* LBXPublisherDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E57E156F19A993F4002616F5 /* LBXPublisherDetailView.m */; };
+		E57E157219A99427002616F5 /* LBXPublisherDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E57E157119A99427002616F5 /* LBXPublisherDetailView.xib */; };
 		E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E587FB4F1964E2E5006A3DDB /* PaperButton.m */; };
 		E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5977737198EAC7D0047E261 /* LBXPullListTitle.m */; };
 		E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */; };
@@ -325,6 +327,9 @@
 		E57E156719A987ED002616F5 /* arrow_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right@2x.png"; path = "Assets/arrow_right@2x.png"; sourceTree = SOURCE_ROOT; };
 		E57E156A19A98FB0002616F5 /* arrow_right_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow_right_small.png; path = Assets/arrow_right_small.png; sourceTree = SOURCE_ROOT; };
 		E57E156B19A98FB0002616F5 /* arrow_right_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_small@2x.png"; path = "Assets/arrow_right_small@2x.png"; sourceTree = SOURCE_ROOT; };
+		E57E156E19A993F4002616F5 /* LBXPublisherDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherDetailView.h; path = Views/LBXPublisherDetailView.h; sourceTree = "<group>"; };
+		E57E156F19A993F4002616F5 /* LBXPublisherDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherDetailView.m; path = Views/LBXPublisherDetailView.m; sourceTree = "<group>"; };
+		E57E157119A99427002616F5 /* LBXPublisherDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXPublisherDetailView.xib; path = Views/LBXPublisherDetailView.xib; sourceTree = "<group>"; };
 		E587FB4E1964E2B3006A3DDB /* PaperButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PaperButton.h; path = Extras/Pop/PaperButton.h; sourceTree = "<group>"; };
 		E587FB4F1964E2E5006A3DDB /* PaperButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperButton.m; path = Extras/Pop/PaperButton.m; sourceTree = "<group>"; };
 		E5977736198EAC7D0047E261 /* LBXPullListTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListTitle.h; path = Models/LBXPullListTitle.h; sourceTree = "<group>"; };
@@ -667,6 +672,9 @@
 		E57D48FE1960960A0014A13F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E57E156E19A993F4002616F5 /* LBXPublisherDetailView.h */,
+				E57E156F19A993F4002616F5 /* LBXPublisherDetailView.m */,
+				E57E157119A99427002616F5 /* LBXPublisherDetailView.xib */,
 				E5B6FCBE1998351C0022F4CA /* LBXTitleDetailView.h */,
 				E5B6FCBF1998351C0022F4CA /* LBXTitleDetailView.m */,
 				E5B6FCBC199831CC0022F4CA /* LBXTitleDetailView.xib */,
@@ -1076,6 +1084,7 @@
 				E5F187381963A635006C4C26 /* LBXHomeViewController.xib in Resources */,
 				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,
 				E537122C198F031A0065D57A /* check@2x.png in Resources */,
+				E57E157219A99427002616F5 /* LBXPublisherDetailView.xib in Resources */,
 				E5B6FCDE19983DFC0022F4CA /* LICENSE in Resources */,
 				E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */,
 				E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */,
@@ -1264,6 +1273,7 @@
 				E57D498219611C950014A13F /* SVWebViewControllerActivitySafari.m in Sources */,
 				E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */,
 				E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */,
+				E57E157019A993F4002616F5 /* LBXPublisherDetailView.m in Sources */,
 				E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */,
 				E510AFA5198C7B7D004A7225 /* NSFileManager+NBUAdditions.m in Sources */,
 				E510AF93198C7B7D004A7225 /* NSString+RKAdditions.m in Sources */,
