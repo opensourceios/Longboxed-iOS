@@ -919,11 +919,11 @@
 		E5D9A89919A96E9000BC06C1 /* Issue */ = {
 			isa = PBXGroup;
 			children = (
-				E5D9A89619A91EE300BC06C1 /* LBXIssueScrollViewController.h */,
-				E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */,
 				E51AB56D19A405940066FFF6 /* LBXIssueDetailViewController.h */,
 				E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */,
 				E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */,
+				E5D9A89619A91EE300BC06C1 /* LBXIssueScrollViewController.h */,
+				E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */,
 			);
 			name = Issue;
 			sourceTree = "<group>";

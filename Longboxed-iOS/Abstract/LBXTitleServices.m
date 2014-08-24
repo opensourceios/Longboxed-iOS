@@ -110,8 +110,20 @@
     NSError *error = nil;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
     NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:issue.completeTitle options:0 range:NSMakeRange(0, [issue.completeTitle length]) withTemplate:@""];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(issueNumber == %@) AND (title == %@)", issue.issueNumber, issue.title];
+    NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+    
+    cell.subtitleLabel.text = [NSString stringWithFormat:@"%@  •  %i variant covers", subtitleString, initialFind.count - 1].uppercaseString;
+    if (initialFind.count == 1) {
+        cell.subtitleLabel.text = [NSString stringWithFormat:@"%@", subtitleString].uppercaseString;
+    }
+    else if (initialFind.count == 2) {
+        cell.subtitleLabel.text = [NSString stringWithFormat:@"%@  •  %i variant cover", subtitleString, initialFind.count - 1].uppercaseString;
+    }
+    
     cell.titleLabel.text = [NSString stringWithFormat:@"%@", modifiedTitleString];
-    cell.subtitleLabel.text = [subtitleString uppercaseString];
+    
     
     // For issues without a release date
     if ([subtitleString isEqualToString:@"(null)"]) {

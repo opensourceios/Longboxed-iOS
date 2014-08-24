@@ -128,6 +128,7 @@ BOOL endOfIssues;
     _detailView.frame = self.overView.frame;
     _detailView.bounds = self.overView.bounds;
     _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
+    _detailView.titleLabel.numberOfLines = 2;
     [_detailView.titleLabel sizeToFit];
     _detailView.publisherButton.titleLabel.font = [UIFont titleDetailPublisherFont];
     
@@ -424,8 +425,6 @@ BOOL endOfIssues;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if(section == 1)
-        return @"Issues";
     
     return nil;
 }
@@ -433,9 +432,6 @@ BOOL endOfIssues;
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if(section == 0)
         return [super tableView:tableView heightForHeaderInSection:section];
-    
-    if(section == 1)
-        return 20.0;
     
     return 0.0;
 }

@@ -14,7 +14,6 @@
 #import "UIImage+ImageEffects.h"
 #import "JTSImageViewController.h"
 
-#import <FontAwesomeKit/FontAwesomeKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <UIImageView+AFNetworking.h>
 
@@ -89,14 +88,18 @@
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
     
     NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:_issue.title.name options:0 range:NSMakeRange(0, [_issue.title.name length]) withTemplate:@""];
-    
     _titleLabel.text = [NSString stringWithFormat:@"%@ #%@", modifiedTitleString, _issue.issueNumber];
-    _subtitleLabel.text = _issue.subtitle.uppercaseString;
-    _distributorCodeLabel.text = _issue.diamondID.uppercaseString;
-    _priceLabel.text = [NSString stringWithFormat:@"$%.02f", [_issue.price floatValue]].uppercaseString;
-    [_publisherButton setTitle:_issue.publisher.name.uppercaseString
+    
+    _subtitleLabel.text = _issue.subtitle;
+    if (_issue.subtitle) {
+        NSString *modifiedSubtitleString = [regex stringByReplacingMatchesInString:_issue.subtitle options:0 range:NSMakeRange(0, [_issue.subtitle length]) withTemplate:@""];
+        _subtitleLabel.text = modifiedSubtitleString;
+    }
+    _distributorCodeLabel.text = _issue.diamondID;
+    _priceLabel.text = [NSString stringWithFormat:@"$%.02f", [_issue.price floatValue]];
+    [_publisherButton setTitle:_issue.publisher.name
                       forState:UIControlStateNormal];
-    [_releaseDateButton setTitle:[LBXTitleServices localTimeZoneStringWithDate:_issue.releaseDate].uppercaseString
+    [_releaseDateButton setTitle:[LBXTitleServices localTimeZoneStringWithDate:_issue.releaseDate]
                       forState:UIControlStateNormal];
     
     [_publisherButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -222,7 +225,7 @@
     [_coverImageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[_coverImageView(==%d)]", (int)self.view.frame.size.height/2]
                                                                             options:0
                                                                             metrics:nil
-                                                                              views:NSDictionaryOfVariableBindings(_coverImageView)]];
+                                                                              views:NSDictionaryOfVariableBindings(_coverImageView)]];    
 }
 
 @end
