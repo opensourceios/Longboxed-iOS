@@ -58,6 +58,7 @@ BOOL endOfIssues;
     [self createIssuesArray];
     
     [self setDetailView];
+    [self setInitialDetailView];
     [self setOverView:_detailView];
     
     [self fetchTitle];
@@ -145,6 +146,9 @@ BOOL endOfIssues;
 - (void)updateDetailView
 {
     _detailView.titleLabel.text = _detailTitle.name;
+    if ([_detailTitle.publisher.name isEqualToString:@""]) {
+        [_detailView.publisherButton setTitle:@"Loading..." forState:UIControlStateNormal];
+    }
     [_detailView.publisherButton setTitle:[_detailTitle.publisher.name uppercaseString] forState:UIControlStateNormal];
     
     NSString *issuesString;
@@ -160,6 +164,7 @@ BOOL endOfIssues;
         subscribersString = [NSString stringWithFormat:@"%@ Subscriber", _detailTitle.subscribers];
     }
     else {
+        NSLog(@"%@", _detailTitle.subscribers);
         subscribersString = [NSString stringWithFormat:@"%@ Subscribers", _detailTitle.subscribers];
     }
     
@@ -191,6 +196,16 @@ BOOL endOfIssues;
         _detailView.latestIssueLabel.text = @"";
     }
     [self.view setNeedsDisplay];
+}
+
+- (void)setInitialDetailView
+{
+    _detailView.issuesAndSubscribersLabel.text = @"";
+    [_detailView.publisherButton setTitle:@"Loading..." forState:UIControlStateNormal];
+    
+    // Move the arrow so it is on the right side of the publisher text
+    _detailView.publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_detailView.publisherButton.imageView.frame.size.width, 0, _detailView.publisherButton.imageView.frame.size.width);
+    _detailView.publisherButton.imageEdgeInsets = UIEdgeInsetsMake(0, _detailView.publisherButton.titleLabel.frame.size.width + 8, 0, -_detailView.publisherButton.titleLabel.frame.size.width);
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -246,7 +261,7 @@ BOOL endOfIssues;
         }
         case 1:
         {
-            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImage:_detailView.latestIssueImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 1/2)];
+            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImage:_detailView.latestIssueImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
             
             publisherViewController.publisherID = _detailTitle.publisher.publisherID;
             publisherViewController.publisherImage = _detailView.latestIssueImageView.image;
@@ -438,7 +453,7 @@ BOOL endOfIssues;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(section == 1)
-        return @"Titles";
+        return @"Issues";
     
     return nil;
 }

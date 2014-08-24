@@ -128,13 +128,9 @@ BOOL endOfIssues;
     _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
     _detailView.titleLabel.numberOfLines = 2;
     [_detailView.titleLabel sizeToFit];
-    _detailView.publisherButton.titleLabel.font = [UIFont titleDetailPublisherFont];
     
     [self updateDetailView];
     
-    _detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
-    _detailView.addToPullListButton.layer.borderWidth = 1.0f;
-    _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
     _detailView.latestIssueImageView.image = _publisherImage;
     [_detailView.latestIssueImageView sizeToFit];
 }
@@ -142,7 +138,6 @@ BOOL endOfIssues;
 - (void)updateDetailView
 {
     _detailView.titleLabel.text = _detailPublisher.name;
-    [_detailView.publisherButton setTitle:[_detailPublisher.name uppercaseString] forState:UIControlStateNormal];
     
     NSString *issuesString;
     if ([_detailPublisher.titleCount isEqualToNumber:@1]) {
@@ -220,8 +215,7 @@ BOOL endOfIssues;
             if (titleArray.count == 0) {
                 endOfIssues = YES;
             }
-            
-            [self createTitlesArray];
+            [self fetchAllIssuesWithTitleArray:titleArray];
         }
         else {
             [LBXMessageBar displayError:error];
@@ -229,6 +223,28 @@ BOOL endOfIssues;
         [self.tableView reloadData];
         [self.view setNeedsDisplay];
     }];
+}
+
+- (void)fetchAllIssuesWithTitleArray:(NSArray *)titleArray
+{
+    __block NSUInteger i = 1;
+    for (LBXTitle *title in titleArray) {
+        [self.client fetchIssuesForTitle:title.titleID page:@1 withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
+            // Wait until all titles in _pullListArray have been fetched
+            if (i == titleArray.count) {
+                if (!error) {
+                    [self createTitlesArray];
+                }
+                else {
+                    [LBXMessageBar displayError:error];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
+            }
+            i++;
+        }];
+    }
 }
 
 - (void)createTitlesArray
@@ -281,7 +297,7 @@ BOOL endOfIssues;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(section == 1)
-        return @"Issues";
+        return @"Titles";
     
     return nil;
 }

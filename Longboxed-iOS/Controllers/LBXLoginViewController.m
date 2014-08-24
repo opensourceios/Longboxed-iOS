@@ -67,18 +67,18 @@ UICKeyChainStore *store;
 -(IBAction)buttonPressed:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-
-    
     switch ([button tag])
     {
         // Log in
         case 0:
         {
+            [self removeCredentials];
+            [LBXDatabaseManager flushDatabase];
             [UICKeyChainStore setString:_usernameField.text forKey:@"username"];
             [UICKeyChainStore setString:_passwordField.text forKey:@"password"];
             [store synchronize]; // Write to keychain.
 
-           [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
+            [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
                 if (response.HTTPRequestOperation.response.statusCode == 200) {
                     dispatch_async(dispatch_get_main_queue(),^{
                         [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
@@ -98,7 +98,6 @@ UICKeyChainStore *store;
                     });
                 }
             }];
-            
 
             break;
         }

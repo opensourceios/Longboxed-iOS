@@ -150,6 +150,12 @@
     [super viewDidAppear:animated];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.topItem.title = @" ";
+}
+
 - (BOOL)prefersStatusBarHidden {
     return NO;
 }
@@ -186,7 +192,7 @@
         }
         case 1:
         {
-            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImage:_coverImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 1/2)];
+            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImage:_coverImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
             
             publisherViewController.publisherID = _issue.publisher.publisherID;
             publisherViewController.publisherImage = _coverImageView.image;
@@ -208,7 +214,7 @@
 {
     UIImageView *imageView = [UIImageView new];
     // Get the image from the URL and set it
-    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_issue.coverImage]] placeholderImage:[UIImage imageNamed:@"NotAvailable"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         _issueImage = image;
         [self setupImages];
