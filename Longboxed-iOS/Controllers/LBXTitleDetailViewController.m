@@ -20,10 +20,10 @@
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
 #import "JTSImageViewController.h"
+#import "JGActionSheet.h"
 
 #import <SVProgressHUD.h>
 #import <QuartzCore/QuartzCore.h>
-#import <JGActionSheet.h>
 
 @interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JGActionSheetDelegate>
 
@@ -239,9 +239,6 @@ BOOL saveSheetVisible;
         JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel];
         
         NSArray *sections = @[section1, cancelSection];
-        
-        [section1 setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
-        [cancelSection setButtonStyle:JGActionSheetButtonStyleCancel forButtonAtIndex:0];
         
         JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
         sheet.delegate = self;

@@ -96,4 +96,19 @@
     return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
 }
 
++ (UIFont *)actionSheetTitleFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Medium" size:16];
+}
+
++ (UIFont *)actionSheetCancelFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
+}
+
++ (UIFont *)actionSheetFont
+{
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
+}
+
 @end

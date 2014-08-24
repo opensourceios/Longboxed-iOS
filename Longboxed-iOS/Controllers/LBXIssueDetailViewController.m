@@ -14,10 +14,10 @@
 #import "UIFont+customFonts.h"
 #import "UIImage+ImageEffects.h"
 #import "JTSImageViewController.h"
+#import "JGActionSheet.h"
 
 #import <QuartzCore/QuartzCore.h>
 #import <UIImageView+AFNetworking.h>
-#import <JGActionSheet.h>
 #import <SVProgressHUD.h>
 
 @interface LBXIssueDetailViewController () <JTSImageViewControllerInteractionsDelegate, JGActionSheetDelegate>
@@ -174,7 +174,7 @@ BOOL saveSheetVisible;
         {
             // Create image info
             JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
-            imageInfo.image = _coverImageView.image;
+            imageInfo.image = _issueImage;
             imageInfo.referenceRect = _imageButton.frame;
             imageInfo.referenceView = _imageButton.superview;
             
@@ -193,10 +193,10 @@ BOOL saveSheetVisible;
         }
         case 1:
         {
-            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImage:_coverImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
+            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImage:_issueImage andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
             
             publisherViewController.publisherID = _issue.publisher.publisherID;
-            publisherViewController.publisherImage = _coverImageView.image;
+            publisherViewController.publisherImage = _issueImage;
             
             [self.navigationController pushViewController:publisherViewController animated:YES];
             break;
@@ -218,9 +218,6 @@ BOOL saveSheetVisible;
         JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel];
         
         NSArray *sections = @[section1, cancelSection];
-        
-        [section1 setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
-        [cancelSection setButtonStyle:JGActionSheetButtonStyleCancel forButtonAtIndex:0];
         
         JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
         sheet.delegate = self;
@@ -249,13 +246,13 @@ BOOL saveSheetVisible;
             switch (indexPath.row) {
                 case 0:
                 {
-                    UIImageWriteToSavedPhotosAlbum(_coverImageView.image, nil, nil, nil);
+                    UIImageWriteToSavedPhotosAlbum(_issueImage, nil, nil, nil);
                     break;
                 }
                 case 1:
                 {
                     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-                    [pasteboard setImage:_coverImageView.image];
+                    [pasteboard setImage:_issueImage];
                     [SVProgressHUD showSuccessWithStatus:@"Copied!"];
                     break;
                 }
@@ -293,12 +290,13 @@ BOOL saveSheetVisible;
     _coverImageView.alpha = 0.0;
     _backgroundCoverImageView.alpha = 0.0;
     [_backgroundCoverImageView setImageToBlur:_issueImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
-    [_issueImage applyDarkEffect];
+    UIImage *blurredImage = _issueImage;
+    [blurredImage applyDarkEffect];
     
-    UIImage *blurredImage = [_issueImage applyBlurWithRadius:0.0
-                                                   tintColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3]
-                                       saturationDeltaFactor:0.5
-                                                   maskImage:nil];
+    blurredImage = [blurredImage applyBlurWithRadius:0.0
+                                           tintColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3]
+                                saturationDeltaFactor:0.5
+                                            maskImage:nil];
     
     [_coverImageView setImage:blurredImage];
     [_coverImageView setTranslatesAutoresizingMaskIntoConstraints:NO];

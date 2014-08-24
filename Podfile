@@ -11,7 +11,6 @@ pod 'MagicalRecord/Shorthand'
 pod 'FontAwesomeKit', '~> 2.1.0'
 pod 'MCSwipeTableViewCell'
 pod 'SVProgressHUD', :head
-pod 'JGActionSheet'
 
 
 # Customized
@@ -20,3 +19,4 @@ pod 'JGActionSheet'
 # pod 'EasyTableView'
 # pod 'SVWebViewController'
 # pod 'REMenu'
+# pod 'JGActionSheet'

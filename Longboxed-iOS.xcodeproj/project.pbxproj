@@ -106,6 +106,7 @@
 		E57E157019A993F4002616F5 /* LBXPublisherDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E57E156F19A993F4002616F5 /* LBXPublisherDetailView.m */; };
 		E57E157219A99427002616F5 /* LBXPublisherDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E57E157119A99427002616F5 /* LBXPublisherDetailView.xib */; };
 		E57E157819A9A55E002616F5 /* loadingCoverTransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E157619A9A55E002616F5 /* loadingCoverTransparent.png */; };
+		E57E157F19AA84FF002616F5 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = E57E157C19AA84FF002616F5 /* JGActionSheet.m */; };
 		E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E587FB4F1964E2E5006A3DDB /* PaperButton.m */; };
 		E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5977737198EAC7D0047E261 /* LBXPullListTitle.m */; };
 		E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */; };
@@ -330,6 +331,8 @@
 		E57E156F19A993F4002616F5 /* LBXPublisherDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherDetailView.m; path = Views/LBXPublisherDetailView.m; sourceTree = "<group>"; };
 		E57E157119A99427002616F5 /* LBXPublisherDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXPublisherDetailView.xib; path = Views/LBXPublisherDetailView.xib; sourceTree = "<group>"; };
 		E57E157619A9A55E002616F5 /* loadingCoverTransparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loadingCoverTransparent.png; path = Assets/loadingCoverTransparent.png; sourceTree = SOURCE_ROOT; };
+		E57E157B19AA84FF002616F5 /* JGActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JGActionSheet.h; sourceTree = "<group>"; };
+		E57E157C19AA84FF002616F5 /* JGActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGActionSheet.m; sourceTree = "<group>"; };
 		E587FB4E1964E2B3006A3DDB /* PaperButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PaperButton.h; path = Extras/Pop/PaperButton.h; sourceTree = "<group>"; };
 		E587FB4F1964E2E5006A3DDB /* PaperButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperButton.m; path = Extras/Pop/PaperButton.m; sourceTree = "<group>"; };
 		E5977736198EAC7D0047E261 /* LBXPullListTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListTitle.h; path = Models/LBXPullListTitle.h; sourceTree = "<group>"; };
@@ -771,6 +774,7 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				E57E157919AA84FF002616F5 /* JGActionSheet */,
 				E5D9A87E19A9193200BC06C1 /* JTSImageViewController */,
 				E5B6FCD219983DFC0022F4CA /* MGSpotyViewController */,
 				E5371226198EF9300065D57A /* Fonts */,
@@ -829,6 +833,24 @@
 				E57D497F19611C950014A13F /* SVWebViewControllerActivitySafari@2x.png */,
 			);
 			name = Safari;
+			sourceTree = "<group>";
+		};
+		E57E157919AA84FF002616F5 /* JGActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				E57E157A19AA84FF002616F5 /* JGActionSheet */,
+			);
+			name = JGActionSheet;
+			path = Extras/JGActionSheet;
+			sourceTree = "<group>";
+		};
+		E57E157A19AA84FF002616F5 /* JGActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				E57E157B19AA84FF002616F5 /* JGActionSheet.h */,
+				E57E157C19AA84FF002616F5 /* JGActionSheet.m */,
+			);
+			path = JGActionSheet;
 			sourceTree = "<group>";
 		};
 		E587FB4D1964E2A9006A3DDB /* Pop */ = {
@@ -1280,6 +1302,7 @@
 				E510AF92198C7B7D004A7225 /* NSDictionary+RKAdditions.m in Sources */,
 				E57D497119611C7C0014A13F /* SVWebViewControllerActivity.m in Sources */,
 				E510AF8F198C7B7D004A7225 /* NSArray+RKAdditions.m in Sources */,
+				E57E157F19AA84FF002616F5 /* JGActionSheet.m in Sources */,
 				E5D9A89119A9193200BC06C1 /* JTSImageInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

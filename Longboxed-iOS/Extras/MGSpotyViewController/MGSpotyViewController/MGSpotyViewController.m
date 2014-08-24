@@ -52,7 +52,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     [view addSubview:_overView];
     
     [_tableView setFrame:view.frame];
-    [_tableView setShowsVerticalScrollIndicator:NO];
+    [_tableView setShowsVerticalScrollIndicator:YES];
     [_tableView setBackgroundColor:[UIColor clearColor]];
     [_tableView setDelegate:self];
     [_tableView setDataSource:self];
