@@ -143,7 +143,6 @@ BOOL endOfIssues;
 
 - (void)updateDetailView
 {
-    _detailView.titleLabel.numberOfLines = 2;
     _detailView.titleLabel.text = _detailTitle.name;
     _detailView.publisherLabel.text = [_detailTitle.publisher.name uppercaseString];
     
@@ -319,9 +318,18 @@ BOOL endOfIssues;
 - (void)createIssuesArray
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (isParent == 1)", _detailTitle];
-    _issuesForTitleArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+    NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
     
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:_issuesForTitleArray];
+    // Not all parents are actually the parents (sometimes a variant is a parent due to API bug)
+    // so correct this by getting the issue with the shortest title
+    NSMutableArray *correctedArray = [NSMutableArray new];
+    for (LBXIssue *issue in initialFind) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
+        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
+        [correctedArray addObject:issuesArray[0]];
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:correctedArray];
     
     NSSortDescriptor *sortByIssueID = [NSSortDescriptor sortDescriptorWithKey:@"issueID" ascending:NO];
     NSSortDescriptor *sortByIssueNumber = [NSSortDescriptor sortDescriptorWithKey:@"issueNumber" ascending:NO];
@@ -486,10 +494,9 @@ BOOL endOfIssues;
     
     cell.titleLabel.font = [UIFont pullListTitleFont];
     cell.titleLabel.text = issue.completeTitle;
-    
-    cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     cell.titleLabel.numberOfLines = 2;
-    
+    cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+
     cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
     cell.subtitleLabel.textColor = [UIColor grayColor];
     cell.subtitleLabel.numberOfLines = 2;

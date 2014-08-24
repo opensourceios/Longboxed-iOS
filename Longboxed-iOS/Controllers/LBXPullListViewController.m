@@ -253,16 +253,37 @@ CGFloat cellWidth;
 
 - (void)fillLatestIssuesInPullListArray
 {
+    
     // Fetch the latest of the issues from Core Data and append to _latestIssuesInPullListArray
     for (LBXTitle *title in _pullListArray) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
-        NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title.titleID == %@) AND (isParent == 1)", title.titleID];
+        NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
         
-        if (allIssuesArray.count == 0) {
+        // Not all parents are actually the parents (sometimes a variant is a parent due to API bug)
+        // so correct this by getting the issue with the shortest title
+        NSMutableArray *correctedArray = [NSMutableArray new];
+        for (LBXIssue *issue in initialFind) {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
+            NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
+            [correctedArray addObject:issuesArray[0]];
+        }
+        
+        NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:correctedArray];
+        
+        NSSortDescriptor *sortByIssueID = [NSSortDescriptor sortDescriptorWithKey:@"issueID" ascending:NO];
+        NSSortDescriptor *sortByIssueNumber = [NSSortDescriptor sortDescriptorWithKey:@"issueNumber" ascending:NO];
+        NSSortDescriptor *sortByIssueReleaseDate = [NSSortDescriptor sortDescriptorWithKey:@"releaseDate" ascending:NO];
+        
+        // Combine the two
+        NSArray *sortDescriptors = @[sortByIssueReleaseDate, sortByIssueNumber, sortByIssueID];
+        NSArray *sortedArray = [mutableArray sortedArrayUsingDescriptors:sortDescriptors];
+        
+        
+        if (sortedArray.count == 0) {
             [_latestIssuesInPullListArray addObject:@" "];
         }
         else {
-            LBXIssue *issue = allIssuesArray[0];
+            LBXIssue *issue = sortedArray[0];
             [_latestIssuesInPullListArray addObject:issue];
         }
     }
