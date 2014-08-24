@@ -99,6 +99,10 @@
 		E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D497C19611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png */; };
 		E57D498219611C950014A13F /* SVWebViewControllerActivitySafari.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D497E19611C950014A13F /* SVWebViewControllerActivitySafari.m */; };
 		E57D498319611C950014A13F /* SVWebViewControllerActivitySafari@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D497F19611C950014A13F /* SVWebViewControllerActivitySafari@2x.png */; };
+		E57E156819A987ED002616F5 /* arrow_right.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E156619A987ED002616F5 /* arrow_right.png */; };
+		E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E156719A987ED002616F5 /* arrow_right@2x.png */; };
+		E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E156A19A98FB0002616F5 /* arrow_right_small.png */; };
+		E57E156D19A98FB0002616F5 /* arrow_right_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E156B19A98FB0002616F5 /* arrow_right_small@2x.png */; };
 		E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E587FB4F1964E2E5006A3DDB /* PaperButton.m */; };
 		E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5977737198EAC7D0047E261 /* LBXPullListTitle.m */; };
 		E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */; };
@@ -317,6 +321,10 @@
 		E57D497D19611C950014A13F /* SVWebViewControllerActivitySafari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVWebViewControllerActivitySafari.h; path = Extras/SVWebViewController/UIActivities/Safari/SVWebViewControllerActivitySafari.h; sourceTree = "<group>"; };
 		E57D497E19611C950014A13F /* SVWebViewControllerActivitySafari.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVWebViewControllerActivitySafari.m; path = Extras/SVWebViewController/UIActivities/Safari/SVWebViewControllerActivitySafari.m; sourceTree = "<group>"; };
 		E57D497F19611C950014A13F /* SVWebViewControllerActivitySafari@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SVWebViewControllerActivitySafari@2x.png"; path = "Extras/SVWebViewController/UIActivities/Safari/SVWebViewControllerActivitySafari@2x.png"; sourceTree = "<group>"; };
+		E57E156619A987ED002616F5 /* arrow_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow_right.png; path = Assets/arrow_right.png; sourceTree = SOURCE_ROOT; };
+		E57E156719A987ED002616F5 /* arrow_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right@2x.png"; path = "Assets/arrow_right@2x.png"; sourceTree = SOURCE_ROOT; };
+		E57E156A19A98FB0002616F5 /* arrow_right_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow_right_small.png; path = Assets/arrow_right_small.png; sourceTree = SOURCE_ROOT; };
+		E57E156B19A98FB0002616F5 /* arrow_right_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_small@2x.png"; path = "Assets/arrow_right_small@2x.png"; sourceTree = SOURCE_ROOT; };
 		E587FB4E1964E2B3006A3DDB /* PaperButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PaperButton.h; path = Extras/Pop/PaperButton.h; sourceTree = "<group>"; };
 		E587FB4F1964E2E5006A3DDB /* PaperButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperButton.m; path = Extras/Pop/PaperButton.m; sourceTree = "<group>"; };
 		E5977736198EAC7D0047E261 /* LBXPullListTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListTitle.h; path = Models/LBXPullListTitle.h; sourceTree = "<group>"; };
@@ -719,6 +727,10 @@
 		E57D49221960B8E80014A13F /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E57E156A19A98FB0002616F5 /* arrow_right_small.png */,
+				E57E156B19A98FB0002616F5 /* arrow_right_small@2x.png */,
+				E57E156619A987ED002616F5 /* arrow_right.png */,
+				E57E156719A987ED002616F5 /* arrow_right@2x.png */,
 				E50C2A391998605500AD5FC6 /* arrow.png */,
 				E50C2A3A1998605500AD5FC6 /* arrow@2x.png */,
 				E553F59E19946393003E1F5C /* clear.png */,
@@ -1043,8 +1055,10 @@
 				E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */,
 				E57D498019611C950014A13F /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */,
+				E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
 				E57D498319611C950014A13F /* SVWebViewControllerActivitySafari@2x.png in Resources */,
+				E57E156819A987ED002616F5 /* arrow_right.png in Resources */,
 				E57D49241960B8F40014A13F /* black.png in Resources */,
 				E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */,
 				E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
@@ -1053,9 +1067,11 @@
 				E553F59F19946393003E1F5C /* clear.png in Resources */,
 				E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */,
 				E57D497A19611C8E0014A13F /* SVWebViewControllerActivityChrome@2x.png in Resources */,
+				E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */,
 				E5B6FCE219983DFC0022F4CA /* README.md in Resources */,
 				E5D9A88E19A9193200BC06C1 /* LICENSE in Resources */,
 				E537122A198EFEE90065D57A /* check.png in Resources */,
+				E57E156D19A98FB0002616F5 /* arrow_right_small@2x.png in Resources */,
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,
 				E5F187381963A635006C4C26 /* LBXHomeViewController.xib in Resources */,
 				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,

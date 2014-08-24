@@ -166,6 +166,10 @@ BOOL endOfIssues;
     _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
     _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     
+    // Move the arrow so it is on the right side of the publisher text
+    _detailView.publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_detailView.publisherButton.imageView.frame.size.width, 0, _detailView.publisherButton.imageView.frame.size.width);
+    _detailView.publisherButton.imageEdgeInsets = UIEdgeInsetsMake(0, _detailView.publisherButton.titleLabel.frame.size.width + 8, 0, -_detailView.publisherButton.titleLabel.frame.size.width);
+    
     _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
     if ([LBXTitleServices lastIssueForTitle:_detailTitle] != nil) {
         LBXIssue *issue = [LBXTitleServices lastIssueForTitle:_detailTitle];

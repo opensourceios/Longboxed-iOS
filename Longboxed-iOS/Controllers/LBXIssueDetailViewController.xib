@@ -79,7 +79,7 @@
                     </constraints>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Distributor Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5PV-kH-d9x">
-                    <rect key="frame" x="167" y="179" width="133" height="17"/>
+                    <rect key="frame" x="185" y="179" width="115" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -100,39 +100,41 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="RELEASE DATE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mdu-7B-UkI">
-                    <rect key="frame" x="167" y="109" width="98" height="20"/>
+                    <rect key="frame" x="185" y="109" width="98" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="PRICE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5yA-nE-jEH">
-                    <rect key="frame" x="20" y="154" width="39" height="20"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRICE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5yA-nE-jEH">
+                    <rect key="frame" x="20" y="162" width="39" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DISTRIBUTOR CODE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQX-Y7-8Jt">
-                    <rect key="frame" x="167" y="155" width="133" height="20"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="DISTRIBUTOR CODE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQX-Y7-8Jt">
+                    <rect key="frame" x="185" y="155" width="115" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBQ-1a-jNl">
-                    <rect key="frame" x="20" y="134" width="92" height="19"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBQ-1a-jNl">
+                    <rect key="frame" x="20" y="134" width="84" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                    <state key="normal" title="Publisher">
+                    <state key="normal" title="Publisher" image="arrow_right_small.png">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YyP-H0-jez">
-                    <rect key="frame" x="167" y="124" width="133" height="29"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YyP-H0-jez">
+                    <rect key="frame" x="185" y="124" width="115" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
-                    <state key="normal" title="Release Date">
+                    <state key="normal" title="Release Date" image="arrow_right_small.png">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
@@ -148,7 +150,7 @@
                 <constraint firstItem="5yA-nE-jEH" firstAttribute="centerY" secondItem="eQX-Y7-8Jt" secondAttribute="centerY" id="6k3-Lp-8yA"/>
                 <constraint firstAttribute="trailing" secondItem="LSs-AR-sUm" secondAttribute="trailing" constant="20" id="6uF-Y5-R4k"/>
                 <constraint firstItem="aRo-CD-jhO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="7M2-xt-fSr"/>
-                <constraint firstItem="5yA-nE-jEH" firstAttribute="top" secondItem="PBQ-1a-jNl" secondAttribute="bottom" constant="2" id="8YK-Sj-cpa"/>
+                <constraint firstItem="5yA-nE-jEH" firstAttribute="top" secondItem="PBQ-1a-jNl" secondAttribute="bottom" constant="14" id="8YK-Sj-cpa"/>
                 <constraint firstItem="PBQ-1a-jNl" firstAttribute="leading" secondItem="5yA-nE-jEH" secondAttribute="leading" id="Btv-lA-66H"/>
                 <constraint firstAttribute="trailing" secondItem="5PV-kH-d9x" secondAttribute="trailing" constant="20" id="Cqh-yP-KpO"/>
                 <constraint firstAttribute="trailing" secondItem="aRo-CD-jhO" secondAttribute="trailing" constant="20" id="E7i-fn-lWh"/>
@@ -162,7 +164,7 @@
                 <constraint firstItem="5PV-kH-d9x" firstAttribute="leading" secondItem="eQX-Y7-8Jt" secondAttribute="leading" id="Wba-k8-NV2"/>
                 <constraint firstItem="YyP-H0-jez" firstAttribute="leading" secondItem="mdu-7B-UkI" secondAttribute="leading" id="XuO-mZ-u6b"/>
                 <constraint firstAttribute="bottom" secondItem="17O-L3-uCM" secondAttribute="bottom" constant="8" id="ZFS-KE-JSj"/>
-                <constraint firstItem="PBQ-1a-jNl" firstAttribute="top" secondItem="hHz-BK-GzT" secondAttribute="bottom" constant="-5" id="ZOd-pW-cfX"/>
+                <constraint firstItem="PBQ-1a-jNl" firstAttribute="top" secondItem="hHz-BK-GzT" secondAttribute="bottom" constant="2" id="ZOd-pW-cfX"/>
                 <constraint firstItem="5PV-kH-d9x" firstAttribute="centerY" secondItem="glF-i2-g6v" secondAttribute="centerY" id="ZRw-nz-0cq"/>
                 <constraint firstItem="glF-i2-g6v" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="aQv-vM-KQl"/>
                 <constraint firstItem="17O-L3-uCM" firstAttribute="top" secondItem="glF-i2-g6v" secondAttribute="bottom" constant="8" id="baf-gR-kts"/>
@@ -183,4 +185,7 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="arrow_right_small.png" width="6" height="10"/>
+    </resources>
 </document>

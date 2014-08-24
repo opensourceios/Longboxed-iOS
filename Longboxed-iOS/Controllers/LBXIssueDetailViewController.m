@@ -102,6 +102,12 @@
     [_releaseDateButton setTitle:[LBXTitleServices localTimeZoneStringWithDate:_issue.releaseDate]
                       forState:UIControlStateNormal];
     
+    // Move the arrow so it is on the right side of the publisher text
+    _publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_publisherButton.imageView.frame.size.width, 0, _publisherButton.imageView.frame.size.width);
+    _publisherButton.imageEdgeInsets = UIEdgeInsetsMake(0, _publisherButton.titleLabel.frame.size.width + 8, 0, -_publisherButton.titleLabel.frame.size.width);
+    _releaseDateButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_releaseDateButton.imageView.frame.size.width, 0, _releaseDateButton.imageView.frame.size.width);
+    _releaseDateButton.imageEdgeInsets = UIEdgeInsetsMake(0, _releaseDateButton.titleLabel.frame.size.width + 8, 0, -_releaseDateButton.titleLabel.frame.size.width);
+    
     [_publisherButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_releaseDateButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _publisherButton.tag = 1;
