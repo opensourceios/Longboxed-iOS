@@ -110,12 +110,6 @@ BOOL saveSheetVisible;
     [_releaseDateButton setTitle:[LBXTitleServices localTimeZoneStringWithDate:_issue.releaseDate]
                         forState:UIControlStateNormal];
     
-    // Move the arrow so it is on the right side of the publisher text
-    _publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_publisherButton.imageView.frame.size.width, 0, _publisherButton.imageView.frame.size.width);
-    _publisherButton.imageEdgeInsets = UIEdgeInsetsMake(0, _publisherButton.titleLabel.frame.size.width + 8, 0, -_publisherButton.titleLabel.frame.size.width);
-    _releaseDateButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_releaseDateButton.imageView.frame.size.width, 0, _releaseDateButton.imageView.frame.size.width);
-    _releaseDateButton.imageEdgeInsets = UIEdgeInsetsMake(0, _releaseDateButton.titleLabel.frame.size.width + 8, 0, -_releaseDateButton.titleLabel.frame.size.width);
-    
     [_publisherButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_releaseDateButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _publisherButton.tag = 1;
@@ -125,6 +119,7 @@ BOOL saveSheetVisible;
         [_releaseDateButton setTitle:@"UNKNOWN" forState:UIControlStateNormal];
         _releaseDateButton.userInteractionEnabled = NO;
         _releaseDateButton.tintColor = [UIColor whiteColor];
+        [_releaseDateButton setImage:nil forState:UIControlStateNormal];
     }
     if (!_issue.price) {
         _priceLabel.text = @"UNKNOWN";
@@ -133,10 +128,17 @@ BOOL saveSheetVisible;
         [_publisherButton setTitle:@"UNKNOWN" forState:UIControlStateNormal];
         _publisherButton.userInteractionEnabled = NO;
         _publisherButton.tintColor = [UIColor whiteColor];
+        [_publisherButton setImage:nil forState:UIControlStateNormal];
     }
     if (!_issue.diamondID) {
         _distributorCodeLabel.text = @"UNKNOWN";
     }
+    
+    // Move the arrow so it is on the right side of the publisher text
+    _publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_publisherButton.imageView.frame.size.width, 0, _publisherButton.imageView.frame.size.width);
+    _publisherButton.imageEdgeInsets = UIEdgeInsetsMake(0, _publisherButton.titleLabel.frame.size.width + 8, 0, -_publisherButton.titleLabel.frame.size.width);
+    _releaseDateButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_releaseDateButton.imageView.frame.size.width, 0, _releaseDateButton.imageView.frame.size.width);
+    _releaseDateButton.imageEdgeInsets = UIEdgeInsetsMake(0, _releaseDateButton.titleLabel.frame.size.width + 8, 0, -_releaseDateButton.titleLabel.frame.size.width);
     
     NSString *modifiedDescriptionString = [regex stringByReplacingMatchesInString:_issue.issueDescription options:0 range:NSMakeRange(0, [_issue.issueDescription length]) withTemplate:@""];
     _descriptionTextView.text = modifiedDescriptionString;
