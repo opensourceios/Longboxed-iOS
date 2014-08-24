@@ -129,7 +129,7 @@ BOOL endOfIssues;
     _detailView.bounds = self.overView.bounds;
     _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
     [_detailView.titleLabel sizeToFit];
-    _detailView.publisherLabel.font = [UIFont titleDetailPublisherFont];
+    _detailView.publisherButton.titleLabel.font = [UIFont titleDetailPublisherFont];
     
     [self updateDetailView];
     
@@ -144,7 +144,7 @@ BOOL endOfIssues;
 - (void)updateDetailView
 {
     _detailView.titleLabel.text = _detailTitle.name;
-    _detailView.publisherLabel.text = [_detailTitle.publisher.name uppercaseString];
+    [_detailView.publisherButton setTitle:[_detailTitle.publisher.name uppercaseString] forState:UIControlStateNormal];
     
     NSString *issuesString;
     if ([_detailTitle.issueCount isEqualToNumber:@1]) {
@@ -322,6 +322,7 @@ BOOL endOfIssues;
     
     // Not all parents are actually the parents (sometimes a variant is a parent due to API bug)
     // so correct this by getting the issue with the shortest title
+    // TODO: Get Tim to fix this
     NSMutableArray *correctedArray = [NSMutableArray new];
     for (LBXIssue *issue in initialFind) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];

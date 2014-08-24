@@ -25,13 +25,14 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Publisher" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="icq-Jo-oPE">
-                    <rect key="frame" x="235" y="56" width="203" height="31"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bg2-3g-gsd">
+                    <rect key="frame" x="266" y="58" width="139" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="22"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                    <state key="normal" title="Publisher">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Issue and Subscriber Count" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="4" translatesAutoresizingMaskIntoConstraints="NO" id="VUY-Dg-G42">
                     <rect key="frame" x="235" y="95" width="203" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -62,19 +63,19 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="VUY-Dg-G42" firstAttribute="top" secondItem="Bg2-3g-gsd" secondAttribute="bottom" constant="2" id="5mR-pt-GUb"/>
                 <constraint firstAttribute="bottom" secondItem="5F3-Nk-8kc" secondAttribute="bottom" constant="12" id="8Ik-n2-0MT"/>
-                <constraint firstItem="VUY-Dg-G42" firstAttribute="top" secondItem="icq-Jo-oPE" secondAttribute="bottom" constant="8" id="D2q-Yb-rII"/>
-                <constraint firstItem="icq-Jo-oPE" firstAttribute="leading" secondItem="VUY-Dg-G42" secondAttribute="leading" id="Dzb-kM-QHG"/>
+                <constraint firstItem="Ljw-Yk-aR4" firstAttribute="leading" secondItem="Bg2-3g-gsd" secondAttribute="leading" id="9ll-qe-fOM"/>
                 <constraint firstAttribute="trailing" secondItem="Ljw-Yk-aR4" secondAttribute="trailing" constant="8" id="FaX-QH-js8"/>
                 <constraint firstItem="5F3-Nk-8kc" firstAttribute="top" secondItem="tId-NT-eqz" secondAttribute="bottom" constant="2" id="NDq-ux-dXB"/>
                 <constraint firstItem="Ljw-Yk-aR4" firstAttribute="leading" secondItem="nAi-FZ-Se4" secondAttribute="trailing" constant="14" id="Pan-Ny-doC"/>
-                <constraint firstItem="icq-Jo-oPE" firstAttribute="top" secondItem="Ljw-Yk-aR4" secondAttribute="bottom" constant="8" id="QTM-6O-8M6"/>
                 <constraint firstItem="nAi-FZ-Se4" firstAttribute="top" secondItem="GJa-om-pAX" secondAttribute="top" constant="4" id="RN7-cH-Jm6"/>
                 <constraint firstItem="tId-NT-eqz" firstAttribute="top" secondItem="nAi-FZ-Se4" secondAttribute="bottom" constant="22" id="V3h-7F-Iol"/>
+                <constraint firstItem="Bg2-3g-gsd" firstAttribute="top" secondItem="Ljw-Yk-aR4" secondAttribute="bottom" constant="2" id="aHk-9B-EUi"/>
+                <constraint firstAttribute="trailing" secondItem="Bg2-3g-gsd" secondAttribute="trailing" constant="8" id="gzq-1n-Z0s"/>
+                <constraint firstItem="Bg2-3g-gsd" firstAttribute="leading" secondItem="VUY-Dg-G42" secondAttribute="leading" id="hGT-9C-MmE"/>
                 <constraint firstAttribute="centerX" secondItem="5F3-Nk-8kc" secondAttribute="centerX" id="ivc-De-dsM"/>
                 <constraint firstItem="5F3-Nk-8kc" firstAttribute="leading" secondItem="GJa-om-pAX" secondAttribute="leading" constant="20" id="lZe-al-q7v"/>
-                <constraint firstAttribute="trailing" secondItem="icq-Jo-oPE" secondAttribute="trailing" constant="8" id="mpf-86-pFH"/>
-                <constraint firstItem="icq-Jo-oPE" firstAttribute="leading" secondItem="Ljw-Yk-aR4" secondAttribute="leading" id="pnC-Ze-A0x"/>
                 <constraint firstItem="nAi-FZ-Se4" firstAttribute="leading" secondItem="GJa-om-pAX" secondAttribute="leading" constant="14" id="roa-wj-7dX"/>
                 <constraint firstAttribute="centerX" secondItem="tId-NT-eqz" secondAttribute="centerX" id="u8H-ec-tzA"/>
                 <constraint firstItem="nAi-FZ-Se4" firstAttribute="top" secondItem="Ljw-Yk-aR4" secondAttribute="top" id="wOQ-mD-jWN"/>
@@ -86,7 +87,7 @@
                 <outlet property="issuesAndSubscribersLabel" destination="VUY-Dg-G42" id="3dm-jJ-j1J"/>
                 <outlet property="latestIssueImageView" destination="nAi-FZ-Se4" id="oOx-O9-xsg"/>
                 <outlet property="latestIssueLabel" destination="5F3-Nk-8kc" id="jIh-Gh-TbJ"/>
-                <outlet property="publisherLabel" destination="icq-Jo-oPE" id="DmQ-Bi-gys"/>
+                <outlet property="publisherButton" destination="Bg2-3g-gsd" id="xOA-LT-HaX"/>
                 <outlet property="titleLabel" destination="Ljw-Yk-aR4" id="ErF-tZ-QmI"/>
             </connections>
         </view>

@@ -261,6 +261,7 @@ CGFloat cellWidth;
         
         // Not all parents are actually the parents (sometimes a variant is a parent due to API bug)
         // so correct this by getting the issue with the shortest title
+        // TODO: Get Tim to fix this
         NSMutableArray *correctedArray = [NSMutableArray new];
         for (LBXIssue *issue in initialFind) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];

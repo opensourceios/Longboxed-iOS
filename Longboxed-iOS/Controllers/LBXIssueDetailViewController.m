@@ -12,7 +12,6 @@
 #import "UIImageView+LBBlurredImage.h"
 #import "UIFont+customFonts.h"
 #import "UIImage+ImageEffects.h"
-#import "PaperButton.h"
 #import "JTSImageViewController.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
@@ -29,11 +28,10 @@
 @property (nonatomic) IBOutlet UILabel *subtitleLabel;
 @property (nonatomic) IBOutlet UILabel *distributorCodeLabel;
 @property (nonatomic) IBOutlet UILabel *priceLabel;
-@property (nonatomic) IBOutlet UILabel *publisherLabel;
-@property (nonatomic) IBOutlet UILabel *releaseDateLabel;
+@property (nonatomic) IBOutlet UIButton *publisherButton;
+@property (nonatomic) IBOutlet UIButton *releaseDateButton;
 
 @property (nonatomic) NSArray *alternates;
-@property (nonatomic) PaperButton *closeButton;
 @property (nonatomic, copy) UIImage *issueImage;
 @property (nonatomic, copy) LBXIssue *issue;
 
@@ -96,20 +94,31 @@
     _subtitleLabel.text = _issue.subtitle.uppercaseString;
     _distributorCodeLabel.text = _issue.diamondID.uppercaseString;
     _priceLabel.text = [NSString stringWithFormat:@"$%.02f", [_issue.price floatValue]].uppercaseString;
-    _publisherLabel.text = _issue.publisher.name.uppercaseString;
-    _releaseDateLabel.text = [LBXTitleServices localTimeZoneStringWithDate:_issue.releaseDate].uppercaseString;
+    [_publisherButton setTitle:_issue.publisher.name.uppercaseString
+                      forState:UIControlStateNormal];
+    [_releaseDateButton setTitle:[LBXTitleServices localTimeZoneStringWithDate:_issue.releaseDate].uppercaseString
+                      forState:UIControlStateNormal];
+    
+    [_publisherButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_releaseDateButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    _publisherButton.tag = 1;
+    _releaseDateButton.tag = 2;
     
     if (!_issue.releaseDate) {
-        _releaseDateLabel.text = @"UNKNOWN";
+        [_releaseDateButton setTitle:@"UNKNOWN" forState:UIControlStateNormal];
+        _releaseDateButton.userInteractionEnabled = NO;
+        _releaseDateButton.tintColor = [UIColor whiteColor];
     }
     if (!_issue.price) {
         _priceLabel.text = @"UNKNOWN";
     }
     if (!_issue.publisher.name) {
-        _priceLabel.text = @"UNKNOWN";
+        [_publisherButton setTitle:@"UNKNOWN" forState:UIControlStateNormal];
+        _publisherButton.userInteractionEnabled = NO;
+        _publisherButton.tintColor = [UIColor whiteColor];
     }
     if (!_issue.diamondID) {
-        _priceLabel.text = @"UNKNOWN";
+        _distributorCodeLabel.text = @"UNKNOWN";
     }
     
     NSString *modifiedDescriptionString = [regex stringByReplacingMatchesInString:_issue.issueDescription options:0 range:NSMakeRange(0, [_issue.issueDescription length]) withTemplate:@""];
@@ -118,7 +127,7 @@
     [_descriptionTextView scrollRangeToVisible:NSMakeRange(0, 0)]; // Scroll to the top
     
     [_imageButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    _imageButton.tag = 1;
+    _imageButton.tag = 0;
 }
 
 - (void)viewDidLoad
@@ -146,7 +155,7 @@
     UIButton *button = (UIButton *)sender;
     
     switch ([button tag]) {
-        case 1:
+        case 0:
         {
             // Create image info
             JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
@@ -163,6 +172,16 @@
             // Present the view controller.
             [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
             
+            break;
+        }
+        case 1:
+        {
+            NSLog(@"pressed 1");
+            break;
+        }
+        case 2:
+        {
+            NSLog(@"pressed 2");
             break;
         }
     }

@@ -11,7 +11,7 @@
 @interface LBXTitleDetailView : UIView
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
-@property (nonatomic, weak) IBOutlet UILabel *publisherLabel;
+@property (nonatomic, weak) IBOutlet UIButton *publisherButton;
 @property (nonatomic, weak) IBOutlet UILabel *latestIssueLabel;
 @property (nonatomic, weak) IBOutlet UILabel *issuesAndSubscribersLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *latestIssueImageView;

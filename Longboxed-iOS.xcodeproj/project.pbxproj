@@ -123,6 +123,7 @@
 		E5D9A89419A9193200BC06C1 /* UIApplication+JTSImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88B19A9193200BC06C1 /* UIApplication+JTSImageViewController.m */; };
 		E5D9A89519A9193200BC06C1 /* UIImage+JTSImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88D19A9193200BC06C1 /* UIImage+JTSImageEffects.m */; };
 		E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */; };
+		E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */; };
 		E5F18720196378E4006C4C26 /* LBXPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */; };
 		E5F18724196382BA006C4C26 /* LBXHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F18722196382BA006C4C26 /* LBXHomeViewController.m */; };
 		E5F1873219638BBC006C4C26 /* EasyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1873119638BBC006C4C26 /* EasyTableView.m */; };
@@ -358,6 +359,8 @@
 		E5D9A88D19A9193200BC06C1 /* UIImage+JTSImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JTSImageEffects.m"; sourceTree = "<group>"; };
 		E5D9A89619A91EE300BC06C1 /* LBXIssueScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssueScrollViewController.h; path = Controllers/LBXIssueScrollViewController.h; sourceTree = "<group>"; };
 		E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueScrollViewController.m; path = Controllers/LBXIssueScrollViewController.m; sourceTree = "<group>"; };
+		E5D9A89C19A96FBB00BC06C1 /* LBXPublisherDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherDetailViewController.h; path = Controllers/LBXPublisherDetailViewController.h; sourceTree = "<group>"; };
+		E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherDetailViewController.m; path = Controllers/LBXPublisherDetailViewController.m; sourceTree = "<group>"; };
 		E5F1871E196378E4006C4C26 /* LBXPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListViewController.h; path = Controllers/LBXPullListViewController.h; sourceTree = "<group>"; };
 		E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListViewController.m; path = Controllers/LBXPullListViewController.m; sourceTree = "<group>"; };
 		E5F18721196382BA006C4C26 /* LBXHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXHomeViewController.h; path = Controllers/LBXHomeViewController.h; sourceTree = "<group>"; };
@@ -678,13 +681,9 @@
 			isa = PBXGroup;
 			children = (
 				E51F72C6199821A200F643EF /* Navigation */,
-				E51F72C31998219B00F643EF /* LBXTitleDetailViewController.h */,
-				E51F72C41998219B00F643EF /* LBXTitleDetailViewController.m */,
-				E5D9A89619A91EE300BC06C1 /* LBXIssueScrollViewController.h */,
-				E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */,
-				E51AB56D19A405940066FFF6 /* LBXIssueDetailViewController.h */,
-				E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */,
-				E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */,
+				E5D9A89A19A96E9600BC06C1 /* Title */,
+				E5D9A89919A96E9000BC06C1 /* Issue */,
+				E5D9A89B19A96F9A00BC06C1 /* Publisher */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -915,6 +914,36 @@
 				E5D9A88D19A9193200BC06C1 /* UIImage+JTSImageEffects.m */,
 			);
 			path = Source;
+			sourceTree = "<group>";
+		};
+		E5D9A89919A96E9000BC06C1 /* Issue */ = {
+			isa = PBXGroup;
+			children = (
+				E5D9A89619A91EE300BC06C1 /* LBXIssueScrollViewController.h */,
+				E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */,
+				E51AB56D19A405940066FFF6 /* LBXIssueDetailViewController.h */,
+				E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */,
+				E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */,
+			);
+			name = Issue;
+			sourceTree = "<group>";
+		};
+		E5D9A89A19A96E9600BC06C1 /* Title */ = {
+			isa = PBXGroup;
+			children = (
+				E51F72C31998219B00F643EF /* LBXTitleDetailViewController.h */,
+				E51F72C41998219B00F643EF /* LBXTitleDetailViewController.m */,
+			);
+			name = Title;
+			sourceTree = "<group>";
+		};
+		E5D9A89B19A96F9A00BC06C1 /* Publisher */ = {
+			isa = PBXGroup;
+			children = (
+				E5D9A89C19A96FBB00BC06C1 /* LBXPublisherDetailViewController.h */,
+				E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */,
+			);
+			name = Publisher;
 			sourceTree = "<group>";
 		};
 		E5F1872619638980006C4C26 /* EasyTableView */ = {
@@ -1169,6 +1198,7 @@
 				E51AB57019A405940066FFF6 /* LBXIssueDetailViewController.m in Sources */,
 				E510AFAD198C7B7D004A7225 /* UIScrollView+NBUAdditions.m in Sources */,
 				E510AFAA198C7B7D004A7225 /* UIImageView+NBUAdditions.m in Sources */,
+				E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */,
 				E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */,
 				E510AFAB198C7B7D004A7225 /* UINavigationController+NBUAdditions.m in Sources */,
 				E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */,
