@@ -300,7 +300,7 @@ BOOL endOfIssues;
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // Background color
-    view.tintColor = [UIColor whiteColor];
+    view.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8];
     
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;

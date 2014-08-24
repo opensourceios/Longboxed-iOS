@@ -71,17 +71,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
-
-    
-//    NSManagedObjectContext *privateContext = [NSManagedObjectContext MR_context];
-//    [privateContext performBlock:^{
-//        // Execute your fetch
-//
-//        // Return to our main thread
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//        });
-//    }];
     
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 }
@@ -154,12 +143,6 @@
     
     [_imageButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _imageButton.tag = 0;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    NSLog(@"MEMORY WARNING IN ISSUE DETAIL VIEW CONTROLLER!");
 }
 
 - (void)viewDidAppear:(BOOL)animated
