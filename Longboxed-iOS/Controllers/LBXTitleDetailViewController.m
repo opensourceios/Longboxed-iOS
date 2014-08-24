@@ -418,6 +418,7 @@ BOOL endOfIssues;
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
     [header.textLabel setTextColor:[UIColor blackColor]];
+    header.textLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     
     // Another way to set the background color
     // Note: does not preserve gradient effect of original header
@@ -425,6 +426,8 @@ BOOL endOfIssues;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if(section == 1)
+        return @"Issues";
     
     return nil;
 }
@@ -432,6 +435,9 @@ BOOL endOfIssues;
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if(section == 0)
         return [super tableView:tableView heightForHeaderInSection:section];
+    
+    if(section == 1)
+        return 18.0;
     
     return 0.0;
 }
