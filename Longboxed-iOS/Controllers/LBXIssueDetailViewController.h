@@ -12,9 +12,9 @@
 
 @interface LBXIssueDetailViewController : UIViewController
 
-@property (nonatomic, retain) NSNumber *issueID;
+@property (nonatomic, retain) LBXIssue *issue;
 
-- (instancetype)initWithMainImage:(UIImage *)image andAlternates:(NSArray *)alternates;
-- (instancetype)initWithAlternates:(NSArray *)alternates;
+- (instancetype)initWithMainImage:(UIImage *)image;
+- (instancetype)initWithFrame:(CGRect)frame andIssue:(LBXIssue *)issue;
 
 @end

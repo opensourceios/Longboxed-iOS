@@ -128,6 +128,13 @@ CGFloat cellWidth;
     _searchBar.placeholder = @"Add Title to Pull List";
     _searchBar.backgroundColor = [UIColor clearColor];
     _searchBar.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, _searchBar.frame.size.height);
+    
+    // Reload the pull list when using the back button on the title view
+    _client = [LBXClient new];
+    
+    [self fillPullListArray];
+    [self fillLatestIssuesInPullListArray];
+    [self refresh];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -141,13 +148,6 @@ CGFloat cellWidth;
     [self.navigationController.navigationBar setBackgroundImage:nil
                                                   forBarMetrics:UIBarMetricsDefault];
 
-    // Reload the pull list when using the back button on the title view
-    _client = [LBXClient new];
-    
-    [self fillPullListArray];
-    [self fillLatestIssuesInPullListArray];
-    [self refresh];
-    
     // SearchBar cancel button font
     [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:

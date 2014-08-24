@@ -134,9 +134,13 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
             if ([subView isKindOfClass:[LBXTitleDetailView class]]) {
                 for (UIView *subSubView in subView.subviews) {
                     if ([subSubView isKindOfClass:[UIButton class]]) {
-                        subSubView.hidden = NO;
-                        UIButton *label = (UIButton *)subSubView;
-                        [label setAlpha:1.0 - diff*scale];
+                        UIButton *button = (UIButton *)subSubView;
+                        if (button.subviews.count != 2) {
+                            subSubView.hidden = NO;
+                            UIButton *label = (UIButton *)subSubView;
+                            [label setAlpha:1.0 - diff*scale];
+                        }
+
                     }
                 }
             }
@@ -148,9 +152,12 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
             if ([subView isKindOfClass:[LBXTitleDetailView class]]) {
                 for (UIView *subSubView in subView.subviews) {
                     if ([subSubView isKindOfClass:[UIButton class]]) {
-                        subSubView.hidden = NO;
-                        UIButton *label = (UIButton *)subSubView;
-                        [label setAlpha:1.0];
+                        UIButton *button = (UIButton *)subSubView;
+                        if (button.subviews.count != 2) {
+                            subSubView.hidden = NO;
+                            UIButton *label = (UIButton *)subSubView;
+                            [label setAlpha:1.0];
+                        }
                     }
                 }
             }

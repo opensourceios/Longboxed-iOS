@@ -13,9 +13,10 @@
 
 @interface LBXIssueScrollViewController ()
 
-@property (nonatomic) LBXIssue *issue;
+@property (nonatomic) NSArray *issues;
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) UIImage *issueImage;
+@property (nonatomic) LBXIssueDetailViewController *titleViewController;
 
 @end
 
@@ -23,9 +24,9 @@
 
 CGRect screenRect;
 
-- (instancetype)initWithIssue:(LBXIssue *)issue andImage:(UIImage *)image {
+- (instancetype)initWithIssues:(NSArray *)issues andImage:(UIImage *)image {
     if(self = [super init]) {
-        _issue = issue;
+        _issues = issues;
         _issueImage = image;
     }
     return self;
@@ -55,7 +56,25 @@ CGRect screenRect;
     _scrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     [self.view addSubview:_scrollView];
     
-    [self setupIssueViewsWithIssue:_issue];
+    screenRect = self.view.bounds;
+    CGRect bigRect = screenRect;
+    screenRect.origin.x -= screenRect.size.width;
+    bigRect.size.width *= (_issues.count);
+    _scrollView.contentSize = bigRect.size;
+    // Set up the first issue
+//    [self setupIssueViewsWithIssuesArray:_issues];
+//    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    
+    [self setupIssueViewsWithIssuesArray:@[_issues.firstObject]];
+    
+    
+    
+//    [operationQueue addOperationWithBlock:^{
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", _issue.title, _issue.issueNumber];
+//        issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
+//    }];
+//    [self setupIssueViewsWithIssuesArray:issuesArray];
+
 
 }
 
@@ -65,30 +84,28 @@ CGRect screenRect;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self setupIssueViewsWithIssuesArray:[_issues subarrayWithRange:NSMakeRange(1, _issues.count-1)]];
+    // Set up the rest of the issue variants
+
+}
+
 #pragma mark Private Methods
 
-- (void)setupIssueViewsWithIssue:(LBXIssue *)issue
+- (void)setupIssueViewsWithIssuesArray:(NSArray *)issuesArray
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", _issue.title, _issue.issueNumber];
-    NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
-    screenRect = self.view.bounds;
-    CGRect bigRect = screenRect;
-    bigRect.size.width *= (issuesArray.count);
-    _scrollView.contentSize = bigRect.size;
-    
-    __block int count = 0;
     for (LBXIssue *issue in issuesArray) {
-        LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithAlternates:issue.alternates];
-        titleViewController.issueID = issue.issueID;
+        screenRect.origin.x += screenRect.size.width;
+//        if (!_titleViewController) {
+        _titleViewController = [[LBXIssueDetailViewController alloc] initWithFrame:screenRect andIssue:issue];
+//        }
+    
         // Add to the scroll view
-        if (count != 0) {
-            screenRect.origin.x += screenRect.size.width;
-        }
-        titleViewController.view.frame = screenRect;
-        [self addChildViewController:titleViewController];
-        [_scrollView addSubview:titleViewController.view];
-        [titleViewController didMoveToParentViewController:self];
-        count++;
+        [self addChildViewController:_titleViewController];
+        [_scrollView addSubview:_titleViewController.view];
+        [_titleViewController didMoveToParentViewController:self];
     }
 }
 

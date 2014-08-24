@@ -17,6 +17,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import <UIImageView+AFNetworking.h>
+#import <GPUImage.h>
 
 @interface LBXIssueDetailViewController ()
 
@@ -31,31 +32,29 @@
 @property (nonatomic) IBOutlet UIButton *publisherButton;
 @property (nonatomic) IBOutlet UIButton *releaseDateButton;
 
-@property (nonatomic) NSArray *alternates;
 @property (nonatomic, copy) UIImage *issueImage;
-@property (nonatomic, copy) LBXIssue *issue;
 
 @end
 
 @implementation LBXIssueDetailViewController
 
-- (instancetype)initWithMainImage:(UIImage *)image andAlternates:(NSArray *)alternates {
+- (instancetype)initWithMainImage:(UIImage *)image {
     if(self = [super init]) {
         _issueImage = [image copy];
         _backgroundCoverImageView = [UIImageView new];
         _descriptionTextView = [UITextView new];
         _coverImageView = [UIImageView new];
-        _alternates = alternates;
     }
     return self;
 }
 
-- (instancetype)initWithAlternates:(NSArray *)alternates {
+- (instancetype)initWithFrame:(CGRect)frame andIssue:(LBXIssue *)issue {
     if(self = [super init]) {
         _backgroundCoverImageView = [UIImageView new];
         _descriptionTextView = [UITextView new];
         _coverImageView = [UIImageView new];
-        _alternates = alternates;
+        _issue = issue;
+        self.view.frame = frame;
     }
     return self;
 }
@@ -72,18 +71,35 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+
     
-    _issue = [LBXIssue MR_findFirstByAttribute:@"issueID" withValue:_issueID];
-    NSLog(@"Selected issue %@", _issue.issueID);
+//    NSManagedObjectContext *privateContext = [NSManagedObjectContext MR_context];
+//    [privateContext performBlock:^{
+//        // Execute your fetch
+//
+//        // Return to our main thread
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//        });
+//    }];
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
     
     if (_issueImage == nil) {
         _issueImage = [UIImage new];
         [self setupImageViews];
     }
-    
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    
     [self setupImages];
+    
+    [_coverImageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[_coverImageView(==%d)]", (int)self.view.frame.size.height/2]
+                                                                            options:0
+                                                                            metrics:nil
+                                                                              views:NSDictionaryOfVariableBindings(_coverImageView)]];
     
     NSError *error = nil;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
@@ -101,7 +117,7 @@
     [_publisherButton setTitle:_issue.publisher.name
                       forState:UIControlStateNormal];
     [_releaseDateButton setTitle:[LBXTitleServices localTimeZoneStringWithDate:_issue.releaseDate]
-                      forState:UIControlStateNormal];
+                        forState:UIControlStateNormal];
     
     // Move the arrow so it is on the right side of the publisher text
     _publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_publisherButton.imageView.frame.size.width, 0, _publisherButton.imageView.frame.size.width);
@@ -140,9 +156,10 @@
     _imageButton.tag = 0;
 }
 
-- (void)viewDidLoad
+- (void)didReceiveMemoryWarning
 {
-    [super viewDidLoad];
+    [super didReceiveMemoryWarning];
+    NSLog(@"MEMORY WARNING IN ISSUE DETAIL VIEW CONTROLLER!");
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -158,12 +175,6 @@
 
 - (BOOL)prefersStatusBarHidden {
     return NO;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)buttonPressed:(UIButton *)sender
@@ -230,6 +241,8 @@
 
 - (void)setupImages
 {
+    _coverImageView.alpha = 0.0;
+    _backgroundCoverImageView.alpha = 0.0;
     [_backgroundCoverImageView setImageToBlur:_issueImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
     [_issueImage applyDarkEffect];
     
@@ -240,10 +253,20 @@
     
     [_coverImageView setImage:blurredImage];
     [_coverImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_coverImageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[_coverImageView(==%d)]", (int)self.view.frame.size.height/2]
-                                                                            options:0
-                                                                            metrics:nil
-                                                                              views:NSDictionaryOfVariableBindings(_coverImageView)]];    
+    
+    [UIView transitionWithView:_backgroundCoverImageView
+                      duration:0.5f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        _backgroundCoverImageView.alpha = 1.0;
+                    } completion:nil];
+    [UIView transitionWithView:_coverImageView
+                      duration:0.5f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        _coverImageView.alpha = 1.0;
+                    } completion:nil];
+
 }
 
 @end

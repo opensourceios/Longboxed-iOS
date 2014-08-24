@@ -11,6 +11,6 @@
 
 @interface LBXIssueScrollViewController : UIViewController
 
-- (instancetype)initWithIssue:(LBXIssue *)issue andImage:(UIImage *)image;
+- (instancetype)initWithIssues:(NSArray *)issues andImage:(UIImage *)image;
 
 @end

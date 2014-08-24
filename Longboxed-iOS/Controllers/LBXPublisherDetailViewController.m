@@ -158,7 +158,14 @@ BOOL endOfIssues;
     _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
     _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     
-    if (_titlesForPublisherArray.count < self.tableView.visibleCells.count) {
+    NSLog(@"Visible cell count %lu", (unsigned long)self.tableView.visibleCells.count);
+    if (_titlesForPublisherArray.count <= self.tableView.visibleCells.count) {
+        _detailView.loadingLabel.text = @"LOADING TITLES...";
+        _detailView.loadingLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
+    }
+    // When loading the title info
+    if ([_detailPublisher.issueCount isEqual:@0]) {
+        _detailView.issuesAndSubscribersLabel.text = @"";
         _detailView.loadingLabel.text = @"LOADING TITLES...";
         _detailView.loadingLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     }

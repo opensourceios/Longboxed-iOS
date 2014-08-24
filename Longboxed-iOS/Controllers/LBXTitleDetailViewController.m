@@ -450,7 +450,7 @@ BOOL endOfIssues;
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // Background color
-    view.tintColor = [UIColor whiteColor];
+    view.tintColor = [UIColor lightGrayColor];
     
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
@@ -565,13 +565,15 @@ BOOL endOfIssues;
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
     // Set up the scroll view controller containment if there are alternate issues
-    if (issue.alternates) {
-        LBXIssueScrollViewController *scrollViewController = [[LBXIssueScrollViewController alloc] initWithIssue:issue andImage:cell.latestIssueImageView.image];
+    if (issue.alternates.count) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
+        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
+        LBXIssueScrollViewController *scrollViewController = [[LBXIssueScrollViewController alloc] initWithIssues:issuesArray andImage:cell.latestIssueImageView.image];
         [self.navigationController pushViewController:scrollViewController animated:YES];
     }
     else {
-        LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image andAlternates:issue.alternates];
-        titleViewController.issueID = issue.issueID;
+        LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image];
+        titleViewController.issue = issue;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
 }
