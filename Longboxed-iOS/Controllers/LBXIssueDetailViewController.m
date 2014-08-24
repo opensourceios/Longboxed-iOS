@@ -18,6 +18,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <UIImageView+AFNetworking.h>
 #import <JGActionSheet.h>
+#import <SVProgressHUD.h>
 
 @interface LBXIssueDetailViewController () <JTSImageViewControllerInteractionsDelegate, JGActionSheetDelegate>
 
@@ -213,7 +214,7 @@ BOOL saveSheetVisible;
 - (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer
 {
     if (!saveSheetVisible) {
-        JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Save Image"] buttonStyle:JGActionSheetButtonStyleDefault];
+        JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Save Image", @"Copy Image"] buttonStyle:JGActionSheetButtonStyleDefault];
         JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel];
         
         NSArray *sections = @[section1, cancelSection];
@@ -228,10 +229,15 @@ BOOL saveSheetVisible;
             [sheet dismissAnimated:YES];
             saveSheetVisible = NO;
         }];
-        
-        [sheet showInView:imageViewer.view animated:YES];
         saveSheetVisible = YES;
+        [sheet showInView:imageViewer.view animated:YES];
     }
+}
+
+- (BOOL)imageViewerShouldTemporarilyIgnoreTouches:(JTSImageViewController *)imageViewer
+{
+    if (saveSheetVisible) return YES;
+    return NO;
 }
 
 #pragma mark JGActionSheetDelegate methods
@@ -240,9 +246,23 @@ BOOL saveSheetVisible;
 {
     switch (indexPath.section) {
         case 0:
-            UIImageWriteToSavedPhotosAlbum(_coverImageView.image, nil, nil, nil);
+            switch (indexPath.row) {
+                case 0:
+                {
+                    UIImageWriteToSavedPhotosAlbum(_coverImageView.image, nil, nil, nil);
+                    break;
+                }
+                case 1:
+                {
+                    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+                    [pasteboard setImage:_coverImageView.image];
+                    [SVProgressHUD showSuccessWithStatus:@"Copied!"];
+                    break;
+                }
+                default:
+                    break;
+            }
             break;
-            
         default:
             break;
     }

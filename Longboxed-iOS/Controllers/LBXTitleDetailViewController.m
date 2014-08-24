@@ -78,6 +78,8 @@ BOOL saveSheetVisible;
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
      [UIImage imageNamed:@"arrow"]];
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 
     if (_detailView.latestIssueImageView.image.size.height > 200.0) {
         self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
@@ -233,7 +235,7 @@ BOOL saveSheetVisible;
 - (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer
 {
     if (!saveSheetVisible) {
-        JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Save Image"] buttonStyle:JGActionSheetButtonStyleDefault];
+        JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Save Image", @"Copy Image"] buttonStyle:JGActionSheetButtonStyleDefault];
         JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel];
         
         NSArray *sections = @[section1, cancelSection];
@@ -248,9 +250,8 @@ BOOL saveSheetVisible;
             [sheet dismissAnimated:YES];
             saveSheetVisible = NO;
         }];
-        
-        [sheet showInView:imageViewer.view animated:YES];
         saveSheetVisible = YES;
+        [sheet showInView:imageViewer.view animated:YES];
     }
 }
 
@@ -260,12 +261,32 @@ BOOL saveSheetVisible;
 {
     switch (indexPath.section) {
         case 0:
-            UIImageWriteToSavedPhotosAlbum(_detailView.latestIssueImageView.image, nil, nil, nil);
+            switch (indexPath.row) {
+                case 0:
+                {
+                    UIImageWriteToSavedPhotosAlbum(_detailView.latestIssueImageView.image, nil, nil, nil);
+                    break;
+                }
+                case 1:
+                {
+                    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+                    [pasteboard setImage:_detailView.latestIssueImageView.image];
+                    [SVProgressHUD showSuccessWithStatus:@"Copied!"];
+                    break;
+                }
+                default:
+                    break;
+            }
             break;
-            
         default:
             break;
     }
+}
+
+- (BOOL)imageViewerShouldTemporarilyIgnoreTouches:(JTSImageViewController *)imageViewer
+{
+    if (saveSheetVisible) return YES;
+    return NO;
 }
 
 #pragma mark - Private methods
@@ -339,6 +360,8 @@ BOOL saveSheetVisible;
             // Present the view controller.
             [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
             
+            // Make the status bar white again for when dismissing the image view
+            self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
             
             break;
         }
