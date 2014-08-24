@@ -19,11 +19,13 @@
 
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
+#import "JTSImageViewController.h"
 
 #import <SVProgressHUD.h>
 #import <QuartzCore/QuartzCore.h>
+#import <JGActionSheet.h>
 
-@interface LBXTitleDetailViewController () <UIScrollViewDelegate>
+@interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JGActionSheetDelegate>
 
 @property (nonatomic, copy) LBXTitle *detailTitle;
 @property (nonatomic, copy) LBXClient *client;
@@ -39,6 +41,7 @@
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 static BOOL addToListToggle = NO;
 BOOL endOfIssues;
+BOOL saveSheetVisible;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -203,13 +206,15 @@ BOOL endOfIssues;
     else {
         _detailView.latestIssueLabel.text = @"";
     }
+    
+    _detailView.imageViewButton.tag = 2;
+    [_detailView.imageViewButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view setNeedsDisplay];
 }
 
 - (void)setInitialDetailView
 {
-
-    
     // Move the arrow so it is on the right side of the publisher text
     _detailView.publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_detailView.publisherButton.imageView.frame.size.width, 0, _detailView.publisherButton.imageView.frame.size.width);
     _detailView.publisherButton.imageEdgeInsets = UIEdgeInsetsMake(0, _detailView.publisherButton.titleLabel.frame.size.width + 8, 0, -_detailView.publisherButton.titleLabel.frame.size.width);
@@ -221,6 +226,46 @@ BOOL endOfIssues;
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
+}
+
+#pragma mark JTSImageViewControllerInteractionsDelegate methods
+
+- (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer
+{
+    if (!saveSheetVisible) {
+        JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Save Image"] buttonStyle:JGActionSheetButtonStyleDefault];
+        JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel];
+        
+        NSArray *sections = @[section1, cancelSection];
+        
+        [section1 setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
+        [cancelSection setButtonStyle:JGActionSheetButtonStyleCancel forButtonAtIndex:0];
+        
+        JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
+        sheet.delegate = self;
+        
+        [sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+            [sheet dismissAnimated:YES];
+            saveSheetVisible = NO;
+        }];
+        
+        [sheet showInView:imageViewer.view animated:YES];
+        saveSheetVisible = YES;
+    }
+}
+
+#pragma mark JGActionSheetDelegate methods
+
+- (void)actionSheet:(JGActionSheet *)actionSheet pressedButtonAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section) {
+        case 0:
+            UIImageWriteToSavedPhotosAlbum(_detailView.latestIssueImageView.image, nil, nil, nil);
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark - Private methods
@@ -274,6 +319,28 @@ BOOL endOfIssues;
             publisherViewController.publisherImage = _detailView.latestIssueImageView.image;
             
             [self.navigationController pushViewController:publisherViewController animated:YES];
+            break;
+        }
+        case 2:
+        {
+            // Create image info
+            JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
+            imageInfo.image = _detailView.latestIssueImageView.image;
+            imageInfo.referenceRect = _detailView.latestIssueImageView.frame;
+            imageInfo.referenceView = _detailView.latestIssueImageView.superview;
+            
+            // Setup view controller
+            JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
+                                                   initWithImageInfo:imageInfo
+                                                   mode:JTSImageViewControllerMode_Image
+                                                   backgroundStyle:JTSImageViewControllerBackgroundStyle_ScaledDimmedBlurred];
+            imageViewer.interactionsDelegate = self;
+            
+            // Present the view controller.
+            [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+            
+            
+            break;
         }
     }
 }

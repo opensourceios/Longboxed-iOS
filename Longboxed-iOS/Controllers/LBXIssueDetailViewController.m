@@ -17,9 +17,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import <UIImageView+AFNetworking.h>
-#import <GPUImage.h>
+#import <JGActionSheet.h>
 
-@interface LBXIssueDetailViewController ()
+@interface LBXIssueDetailViewController () <JTSImageViewControllerInteractionsDelegate, JGActionSheetDelegate>
 
 @property (nonatomic) IBOutlet UIImageView *backgroundCoverImageView;
 @property (nonatomic) IBOutlet UITextView *descriptionTextView;
@@ -37,6 +37,8 @@
 @end
 
 @implementation LBXIssueDetailViewController
+
+BOOL saveSheetVisible;
 
 - (instancetype)initWithMainImage:(UIImage *)image {
     if(self = [super init]) {
@@ -178,9 +180,11 @@
                                                    initWithImageInfo:imageInfo
                                                    mode:JTSImageViewControllerMode_Image
                                                    backgroundStyle:JTSImageViewControllerBackgroundStyle_ScaledDimmedBlurred];
+            imageViewer.interactionsDelegate = self;
             
             // Present the view controller.
             [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+            
             
             break;
         }
@@ -199,6 +203,46 @@
             NSLog(@"Pressed date in issue view");
             break;
         }
+    }
+}
+
+#pragma mark JTSImageViewControllerInteractionsDelegate methods
+
+- (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer
+{
+    if (!saveSheetVisible) {
+        JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Save Image"] buttonStyle:JGActionSheetButtonStyleDefault];
+        JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel];
+        
+        NSArray *sections = @[section1, cancelSection];
+        
+        [section1 setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
+        [cancelSection setButtonStyle:JGActionSheetButtonStyleCancel forButtonAtIndex:0];
+        
+        JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
+        sheet.delegate = self;
+        
+        [sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+            [sheet dismissAnimated:YES];
+            saveSheetVisible = NO;
+        }];
+        
+        [sheet showInView:imageViewer.view animated:YES];
+        saveSheetVisible = YES;
+    }
+}
+
+#pragma mark JGActionSheetDelegate methods
+
+- (void)actionSheet:(JGActionSheet *)actionSheet pressedButtonAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section) {
+        case 0:
+            UIImageWriteToSavedPhotosAlbum(_coverImageView.image, nil, nil, nil);
+            break;
+            
+        default:
+            break;
     }
 }
 

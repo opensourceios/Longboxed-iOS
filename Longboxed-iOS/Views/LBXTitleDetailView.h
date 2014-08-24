@@ -16,5 +16,6 @@
 @property (nonatomic, weak) IBOutlet UILabel *issuesAndSubscribersLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *latestIssueImageView;
 @property (nonatomic, weak) IBOutlet UIButton *addToPullListButton;
+@property (nonatomic, weak) IBOutlet UIButton *imageViewButton;
 
 @end

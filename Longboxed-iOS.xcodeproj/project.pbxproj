@@ -121,8 +121,6 @@
 		E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */; };
 		E5B6FCE219983DFC0022F4CA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E5B6FCDD19983DFC0022F4CA /* README.md */; };
 		E5B6FCE51998497A0022F4CA /* LBXTitleServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCE41998497A0022F4CA /* LBXTitleServices.m */; };
-		E5D9A88E19A9193200BC06C1 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E5D9A87F19A9193200BC06C1 /* LICENSE */; };
-		E5D9A88F19A9193200BC06C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E5D9A88019A9193200BC06C1 /* README.md */; };
 		E5D9A89019A9193200BC06C1 /* JTSAnimatedGIFUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88319A9193200BC06C1 /* JTSAnimatedGIFUtility.m */; };
 		E5D9A89119A9193200BC06C1 /* JTSImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88519A9193200BC06C1 /* JTSImageInfo.m */; };
 		E5D9A89219A9193200BC06C1 /* JTSImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88719A9193200BC06C1 /* JTSImageViewController.m */; };
@@ -358,8 +356,6 @@
 		E5B6FCE31998497A0022F4CA /* LBXTitleServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleServices.h; path = Abstract/LBXTitleServices.h; sourceTree = "<group>"; };
 		E5B6FCE41998497A0022F4CA /* LBXTitleServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleServices.m; path = Abstract/LBXTitleServices.m; sourceTree = "<group>"; };
 		E5D9A87D19A6F46800BC06C1 /* LBXCoreData 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LBXCoreData 2.xcdatamodel"; sourceTree = "<group>"; };
-		E5D9A87F19A9193200BC06C1 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		E5D9A88019A9193200BC06C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E5D9A88219A9193200BC06C1 /* JTSAnimatedGIFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSAnimatedGIFUtility.h; sourceTree = "<group>"; };
 		E5D9A88319A9193200BC06C1 /* JTSAnimatedGIFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSAnimatedGIFUtility.m; sourceTree = "<group>"; };
 		E5D9A88419A9193200BC06C1 /* JTSImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSImageInfo.h; sourceTree = "<group>"; };
@@ -912,8 +908,6 @@
 		E5D9A87E19A9193200BC06C1 /* JTSImageViewController */ = {
 			isa = PBXGroup;
 			children = (
-				E5D9A87F19A9193200BC06C1 /* LICENSE */,
-				E5D9A88019A9193200BC06C1 /* README.md */,
 				E5D9A88119A9193200BC06C1 /* Source */,
 			);
 			name = JTSImageViewController;
@@ -1073,7 +1067,6 @@
 				E57D49241960B8F40014A13F /* black.png in Resources */,
 				E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */,
 				E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
-				E5D9A88F19A9193200BC06C1 /* README.md in Resources */,
 				E57D497819611C8E0014A13F /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
 				E553F59F19946393003E1F5C /* clear.png in Resources */,
 				E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */,
@@ -1081,7 +1074,6 @@
 				E57D497A19611C8E0014A13F /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */,
 				E5B6FCE219983DFC0022F4CA /* README.md in Resources */,
-				E5D9A88E19A9193200BC06C1 /* LICENSE in Resources */,
 				E537122A198EFEE90065D57A /* check.png in Resources */,
 				E57E156D19A98FB0002616F5 /* arrow_right_small@2x.png in Resources */,
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,

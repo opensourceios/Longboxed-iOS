@@ -61,21 +61,9 @@ CGRect screenRect;
     screenRect.origin.x -= screenRect.size.width;
     bigRect.size.width *= (_issues.count);
     _scrollView.contentSize = bigRect.size;
+    
     // Set up the first issue
-//    [self setupIssueViewsWithIssuesArray:_issues];
-//    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    
     [self setupIssueViewsWithIssuesArray:@[_issues.firstObject]];
-    
-    
-    
-//    [operationQueue addOperationWithBlock:^{
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", _issue.title, _issue.issueNumber];
-//        issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
-//    }];
-//    [self setupIssueViewsWithIssuesArray:issuesArray];
-
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -87,8 +75,9 @@ CGRect screenRect;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self setupIssueViewsWithIssuesArray:[_issues subarrayWithRange:NSMakeRange(1, _issues.count-1)]];
     // Set up the rest of the issue variants
+    [self setupIssueViewsWithIssuesArray:[_issues subarrayWithRange:NSMakeRange(1, _issues.count-1)]];
+    
 
 }
 
@@ -98,9 +87,7 @@ CGRect screenRect;
 {
     for (LBXIssue *issue in issuesArray) {
         screenRect.origin.x += screenRect.size.width;
-//        if (!_titleViewController) {
         _titleViewController = [[LBXIssueDetailViewController alloc] initWithFrame:screenRect andIssue:issue];
-//        }
     
         // Add to the scroll view
         [self addChildViewController:_titleViewController];
