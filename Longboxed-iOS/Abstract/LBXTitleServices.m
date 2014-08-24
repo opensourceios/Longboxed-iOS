@@ -73,11 +73,11 @@
 
 + (void)setCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
 {
+    cell.titleLabel.text = title.name;
     if ([LBXTitleServices lastIssueForTitle:title] != nil) {
         LBXIssue *issue = [LBXTitleServices lastIssueForTitle:title];
         NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.publisher.name, [LBXTitleServices timeSinceLastIssueForTitle:title]];
         
-        cell.titleLabel.text = title.name;
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
         // Get the image from the URL and set it
@@ -95,8 +95,11 @@
             cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
         }];
     }
+    else if (title.issueCount != 0) {
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+    }
     else {
-        cell.titleLabel.text = title.name;
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }

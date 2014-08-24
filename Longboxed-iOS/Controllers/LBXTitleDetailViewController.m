@@ -58,7 +58,7 @@ BOOL endOfIssues;
     [self createIssuesArray];
     
     [self setDetailView];
-    [self setInitialDetailView];
+//    [self setInitialDetailView];
     [self setOverView:_detailView];
     
     [self fetchTitle];
@@ -146,30 +146,38 @@ BOOL endOfIssues;
 - (void)updateDetailView
 {
     _detailView.titleLabel.text = _detailTitle.name;
-    if ([_detailTitle.publisher.name isEqualToString:@""]) {
+    
+    // When loading the title info
+    if (_detailTitle.publisher.name == nil) {
         [_detailView.publisherButton setTitle:@"Loading..." forState:UIControlStateNormal];
-    }
-    [_detailView.publisherButton setTitle:[_detailTitle.publisher.name uppercaseString] forState:UIControlStateNormal];
-    
-    NSString *issuesString;
-    if ([_detailTitle.issueCount isEqualToNumber:@1]) {
-        issuesString = [NSString stringWithFormat:@"%@ Issue", _detailTitle.issueCount];
+        _detailView.issuesAndSubscribersLabel.text = @"";
+        [_detailView.publisherButton setTitle:@"Loading..." forState:UIControlStateNormal];
+        _detailView.publisherButton.userInteractionEnabled = NO;
     }
     else {
-        issuesString = [NSString stringWithFormat:@"%@ Issues", _detailTitle.issueCount];
+        _detailView.publisherButton.userInteractionEnabled = YES;
+        [_detailView.publisherButton setTitle:[_detailTitle.publisher.name uppercaseString] forState:UIControlStateNormal];
+        
+        NSString *issuesString;
+        if ([_detailTitle.issueCount isEqualToNumber:@1]) {
+            issuesString = [NSString stringWithFormat:@"%@ Issue", _detailTitle.issueCount];
+        }
+        else {
+            issuesString = [NSString stringWithFormat:@"%@ Issues", _detailTitle.issueCount];
+        }
+        
+        NSString *subscribersString;
+        if ([_detailTitle.subscribers isEqualToNumber:@1]) {
+            subscribersString = [NSString stringWithFormat:@"%@ Subscriber", _detailTitle.subscribers];
+        }
+        else {
+            NSLog(@"%@", _detailTitle.subscribers);
+            subscribersString = [NSString stringWithFormat:@"%@ Subscribers", _detailTitle.subscribers];
+        }
+        
+        _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
+        _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     }
-    
-    NSString *subscribersString;
-    if ([_detailTitle.subscribers isEqualToNumber:@1]) {
-        subscribersString = [NSString stringWithFormat:@"%@ Subscriber", _detailTitle.subscribers];
-    }
-    else {
-        NSLog(@"%@", _detailTitle.subscribers);
-        subscribersString = [NSString stringWithFormat:@"%@ Subscribers", _detailTitle.subscribers];
-    }
-    
-    _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
-    _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     
     // Move the arrow so it is on the right side of the publisher text
     _detailView.publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_detailView.publisherButton.imageView.frame.size.width, 0, _detailView.publisherButton.imageView.frame.size.width);
@@ -200,8 +208,7 @@ BOOL endOfIssues;
 
 - (void)setInitialDetailView
 {
-    _detailView.issuesAndSubscribersLabel.text = @"";
-    [_detailView.publisherButton setTitle:@"Loading..." forState:UIControlStateNormal];
+
     
     // Move the arrow so it is on the right side of the publisher text
     _detailView.publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_detailView.publisherButton.imageView.frame.size.width, 0, _detailView.publisherButton.imageView.frame.size.width);

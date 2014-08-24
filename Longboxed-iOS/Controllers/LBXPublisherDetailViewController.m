@@ -158,6 +158,11 @@ BOOL endOfIssues;
     _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
     _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     
+    if (_titlesForPublisherArray.count < self.tableView.visibleCells.count) {
+        _detailView.loadingLabel.text = @"LOADING TITLES...";
+        _detailView.loadingLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
+    }
+    
     [self.view setNeedsDisplay];
 }
 
@@ -234,6 +239,11 @@ BOOL endOfIssues;
             if (i == titleArray.count) {
                 if (!error) {
                     [self createTitlesArray];
+                    [UIView transitionWithView:_detailView.loadingLabel
+                                      duration:1.0f
+                                       options:UIViewAnimationOptionTransitionCrossDissolve
+                                    animations:^{_detailView.loadingLabel.alpha = 0;}
+                                    completion:NULL];
                 }
                 else {
                     [LBXMessageBar displayError:error];

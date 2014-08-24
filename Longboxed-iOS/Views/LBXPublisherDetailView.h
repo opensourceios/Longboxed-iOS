@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *issuesAndSubscribersLabel;
+@property (nonatomic, weak) IBOutlet UILabel *loadingLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *latestIssueImageView;
 
 @end
