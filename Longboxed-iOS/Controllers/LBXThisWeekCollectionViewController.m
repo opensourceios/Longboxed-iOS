@@ -202,7 +202,7 @@ BOOL endOfThisWeeksComics;
             });
         }
         else {
-            [LBXMessageBar displayError:error];
+            //[LBXMessageBar displayError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_refreshControl endRefreshing];
             });

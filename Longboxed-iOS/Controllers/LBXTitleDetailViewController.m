@@ -380,7 +380,7 @@ BOOL saveSheetVisible;
             [self createPullListArray];
         }
         else {
-            [LBXMessageBar displayError:error];
+            //[LBXMessageBar displayError:error];
         }
         [self.view setNeedsDisplay];
     }];
@@ -395,7 +395,7 @@ BOOL saveSheetVisible;
             [self updateDetailView];
         }
         else {
-            [LBXMessageBar displayError:error];
+            //[LBXMessageBar displayError:error];
         }
         [self.view setNeedsDisplay];
     }];
@@ -424,7 +424,7 @@ BOOL saveSheetVisible;
                         if (!error) {
                         }
                         else {
-                            [LBXMessageBar displayError:error];
+                            //[LBXMessageBar displayError:error];
                         }
                     }];
                 }
@@ -433,7 +433,7 @@ BOOL saveSheetVisible;
             [self createIssuesArray];
         }
         else {
-            [LBXMessageBar displayError:error];
+            //[LBXMessageBar displayError:error];
         }
         [self.tableView reloadData];
         [self.view setNeedsDisplay];

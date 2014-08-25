@@ -106,7 +106,7 @@ LBXNavigationViewController *navigationController;
                 [self configureBundleLabels];
             }
             else {
-                [LBXMessageBar displayError:error];
+                //[LBXMessageBar displayError:error];
             }
         }];
     }

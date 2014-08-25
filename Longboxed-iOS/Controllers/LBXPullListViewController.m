@@ -144,7 +144,7 @@ CGFloat cellWidth;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    [self fillPullListArray];
     [self.tableView reloadData];
     
     [self.navigationController.navigationBar setBackgroundImage:nil
@@ -243,7 +243,7 @@ CGFloat cellWidth;
             });
         }
         else {
-            [LBXMessageBar displayError:error];
+            //[LBXMessageBar displayError:error];
         }
     }];
 }
@@ -303,7 +303,7 @@ CGFloat cellWidth;
             [self getAllIssues];
         }
         else {
-            [LBXMessageBar displayError:error];
+            //[LBXMessageBar displayError:error];
             [self.refreshControl endRefreshing];
         }
         [self.tableView reloadData];
@@ -327,7 +327,7 @@ CGFloat cellWidth;
                     [self fillLatestIssuesInPullListArray];
                 }
                 else {
-                    [LBXMessageBar displayError:error];
+                    //[LBXMessageBar displayError:error];
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.tableView reloadData];

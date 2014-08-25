@@ -197,7 +197,7 @@ BOOL endOfIssues;
             [self createTitlesArray];
         }
         else {
-            [LBXMessageBar displayError:error];
+            //[LBXMessageBar displayError:error];
         }
         [self.view setNeedsDisplay];
     }];
@@ -212,7 +212,7 @@ BOOL endOfIssues;
             [self updateDetailView];
         }
         else {
-            [LBXMessageBar displayError:error];
+            //[LBXMessageBar displayError:error];
         }
         [self.view setNeedsDisplay];
     }];
@@ -230,7 +230,7 @@ BOOL endOfIssues;
             [self fetchAllIssuesWithTitleArray:titleArray];
         }
         else {
-            [LBXMessageBar displayError:error];
+            //[LBXMessageBar displayError:error];
         }
         [self.tableView reloadData];
         [self.view setNeedsDisplay];
@@ -253,7 +253,7 @@ BOOL endOfIssues;
                                     completion:NULL];
                 }
                 else {
-                    [LBXMessageBar displayError:error];
+                    //[LBXMessageBar displayError:error];
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.tableView reloadData];

@@ -76,7 +76,7 @@
     cell.titleLabel.text = title.name;
     if ([LBXTitleServices lastIssueForTitle:title] != nil) {
         LBXIssue *issue = [LBXTitleServices lastIssueForTitle:title];
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.publisher.name, [LBXTitleServices timeSinceLastIssueForTitle:title]];
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", issue.title.publisher.name, [LBXTitleServices timeSinceLastIssueForTitle:title]];
         
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
