@@ -221,7 +221,7 @@ BOOL endOfIssues;
 - (void)fetchAllTitlesWithPage:(NSNumber *)page
 {
     // Fetch pull list titles
-    [_client fetchTitlesForPublisher:_publisherID withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
+    [_client fetchTitlesForPublisher:_publisherID page:page withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
             if (titleArray.count == 0) {
@@ -364,7 +364,7 @@ BOOL endOfIssues;
         
     }
     
-    if ([indexPath row] == _titlesForPublisherArray.count - 1 && !endOfIssues) {
+    if (indexPath.row > _titlesForPublisherArray.count - 20 && !endOfIssues) {
         int value = [_page integerValue];
         _page = [NSNumber numberWithInt:value+1];
         [self fetchAllTitlesWithPage:_page];

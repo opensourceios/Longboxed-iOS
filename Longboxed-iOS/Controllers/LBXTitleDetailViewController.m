@@ -61,7 +61,6 @@ BOOL saveSheetVisible;
     [self createIssuesArray];
     
     [self setDetailView];
-//    [self setInitialDetailView];
     [self setOverView:_detailView];
     
     [self fetchTitle];
@@ -240,6 +239,9 @@ BOOL saveSheetVisible;
         
         NSArray *sections = @[section1, cancelSection];
         
+        [section1 setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
+        [cancelSection setButtonStyle:JGActionSheetButtonStyleCancel forButtonAtIndex:0];
+        
         JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
         sheet.delegate = self;
         
@@ -320,7 +322,6 @@ BOOL saveSheetVisible;
                 [self deleteTitle:_detailTitle];
                 addToListToggle = YES;
                  [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
-                [self refresh];
             }
             else if (addToListToggle == YES) {
                 addToListToggle = NO;
@@ -381,7 +382,6 @@ BOOL saveSheetVisible;
         else {
             [LBXMessageBar displayError:error];
         }
-//        [self setPullListButton];
         [self.view setNeedsDisplay];
     }];
 }
@@ -481,6 +481,15 @@ BOOL saveSheetVisible;
 
 - (void)addTitle:(LBXTitle *)title
 {
+    LBXTitle *saveTitle = [LBXTitle MR_createEntity];
+    saveTitle = title;
+    LBXPullListTitle *pullListTitle = [LBXPullListTitle MR_createEntity];
+    pullListTitle.name = title.name;
+    pullListTitle.subscribers = title.subscribers;
+    pullListTitle.publisher = title.publisher;
+    pullListTitle.titleID = title.titleID;
+    pullListTitle.issueCount = title.issueCount;
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
         }
@@ -495,26 +504,15 @@ BOOL saveSheetVisible;
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
-            _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+            _pullListArray = pullListArray;
         }
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
     }];
-}
-
-- (void)refresh
-{
-    // Fetch pull list titles
-    [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        
-        if (!error) {
-            _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
-        }
-        else {
-            [LBXMessageBar displayError:error];
-        }
-    }];
+    [title MR_deleteEntity];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    [self createPullListArray];
 }
 
 #pragma mark - Setter overrides

@@ -42,6 +42,7 @@
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UISearchDisplayController *searchBarController;
+@property (nonatomic, strong) NSIndexPath *indexPath;
 
 @end
 
@@ -81,7 +82,6 @@ CGFloat cellWidth;
     [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
     [SVProgressHUD setBackgroundColor:[UIColor LBXGrayColor]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    
     
     _noResultsLabel = [UILabel new];
     
@@ -133,8 +133,8 @@ CGFloat cellWidth;
     _client = [LBXClient new];
     
     [self fillPullListArray];
-    [self fillLatestIssuesInPullListArray];
     [self refresh];
+    [self fillLatestIssuesInPullListArray];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -144,6 +144,8 @@ CGFloat cellWidth;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    [self.tableView reloadData];
     
     [self.navigationController.navigationBar setBackgroundImage:nil
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -339,42 +341,47 @@ CGFloat cellWidth;
 
 - (void)addTitle:(LBXTitle *)title
 {
-    [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Adding %@", title.name]];
+    LBXPullListTitle *pullListTitle = [LBXPullListTitle MR_createEntity];
+    pullListTitle.name = title.name;
+    pullListTitle.subscribers = title.subscribers;
+    pullListTitle.publisher = title.publisher;
+    pullListTitle.titleID = title.titleID;
+    pullListTitle.issueCount = title.issueCount;
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    [self fillPullListArray];
+    [self.tableView reloadData];
     __block typeof(self) bself = self;
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
-            [SVProgressHUD showSuccessWithStatus:@"Added!"];
-            bself.pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             
-            [bself.tableView reloadData];
         }
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to add %@\n%@", title.name, error.localizedDescription]];
         }
-        [bself.refreshControl endRefreshing];
+        [bself.tableView reloadData];
     }];
 }
 
 - (void)deleteTitle:(LBXTitle *)title
 {
-    [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Deleting %@", title.name]];
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         [self.refreshControl endRefreshing];
         if (!error) {
-            _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
             tableViewRows = _pullListArray.count;
-            
-            [SVProgressHUD showSuccessWithStatus:@"Deleted!"];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
-            });
         }
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
     }];
+    
+    [title MR_deleteEntity];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    [self fillPullListArray];
+    [self.tableView reloadData];
 }
 
 // Captures the current screen and blurs it
@@ -527,6 +534,7 @@ CGFloat cellWidth;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    _indexPath = indexPath;
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.searchDisplayController setActive:NO animated:NO];
@@ -559,11 +567,18 @@ CGFloat cellWidth;
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        _indexPath = indexPath;
         //add code here for when you hit delete
         [self deleteTitle:[_pullListArray objectAtIndex:[self.tableView indexPathForCell:[tableView cellForRowAtIndexPath:indexPath]].row]];
-        [_pullListArray removeObjectAtIndex:[self.tableView indexPathForCell:[tableView cellForRowAtIndexPath:indexPath]].row];
-        [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[tableView cellForRowAtIndexPath:indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
+        [_pullListArray removeObjectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row];
+        [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
     }
+}
+
+- (void)removeTitleFromTableView
+{
+    [_pullListArray removeObjectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row];
+    [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)refreshSearchTableView
