@@ -239,9 +239,6 @@ BOOL saveSheetVisible;
         
         NSArray *sections = @[section1, cancelSection];
         
-        [section1 setButtonStyle:JGActionSheetButtonStyleBlue forButtonAtIndex:0];
-        [cancelSection setButtonStyle:JGActionSheetButtonStyleCancel forButtonAtIndex:0];
-        
         JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
         sheet.delegate = self;
         
@@ -314,11 +311,6 @@ BOOL saveSheetVisible;
         case 0: // Add title to pull list
         {
             if (addToListToggle == NO) {
-                LBXTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
-                if (title != nil) {
-                    [[NSManagedObjectContext MR_defaultContext] deleteObject:title];
-                    [[NSManagedObjectContext MR_defaultContext] saveToPersistentStoreAndWait];
-                }
                 [self deleteTitle:_detailTitle];
                 addToListToggle = YES;
                  [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
@@ -431,12 +423,12 @@ BOOL saveSheetVisible;
             }
             
             [self createIssuesArray];
+            [self.tableView reloadData];
+            [self.view setNeedsDisplay];
         }
         else {
             //[LBXMessageBar displayError:error];
         }
-        [self.tableView reloadData];
-        [self.view setNeedsDisplay];
     }];
 }
 
@@ -490,6 +482,7 @@ BOOL saveSheetVisible;
     pullListTitle.titleID = title.titleID;
     pullListTitle.issueCount = title.issueCount;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    [self createPullListArray];
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
         }
@@ -510,7 +503,13 @@ BOOL saveSheetVisible;
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
     }];
-    [title MR_deleteEntity];
+    LBXPullListTitle *pullListTitle = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:title.titleID];
+    pullListTitle.name = title.name;
+    pullListTitle.subscribers = title.subscribers;
+    pullListTitle.publisher = title.publisher;
+    pullListTitle.titleID = title.titleID;
+    pullListTitle.issueCount = title.issueCount;
+    [pullListTitle MR_deleteEntity];
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     [self createPullListArray];
 }

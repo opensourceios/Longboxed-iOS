@@ -43,6 +43,7 @@
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UISearchDisplayController *searchBarController;
 @property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic, strong) LBXPullListTitle *selectedTitle;
 
 @end
 
@@ -54,7 +55,6 @@ LBXNavigationViewController *navigationController;
 static const NSUInteger PULL_LIST_TABLE_HEIGHT = 88;
 static const NSUInteger SEARCH_TABLE_HEIGHT = 66;
 
-NSInteger tableViewRows;
 CGFloat cellWidth;
 
 - (id)init
@@ -107,8 +107,6 @@ CGFloat cellWidth;
     // Special attribute set for title text color
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
-    tableViewRows = 0;
-    
     // Add refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refresh)
@@ -132,9 +130,7 @@ CGFloat cellWidth;
     // Reload the pull list when using the back button on the title view
     _client = [LBXClient new];
     
-    [self fillPullListArray];
     [self refresh];
-    [self fillLatestIssuesInPullListArray];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -144,7 +140,8 @@ CGFloat cellWidth;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self fillPullListArray];
+    
+    [self refresh];
     [self.tableView reloadData];
     
     [self.navigationController.navigationBar setBackgroundImage:nil
@@ -153,7 +150,7 @@ CGFloat cellWidth;
     // SearchBar cancel button font
     [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor whiteColor], NSForegroundColorAttributeName, nil];
+                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
     [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
     
     // SearchBar placeholder text font
@@ -223,13 +220,11 @@ CGFloat cellWidth;
     [self.client fetchAutocompleteForTitle:searchText withCompletion:^(NSArray *searchResultsArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            
             // Create an array of titles names already in pull list so the can't be added twice
             [_alreadyExistingTitles removeAllObjects];
             _alreadyExistingTitles = [NSMutableArray new];
             for (LBXTitle *title in searchResultsArray) {
-                LBXTitle *existingTitle = [LBXPullListTitle MR_findFirstByAttribute:@"name" withValue:title.name];
-                if (!existingTitle) {
+                if (![_pullListArray containsObject:title]) {
                     [_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
                 }
                 else {
@@ -253,86 +248,41 @@ CGFloat cellWidth;
     _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
 }
 
-- (void)fillLatestIssuesInPullListArray
-{
-    
-    // Fetch the latest of the issues from Core Data and append to _latestIssuesInPullListArray
-    for (LBXTitle *title in _pullListArray) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title.titleID == %@) AND (isParent == 1)", title.titleID];
-        NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
-        
-        // Not all parents are actually the parents (sometimes a variant is a parent due to API bug)
-        // so correct this by getting the issue with the shortest title
-        // TODO: Get Tim to fix this
-        NSMutableArray *correctedArray = [NSMutableArray new];
-        for (LBXIssue *issue in initialFind) {
-            NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
-            NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
-            [correctedArray addObject:issuesArray[0]];
-        }
-        
-        NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:correctedArray];
-        
-        NSSortDescriptor *sortByIssueID = [NSSortDescriptor sortDescriptorWithKey:@"issueID" ascending:NO];
-        NSSortDescriptor *sortByIssueNumber = [NSSortDescriptor sortDescriptorWithKey:@"issueNumber" ascending:NO];
-        NSSortDescriptor *sortByIssueReleaseDate = [NSSortDescriptor sortDescriptorWithKey:@"releaseDate" ascending:NO];
-        
-        // Combine the two
-        NSArray *sortDescriptors = @[sortByIssueReleaseDate, sortByIssueNumber, sortByIssueID];
-        NSArray *sortedArray = [mutableArray sortedArrayUsingDescriptors:sortDescriptors];
-        
-        
-        if (sortedArray.count == 0) {
-            [_latestIssuesInPullListArray addObject:@" "];
-        }
-        else {
-            LBXIssue *issue = sortedArray[0];
-            [_latestIssuesInPullListArray addObject:issue];
-        }
-    }
-}
-
 - (void)refresh
 {
+    [self fillPullListArray];
     // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        
+        [self getAllIssuesForTitleArray:_pullListArray];
         if (!error) {
             [self fillPullListArray];
-            tableViewRows = _pullListArray.count;
-            [self getAllIssues];
         }
         else {
             //[LBXMessageBar displayError:error];
-            [self.refreshControl endRefreshing];
+            
         }
-        [self.tableView reloadData];
     }];
 }
 
-- (void)getAllIssues {
+- (void)getAllIssuesForTitleArray:(NSArray *)titleArray {
+    
     __block NSUInteger i = 1;
     
-    if (![self.tableView numberOfRowsInSection:0]) {
-        [self.refreshControl beginRefreshing];
-    }
-    
     // Fetch all the titles from the API so we can get the latest issue
-    for (LBXTitle *title in _pullListArray) {
+    for (LBXTitle *title in titleArray) {
         [self.client fetchIssuesForTitle:title.titleID page:@1 withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
             // Wait until all titles in _pullListArray have been fetched
             if (i == _pullListArray.count) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                    [self.refreshControl endRefreshing];
+                });
                 if (!error) {
                     
-                    [self fillLatestIssuesInPullListArray];
                 }
                 else {
                     //[LBXMessageBar displayError:error];
                 }
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
-                });
-                [self.refreshControl endRefreshing];
             }
             i++;
         }];
@@ -349,11 +299,13 @@ CGFloat cellWidth;
     pullListTitle.issueCount = title.issueCount;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     [self fillPullListArray];
+    [self getAllIssuesForTitleArray:@[title]];
     [self.tableView reloadData];
     __block typeof(self) bself = self;
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
-            
+            [bself getAllIssuesForTitleArray:@[title]];
+            [bself fillPullListArray];
         }
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to add %@\n%@", title.name, error.localizedDescription]];
@@ -362,26 +314,36 @@ CGFloat cellWidth;
     }];
 }
 
-- (void)deleteTitle:(LBXTitle *)title
+- (void)deleteTitle:(LBXTitle *)title withCompletion:(void(^)(void))completion
 {
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         [self.refreshControl endRefreshing];
         if (!error) {
-            tableViewRows = _pullListArray.count;
         }
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.tableView reloadData];
+//        });
     }];
     
-    [title MR_deleteEntity];
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-    [self fillPullListArray];
-    [self.tableView reloadData];
+    LBXPullListTitle *pullListTitle = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:title.titleID];
+    pullListTitle.name = title.name;
+    pullListTitle.subscribers = title.subscribers;
+    pullListTitle.publisher = title.publisher;
+    pullListTitle.titleID = title.titleID;
+    pullListTitle.issueCount = title.issueCount;
+    [pullListTitle MR_deleteEntity];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+        if (!error) {
+            [self fillPullListArray];
+            completion();
+        }
+    }];
+    
+    
 }
 
 // Captures the current screen and blurs it
@@ -418,7 +380,7 @@ CGFloat cellWidth;
     }
     
     else {
-        return [_pullListArray count];
+        return _pullListArray.count;
     }
 }
 
@@ -505,7 +467,6 @@ CGFloat cellWidth;
             // Setting the background color of the cell.
             cell.contentView.backgroundColor = [UIColor whiteColor];
         }
-        
         return cell;
     }
 }
@@ -529,6 +490,8 @@ CGFloat cellWidth;
         cell.latestIssueImageView.image = nil;
         
         [LBXTitleServices setCell:cell withTitle:title];
+        
+        
     }
 }
 
@@ -540,6 +503,7 @@ CGFloat cellWidth;
         [self.searchDisplayController setActive:NO animated:NO];
 
         LBXTitle *selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
+        _selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
         
         [self addTitle:selectedTitle];
     }
@@ -547,8 +511,8 @@ CGFloat cellWidth;
         LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
         LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
         
-        LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
-        titleViewController.titleID = title.titleID;
+        _selectedTitle = [_pullListArray objectAtIndex:indexPath.row];
+        titleViewController.titleID = _selectedTitle.titleID;
         titleViewController.latestIssueImage = cell.latestIssueImageView.image;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
@@ -569,16 +533,13 @@ CGFloat cellWidth;
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         _indexPath = indexPath;
         //add code here for when you hit delete
-        [self deleteTitle:[_pullListArray objectAtIndex:[self.tableView indexPathForCell:[tableView cellForRowAtIndexPath:indexPath]].row]];
-        [_pullListArray removeObjectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row];
-        [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
+        
+        [self deleteTitle:[_pullListArray objectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row] withCompletion:^{
+            [tableView beginUpdates];
+            [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
+            [tableView endUpdates];
+        }];
     }
-}
-
-- (void)removeTitleFromTableView
-{
-    [_pullListArray removeObjectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row];
-    [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)refreshSearchTableView
@@ -599,7 +560,7 @@ CGFloat cellWidth;
         }
         
         // Clear any previously queued text changes
-        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+//        [NSObject cancelPreviousPerformRequestsWithTarget:self];
         
         [self performSelector:@selector(searchLongboxedWithText:)
                    withObject:searchText

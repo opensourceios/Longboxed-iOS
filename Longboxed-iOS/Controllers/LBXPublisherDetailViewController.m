@@ -393,7 +393,7 @@ BOOL endOfIssues;
     
     cell.latestIssueImageView.image = nil;
     
-    [LBXTitleServices setCell:cell withTitle:title];
+    //[LBXTitleServices setCell:cell withTitle:title];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     

@@ -63,20 +63,42 @@
 
 + (LBXIssue *)lastIssueForTitle:(LBXTitle *)title
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
-    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
-    if (allIssuesArray.count != 0) {
-        return allIssuesArray[0];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title.titleID == %@) AND (isParent == 1)", title.titleID];
+    NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+    
+    // Not all parents are actually the parents (sometimes a variant is a parent due to API bug)
+    // so correct this by getting the issue with the shortest title
+    // TODO: Get Tim to fix this
+    NSMutableArray *correctedArray = [NSMutableArray new];
+    for (LBXIssue *issue in initialFind) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
+        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
+        [correctedArray addObject:issuesArray[0]];
+    }
+    
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:correctedArray];
+    
+    NSSortDescriptor *sortByIssueID = [NSSortDescriptor sortDescriptorWithKey:@"issueID" ascending:NO];
+    NSSortDescriptor *sortByIssueNumber = [NSSortDescriptor sortDescriptorWithKey:@"issueNumber" ascending:NO];
+    NSSortDescriptor *sortByIssueReleaseDate = [NSSortDescriptor sortDescriptorWithKey:@"releaseDate" ascending:NO];
+    
+    // Combine the two
+    NSArray *sortDescriptors = @[sortByIssueReleaseDate, sortByIssueNumber, sortByIssueID];
+    NSArray *sortedArray = [mutableArray sortedArrayUsingDescriptors:sortDescriptors];
+
+    if (sortedArray.count != 0) {
+        return sortedArray[0];
     }
     return nil;
 }
 
+// This is for the pull list
 + (void)setCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
 {
+    LBXIssue *issue = [self lastIssueForTitle:title];
     cell.titleLabel.text = title.name;
-    if ([LBXTitleServices lastIssueForTitle:title] != nil) {
-        LBXIssue *issue = [LBXTitleServices lastIssueForTitle:title];
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", issue.title.publisher.name, [LBXTitleServices timeSinceLastIssueForTitle:title]];
+    if (issue != nil) {
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.publisher.name, [LBXTitleServices timeSinceLastIssueForTitle:title]];
         
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
@@ -90,18 +112,20 @@
                             completion:NULL];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.titleLabel.text = title.name;
-            cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@  •  %@ Issues", title.publisher.name, issue.issueNumber] uppercaseString];
             cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
         }];
     }
-    else if (title.issueCount != 0) {
-        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
+    else if (!title.publisher.name) {
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+    }
+    else if (issue.title.issueCount == 0) {
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }
     else {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
     }
 }
 
