@@ -219,6 +219,23 @@
     }];
 }
 
+- (void)fetchIssuesForTitle:(NSNumber*)titleID page:(NSNumber *)page count:(NSNumber *)count withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    
+    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
+                        @"titleID", titleID,
+                        nil];
+    
+    NSDictionary *objectDictParams;
+    if (![page isEqualToNumber:@1]) {
+        objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]],
+                             @"count" : [NSString stringWithFormat:@"%d", [count intValue]]};
+    }
+    
+    [self GETWithRouteName:@"Issues for Title" objectDictParams:params queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
+}
+
 - (void)fetchAutocompleteForTitle:(NSString*)title withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
     [self GETWithRouteName:@"Autocomplete for Title" objectDictParams:nil queryParameters:@{@"query": title} credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
@@ -287,17 +304,8 @@
         
     }
     
-    NSArray *previousPullList = [LBXPullListTitle MR_findAllSortedBy:nil ascending:NO];
-    
     [self GETWithRouteName:@"User Pull List" objectDictParams:params queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
-        // Delete any entities that may have been removed from the pull list
-        for (LBXTitle *title in previousPullList) {
-            if (![mappingResult.array containsObject:title]) {
-                NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", title.titleID];
-                [LBXPullListTitle deleteAllMatchingPredicate:predicate];
-            }
-        }
         completion(mappingResult.array, response, error);
     }];
 }

@@ -39,7 +39,7 @@
 @implementation LBXTitleDetailViewController
 
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
-static BOOL addToListToggle = NO;
+static BOOL addToPullList = NO;
 BOOL endOfIssues;
 BOOL saveSheetVisible;
 
@@ -124,6 +124,8 @@ BOOL saveSheetVisible;
 {
     [self setNavBarAlpha:@1];
     self.navigationController.navigationBar.topItem.title = @" ";
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
@@ -295,12 +297,12 @@ BOOL saveSheetVisible;
     if (title) {
         [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
         _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
-        addToListToggle = NO;
+        addToPullList = YES;
     }
     else {
         [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
         _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
-        addToListToggle = YES;
+        addToPullList = NO;
     }
 }
 
@@ -310,13 +312,13 @@ BOOL saveSheetVisible;
     switch ([button tag]) {
         case 0: // Add title to pull list
         {
-            if (addToListToggle == NO) {
+            if (addToPullList == YES) {
                 [self deleteTitle:_detailTitle];
-                addToListToggle = YES;
+                addToPullList = NO;
                  [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
             }
-            else if (addToListToggle == YES) {
-                addToListToggle = NO;
+            else if (addToPullList == NO) {
+                addToPullList = YES;
                 [self addTitle:_detailTitle];
                 [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
             }
@@ -503,14 +505,8 @@ BOOL saveSheetVisible;
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
     }];
-    LBXPullListTitle *pullListTitle = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:title.titleID];
-    pullListTitle.name = title.name;
-    pullListTitle.subscribers = title.subscribers;
-    pullListTitle.publisher = title.publisher;
-    pullListTitle.titleID = title.titleID;
-    pullListTitle.issueCount = title.issueCount;
-    [pullListTitle MR_deleteEntity];
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", title.titleID];
+    [LBXPullListTitle deleteAllMatchingPredicate:predicate];
     [self createPullListArray];
 }
 

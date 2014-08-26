@@ -140,13 +140,24 @@ CGFloat cellWidth;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
+    [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
     [self refresh];
-    [self.tableView reloadData];
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.navigationBar.shadowImage = nil;
+    self.navigationController.navigationBar.topItem.title = @"Pull List";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     
     [self.navigationController.navigationBar setBackgroundImage:nil
                                                   forBarMetrics:UIBarMetricsDefault];
-
+    
     // SearchBar cancel button font
     [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -162,22 +173,10 @@ CGFloat cellWidth;
     // SearchBar cursor color
     [[UISearchBar appearance] setTintColor:[UIColor blackColor]];
     
-    NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
-    [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
-    
     // some over view controller could have changed our nav bar tint color, so reset it here
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], NSFontAttributeName : [UIFont navTitleFont]}];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    self.navigationController.navigationBar.shadowImage = nil;
-    self.navigationController.navigationBar.topItem.title = @"Pull List";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -217,13 +216,14 @@ CGFloat cellWidth;
 
 - (void)searchLongboxedWithText:(NSString *)searchText {
     // Search
-    [self.client fetchAutocompleteForTitle:searchText withCompletion:^(NSArray *searchResultsArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client fetchAutocompleteForTitle:searchText withCompletion:^(NSArray *newSearchResultsArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            
             // Create an array of titles names already in pull list so the can't be added twice
             [_alreadyExistingTitles removeAllObjects];
             _alreadyExistingTitles = [NSMutableArray new];
-            for (LBXTitle *title in searchResultsArray) {
+            for (LBXTitle *title in newSearchResultsArray) {
                 if (![_pullListArray containsObject:title]) {
                     [_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
                 }
@@ -231,11 +231,41 @@ CGFloat cellWidth;
                     [_alreadyExistingTitles addObject:[NSNumber numberWithBool:YES]];
                 }
             }
-            self.searchResultsArray = [[NSArray alloc] initWithArray:searchResultsArray];
+            NSMutableArray *diferentIndexes = [NSMutableArray new];
+            for (int i = 0; i < self.searchResultsArray.count; i++) {
+                if ((newSearchResultsArray[i] != self.searchResultsArray[i]) && self.searchResultsArray != nil && newSearchResultsArray.count) {
+                    [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+                }
+            }
             
-            dispatch_async(dispatch_get_main_queue(),^{
-                [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-            });
+            NSMutableArray *missingIndexes = [NSMutableArray new];
+            for (int i = 0; i < newSearchResultsArray.count; i++) {
+                if ((newSearchResultsArray[i] != self.searchResultsArray[i]) && self.searchResultsArray != nil && newSearchResultsArray.count && ![diferentIndexes containsObject:[NSIndexPath indexPathForRow:i inSection:0]]) {
+                    [missingIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+                }
+            }
+            
+            NSMutableArray *extraIndexes = [NSMutableArray new];
+            if (newSearchResultsArray.count > self.searchResultsArray.count) {
+                for (int i = 0; i < newSearchResultsArray.count - self.searchResultsArray.count; i++) {
+                    [extraIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+                }
+            }
+            
+            if (self.searchResultsArray == nil || self.searchResultsArray == newSearchResultsArray) {
+                dispatch_async(dispatch_get_main_queue(),^{
+                    [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+                });
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(),^{
+                    NSLog(@"Old count: %lu\nNew Count: %lu", (unsigned long)self.searchResultsArray.count, (unsigned long)newSearchResultsArray.count);
+                    [[self.searchBarController searchResultsTableView] reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:UITableViewRowAnimationFade];
+                    [[self.searchBarController searchResultsTableView] insertRowsAtIndexPaths:missingIndexes withRowAnimation:UITableViewRowAnimationFade];
+                    [[self.searchBarController searchResultsTableView] deleteRowsAtIndexPaths:extraIndexes withRowAnimation:UITableViewRowAnimationFade];
+                });
+            }
+            self.searchResultsArray = [[NSArray alloc] initWithArray:newSearchResultsArray];
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -251,16 +281,23 @@ CGFloat cellWidth;
 - (void)refresh
 {
     [self fillPullListArray];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
     // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        [self getAllIssuesForTitleArray:_pullListArray];
         if (!error) {
             [self fillPullListArray];
+            [self getAllIssuesForTitleArray:_pullListArray];
         }
         else {
             //[LBXMessageBar displayError:error];
             
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
+        });
     }];
 }
 
@@ -270,13 +307,9 @@ CGFloat cellWidth;
     
     // Fetch all the titles from the API so we can get the latest issue
     for (LBXTitle *title in titleArray) {
-        [self.client fetchIssuesForTitle:title.titleID page:@1 withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchIssuesForTitle:title.titleID page:@1 count:@1 withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
             // Wait until all titles in _pullListArray have been fetched
             if (i == _pullListArray.count) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
-                    [self.refreshControl endRefreshing];
-                });
                 if (!error) {
                     
                 }
@@ -314,7 +347,7 @@ CGFloat cellWidth;
     }];
 }
 
-- (void)deleteTitle:(LBXTitle *)title withCompletion:(void(^)(void))completion
+- (void)deleteTitle:(LBXTitle *)title
 {
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
@@ -329,21 +362,9 @@ CGFloat cellWidth;
 //        });
     }];
     
-    LBXPullListTitle *pullListTitle = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:title.titleID];
-    pullListTitle.name = title.name;
-    pullListTitle.subscribers = title.subscribers;
-    pullListTitle.publisher = title.publisher;
-    pullListTitle.titleID = title.titleID;
-    pullListTitle.issueCount = title.issueCount;
-    [pullListTitle MR_deleteEntity];
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
-        if (!error) {
-            [self fillPullListArray];
-            completion();
-        }
-    }];
-    
-    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", title.titleID];
+    [LBXPullListTitle deleteAllMatchingPredicate:predicate];
+    [self fillPullListArray];
 }
 
 // Captures the current screen and blurs it
@@ -534,11 +555,10 @@ CGFloat cellWidth;
         _indexPath = indexPath;
         //add code here for when you hit delete
         
-        [self deleteTitle:[_pullListArray objectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row] withCompletion:^{
+        [self deleteTitle:[_pullListArray objectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row]];
             [tableView beginUpdates];
             [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
             [tableView endUpdates];
-        }];
     }
 }
 
