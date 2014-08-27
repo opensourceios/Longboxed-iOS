@@ -25,8 +25,17 @@
     </entity>
     <entity name="LBXPublisher" representedClassName="LBXPublisher" syncable="YES">
         <attribute name="issueCount" optional="YES" attributeType="Integer 64" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="largeLogo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="largeLogoBW" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="largeSplash" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mediumLogo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mediumLogoBW" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mediumSplash" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="publisherID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="smallLogo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="smallLogoBW" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="smallSplash" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="titleCount" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="issue" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LBXIssue" inverseName="publisher" inverseEntity="LBXIssue" syncable="YES"/>
         <relationship name="pullListTitle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LBXPullListTitle" inverseName="publisher" inverseEntity="LBXPullListTitle" syncable="YES"/>
@@ -58,7 +67,7 @@
     <elements>
         <element name="LBXBundle" positionX="360" positionY="-132" width="128" height="105"/>
         <element name="LBXIssue" positionX="-63" positionY="-36" width="128" height="270"/>
-        <element name="LBXPublisher" positionX="-18" positionY="282" width="128" height="150"/>
+        <element name="LBXPublisher" positionX="-18" positionY="282" width="128" height="285"/>
         <element name="LBXPullListTitle" positionX="378" positionY="-9" width="128" height="28"/>
         <element name="LBXTitle" positionX="466" positionY="198" width="128" height="135"/>
         <element name="LBXUser" positionX="81" positionY="-180" width="128" height="120"/>

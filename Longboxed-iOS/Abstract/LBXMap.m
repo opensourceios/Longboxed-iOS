@@ -91,7 +91,16 @@
     [publisherMapping addAttributeMappingsFromDictionary:@{ @"id"          : @"publisherID",
                                                             @"issue_count" : @"issueCount",
                                                             @"name"        : @"name",
-                                                            @"title_count" : @"titleCount"
+                                                            @"title_count" : @"titleCount",
+                                                            @"logo_bw.lg"  : @"largeLogoBW",
+                                                            @"logo_bw.md"  : @"mediumLogoBW",
+                                                            @"logo_bw.sm"  : @"smallLogoBW",
+                                                            @"logo.lg"     : @"largeLogo",
+                                                            @"logo.md"     : @"mediumLogo",
+                                                            @"logo.sm"     : @"smallLogo",
+                                                            @"splash.lg"   : @"largeSplash",
+                                                            @"splash.md"   : @"mediumSplash",
+                                                            @"splash.sm"   : @"smallSplash"
                                                             }];
     publisherMapping.identificationAttributes = @[ @"publisherID" ];
     

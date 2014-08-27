@@ -14,5 +14,14 @@
 @dynamic issueCount;
 @dynamic name;
 @dynamic titleCount;
+@dynamic largeLogoBW;
+@dynamic mediumLogoBW;
+@dynamic smallLogoBW;
+@dynamic largeLogo;
+@dynamic mediumLogo;
+@dynamic smallLogo;
+@dynamic largeSplash;
+@dynamic mediumSplash;
+@dynamic smallSplash;
 
 @end

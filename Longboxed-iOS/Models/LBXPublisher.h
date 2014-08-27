@@ -15,5 +15,15 @@
 @property (nonatomic, retain) NSNumber *issueCount;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSNumber *titleCount;
+@property (nonatomic, retain) NSString *largeLogoBW;
+@property (nonatomic, retain) NSString *mediumLogoBW;
+@property (nonatomic, retain) NSString *smallLogoBW;
+@property (nonatomic, retain) NSString *largeLogo;
+@property (nonatomic, retain) NSString *mediumLogo;
+@property (nonatomic, retain) NSString *smallLogo;
+@property (nonatomic, retain) NSString *largeSplash;
+@property (nonatomic, retain) NSString *mediumSplash;
+@property (nonatomic, retain) NSString *smallSplash;
+
 
 @end
