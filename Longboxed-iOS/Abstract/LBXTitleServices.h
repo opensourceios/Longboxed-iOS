@@ -18,7 +18,8 @@
 + (NSNumber *)lastIssueNumberForTitle:(LBXTitle *)title;
 + (LBXIssue *)lastIssueForTitle:(LBXTitle *)title;
 + (NSString *)localTimeZoneStringWithDate:(NSDate *)date;
-+ (void)setCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
-+ (void)setCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue;
++ (void)setPublisherCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
++ (void)setTitleCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue;
++ (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
 
 @end

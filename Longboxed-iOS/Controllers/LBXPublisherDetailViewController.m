@@ -29,6 +29,7 @@
 @property (nonatomic, copy) LBXPublisher *detailPublisher;
 @property (nonatomic, copy) LBXClient *client;
 @property (nonatomic, copy) LBXPublisherDetailView *detailView;
+@property (nonatomic, copy) UIImage *publisherImage;
 @property (nonatomic, copy) NSArray *titlesForPublisherArray;
 @property (nonatomic) NSNumber *page;
 
@@ -47,18 +48,18 @@ BOOL endOfIssues;
     
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
-    self.title = _detailPublisher.name;
     
     endOfIssues = NO;
     
     _client = [LBXClient new];
     
+    [self setDetailPublisher];
+    [self fetchPublisher];
     [self createTitlesArray];
     
     [self setDetailView];
     [self setOverView:_detailView];
     
-    [self fetchPublisher];
     [self fetchPullList];
     [self fetchAllTitlesWithPage:@1];
 }
@@ -73,20 +74,13 @@ BOOL endOfIssues;
      [UIImage imageNamed:@"arrow"]];
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
     
-    if (_detailView.latestIssueImageView.image.size.height > 200.0) {
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                      forBarMetrics:UIBarMetricsDefault];
-        self.navigationController.navigationBar.shadowImage = [UIImage new];
-        
-        self.navigationController.navigationBar.translucent = YES;
-        self.navigationController.view.backgroundColor = [UIColor clearColor];
-    }
-    else {
-        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
-    }
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
     
     [self setNavBarAlpha:@0];
     
@@ -101,7 +95,7 @@ BOOL endOfIssues;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+    self.title = _detailPublisher.name;
     self.navigationController.navigationBar.topItem.title = _detailPublisher.name;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     if (self.tableView.contentOffset.y > 0) {
@@ -131,7 +125,6 @@ BOOL endOfIssues;
     
     [self updateDetailView];
     
-    _detailView.latestIssueImageView.image = _publisherImage;
     [_detailView.latestIssueImageView sizeToFit];
 }
 
@@ -183,9 +176,9 @@ BOOL endOfIssues;
 
 #pragma mark - Private methods
 
-- (void)setDetailPublisherWithID:(NSNumber *)ID
+- (void)setDetailPublisher
 {
-    _detailPublisher = [LBXPublisher MR_findFirstByAttribute:@"publisherID" withValue:ID];
+    _detailPublisher = [LBXPublisher MR_findFirstByAttribute:@"publisherID" withValue:_publisherID];
 }
 
 - (void)fetchPullList
@@ -210,6 +203,25 @@ BOOL endOfIssues;
         if (!error) {
             _detailPublisher = publisher;
             [self updateDetailView];
+            [self setDetailPublisher];
+                //Configure the view
+            __block typeof(self) bself = self;
+            [self.mainImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:publisher.mediumLogo]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                
+                UIImage *blurredImageView = [bself blurImageView:bself.mainImageView withImage:image];
+                bself.detailView.latestIssueImageView.image = image;
+                
+                [UIView transitionWithView:bself.mainImageView
+                                  duration:0.5f
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{bself.mainImageView.image = blurredImageView;}
+                                completion:NULL];
+                
+            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                UIImage *blurredImageView = [bself blurImageView:bself.mainImageView withImage:[UIImage imageNamed:@"NotAvailable.jpeg" ]];
+                bself.mainImageView.image = blurredImageView;
+                bself.detailView.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+            }];
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -275,9 +287,6 @@ BOOL endOfIssues;
     if (_detailView.latestIssueImageView.image.size.height > 200.0) {
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
     }
-    else {
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], NSFontAttributeName : [UIFont navTitleFont]}];
-    }
 }
 
 #pragma mark - Setter overrides
@@ -285,7 +294,7 @@ BOOL endOfIssues;
 - (void)setPublisherID:(NSNumber *)publisherID
 {
     _publisherID = publisherID;
-    [self setDetailPublisherWithID:publisherID];
+    [self setDetailPublisher];
 }
 
 #pragma mark - UITableView Delegate & Datasource
@@ -393,7 +402,7 @@ BOOL endOfIssues;
     
     cell.latestIssueImageView.image = nil;
     
-    //[LBXTitleServices setCell:cell withTitle:title];
+    [LBXTitleServices setPublisherCell:cell withTitle:title];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     

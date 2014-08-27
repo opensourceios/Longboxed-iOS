@@ -10,13 +10,21 @@
 #import "UIImageView+LBBlurredImage.h"
 #import "LBXTitleDetailView.h"
 
+#import <UIImageView+AFNetworking.h>
+
 CGFloat const kMGOffsetEffects = 40.0;
 CGFloat const kMGOffsetBlurEffect = 2.0;
+
+@interface MGSpotyViewController ()
+
+@property (nonatomic) UIImage *image;
+
+@end
 
 @implementation MGSpotyViewController {
     CGPoint _startContentOffset;
     CGPoint _lastContentOffsetBlurEffect;
-    UIImage *_image;
+    NSString *_URLString;
     CGRect _frameRect;
 }
 
@@ -34,19 +42,36 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     return self;
 }
 
+- (instancetype)initWithMainImageURL:(NSString *)urlString andTopViewFrame:(CGRect)frame
+{
+    if(self = [super init]) {
+        _image = [UIImage imageNamed:@"black"];
+        _mainImageView = [UIImageView new];
+        _URLString = urlString;
+        [_mainImageView setImage:_image];
+        _overView = [UIView new];
+        _tableView = [UITableView new];
+        _frameRect = frame;
+    }
+    
+    return self;
+}
+
 - (void)loadView
 {
     //Create the view
     UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    [view setBackgroundColor:[UIColor whiteColor]];
     
-    //Configure the view
     [_mainImageView setFrame:_frameRect];
+    NSLog(@"%f", _mainImageView.frame.size.width);
+    NSLog(@"%f", _mainImageView.frame.size.height);
+    NSLog(@"%f", _frameRect.size.width);
+    NSLog(@"%f", _frameRect.size.height);
     [_mainImageView setContentMode:UIViewContentModeScaleAspectFill];
     [_mainImageView setImageToBlur:_image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
     [view addSubview:_mainImageView];
-    
+
     [_overView setFrame:_mainImageView.bounds];
     [_overView setBackgroundColor:[UIColor clearColor]];
     [view addSubview:_overView];
@@ -83,6 +108,13 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     [_mainImageView setFrame:frame];
 }
 
+- (UIImage *)blurImageView:(UIImageView *)imageView withImage:(UIImage *)image
+{
+    [imageView setImageToBlur:image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
+    _image = image;
+    return imageView.image;
+}
+
 
 #pragma mark - UIScrollView Delegate
 
@@ -92,8 +124,8 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         //Image size effects
         CGFloat absoluteY = ABS(scrollView.contentOffset.y);
         CGFloat diff = _startContentOffset.y - scrollView.contentOffset.y;
-        
-        [_mainImageView setFrame:CGRectMake(0.0-diff/2.0, 0.0, _overView.frame.size.width+absoluteY, _overView.frame.size.width+absoluteY)];
+
+        [_mainImageView setFrame:CGRectMake(0.0-diff/2.0, (_frameRect.size.height-self.view.frame.size.width)/2, _overView.frame.size.width+absoluteY, _overView.frame.size.width+absoluteY)];
         [_overView setFrame:CGRectMake(0.0, 0.0+absoluteY, _overView.frame.size.width, _overView.frame.size.height)];
         
         if(scrollView.contentOffset.y < _startContentOffset.y-kMGOffsetEffects) {
@@ -140,7 +172,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
                             UIButton *label = (UIButton *)subSubView;
                             [label setAlpha:1.0 - diff*scale];
                         }
-
+                        
                     }
                 }
             }
@@ -183,7 +215,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if(section == 0)
         return _overView.frame.size.height;
-
+    
     return 0.0;
 }
 

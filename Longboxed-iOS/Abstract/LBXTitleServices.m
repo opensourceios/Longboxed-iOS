@@ -92,8 +92,45 @@
     return nil;
 }
 
+// This is for the publisher list
++ (void)setPublisherCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
+{
+    LBXIssue *issue = [self lastIssueForTitle:title];
+    cell.titleLabel.text = title.name;
+    if (issue != nil) {
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", issue.publisher.name, [LBXTitleServices timeSinceLastIssueForTitle:title]];
+        
+        cell.subtitleLabel.text = [subtitleString uppercaseString];
+        
+        // Get the image from the URL and set it
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            
+            [UIView transitionWithView:cell.imageView
+                              duration:0.5f
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{[cell.latestIssueImageView setImage:image];}
+                            completion:NULL];
+            
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        }];
+    }
+    else if (!title.publisher.name) {
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+    }
+    else if (issue.title.issueCount == 0) {
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+    }
+    else {
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+    }
+}
+
 // This is for the pull list
-+ (void)setCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
++ (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
 {
     LBXIssue *issue = [self lastIssueForTitle:title];
     cell.titleLabel.text = title.name;
@@ -130,7 +167,7 @@
 }
 
 // This is for the title view
-+ (void)setCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue
++ (void)setTitleCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue
 {
     NSString *subtitleString = [NSString stringWithFormat:@"%@", [self localTimeZoneStringWithDate:issue.releaseDate]];
     

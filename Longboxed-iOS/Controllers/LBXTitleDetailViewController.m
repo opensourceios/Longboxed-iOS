@@ -326,10 +326,10 @@ BOOL saveSheetVisible;
         }
         case 1:
         {
-            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImage:_detailView.latestIssueImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
+            LBXPublisher *publisher = [LBXPublisher MR_findFirstByAttribute:@"publisherID" withValue:_detailTitle.publisher.publisherID];
+            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImageURL:publisher.mediumLogoBW andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
             
             publisherViewController.publisherID = _detailTitle.publisher.publisherID;
-            publisherViewController.publisherImage = _detailView.latestIssueImageView.image;
             
             [self.navigationController pushViewController:publisherViewController animated:YES];
             break;
@@ -619,7 +619,7 @@ BOOL saveSheetVisible;
     
     cell.latestIssueImageView.image = nil;
     
-    [LBXTitleServices setCell:cell withIssue:issue];
+    [LBXTitleServices setTitleCell:cell withIssue:issue];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     
@@ -641,6 +641,13 @@ BOOL saveSheetVisible;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Disselect and return immediately if selecting an empty cell
+    // i.e., one below the last issue
+    if (_issuesForTitleArray.count < indexPath.row+1) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+
     LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
@@ -656,6 +663,7 @@ BOOL saveSheetVisible;
         titleViewController.issue = issue;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
+    
 }
 
 @end

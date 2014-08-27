@@ -27,7 +27,6 @@
 #import "LBXMessageBar.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
-#import <UIImageView+AFNetworking.h>
 #import <SVProgressHUD.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
@@ -68,7 +67,12 @@ CGFloat cellWidth;
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(setupSearchView)];
     self.navigationItem.rightBarButtonItem = actionButton;
     [self.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
-
+    
+    // TODO: Remove these lines after removin Pull List as root view controller
+    LBXNavigationViewController *navController = [LBXNavigationViewController new];
+    [navController addPaperButtonToViewController:self];
+    //
+    
     return self;
 }
 
@@ -239,15 +243,15 @@ CGFloat cellWidth;
             }
             
             NSMutableArray *missingIndexes = [NSMutableArray new];
-            for (int i = 0; i < newSearchResultsArray.count; i++) {
-                if ((newSearchResultsArray[i] != self.searchResultsArray[i]) && self.searchResultsArray != nil && newSearchResultsArray.count && ![diferentIndexes containsObject:[NSIndexPath indexPathForRow:i inSection:0]]) {
+            if (newSearchResultsArray.count < self.searchResultsArray.count) {
+                for (int i = 0; i < (self.searchResultsArray.count - newSearchResultsArray.count) + newSearchResultsArray.count; i++) {
                     [missingIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                 }
             }
             
             NSMutableArray *extraIndexes = [NSMutableArray new];
             if (newSearchResultsArray.count > self.searchResultsArray.count) {
-                for (int i = 0; i < newSearchResultsArray.count - self.searchResultsArray.count; i++) {
+                for (int i = 0; i < (newSearchResultsArray.count - self.searchResultsArray.count) + self.searchResultsArray.count; i++) {
                     [extraIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                 }
             }
@@ -260,9 +264,12 @@ CGFloat cellWidth;
             else {
                 dispatch_async(dispatch_get_main_queue(),^{
                     NSLog(@"Old count: %lu\nNew Count: %lu", (unsigned long)self.searchResultsArray.count, (unsigned long)newSearchResultsArray.count);
+                    NSLog(@"Different: %lu\nMissing: %lu\nExtra: %lu", (unsigned long)diferentIndexes.count, (unsigned long)missingIndexes.count, (unsigned long)extraIndexes.count);
+                    [[self.searchBarController searchResultsTableView] beginUpdates];
                     [[self.searchBarController searchResultsTableView] reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:UITableViewRowAnimationFade];
                     [[self.searchBarController searchResultsTableView] insertRowsAtIndexPaths:missingIndexes withRowAnimation:UITableViewRowAnimationFade];
                     [[self.searchBarController searchResultsTableView] deleteRowsAtIndexPaths:extraIndexes withRowAnimation:UITableViewRowAnimationFade];
+                    [[self.searchBarController searchResultsTableView] endUpdates];
                 });
             }
             self.searchResultsArray = [[NSArray alloc] initWithArray:newSearchResultsArray];
@@ -510,7 +517,7 @@ CGFloat cellWidth;
         
         cell.latestIssueImageView.image = nil;
         
-        [LBXTitleServices setCell:cell withTitle:title];
+        [LBXTitleServices setPullListCell:cell withTitle:title];
         
         
     }

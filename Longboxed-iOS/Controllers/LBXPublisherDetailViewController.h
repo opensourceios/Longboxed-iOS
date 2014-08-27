@@ -12,6 +12,5 @@
 @interface LBXPublisherDetailViewController : MGSpotyViewController
 
 @property (nonatomic, retain) NSNumber *publisherID;
-@property (nonatomic, retain) UIImage *publisherImage;
 
 @end

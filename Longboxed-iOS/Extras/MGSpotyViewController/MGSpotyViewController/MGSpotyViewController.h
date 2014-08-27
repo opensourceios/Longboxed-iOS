@@ -18,5 +18,8 @@ extern CGFloat const kMGOffsetBlurEffect;
 @property (nonatomic, strong) UIImageView *mainImageView;
 
 - (instancetype)initWithMainImage:(UIImage *)image andTopViewFrame:(CGRect)frame;
+- (instancetype)initWithMainImageURL:(NSString *)urlString andTopViewFrame:(CGRect)frame;
+
+- (UIImage *)blurImageView:(UIImageView *)imageView withImage:(UIImage *)image;
 
 @end
