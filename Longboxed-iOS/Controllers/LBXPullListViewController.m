@@ -133,8 +133,6 @@ CGFloat cellWidth;
     
     // Reload the pull list when using the back button on the title view
     _client = [LBXClient new];
-    
-    [self refresh];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -144,6 +142,7 @@ CGFloat cellWidth;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self refresh];
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
 }
@@ -151,8 +150,6 @@ CGFloat cellWidth;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    [self refresh];
     
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.shadowImage = nil;
@@ -329,6 +326,10 @@ CGFloat cellWidth;
 - (void)refresh
 {
     [self fillPullListArray];
+    if (_pullListArray.count == 0) {
+        self.tableView.contentOffset = CGPointMake(0, -self.refreshControl.frame.size.height);
+        [self.refreshControl beginRefreshing];
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
     });
@@ -342,10 +343,6 @@ CGFloat cellWidth;
             //[LBXMessageBar displayError:error];
             
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-            [self.refreshControl endRefreshing];
-        });
     }];
 }
 
@@ -359,7 +356,10 @@ CGFloat cellWidth;
             // Wait until all titles in _pullListArray have been fetched
             if (i == _pullListArray.count) {
                 if (!error) {
-                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableView reloadData];
+                        [self.refreshControl endRefreshing];
+                    });
                 }
                 else {
                     //[LBXMessageBar displayError:error];

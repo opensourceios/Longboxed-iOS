@@ -16,6 +16,8 @@
 #import "LBXEndpoints.h"
 #import "LBXDescriptors.h"
 
+#import <UICKeyChainStore.h>
+
 @interface LBXDatabaseManager ()
 
 @property (nonatomic, strong) RKManagedObjectStore *managedObjectStore;
@@ -67,8 +69,10 @@
     
     RKLogConfigureByName("*", RKLogLevelOff)
     
+    [UICKeyChainStore setString:[LBXEndpoints baseURLString] forKey:@"baseURLString"];
+    
     // Initialize RestKit
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:[LBXEndpoints baseURLString]]];
+    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:[UICKeyChainStore stringForKey:@"baseURLString"]]];
     
     // Auth
     [LBXClient setAuth];

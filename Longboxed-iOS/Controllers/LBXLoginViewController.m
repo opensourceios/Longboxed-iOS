@@ -11,15 +11,18 @@
 #import "LBXDatabaseManager.h"
 #import "LBXClient.h"
 #import "LBXMessageBar.h"
+#import "LBXEndpoints.h"
 
 #import <UICKeyChainStore.h>
 #import <TWMessageBarManager.h>
+#import "RestKit/RestKit.h"
 
 @interface LBXLoginViewController ()
 
 @property (nonatomic, strong) IBOutlet UIButton *loginButton;
 @property (nonatomic, strong) IBOutlet UITextField *usernameField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordField;
+@property (nonatomic, strong) IBOutlet UISwitch *developmentServerSwitch;
 
 @property (nonatomic) LBXClient *client;
 
@@ -47,6 +50,15 @@ UICKeyChainStore *store;
     store = [UICKeyChainStore keyChainStore];
     _usernameField.text = store[@"username"];
     _passwordField.text = store[@"password"];
+    [_developmentServerSwitch addTarget:self
+                                 action:@selector(stateChanged:)
+                       forControlEvents:UIControlEventValueChanged];
+    
+    [_developmentServerSwitch setOn:YES animated:NO];
+    RKResponseDescriptor *responseDescriptor = [RKObjectManager sharedManager].responseDescriptors[0];
+    if ([[responseDescriptor.baseURL absoluteString] isEqualToString:@"http://www.longboxed.com"]) {
+        [_developmentServerSwitch setOn:NO animated:NO];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,8 +75,36 @@ UICKeyChainStore *store;
     [store synchronize]; // Write to keychain.
 }
 
+// UISwitch
+- (void)stateChanged:(UISwitch *)switchState
+{
+    // Use staging server
+    if ([switchState isOn]) {
+        // Set the response descriptors and the shared manager to the new base URL
+        for (RKResponseDescriptor *descriptor in [RKObjectManager sharedManager].responseDescriptors) {
+            descriptor.baseURL = [LBXEndpoints stagingURL];
+        }
+        [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
+        [UICKeyChainStore setString:[[LBXEndpoints stagingURL] absoluteString] forKey:@"baseURLString"];
+        [store synchronize];
+        
+        [self login];
+    }
+    // Use production server
+    else {
+        // Set the response descriptors and the shared manager to the new base URL
+        for (RKResponseDescriptor *descriptor in [RKObjectManager sharedManager].responseDescriptors) {
+            descriptor.baseURL = [LBXEndpoints productionURL];
+        }
+        [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints productionURL]]];
+        [UICKeyChainStore setString:[[LBXEndpoints productionURL] absoluteString] forKey:@"baseURLString"];
+        [store synchronize];
+        
+        [self login];
+    }
+}
 
--(IBAction)buttonPressed:(id)sender
+- (IBAction)buttonPressed:(id)sender
 {
     UIButton *button = (UIButton *)sender;
     switch ([button tag])
@@ -72,32 +112,7 @@ UICKeyChainStore *store;
         // Log in
         case 0:
         {
-            [self removeCredentials];
-            [LBXDatabaseManager flushDatabase];
-            [UICKeyChainStore setString:_usernameField.text forKey:@"username"];
-            [UICKeyChainStore setString:_passwordField.text forKey:@"password"];
-            [store synchronize]; // Write to keychain.
-
-            [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
-                if (response.HTTPRequestOperation.response.statusCode == 200) {
-                    dispatch_async(dispatch_get_main_queue(),^{
-                        [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
-                        [store synchronize];
-                        [LBXMessageBar successfulLogin];
-                    });
-                }
-                else {
-                    
-                    [self removeCredentials];
-                    [LBXDatabaseManager flushDatabase];
-                    
-                    dispatch_async(dispatch_get_main_queue(),^{
-                        [LBXMessageBar incorrectCredentials];
-                        _passwordField.text = @"";
-                        [_usernameField becomeFirstResponder];
-                    });
-                }
-            }];
+            [self login];
 
             break;
         }
@@ -112,6 +127,36 @@ UICKeyChainStore *store;
             [_usernameField becomeFirstResponder];
         }
     }
+}
+
+# pragma mark Private Methods
+- (void)login
+{
+    [self removeCredentials];
+    [LBXDatabaseManager flushDatabase];
+    [UICKeyChainStore setString:_usernameField.text forKey:@"username"];
+    [UICKeyChainStore setString:_passwordField.text forKey:@"password"];
+    [store synchronize]; // Write to keychain.
+    [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
+        if (response.HTTPRequestOperation.response.statusCode == 200) {
+            dispatch_async(dispatch_get_main_queue(),^{
+                [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
+                [store synchronize];
+                [LBXMessageBar successfulLogin];
+            });
+        }
+        else {
+            
+            [self removeCredentials];
+            [LBXDatabaseManager flushDatabase];
+            
+            dispatch_async(dispatch_get_main_queue(),^{
+                [LBXMessageBar incorrectCredentials];
+                _passwordField.text = @"";
+                [_usernameField becomeFirstResponder];
+            });
+        }
+    }];
 }
 
 @end

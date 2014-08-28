@@ -143,7 +143,7 @@
 - (AFHTTPClient *)setupAFNetworkingRouter
 {
     // Prepare the request
-    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:[LBXEndpoints baseURLString]]];
+    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:[UICKeyChainStore stringForKey:@"baseURLString"]]];
     [client setParameterEncoding:AFJSONParameterEncoding];
     [client setDefaultHeader:@"Accept" value:@"application/json"];
     

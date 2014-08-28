@@ -10,13 +10,26 @@
 
 @implementation LBXEndpoints
 
+NSString *stagingURL = @"http://longboxed-staging.herokuapp.com";
+NSString *productionURL = @"http://www.longboxed.com";
+
++ (NSURL *)stagingURL
+{
+    return [NSURL URLWithString:stagingURL];
+}
+
++ (NSURL *)productionURL
+{
+    return [NSURL URLWithString:productionURL];
+}
+
 + (NSString *)baseURLString
 {
     if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.longboxed.Longboxed-iOS-Staging"]) {
-        return @"http://longboxed-staging.herokuapp.com";
+        return stagingURL;
     }
     else {
-        return @"http://www.longboxed.com";
+        return productionURL;
     }
     
 }

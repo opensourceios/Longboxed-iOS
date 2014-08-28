@@ -9,13 +9,14 @@
 #import "LBXMessageBar.h"
 #import "LBXEndpoints.h"
 #import <TWMessageBarManager.h>
+#import <UICkeyChainStore.h>
 
 @implementation LBXMessageBar
 
 + (void)displayError:(NSError *)error
 {
     NSString *title = @"Connection Error!";
-    NSString *description = [NSString stringWithFormat:@"Could not connect to %@", [LBXEndpoints baseURLString]];
+    NSString *description = [NSString stringWithFormat:@"Could not connect to %@", [UICKeyChainStore stringForKey:@"baseURLString"]];
     if ([error.localizedDescription rangeOfString:@"NSURLErrorDomain error -999"].location == NSNotFound) {
         [[TWMessageBarManager sharedInstance] showMessageWithTitle:title
                                                        description:description

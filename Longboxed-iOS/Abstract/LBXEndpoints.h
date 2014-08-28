@@ -10,6 +10,8 @@
 
 @interface LBXEndpoints : NSObject
 
++ (NSURL *)stagingURL;
++ (NSURL *)productionURL;
 + (NSString *)baseURLString;
 
 // Dictionary with all the endpoints and the respective titles from
