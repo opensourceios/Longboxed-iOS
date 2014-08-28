@@ -15,25 +15,19 @@
 CGFloat const kMGOffsetEffects = 40.0;
 CGFloat const kMGOffsetBlurEffect = 2.0;
 
-@interface MGSpotyViewController ()
-
-@property (nonatomic) UIImage *image;
-
-@end
-
 @implementation MGSpotyViewController {
     CGPoint _startContentOffset;
     CGPoint _lastContentOffsetBlurEffect;
-    NSString *_URLString;
     CGRect _frameRect;
 }
 
 - (instancetype)initWithMainImage:(UIImage *)image andTopViewFrame:(CGRect)frame
 {
     if(self = [super init]) {
-        _image = [image copy];
+        _foregroundImage = [image copy];
+        _backgroundImage = [image copy];
         _mainImageView = [UIImageView new];
-        [_mainImageView setImage:_image];
+        [_mainImageView setImage:_foregroundImage];
         _overView = [UIView new];
         _tableView = [UITableView new];
         _frameRect = frame;
@@ -42,10 +36,10 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     return self;
 }
 
-- (instancetype)initWithMainImageURL:(NSString *)urlString andTopViewFrame:(CGRect)frame
+- (instancetype)initWithTopViewFrame:(CGRect)frame
 {
     if(self = [super init]) {
-        UIColor *color = [UIColor lightGrayColor];
+        UIColor *color = [UIColor blackColor];
         CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
         UIGraphicsBeginImageContext(rect.size);
         CGContextRef context = UIGraphicsGetCurrentContext();
@@ -55,10 +49,10 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        _image = image;
+        _backgroundImage = image;
+        _foregroundImage = image;
         _mainImageView = [UIImageView new];
-        _URLString = urlString;
-        [_mainImageView setImage:_image];
+        [_mainImageView setImage:_foregroundImage];
         _overView = [UIView new];
         _tableView = [UITableView new];
         _frameRect = frame;
@@ -76,7 +70,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     
     [_mainImageView setFrame:_frameRect];
     [_mainImageView setContentMode:UIViewContentModeScaleAspectFill];
-    [_mainImageView setImageToBlur:_image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
+    [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
     [view addSubview:_mainImageView];
 
     [_overView setFrame:_mainImageView.bounds];
@@ -98,6 +92,25 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     self.view = view;
 }
 
+- (void)setCustomBackgroundImageWithImage:(UIImage *)image
+{
+    [UIView transitionWithView:_mainImageView
+                      duration:0.5f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        _mainImageView.image = image;
+                        [_mainImageView setImageToBlur:image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
+                    }
+                    completion:NULL];
+    
+    _backgroundImage = image;
+}
+
+- (void)setCustomForegroundImageWithImage:(UIImage *)image
+{
+    _foregroundImage = image;
+}
+
 #pragma mark - Properties Methods
 
 - (void)setOverView:(UIView *)overView {
@@ -109,19 +122,6 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         [_overView addSubview:overView];
     }
 }
-
-- (void)setBlurImageViewFrame:(CGRect)frame
-{
-    [_mainImageView setFrame:frame];
-}
-
-- (UIImage *)blurImageView:(UIImageView *)imageView withImage:(UIImage *)image
-{
-    [imageView setImageToBlur:image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
-    _image = image;
-    return imageView.image;
-}
-
 
 #pragma mark - UIScrollView Delegate
 
@@ -139,7 +139,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
             diff = kMGOffsetEffects;
         }
         
-        //Image blur effects
+        // Image blur effects
         CGFloat scale = kLBBlurredImageDefaultBlurRadius/kMGOffsetEffects;
         CGFloat newBlur = kLBBlurredImageDefaultBlurRadius - diff*scale;
         
@@ -147,13 +147,13 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            //Blur effects
+            // Blur effects
             if(ABS(_lastContentOffsetBlurEffect.y-scrollView.contentOffset.y) >= kMGOffsetBlurEffect) {
                 _lastContentOffsetBlurEffect = scrollView.contentOffset;
-                [_mainImageView setImageToBlur:_image blurRadius:newBlur completionBlock:nil];
+                [_mainImageView setImageToBlur:_backgroundImage blurRadius:newBlur completionBlock:nil];
             }
             
-            //Opacity overView
+            // Opacity overView
             CGFloat scale = 1.0/kMGOffsetEffects;
             [overView setAlpha:1.0 - diff*scale];
         });
@@ -225,7 +225,6 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     
     return 0.0;
 }
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;

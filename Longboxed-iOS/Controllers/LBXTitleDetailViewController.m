@@ -327,8 +327,7 @@ BOOL saveSheetVisible;
         }
         case 1:
         {
-            LBXPublisher *publisher = [LBXPublisher MR_findFirstByAttribute:@"publisherID" withValue:_detailTitle.publisher.publisherID];
-            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithMainImageURL:publisher.mediumLogoBW andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
+            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
             
             publisherViewController.publisherID = _detailTitle.publisher.publisherID;
             

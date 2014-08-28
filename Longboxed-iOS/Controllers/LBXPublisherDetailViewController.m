@@ -102,6 +102,8 @@ BOOL endOfIssues;
     else {
         [self setNavBarAlpha:@0];
     }
+    self.title = _detailPublisher.name;
+    self.navigationController.navigationBar.topItem.title = _detailPublisher.name;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -209,7 +211,7 @@ BOOL endOfIssues;
             CGContextFillRect(context, rect);
             UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
-            self.mainImageView.image = image;
+            [self setCustomBackgroundImageWithImage:image];
             
             [self updateDetailView];
             [self setDetailPublisher];
@@ -223,8 +225,15 @@ BOOL endOfIssues;
                                 animations:^{bself.detailView.latestIssueImageView.image = image;}
                                 completion:NULL];
                 
+                
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                bself.detailView.latestIssueImageView.image = self.mainImageView.image;
+                
+                [UIView transitionWithView:bself.detailView.latestIssueImageView
+                                  duration:0.5f
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{bself.detailView.latestIssueImageView.image = self.mainImageView.image;}
+                                completion:NULL];
+                [bself setCustomBackgroundImageWithImage:image];
             }];
         }
         else {
@@ -288,9 +297,7 @@ BOOL endOfIssues;
 
 - (void)setNavBarAlpha:(NSNumber *)alpha
 {
-    if (_detailView.latestIssueImageView.image.size.height > 200.0) {
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
-    }
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
 }
 
 #pragma mark - Setter overrides
