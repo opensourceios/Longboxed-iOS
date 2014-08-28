@@ -94,8 +94,6 @@ BOOL endOfIssues;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.title = _detailPublisher.name;
-    self.navigationController.navigationBar.topItem.title = _detailPublisher.name;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     if (self.tableView.contentOffset.y > 0) {
         // Set the title alpha properly when returning from the issue view
@@ -120,10 +118,7 @@ BOOL endOfIssues;
     _detailView.bounds = self.overView.bounds;
     _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
     _detailView.titleLabel.numberOfLines = 0;
-    NSLog(@"%f", _detailView.titleLabel.frame.size.width);
     _detailView.titleLabel.preferredMaxLayoutWidth = 200;
-//    _detailView.titleLabel.numberOfLines = 2;
-//    [_detailView.titleLabel sizeToFit];
     
     [self updateDetailView];
     

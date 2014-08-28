@@ -53,10 +53,14 @@ UICKeyChainStore *store;
     [_developmentServerSwitch addTarget:self
                                  action:@selector(stateChanged:)
                        forControlEvents:UIControlEventValueChanged];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [_developmentServerSwitch setOn:YES animated:NO];
     RKResponseDescriptor *responseDescriptor = [RKObjectManager sharedManager].responseDescriptors[0];
-    if ([[responseDescriptor.baseURL absoluteString] isEqualToString:@"http://www.longboxed.com"]) {
+    if ([[responseDescriptor.baseURL absoluteString] isEqualToString:[[LBXEndpoints productionURL] absoluteString]]) {
         [_developmentServerSwitch setOn:NO animated:NO];
     }
 }
