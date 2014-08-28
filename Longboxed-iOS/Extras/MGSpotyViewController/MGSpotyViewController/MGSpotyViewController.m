@@ -45,7 +45,17 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 - (instancetype)initWithMainImageURL:(NSString *)urlString andTopViewFrame:(CGRect)frame
 {
     if(self = [super init]) {
-        _image = [UIImage imageNamed:@"black"];
+        UIColor *color = [UIColor lightGrayColor];
+        CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+        UIGraphicsBeginImageContext(rect.size);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        CGContextSetFillColorWithColor(context, [color CGColor]);
+        CGContextFillRect(context, rect);
+        
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        _image = image;
         _mainImageView = [UIImageView new];
         _URLString = urlString;
         [_mainImageView setImage:_image];

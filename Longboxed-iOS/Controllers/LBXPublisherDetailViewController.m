@@ -206,16 +206,16 @@ BOOL endOfIssues;
             [self setDetailPublisher];
                 //Configure the view
             __block typeof(self) bself = self;
-            [self.mainImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:publisher.mediumLogo]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            [self.detailView.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:publisher.mediumLogo]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                 
-                UIImage *blurredImageView = [bself blurImageView:bself.mainImageView withImage:image];
+//                UIImage *blurredImageView = [bself blurImageView:bself.mainImageView withImage:image];
                 bself.detailView.latestIssueImageView.image = image;
                 
-                [UIView transitionWithView:bself.mainImageView
-                                  duration:0.5f
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{bself.mainImageView.image = blurredImageView;}
-                                completion:NULL];
+//                [UIView transitionWithView:bself.mainImageView
+//                                  duration:0.5f
+//                                   options:UIViewAnimationOptionTransitionCrossDissolve
+//                                animations:^{bself.mainImageView.image = blurredImageView;}
+//                                completion:NULL];
                 
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 UIImage *blurredImageView = [bself blurImageView:bself.mainImageView withImage:[UIImage imageNamed:@"NotAvailable.jpeg" ]];
