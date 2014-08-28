@@ -235,49 +235,73 @@ CGFloat cellWidth;
                     [_alreadyExistingTitles addObject:[NSNumber numberWithBool:YES]];
                 }
             }
-            NSMutableArray *diferentIndexes = [NSMutableArray new];
-            for (int i = 0; i < self.searchResultsArray.count; i++) {
-                if ((newSearchResultsArray[i] != self.searchResultsArray[i]) && self.searchResultsArray != nil && newSearchResultsArray.count) {
-                    [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-                }
-            }
-            
-            NSMutableArray *missingIndexes = [NSMutableArray new];
-            if (newSearchResultsArray.count < self.searchResultsArray.count) {
-                for (int i = 0; i < (self.searchResultsArray.count - newSearchResultsArray.count) + newSearchResultsArray.count; i++) {
-                    [missingIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-                }
-            }
-            
-            NSMutableArray *extraIndexes = [NSMutableArray new];
-            if (newSearchResultsArray.count > self.searchResultsArray.count) {
-                for (int i = 0; i < (newSearchResultsArray.count - self.searchResultsArray.count) + self.searchResultsArray.count; i++) {
-                    [extraIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-                }
-            }
-            
-            if (self.searchResultsArray == nil || self.searchResultsArray == newSearchResultsArray) {
-                dispatch_async(dispatch_get_main_queue(),^{
-                    [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-                });
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(),^{
-                    NSLog(@"Old count: %lu\nNew Count: %lu", (unsigned long)self.searchResultsArray.count, (unsigned long)newSearchResultsArray.count);
-                    NSLog(@"Different: %lu\nMissing: %lu\nExtra: %lu", (unsigned long)diferentIndexes.count, (unsigned long)missingIndexes.count, (unsigned long)extraIndexes.count);
-                    [[self.searchBarController searchResultsTableView] beginUpdates];
-                    [[self.searchBarController searchResultsTableView] reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:UITableViewRowAnimationFade];
-                    [[self.searchBarController searchResultsTableView] insertRowsAtIndexPaths:missingIndexes withRowAnimation:UITableViewRowAnimationFade];
-                    [[self.searchBarController searchResultsTableView] deleteRowsAtIndexPaths:extraIndexes withRowAnimation:UITableViewRowAnimationFade];
-                    [[self.searchBarController searchResultsTableView] endUpdates];
-                });
-            }
-            self.searchResultsArray = [[NSArray alloc] initWithArray:newSearchResultsArray];
+            [self refreshSearchControllerWithOldSearchResults:self.searchResultsArray andNewResults:newSearchResultsArray];
         }
         else {
             //[LBXMessageBar displayError:error];
         }
     }];
+}
+
+- (void)refreshSearchControllerWithOldSearchResults:(NSArray *)oldResultsArray andNewResults:(NSArray *)newResultsArray
+{
+    // If rows are removed
+    if (newResultsArray.count < self.searchResultsArray.count && self.searchResultsArray.count) {
+        NSMutableArray *diferentIndexes = [NSMutableArray new];
+        for (int i = 0; i < newResultsArray.count; i++) {
+            if (self.searchResultsArray[i] != newResultsArray[i]) { //Maybe add "&& newSearchResultsArray.count" here
+                [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+        }
+        
+        NSMutableArray *oldIndexes = [NSMutableArray new];
+        if (newResultsArray.count < self.searchResultsArray.count) {
+            for (int i = newResultsArray.count; i < self.searchResultsArray.count; i++) {
+                [oldIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+        }
+        NSLog(@"Old count: %lu\nNew Count: %lu", (unsigned long)self.searchResultsArray.count, (unsigned long)newResultsArray.count);
+        NSLog(@"Different: %lu\nOld: %lu\n\n", (unsigned long)diferentIndexes.count, (unsigned long)oldIndexes.count);
+        [[self.searchBarController searchResultsTableView] beginUpdates];
+        [[self.searchBarController searchResultsTableView] numberOfRowsInSection:newResultsArray.count];
+        [[self.searchBarController searchResultsTableView] reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:UITableViewRowAnimationFade];
+        [[self.searchBarController searchResultsTableView] deleteRowsAtIndexPaths:oldIndexes withRowAnimation:UITableViewRowAnimationFade];
+        self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
+        [[self.searchBarController searchResultsTableView] endUpdates];
+    }
+    
+    
+    // If rows are added
+    else if (newResultsArray.count > self.searchResultsArray.count && self.searchResultsArray.count != 0) {
+        NSMutableArray *diferentIndexes = [NSMutableArray new];
+        for (int i = 0; i < self.searchResultsArray.count; i++) {
+            if (self.searchResultsArray[i] != newResultsArray[i]) { //Maybe add "&& newSearchResultsArray.count" here
+                [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+        }
+        NSMutableArray *newIndexes = [NSMutableArray new];
+        if (newResultsArray.count > self.searchResultsArray.count) {
+            int index;
+            if (!self.searchResultsArray.count) index = 0; else index = self.searchResultsArray.count;
+            for (int i = index; i < newResultsArray.count; i++) {
+                [newIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+        }
+        NSLog(@"Old count: %lu\nNew Count: %lu", (unsigned long)self.searchResultsArray.count, (unsigned long)newResultsArray.count);
+        NSLog(@"Different: %lu\nNew: %lu\n\n", (unsigned long)diferentIndexes.count, (unsigned long)newIndexes.count);
+        [[self.searchBarController searchResultsTableView] beginUpdates];
+        [[self.searchBarController searchResultsTableView] reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:UITableViewRowAnimationFade];
+        [[self.searchBarController searchResultsTableView] insertRowsAtIndexPaths:newIndexes withRowAnimation:UITableViewRowAnimationFade];
+        self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
+        [[self.searchBarController searchResultsTableView] endUpdates];
+    }
+    // If entire view needs refreshed
+    else {
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+        });
+        self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
+    }
 }
 
 - (void)fillPullListArray
