@@ -8,7 +8,7 @@
 
 #import "LBXDatabaseManager.h"
 #import "LBXAppDelegate.h"
-#import "LBXPullListViewController.h"
+#import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
 
 #import "HockeySDK.h"
@@ -22,7 +22,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    LBXPullListViewController *dashboardViewController = [LBXPullListViewController new];
+    LBXHomeViewController *dashboardViewController = [LBXHomeViewController new];
     
     self.window.rootViewController = [[LBXNavigationViewController alloc] initWithRootViewController:dashboardViewController];
     dashboardViewController.managedObjectContext = [NSManagedObjectContext MR_defaultContext];
