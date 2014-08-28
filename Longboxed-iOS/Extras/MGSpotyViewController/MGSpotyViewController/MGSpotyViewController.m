@@ -72,6 +72,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     //Create the view
     UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+    view.backgroundColor = [UIColor whiteColor];
     
     [_mainImageView setFrame:_frameRect];
     [_mainImageView setContentMode:UIViewContentModeScaleAspectFill];
