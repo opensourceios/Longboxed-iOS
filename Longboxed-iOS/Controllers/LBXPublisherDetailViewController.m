@@ -14,12 +14,13 @@
 #import "LBXPublisherDetailView.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXTitle.h"
-#import "LBXTitleServices.h"
+#import "LBXTitleAndPublisherServices.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
 
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
+#import "UIColor+customColors.h"
 
 #import <SVProgressHUD.h>
 #import <QuartzCore/QuartzCore.h>
@@ -48,7 +49,7 @@ BOOL endOfIssues;
     
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
-    
+    self.navigationController.navigationBar.topItem.title = @"";
     endOfIssues = NO;
     
     _client = [LBXClient new];
@@ -81,8 +82,6 @@ BOOL endOfIssues;
     
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
-    
-    [self setNavBarAlpha:@0];
     
     // Keep the section header on the top
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -120,8 +119,11 @@ BOOL endOfIssues;
     _detailView.frame = self.overView.frame;
     _detailView.bounds = self.overView.bounds;
     _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
-    _detailView.titleLabel.numberOfLines = 2;
-    [_detailView.titleLabel sizeToFit];
+    _detailView.titleLabel.numberOfLines = 0;
+    NSLog(@"%f", _detailView.titleLabel.frame.size.width);
+    _detailView.titleLabel.preferredMaxLayoutWidth = 200;
+//    _detailView.titleLabel.numberOfLines = 2;
+//    [_detailView.titleLabel sizeToFit];
     
     [self updateDetailView];
     
@@ -150,8 +152,8 @@ BOOL endOfIssues;
     
     _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
     _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
+    [_detailView.issuesAndSubscribersLabel sizeToFit];
     
-    NSLog(@"Visible cell count %lu", (unsigned long)self.tableView.visibleCells.count);
     if (_titlesForPublisherArray.count <= self.tableView.visibleCells.count) {
         _detailView.loadingLabel.text = @"LOADING TITLES...";
         _detailView.loadingLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
@@ -202,25 +204,32 @@ BOOL endOfIssues;
         
         if (!error) {
             _detailPublisher = publisher;
+            
+            // Set the background color
+            UIColor *color = [UIColor colorWithHex:publisher.primaryColor];
+            CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+            UIGraphicsBeginImageContext(rect.size);
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            CGContextSetFillColorWithColor(context, [color CGColor]);
+            CGContextFillRect(context, rect);
+            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            self.mainImageView.image = image;
+            
             [self updateDetailView];
             [self setDetailPublisher];
                 //Configure the view
             __block typeof(self) bself = self;
             [self.detailView.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:publisher.mediumLogo]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                 
-//                UIImage *blurredImageView = [bself blurImageView:bself.mainImageView withImage:image];
-                bself.detailView.latestIssueImageView.image = image;
-                
-//                [UIView transitionWithView:bself.mainImageView
-//                                  duration:0.5f
-//                                   options:UIViewAnimationOptionTransitionCrossDissolve
-//                                animations:^{bself.mainImageView.image = blurredImageView;}
-//                                completion:NULL];
+                [UIView transitionWithView:bself.detailView.latestIssueImageView
+                                  duration:0.5f
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{bself.detailView.latestIssueImageView.image = image;}
+                                completion:NULL];
                 
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                UIImage *blurredImageView = [bself blurImageView:bself.mainImageView withImage:[UIImage imageNamed:@"NotAvailable.jpeg" ]];
-                bself.mainImageView.image = blurredImageView;
-                bself.detailView.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+                bself.detailView.latestIssueImageView.image = self.mainImageView.image;
             }];
         }
         else {
@@ -402,7 +411,7 @@ BOOL endOfIssues;
     
     cell.latestIssueImageView.image = nil;
     
-    [LBXTitleServices setPublisherCell:cell withTitle:title];
+    [LBXTitleAndPublisherServices setPublisherCell:cell withTitle:title];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     

@@ -12,7 +12,7 @@
 #import "LBXTitle.h"
 #import "LBXTitleDetailView.h"
 #import "LBXTitleDetailViewController.h"
-#import "LBXTitleServices.h"
+#import "LBXTitleAndPublisherServices.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXPublisherDetailViewController.h"
@@ -192,9 +192,9 @@ BOOL saveSheetVisible;
     [_detailView.publisherButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     
     _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
-    if ([LBXTitleServices lastIssueForTitle:_detailTitle] != nil) {
-        LBXIssue *issue = [LBXTitleServices lastIssueForTitle:_detailTitle];
-        NSString *timeSinceString = [LBXTitleServices timeSinceLastIssueForTitle:_detailTitle];
+    if ([LBXTitleAndPublisherServices lastIssueForTitle:_detailTitle] != nil) {
+        LBXIssue *issue = [LBXTitleAndPublisherServices lastIssueForTitle:_detailTitle];
+        NSString *timeSinceString = [LBXTitleAndPublisherServices timeSinceLastIssueForTitle:_detailTitle];
         
         NSString *subtitleString = [NSString stringWithFormat:@"Issue %@ released %@", issue.issueNumber, timeSinceString];
         if ([timeSinceString hasPrefix:@"in"]) {
@@ -619,7 +619,7 @@ BOOL saveSheetVisible;
     
     cell.latestIssueImageView.image = nil;
     
-    [LBXTitleServices setTitleCell:cell withIssue:issue];
+    [LBXTitleAndPublisherServices setTitleCell:cell withIssue:issue];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     

@@ -23,5 +23,7 @@
 @dynamic largeSplash;
 @dynamic mediumSplash;
 @dynamic smallSplash;
+@dynamic primaryColor;
+@dynamic secondaryColor;
 
 @end

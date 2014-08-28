@@ -74,10 +74,6 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     
     [_mainImageView setFrame:_frameRect];
-    NSLog(@"%f", _mainImageView.frame.size.width);
-    NSLog(@"%f", _mainImageView.frame.size.height);
-    NSLog(@"%f", _frameRect.size.width);
-    NSLog(@"%f", _frameRect.size.height);
     [_mainImageView setContentMode:UIViewContentModeScaleAspectFill];
     [_mainImageView setImageToBlur:_image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
     [view addSubview:_mainImageView];

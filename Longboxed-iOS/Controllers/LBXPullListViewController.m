@@ -16,7 +16,7 @@
 #import "ParallaxPhotoCell.h"
 #import "SVWebViewController.h"
 #import "LBXTitleDetailViewController.h"
-#import "LBXTitleServices.h"
+#import "LBXTitleAndPublisherServices.h"
 
 // Categories
 #import "NSArray+ArrayUtilities.h"
@@ -558,7 +558,7 @@ CGFloat cellWidth;
         
         cell.latestIssueImageView.image = nil;
         
-        [LBXTitleServices setPullListCell:cell withTitle:title];
+        [LBXTitleAndPublisherServices setPullListCell:cell withTitle:title];
         
         
     }

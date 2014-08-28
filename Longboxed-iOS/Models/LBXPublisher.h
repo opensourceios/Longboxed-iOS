@@ -24,6 +24,7 @@
 @property (nonatomic, retain) NSString *largeSplash;
 @property (nonatomic, retain) NSString *mediumSplash;
 @property (nonatomic, retain) NSString *smallSplash;
-
+@property (nonatomic, retain) NSString *primaryColor;
+@property (nonatomic, retain) NSString *secondaryColor;
 
 @end

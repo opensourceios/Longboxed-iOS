@@ -122,7 +122,7 @@
 		E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDA19983DFC0022F4CA /* UIImageView+LBBlurredImage.m */; };
 		E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */; };
 		E5B6FCE219983DFC0022F4CA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E5B6FCDD19983DFC0022F4CA /* README.md */; };
-		E5B6FCE51998497A0022F4CA /* LBXTitleServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCE41998497A0022F4CA /* LBXTitleServices.m */; };
+		E5B6FCE51998497A0022F4CA /* LBXTitleAndPublisherServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */; };
 		E5D9A89019A9193200BC06C1 /* JTSAnimatedGIFUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88319A9193200BC06C1 /* JTSAnimatedGIFUtility.m */; };
 		E5D9A89119A9193200BC06C1 /* JTSImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88519A9193200BC06C1 /* JTSImageInfo.m */; };
 		E5D9A89219A9193200BC06C1 /* JTSImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88719A9193200BC06C1 /* JTSImageViewController.m */; };
@@ -358,8 +358,8 @@
 		E5B6FCDB19983DFC0022F4CA /* MGSpotyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSpotyViewController.h; sourceTree = "<group>"; };
 		E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSpotyViewController.m; sourceTree = "<group>"; };
 		E5B6FCDD19983DFC0022F4CA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		E5B6FCE31998497A0022F4CA /* LBXTitleServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleServices.h; path = Abstract/LBXTitleServices.h; sourceTree = "<group>"; };
-		E5B6FCE41998497A0022F4CA /* LBXTitleServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleServices.m; path = Abstract/LBXTitleServices.m; sourceTree = "<group>"; };
+		E5B6FCE31998497A0022F4CA /* LBXTitleAndPublisherServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleAndPublisherServices.h; path = Abstract/LBXTitleAndPublisherServices.h; sourceTree = "<group>"; };
+		E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleAndPublisherServices.m; path = Abstract/LBXTitleAndPublisherServices.m; sourceTree = "<group>"; };
 		E5D9A87D19A6F46800BC06C1 /* LBXCoreData 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LBXCoreData 2.xcdatamodel"; sourceTree = "<group>"; };
 		E5D9A88219A9193200BC06C1 /* JTSAnimatedGIFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSAnimatedGIFUtility.h; sourceTree = "<group>"; };
 		E5D9A88319A9193200BC06C1 /* JTSAnimatedGIFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSAnimatedGIFUtility.m; sourceTree = "<group>"; };
@@ -722,8 +722,8 @@
 				E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */,
 				E57D49101960A2180014A13F /* LBXClient.h */,
 				E57D49111960A2180014A13F /* LBXClient.m */,
-				E5B6FCE31998497A0022F4CA /* LBXTitleServices.h */,
-				E5B6FCE41998497A0022F4CA /* LBXTitleServices.m */,
+				E5B6FCE31998497A0022F4CA /* LBXTitleAndPublisherServices.h */,
+				E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */,
 			);
 			name = Abstract;
 			sourceTree = "<group>";
@@ -1264,7 +1264,7 @@
 				E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */,
 				E510AFA9198C7B7D004A7225 /* UIImage+NBUAdditions.m in Sources */,
 				E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */,
-				E5B6FCE51998497A0022F4CA /* LBXTitleServices.m in Sources */,
+				E5B6FCE51998497A0022F4CA /* LBXTitleAndPublisherServices.m in Sources */,
 				E57D490B196096260014A13F /* LBXThisWeekCollectionViewController.m in Sources */,
 				E5D9A89019A9193200BC06C1 /* JTSAnimatedGIFUtility.m in Sources */,
 				E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */,

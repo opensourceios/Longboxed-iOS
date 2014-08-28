@@ -12,7 +12,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LBXTitleServices : NSObject
+@interface LBXTitleAndPublisherServices : NSObject
 
 + (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title;
 + (NSNumber *)lastIssueNumberForTitle:(LBXTitle *)title;

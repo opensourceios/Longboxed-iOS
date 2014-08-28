@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
-#import "LBXTitleServices.h"
+#import "LBXTitleAndPublisherServices.h"
 
 #import "NSDate+DateUtilities.h"
 
 #import <UIImageView+AFNetworking.h>
 #import <SVProgressHUD.h>
 
-@interface LBXTitleServices ()
+@interface LBXTitleAndPublisherServices ()
 
 @end
 
-@implementation LBXTitleServices
+@implementation LBXTitleAndPublisherServices
 
 // This is for the pull list view
 + (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title
@@ -97,9 +97,20 @@
 {
     LBXIssue *issue = [self lastIssueForTitle:title];
     cell.titleLabel.text = title.name;
+    
+    NSString *subtitleString;
+    switch ([title.subscribers integerValue]) {
+        case 1: {
+            subtitleString = [NSString stringWithFormat:@"%@  •  %@ Subscriber", issue.publisher.name, title.subscribers];
+            break;
+        }
+        default: {
+            subtitleString = [NSString stringWithFormat:@"%@  •  %@ Subscribers", issue.publisher.name, title.subscribers];
+            break;
+        }
+    }
+    
     if (issue != nil) {
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", issue.publisher.name, [LBXTitleServices timeSinceLastIssueForTitle:title]];
-        
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
         // Get the image from the URL and set it
@@ -120,11 +131,9 @@
         cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
     }
     else if (issue.title.issueCount == 0) {
-        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }
     else {
-        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
     }
 }
@@ -135,7 +144,7 @@
     LBXIssue *issue = [self lastIssueForTitle:title];
     cell.titleLabel.text = title.name;
     if (issue != nil) {
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", issue.publisher.name, [LBXTitleServices timeSinceLastIssueForTitle:title]];
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", issue.publisher.name, [LBXTitleAndPublisherServices timeSinceLastIssueForTitle:title]];
         
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
