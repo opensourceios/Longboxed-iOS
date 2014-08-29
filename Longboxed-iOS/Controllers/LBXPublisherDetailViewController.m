@@ -203,12 +203,22 @@ BOOL endOfIssues;
             _detailPublisher = publisher;
             
             // Set the background color
-            UIColor *color = [UIColor colorWithHex:publisher.primaryColor];
-            CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-            UIGraphicsBeginImageContext(rect.size);
+            UIColor *primaryColor = [UIColor colorWithHex:publisher.primaryColor];
+            UIColor *secondaryColor = [UIColor colorWithHex:publisher.secondaryColor];
+            CGSize size = CGSizeMake(self.detailView.latestIssueImageView.frame.size.width, self.detailView.latestIssueImageView.frame.size.width);
+            UIGraphicsBeginImageContext(size);
             CGContextRef context = UIGraphicsGetCurrentContext();
-            CGContextSetFillColorWithColor(context, [color CGColor]);
-            CGContextFillRect(context, rect);
+            CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+            size_t gradientNumberOfLocations = 2;
+            CGFloat gradientLocations[2] = { 0.0, 1.0 };
+            CGFloat gradientComponents[8] = {CGColorGetComponents(primaryColor.CGColor)[0], CGColorGetComponents(primaryColor.CGColor)[1], CGColorGetComponents(primaryColor.CGColor)[2], 1.0,     // Start color
+                CGColorGetComponents(secondaryColor.CGColor)[0], CGColorGetComponents(secondaryColor.CGColor)[1], CGColorGetComponents(secondaryColor.CGColor)[2], 1.0, };  // End color
+            
+            CGGradientRef gradient = CGGradientCreateWithColorComponents (colorspace, gradientComponents, gradientLocations, gradientNumberOfLocations);
+            CGContextDrawLinearGradient(context, gradient, CGPointMake(0, 0), CGPointMake(0, size.height), 0);
+            
+//            CGContextSetFillColorWithColor(context, [color CGColor]);
+//            CGContextFillRect(context, rect);
             UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             [self setCustomBackgroundImageWithImage:image];

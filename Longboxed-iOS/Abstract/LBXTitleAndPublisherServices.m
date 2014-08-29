@@ -101,17 +101,17 @@
     NSString *subtitleString;
     switch ([title.subscribers integerValue]) {
         case 1: {
-            subtitleString = [NSString stringWithFormat:@"%@  •  %@ Subscriber", issue.publisher.name, title.subscribers];
+            subtitleString = [NSString stringWithFormat:@"%@ Subscriber", title.subscribers].uppercaseString;
             break;
         }
         default: {
-            subtitleString = [NSString stringWithFormat:@"%@  •  %@ Subscribers", issue.publisher.name, title.subscribers];
+            subtitleString = [NSString stringWithFormat:@"%@ Subscribers", title.subscribers].uppercaseString;
             break;
         }
     }
     
     if (issue != nil) {
-        cell.subtitleLabel.text = [subtitleString uppercaseString];
+        cell.subtitleLabel.text = subtitleString;
         
         // Get the image from the URL and set it
         [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
@@ -132,9 +132,11 @@
     }
     else if (issue.title.issueCount == 0) {
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        cell.subtitleLabel.text = subtitleString;
     }
     else {
         cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+        cell.subtitleLabel.text = subtitleString;
     }
 }
 
