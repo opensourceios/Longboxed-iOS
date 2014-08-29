@@ -99,7 +99,6 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
                         _mainImageView.image = image;
-                        [_mainImageView setImageToBlur:image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
                     }
                     completion:NULL];
     
