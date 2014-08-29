@@ -587,7 +587,8 @@ CGFloat cellWidth;
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         return NO;
     }
@@ -595,6 +596,11 @@ CGFloat cellWidth;
         // Return YES if you want the specified item to be editable.
         return YES;
     }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"Remove";
 }
 
 // Override to support editing the table view.
