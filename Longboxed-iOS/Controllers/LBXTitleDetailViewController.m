@@ -134,7 +134,6 @@ BOOL saveSheetVisible;
     self.navigationController.navigationBar.topItem.title = @" ";
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
 - (void)setDetailView
