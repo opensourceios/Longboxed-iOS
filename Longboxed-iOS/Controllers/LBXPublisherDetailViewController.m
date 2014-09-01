@@ -50,10 +50,11 @@ BOOL endOfIssues;
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
     self.navigationController.navigationBar.topItem.title = @"";
+    
     endOfIssues = NO;
     
     _client = [LBXClient new];
-    
+
     [self setDetailPublisher];
     [self fetchPublisher];
     [self createTitlesArray];
@@ -61,7 +62,6 @@ BOOL endOfIssues;
     [self setDetailView];
     [self setOverView:_detailView];
     
-    [self fetchPullList];
     [self fetchAllTitlesWithPage:@1];
 }
 
@@ -86,9 +86,16 @@ BOOL endOfIssues;
     // Keep the section header on the top
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
+    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+    
+    // Add a footer loading spinner
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner startAnimating];
+    spinner.frame = CGRectMake(0, 0, 320, 44);
+    self.tableView.tableFooterView = spinner;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -180,21 +187,6 @@ BOOL endOfIssues;
     _detailPublisher = [LBXPublisher MR_findFirstByAttribute:@"publisherID" withValue:_publisherID];
 }
 
-- (void)fetchPullList
-{
-    // Fetch pull list titles
-    [_client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        
-        if (!error) {
-            [self createTitlesArray];
-        }
-        else {
-            //[LBXMessageBar displayError:error];
-        }
-        [self.view setNeedsDisplay];
-    }];
-}
-
 - (void)fetchPublisher
 {
     [_client fetchPublisher:_publisherID withCompletion:^(LBXPublisher *publisher, RKObjectRequestOperation *response, NSError *error) {
@@ -256,8 +248,9 @@ BOOL endOfIssues;
     [_client fetchTitlesForPublisher:_publisherID page:page withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            if (titleArray.count == 0) {
+            if (titleArray.count == 0 || [_detailPublisher.titleCount intValue] == _titlesForPublisherArray.count) {
                 endOfIssues = YES;
+                self.tableView.tableFooterView = nil;
             }
             [self fetchAllIssuesWithTitleArray:titleArray];
         }
@@ -391,9 +384,8 @@ BOOL endOfIssues;
         
     }
     
-    if (indexPath.row > _titlesForPublisherArray.count - 20 && !endOfIssues) {
-        int value = [_page integerValue];
-        _page = [NSNumber numberWithInt:value+1];
+    if (indexPath.row == _titlesForPublisherArray.count - 1 && !endOfIssues) {
+        _page = [NSNumber numberWithInt:[_page integerValue]+1];
         [self fetchAllTitlesWithPage:_page];
     }
     

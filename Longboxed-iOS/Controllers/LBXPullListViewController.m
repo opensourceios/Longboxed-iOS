@@ -129,6 +129,7 @@ CGFloat cellWidth;
     _searchBar.hidden = YES;
     _searchBar.placeholder = @"Add Title to Pull List";
     _searchBar.backgroundColor = [UIColor clearColor];
+
     _searchBar.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, _searchBar.frame.size.height);
     
     // Reload the pull list when using the back button on the title view
@@ -167,6 +168,16 @@ CGFloat cellWidth;
     
     // SearchBar placeholder text font
     [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
+    // SearchBar text field input font
+    for (UIView *subviews in _searchBar.subviews) {
+        for (UIView *subview in subviews.subviews) {
+            if ([subview isKindOfClass:[UITextField class]]) {
+                UITextField *searchField = (UITextField *)subview;
+                searchField.font = [UIFont searchPlaceholderFont];
+                searchField.textColor = [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] textColor];
+            }
+        }
+    }
     
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor whiteColor];
@@ -333,9 +344,19 @@ CGFloat cellWidth;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
     });
+    
     // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
+            // Delete any items that may have been removed from
+            // the pull list
+            NSArray *objects = [LBXPullListTitle MR_findAll];
+            for (NSManagedObject *managedObject in objects) {
+                if (![pullListArray containsObject:managedObject]) {
+                    [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
+                }
+            }
+            
             [self fillPullListArray];
             [self getAllIssuesForTitleArray:_pullListArray];
         }

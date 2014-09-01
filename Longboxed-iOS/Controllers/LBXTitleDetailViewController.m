@@ -100,6 +100,13 @@ BOOL saveSheetVisible;
     // Keep the section header on the top
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
+    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
+    
+    // Add a footer loading spinner
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner startAnimating];
+    spinner.frame = CGRectMake(0, 0, 320, 44);
+    self.tableView.tableFooterView = spinner;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
@@ -408,6 +415,7 @@ BOOL saveSheetVisible;
         if (!error) {
             if (pullListArray.count == 0) {
                 endOfIssues = YES;
+                self.tableView.tableFooterView = nil;
             }
             
             // Fetch all the alternate titles too
@@ -649,6 +657,7 @@ BOOL saveSheetVisible;
     }
 
     LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
+    NSLog(@"Selected issueID: %@", issue.issueID);
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
     // Set up the scroll view controller containment if there are alternate issues

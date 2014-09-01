@@ -107,6 +107,11 @@ BOOL endOfThisWeeksComics;
              forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:_refreshControl];
     
+    // Add a footer loading spinner
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner startAnimating];
+    spinner.frame = CGRectMake(0, 0, 320, 44);
+    
     _thisWeeksComicsArray = [NSArray new];
     
     _client = [LBXClient new];
