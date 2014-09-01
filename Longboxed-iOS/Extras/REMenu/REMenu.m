@@ -90,7 +90,9 @@
         _borderColor =  [UIColor colorWithRed:28/255.0 green:28/255.0 blue:27/255.0 alpha:1.0];
         _animationDuration = 0.3;
         _bounce = YES;
-        _bounceAnimationDuration = 0.2;
+        _bounceAnimationDuration = 0.08;
+        
+        _retractAnimationDuration = 0.2;
         
         _appearsBehindNavigationBar = REUIKitIsFlatMode() ? YES : NO;
     }
@@ -314,7 +316,7 @@
     CGFloat navigationBarOffset = self.appearsBehindNavigationBar && self.navigationBar ? 64 : 0;
     
     void (^closeMenu)(void) = ^{
-        [UIView animateWithDuration:self.animationDuration
+        [UIView animateWithDuration:self.retractAnimationDuration
                               delay:0.0
                             options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
                          animations:^ {

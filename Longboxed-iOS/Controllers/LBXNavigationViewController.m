@@ -51,8 +51,24 @@ PaperButton *button;
                                                                
                                                                [self addPaperButtonToViewController:controller];
                                                                
-                                                               [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.6];
+                                                               [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.1];
                                                            }];
+    
+    FAKFontAwesome *comicsIcon = [FAKFontAwesome bookIconWithSize:checksize];
+    [comicsIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    iconImage = [comicsIcon imageWithSize:CGSizeMake(checksize, checksize)];
+    
+    REMenuItem *comicsItem = [[REMenuItem alloc] initWithTitle:@"Comics"
+                                                           image:iconImage
+                                                highlightedImage:nil
+                                                          action:^(REMenuItem *item) {
+                                                              LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
+                                                              controller.title = @"Comics";
+                                                              
+                                                              [self addPaperButtonToViewController:controller];
+                                                              
+                                                              [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.1];
+                                                          }];
     
     // Arrow with down circle icon
     FAKFontAwesome *thisWeekIcon = [FAKFontAwesome arrowCircleODownIconWithSize:checksize];
@@ -68,7 +84,7 @@ PaperButton *button;
                                                               
                                                               [self addPaperButtonToViewController:controller];
                                                               
-                                                              [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.6];
+                                                              [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.1];
                                                           }];
     
     // List Icon
@@ -85,7 +101,7 @@ PaperButton *button;
                                                               
                                                               [self addPaperButtonToViewController:controller];
                                                               
-                                                              [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.6];
+                                                              [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.1];
                                                           }];
     
     
@@ -105,7 +121,7 @@ PaperButton *button;
                                                              
                                                              [self addPaperButtonToViewController:controller];
                                                              
-                                                             [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.6];
+                                                             [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.15];
                                                          }];
     
     homeItem.tag = 0;
@@ -113,13 +129,13 @@ PaperButton *button;
     activityItem.tag = 2;
     profileItem.tag = 3;
     
-    self.menu = [[REMenu alloc] initWithItems:@[homeItem, thisWeekItem, activityItem, profileItem]];
+    self.menu = [[REMenu alloc] initWithItems:@[homeItem, comicsItem, thisWeekItem, activityItem, profileItem]];
     
     // Set up the menu visual properties
     [self setupMenu];
     
     [self.menu setClosePreparationBlock:^{
-        [weakSelf flipButtonToMenu];
+        
         [weakSelf raiseView];
     }];
     
@@ -220,6 +236,7 @@ PaperButton *button;
 
 - (void)dropView
 {
+    [button animateToClose];
     // Taken from REMenu.m
     [UIView animateWithDuration:self.menu.animationDuration+self.menu.bounceAnimationDuration
                           delay:0.0
@@ -240,10 +257,11 @@ PaperButton *button;
 {
     // Taken from the REMenu
     void (^closeMenu)(void) = ^{
-        [UIView animateWithDuration:self.menu.animationDuration
+        [UIView animateWithDuration:self.menu.retractAnimationDuration
                               delay:0.0
                             options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut
                          animations:^ {
+                             [self flipButtonToMenu];
                              CGRect frame = self.view.frame;
                              frame.origin.y = self.view.frame.origin.y;
                              for (UIViewController *viewController in self.viewControllers) {

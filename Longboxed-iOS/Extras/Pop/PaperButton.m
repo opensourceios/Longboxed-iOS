@@ -63,29 +63,29 @@
     CGFloat height = CGRectGetHeight(self.topLayer.bounds);
 
     POPBasicAnimation *fadeAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
-    fadeAnimation.duration = 0.3;
+    fadeAnimation.duration = 0.0001;
     fadeAnimation.toValue = @1;
 
     POPBasicAnimation *positionTopAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPosition];
-    positionTopAnimation.duration = 0.3;
+    positionTopAnimation.duration = 0.0001;
     positionTopAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(CGRectGetMidX(self.bounds),
                                                                          roundf(CGRectGetMinY(self.bounds)+(height/2)))];
 
     POPBasicAnimation *positionBottomAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPosition];
-    positionTopAnimation.duration = 0.3;
+    positionTopAnimation.duration = 0.0001;
     positionBottomAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(CGRectGetMidX(self.bounds),
                                                                             roundf(CGRectGetMaxY(self.bounds)-(height/2)))];
 
     POPSpringAnimation *transformTopAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
     transformTopAnimation.toValue = @(0);
     transformTopAnimation.springBounciness = 20.f;
-    transformTopAnimation.springSpeed = 20;
+    transformTopAnimation.springSpeed = 60;
     transformTopAnimation.dynamicsTension = 1000;
 
     POPSpringAnimation *transformBottomAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
     transformBottomAnimation.toValue = @(0);
     transformBottomAnimation.springBounciness = 20.0f;
-    transformBottomAnimation.springSpeed = 20;
+    transformBottomAnimation.springSpeed = 60;
     transformBottomAnimation.dynamicsTension = 1000;
 
     [self.topLayer pop_addAnimation:positionTopAnimation forKey:@"positionTopAnimation"];
@@ -103,26 +103,26 @@
 
     POPBasicAnimation *fadeAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
     fadeAnimation.toValue = @0;
-    fadeAnimation.duration = 0.3;
+    fadeAnimation.duration = 0.1;
 
     POPBasicAnimation *positionTopAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPosition];
     positionTopAnimation.toValue = [NSValue valueWithCGPoint:center];
-    positionTopAnimation.duration = 0.3;
+    positionTopAnimation.duration = 0.1;
 
     POPBasicAnimation *positionBottomAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPosition];
     positionBottomAnimation.toValue = [NSValue valueWithCGPoint:center];
-    positionTopAnimation.duration = 0.3;
+    positionTopAnimation.duration = 0.1;
 
     POPSpringAnimation *transformTopAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
     transformTopAnimation.toValue = @(M_PI_4);
     transformTopAnimation.springBounciness = 20.f;
-    transformTopAnimation.springSpeed = 20;
+    transformTopAnimation.springSpeed = 60;
     transformTopAnimation.dynamicsTension = 1000;
 
     POPSpringAnimation *transformBottomAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
     transformBottomAnimation.toValue = @(-M_PI_4);
     transformBottomAnimation.springBounciness = 20.0f;
-    transformBottomAnimation.springSpeed = 20;
+    transformBottomAnimation.springSpeed = 60;
     transformBottomAnimation.dynamicsTension = 1000;
 
     [self.topLayer pop_addAnimation:positionTopAnimation forKey:@"positionTopAnimation"];

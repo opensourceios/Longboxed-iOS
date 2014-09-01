@@ -221,7 +221,7 @@ BOOL endOfThisWeeksComics;
 {
     // Get the latest issue in the database
     NSArray *issues = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO];
-    if (issues.count) {
+    if (issues.count && _thisWeekDate) {
         // Subtract one day from it
         NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate == %@) AND (isParent == 1)", _thisWeekDate];
         _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
