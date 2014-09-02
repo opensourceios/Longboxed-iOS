@@ -91,12 +91,6 @@ BOOL endOfIssues;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
-    
-    // Add a footer loading spinner
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [spinner startAnimating];
-    spinner.frame = CGRectMake(0, 0, 320, 44);
-    self.tableView.tableFooterView = spinner;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -247,6 +241,14 @@ BOOL endOfIssues;
 
 - (void)fetchAllTitlesWithPage:(NSNumber *)page
 {
+    if ([page intValue] > 1 && !endOfIssues) {
+        // Add a footer loading spinner
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [spinner startAnimating];
+        spinner.frame = CGRectMake(0, 0, 320, 44);
+        self.tableView.tableFooterView = spinner;
+    }
+    
     // Fetch pull list titles
     [_client fetchTitlesForPublisher:_publisherID page:page withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
         
