@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		7A07AC5BCD7045119317C8CF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		CDE56D0EB54A49F3B06F8E78 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; };
+		E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5519B534AC0021CEE8 /* ColorLog.m */; };
+		E5068A5C19B534AC0021CEE8 /* PSDDFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5919B534AC0021CEE8 /* PSDDFormatter.m */; };
+		E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5F19B53A5B0021CEE8 /* DDNSLoggerLogger.m */; };
 		E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = E50C2A391998605500AD5FC6 /* arrow.png */; };
 		E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E50C2A3A1998605500AD5FC6 /* arrow@2x.png */; };
 		E510AF8F198C7B7D004A7225 /* NSArray+RKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEBF198C7B7D004A7225 /* NSArray+RKAdditions.m */; };
@@ -33,7 +36,6 @@
 		E510AFAF198C7B7D004A7225 /* UIView+NBUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEFB198C7B7D004A7225 /* UIView+NBUAdditions.m */; };
 		E510AFB1198C7B7D004A7225 /* UIWebView+NBUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEFF198C7B7D004A7225 /* UIWebView+NBUAdditions.m */; };
 		E510AFB2198C7B7D004A7225 /* NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF01198C7B7D004A7225 /* NBUKit.m */; };
-		E510AFB3198C7B7D004A7225 /* NBULog+NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF04198C7B7D004A7225 /* NBULog+NBUKit.m */; };
 		E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AFF4198C7D09004A7225 /* NBUCore.m */; };
 		E5165E49198E8618001CDECA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5165E48198E8618001CDECA /* CoreData.framework */; };
 		E51A778E19904E1F00AD12A7 /* UIColor+customColors.m in Sources */ = {isa = PBXBuildFile; fileRef = E51A778D19904E1F00AD12A7 /* UIColor+customColors.m */; };
@@ -123,6 +125,10 @@
 		E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */; };
 		E5B6FCE219983DFC0022F4CA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E5B6FCDD19983DFC0022F4CA /* README.md */; };
 		E5B6FCE51998497A0022F4CA /* LBXTitleAndPublisherServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */; };
+		E5CCAC5419B53BD30068AD8D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */; };
+		E5CCAC5619B53BE60068AD8D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */; };
+		E5CCAC5719B53C4E0068AD8D /* NBULog+NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF04198C7B7D004A7225 /* NBULog+NBUKit.m */; };
+		E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */; };
 		E5D9A89019A9193200BC06C1 /* JTSAnimatedGIFUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88319A9193200BC06C1 /* JTSAnimatedGIFUtility.m */; };
 		E5D9A89119A9193200BC06C1 /* JTSImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88519A9193200BC06C1 /* JTSImageInfo.m */; };
 		E5D9A89219A9193200BC06C1 /* JTSImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A88719A9193200BC06C1 /* JTSImageViewController.m */; };
@@ -152,6 +158,12 @@
 /* Begin PBXFileReference section */
 		7AD8046282F84878BFC9B82F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		E1E220888AF5409D902176E2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5068A5419B534AC0021CEE8 /* ColorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorLog.h; sourceTree = "<group>"; };
+		E5068A5519B534AC0021CEE8 /* ColorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorLog.m; sourceTree = "<group>"; };
+		E5068A5819B534AC0021CEE8 /* PSDDFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSDDFormatter.h; sourceTree = "<group>"; };
+		E5068A5919B534AC0021CEE8 /* PSDDFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSDDFormatter.m; sourceTree = "<group>"; };
+		E5068A5E19B53A5B0021CEE8 /* DDNSLoggerLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNSLoggerLogger.h; sourceTree = "<group>"; };
+		E5068A5F19B53A5B0021CEE8 /* DDNSLoggerLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDNSLoggerLogger.m; sourceTree = "<group>"; };
 		E50C2A391998605500AD5FC6 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow.png; path = Assets/arrow.png; sourceTree = SOURCE_ROOT; };
 		E50C2A3A1998605500AD5FC6 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow@2x.png"; path = "Assets/arrow@2x.png"; sourceTree = SOURCE_ROOT; };
 		E510AEAF198C7B7D004A7225 /* NBUCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBUCompatibility.h; sourceTree = "<group>"; };
@@ -360,6 +372,10 @@
 		E5B6FCDD19983DFC0022F4CA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E5B6FCE31998497A0022F4CA /* LBXTitleAndPublisherServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleAndPublisherServices.h; path = Abstract/LBXTitleAndPublisherServices.h; sourceTree = "<group>"; };
 		E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleAndPublisherServices.m; path = Abstract/LBXTitleAndPublisherServices.m; sourceTree = "<group>"; };
+		E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		E5CCAC5819B53EDB0068AD8D /* LBXLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLogging.h; path = Abstract/LBXLogging.h; sourceTree = "<group>"; };
+		E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLogging.m; path = Abstract/LBXLogging.m; sourceTree = "<group>"; };
 		E5D9A87D19A6F46800BC06C1 /* LBXCoreData 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LBXCoreData 2.xcdatamodel"; sourceTree = "<group>"; };
 		E5D9A88219A9193200BC06C1 /* JTSAnimatedGIFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSAnimatedGIFUtility.h; sourceTree = "<group>"; };
 		E5D9A88319A9193200BC06C1 /* JTSAnimatedGIFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSAnimatedGIFUtility.m; sourceTree = "<group>"; };
@@ -393,6 +409,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5CCAC5619B53BE60068AD8D /* OpenGLES.framework in Frameworks */,
+				E5CCAC5419B53BD30068AD8D /* QuartzCore.framework in Frameworks */,
 				E55497A519AAE284004501FF /* SystemConfiguration.framework in Frameworks */,
 				E5165E49198E8618001CDECA /* CoreData.framework in Frameworks */,
 				E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */,
@@ -416,6 +434,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E5068A5319B534AC0021CEE8 /* Lumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				E5068A5419B534AC0021CEE8 /* ColorLog.h */,
+				E5068A5519B534AC0021CEE8 /* ColorLog.m */,
+				E5068A5E19B53A5B0021CEE8 /* DDNSLoggerLogger.h */,
+				E5068A5F19B53A5B0021CEE8 /* DDNSLoggerLogger.m */,
+				E5068A5819B534AC0021CEE8 /* PSDDFormatter.h */,
+				E5068A5919B534AC0021CEE8 /* PSDDFormatter.m */,
+			);
+			name = Lumberjack;
+			path = Extras/Lumberjack;
+			sourceTree = "<group>";
+		};
 		E510AD79198C7B7C004A7225 /* iOS-NBUKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -604,6 +636,8 @@
 		E57D48C5196068E10014A13F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */,
+				E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */,
 				E55497A419AAE284004501FF /* SystemConfiguration.framework */,
 				E575162019908AD00052D4C4 /* libPods-AFNetworking.a */,
 				E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */,
@@ -712,6 +746,8 @@
 		E57D49131960A21D0014A13F /* Abstract */ = {
 			isa = PBXGroup;
 			children = (
+				E5CCAC5819B53EDB0068AD8D /* LBXLogging.h */,
+				E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */,
 				E54A6AFD196BA5D70094979A /* LBXEndpoints.h */,
 				E54A6AFE196BA5D70094979A /* LBXEndpoints.m */,
 				E54A6AFA196BA45F0094979A /* LBXMap.h */,
@@ -778,6 +814,7 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				E5068A5319B534AC0021CEE8 /* Lumberjack */,
 				E57E157919AA84FF002616F5 /* JGActionSheet */,
 				E5D9A87E19A9193200BC06C1 /* JTSImageViewController */,
 				E5B6FCD219983DFC0022F4CA /* MGSpotyViewController */,
@@ -1222,6 +1259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5CCAC5719B53C4E0068AD8D /* NBULog+NBUKit.m in Sources */,
 				E54A6AF9196B9E8B0094979A /* LBXBundle.m in Sources */,
 				E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */,
 				E57D48D3196068E10014A13F /* main.m in Sources */,
@@ -1234,10 +1272,10 @@
 				E510AFB1198C7B7D004A7225 /* UIWebView+NBUAdditions.m in Sources */,
 				E510AF97198C7B7D004A7225 /* RKOrderedDictionary.m in Sources */,
 				E510AF98198C7B7D004A7225 /* UIImage+RKAdditions.m in Sources */,
-				E510AFB3198C7B7D004A7225 /* NBULog+NBUKit.m in Sources */,
 				E51F72BC1997E22D00F643EF /* NSArray+ArrayUtilities.m in Sources */,
 				E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */,
 				E510AF90198C7B7D004A7225 /* NSBundle+RKAdditions.m in Sources */,
+				E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */,
 				E57D4956196118950014A13F /* REMenuItemView.m in Sources */,
 				E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */,
 				E5D9A89319A9193200BC06C1 /* JTSSimpleImageDownloader.m in Sources */,
@@ -1246,6 +1284,8 @@
 				E510AFAD198C7B7D004A7225 /* UIScrollView+NBUAdditions.m in Sources */,
 				E510AFAA198C7B7D004A7225 /* UIImageView+NBUAdditions.m in Sources */,
 				E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */,
+				E5068A5C19B534AC0021CEE8 /* PSDDFormatter.m in Sources */,
+				E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */,
 				E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */,
 				E510AFAB198C7B7D004A7225 /* UINavigationController+NBUAdditions.m in Sources */,
 				E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */,
@@ -1273,6 +1313,7 @@
 				E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */,
 				E510AF94198C7B7D004A7225 /* NSURL+RKAdditions.m in Sources */,
 				E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */,
+				E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */,
 				E5F1873219638BBC006C4C26 /* EasyTableView.m in Sources */,
 				E51A77911990823800AD12A7 /* UIFont+customFonts.m in Sources */,
 				E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */,

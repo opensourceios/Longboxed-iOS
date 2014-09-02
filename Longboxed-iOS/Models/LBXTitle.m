@@ -16,4 +16,9 @@
 @dynamic publisher;
 @dynamic subscribers;
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Title: %@\nID: %@\nPublisher: %@\nSubscribers: %@\nIssue Count: %@", self.name, self.titleID, self.publisher.name, self.subscribers, self.issueCount];
+}
+
 @end

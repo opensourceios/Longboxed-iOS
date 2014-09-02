@@ -15,6 +15,7 @@
 #import "UIImage+ImageEffects.h"
 #import "JTSImageViewController.h"
 #import "JGActionSheet.h"
+#import "LBXLogging.h"
 
 #import <QuartzCore/QuartzCore.h>
 #import <UIImageView+AFNetworking.h>
@@ -153,6 +154,7 @@ BOOL saveSheetVisible;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [LBXLogging logMessage:[NSString stringWithFormat:@"LBXIssue\n%@\ndid appear", _issue]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

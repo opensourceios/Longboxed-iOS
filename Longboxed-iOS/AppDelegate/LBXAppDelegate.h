@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <DDFileLogger.h>
 
 @interface LBXAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic) DDFileLogger *fileLogger;
 
+- (NSString *) getLogFilesContentWithMaxSize:(NSInteger)maxSize;
 @end

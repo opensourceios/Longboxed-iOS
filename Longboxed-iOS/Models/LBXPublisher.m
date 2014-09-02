@@ -26,4 +26,10 @@
 @dynamic primaryColor;
 @dynamic secondaryColor;
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Publisher: %@\nID: %@\ntitleCount: %@\nIssue Count: %@", self.name, self.publisherID, self.titleCount, self.issueCount];
+}
+
+
 @end

@@ -17,6 +17,7 @@
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
+#import "LBXLogging.h"
 
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
@@ -111,6 +112,8 @@ BOOL endOfIssues;
     }
     self.title = _detailPublisher.name;
     self.navigationController.navigationBar.topItem.title = _detailPublisher.name;
+    
+    [LBXLogging logMessage:[NSString stringWithFormat:@"LBXPublisher\n%@\ndid appear", _detailPublisher]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -438,6 +441,7 @@ BOOL endOfIssues;
     LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
     
     LBXTitle *title = [_titlesForPublisherArray objectAtIndex:indexPath.row];
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", title]];
     titleViewController.titleID = title.titleID;
     titleViewController.latestIssueImage = cell.latestIssueImageView.image;
     [self.navigationController pushViewController:titleViewController animated:YES];

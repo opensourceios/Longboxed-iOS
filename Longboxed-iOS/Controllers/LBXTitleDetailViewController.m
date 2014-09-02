@@ -16,6 +16,7 @@
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXPublisherDetailViewController.h"
+#import "LBXLogging.h"
 
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
@@ -115,7 +116,7 @@ BOOL saveSheetVisible;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+    [LBXLogging logMessage:[NSString stringWithFormat:@"LBXTitle:\n%@\ndid appear", _detailTitle]];
     self.navigationController.navigationBar.topItem.title = _detailTitle.name;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     if (self.tableView.contentOffset.y > 0) {
@@ -205,7 +206,6 @@ BOOL saveSheetVisible;
         
         NSString *subtitleString = [NSString stringWithFormat:@"Issue %@ released %@", issue.issueNumber, timeSinceString];
         if ([timeSinceString hasPrefix:@"in"]) {
-            NSLog(@"%@", issue.issueNumber);
             subtitleString = [NSString stringWithFormat:@"Issue %@ will be released %@", issue.issueNumber, timeSinceString];
         }
         _detailView.latestIssueLabel.text = subtitleString;
@@ -300,7 +300,7 @@ BOOL saveSheetVisible;
 {
     _detailView.addToPullListButton.tag = 0;
     [_detailView.addToPullListButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
-    LBXTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
+    LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
     if (title) {
         [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
         _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
@@ -656,7 +656,7 @@ BOOL saveSheetVisible;
     }
 
     LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
-    NSLog(@"Selected issueID: %@", issue.issueID);
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Selected issue %@", issue]];
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
     // Set up the scroll view controller containment if there are alternate issues

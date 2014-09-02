@@ -7,11 +7,12 @@ pod 'HockeySDK'
 pod 'UICKeyChainStore'
 pod 'pop'
 pod 'RestKit'
-pod 'MagicalRecord/Shorthand'
+pod 'MagicalRecord', :head
 pod 'FontAwesomeKit', '~> 2.1.0'
 pod 'MCSwipeTableViewCell'
 pod 'SVProgressHUD', :head
-
+pod 'CocoaLumberjack', '~> 1.9'
+pod 'NSLogger'
 
 # Customized
 # pod 'JTSImageViewController'

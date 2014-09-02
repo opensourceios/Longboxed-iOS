@@ -31,7 +31,6 @@ NSString *productionURL = @"http://www.longboxed.com";
     else {
         return productionURL;
     }
-    
 }
 
 + (NSDictionary *)endpoints

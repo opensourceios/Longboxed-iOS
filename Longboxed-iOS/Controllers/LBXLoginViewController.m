@@ -12,6 +12,7 @@
 #import "LBXClient.h"
 #import "LBXMessageBar.h"
 #import "LBXEndpoints.h"
+#import "LBXLogging.h"
 
 #import <UICKeyChainStore.h>
 #import <TWMessageBarManager.h>
@@ -123,6 +124,7 @@ UICKeyChainStore *store;
         // Log out
         case 1:
         {
+            [LBXLogging logLogout];
             [self removeCredentials];
             [LBXDatabaseManager flushDatabase];
             [LBXMessageBar successfulLogout];
@@ -147,10 +149,10 @@ UICKeyChainStore *store;
                 [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
                 [store synchronize];
                 [LBXMessageBar successfulLogin];
+                [LBXLogging logLogin];
             });
         }
         else {
-            
             [self removeCredentials];
             [LBXDatabaseManager flushDatabase];
             

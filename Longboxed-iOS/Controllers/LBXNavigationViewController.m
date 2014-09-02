@@ -16,6 +16,7 @@
 #import "PaperButton.h"
 #import "UIColor+customColors.h"
 #import "UIFont+customFonts.h"
+#import "LBXLogging.h"
 
 #import <POP/POP.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
@@ -50,7 +51,7 @@ PaperButton *button;
                                                                controller.title = @"Home";
                                                                
                                                                [self addPaperButtonToViewController:controller];
-                                                               
+                                                               [LBXLogging logMessage:@"Selected Home View"];
                                                                [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.1];
                                                            }];
     
@@ -66,7 +67,7 @@ PaperButton *button;
                                                               controller.title = @"Comics";
                                                               
                                                               [self addPaperButtonToViewController:controller];
-                                                              
+                                                              [LBXLogging logMessage:@"Selected Comics View"];
                                                               [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.1];
                                                           }];
     
@@ -83,7 +84,7 @@ PaperButton *button;
                                                               controller.title = @"This Week";
                                                               
                                                               [self addPaperButtonToViewController:controller];
-                                                              
+                                                              [LBXLogging logMessage:@"Selected This Week View"];
                                                               [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.1];
                                                           }];
     
@@ -100,7 +101,7 @@ PaperButton *button;
                                                               controller.title = @"Pull List";
                                                               
                                                               [self addPaperButtonToViewController:controller];
-                                                              
+                                                              [LBXLogging logMessage:@"Selected Pull List View"];
                                                               [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.1];
                                                           }];
     
@@ -120,7 +121,7 @@ PaperButton *button;
                                                              controller.title = @"Log In";
                                                              
                                                              [self addPaperButtonToViewController:controller];
-                                                             
+                                                             [LBXLogging logMessage:@"Selected Log In View"];
                                                              [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.15];
                                                          }];
     

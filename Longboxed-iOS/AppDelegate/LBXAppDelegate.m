@@ -10,8 +10,16 @@
 #import "LBXAppDelegate.h"
 #import "LBXHomeViewController.h"
 #import "LBXNavigationViewController.h"
+#import "LBXLogging.h"
 
 #import "HockeySDK.h"
+
+// Logging
+#import "DDLog.h"
+#import "DDNSLoggerLogger.h"
+#import "DDTTYLogger.h"
+#import "NSLogger.h"
+#import "PSDDFormatter.h"
 
 @implementation LBXAppDelegate
 
@@ -29,19 +37,76 @@
     
     [self.window makeKeyAndVisible];
     
+    // initialize before HockeySDK, so the delegate can access the file logger!
+    _fileLogger = [[DDFileLogger alloc] init];
+    _fileLogger.maximumFileSize = (1024 * 500); // 500 KByte
+    _fileLogger.logFileManager.maximumNumberOfLogFiles = 1;
+    [_fileLogger rollLogFileWithCompletionBlock:nil];
+    [DDLog addLogger:_fileLogger];
+    
     // Hockey app needs to be the last 3rd party integration in this method
     
     // Alpha Version
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"4064359702d9b0088c5ccb88d7d897b5"];
     
+    // add Xcode console logger if not running in the App Store
+    if (![[BITHockeyManager sharedHockeyManager] isAppStoreEnvironment]) {
+        PSDDFormatter *psLogger = [[PSDDFormatter alloc] init];
+        [[DDTTYLogger sharedInstance] setLogFormatter:psLogger];
+        
+        [DDLog addLogger:[DDTTYLogger sharedInstance]];
+        [DDLog addLogger:[DDNSLoggerLogger sharedInstance]];
+    }
+    
+    [LBXLogging beginLogging];
+    
     // Automatically send crash reports
     [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus: BITCrashManagerStatusAutoSend];
     
+    [[BITHockeyManager sharedHockeyManager].crashManager setDelegate:self];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
     return YES;
 }
+
+// get the log content with a maximum byte size
+- (NSString *) getLogFilesContentWithMaxSize:(NSInteger)maxSize {
+    NSMutableString *description = [NSMutableString string];
+    
+    NSArray *sortedLogFileInfos = [[_fileLogger logFileManager] sortedLogFileInfos];
+    NSInteger count = [sortedLogFileInfos count];
+    // we start from the last one
+    for (NSInteger index = count - 1; index >= 0; index--) {
+        DDLogFileInfo *logFileInfo = [sortedLogFileInfos objectAtIndex:index];
+        NSData *logData = [[NSFileManager defaultManager] contentsAtPath:[logFileInfo filePath]];
+        if ([logData length] > 0) {
+            NSString *result = [[NSString alloc] initWithBytes:[logData bytes]
+                                                        length:[logData length]
+                                                      encoding: NSUTF8StringEncoding];
+            
+            [description appendString:result];
+        }
+    }
+    
+    if ((long)[description length] > maxSize) {
+        description = (NSMutableString *)[description substringWithRange:NSMakeRange([description length]-maxSize-1, maxSize)];
+    }
+    
+    return description;
+}
+
+#pragma mark - BITCrashManagerDelegate
+
+- (NSString *)applicationLogForCrashManager:(BITCrashManager *)crashManager {
+    NSString *description = [self getLogFilesContentWithMaxSize:5000]; // 5000 bytes should be enough!
+    if ([description length] == 0) {
+        return nil;
+    } else {
+        return description;
+    }
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
