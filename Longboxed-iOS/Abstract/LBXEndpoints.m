@@ -10,8 +10,8 @@
 
 @implementation LBXEndpoints
 
-NSString *stagingURL = @"http://longboxed-staging.herokuapp.com";
-NSString *productionURL = @"http://www.longboxed.com";
+NSString *stagingURL = @"https://longboxed-staging.herokuapp.com";
+NSString *productionURL = @"https://longboxed.herokuapp.com";
 
 + (NSURL *)stagingURL
 {

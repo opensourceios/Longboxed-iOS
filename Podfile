@@ -7,7 +7,7 @@ pod 'HockeySDK'
 pod 'UICKeyChainStore'
 pod 'pop'
 pod 'RestKit'
-pod 'MagicalRecord', :head
+pod 'MagicalRecord' , :git => 'https://github.com/magicalpanda/MagicalRecord.git', :branch => 'develop'
 pod 'FontAwesomeKit', '~> 2.1.0'
 pod 'MCSwipeTableViewCell'
 pod 'SVProgressHUD', :head
