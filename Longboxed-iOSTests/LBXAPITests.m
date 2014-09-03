@@ -126,7 +126,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testIssuesForTitleEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchIssuesForTitle:[NSNumber numberWithInt:103] withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchIssuesForTitle:[NSNumber numberWithInt:103] page:@1 withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues for title endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotEqual(titleArray.count, 0, @"Issues for title JSON is returning nil");
             *done = YES;
@@ -175,7 +175,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testTitlesForPublisherEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchTitlesForPublisher:[NSNumber numberWithInt:4] withCompletion:^(NSArray *publisherArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchTitlesForPublisher:[NSNumber numberWithInt:4] page:@1 withCompletion:^(NSArray *publisherArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Titles for publisher endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotEqual(publisherArray.count, 0, @"Publisher w/ num JSON is returning nil");
             *done = YES;

@@ -756,10 +756,10 @@
 				E54A6B04196BA7CF0094979A /* LBXDescriptors.m */,
 				E553F5A01994691A003E1F5C /* LBXDatabaseManager.h */,
 				E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */,
-				E57D49101960A2180014A13F /* LBXClient.h */,
 				E57D49111960A2180014A13F /* LBXClient.m */,
 				E5B6FCE31998497A0022F4CA /* LBXTitleAndPublisherServices.h */,
 				E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */,
+				E57D49101960A2180014A13F /* LBXClient.h */,
 			);
 			name = Abstract;
 			sourceTree = "<group>";

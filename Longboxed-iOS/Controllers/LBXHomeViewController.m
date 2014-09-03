@@ -27,7 +27,7 @@
 
 @property (nonatomic) EasyTableView *easyTableView;
 @property (nonatomic) LBXClient *client;
-@property (nonatomic) NSArray *latestBundle;
+@property (nonatomic) NSArray *latestBundles;
 @property (nonatomic) NSArray *thisWeeksComicsArray;
 @property (nonatomic, strong) IBOutlet UILabel *bundleCountLabel;
 @property (nonatomic, strong) IBOutlet UILabel *issuesInYourBundleThisWeekLabel;
@@ -64,10 +64,20 @@ LBXNavigationViewController *navigationController;
     // Do any additional setup after loading the view from its nib.
     _bundleCountLabel.text = @"";
     
-    _latestBundle = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+    _latestBundles = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
     [self configureBundleLabels];
     
     _client = [LBXClient new];
+    
+    [self refresh];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    _latestBundles = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
+    [self configureBundleLabels];
     
     [self refresh];
 }
@@ -96,13 +106,13 @@ LBXNavigationViewController *navigationController;
 
 - (void)refresh
 {
-    if ([UICKeyChainStore keyChainStore][@"id"]) {
+    if ([UICKeyChainStore stringForKey:@"id"]) {
         // Fetch the users bundles
-        [self.client fetchBundleResourcesWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchBundleResourcesWithCompletion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
                 // Get the bundles from Core Data
-                _latestBundle = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+                _latestBundles = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
                 [self configureBundleLabels];
             }
             else {
@@ -120,8 +130,8 @@ LBXNavigationViewController *navigationController;
     dispatch_async(dispatch_get_main_queue(), ^{
         _bundleCountLabel.text = @"0";
         LBXBundle *bundle;
-        if (_latestBundle.firstObject) {
-            bundle = _latestBundle.firstObject;
+        if (_latestBundles.firstObject) {
+            bundle = _latestBundles.firstObject;
             [self setupEasyTableViewWithNumCells:bundle.issues.count];
             _bundleCountLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)bundle.issues.count];
         }
@@ -182,8 +192,8 @@ LBXNavigationViewController *navigationController;
     CGRect contentViewBound = comicImageView.bounds;
     
     LBXIssue *issue;
-    if (_latestBundle.firstObject) {
-        LBXBundle *bundle = _latestBundle.firstObject;
+    if (_latestBundles.firstObject) {
+        LBXBundle *bundle = _latestBundles.firstObject;
         issue = [[bundle.issues allObjects] objectAtIndex:indexPath.row];
     }
     else return;

@@ -49,7 +49,6 @@
     #define NBUKIT_LOG_LEVEL LOG_LEVEL_WARN
 #endif
 
-#define LOG_LEVEL_DEF   NBUKIT_LOG_LEVEL
 #import <CocoaLumberjack/DDLog.h>
 
 #define NBULogError(frmt, ...)      DDLogError(frmt, ##__VA_ARGS__)

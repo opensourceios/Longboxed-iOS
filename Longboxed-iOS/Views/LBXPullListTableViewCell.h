@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *subtitleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *imageViewSeparatorLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *latestIssueImageView;
 
 @end

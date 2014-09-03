@@ -59,13 +59,13 @@
 }
 
 + (void)setupRestKit {
-//    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.longboxed.Longboxed-iOSDebug"]) {
-//        RKLogConfigureByName("RestKit*", RKLogLevelDebug); // set all RestKit logs to warning (leaving the app-specific log untouched).
-//        RKLogConfigureByName("RestKit/CoreData", RKLogLevelDebug);
-//    }
-//    else {
-//        RKLogConfigureByName("*", RKLogLevelOff)
-//    }
+    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.longboxed.Longboxed-iOSDebug"]) {
+        RKLogConfigureByName("RestKit*", RKLogLevelDebug); // set all RestKit logs to warning (leaving the app-specific log untouched).
+        RKLogConfigureByName("RestKit/CoreData", RKLogLevelDebug);
+    }
+    else {
+        RKLogConfigureByName("*", RKLogLevelOff)
+    }
     
     RKLogConfigureByName("*", RKLogLevelOff)
     

@@ -503,7 +503,7 @@ CGFloat cellWidth;
         }
         
         // Set the line separator to go all the way across
-        [_searchBarController.searchResultsTableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [_searchBarController.searchResultsTableView setSeparatorInset:UIEdgeInsetsZero];
         
         cell.textLabel.numberOfLines = 0;
         cell.textLabel.font = [UIFont searchFont];
@@ -542,6 +542,8 @@ CGFloat cellWidth;
         static NSString *CellIdentifier = @"PullListCell";
         
         LBXPullListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        [tableView setSeparatorInset:UIEdgeInsetsZero];
         
         if (cell == nil) {
             // Custom cell as explained here: https://medium.com/p/9bee5824e722
