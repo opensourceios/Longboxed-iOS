@@ -47,6 +47,8 @@ BOOL saveSheetVisible;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
+    
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
     
@@ -515,7 +517,7 @@ BOOL saveSheetVisible;
         }
     }];
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", title.titleID];
-    [LBXPullListTitle deleteAllMatchingPredicate:predicate];
+    [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
     [self createPullListArray];
 }
 

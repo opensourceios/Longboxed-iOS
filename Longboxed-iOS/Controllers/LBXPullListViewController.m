@@ -29,6 +29,7 @@
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <SVProgressHUD.h>
+#import <UINavigationController+M13ProgressViewBar.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
 
@@ -79,6 +80,12 @@ CGFloat cellWidth;
 
 - (void)viewDidLoad
 {
+    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
+    
+    // Progress bar
+    [self.navigationController setPrimaryColor:[UIColor blackColor]];
+    [self.navigationController setSecondaryColor:[UIColor whiteColor]];
+    
     [super viewDidLoad];
     
     // Background color for the swiping of the cells
@@ -135,6 +142,11 @@ CGFloat cellWidth;
     
     // Reload the pull list when using the back button on the title view
     _client = [LBXClient new];
+
+    [self fillPullListArray];
+    if (_pullListArray.count == 0) {
+        [self refresh];
+    }
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -144,7 +156,6 @@ CGFloat cellWidth;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self refresh];
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
 }
@@ -152,6 +163,8 @@ CGFloat cellWidth;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [navigationController setProgress:0.0 animated:NO];
     
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.shadowImage = nil;
@@ -194,8 +207,16 @@ CGFloat cellWidth;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    self.navigationController.navigationBar.topItem.title = @" ";
     [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.topItem.title = @" ";
+    [navigationController setIndeterminate:NO];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self.refreshControl endRefreshing];
+    [navigationController cancelProgress];
+    [super viewDidDisappear:animated];
 }
 
 - (void)viewWillLayoutSubviews
@@ -338,6 +359,9 @@ CGFloat cellWidth;
 - (void)refresh
 {
     [self fillPullListArray];
+    [navigationController showProgress];
+    [navigationController setProgress:0.0 animated:NO];
+    
     if (_pullListArray.count == 0) {
         self.tableView.contentOffset = CGPointMake(0, -self.refreshControl.frame.size.height);
         [self.refreshControl beginRefreshing];
@@ -346,6 +370,7 @@ CGFloat cellWidth;
         [self.tableView reloadData];
     });
     
+    [self.navigationController setIndeterminate:YES];
     // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
@@ -371,16 +396,23 @@ CGFloat cellWidth;
 - (void)getAllIssuesForTitleArray:(NSArray *)titleArray {
     
     __block NSUInteger i = 1;
-    
     // Fetch all the titles from the API so we can get the latest issue
     for (LBXTitle *title in titleArray) {
         [self.client fetchIssuesForTitle:title.titleID page:@1 count:@1 withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [navigationController setIndeterminate:NO];
+                [navigationController setProgress:((double)i/titleArray.count) animated:YES];
+            });
+            
             // Wait until all titles in _pullListArray have been fetched
-            if (i == _pullListArray.count) {
+            if (i == titleArray.count) {
                 if (!error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.tableView reloadData];
                         [self.refreshControl endRefreshing];
+                        [navigationController finishProgress];
+                        [navigationController setProgress:0.0 animated:NO];
                     });
                 }
                 else {
@@ -433,7 +465,7 @@ CGFloat cellWidth;
     }];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", title.titleID];
-    [LBXPullListTitle deleteAllMatchingPredicate:predicate];
+    [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
     [self fillPullListArray];
 }
 

@@ -45,6 +45,8 @@ CGRect screenRect;
 {
     [super viewDidLoad];
     
+    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
+    
     CGRect viewFrame = self.view.frame;
     int navAndStatusHeight = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
     viewFrame.origin.y -= navAndStatusHeight;
@@ -77,8 +79,6 @@ CGRect screenRect;
     [super viewDidAppear:animated];
     // Set up the rest of the issue variants
     [self setupIssueViewsWithIssuesArray:[_issues subarrayWithRange:NSMakeRange(1, _issues.count-1)]];
-    
-
 }
 
 #pragma mark Private Methods

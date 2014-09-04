@@ -13,6 +13,7 @@ pod 'MCSwipeTableViewCell'
 pod 'SVProgressHUD', :head
 pod 'CocoaLumberjack', '~> 1.9'
 pod 'NSLogger'
+pod 'M13ProgressSuite'
 
 # Customized
 # pod 'JTSImageViewController'

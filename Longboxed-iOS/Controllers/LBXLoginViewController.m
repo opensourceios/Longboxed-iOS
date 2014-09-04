@@ -47,6 +47,9 @@ UICKeyChainStore *store;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
+    
     // Do any additional setup after loading the view from its nib.
     store = [UICKeyChainStore keyChainStore];
     _usernameField.text = store[@"username"];

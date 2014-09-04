@@ -61,11 +61,11 @@ LBXNavigationViewController *navigationController;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
+    
     // Do any additional setup after loading the view from its nib.
     _bundleCountLabel.text = @"";
-    
-    _latestBundles = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
-    [self configureBundleLabels];
     
     _client = [LBXClient new];
     
@@ -94,7 +94,6 @@ LBXNavigationViewController *navigationController;
     navigationController = (LBXNavigationViewController *)self.navigationController;
     [navigationController.menu setNeedsLayout];
 }
-
 
 - (void)didReceiveMemoryWarning
 {
