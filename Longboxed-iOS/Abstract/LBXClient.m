@@ -244,8 +244,14 @@
 }
 
 // Publishers
-- (void)fetchPublishersWithCompletion:(void (^)(NSArray *, RKObjectRequestOperation*, NSError*))completion {
-    [self GETWithRouteName:@"Publisher Collection" objectDictParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+- (void)fetchPublishersWithPage:(NSNumber *)page completion:(void (^)(NSArray *, RKObjectRequestOperation*, NSError*))completion {
+    
+    NSDictionary *objectDictParams;
+    if (![page isEqualToNumber:@1]) {
+        objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
+    }
+    
+    [self GETWithRouteName:@"Publisher Collection" objectDictParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }

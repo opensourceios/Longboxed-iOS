@@ -1,41 +1,37 @@
 //
-//  LBXThisWeekCollectionViewController.m
+//  LBXPublisherCollectionViewController.m
 //  Longboxed-iOS
 //
-//  Created by johnrhickey on 6/29/14.
-//  Copyright (c) 2014 Jay Hickey. All rights reserved.
+//  Created by johnrhickey on 9/4/14.
+//  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
-#import "LBXThisWeekCollectionViewController.h"
+#import "LBXPublisherCollectionViewController.h"
 #import "LBXClient.h"
 #import "ParallaxFlowLayout.h"
 #import "ParallaxPhotoCell.h"
 #import "LBXNavigationViewController.h"
 #import "LBXTitleAndPublisherServices.h"
-#import "SVWebViewController.h"
-#import "LBXMessageBar.h"
+#import "LBXPublisherDetailViewController.h"
 #import "UIFont+customFonts.h"
 
 #import <UIImageView+AFNetworking.h>
-#import <TWMessageBarManager.h>
 
-@interface LBXThisWeekCollectionViewController () <UICollectionViewDelegateFlowLayout>
+@interface LBXPublisherCollectionViewController () <UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic) LBXClient *client;
-@property (nonatomic) NSArray *thisWeeksComicsArray;
+@property (nonatomic) NSArray *publishersArray;
 @property (nonatomic) NSNumber *page;
-@property (nonatomic) NSDate *thisWeekDate;
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
-
-@implementation LBXThisWeekCollectionViewController
+@implementation LBXPublisherCollectionViewController
 
 LBXNavigationViewController *navigationController;
 
-// 2 comics: 252    3 comics: 168    4 comics: 126
+// 2 publishers: 252    3 publishers: 168    4 publishers: 126
 static const NSUInteger TABLE_HEIGHT_FOUR = 126;
 static const NSUInteger TABLE_HEIGHT_THREE = 168;
 static const NSUInteger TABLE_HEIGHT_TWO = 252;
@@ -43,8 +39,7 @@ static const NSUInteger TABLE_HEIGHT_ONE = 504;
 
 NSInteger tableViewRows;
 CGFloat cellWidth;
-BOOL endOfThisWeeksComics;
-
+BOOL endOfPublishers;
 
 - (id)init
 {
@@ -57,7 +52,7 @@ BOOL endOfThisWeeksComics;
     if (self == nil) {
         return nil;
     }
-
+    
     return self;
 }
 
@@ -69,6 +64,8 @@ BOOL endOfThisWeeksComics;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
@@ -85,11 +82,11 @@ BOOL endOfThisWeeksComics;
     _noResultsLabel.alpha = 0.0;
     
     _noResultsLabel.text = @"No Results";
-
+    
     [self.view addSubview:_noResultsLabel];
     
     _page = [[NSNumber alloc] initWithInt:1];
-    endOfThisWeeksComics = NO;
+    endOfPublishers = NO;
     
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
@@ -105,7 +102,7 @@ BOOL endOfThisWeeksComics;
     // Add refresh
     _refreshControl = [[UIRefreshControl alloc] init];
     [_refreshControl addTarget:self action:@selector(refreshControlAction)
-             forControlEvents:UIControlEventValueChanged];
+              forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:_refreshControl];
     
     // Add a footer loading spinner
@@ -113,18 +110,18 @@ BOOL endOfThisWeeksComics;
     [spinner startAnimating];
     spinner.frame = CGRectMake(0, 0, 320, 44);
     
-    _thisWeeksComicsArray = [NSArray new];
+    _publishersArray = [NSArray new];
     
     _client = [LBXClient new];
     
-    [self setThisWeeksComicsArrayWithLatestIssues];
+    [self setPublisherArrayWithPublishers];
     
-    tableViewRows = _thisWeeksComicsArray.count;
+    tableViewRows = _publishersArray.count;
     [self.collectionView reloadData];
     [_refreshControl endRefreshing];
     
     // Refresh the collection view
-    [self refreshControlAction];
+    if (!_publishersArray.count)[self refreshControlAction];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -139,6 +136,17 @@ BOOL endOfThisWeeksComics;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.navigationBar.shadowImage = nil;
+    self.navigationController.navigationBar.topItem.title = @"Comics";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    
+    [self.navigationController.navigationBar setBackgroundImage:nil
+                                                  forBarMetrics:UIBarMetricsDefault];
+    
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)viewWillLayoutSubviews
@@ -147,8 +155,6 @@ BOOL endOfThisWeeksComics;
     navigationController = (LBXNavigationViewController *)self.navigationController;
     [navigationController.menu setNeedsLayout];
 }
-
-#pragma mark - PrivateMethods
 
 - (void)refreshControlAction
 {
@@ -159,22 +165,16 @@ BOOL endOfThisWeeksComics;
 - (void)refreshViewWithPage:(NSNumber *)page
 {
     // Fetch this weeks comics
-    [self.client fetchThisWeeksComicsWithPage:page completion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client fetchPublishersWithPage:page completion:^(NSArray *publisherArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            if (pullListArray.count == 0) {
-                endOfThisWeeksComics = YES;
+            if (publisherArray.count == 0) {
+                endOfPublishers = YES;
             }
-            else {
-                // Get this week date for fetching
-                // from core data later
-                LBXIssue *issue = pullListArray[0];
-                _thisWeekDate = issue.releaseDate;
-            }
-           
-            [self setThisWeeksComicsArrayWithLatestIssues];
+
+            [self setPublisherArrayWithPublishers];
             
-            tableViewRows = _thisWeeksComicsArray.count;
+            tableViewRows = _publishersArray.count;
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
@@ -190,17 +190,10 @@ BOOL endOfThisWeeksComics;
     }];
 }
 
-
-
-- (void)setThisWeeksComicsArrayWithLatestIssues
+- (void)setPublisherArrayWithPublishers
 {
     // Get the latest issue in the database
-    NSArray *issues = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO];
-    if (issues.count && _thisWeekDate) {
-        // Subtract one day from it
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate == %@) AND (isParent == 1)", _thisWeekDate];
-        _thisWeeksComicsArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
-    }
+   _publishersArray = [LBXPublisher MR_findAllSortedBy:@"name" ascending:YES];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -220,25 +213,19 @@ BOOL endOfThisWeeksComics;
     static NSString *cellIdentifier = @"PhotoCell";
     __weak ParallaxPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    LBXIssue *issue = [_thisWeeksComicsArray objectAtIndex:indexPath.row];
+    LBXPublisher *publisher = [_publishersArray objectAtIndex:indexPath.row];
     
     // grab bound for contentView
     CGRect contentViewBound = cell.comicImageView.bounds;
     
-    NSString *titleString = issue.title.name;
-    NSString *publisherString = issue.publisher.name;
-    NSString *issueString;
-    if (![[NSString stringWithFormat:@"%@", issue.issueNumber] isEqualToString:@""]) {
-        issueString = [NSString stringWithFormat:@"Issue %@", issue.issueNumber];
-    }
-    else {
-        issueString = @"";
-    }
+    NSString *publisherNameString = publisher.name;
+    NSString *issueCountString =  [NSString stringWithFormat:@"%@ Issues",  [publisher.issueCount stringValue]];
+    NSString *titleCountString =  [NSString stringWithFormat:@"%@ Titles",  [publisher.titleCount stringValue]];
     
     // If an image exists, fetch it. Else use the generated UIImage
-    if (issue.coverImage != (id)[NSNull null]) {
+    if (publisher.mediumSplash) {
         
-        NSString *urlString = issue.coverImage;
+        NSString *urlString = publisher.mediumSplash;
         
         // Show the network activity icon
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
@@ -279,27 +266,27 @@ BOOL endOfThisWeeksComics;
                                   duration:0.5f
                                    options:UIViewAnimationOptionTransitionCrossDissolve
                                 animations:^{// Set the image label properties to center it in the cell
-                                    [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];}
+                                    [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:publisherNameString inBoundsOfView:cell.comicImageView];}
                                 completion:NULL];
                 
                 [UIView transitionWithView:cell.comicPublisherLabel
                                   duration:0.5f
                                    options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{[cell.comicPublisherLabel setText:publisherString];}
+                                animations:^{[cell.comicPublisherLabel setText:titleCountString];}
                                 completion:NULL];
                 
                 [UIView transitionWithView:cell.comicIssueLabel
                                   duration:0.5f
                                    options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{[cell.comicIssueLabel setText:issueString];}
+                                animations:^{[cell.comicIssueLabel setText:issueCountString];}
                                 completion:NULL];
             }
             else {
                 // Set the image label properties to center it in the cell
-                [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
+                [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:publisherNameString inBoundsOfView:cell.comicImageView];
                 cell.comicImageView.image = image;
-                cell.comicPublisherLabel.text = publisherString;
-                cell.comicIssueLabel.text = issueString;
+                cell.comicPublisherLabel.text = titleCountString;
+                cell.comicIssueLabel.text =  issueCountString;
             }
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
@@ -309,9 +296,9 @@ BOOL endOfThisWeeksComics;
             // Hide the network activity icon
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             
-            [self setIssue:issue forCell:cell];
+            [self setPublisher:publisher forCell:cell];
         }];
-
+        
         CGRect imageViewFrame = cell.comicImageView.frame;
         // change x position
         imageViewFrame.origin.y = contentViewBound.size.height - imageViewFrame.size.height;
@@ -320,42 +307,37 @@ BOOL endOfThisWeeksComics;
         cell.comicImageView.contentMode = UIViewContentModeScaleAspectFill;
     }
     else {
-        [self setIssue:issue forCell:cell];
+        [self setPublisher:publisher forCell:cell];
     }
-
+    
     
     // Pass the maximum parallax offset to the cell.
     // The cell needs this information to configure the constraints for its image view.
     ParallaxFlowLayout *layout = (ParallaxFlowLayout *)self.collectionViewLayout;
     cell.maxParallaxOffset = layout.maxParallaxOffset;
     
-    if ([indexPath row] == _thisWeeksComicsArray.count - 1 && !endOfThisWeeksComics) {
+    if ([indexPath row] == _publishersArray.count - 1 && !endOfPublishers) {
         int value = [_page integerValue];
         _page = [NSNumber numberWithInt:value+1];
         [self refreshViewWithPage:_page];
     }
-    
-    
+
     return cell;
 }
 
-- (void)setIssue:(LBXIssue *)issue forCell:(ParallaxPhotoCell *)cell
+- (void)setPublisher:(LBXPublisher *)publisher forCell:(ParallaxPhotoCell *)cell
 {
     
-    NSString *titleString = issue.title.name;
-    NSString *publisherString = issue.publisher.name;
-    NSString *issueString;
-    if (![[NSString stringWithFormat:@"%@", issue.issueNumber] isEqualToString:@""]) {
-        issueString = [NSString stringWithFormat:@"Issue %@", issue.issueNumber];
-    }
-    else {
-        issueString = @"";
-    }
+    NSString *publisherNameString = publisher.name;
+    NSString *issueCountString =  [NSString stringWithFormat:@"%@ Issues",  [publisher.issueCount stringValue]];
+    NSString *titleCountString =  [NSString stringWithFormat:@"%@ Titles",  [publisher.titleCount stringValue]];
     
-    UIImage *defaultImage = [UIImage imageNamed:@"black"];
+    CGSize size = CGSizeMake(cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.width);
     
-    cell.comicPublisherLabel.text = publisherString;
-    cell.comicIssueLabel.text = issueString;
+    UIImage *defaultImage = [LBXTitleAndPublisherServices generateImageForPublisher:publisher size:size];
+    
+    cell.comicPublisherLabel.text = issueCountString;
+    cell.comicIssueLabel.text =  titleCountString;
     
     // Darken the image
     UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.height*2)];
@@ -367,24 +349,18 @@ BOOL endOfThisWeeksComics;
     cell.comicImageView.image = defaultImage;
     
     // Set the image label properties to center it in the cell
-    [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
+    [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:publisherNameString inBoundsOfView:cell.comicImageView];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    LBXIssue *issue = [_thisWeeksComicsArray objectAtIndex:indexPath.row];
-    NSString *diamondID = issue.diamondID;
+    LBXPublisher *publisher = [_publishersArray objectAtIndex:indexPath.row];
     
-    if (![diamondID isEqualToString:@""]) {
-        NSString *webURL = [@"http://www.longboxed.com/issue/" stringByAppendingString:diamondID];
-        SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithAddress:webURL];
-        webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
-        webViewController.barsTintColor = [UIColor blackColor];
-        [self presentViewController:webViewController animated:YES completion:NULL];
-    }
-    else {
-        [LBXMessageBar longboxedWebPageError];
-    }
+    LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
+    
+    publisherViewController.publisherID = publisher.publisherID;
+    
+    [self.navigationController pushViewController:publisherViewController animated:YES];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -396,7 +372,7 @@ BOOL endOfThisWeeksComics;
     // Cell height must take maximum possible parallax offset into account.
     ParallaxFlowLayout *layout = (ParallaxFlowLayout *)self.collectionViewLayout;
     cellWidth = CGRectGetWidth(self.collectionView.bounds) - layout.sectionInset.left - layout.sectionInset.right;
-    switch (_thisWeeksComicsArray.count) {
+    switch (_publishersArray.count) {
         case 0:
         case 1:
             return CGSizeMake(cellWidth, TABLE_HEIGHT_ONE);
@@ -413,5 +389,6 @@ BOOL endOfThisWeeksComics;
     }
     return CGSizeMake(cellWidth, TABLE_HEIGHT_FOUR);
 }
+
 
 @end

@@ -70,11 +70,6 @@ CGFloat cellWidth;
     self.navigationItem.rightBarButtonItem = actionButton;
     [self.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
     
-    // TODO: Remove these lines after removin Pull List as root view controller
-    LBXNavigationViewController *navController = [LBXNavigationViewController new];
-    [navController addPaperButtonToViewController:self];
-    //
-    
     return self;
 }
 
@@ -208,6 +203,7 @@ CGFloat cellWidth;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [navigationController setProgress:0.0 animated:NO];
     self.navigationController.navigationBar.topItem.title = @" ";
     [navigationController setIndeterminate:NO];
 }
@@ -400,24 +396,26 @@ CGFloat cellWidth;
     for (LBXTitle *title in titleArray) {
         [self.client fetchIssuesForTitle:title.titleID page:@1 count:@1 withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [navigationController setIndeterminate:NO];
-                [navigationController setProgress:((double)i/titleArray.count) animated:YES];
-            });
-            
             // Wait until all titles in _pullListArray have been fetched
             if (i == titleArray.count) {
+                [navigationController finishProgress];
+                
                 if (!error) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.tableView reloadData];
                         [self.refreshControl endRefreshing];
-                        [navigationController finishProgress];
-                        [navigationController setProgress:0.0 animated:NO];
                     });
                 }
                 else {
                     //[LBXMessageBar displayError:error];
                 }
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [navigationController setIndeterminate:NO];
+                    [navigationController setProgress:((double)i/titleArray.count) animated:YES];
+                });
+                
             }
             i++;
         }];

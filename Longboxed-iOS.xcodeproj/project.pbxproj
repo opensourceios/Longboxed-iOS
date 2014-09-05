@@ -68,6 +68,7 @@
 		E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */; };
 		E55497A519AAE284004501FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E55497A419AAE284004501FF /* SystemConfiguration.framework */; };
 		E555D38F196359D1003B97C0 /* LBXAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38E196359D1003B97C0 /* LBXAPITests.m */; };
+		E56DBFBD19B938580012FB4D /* LBXPublisherCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E56DBFBC19B938580012FB4D /* LBXPublisherCollectionViewController.m */; };
 		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
 		E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C8196068E10014A13F /* CoreGraphics.framework */; };
 		E57D48CB196068E10014A13F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48CA196068E10014A13F /* UIKit.framework */; };
@@ -123,7 +124,6 @@
 		E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCD819983DFC0022F4CA /* UIImage+ImageEffects.m */; };
 		E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDA19983DFC0022F4CA /* UIImageView+LBBlurredImage.m */; };
 		E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */; };
-		E5B6FCE219983DFC0022F4CA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E5B6FCDD19983DFC0022F4CA /* README.md */; };
 		E5B6FCE51998497A0022F4CA /* LBXTitleAndPublisherServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */; };
 		E5CCAC5419B53BD30068AD8D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */; };
 		E5CCAC5619B53BE60068AD8D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */; };
@@ -271,6 +271,8 @@
 		E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDatabaseManager.m; path = Abstract/LBXDatabaseManager.m; sourceTree = "<group>"; };
 		E55497A419AAE284004501FF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E555D38E196359D1003B97C0 /* LBXAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXAPITests.m; sourceTree = "<group>"; };
+		E56DBFBB19B938580012FB4D /* LBXPublisherCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherCollectionViewController.h; path = Controllers/LBXPublisherCollectionViewController.h; sourceTree = "<group>"; };
+		E56DBFBC19B938580012FB4D /* LBXPublisherCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherCollectionViewController.m; path = Controllers/LBXPublisherCollectionViewController.m; sourceTree = "<group>"; };
 		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
 		E575162219908AD00052D4C4 /* libPods-HockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-HockeySDK.a"; path = "Pods/build/Debug-iphoneos/libPods-HockeySDK.a"; sourceTree = "<group>"; };
@@ -369,7 +371,6 @@
 		E5B6FCDA19983DFC0022F4CA /* UIImageView+LBBlurredImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+LBBlurredImage.m"; sourceTree = "<group>"; };
 		E5B6FCDB19983DFC0022F4CA /* MGSpotyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSpotyViewController.h; sourceTree = "<group>"; };
 		E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSpotyViewController.m; sourceTree = "<group>"; };
-		E5B6FCDD19983DFC0022F4CA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E5B6FCE31998497A0022F4CA /* LBXTitleAndPublisherServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleAndPublisherServices.h; path = Abstract/LBXTitleAndPublisherServices.h; sourceTree = "<group>"; };
 		E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleAndPublisherServices.m; path = Abstract/LBXTitleAndPublisherServices.m; sourceTree = "<group>"; };
 		E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -593,8 +594,6 @@
 				E5F18721196382BA006C4C26 /* LBXHomeViewController.h */,
 				E5F18722196382BA006C4C26 /* LBXHomeViewController.m */,
 				E5F187371963A635006C4C26 /* LBXHomeViewController.xib */,
-				E57D4909196096260014A13F /* LBXThisWeekCollectionViewController.h */,
-				E57D490A196096260014A13F /* LBXThisWeekCollectionViewController.m */,
 				E5F1871E196378E4006C4C26 /* LBXPullListViewController.h */,
 				E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */,
 				E5A773DA19624A52002654E7 /* LBXLoginViewController.h */,
@@ -611,6 +610,17 @@
 			);
 			name = Fonts;
 			path = Extras/Fonts;
+			sourceTree = "<group>";
+		};
+		E56DBFBE19B942330012FB4D /* Comics */ = {
+			isa = PBXGroup;
+			children = (
+				E57D4909196096260014A13F /* LBXThisWeekCollectionViewController.h */,
+				E57D490A196096260014A13F /* LBXThisWeekCollectionViewController.m */,
+				E56DBFBB19B938580012FB4D /* LBXPublisherCollectionViewController.h */,
+				E56DBFBC19B938580012FB4D /* LBXPublisherCollectionViewController.m */,
+			);
+			name = Comics;
 			sourceTree = "<group>";
 		};
 		E57D48BA196068E10014A13F = {
@@ -736,6 +746,7 @@
 			isa = PBXGroup;
 			children = (
 				E51F72C6199821A200F643EF /* Navigation */,
+				E56DBFBE19B942330012FB4D /* Comics */,
 				E5D9A89A19A96E9600BC06C1 /* Title */,
 				E5D9A89919A96E9000BC06C1 /* Issue */,
 				E5D9A89B19A96F9A00BC06C1 /* Publisher */,
@@ -934,7 +945,6 @@
 				E5B6FCD319983DFC0022F4CA /* LICENSE */,
 				E5B6FCD419983DFC0022F4CA /* MGSpotyView */,
 				E5B6FCD519983DFC0022F4CA /* MGSpotyViewController */,
-				E5B6FCDD19983DFC0022F4CA /* README.md */,
 			);
 			name = MGSpotyViewController;
 			path = Extras/MGSpotyViewController;
@@ -1136,7 +1146,6 @@
 				E57E157819A9A55E002616F5 /* loadingCoverTransparent.png in Resources */,
 				E57D497A19611C8E0014A13F /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */,
-				E5B6FCE219983DFC0022F4CA /* README.md in Resources */,
 				E537122A198EFEE90065D57A /* check.png in Resources */,
 				E57E156D19A98FB0002616F5 /* arrow_right_small@2x.png in Resources */,
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,
@@ -1272,6 +1281,7 @@
 				E510AFB1198C7B7D004A7225 /* UIWebView+NBUAdditions.m in Sources */,
 				E510AF97198C7B7D004A7225 /* RKOrderedDictionary.m in Sources */,
 				E510AF98198C7B7D004A7225 /* UIImage+RKAdditions.m in Sources */,
+				E56DBFBD19B938580012FB4D /* LBXPublisherCollectionViewController.m in Sources */,
 				E51F72BC1997E22D00F643EF /* NSArray+ArrayUtilities.m in Sources */,
 				E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */,
 				E510AF90198C7B7D004A7225 /* NSBundle+RKAdditions.m in Sources */,

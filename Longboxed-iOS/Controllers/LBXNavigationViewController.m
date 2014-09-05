@@ -13,6 +13,7 @@
 #import "LBXNavigationViewController.h"
 #import "LBXPullListViewController.h"
 #import "LBXThisWeekCollectionViewController.h"
+#import "LBXPublisherCollectionViewController.h"
 #import "PaperButton.h"
 #import "UIColor+customColors.h"
 #import "UIFont+customFonts.h"
@@ -63,7 +64,7 @@ PaperButton *button;
                                                            image:iconImage
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
-                                                              LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
+                                                              LBXPublisherCollectionViewController *controller = [[LBXPublisherCollectionViewController alloc] init];
                                                               controller.title = @"Comics";
                                                               
                                                               [self addPaperButtonToViewController:controller];

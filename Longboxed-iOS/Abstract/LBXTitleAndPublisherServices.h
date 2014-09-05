@@ -21,5 +21,9 @@
 + (void)setPublisherCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
 + (void)setTitleCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue;
 + (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
++ (void)setLabel:(UILabel *)textView
+      withString:(NSString *)string
+  inBoundsOfView:(UIView *)view;
++ (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size;
 
 @end

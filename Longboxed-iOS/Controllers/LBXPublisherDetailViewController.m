@@ -17,6 +17,7 @@
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
+#import "LBXNavigationViewController.h"
 #import "LBXLogging.h"
 
 #import "UIFont+customFonts.h"
@@ -25,6 +26,7 @@
 
 #import <SVProgressHUD.h>
 #import <QuartzCore/QuartzCore.h>
+#import <UINavigationController+M13ProgressViewBar.h>
 
 @interface LBXPublisherDetailViewController () <UIScrollViewDelegate>
 
@@ -39,6 +41,8 @@
 
 @implementation LBXPublisherDetailViewController
 
+LBXNavigationViewController *navigationController;
+
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 BOOL endOfIssues;
 
@@ -46,6 +50,9 @@ BOOL endOfIssues;
     [super viewDidLoad];
     
     [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
+    
+    [self.navigationController setPrimaryColor:[UIColor whiteColor]];
+    [self.navigationController setSecondaryColor:[UIColor blackColor]];
     
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
@@ -65,6 +72,7 @@ BOOL endOfIssues;
     [self setDetailView];
     [self setOverView:_detailView];
     
+    [navigationController setProgress:0.0 animated:NO];
     [self fetchAllTitlesWithPage:@1];
 }
 
@@ -95,6 +103,12 @@ BOOL endOfIssues;
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    navigationController = (LBXNavigationViewController *)self.navigationController;
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -110,11 +124,14 @@ BOOL endOfIssues;
     self.navigationController.navigationBar.topItem.title = _detailPublisher.name;
     
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXPublisher\n%@\ndid appear", _detailPublisher]];
+    
+    [navigationController setProgress:0.0 animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self setNavBarAlpha:@1];
+    [navigationController setProgress:0.0 animated:NO];
     self.navigationController.navigationBar.topItem.title = @" ";
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
@@ -190,25 +207,13 @@ BOOL endOfIssues;
 {
     [_client fetchPublisher:_publisherID withCompletion:^(LBXPublisher *publisher, RKObjectRequestOperation *response, NSError *error) {
         
+        [navigationController setIndeterminate:NO];
         if (!error) {
-            _detailPublisher = publisher;
             
-            // Set the background color to the gradient
-            UIColor *primaryColor = [UIColor colorWithHex:publisher.primaryColor];
-            UIColor *secondaryColor = [UIColor colorWithHex:publisher.secondaryColor];
             CGSize size = CGSizeMake(self.detailView.latestIssueImageView.frame.size.width, self.detailView.latestIssueImageView.frame.size.width);
-            UIGraphicsBeginImageContext(size);
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-            size_t gradientNumberOfLocations = 2;
-            CGFloat gradientLocations[2] = { 0.0, 1.0 };
-            CGFloat gradientComponents[8] = {CGColorGetComponents(primaryColor.CGColor)[0], CGColorGetComponents(primaryColor.CGColor)[1], CGColorGetComponents(primaryColor.CGColor)[2], 1.0,     // Start color
-                CGColorGetComponents(secondaryColor.CGColor)[0], CGColorGetComponents(secondaryColor.CGColor)[1], CGColorGetComponents(secondaryColor.CGColor)[2], 1.0, };  // End color
-            CGGradientRef gradient = CGGradientCreateWithColorComponents (colorspace, gradientComponents, gradientLocations, gradientNumberOfLocations);
-            CGContextDrawLinearGradient(context, gradient, CGPointMake(0, 0), CGPointMake(0, size.height), 0);
             
-            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
+            UIImage *image = [LBXTitleAndPublisherServices generateImageForPublisher:_detailPublisher size:size];
+            
             [self setCustomBackgroundImageWithImage:image];
             
             [self updateDetailView];
@@ -253,7 +258,6 @@ BOOL endOfIssues;
     
     // Fetch pull list titles
     [_client fetchTitlesForPublisher:_publisherID page:page withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
-        
         if (!error) {
             if (titleArray.count == 0 || [_detailPublisher.titleCount intValue] == _titlesForPublisherArray.count) {
                 endOfIssues = YES;
@@ -264,16 +268,19 @@ BOOL endOfIssues;
         else {
             //[LBXMessageBar displayError:error];
         }
-        [self.tableView reloadData];
-        [self.view setNeedsDisplay];
     }];
 }
 
 - (void)fetchAllIssuesWithTitleArray:(NSArray *)titleArray
 {
     __block NSUInteger i = 1;
+    
+    [navigationController showProgress];
+    [navigationController setProgress:0.0 animated:NO];
+    
     for (LBXTitle *title in titleArray) {
         [self.client fetchIssuesForTitle:title.titleID page:@1 withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
+            [navigationController setProgress:((double)i/titleArray.count) animated:YES];
             // Wait until all titles in _pullListArray have been fetched
             if (i == titleArray.count) {
                 if (!error) {
@@ -287,10 +294,7 @@ BOOL endOfIssues;
                 else {
                     //[LBXMessageBar displayError:error];
                 }
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
-                });
-            }
+                [navigationController finishProgress];            }
             i++;
         }];
     }
@@ -300,6 +304,10 @@ BOOL endOfIssues;
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(publisher == %@)", _detailPublisher];
     _titlesForPublisherArray = [LBXTitle MR_findAllSortedBy:@"name" ascending:YES withPredicate:predicate];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+        [self.view setNeedsDisplay];
+    });
 }
 
 - (void)setNavBarAlpha:(NSNumber *)alpha
@@ -390,8 +398,8 @@ BOOL endOfIssues;
         }
         
     }
-    
-    if (indexPath.row == _titlesForPublisherArray.count - 1 && !endOfIssues) {
+
+    if(tableView.contentOffset.y + (self.view.frame.size.width * 1/4) >= (tableView.contentSize.height - tableView.frame.size.height) && (tableView.contentSize.height - tableView.frame.size.height) > 0.0 && !endOfIssues) {
         _page = [NSNumber numberWithInt:[_page integerValue]+1];
         [self fetchAllTitlesWithPage:_page];
     }

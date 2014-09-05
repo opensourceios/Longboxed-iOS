@@ -7,8 +7,10 @@
 //
 
 #import "LBXTitleAndPublisherServices.h"
+#import "UIFont+customFonts.h"
 
 #import "NSDate+DateUtilities.h"
+#import "UIColor+customColors.h"
 
 #import <UIImageView+AFNetworking.h>
 #import <SVProgressHUD.h>
@@ -217,6 +219,61 @@
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }];
+}
+
++ (void)setLabel:(UILabel *)textView
+      withString:(NSString *)string
+  inBoundsOfView:(UIView *)view
+{
+    UIFont *textFont = [UIFont new];
+    textFont = [UIFont collectionTitleFont];
+    
+    textView.font = textFont;
+    
+    NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    textStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    textStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName:textFont, NSParagraphStyleAttributeName: textStyle};
+    CGRect bound = [string boundingRectWithSize:CGSizeMake(view.bounds.size.width-30, view.bounds.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
+    
+    textView.numberOfLines = 2;
+    textView.bounds = bound;
+    textView.text = string;
+}
+
++ (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size
+{
+    // Set the background color to the gradient
+    UIColor *primaryColor;
+    if (publisher.primaryColor) {
+        primaryColor = [UIColor colorWithHex:publisher.primaryColor];
+    }
+    else {
+        primaryColor = [UIColor lightGrayColor];
+    }
+    
+    UIColor *secondaryColor;
+    if (publisher.secondaryColor) {
+        secondaryColor = [UIColor colorWithHex:publisher.secondaryColor];
+    }
+    else {
+        secondaryColor = [UIColor lightGrayColor];
+    }
+    
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+    size_t gradientNumberOfLocations = 2;
+    CGFloat gradientLocations[2] = { 0.0, 1.0 };
+    CGFloat gradientComponents[8] = {CGColorGetComponents(primaryColor.CGColor)[0], CGColorGetComponents(primaryColor.CGColor)[1], CGColorGetComponents(primaryColor.CGColor)[2], 1.0,     // Start color
+        CGColorGetComponents(secondaryColor.CGColor)[0], CGColorGetComponents(secondaryColor.CGColor)[1], CGColorGetComponents(secondaryColor.CGColor)[2], 1.0, };  // End color
+    CGGradientRef gradient = CGGradientCreateWithColorComponents (colorspace, gradientComponents, gradientLocations, gradientNumberOfLocations);
+    CGContextDrawLinearGradient(context, gradient, CGPointMake(0, 0), CGPointMake(0, size.height), 0);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 @end

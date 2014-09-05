@@ -577,8 +577,8 @@ BOOL saveSheetVisible;
     if (section != 1) {
         return 0;
     }
-    if (_issuesForTitleArray.count <= 3) {
-        return 3;
+    if (!_issuesForTitleArray.count) {
+        return 0;
     }
     
     return _issuesForTitleArray.count;
