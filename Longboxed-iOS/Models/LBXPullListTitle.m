@@ -15,6 +15,7 @@
 @dynamic name;
 @dynamic publisher;
 @dynamic subscribers;
+@dynamic latestIssue;
 
 - (NSString *)description
 {

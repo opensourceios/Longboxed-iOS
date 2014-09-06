@@ -11,6 +11,8 @@
 #import "LBXPublisher.h"
 #import "LBXTitle.h"
 
+@class LBXTitle;
+
 @interface LBXIssue : NSManagedObject
 
 @property (nonatomic, retain) NSString *completeTitle;

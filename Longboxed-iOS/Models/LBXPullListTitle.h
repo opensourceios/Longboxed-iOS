@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <RestKit/CoreData.h>
 #import "LBXPublisher.h"
+#import "LBXIssue.h"
+
+@class LBXIssue;
 
 @interface LBXPullListTitle : NSManagedObject
 
@@ -17,5 +20,6 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) LBXPublisher *publisher;
 @property (nonatomic, retain) NSNumber *subscribers;
+@property (nonatomic, retain) LBXIssue *latestIssue;
 
 @end

@@ -59,9 +59,15 @@
                                                         }];
     
     RKEntityMapping *publisherMapping = [self publisherMapping];
+    RKEntityMapping *issueMapping = [self issueMapping];
     [titleMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"publisher"
                                                                                  toKeyPath:@"publisher"
                                                                                withMapping:publisherMapping]];
+    
+    [titleMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_issue"
+                                                                                    toKeyPath:@"latestIssue"
+                                                                                  withMapping:issueMapping]];
+    
     titleMapping.identificationAttributes = @[ @"titleID" ];
     
     return titleMapping;
@@ -77,9 +83,15 @@
                                                         }];
     
     RKEntityMapping *publisherMapping = [self publisherMapping];
+    RKEntityMapping *issueMapping = [self issueMapping];
     [pullListMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"publisher"
                                                                                     toKeyPath:@"publisher"
                                                                                   withMapping:publisherMapping]];
+    
+    [pullListMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"latest_issue"
+                                                                                    toKeyPath:@"latestIssue"
+                                                                                  withMapping:issueMapping]];
+    
     pullListMapping.identificationAttributes = @[ @"titleID" ];
     
     return pullListMapping;
@@ -125,8 +137,8 @@
                                                         @"release_date"   : @"releaseDate"
                                                         }];
     
-    RKEntityMapping *publisherMapping = [self publisherMapping];
-    RKEntityMapping *titleMapping = [self titleMapping];
+    RKEntityMapping *publisherMapping = [self publisherMappingForIssue];
+    RKEntityMapping *titleMapping = [self titleMappingForIssue];
     
     [issueMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"publisher"
                                                                                  toKeyPath:@"publisher"
@@ -138,6 +150,48 @@
     issueMapping.identificationAttributes = @[ @"issueID" ];
     
     return issueMapping;
+}
+
+- (RKEntityMapping *)titleMappingForIssue
+{
+    RKEntityMapping* titleMapping = [RKEntityMapping mappingForEntityForName:@"LBXTitle" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
+    [titleMapping addAttributeMappingsFromDictionary:@{ @"id"          : @"titleID",
+                                                        @"issue_count" : @"issueCount",
+                                                        @"name"        : @"name",
+                                                        @"subscribers" : @"subscribers"
+                                                        }];
+    
+    RKEntityMapping *publisherMapping = [self publisherMapping];
+    [titleMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"publisher"
+                                                                                 toKeyPath:@"publisher"
+                                                                               withMapping:publisherMapping]];
+    titleMapping.identificationAttributes = @[ @"titleID" ];
+    
+    return titleMapping;
+}
+
+- (RKEntityMapping *)publisherMappingForIssue
+{
+    RKEntityMapping* publisherMapping = [RKEntityMapping mappingForEntityForName:@"LBXPublisher" inManagedObjectStore:[RKManagedObjectStore defaultStore]];
+    [publisherMapping addAttributeMappingsFromDictionary:@{ @"colors.primary"   : @"primaryColor",
+                                                            @"colors.secondary" : @"secondaryColor",
+                                                            @"id"               : @"publisherID",
+                                                            @"issue_count"      : @"issueCount",
+                                                            @"name"             : @"name",
+                                                            @"title_count"      : @"titleCount",
+                                                            @"logo_bw.lg"       : @"largeLogoBW",
+                                                            @"logo_bw.md"       : @"mediumLogoBW",
+                                                            @"logo_bw.sm"       : @"smallLogoBW",
+                                                            @"logo.lg"          : @"largeLogo",
+                                                            @"logo.md"          : @"mediumLogo",
+                                                            @"logo.sm"          : @"smallLogo",
+                                                            @"splash.lg"        : @"largeSplash",
+                                                            @"splash.md"        : @"mediumSplash",
+                                                            @"splash.sm"        : @"smallSplash"
+                                                            }];
+    publisherMapping.identificationAttributes = @[ @"publisherID" ];
+    
+    return publisherMapping;
 }
 
 @end

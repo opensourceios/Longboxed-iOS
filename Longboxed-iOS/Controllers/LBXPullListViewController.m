@@ -380,46 +380,17 @@ CGFloat cellWidth;
             }
             
             [self fillPullListArray];
-            [self getAllIssuesForTitleArray:_pullListArray];
         }
         else {
             //[LBXMessageBar displayError:error];
             
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
+            [navigationController setIndeterminate:NO];
+        });
     }];
-}
-
-- (void)getAllIssuesForTitleArray:(NSArray *)titleArray {
-    
-    __block NSUInteger i = 1;
-    // Fetch all the titles from the API so we can get the latest issue
-    for (LBXTitle *title in titleArray) {
-        [self.client fetchIssuesForTitle:title.titleID page:@1 count:@1 withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
-            
-            // Wait until all titles in _pullListArray have been fetched
-            if (i == titleArray.count) {
-                [navigationController finishProgress];
-                
-                if (!error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.tableView reloadData];
-                        [self.refreshControl endRefreshing];
-                    });
-                }
-                else {
-                    //[LBXMessageBar displayError:error];
-                }
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [navigationController setIndeterminate:NO];
-                    [navigationController setProgress:((double)i/titleArray.count) animated:YES];
-                });
-                
-            }
-            i++;
-        }];
-    }
 }
 
 - (void)addTitle:(LBXTitle *)title
@@ -432,12 +403,10 @@ CGFloat cellWidth;
     pullListTitle.issueCount = title.issueCount;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     [self fillPullListArray];
-    [self getAllIssuesForTitleArray:@[title]];
     [self.tableView reloadData];
     __block typeof(self) bself = self;
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
-            [bself getAllIssuesForTitleArray:@[title]];
             [bself fillPullListArray];
         }
         else {

@@ -263,41 +263,18 @@ BOOL endOfIssues;
                 endOfIssues = YES;
                 self.tableView.tableFooterView = nil;
             }
-            [self fetchAllIssuesWithTitleArray:titleArray];
+            [self createTitlesArray];
+            [UIView transitionWithView:_detailView.loadingLabel
+                              duration:1.0f
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{_detailView.loadingLabel.alpha = 0;}
+                            completion:NULL];
         }
         else {
             //[LBXMessageBar displayError:error];
         }
+        [navigationController finishProgress];
     }];
-}
-
-- (void)fetchAllIssuesWithTitleArray:(NSArray *)titleArray
-{
-    __block NSUInteger i = 1;
-    
-    [navigationController showProgress];
-    [navigationController setProgress:0.0 animated:NO];
-    
-    for (LBXTitle *title in titleArray) {
-        [self.client fetchIssuesForTitle:title.titleID page:@1 withCompletion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
-            [navigationController setProgress:((double)i/titleArray.count) animated:YES];
-            // Wait until all titles in _pullListArray have been fetched
-            if (i == titleArray.count) {
-                if (!error) {
-                    [self createTitlesArray];
-                    [UIView transitionWithView:_detailView.loadingLabel
-                                      duration:1.0f
-                                       options:UIViewAnimationOptionTransitionCrossDissolve
-                                    animations:^{_detailView.loadingLabel.alpha = 0;}
-                                    completion:NULL];
-                }
-                else {
-                    //[LBXMessageBar displayError:error];
-                }
-                [navigationController finishProgress];            }
-            i++;
-        }];
-    }
 }
 
 - (void)createTitlesArray

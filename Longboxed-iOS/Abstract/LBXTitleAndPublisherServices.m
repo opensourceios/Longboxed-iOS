@@ -39,17 +39,6 @@
     return @"";
 }
 
-+ (NSNumber *)lastIssueNumberForTitle:(LBXTitle *)title
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
-    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
-    if (allIssuesArray.count != 0) {
-        LBXIssue *issue = allIssuesArray[0];
-        return issue.issueNumber;
-    }
-    return nil;
-}
-
 + (NSString *)localTimeZoneStringWithDate:(NSDate *)date
 {
     NSDateFormatter *formatter = [NSDateFormatter new];
@@ -62,42 +51,9 @@
     return [formatter stringFromDate:date];
 }
 
-
-+ (LBXIssue *)lastIssueForTitle:(LBXTitle *)title
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title.titleID == %@) AND (isParent == 1)", title.titleID];
-    NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
-    
-    // Not all parents are actually the parents (sometimes a variant is a parent due to API bug)
-    // so correct this by getting the issue with the shortest title
-    // TODO: Get Tim to fix this
-    NSMutableArray *correctedArray = [NSMutableArray new];
-    for (LBXIssue *issue in initialFind) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
-        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
-        [correctedArray addObject:issuesArray[0]];
-    }
-    
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:correctedArray];
-    
-    NSSortDescriptor *sortByIssueID = [NSSortDescriptor sortDescriptorWithKey:@"issueID" ascending:NO];
-    NSSortDescriptor *sortByIssueNumber = [NSSortDescriptor sortDescriptorWithKey:@"issueNumber" ascending:NO];
-    NSSortDescriptor *sortByIssueReleaseDate = [NSSortDescriptor sortDescriptorWithKey:@"releaseDate" ascending:NO];
-    
-    // Combine the two
-    NSArray *sortDescriptors = @[sortByIssueReleaseDate, sortByIssueNumber, sortByIssueID];
-    NSArray *sortedArray = [mutableArray sortedArrayUsingDescriptors:sortDescriptors];
-
-    if (sortedArray.count != 0) {
-        return sortedArray[0];
-    }
-    return nil;
-}
-
 // This is for the publisher list
 + (void)setPublisherCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
 {
-    LBXIssue *issue = [self lastIssueForTitle:title];
     cell.titleLabel.text = title.name;
     
     NSString *subtitleString;
@@ -112,11 +68,11 @@
         }
     }
     
-    if (issue != nil) {
+    if (title.latestIssue != nil) {
         cell.subtitleLabel.text = subtitleString;
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -132,7 +88,7 @@
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
     }
-    else if (issue.title.issueCount == 0) {
+    else if (title.latestIssue.title.issueCount == 0) {
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
         cell.subtitleLabel.text = subtitleString;
     }
@@ -145,15 +101,15 @@
 // This is for the pull list
 + (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
 {
-    LBXIssue *issue = [self lastIssueForTitle:title];
     cell.titleLabel.text = title.name;
-    if (issue != nil) {
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", issue.publisher.name, [LBXTitleAndPublisherServices timeSinceLastIssueForTitle:title]];
+    NSLog(@"%@", title.latestIssue.completeTitle);
+    if (title.latestIssue != nil) {
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [LBXTitleAndPublisherServices timeSinceLastIssueForTitle:title]];
         
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -169,7 +125,7 @@
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
     }
-    else if (issue.title.issueCount == 0) {
+    else if (title.latestIssue.title.issueCount == 0) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }

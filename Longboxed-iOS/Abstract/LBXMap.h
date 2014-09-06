@@ -16,8 +16,11 @@
 - (RKEntityMapping *)bundleMapping;
 - (RKEntityMapping *)userMapping;
 - (RKEntityMapping *)titleMapping;
+- (RKEntityMapping *)titleMappingForIssue;
 - (RKEntityMapping *)pullListMapping;
 - (RKEntityMapping *)publisherMapping;
+- (RKEntityMapping *)publisherMappingForIssue;
 - (RKEntityMapping *)issueMapping;
+
 
 @end

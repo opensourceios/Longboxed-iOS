@@ -196,8 +196,8 @@ BOOL saveSheetVisible;
     [_detailView.publisherButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     
     _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
-    if ([LBXTitleAndPublisherServices lastIssueForTitle:_detailTitle] != nil) {
-        LBXIssue *issue = [LBXTitleAndPublisherServices lastIssueForTitle:_detailTitle];
+    if (_detailTitle.latestIssue != nil) {
+        LBXIssue *issue = _detailTitle.latestIssue;
         NSString *timeSinceString = [LBXTitleAndPublisherServices timeSinceLastIssueForTitle:_detailTitle];
         
         NSString *subtitleString = [NSString stringWithFormat:@"Issue %@ released %@", issue.issueNumber, timeSinceString];
