@@ -483,6 +483,7 @@ int page;
     pullListTitle.publisher = title.publisher;
     pullListTitle.titleID = title.titleID;
     pullListTitle.issueCount = title.issueCount;
+    pullListTitle.latestIssue = title.latestIssue;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     [self createPullListArray];
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {

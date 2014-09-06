@@ -155,6 +155,8 @@ CGFloat cellWidth;
 {
     [super viewDidAppear:animated];
     
+    [self refresh];
+    
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.shadowImage = nil;
     self.navigationController.navigationBar.topItem.title = @"Pull List";
@@ -240,7 +242,6 @@ CGFloat cellWidth;
     [self.client fetchAutocompleteForTitle:searchText withCompletion:^(NSArray *newSearchResultsArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            
             // Create an array of titles names already in pull list so the can't be added twice
             [_alreadyExistingTitles removeAllObjects];
             _alreadyExistingTitles = [NSMutableArray new];
@@ -252,7 +253,7 @@ CGFloat cellWidth;
                     [_alreadyExistingTitles addObject:[NSNumber numberWithBool:YES]];
                 }
             }
-            [self refreshSearchControllerWithOldSearchResults:self.searchResultsArray andNewResults:newSearchResultsArray];
+            [self refreshTableView:[self.searchBarController searchResultsTableView]  withOldSearchResults:self.searchResultsArray newResults:newSearchResultsArray animation:UITableViewRowAnimationFade];
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -260,7 +261,9 @@ CGFloat cellWidth;
     }];
 }
 
-- (void)refreshSearchControllerWithOldSearchResults:(NSArray *)oldResultsArray andNewResults:(NSArray *)newResultsArray
+- (void)refreshTableView:(UITableView *)tableView withOldSearchResults:(NSArray *)oldResultsArray
+                                  newResults:(NSArray *)newResultsArray
+                                   animation:(UITableViewRowAnimation)animation
 {
     // If rows are removed
     if (newResultsArray.count < oldResultsArray.count && oldResultsArray.count) {
@@ -277,14 +280,14 @@ CGFloat cellWidth;
                 [oldIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             }
         }
-
+        
         // Update the table view
-        [[self.searchBarController searchResultsTableView] beginUpdates];
-        [[self.searchBarController searchResultsTableView] numberOfRowsInSection:newResultsArray.count];
-        [[self.searchBarController searchResultsTableView] reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:UITableViewRowAnimationFade];
-        [[self.searchBarController searchResultsTableView] deleteRowsAtIndexPaths:oldIndexes withRowAnimation:UITableViewRowAnimationFade];
+        [tableView beginUpdates];
+        [tableView numberOfRowsInSection:newResultsArray.count];
+        [tableView deleteRowsAtIndexPaths:oldIndexes withRowAnimation:animation];
+        
         self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
-        [[self.searchBarController searchResultsTableView] endUpdates];
+        [tableView endUpdates];
     }
     
     
@@ -304,13 +307,12 @@ CGFloat cellWidth;
                 [newIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             }
         }
-
+        
         // Update the table view
-        [[self.searchBarController searchResultsTableView] beginUpdates];
-        [[self.searchBarController searchResultsTableView] reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:UITableViewRowAnimationFade];
-        [[self.searchBarController searchResultsTableView] insertRowsAtIndexPaths:newIndexes withRowAnimation:UITableViewRowAnimationFade];
+        [tableView beginUpdates];
+        [tableView insertRowsAtIndexPaths:newIndexes withRowAnimation:animation];
         self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
-        [[self.searchBarController searchResultsTableView] endUpdates];
+        [tableView endUpdates];
     }
     
     // Rows are just changed
@@ -321,22 +323,23 @@ CGFloat cellWidth;
                 [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             }
         }
-
+        
         // Update the table view
-        [[self.searchBarController searchResultsTableView] beginUpdates];
-        [[self.searchBarController searchResultsTableView] reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:UITableViewRowAnimationFade];
+        [tableView beginUpdates];
+        [tableView reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:animation];
         self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
-        [[self.searchBarController searchResultsTableView] endUpdates];
+        [tableView endUpdates];
     }
     
     // If entire view needs refreshed
     else if (oldResultsArray.count == 0) {
         dispatch_async(dispatch_get_main_queue(),^{
-            [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:animation];
         });
         self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
     }
 }
+
 
 - (void)fillPullListArray
 {
@@ -345,12 +348,17 @@ CGFloat cellWidth;
 
 - (void)refresh
 {
+    NSArray *oldArray = _pullListArray;
     [self fillPullListArray];
+    [self refreshTableView:self.tableView withOldSearchResults:oldArray newResults:_pullListArray animation:UITableViewRowAnimationLeft];
     
     if (_pullListArray.count == 0) {
         self.tableView.contentOffset = CGPointMake(0, -self.refreshControl.frame.size.height);
         [self.refreshControl beginRefreshing];
     }
+    
+    [self fillPullListArray];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
     });
@@ -388,6 +396,7 @@ CGFloat cellWidth;
     pullListTitle.publisher = title.publisher;
     pullListTitle.titleID = title.titleID;
     pullListTitle.issueCount = title.issueCount;
+    pullListTitle.latestIssue = title.latestIssue;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     [self fillPullListArray];
     [self.tableView reloadData];
@@ -569,8 +578,6 @@ CGFloat cellWidth;
         cell.latestIssueImageView.image = nil;
         
         [LBXTitleAndPublisherServices setPullListCell:cell withTitle:title];
-        
-        
     }
 }
 

@@ -102,7 +102,7 @@
 + (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
 {
     cell.titleLabel.text = title.name;
-    if (title.latestIssue != nil) {
+    if (title.latestIssue) {
         NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [LBXTitleAndPublisherServices timeSinceLastIssueForTitle:title]];
         
         cell.subtitleLabel.text = [subtitleString uppercaseString];
@@ -124,7 +124,7 @@
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
     }
-    else if (title.latestIssue.title.issueCount == 0) {
+    else if (!title.latestIssue) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
         cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }
