@@ -13,7 +13,7 @@
 #import "LBXNavigationViewController.h"
 #import "LBXPullListViewController.h"
 #import "LBXThisWeekCollectionViewController.h"
-#import "LBXPublisherCollectionViewController.h"
+#import "LBXComicsCollectionViewController.h"
 #import "PaperButton.h"
 #import "UIColor+customColors.h"
 #import "UIFont+customFonts.h"
@@ -64,28 +64,11 @@ PaperButton *button;
                                                            image:iconImage
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
-                                                              LBXPublisherCollectionViewController *controller = [[LBXPublisherCollectionViewController alloc] init];
+                                                              LBXComicsCollectionViewController *controller = [[LBXComicsCollectionViewController alloc] init];
                                                               controller.title = @"Comics";
                                                               
                                                               [self addPaperButtonToViewController:controller];
                                                               [LBXLogging logMessage:@"Selected Comics View"];
-                                                              [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.1];
-                                                          }];
-    
-    // Arrow with down circle icon
-    FAKFontAwesome *thisWeekIcon = [FAKFontAwesome arrowCircleODownIconWithSize:checksize];
-    [thisWeekIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
-    iconImage = [thisWeekIcon imageWithSize:CGSizeMake(checksize, checksize)];
-    
-    REMenuItem *thisWeekItem = [[REMenuItem alloc] initWithTitle:@"This Week"
-                                                           image:iconImage
-                                                highlightedImage:nil
-                                                          action:^(REMenuItem *item) {
-                                                              LBXThisWeekCollectionViewController *controller = [[LBXThisWeekCollectionViewController alloc] init];
-                                                              controller.title = @"This Week";
-                                                              
-                                                              [self addPaperButtonToViewController:controller];
-                                                              [LBXLogging logMessage:@"Selected This Week View"];
                                                               [self performSelector:@selector(setViewController:) withObject:controller afterDelay:0.1];
                                                           }];
     
@@ -127,11 +110,11 @@ PaperButton *button;
                                                          }];
     
     homeItem.tag = 0;
-    thisWeekItem.tag = 1;
+    comicsItem.tag = 1;
     activityItem.tag = 2;
     profileItem.tag = 3;
     
-    self.menu = [[REMenu alloc] initWithItems:@[homeItem, comicsItem, thisWeekItem, activityItem, profileItem]];
+    self.menu = [[REMenu alloc] initWithItems:@[homeItem, comicsItem, activityItem, profileItem]];
     
     // Set up the menu visual properties
     [self setupMenu];

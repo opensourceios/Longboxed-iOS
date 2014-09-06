@@ -178,18 +178,16 @@
 
 + (void)setLabel:(UILabel *)textView
       withString:(NSString *)string
+            font:(UIFont *)font
   inBoundsOfView:(UIView *)view
 {
-    UIFont *textFont = [UIFont new];
-    textFont = [UIFont collectionTitleFont];
-    
-    textView.font = textFont;
+    textView.font = font;
     
     NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     textStyle.lineBreakMode = NSLineBreakByWordWrapping;
     textStyle.alignment = NSTextAlignmentCenter;
     
-    NSDictionary *attributes = @{NSFontAttributeName:textFont, NSParagraphStyleAttributeName: textStyle};
+    NSDictionary *attributes = @{NSFontAttributeName:font, NSParagraphStyleAttributeName: textStyle};
     CGRect bound = [string boundingRectWithSize:CGSizeMake(view.bounds.size.width-30, view.bounds.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
     
     textView.numberOfLines = 2;

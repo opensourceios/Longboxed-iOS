@@ -43,9 +43,14 @@
 
 // Pull List View
 
-+ (UIFont *)collectionTitleFont
++ (UIFont *)collectionTitleFontUltraLight
 {
     return [UIFont fontWithName:@"AvenirNextCondensed-UltraLight" size:36];
+}
+
++ (UIFont *)collectionTitleFontRegular
+{
+    return [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:36];
 }
 
 + (UIFont *)collectionSubtitleFont

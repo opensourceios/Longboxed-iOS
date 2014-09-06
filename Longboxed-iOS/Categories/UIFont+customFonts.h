@@ -17,7 +17,8 @@
 + (UIFont *)searchPlaceholderFont;
 + (UIFont *)noResultsFont;
 + (UIFont *)SVProgressHUDFont;
-+ (UIFont *)collectionTitleFont;
++ (UIFont *)collectionTitleFontUltraLight;
++ (UIFont *)collectionTitleFontRegular;
 + (UIFont *)collectionSubtitleFont;
 + (UIFont *)titleDetailLatestIssueFont;
 + (UIFont *)titleDetailSubscribersAndIssuesFont;

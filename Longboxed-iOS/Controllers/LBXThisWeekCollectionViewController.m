@@ -24,6 +24,7 @@
 @property (nonatomic) LBXClient *client;
 @property (nonatomic) NSArray *thisWeeksComicsArray;
 @property (nonatomic) NSDate *thisWeekDate;
+@property (nonatomic, strong) UIFont *textFont;
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
@@ -68,6 +69,10 @@ int page;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _textFont = [UIFont new];
+    _textFont = [UIFont collectionTitleFontUltraLight];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
@@ -97,7 +102,7 @@ int page;
     [self.collectionView registerClass:[ParallaxPhotoCell class] forCellWithReuseIdentifier:@"PhotoCell"];
     
     // Special attribute set for title text color
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     
     tableViewRows = 0;
     
@@ -133,11 +138,17 @@ int page;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
+    [self.navigationController.navigationBar setBackIndicatorImage:
+     [UIImage imageNamed:@"arrow"]];
+    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
+     [UIImage imageNamed:@"arrow"]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    self.navigationController.navigationBar.topItem.title = @"This Week";
 }
 
 - (void)viewWillLayoutSubviews
@@ -278,7 +289,7 @@ int page;
                                   duration:0.5f
                                    options:UIViewAnimationOptionTransitionCrossDissolve
                                 animations:^{// Set the image label properties to center it in the cell
-                                    [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];}
+                                    [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:titleString font:_textFont inBoundsOfView:cell.comicImageView];}
                                 completion:NULL];
                 
                 [UIView transitionWithView:cell.comicPublisherLabel
@@ -295,7 +306,7 @@ int page;
             }
             else {
                 // Set the image label properties to center it in the cell
-                [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
+                [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:titleString font:_textFont inBoundsOfView:cell.comicImageView];
                 cell.comicImageView.image = image;
                 cell.comicPublisherLabel.text = publisherString;
                 cell.comicIssueLabel.text = issueString;
@@ -365,7 +376,7 @@ int page;
     cell.comicImageView.image = defaultImage;
     
     // Set the image label properties to center it in the cell
-    [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:titleString inBoundsOfView:cell.comicImageView];
+    [LBXTitleAndPublisherServices setLabel:cell.comicTitleLabel withString:titleString font:_textFont inBoundsOfView:cell.comicImageView];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

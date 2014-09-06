@@ -85,6 +85,18 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     });
 }
 
+- (void)testIssuesCollectionForNextWeekEndpoint
+{
+    hxRunInMainLoop(^(BOOL *done) {
+        [self.client fetchNextWeeksComicsWithPage:@1 completion:^(NSArray *nextWeeksIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues collection for current week endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+            // Don't check this because it's possible there are no issues for next week yet
+            //XCTAssertNotEqual(nextWeeksIssuesArray.count, 0, @"/issues/nextweek/ JSON is returning nil");
+            *done = YES;
+        }];
+    });
+}
+
 - (void)testIssueEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
@@ -153,7 +165,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testPublisherEndpoint
 {
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client fetchPublishersWithCompletion:^(NSArray *publishersArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchPublishersWithPage:@1 completion:^(NSArray *publishersArray, RKObjectRequestOperation *response, NSError *error) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Publisher endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotEqual(publishersArray.count, 0, @"Publisher JSON is returning nil");
             *done = YES;

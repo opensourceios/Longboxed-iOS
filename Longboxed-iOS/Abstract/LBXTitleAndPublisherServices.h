@@ -21,6 +21,7 @@
 + (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
 + (void)setLabel:(UILabel *)textView
       withString:(NSString *)string
+            font:(UIFont *)font
   inBoundsOfView:(UIView *)view;
 + (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size;
 

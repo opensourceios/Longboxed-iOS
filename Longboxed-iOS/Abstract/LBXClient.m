@@ -174,6 +174,18 @@
     }];
 }
 
+- (void)fetchNextWeeksComicsWithPage:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation *, NSError*))completion {
+    
+    NSDictionary *objectDictParams;
+    if (![page isEqualToNumber:@1]) {
+        objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
+    }
+    [self GETWithRouteName:@"Issues Collection for Next Week" objectDictParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        completion(mappingResult.array, response, error);
+    }];
+}
+
 - (void)fetchIssue:(NSNumber*)issueID withCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion {
 
     NSString *params = [NSDictionary dictionaryWithKeysAndObjects:

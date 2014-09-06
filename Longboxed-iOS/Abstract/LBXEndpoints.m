@@ -37,6 +37,7 @@ NSString *productionURL = @"http://www.longboxed.com";
 {
   return  @{@"Issues Collection"                  : @"/api/v1/issues/",
             @"Issues Collection for Current Week" : @"/api/v1/issues/thisweek/",
+            @"Issues Collection for Next Week"    : @"/api/v1/issues/nextweek/",
             @"Popular Issues for Current Week"    : @"/api/v1/issues/popular/",
             @"Issue"                              : @"/api/v1/issues/:issueID",
             @"Titles Collection"                  : @"/api/v1/titles/",

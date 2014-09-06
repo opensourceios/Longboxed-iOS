@@ -42,6 +42,13 @@
                                                 keyPath:@"issues"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
+    RKResponseDescriptor *issuesCollectionForNextWeekResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:endpointDict[@"Issues Collection for Next Week"]
+                                                keyPath:@"issues"
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
     RKResponseDescriptor *popularIssuesCurrentWeekResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:issueMapping
                                                  method:RKRequestMethodGET
@@ -140,6 +147,7 @@
     return @[issuesCollectionResponseDescriptor,
              issuesCollectionForCurrentWeekResponseDescriptor,
              popularIssuesCurrentWeekResponseDescriptor,
+             issuesCollectionForNextWeekResponseDescriptor,
              issueResponseDescriptor,
              titlesCollectionResponseDescriptor,
              titleResponseDescriptor,
