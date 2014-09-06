@@ -93,9 +93,6 @@ int page;
     self.collectionView.alwaysBounceVertical = YES;
     [self.collectionView registerClass:[ParallaxPhotoCell class] forCellWithReuseIdentifier:@"PhotoCell"];
     
-    // Special attribute set for title text color
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    
     tableViewRows = 0;
     
     // Add refresh
@@ -129,6 +126,10 @@ int page;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    // Special attribute set for title text color
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    
     [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
     [self.navigationController.navigationBar setBackIndicatorImage:
      [UIImage imageNamed:@"arrow"]];
