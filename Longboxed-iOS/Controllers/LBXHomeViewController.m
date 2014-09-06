@@ -62,8 +62,6 @@ LBXNavigationViewController *navigationController;
 {
     [super viewDidLoad];
     
-    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
-    
     // Do any additional setup after loading the view from its nib.
     _bundleCountLabel.text = @"";
     

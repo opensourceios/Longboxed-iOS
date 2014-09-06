@@ -45,8 +45,6 @@ CGRect screenRect;
 {
     [super viewDidLoad];
     
-    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
-    
     CGRect viewFrame = self.view.frame;
     int navAndStatusHeight = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
     viewFrame.origin.y -= navAndStatusHeight;

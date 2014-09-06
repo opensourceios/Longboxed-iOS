@@ -29,7 +29,6 @@
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <SVProgressHUD.h>
-#import <UINavigationController+M13ProgressViewBar.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
 
@@ -75,12 +74,6 @@ CGFloat cellWidth;
 
 - (void)viewDidLoad
 {
-    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
-    
-    // Progress bar
-    [self.navigationController setPrimaryColor:[UIColor blackColor]];
-    [self.navigationController setSecondaryColor:[UIColor whiteColor]];
-    
     [super viewDidLoad];
     
     // Background color for the swiping of the cells
@@ -159,8 +152,6 @@ CGFloat cellWidth;
 {
     [super viewDidAppear:animated];
     
-    [navigationController setProgress:0.0 animated:NO];
-    
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.shadowImage = nil;
     self.navigationController.navigationBar.topItem.title = @"Pull List";
@@ -203,15 +194,12 @@ CGFloat cellWidth;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [navigationController setProgress:0.0 animated:NO];
     self.navigationController.navigationBar.topItem.title = @" ";
-    [navigationController setIndeterminate:NO];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [self.refreshControl endRefreshing];
-    [navigationController cancelProgress];
     [super viewDidDisappear:animated];
 }
 
@@ -355,8 +343,6 @@ CGFloat cellWidth;
 - (void)refresh
 {
     [self fillPullListArray];
-    [navigationController showProgress];
-    [navigationController setProgress:0.0 animated:NO];
     
     if (_pullListArray.count == 0) {
         self.tableView.contentOffset = CGPointMake(0, -self.refreshControl.frame.size.height);
@@ -366,7 +352,6 @@ CGFloat cellWidth;
         [self.tableView reloadData];
     });
     
-    [self.navigationController setIndeterminate:YES];
     // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
@@ -388,7 +373,6 @@ CGFloat cellWidth;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
-            [navigationController setIndeterminate:NO];
         });
     }];
 }

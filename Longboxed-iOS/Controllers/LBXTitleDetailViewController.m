@@ -47,8 +47,6 @@ BOOL saveSheetVisible;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
-    
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
     

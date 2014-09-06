@@ -26,7 +26,6 @@
 
 #import <SVProgressHUD.h>
 #import <QuartzCore/QuartzCore.h>
-#import <UINavigationController+M13ProgressViewBar.h>
 
 @interface LBXPublisherDetailViewController () <UIScrollViewDelegate>
 
@@ -49,11 +48,6 @@ BOOL endOfIssues;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
-    
-    [self.navigationController setPrimaryColor:[UIColor whiteColor]];
-    [self.navigationController setSecondaryColor:[UIColor blackColor]];
-    
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
     
@@ -72,7 +66,6 @@ BOOL endOfIssues;
     [self setDetailView];
     [self setOverView:_detailView];
     
-    [navigationController setProgress:0.0 animated:NO];
     [self fetchAllTitlesWithPage:@1];
 }
 
@@ -124,14 +117,11 @@ BOOL endOfIssues;
     self.navigationController.navigationBar.topItem.title = _detailPublisher.name;
     
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXPublisher\n%@\ndid appear", _detailPublisher]];
-    
-    [navigationController setProgress:0.0 animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self setNavBarAlpha:@1];
-    [navigationController setProgress:0.0 animated:NO];
     self.navigationController.navigationBar.topItem.title = @" ";
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
@@ -207,7 +197,6 @@ BOOL endOfIssues;
 {
     [_client fetchPublisher:_publisherID withCompletion:^(LBXPublisher *publisher, RKObjectRequestOperation *response, NSError *error) {
         
-        [navigationController setIndeterminate:NO];
         if (!error) {
             
             CGSize size = CGSizeMake(self.detailView.latestIssueImageView.frame.size.width, self.detailView.latestIssueImageView.frame.size.width);
@@ -273,7 +262,6 @@ BOOL endOfIssues;
         else {
             //[LBXMessageBar displayError:error];
         }
-        [navigationController finishProgress];
     }];
 }
 
