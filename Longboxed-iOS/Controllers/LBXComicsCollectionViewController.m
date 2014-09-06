@@ -35,7 +35,7 @@ static const NSUInteger TABLE_HEIGHT_THREE = 168;
 static const NSUInteger TABLE_HEIGHT_TWO = 252;
 static const NSUInteger TABLE_HEIGHT_ONE = 504;
 
-NSInteger tableViewRows = 3;
+NSInteger tableViewRows;
 CGFloat cellWidth;
 
 - (id)init
@@ -43,6 +43,8 @@ CGFloat cellWidth;
     ParallaxFlowLayout *layout = [[ParallaxFlowLayout alloc] init];
     layout.minimumLineSpacing = 0; // Spacing between each cell
     //layout.sectionInset = UIEdgeInsetsMake(16, 16, 16, 16); // Cell insets
+    
+    tableViewRows = 3;
     
     self = [super initWithCollectionViewLayout:layout];
     

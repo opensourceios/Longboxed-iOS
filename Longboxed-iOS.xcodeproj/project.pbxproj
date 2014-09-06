@@ -762,8 +762,8 @@
 				E51F72C6199821A200F643EF /* Navigation */,
 				E56DBFBE19B942330012FB4D /* Comics */,
 				E5D9A89A19A96E9600BC06C1 /* Title */,
-				E5D9A89919A96E9000BC06C1 /* Issue */,
 				E5D9A89B19A96F9A00BC06C1 /* Publisher */,
+				E5D9A89919A96E9000BC06C1 /* Issue */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";

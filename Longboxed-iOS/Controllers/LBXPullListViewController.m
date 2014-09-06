@@ -146,6 +146,9 @@ CGFloat cellWidth;
     [super viewWillAppear:animated];
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+    
+    // Special attribute set for title text color
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -159,6 +162,13 @@ CGFloat cellWidth;
     
     [self.navigationController.navigationBar setBackgroundImage:nil
                                                   forBarMetrics:UIBarMetricsDefault];
+    
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor whiteColor];
+    
+    ///////
+    // Search Bar
+    ///////
     
     // SearchBar cancel button font
     [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
@@ -179,16 +189,9 @@ CGFloat cellWidth;
         }
     }
     
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor whiteColor];
-    
     // SearchBar cursor color
     [[UISearchBar appearance] setTintColor:[UIColor blackColor]];
-    
-    // some over view controller could have changed our nav bar tint color, so reset it here
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], NSFontAttributeName : [UIFont navTitleFont]}];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated

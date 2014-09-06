@@ -161,6 +161,7 @@ BOOL saveSheetVisible;
 {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.topItem.title = @" ";
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
 - (BOOL)prefersStatusBarHidden {

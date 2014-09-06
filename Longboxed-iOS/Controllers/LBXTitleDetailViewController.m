@@ -77,6 +77,7 @@ int page;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
     [self.navigationController.navigationBar setBackIndicatorImage:
      [UIImage imageNamed:@"arrow"]];
@@ -123,8 +124,7 @@ int page;
     [super viewWillDisappear:animated];
     [self setNavBarAlpha:@1];
     self.navigationController.navigationBar.topItem.title = @" ";
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
 - (void)setDetailView

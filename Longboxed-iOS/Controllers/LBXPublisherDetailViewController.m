@@ -124,6 +124,7 @@ int page;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     [self setNavBarAlpha:@1];
     self.navigationController.navigationBar.topItem.title = @" ";
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
