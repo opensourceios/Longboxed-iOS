@@ -21,7 +21,6 @@
 
 @property (nonatomic) LBXClient *client;
 @property (nonatomic) NSArray *publishersArray;
-@property (nonatomic) NSNumber *page;
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
@@ -40,6 +39,7 @@ static const NSUInteger TABLE_HEIGHT_ONE = 504;
 NSInteger tableViewRows;
 CGFloat cellWidth;
 BOOL endOfPublishers;
+int page;
 
 - (id)init
 {
@@ -85,7 +85,7 @@ BOOL endOfPublishers;
     
     [self.view addSubview:_noResultsLabel];
     
-    _page = [[NSNumber alloc] initWithInt:1];
+    page = 1;
     endOfPublishers = NO;
     
     // Calls perferredStatusBarStyle
@@ -147,6 +147,8 @@ BOOL endOfPublishers;
     
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor whiteColor];
+    
+    [self setPublisherArrayWithPublishers];
 }
 
 - (void)viewWillLayoutSubviews
@@ -317,9 +319,8 @@ BOOL endOfPublishers;
     cell.maxParallaxOffset = layout.maxParallaxOffset;
     
     if ([indexPath row] == _publishersArray.count - 1 && !endOfPublishers) {
-        int value = [_page integerValue];
-        _page = [NSNumber numberWithInt:value+1];
-        [self refreshViewWithPage:_page];
+        page += 1;
+        [self refreshViewWithPage:[NSNumber numberWithInt:page]];
     }
 
     return cell;

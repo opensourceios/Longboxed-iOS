@@ -33,7 +33,6 @@
 @property (nonatomic, copy) LBXTitleDetailView *detailView;
 @property (nonatomic, copy) NSArray *pullListArray;
 @property (nonatomic, copy) NSArray *issuesForTitleArray;
-@property (nonatomic) NSNumber *page;
 
 @end
 
@@ -43,6 +42,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 static BOOL addToPullList = NO;
 BOOL endOfIssues;
 BOOL saveSheetVisible;
+int page;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,6 +58,8 @@ BOOL saveSheetVisible;
     
     _client = [LBXClient new];
     
+    page = 1;
+    
     [self createPullListArray];
     [self createIssuesArray];
     
@@ -67,6 +69,9 @@ BOOL saveSheetVisible;
     [self fetchTitle];
     [self fetchPullList];
     [self fetchAllIssuesWithPage:@1];
+    
+    // Adjustment for images with a height that is less than _detailView.latestIssueImageView
+    [self setCustomBlurredBackgroundImageWithImage:_detailView.latestIssueImageView.image];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -78,24 +83,15 @@ BOOL saveSheetVisible;
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
      [UIImage imageNamed:@"arrow"]];
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
-    
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 
-    if (_detailView.latestIssueImageView.image.size.height > 200.0) {
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                      forBarMetrics:UIBarMetricsDefault];
-        self.navigationController.navigationBar.shadowImage = [UIImage new];
-        
-        self.navigationController.navigationBar.translucent = YES;
-        self.navigationController.view.backgroundColor = [UIColor clearColor];
-    }
-    else {
-        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
-    }
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
     
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+
     [self setNavBarAlpha:@0];
 
     // Keep the section header on the top
@@ -474,12 +470,7 @@ BOOL saveSheetVisible;
 
 - (void)setNavBarAlpha:(NSNumber *)alpha
 {
-    if (_detailView.latestIssueImageView.image.size.height > 200.0) {
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
-    }
-    else {
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], NSFontAttributeName : [UIFont navTitleFont]}];
-    }
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
 }
 
 - (void)addTitle:(LBXTitle *)title
@@ -600,9 +591,8 @@ BOOL saveSheetVisible;
     }
     
     if ([indexPath row] == _issuesForTitleArray.count - 1 && !endOfIssues) {
-        int value = [_page integerValue];
-        _page = [NSNumber numberWithInt:value+1];
-        [self fetchAllIssuesWithPage:_page];
+        page += 1;
+        [self fetchAllIssuesWithPage:[NSNumber numberWithInt:page]];
     }
     
     return cell;

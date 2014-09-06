@@ -34,7 +34,6 @@
 @property (nonatomic, copy) LBXPublisherDetailView *detailView;
 @property (nonatomic, copy) UIImage *publisherImage;
 @property (nonatomic, copy) NSArray *titlesForPublisherArray;
-@property (nonatomic) NSNumber *page;
 
 @end
 
@@ -44,6 +43,7 @@ LBXNavigationViewController *navigationController;
 
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 BOOL endOfIssues;
+int page;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,6 +58,7 @@ BOOL endOfIssues;
     endOfIssues = NO;
     
     _client = [LBXClient new];
+    page = 1;
 
     [self setDetailPublisher];
     [self fetchPublisher];
@@ -201,14 +202,24 @@ BOOL endOfIssues;
             
             CGSize size = CGSizeMake(self.detailView.latestIssueImageView.frame.size.width, self.detailView.latestIssueImageView.frame.size.width);
             
-            UIImage *image = [LBXTitleAndPublisherServices generateImageForPublisher:_detailPublisher size:size];
+            UIImage *colorImage = [LBXTitleAndPublisherServices generateImageForPublisher:_detailPublisher size:size];
             
-            [self setCustomBackgroundImageWithImage:image];
+            __block typeof(self) bself = self;
+            
+            //Configure the view
+            // Background
+            [self.mainImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:publisher.mediumSplash]] placeholderImage:colorImage success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                
+                [bself setCustomBlurredBackgroundImageWithImage:image];
+                
+            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                [bself setCustomBackgroundImageWithImage:colorImage];
+            }];
             
             [self updateDetailView];
             [self setDetailPublisher];
-                //Configure the view
-            __block typeof(self) bself = self;
+            
+            // Main image (publisher's logo)
             [self.detailView.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:publisher.mediumLogo]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                 
                 [UIView transitionWithView:bself.detailView.latestIssueImageView
@@ -225,7 +236,6 @@ BOOL endOfIssues;
                                    options:UIViewAnimationOptionTransitionCrossDissolve
                                 animations:^{bself.detailView.latestIssueImageView.image = self.mainImageView.image;}
                                 completion:NULL];
-                [bself setCustomBackgroundImageWithImage:image];
             }];
         }
         else {
@@ -365,8 +375,8 @@ BOOL endOfIssues;
     }
 
     if(tableView.contentOffset.y + (self.view.frame.size.width * 1/4) >= (tableView.contentSize.height - tableView.frame.size.height) && (tableView.contentSize.height - tableView.frame.size.height) > 0.0 && !endOfIssues) {
-        _page = [NSNumber numberWithInt:[_page integerValue]+1];
-        [self fetchAllTitlesWithPage:_page];
+        page += 1;
+        [self fetchAllTitlesWithPage:[NSNumber numberWithInt:page]];
     }
     
     return cell;

@@ -270,7 +270,7 @@ CGFloat cellWidth;
         
         NSMutableArray *oldIndexes = [NSMutableArray new];
         if (newResultsArray.count < oldResultsArray.count) {
-            for (int i = newResultsArray.count; i < oldResultsArray.count; i++) {
+            for (NSUInteger i = newResultsArray.count; i < oldResultsArray.count; i++) {
                 [oldIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             }
         }
@@ -295,9 +295,9 @@ CGFloat cellWidth;
         }
         NSMutableArray *newIndexes = [NSMutableArray new];
         if (newResultsArray.count > oldResultsArray.count) {
-            int index;
+            NSUInteger index;
             if (!oldResultsArray.count) index = 0; else index = oldResultsArray.count;
-            for (int i = index; i < newResultsArray.count; i++) {
+            for (NSUInteger i = index; i < newResultsArray.count; i++) {
                 [newIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             }
         }

@@ -67,7 +67,7 @@
         RKLogConfigureByName("*", RKLogLevelOff)
     }
     
-    //RKLogConfigureByName("*", RKLogLevelOff)
+    RKLogConfigureByName("*", RKLogLevelOff)
     
     [UICKeyChainStore setString:[LBXEndpoints baseURLString] forKey:@"baseURLString"];
     

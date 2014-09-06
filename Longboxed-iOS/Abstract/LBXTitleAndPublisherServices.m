@@ -102,7 +102,6 @@
 + (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
 {
     cell.titleLabel.text = title.name;
-    NSLog(@"%@", title.latestIssue.completeTitle);
     if (title.latestIssue != nil) {
         NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [LBXTitleAndPublisherServices timeSinceLastIssueForTitle:title]];
         

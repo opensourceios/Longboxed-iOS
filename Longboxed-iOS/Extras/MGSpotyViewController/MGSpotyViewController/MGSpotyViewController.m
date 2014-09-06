@@ -105,6 +105,28 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     _backgroundImage = image;
 }
 
+- (void)setCustomBlurredBackgroundImageWithImage:(UIImage *)image
+{
+    [UIView transitionWithView:_mainImageView
+                      duration:0.5f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        _mainImageView.image = image;
+                    }
+                    completion:NULL];
+    
+    _backgroundImage = image;
+
+    // Adjustment for images with a height that is less than _mainImageView
+    if (image.size.height < _frameRect.size.height) {
+        int verticalAdjustment = _frameRect.size.height + image.size.height;
+        _mainImageView.frame = CGRectMake(0,  -verticalAdjustment, _frameRect.size.width, _frameRect.size.height+verticalAdjustment);
+        _mainImageView.clipsToBounds = YES;
+        
+    }
+    [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
+}
+
 - (void)setCustomForegroundImageWithImage:(UIImage *)image
 {
     _foregroundImage = image;
@@ -131,7 +153,13 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         CGFloat absoluteY = ABS(scrollView.contentOffset.y);
         CGFloat diff = _startContentOffset.y - scrollView.contentOffset.y;
 
-        [_mainImageView setFrame:CGRectMake(0.0-diff/2.0, (_frameRect.size.height-self.view.frame.size.width)/2, _overView.frame.size.width+absoluteY, _overView.frame.size.width+absoluteY)];
+        // Adjustment for images with a height that is less than _mainImageView
+        int verticalAdjustment = 0;
+        if (_mainImageView.image.size.height < _overView.frame.size.height) {
+            verticalAdjustment = _overView.frame.size.height + _mainImageView.image.size.height;
+        }
+        
+        [_mainImageView setFrame:CGRectMake(0.0 - diff/2.0, (_frameRect.size.height - self.view.frame.size.width)/2 - verticalAdjustment, _overView.frame.size.width + absoluteY, _overView.frame.size.width + absoluteY + verticalAdjustment)];
         [_overView setFrame:CGRectMake(0.0, 0.0+absoluteY, _overView.frame.size.width, _overView.frame.size.height)];
         
         if(scrollView.contentOffset.y < _startContentOffset.y-kMGOffsetEffects) {

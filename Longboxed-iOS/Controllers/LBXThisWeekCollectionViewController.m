@@ -23,7 +23,6 @@
 
 @property (nonatomic) LBXClient *client;
 @property (nonatomic) NSArray *thisWeeksComicsArray;
-@property (nonatomic) NSNumber *page;
 @property (nonatomic) NSDate *thisWeekDate;
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -44,7 +43,7 @@ static const NSUInteger TABLE_HEIGHT_ONE = 504;
 NSInteger tableViewRows;
 CGFloat cellWidth;
 BOOL endOfThisWeeksComics;
-
+int page;
 
 - (id)init
 {
@@ -88,7 +87,7 @@ BOOL endOfThisWeeksComics;
 
     [self.view addSubview:_noResultsLabel];
     
-    _page = [[NSNumber alloc] initWithInt:1];
+    page = 1;
     endOfThisWeeksComics = NO;
     
     // Calls perferredStatusBarStyle
@@ -330,9 +329,8 @@ BOOL endOfThisWeeksComics;
     cell.maxParallaxOffset = layout.maxParallaxOffset;
     
     if ([indexPath row] == _thisWeeksComicsArray.count - 1 && !endOfThisWeeksComics) {
-        int value = [_page integerValue];
-        _page = [NSNumber numberWithInt:value+1];
-        [self refreshViewWithPage:_page];
+        page += 1;
+        [self refreshViewWithPage:[NSNumber numberWithInt:page]];
     }
     
     

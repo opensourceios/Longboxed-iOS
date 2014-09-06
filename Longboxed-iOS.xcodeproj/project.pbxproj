@@ -120,7 +120,6 @@
 		E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */; };
 		E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5B6FCBC199831CC0022F4CA /* LBXTitleDetailView.xib */; };
 		E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCBF1998351C0022F4CA /* LBXTitleDetailView.m */; };
-		E5B6FCDE19983DFC0022F4CA /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E5B6FCD319983DFC0022F4CA /* LICENSE */; };
 		E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCD819983DFC0022F4CA /* UIImage+ImageEffects.m */; };
 		E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDA19983DFC0022F4CA /* UIImageView+LBBlurredImage.m */; };
 		E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */; };
@@ -364,7 +363,6 @@
 		E5B6FCBC199831CC0022F4CA /* LBXTitleDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXTitleDetailView.xib; path = Views/LBXTitleDetailView.xib; sourceTree = "<group>"; };
 		E5B6FCBE1998351C0022F4CA /* LBXTitleDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleDetailView.h; path = Views/LBXTitleDetailView.h; sourceTree = "<group>"; };
 		E5B6FCBF1998351C0022F4CA /* LBXTitleDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleDetailView.m; path = Views/LBXTitleDetailView.m; sourceTree = "<group>"; };
-		E5B6FCD319983DFC0022F4CA /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		E5B6FCD719983DFC0022F4CA /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		E5B6FCD819983DFC0022F4CA /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		E5B6FCD919983DFC0022F4CA /* UIImageView+LBBlurredImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+LBBlurredImage.h"; sourceTree = "<group>"; };
@@ -825,10 +823,10 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				E5B6FCD519983DFC0022F4CA /* MGSpotyViewController */,
 				E5068A5319B534AC0021CEE8 /* Lumberjack */,
 				E57E157919AA84FF002616F5 /* JGActionSheet */,
 				E5D9A87E19A9193200BC06C1 /* JTSImageViewController */,
-				E5B6FCD219983DFC0022F4CA /* MGSpotyViewController */,
 				E5371226198EF9300065D57A /* Fonts */,
 				E510AD79198C7B7C004A7225 /* iOS-NBUKit */,
 				E587FB4D1964E2A9006A3DDB /* Pop */,
@@ -939,33 +937,25 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
-		E5B6FCD219983DFC0022F4CA /* MGSpotyViewController */ = {
-			isa = PBXGroup;
-			children = (
-				E5B6FCD319983DFC0022F4CA /* LICENSE */,
-				E5B6FCD419983DFC0022F4CA /* MGSpotyView */,
-				E5B6FCD519983DFC0022F4CA /* MGSpotyViewController */,
-			);
-			name = MGSpotyViewController;
-			path = Extras/MGSpotyViewController;
-			sourceTree = "<group>";
-		};
 		E5B6FCD419983DFC0022F4CA /* MGSpotyView */ = {
 			isa = PBXGroup;
 			children = (
+				E5B6FCD619983DFC0022F4CA /* ImageEffects */,
 			);
-			path = MGSpotyView;
+			name = MGSpotyView;
+			path = ../MGSpotyView;
 			sourceTree = "<group>";
 		};
 		E5B6FCD519983DFC0022F4CA /* MGSpotyViewController */ = {
 			isa = PBXGroup;
 			children = (
-				E5B6FCD619983DFC0022F4CA /* ImageEffects */,
 				E5B6FCDB19983DFC0022F4CA /* MGSpotyViewController.h */,
 				E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */,
+				E5B6FCD419983DFC0022F4CA /* MGSpotyView */,
 			);
-			path = MGSpotyViewController;
-			sourceTree = "<group>";
+			name = MGSpotyViewController;
+			path = "Longboxed-iOS/Extras/MGSpotyViewController/MGSpotyViewController";
+			sourceTree = SOURCE_ROOT;
 		};
 		E5B6FCD619983DFC0022F4CA /* ImageEffects */ = {
 			isa = PBXGroup;
@@ -975,8 +965,9 @@
 				E5B6FCD919983DFC0022F4CA /* UIImageView+LBBlurredImage.h */,
 				E5B6FCDA19983DFC0022F4CA /* UIImageView+LBBlurredImage.m */,
 			);
-			path = ImageEffects;
-			sourceTree = "<group>";
+			name = ImageEffects;
+			path = "Longboxed-iOS/Extras/MGSpotyViewController/MGSpotyViewController/ImageEffects";
+			sourceTree = SOURCE_ROOT;
 		};
 		E5D9A87E19A9193200BC06C1 /* JTSImageViewController */ = {
 			isa = PBXGroup;
@@ -1153,7 +1144,6 @@
 				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,
 				E537122C198F031A0065D57A /* check@2x.png in Resources */,
 				E57E157219A99427002616F5 /* LBXPublisherDetailView.xib in Resources */,
-				E5B6FCDE19983DFC0022F4CA /* LICENSE in Resources */,
 				E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */,
 				E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */,
 				E553F5981993213B003E1F5C /* NotAvailable.jpeg in Resources */,

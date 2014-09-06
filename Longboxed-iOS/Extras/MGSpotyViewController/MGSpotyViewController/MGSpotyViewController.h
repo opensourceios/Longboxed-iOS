@@ -23,6 +23,7 @@ extern CGFloat const kMGOffsetBlurEffect;
 - (instancetype)initWithMainImage:(UIImage *)image andTopViewFrame:(CGRect)frame;
 - (instancetype)initWithTopViewFrame:(CGRect)frame;
 - (void)setCustomBackgroundImageWithImage:(UIImage *)image;
+- (void)setCustomBlurredBackgroundImageWithImage:(UIImage *)image;
 - (void)setCustomForegroundImageWithImage:(UIImage *)image;
 
 @end
