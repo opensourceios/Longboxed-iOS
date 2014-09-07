@@ -43,8 +43,6 @@
 LBXNavigationViewController *navigationController;
 
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
-BOOL endOfIssues;
-int page;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,10 +54,7 @@ int page;
     self.navigationItem.rightBarButtonItem = actionButton;
     self.navigationController.navigationBar.topItem.title = @"";
     
-    endOfIssues = NO;
-    
     _client = [LBXClient new];
-    page = 1;
 
     [self setDetailPublisher];
     [self fetchPublisher];
@@ -258,20 +253,15 @@ int page;
 
 - (void)fetchAllTitlesWithPage:(NSNumber *)page
 {
-    if ([page intValue] > 1 && !endOfIssues) {
-        // Add a footer loading spinner
-        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [spinner startAnimating];
-        spinner.frame = CGRectMake(0, 0, 320, 44);
-        self.tableView.tableFooterView = spinner;
-    }
-    
     // Fetch pull list titles
     [_client fetchTitlesForPublisher:_publisherID page:page withCompletion:^(NSArray *titleArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
             if (titleArray.count == 0 || [_detailPublisher.titleCount intValue] == _titlesForPublisherArray.count) {
-                endOfIssues = YES;
                 self.tableView.tableFooterView = nil;
+            }
+            else {
+                int value = [page intValue];
+                [self fetchAllTitlesWithPage:[NSNumber numberWithInt:value + 1]];
             }
             [self createTitlesArray];
             [UIView transitionWithView:_detailView.loadingLabel
@@ -420,11 +410,6 @@ int page;
             cell.separatorInset = UIEdgeInsetsZero;
         }
         
-    }
-
-    if(tableView.contentOffset.y + (self.view.frame.size.width * 1/4) >= (tableView.contentSize.height - tableView.frame.size.height) && (tableView.contentSize.height - tableView.frame.size.height) > 0.0 && !endOfIssues) {
-        page += 1;
-        [self fetchAllTitlesWithPage:[NSNumber numberWithInt:page]];
     }
     
     return cell;
