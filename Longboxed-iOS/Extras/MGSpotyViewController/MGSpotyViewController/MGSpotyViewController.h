@@ -16,6 +16,7 @@ extern CGFloat const kMGOffsetBlurEffect;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *overView;
 @property (nonatomic, strong) UIImageView *mainImageView;
+@property (nonatomic, strong) UIView *whiteView;
 
 @property (nonatomic) UIImage *foregroundImage;
 @property (nonatomic) UIImage *backgroundImage;
