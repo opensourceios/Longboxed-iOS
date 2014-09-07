@@ -34,6 +34,7 @@
 @property (nonatomic, copy) LBXPublisherDetailView *detailView;
 @property (nonatomic, copy) UIImage *publisherImage;
 @property (nonatomic, copy) NSArray *titlesForPublisherArray;
+@property (nonatomic, copy) NSArray *sectionArray;
 
 @end
 
@@ -94,6 +95,8 @@ int page;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
+    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    self.tableView.sectionIndexColor = [UIColor lightGrayColor];
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
@@ -168,7 +171,7 @@ int page;
     _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     [_detailView.issuesAndSubscribersLabel sizeToFit];
     
-    if (_titlesForPublisherArray.count <= self.tableView.visibleCells.count) {
+    if (_titlesForPublisherArray.count <= self.tableView.visibleCells.count-1) {
         _detailView.loadingLabel.text = @"LOADING TITLES...";
         _detailView.loadingLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     }
@@ -191,6 +194,11 @@ int page;
 }
 
 #pragma mark - Private methods
+
+- (void)setNavBarAlpha:(NSNumber *)alpha
+{
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
+}
 
 - (void)setDetailPublisher
 {
@@ -282,15 +290,43 @@ int page;
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(publisher == %@)", _detailPublisher];
     _titlesForPublisherArray = [LBXTitle MR_findAllSortedBy:@"name" ascending:YES withPredicate:predicate];
+    [self generateSectionArray];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
         [self.view setNeedsDisplay];
     });
 }
 
-- (void)setNavBarAlpha:(NSNumber *)alpha
-{
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
+- (void)generateSectionArray {
+    
+    static NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ#";
+    
+    NSMutableArray *content = [NSMutableArray new];
+    
+    // Loop through every letter of the alphabet
+    for (int i = 0; i < [letters length]; i++ ) {
+        NSMutableDictionary *letterDict = [NSMutableDictionary new];
+        NSMutableArray *letterArray = [NSMutableArray new];
+        // Loop through every title in the publisher array
+        for (LBXTitle *title in _titlesForPublisherArray) {
+            // Check if the title name begins with the current character
+            if (toupper([letters characterAtIndex:i]) == toupper([title.name characterAtIndex:0])) {
+                // If it does, append it to an array of all the titles
+                // for that letter
+                [letterArray addObject:title];
+            }
+            if ([letters characterAtIndex:i] == '#' && isdigit([title.name characterAtIndex:0])) {
+                [letterArray addObject:title];
+            }
+        }
+        // Add the letter as the key and the title array as the value
+        // and then make it a part of the larger content array
+        if (letterArray.count) {
+            [letterDict setValue:letterArray forKey:[NSString stringWithFormat:@"%c", [letters characterAtIndex:i]]];
+            [content addObject:letterDict];
+        }
+    }
+    _sectionArray = content;
 }
 
 #pragma mark - Setter overrides
@@ -304,7 +340,7 @@ int page;
 #pragma mark - UITableView Delegate & Datasource
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if(section == 0)
+    if(section >= 0)
         return [super tableView:tableView viewForHeaderInSection:section];
     
     return nil;
@@ -313,7 +349,7 @@ int page;
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // Background color
-    view.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8];
+    view.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
     
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
@@ -325,39 +361,48 @@ int page;
     // header.contentView.backgroundColor = [UIColor blackColor];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if(section == 1)
-        return @"Titles";
-    
-    return nil;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if(section == 0)
-        return [super tableView:tableView heightForHeaderInSection:section];
+    if(section == 0) return [super tableView:tableView heightForHeaderInSection:section];
     
-    if(section == 1)
-        return 18.0;
-    
-    return 0.0;
+    else return 18.0;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if(section == 0) return 0;
+    
+    NSDictionary *dict = [_sectionArray objectAtIndex:section-1];
+    return dict.allKeys.firstObject;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    NSMutableArray *arr = [NSMutableArray new];
+    for (NSDictionary *dict in _sectionArray) {
+        [arr addObject:dict.allKeys[0]];
+    }
+    return arr;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    NSMutableArray *arr = [NSMutableArray new];
+    for (NSDictionary *dict in _sectionArray) {
+        [arr addObject:dict.allKeys[0]];
+    }
+    return [arr indexOfObject:title]+1;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    NSInteger mySections = 1;
-    
-    return mySections + 1;
+    if (!_sectionArray.count) {
+        return 1;
+    }
+    return _sectionArray.count + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section != 1) {
-        return 0;
-    }
-    if (!_titlesForPublisherArray.count) {
-        return 0;
-    }
+    if (section == 0) return 0;
     
-    return _titlesForPublisherArray.count;
+    NSDictionary *dict = [_sectionArray objectAtIndex:section-1];
+    NSArray *arr = [dict valueForKey:dict.allKeys[0]];
+    return [arr count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -392,7 +437,9 @@ int page;
         return;
     }
     
-    LBXTitle *title = [_titlesForPublisherArray objectAtIndex:indexPath.row];
+    NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section-1];
+    NSArray *array = [dict objectForKey:dict.allKeys[0]];
+    LBXTitle *title = [array objectAtIndex:indexPath.row];
     
     cell.titleLabel.font = [UIFont pullListTitleFont];
     cell.titleLabel.text = title.name;
