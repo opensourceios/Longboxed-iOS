@@ -250,7 +250,7 @@ int page;
             
             // Darken the image
             UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.height*2)];
-            [overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+            [overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
             NSArray *viewsToRemove = [cell.comicImageView subviews];
             for (UIView *v in viewsToRemove) [v removeFromSuperview];
             [cell.comicImageView addSubview:overlay];
@@ -347,7 +347,7 @@ int page;
     
     // Darken the image
     UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.comicImageView.frame.size.width, cell.comicImageView.frame.size.height*2)];
-    [overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+    [overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.2]];
     NSArray *viewsToRemove = [cell.comicImageView subviews];
     for (UIView *v in viewsToRemove) [v removeFromSuperview];
     [cell.comicImageView addSubview:overlay];

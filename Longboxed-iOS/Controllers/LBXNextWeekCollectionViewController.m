@@ -148,7 +148,7 @@ int page;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.navigationController.navigationBar.topItem.title = @"This Week";
+    self.navigationController.navigationBar.topItem.title = @"Next Week";
 }
 
 - (void)viewWillLayoutSubviews

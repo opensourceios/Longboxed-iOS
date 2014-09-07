@@ -45,7 +45,7 @@
 
 + (UIFont *)collectionTitleFontUltraLight
 {
-    return [UIFont fontWithName:@"AvenirNextCondensed-UltraLight" size:36];
+    return [UIFont fontWithName:@"AvenirNextCondensed-UltraLight" size:42];
 }
 
 + (UIFont *)collectionTitleFontRegular

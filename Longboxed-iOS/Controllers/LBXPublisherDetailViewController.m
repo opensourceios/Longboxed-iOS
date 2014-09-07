@@ -203,7 +203,7 @@ int page;
         
         if (!error) {
             
-            CGSize size = CGSizeMake(self.detailView.latestIssueImageView.frame.size.width, self.detailView.latestIssueImageView.frame.size.width);
+            CGSize size = CGSizeMake(self.detailView.latestIssueImageView.frame.size.width, self.view.frame.size.width);
             
             UIImage *colorImage = [LBXTitleAndPublisherServices generateImageForPublisher:_detailPublisher size:size];
             
@@ -353,8 +353,8 @@ int page;
     if (section != 1) {
         return 0;
     }
-    if (_titlesForPublisherArray.count <= 3) {
-        return 3;
+    if (!_titlesForPublisherArray.count) {
+        return 0;
     }
     
     return _titlesForPublisherArray.count;

@@ -88,8 +88,8 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     _startContentOffset = _tableView.contentOffset;
     _lastContentOffsetBlurEffect = _startContentOffset;
     
-    // +20 for the height of the header
-    _whiteView = [[UIView alloc] initWithFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 20, _overView.bounds.size.width, view.frame.size.height - _overView.frame.size.height)];
+    // +18 for the height of the header
+    _whiteView = [[UIView alloc] initWithFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 18, _overView.bounds.size.width, view.frame.size.height - _overView.frame.size.height)];
     [_whiteView setBackgroundColor:[UIColor whiteColor]];
     [view insertSubview:_whiteView belowSubview:_tableView];
     
@@ -166,7 +166,8 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         
         [_mainImageView setFrame:CGRectMake(0.0 - diff/2.0, (_frameRect.size.height - self.view.frame.size.width)/2 - verticalAdjustment, _overView.frame.size.width + absoluteY, _overView.frame.size.width + absoluteY + verticalAdjustment)];
         [_overView setFrame:CGRectMake(0.0, 0.0+absoluteY, _overView.frame.size.width, _overView.frame.size.height)];
-        _whiteView.frame = CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 20 + absoluteY, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height);
+        // +18 for the height of the header
+        _whiteView.frame = CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 18 + absoluteY, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height);
         
         
         if(scrollView.contentOffset.y < _startContentOffset.y-kMGOffsetEffects) {
