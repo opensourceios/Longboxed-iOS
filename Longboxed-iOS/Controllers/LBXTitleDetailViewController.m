@@ -26,7 +26,7 @@
 #import <SVProgressHUD.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JGActionSheetDelegate>
+@interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate, JGActionSheetDelegate>
 
 @property (nonatomic, copy) LBXTitle *detailTitle;
 @property (nonatomic, copy) LBXClient *client;
@@ -175,7 +175,6 @@ int page;
             subscribersString = [NSString stringWithFormat:@"%@ Subscriber", _detailTitle.subscribers];
         }
         else {
-            NSLog(@"%@", _detailTitle.subscribers);
             subscribersString = [NSString stringWithFormat:@"%@ Subscribers", _detailTitle.subscribers];
         }
         
@@ -248,6 +247,14 @@ int page;
         saveSheetVisible = YES;
         [sheet showInView:imageViewer.view animated:YES];
     }
+}
+
+#pragma mark JTSImageViewControllerDismissalDelegate methods
+
+// Sometimes the status bar will go to black text. This changes it white
+- (void)imageViewerDidDismiss:(JTSImageViewController *)imageViewer
+{
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
 #pragma mark JGActionSheetDelegate methods
@@ -344,6 +351,7 @@ int page;
                                                    mode:JTSImageViewControllerMode_Image
                                                    backgroundStyle:JTSImageViewControllerBackgroundStyle_ScaledDimmedBlurred];
             imageViewer.interactionsDelegate = self;
+            imageViewer.dismissalDelegate = self;
             
             // Present the view controller.
             [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];

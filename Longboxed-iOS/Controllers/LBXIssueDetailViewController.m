@@ -21,7 +21,7 @@
 #import <UIImageView+AFNetworking.h>
 #import <SVProgressHUD.h>
 
-@interface LBXIssueDetailViewController () <JTSImageViewControllerInteractionsDelegate, JGActionSheetDelegate>
+@interface LBXIssueDetailViewController () <JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate, JGActionSheetDelegate>
 
 @property (nonatomic) IBOutlet UIImageView *backgroundCoverImageView;
 @property (nonatomic) IBOutlet UITextView *descriptionTextView;
@@ -75,7 +75,6 @@ BOOL saveSheetVisible;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 }
 
@@ -168,6 +167,10 @@ BOOL saveSheetVisible;
     return NO;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (IBAction)buttonPressed:(UIButton *)sender
 {
     UIButton *button = (UIButton *)sender;
@@ -187,6 +190,7 @@ BOOL saveSheetVisible;
                                                    mode:JTSImageViewControllerMode_Image
                                                    backgroundStyle:JTSImageViewControllerBackgroundStyle_ScaledDimmedBlurred];
             imageViewer.interactionsDelegate = self;
+            imageViewer.dismissalDelegate = self;
             
             // Present the view controller.
             [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
@@ -205,7 +209,7 @@ BOOL saveSheetVisible;
         }
         case 2:
         {
-            NSLog(@"Pressed date in issue view");
+            // Pressing the date in the issue view
             break;
         }
     }
@@ -237,6 +241,14 @@ BOOL saveSheetVisible;
 {
     if (saveSheetVisible) return YES;
     return NO;
+}
+
+#pragma mark JTSImageViewControllerDismissalDelegate methods
+
+// Sometimes the status bar will go to black text. This changes it white
+- (void)imageViewerDidDismiss:(JTSImageViewController *)imageViewer
+{
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
 #pragma mark JGActionSheetDelegate methods
