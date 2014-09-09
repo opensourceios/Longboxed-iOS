@@ -32,8 +32,15 @@
         LBXIssue *issue = allIssuesArray[0];
         
         // Get an NSDate with the local time: http://stackoverflow.com/questions/3901474/iphone-nsdate-convert-gmt-to-local-time
-        NSDate* localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT]
-                                                   sinceDate:[NSDate date]];
+        NSDate *localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
+        
+        if (allIssuesArray.count > 1) {
+            LBXIssue *issue2 = allIssuesArray[1];
+            // Check if the latest issue is next week and the second latest issue is this week
+            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > 60*60*24*7 && [issue2.releaseDate timeIntervalSinceDate:localDateTime] < 60*60*24*7) {
+                return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:issue2.releaseDate andEndDate:localDateTime]];
+            }
+        }
         return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:issue.releaseDate andEndDate:localDateTime]];
     }
     return @"";
