@@ -12,7 +12,7 @@ pod 'FontAwesomeKit', '~> 2.1.0'
 pod 'MCSwipeTableViewCell'
 pod 'SVProgressHUD', :head
 pod 'CocoaLumberjack', '~> 1.9'
-pod 'NSLogger'
+pod 'NSLogger', '~> 1.5'
 
 # Customized
 # pod 'JTSImageViewController'
