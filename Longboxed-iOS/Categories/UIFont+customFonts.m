@@ -48,6 +48,11 @@
     return [UIFont fontWithName:@"AvenirNextCondensed-UltraLight" size:42];
 }
 
++ (UIFont *)comicsViewFontUltraLight
+{
+    return [UIFont fontWithName:@"AvenirNext-UltraLight" size:52];
+}
+
 + (UIFont *)collectionTitleFontRegular
 {
     return [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:36];

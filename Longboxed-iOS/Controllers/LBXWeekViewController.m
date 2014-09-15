@@ -11,7 +11,11 @@
 #import "LBXClient.h"
 #import "UIFont+customFonts.h"
 #import "LBXNavigationViewController.h"
+#import "LBXIssueScrollViewController.h"
+#import "LBXIssueDetailViewController.h"
 #import "NSDate+DateUtilities.h"
+
+#import "LBXLogging.h"
 
 #import "Masonry.h"
 
@@ -86,9 +90,6 @@ int page;
     [self.refreshControl addTarget:self action:@selector(refreshControlAction)
               forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
-    
-    [self refreshControlAction];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -103,17 +104,23 @@ int page;
     
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
+    [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+    
+    [self setIssuesForWeekArrayWithThisWeekIssues];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     self.navigationController.navigationBar.topItem.title = @"Releases";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     
-    [self setIssuesForWeekArrayWithThisWeekIssues];
-    [self.refreshControl beginRefreshing];
-    [self.tableView reloadData];
-    [self fetchThisWeekWithPage:@1];
+    if (_issuesForWeekArray.count == 0) {
+        [self.refreshControl beginRefreshing];
+        [self fetchThisWeekWithPage:@1];
+    }
 }
 
 - (void)viewWillLayoutSubviews
@@ -122,6 +129,13 @@ int page;
     navigationController = (LBXNavigationViewController *)self.navigationController;
     [navigationController.menu setNeedsLayout];
 }
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.topItem.title = @" ";
+}
+
 
 #pragma mark Private Methods
 
@@ -180,7 +194,8 @@ int page;
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is next week
             if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > -4*DAY &&
-                [issue.releaseDate timeIntervalSinceDate:localDateTime] < 7*DAY) {
+                [issue.releaseDate timeIntervalSinceDate:localDateTime] < 7*DAY && issue.releaseDate) {
+                NSLog(@"%@", issue.releaseDate);
                 [nextWeekArray addObject:issue];
             }
         }
@@ -199,7 +214,7 @@ int page;
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is next week
             if ([issue.releaseDate timeIntervalSinceDate:localDateTime] >= 7*DAY &&
-                [issue.releaseDate timeIntervalSinceDate:localDateTime] < 7*2*DAY) {
+                [issue.releaseDate timeIntervalSinceDate:localDateTime] < 7*2*DAY && issue.releaseDate) {
                 [nextWeekArray addObject:issue];
             }
         }
@@ -351,12 +366,38 @@ int page;
     cell.subtitleLabel.textColor = [UIColor grayColor];
     cell.subtitleLabel.numberOfLines = 2;
     
-    //[LBXTitleAndPublisherServices setTitleCell:cell withIssue:issue];
-    
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     
     // Setting the background color of the cell.
     cell.contentView.backgroundColor = [UIColor whiteColor];
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Disselect and return immediately if selecting an empty cell
+    // i.e., one below the last issue
+    if (_issuesForWeekArray.count < indexPath.row+1) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+    
+    LBXIssue *issue = [_issuesForWeekArray objectAtIndex:indexPath.row];
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Selected issue %@", issue]];
+    LBXWeekTableViewCell *cell = (LBXWeekTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    
+    // Set up the scroll view controller containment if there are alternate issues
+    if (issue.alternates.count) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
+        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
+        LBXIssueScrollViewController *scrollViewController = [[LBXIssueScrollViewController alloc] initWithIssues:issuesArray andImage:cell.latestIssueImageView.image];
+        [self.navigationController pushViewController:scrollViewController animated:YES];
+    }
+    else {
+        LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image];
+        titleViewController.issue = issue;
+        [self.navigationController pushViewController:titleViewController animated:YES];
+    }
     
 }
 

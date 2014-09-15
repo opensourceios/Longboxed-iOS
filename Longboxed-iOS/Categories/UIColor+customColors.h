@@ -13,6 +13,7 @@
 + (UIColor *)LBXGreenColor;
 + (UIColor *)LBXGrayColor;
 + (UIColor *)LBXRedColor;
++ (UIColor *)LBXGrayNavigationBarColor;
 + (UIColor *)colorWithHex:(NSString *)hex;
 
 @end

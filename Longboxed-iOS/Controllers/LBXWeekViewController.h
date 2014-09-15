@@ -13,8 +13,4 @@
 // TODO: Delete this property (it's for setting this VC as the root VC)
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-- (instancetype)initWithDate:(NSDate *)date;
-- (instancetype)initWithThisWeek;
-- (instancetype)initWithNextWeek;
-
 @end

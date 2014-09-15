@@ -75,7 +75,23 @@ BOOL saveSheetVisible;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
+    [self.navigationController.navigationBar setBackIndicatorImage:
+     [UIImage imageNamed:@"arrow"]];
+    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
+     [UIImage imageNamed:@"arrow"]];
+    
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.0]}];
 }
 
 - (void)viewDidLoad

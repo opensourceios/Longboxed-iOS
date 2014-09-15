@@ -19,6 +19,7 @@
 + (UIFont *)SVProgressHUDFont;
 + (UIFont *)collectionTitleFontUltraLight;
 + (UIFont *)collectionTitleFontRegular;
++ (UIFont *)comicsViewFontUltraLight;
 + (UIFont *)collectionSubtitleFont;
 + (UIFont *)titleDetailLatestIssueFont;
 + (UIFont *)titleDetailSubscribersAndIssuesFont;
