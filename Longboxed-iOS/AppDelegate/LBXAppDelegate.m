@@ -9,7 +9,7 @@
 #import "LBXDatabaseManager.h"
 #import "LBXAppDelegate.h"
 #import "LBXHomeViewController.h"
-#import "LBXWeekTableViewController.h"
+#import "LBXWeekViewController.h"
 #import "LBXNavigationViewController.h"
 #import "LBXLogging.h"
 

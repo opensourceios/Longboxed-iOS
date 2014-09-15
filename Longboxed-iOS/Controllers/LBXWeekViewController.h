@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LBXWeekTableViewController : UITableViewController
+@interface LBXWeekViewController : UIViewController
 
 // TODO: Delete this property (it's for setting this VC as the root VC)
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

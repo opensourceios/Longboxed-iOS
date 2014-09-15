@@ -54,9 +54,8 @@
 		E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5371227198EF9300065D57A /* FontAwesome.ttf */; };
 		E537122A198EFEE90065D57A /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = E5371229198EFEE90065D57A /* check.png */; };
 		E537122C198F031A0065D57A /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E537122B198F031A0065D57A /* check@2x.png */; };
-		E53EEC8019BE8DC70066F712 /* LBXWeekTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53EEC7F19BE8DC70066F712 /* LBXWeekTableViewController.m */; };
+		E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */; };
 		E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E53EEC8219BE91600066F712 /* LBXWeekTableViewCell.m */; };
-		E53EEC8519BE91600066F712 /* LBXWeekTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E53EEC8319BE91600066F712 /* LBXWeekTableViewCell.xib */; };
 		E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AEF196B72D80094979A /* NSString+URLQuery.m */; };
 		E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF2196B7ED30094979A /* LBXUser.m */; };
 		E54A6AF9196B9E8B0094979A /* LBXBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF8196B9E8B0094979A /* LBXBundle.m */; };
@@ -117,6 +116,7 @@
 		E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E587FB4F1964E2E5006A3DDB /* PaperButton.m */; };
 		E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5977737198EAC7D0047E261 /* LBXPullListTitle.m */; };
 		E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */; };
+		E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */; };
 		E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D119623E73002654E7 /* LBXNavigationViewController.m */; };
 		E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D819623F52002654E7 /* NSData+Base64.m */; };
 		E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXLoginViewController.m */; };
@@ -255,11 +255,10 @@
 		E5371227198EF9300065D57A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		E5371229198EFEE90065D57A /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = Assets/check.png; sourceTree = SOURCE_ROOT; };
 		E537122B198F031A0065D57A /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check@2x.png"; path = "Assets/check@2x.png"; sourceTree = SOURCE_ROOT; };
-		E53EEC7E19BE8DC70066F712 /* LBXWeekTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXWeekTableViewController.h; path = Controllers/LBXWeekTableViewController.h; sourceTree = "<group>"; };
-		E53EEC7F19BE8DC70066F712 /* LBXWeekTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXWeekTableViewController.m; path = Controllers/LBXWeekTableViewController.m; sourceTree = "<group>"; };
+		E53EEC7E19BE8DC70066F712 /* LBXWeekViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXWeekViewController.h; path = Controllers/LBXWeekViewController.h; sourceTree = "<group>"; };
+		E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXWeekViewController.m; path = Controllers/LBXWeekViewController.m; sourceTree = "<group>"; };
 		E53EEC8119BE91600066F712 /* LBXWeekTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXWeekTableViewCell.h; path = Views/LBXWeekTableViewCell.h; sourceTree = "<group>"; };
 		E53EEC8219BE91600066F712 /* LBXWeekTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXWeekTableViewCell.m; path = Views/LBXWeekTableViewCell.m; sourceTree = "<group>"; };
-		E53EEC8319BE91600066F712 /* LBXWeekTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXWeekTableViewCell.xib; path = Views/LBXWeekTableViewCell.xib; sourceTree = "<group>"; };
 		E54A6AEE196B72D80094979A /* NSString+URLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URLQuery.h"; path = "Categories/NSString+URLQuery.h"; sourceTree = "<group>"; };
 		E54A6AEF196B72D80094979A /* NSString+URLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+URLQuery.m"; path = "Categories/NSString+URLQuery.m"; sourceTree = "<group>"; };
 		E54A6AF1196B7ED30094979A /* LBXUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXUser.h; path = Models/LBXUser.h; sourceTree = "<group>"; };
@@ -366,6 +365,7 @@
 		E5977736198EAC7D0047E261 /* LBXPullListTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListTitle.h; path = Models/LBXPullListTitle.h; sourceTree = "<group>"; };
 		E5977737198EAC7D0047E261 /* LBXPullListTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListTitle.m; path = Models/LBXPullListTitle.m; sourceTree = "<group>"; };
 		E597773D198EADA60047E261 /* LBXCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LBXCoreData.xcdatamodel; sourceTree = "<group>"; };
+		E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXWeekTableViewCell.xib; path = Views/LBXWeekTableViewCell.xib; sourceTree = "<group>"; };
 		E5A773D019623E73002654E7 /* LBXNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXNavigationViewController.h; path = Controllers/LBXNavigationViewController.h; sourceTree = "<group>"; };
 		E5A773D119623E73002654E7 /* LBXNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXNavigationViewController.m; path = Controllers/LBXNavigationViewController.m; sourceTree = "<group>"; };
 		E5A773D719623F52002654E7 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Categories/NSData+Base64.h"; sourceTree = "<group>"; };
@@ -641,8 +641,8 @@
 				E57D490A196096260014A13F /* LBXThisWeekCollectionViewController.m */,
 				E5E5A52A19BBAEF800471BF8 /* LBXNextWeekCollectionViewController.h */,
 				E5E5A52B19BBAEF800471BF8 /* LBXNextWeekCollectionViewController.m */,
-				E53EEC7E19BE8DC70066F712 /* LBXWeekTableViewController.h */,
-				E53EEC7F19BE8DC70066F712 /* LBXWeekTableViewController.m */,
+				E53EEC7E19BE8DC70066F712 /* LBXWeekViewController.h */,
+				E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */,
 			);
 			name = Comics;
 			sourceTree = "<group>";
@@ -753,7 +753,7 @@
 				E5B6FCBC199831CC0022F4CA /* LBXTitleDetailView.xib */,
 				E53EEC8119BE91600066F712 /* LBXWeekTableViewCell.h */,
 				E53EEC8219BE91600066F712 /* LBXWeekTableViewCell.m */,
-				E53EEC8319BE91600066F712 /* LBXWeekTableViewCell.xib */,
+				E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */,
 				E54F10971991D28900DAD4FE /* LBXPullListTableViewCell.h */,
 				E54F10981991D28900DAD4FE /* LBXPullListTableViewCell.m */,
 				E54F10951991D21B00DAD4FE /* LBXPullListTableViewCell.xib */,
@@ -1157,13 +1157,13 @@
 				E57D498019611C950014A13F /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */,
 				E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */,
-				E53EEC8519BE91600066F712 /* LBXWeekTableViewCell.xib in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
 				E57D498319611C950014A13F /* SVWebViewControllerActivitySafari@2x.png in Resources */,
 				E57E156819A987ED002616F5 /* arrow_right.png in Resources */,
 				E57D49241960B8F40014A13F /* black.png in Resources */,
 				E5E5A52919BBAE5500471BF8 /* black-spiderman.jpg in Resources */,
 				E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */,
+				E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */,
 				E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
 				E57D497819611C8E0014A13F /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
 				E553F59F19946393003E1F5C /* clear.png in Resources */,
@@ -1326,7 +1326,7 @@
 				E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */,
 				E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */,
 				E510AFAB198C7B7D004A7225 /* UINavigationController+NBUAdditions.m in Sources */,
-				E53EEC8019BE8DC70066F712 /* LBXWeekTableViewController.m in Sources */,
+				E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */,
 				E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */,
 				E5F18724196382BA006C4C26 /* LBXHomeViewController.m in Sources */,
 				E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */,

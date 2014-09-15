@@ -13,8 +13,7 @@
 #import "LBXNavigationViewController.h"
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXPublisherCollectionViewController.h"
-#import "LBXThisWeekCollectionViewController.h"
-#import "LBXNextWeekCollectionViewController.h"
+#import "LBXWeekViewController.h"
 
 #import "UIFont+customFonts.h"
 
@@ -202,18 +201,11 @@ CGFloat cellWidth;
             break;
         }
         case 1: {
-            LBXThisWeekCollectionViewController *controller = [LBXThisWeekCollectionViewController new];
-            [self.navigationController pushViewController:controller animated:YES];
-            break;
-        }
-        case 2: {
-            LBXNextWeekCollectionViewController *controller = [LBXNextWeekCollectionViewController new];
+            LBXWeekViewController *controller = [LBXWeekViewController new];
             [self.navigationController pushViewController:controller animated:YES];
             break;
         }
     }
-    
-
 }
 
 
@@ -229,6 +221,7 @@ CGFloat cellWidth;
     switch (tableViewRows) {
         case 0:
         case 1:
+            //CGFloat tableRowHeight = [self.void]
             return CGSizeMake(cellWidth, TABLE_HEIGHT_ONE);
             break;
         case 2:

@@ -11,13 +11,7 @@
 @implementation NSDate (DateUtilities)
 
 + (NSString *)fuzzyTimeBetweenStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate
-{
-#define SECOND 1
-#define MINUTE (60 * SECOND)
-#define HOUR (60 * MINUTE)
-#define DAY (24 * HOUR)
-#define MONTH (30 * DAY)
-    
+{    
     //http://stackoverflow.com/questions/1052951/fuzzy-date-algorithm-in-objective-c
     //Calculate the delta in seconds between the two dates
     NSTimeInterval delta = [endDate timeIntervalSinceDate:startDate];

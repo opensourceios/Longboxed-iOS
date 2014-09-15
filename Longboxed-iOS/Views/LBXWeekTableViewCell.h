@@ -11,8 +11,8 @@
 @interface LBXWeekTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
-@property (nonatomic, weak) IBOutlet UIImageView *parallaxImageView;
-
-- (void)cellOnTableView:(UITableView *)tableView didScrollOnView:(UIView *)view;
+@property (nonatomic, weak) IBOutlet UILabel *subtitleLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *latestIssueImageView;
+@property (nonatomic, weak) IBOutlet UILabel *imageViewSeparatorLabel;
 
 @end
