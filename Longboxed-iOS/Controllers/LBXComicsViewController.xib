@@ -20,7 +20,7 @@
             <subviews>
                 <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search Comics" translatesAutoresizingMaskIntoConstraints="NO" id="nbQ-kJ-kuw">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                    <textInputTraits key="textInputTraits"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="Vfc-vM-LWH"/>
                     </connections>
