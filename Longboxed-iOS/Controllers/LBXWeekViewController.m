@@ -13,13 +13,16 @@
 #import "LBXNavigationViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXIssueDetailViewController.h"
-#import "NSDate+DateUtilities.h"
-
 #import "LBXLogging.h"
+#import "NSDate+DateUtilities.h"
+#import "UIFont+customFonts.h"
 
+#import "ESDatePicker.h"
+
+#import <FontAwesomeKit/FontAwesomeKit.h>
 #import "Masonry.h"
 
-@interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource, ESDatePickerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
@@ -27,6 +30,11 @@
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, copy) LBXClient *client;
 @property (nonatomic, copy) NSArray *issuesForWeekArray;
+@property (nonatomic, strong) NSCalendar *calendar;
+
+@property (nonatomic, strong) UINavigationController *calendarNavController;
+@property (nonatomic, strong) ESDatePicker *calendarView;
+@property (nonatomic, strong) NSDate *selectedWednesday;
 
 @end
 
@@ -39,7 +47,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 NSInteger tableViewRows;
 CGFloat cellWidth;
 BOOL endOfPages;
-int page;
+int _page;
 
 - (void)viewDidLoad
 {
@@ -47,7 +55,7 @@ int page;
     
     _client = [LBXClient new];
     
-    page = 1;
+    _page = 1;
     endOfPages = NO;
     tableViewRows = 0;
     
@@ -81,6 +89,11 @@ int page;
         make.edges.equalTo(_toolBar).insets(UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height+8, 16, 8, 16));
     }];
     _segmentedControl.tintColor = [UIColor blackColor];
+    UIFont *font = [UIFont segmentedControlFont];
+    NSDictionary *attributes = [NSDictionary dictionaryWithObject:font
+                                                           forKey:NSFontAttributeName];
+    [_segmentedControl setTitleTextAttributes:attributes
+                                    forState:UIControlStateNormal];
     
     _tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
     _tableView.scrollIndicatorInsets = _tableView.contentInset;
@@ -102,6 +115,23 @@ int page;
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
      [UIImage imageNamed:@"arrow"]];
     
+    // Calendar button
+    int calendarSize = 20;
+    FAKFontAwesome *calendarIcon = [FAKFontAwesome calendarIconWithSize:calendarSize];
+    [calendarIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *iconImage = [calendarIcon imageWithSize:CGSizeMake(calendarSize, calendarSize)];
+    
+    CGRect frameimg = CGRectMake(0, 0, calendarSize, calendarSize);
+    UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
+    [someButton setBackgroundImage:iconImage forState:UIControlStateNormal];
+    [someButton addTarget:self action:@selector(showCalendar)
+         forControlEvents:UIControlEventTouchUpInside];
+    [someButton setShowsTouchWhenHighlighted:YES];
+    
+    UIBarButtonItem *calendarButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
+    self.navigationItem.rightBarButtonItem = calendarButton;
+    
+    
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -117,10 +147,8 @@ int page;
     self.navigationController.navigationBar.topItem.title = @"Releases";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     
-    if (_issuesForWeekArray.count == 0) {
-        [self.refreshControl beginRefreshing];
-        [self fetchThisWeekWithPage:@1];
-    }
+    [self.refreshControl beginRefreshing];
+    [self fetchThisWeekWithPage:@1];
 }
 
 - (void)viewWillLayoutSubviews
@@ -156,19 +184,16 @@ int page;
         _issuesForWeekArray = nil;
         [self setIssuesForWeekArrayWithThisWeekIssues];
         [self.tableView reloadData];
-        if (_issuesForWeekArray.count == 0) {
-            [self.refreshControl beginRefreshing];
-            [self fetchThisWeekWithPage:@1];
-        }
+        [self.refreshControl beginRefreshing];
+        [self fetchThisWeekWithPage:@1];
+    
     }
     else{
         _issuesForWeekArray = nil;
         [self setIssuesForWeekArrayWithNextWeekIssues];
         [self.tableView reloadData];
-        if (_issuesForWeekArray.count == 0) {
-            [self.refreshControl beginRefreshing];
-            [self fetchThisWeekWithPage:@1];
-        }
+        [self.refreshControl beginRefreshing];
+        [self fetchNextWeekWithPage:@1];
     }
 }
 
@@ -223,6 +248,25 @@ int page;
     }
 }
 
+- (void)setIssuesForWeekArrayWithDate:(NSDate *)date
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isParent == 1) && (releaseDate == %@)", date];
+    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+    if (allIssuesArray.count > 1) {
+        NSDate *localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
+        NSMutableArray *nextWeekArray = [NSMutableArray new];
+        for (LBXIssue *issue in allIssuesArray) {
+            // Check if the issue is next week
+            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] >= 7*DAY &&
+                [issue.releaseDate timeIntervalSinceDate:localDateTime] < 7*2*DAY && issue.releaseDate) {
+                [nextWeekArray addObject:issue];
+            }
+        }
+        _issuesForWeekArray = nextWeekArray;
+        tableViewRows = _issuesForWeekArray.count;
+    }
+}
+
 - (void)completeRefreshWithArray:(NSArray *)array
 {
     if (array.count == 0) {
@@ -235,6 +279,9 @@ int page;
     if (_segmentedControl.selectedSegmentIndex == 1) {
         [self setIssuesForWeekArrayWithNextWeekIssues];
     }
+    if (_segmentedControl.selectedSegmentIndex == UISegmentedControlNoSegment) {
+        [self setIssuesForWeekArrayWithDate:_selectedWednesday];
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
@@ -244,11 +291,44 @@ int page;
 
 - (void)fetchThisWeekWithPage:(NSNumber *)page
 {
+        // Fetch this weeks comics
+        [self.client fetchThisWeeksComicsWithPage:page completion:^(NSArray *thisWeekArray, RKObjectRequestOperation *response, NSError *error) {
+            
+            if (!error) {
+                if (!thisWeekArray.count) {
+                    endOfPages = YES;
+                }
+                else {
+                    _page += 1;
+                    [self completeRefreshWithArray:thisWeekArray];
+                    [self fetchThisWeekWithPage:[NSNumber numberWithInt:_page]];
+                    
+                }
+            }
+            else {
+                //[LBXMessageBar displayError:error];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.refreshControl endRefreshing];
+                });
+            }
+        }];
+}
+
+- (void)fetchNextWeekWithPage:(NSNumber *)page
+{
     // Fetch this weeks comics
-    [self.client fetchThisWeeksComicsWithPage:page completion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client fetchNextWeeksComicsWithPage:page completion:^(NSArray *nextWeekArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            [self completeRefreshWithArray:pullListArray];
+            if (!nextWeekArray.count) {
+                endOfPages = YES;
+            }
+            else {
+                _page += 1;
+                [self completeRefreshWithArray:nextWeekArray];
+                [self fetchNextWeekWithPage:[NSNumber numberWithInt:_page]];
+                
+            }
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -259,13 +339,20 @@ int page;
     }];
 }
 
-- (void)fetchNextWeekWithPage:(NSNumber *)page
+- (void)fetchDate:(NSDate *)date withPage:(NSNumber *)page
 {
     // Fetch this weeks comics
-    [self.client fetchNextWeeksComicsWithPage:page completion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client fetchIssuesCollectionWithDate:date page:page completion:^(NSArray *issuesForDateArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            [self completeRefreshWithArray:pullListArray];
+            if (!issuesForDateArray.count) {
+                endOfPages = YES;
+            }
+            else {
+                _page += 1;
+                [self completeRefreshWithArray:issuesForDateArray];
+                [self fetchDate:date withPage:[NSNumber numberWithInt:_page]];   
+            }
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -274,6 +361,72 @@ int page;
             });
         }
     }];
+}
+
+- (void)showCalendar
+{
+    // Set the start date of the calendar to Feb 1, 2014
+    NSDateComponents *comps = [NSDateComponents new];
+    [comps setDay:1];
+    [comps setMonth:2];
+    [comps setYear:2014];
+    NSDate *startDate = [[NSCalendar currentCalendar] dateFromComponents:comps];
+    
+    // Initialize the calendar view
+    _calendarView = [[ESDatePicker alloc] initWithFrame:CGRectMake(20, 50, 280, 300)];
+    _calendarView.beginOfWeek = 1;
+    [_calendarView setDelegate:self];
+    [_calendarView showDates:startDate:[NSDate date]];
+    if (_segmentedControl.selectedSegmentIndex == 1) {
+        NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+        [dateComponents setWeekOfYear:1];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDate *newDate = [calendar dateByAddingComponents:dateComponents toDate:[NSDate date] options:0];
+        [_calendarView setSelectedDate:newDate];
+    }
+    
+    // Initialize the view
+    UIViewController *viewController = [UIViewController new];
+    viewController.automaticallyAdjustsScrollViewInsets = YES;
+    _calendarNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
+    viewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelCalendar:)];
+    
+    viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain target:self action:@selector(goToToday:)];
+    
+    viewController.title = @"Select Date";
+    
+    _calendarNavController.navigationBar.translucent = YES;
+    viewController.view = _calendarView;
+    //_calendarNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:_calendarNavController animated:YES completion:nil];
+}
+
+- (void)datePicker:(ESDatePicker *)datePicker dateSelected:(NSDate *)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:date];
+    [components setWeekday:4]; // 4 == Wednesday
+    [components setHour:0];
+    [components setWeekOfYear:[components weekOfYear]];
+    
+    _selectedWednesday = [calendar dateFromComponents:components];
+    [_segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self setIssuesForWeekArrayWithDate:_selectedWednesday];
+    [self fetchDate:_selectedWednesday withPage:@1];
+
+}
+
+- (IBAction)cancelCalendar:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)goToToday:(id)sender
+{
+    [_calendarView setSelectedDate:nil];
+    [_calendarView scrollToDate:[NSDate date] animated:YES];
 }
 
 #pragma mark - Table view data source

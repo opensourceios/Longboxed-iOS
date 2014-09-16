@@ -12,6 +12,8 @@
 
 + (UIFont *)menuFont;
 + (UIFont *)navTitleFont;
++ (UIFont *)navSubtitleFont;
++ (UIFont *)segmentedControlFont;
 + (UIFont *)searchFont;
 + (UIFont *)searchCancelFont;
 + (UIFont *)searchPlaceholderFont;
@@ -31,5 +33,7 @@
 + (UIFont *)actionSheetFont;
 + (UIFont *)actionSheetTitleFont;
 + (UIFont *)actionSheetCancelFont;
++ (UIFont *)calendarNumbersFont;
++ (UIFont *)calendarMonthsFont;
 
 @end

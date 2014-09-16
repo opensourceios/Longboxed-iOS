@@ -153,12 +153,12 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(issueNumber == %@) AND (title == %@)", issue.issueNumber, issue.title];
     NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
     
-    cell.subtitleLabel.text = [NSString stringWithFormat:@"%@  •  %i variant covers", subtitleString, initialFind.count - 1].uppercaseString;
+    cell.subtitleLabel.text = [NSString stringWithFormat:@"%@  •  %u variant covers", subtitleString, initialFind.count - 1].uppercaseString;
     if (initialFind.count == 1) {
         cell.subtitleLabel.text = [NSString stringWithFormat:@"%@", subtitleString].uppercaseString;
     }
     else if (initialFind.count == 2) {
-        cell.subtitleLabel.text = [NSString stringWithFormat:@"%@  •  %i variant cover", subtitleString, initialFind.count - 1].uppercaseString;
+        cell.subtitleLabel.text = [NSString stringWithFormat:@"%@  •  %u variant cover", subtitleString, initialFind.count - 1].uppercaseString;
     }
     
     cell.titleLabel.text = [NSString stringWithFormat:@"%@", modifiedTitleString];

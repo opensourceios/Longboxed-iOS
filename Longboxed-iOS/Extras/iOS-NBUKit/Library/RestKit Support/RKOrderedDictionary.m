@@ -52,7 +52,9 @@ NSString *RKDescriptionForObject(NSObject *object, id locale, NSUInteger indent)
 
 - (id)init
 {
-    return [self initWithCapacity:0];
+    dictionary = [[NSMutableDictionary alloc] initWithCapacity:0];
+    array = [[NSMutableArray alloc] initWithCapacity:0];
+    return [super initWithCapacity:0];
 }
 
 - (id)initWithCapacity:(NSUInteger)capacity

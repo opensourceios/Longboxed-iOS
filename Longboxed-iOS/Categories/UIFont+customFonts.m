@@ -11,9 +11,11 @@
 
 @implementation UIFont (customFonts)
 
+static const NSString *fontFace = @"AvenirNext";
+
 + (UIFont *)menuFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:20];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:20];
 }
 
 + (UIFont *)navTitleFont
@@ -21,51 +23,61 @@
     return [UIFont menuFont];
 }
 
++ (UIFont *)navSubtitleFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:16];
+}
+
++ (UIFont *)segmentedControlFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
+}
+
 + (UIFont *)searchFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:20];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:20];
 }
 
 + (UIFont *)searchCancelFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:16];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:16];
 }
 
 + (UIFont *)searchPlaceholderFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
 }
 
 + (UIFont *)noResultsFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:24];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:24];
 }
 
 // Pull List View
 
 + (UIFont *)collectionTitleFontUltraLight
 {
-    return [UIFont fontWithName:@"AvenirNextCondensed-UltraLight" size:42];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@Condensed-UltraLight", fontFace] size:42];
 }
 
 + (UIFont *)comicsViewFontUltraLight
 {
-    return [UIFont fontWithName:@"AvenirNext-UltraLight" size:52];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-UltraLight", fontFace] size:52];
 }
 
 + (UIFont *)collectionTitleFontRegular
 {
-    return [UIFont fontWithName:@"AvenirNextCondensed-Regular" size:36];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@Condensed-Regular", fontFace] size:36];
 }
 
 + (UIFont *)collectionSubtitleFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:12];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:12];
 }
 
 + (UIFont *)SVProgressHUDFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
 }
 
 + (UIFont *)pullListTitleFont
@@ -83,42 +95,52 @@
 
 + (UIFont *)titleDetailTitleFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:28];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:28];
 }
 
 + (UIFont *)titleDetailPublisherFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:18];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:18];
 }
 
 + (UIFont *)titleDetailSubscribersAndIssuesFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:12];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:12];
 }
 
 + (UIFont *)titleDetailLatestIssueFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:10];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:10];
 }
 
 + (UIFont *)titleDetailAddToPullListFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
 }
 
 + (UIFont *)actionSheetTitleFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Medium" size:16];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Medium", fontFace] size:16];
 }
 
 + (UIFont *)actionSheetCancelFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
 }
 
 + (UIFont *)actionSheetFont
 {
-    return [UIFont fontWithName:@"AvenirNext-Regular" size:14];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
+}
+
++ (UIFont *)calendarNumbersFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
+}
+
++ (UIFont *)calendarMonthsFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:24];
 }
 
 @end

@@ -14,6 +14,7 @@
 #import "LBXLogging.h"
 
 #import "HockeySDK.h"
+#import "UIFont+customFonts.h"
 
 // Logging
 #import "DDLog.h"
@@ -27,6 +28,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [LBXDatabaseManager setupRestKit];
+    
+    // Set the font for all UIBarButtonItems
+    NSShadow *shadow = [[NSShadow alloc] init];
+    shadow.shadowOffset = CGSizeMake(0.0, 1.0);
+    shadow.shadowColor = [UIColor whiteColor];
+    
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil]
+     setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor blackColor],
+       NSShadowAttributeName:shadow,
+       NSFontAttributeName:[UIFont navSubtitleFont]
+       }
+     forState:UIControlStateNormal];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
