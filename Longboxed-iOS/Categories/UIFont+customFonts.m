@@ -25,12 +25,12 @@ static const NSString *fontFace = @"AvenirNext";
 
 + (UIFont *)navSubtitleFont
 {
-    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:16];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:17];
 }
 
 + (UIFont *)segmentedControlFont
 {
-    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:13];
 }
 
 + (UIFont *)searchFont

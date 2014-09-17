@@ -108,6 +108,7 @@ int _page;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
     [self.navigationController.navigationBar setBackIndicatorImage:
@@ -144,7 +145,9 @@ int _page;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     self.navigationController.navigationBar.topItem.title = @"Releases";
+    
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     
     [self.refreshControl beginRefreshing];
@@ -250,21 +253,10 @@ int _page;
 
 - (void)setIssuesForWeekArrayWithDate:(NSDate *)date
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isParent == 1) && (releaseDate == %@)", date];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isParent == 1) AND (releaseDate == %@)", date];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
-    if (allIssuesArray.count > 1) {
-        NSDate *localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
-        NSMutableArray *nextWeekArray = [NSMutableArray new];
-        for (LBXIssue *issue in allIssuesArray) {
-            // Check if the issue is next week
-            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] >= 7*DAY &&
-                [issue.releaseDate timeIntervalSinceDate:localDateTime] < 7*2*DAY && issue.releaseDate) {
-                [nextWeekArray addObject:issue];
-            }
-        }
-        _issuesForWeekArray = nextWeekArray;
-        tableViewRows = _issuesForWeekArray.count;
-    }
+    _issuesForWeekArray = allIssuesArray;
+    tableViewRows = _issuesForWeekArray.count;
 }
 
 - (void)completeRefreshWithArray:(NSArray *)array
@@ -377,14 +369,8 @@ int _page;
     _calendarView.beginOfWeek = 1;
     [_calendarView setDelegate:self];
     [_calendarView showDates:startDate:[NSDate date]];
-    if (_segmentedControl.selectedSegmentIndex == 1) {
-        NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-        [dateComponents setWeekOfYear:1];
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDate *newDate = [calendar dateByAddingComponents:dateComponents toDate:[NSDate date] options:0];
-        [_calendarView setSelectedDate:newDate];
-    }
-    
+    [_calendarView setSelectedDate:nil];
+
     // Initialize the view
     UIViewController *viewController = [UIViewController new];
     viewController.automaticallyAdjustsScrollViewInsets = YES;
@@ -394,9 +380,9 @@ int _page;
     
     viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain target:self action:@selector(goToToday:)];
     
-    viewController.title = @"Select Date";
+    viewController.title = @"Select Week";
     
-    _calendarNavController.navigationBar.translucent = YES;
+    _calendarNavController.navigationBar.translucent = NO;
     viewController.view = _calendarView;
     //_calendarNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:_calendarNavController animated:YES completion:nil];

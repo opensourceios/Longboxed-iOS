@@ -22,7 +22,6 @@
 @property (nonatomic) NSArray *publishersArray;
 @property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIFont *textFont;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -95,17 +94,6 @@ int page;
     
     tableViewRows = 0;
     
-    // Add refresh
-    _refreshControl = [[UIRefreshControl alloc] init];
-    [_refreshControl addTarget:self action:@selector(refreshControlAction)
-              forControlEvents:UIControlEventValueChanged];
-    [self.collectionView addSubview:_refreshControl];
-    
-    // Add a footer loading spinner
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [spinner startAnimating];
-    spinner.frame = CGRectMake(0, 0, 320, 44);
-    
     _publishersArray = [NSArray new];
     
     _client = [LBXClient new];
@@ -116,7 +104,7 @@ int page;
     [self.collectionView reloadData];
     
     // Refresh the collection view
-    [self refreshControlAction];
+    [self refreshViewWithPage:@1];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -160,12 +148,6 @@ int page;
     [super viewWillLayoutSubviews];
 }
 
-- (void)refreshControlAction
-{
-    [_refreshControl beginRefreshing];
-    [self refreshViewWithPage:@1];
-}
-
 - (void)refreshViewWithPage:(NSNumber *)page
 {
     // Fetch this weeks comics
@@ -182,7 +164,6 @@ int page;
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
-                [_refreshControl endRefreshing];
             });
         }
         else {
@@ -190,9 +171,6 @@ int page;
             
             tableViewRows = _publishersArray.count;
             //[LBXMessageBar displayError:error];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [_refreshControl endRefreshing];
-            });
         }
     }];
 }
