@@ -64,6 +64,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSLog(@"%@", [dateFormatter dateFromString:@"2014-07-16"]);
         [self.client fetchIssuesCollectionWithDate:[dateFormatter dateFromString:@"2014-07-16"]
                                               page:[NSNumber numberWithInt:1]
                                         completion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {

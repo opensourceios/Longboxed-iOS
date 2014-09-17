@@ -163,12 +163,24 @@
 
 - (void)_up:(UIButton *)sender
 {
-    [sender setBackgroundColor:[UIColor clearColor]];
+    NSDateFormatter *fm = [[NSDateFormatter alloc] init];
+    [fm setLocale:_datePicker.locale];
+    [fm setDateFormat:@"d"];
+    for (NSInteger i = 0; i < 7; i++) {
+        UIControl *btn = _buttons[i];
+        [btn setBackgroundColor:[UIColor clearColor]];
+    }
 }
 
 - (void)_down:(UIButton *)sender
 {
-    [sender setBackgroundColor:[UIColor colorWithWhite:0 alpha:.1]];
+    NSDateFormatter *fm = [[NSDateFormatter alloc] init];
+    [fm setLocale:_datePicker.locale];
+    [fm setDateFormat:@"d"];
+    for (NSInteger i = 0; i < 7; i++) {
+        UIControl *btn = _buttons[i];
+        [btn setBackgroundColor:[UIColor lightGrayColor]];
+    }
 }
 
 - (void)_click:(UIButton *)sender
@@ -305,7 +317,7 @@
     _showVerticalLines = YES;
     _showHorizontalLines = YES;
     _lineColor = [UIColor colorWithWhite:0 alpha:0.075];
-    _selectedColor = [UIColor colorWithRed:(160.0f / 255.0f) green:(235.0f / 255.0f) blue:(255.0f / 255.0f) alpha:1];
+    _selectedColor = [UIColor lightGrayColor];
     _selectedLabelTextColor = [UIColor whiteColor];
     
     

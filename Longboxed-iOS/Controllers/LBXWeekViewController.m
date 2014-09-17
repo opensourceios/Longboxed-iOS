@@ -134,7 +134,6 @@ int _page;
     
     
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
@@ -145,8 +144,7 @@ int _page;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    self.navigationController.navigationBar.topItem.title = @"Releases";
+    [self setNavTitle];
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     
@@ -178,12 +176,41 @@ int _page;
     return UIStatusBarStyleDefault;
 }
 
+- (void)setNavTitle
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMMM dd, yyyy"];
+    
+    if (_segmentedControl.selectedSegmentIndex == 0) {
+        // Get this wednesday
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:[NSDate date]];
+        [componentsDay setWeekday:4]; // 4 == Wednesday
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
+    }
+    else if (_segmentedControl.selectedSegmentIndex == 1) {
+        // Get next wednesday
+        NSDateComponents *components = [NSDateComponents new];
+        [components setWeekOfYear:1];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDate *newDate = [calendar dateByAddingComponents:components toDate:[NSDate date] options:0];
+        [components setWeekday:4];
+        NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:newDate];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
+    }
+    else {
+
+        self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:_selectedWednesday]];
+    }
+}
+
 - (IBAction)segmentedControlToggle:(id)sender
 {
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     
     if (selectedSegment == 0) {
+        [self setNavTitle];
         _issuesForWeekArray = nil;
         [self setIssuesForWeekArrayWithThisWeekIssues];
         [self.tableView reloadData];
@@ -191,7 +218,8 @@ int _page;
         [self fetchThisWeekWithPage:@1];
     
     }
-    else{
+    else if (selectedSegment == 1) {
+        [self setNavTitle];
         _issuesForWeekArray = nil;
         [self setIssuesForWeekArrayWithNextWeekIssues];
         [self.tableView reloadData];
@@ -223,7 +251,6 @@ int _page;
             // Check if the issue is next week
             if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > -4*DAY &&
                 [issue.releaseDate timeIntervalSinceDate:localDateTime] < 7*DAY && issue.releaseDate) {
-                NSLog(@"%@", issue.releaseDate);
                 [nextWeekArray addObject:issue];
             }
         }
@@ -253,7 +280,8 @@ int _page;
 
 - (void)setIssuesForWeekArrayWithDate:(NSDate *)date
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isParent == 1) AND (releaseDate == %@)", date];
+    int daysToAdd = 1;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isParent == 1) AND (releaseDate >= %@) AND (releaseDate <= %@)", [date dateByAddingTimeInterval:-60*60*24*daysToAdd], [date dateByAddingTimeInterval:60*60*24*daysToAdd]];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
     _issuesForWeekArray = allIssuesArray;
     tableViewRows = _issuesForWeekArray.count;
@@ -268,10 +296,10 @@ int _page;
     if (_segmentedControl.selectedSegmentIndex == 0) {
         [self setIssuesForWeekArrayWithThisWeekIssues];
     }
-    if (_segmentedControl.selectedSegmentIndex == 1) {
+    else if (_segmentedControl.selectedSegmentIndex == 1) {
         [self setIssuesForWeekArrayWithNextWeekIssues];
     }
-    if (_segmentedControl.selectedSegmentIndex == UISegmentedControlNoSegment) {
+    else if (_segmentedControl.selectedSegmentIndex == UISegmentedControlNoSegment) {
         [self setIssuesForWeekArrayWithDate:_selectedWednesday];
     }
     
@@ -333,8 +361,12 @@ int _page;
 
 - (void)fetchDate:(NSDate *)date withPage:(NSNumber *)page
 {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    
     // Fetch this weeks comics
-    [self.client fetchIssuesCollectionWithDate:date page:page completion:^(NSArray *issuesForDateArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client fetchIssuesCollectionWithDate:[dateFormatter dateFromString:dateString] page:page completion:^(NSArray *issuesForDateArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
             if (!issuesForDateArray.count) {
@@ -393,20 +425,27 @@ int _page;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:date];
     [components setWeekday:4]; // 4 == Wednesday
-    [components setHour:0];
+    [components setHour:20];
     [components setWeekOfYear:[components weekOfYear]];
     
     _selectedWednesday = [calendar dateFromComponents:components];
+    
     [_segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
+    [self setNavTitle];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
+    _issuesForWeekArray = nil;
     [self setIssuesForWeekArrayWithDate:_selectedWednesday];
     [self fetchDate:_selectedWednesday withPage:@1];
+    [self.tableView reloadData];
 
 }
 
 - (IBAction)cancelCalendar:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self setNavTitle];
+    
 }
 
 - (IBAction)goToToday:(id)sender
