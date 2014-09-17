@@ -265,7 +265,7 @@ int _page;
         NSMutableArray *nextWeekArray = [NSMutableArray new];
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is next week
-            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] >= 7*DAY &&
+            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] >= 6*DAY &&
                 [issue.releaseDate timeIntervalSinceDate:localDateTime] < 7*2*DAY && issue.releaseDate) {
                 [nextWeekArray addObject:issue];
             }

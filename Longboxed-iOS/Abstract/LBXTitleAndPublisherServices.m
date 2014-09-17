@@ -37,7 +37,7 @@
         if (allIssuesArray.count > 1) {
             LBXIssue *issue2 = allIssuesArray[1];
             // Check if the latest issue is next week and the second latest issue is this week
-            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > 7*DAY && [issue2.releaseDate timeIntervalSinceDate:localDateTime] < 7*DAY) {
+            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > 6*DAY && [issue2.releaseDate timeIntervalSinceDate:localDateTime] < 7*DAY) {
                 return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:issue2.releaseDate andEndDate:localDateTime]];
             }
         }
