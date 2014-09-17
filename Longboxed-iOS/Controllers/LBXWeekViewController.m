@@ -182,18 +182,18 @@ int _page;
     if (_segmentedControl.selectedSegmentIndex == 0) {
         // Get this wednesday
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:[NSDate date]];
+        NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:[NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]]];
         [componentsDay setWeekday:4]; // 4 == Wednesday
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
     }
     else if (_segmentedControl.selectedSegmentIndex == 1) {
         // Get next wednesday
         NSDateComponents *components = [NSDateComponents new];
-        [components setWeekOfYear:1];
+        [components setWeekOfMonth:1];
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDate *newDate = [calendar dateByAddingComponents:components toDate:[NSDate date] options:0];
-        [components setWeekday:4];
+        NSDate *newDate = [calendar dateByAddingComponents:components toDate:[NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]] options:0];
         NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:newDate];
+        [componentsDay setWeekday:4];
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
     }
     else {
