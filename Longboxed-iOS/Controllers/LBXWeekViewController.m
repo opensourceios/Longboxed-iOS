@@ -44,7 +44,6 @@ LBXNavigationViewController *navigationController;
 
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
-NSInteger tableViewRows;
 CGFloat cellWidth;
 BOOL endOfPages;
 int _page;
@@ -57,7 +56,6 @@ int _page;
     
     _page = 1;
     endOfPages = NO;
-    tableViewRows = 0;
     
     _issuesForWeekArray = [NSArray new];
     
@@ -103,6 +101,8 @@ int _page;
     [self.refreshControl addTarget:self action:@selector(refreshControlAction)
               forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
+    
+    [self setIssuesForWeekArrayWithThisWeekIssues];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -137,8 +137,6 @@ int _page;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
-    
-    [self setIssuesForWeekArrayWithThisWeekIssues];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -179,7 +177,7 @@ int _page;
 - (void)setNavTitle
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"MMMM dd, yyyy"];
+    [formatter setDateFormat:@"MMM dd, yyyy"];
     
     if (_segmentedControl.selectedSegmentIndex == 0) {
         // Get this wednesday
@@ -255,7 +253,6 @@ int _page;
             }
         }
         _issuesForWeekArray = nextWeekArray;
-        tableViewRows = _issuesForWeekArray.count;
     }
 }
 
@@ -274,7 +271,6 @@ int _page;
             }
         }
         _issuesForWeekArray = nextWeekArray;
-        tableViewRows = _issuesForWeekArray.count;
     }
 }
 
@@ -284,7 +280,6 @@ int _page;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isParent == 1) AND (releaseDate >= %@) AND (releaseDate <= %@)", [date dateByAddingTimeInterval:-60*60*24*daysToAdd], [date dateByAddingTimeInterval:60*60*24*daysToAdd]];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
     _issuesForWeekArray = allIssuesArray;
-    tableViewRows = _issuesForWeekArray.count;
 }
 
 - (void)completeRefreshWithArray:(NSArray *)array
@@ -422,6 +417,7 @@ int _page;
 
 - (void)datePicker:(ESDatePicker *)datePicker dateSelected:(NSDate *)date
 {
+    _issuesForWeekArray = nil;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:date];
     [components setWeekday:4]; // 4 == Wednesday
@@ -432,13 +428,11 @@ int _page;
     
     [_segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
     [self setNavTitle];
-    
     [self dismissViewControllerAnimated:YES completion:nil];
-    _issuesForWeekArray = nil;
-    [self setIssuesForWeekArrayWithDate:_selectedWednesday];
+    [self.refreshControl beginRefreshing];
+    //[self setIssuesForWeekArrayWithDate:_selectedWednesday];
+    //[self.tableView reloadData];
     [self fetchDate:_selectedWednesday withPage:@1];
-    [self.tableView reloadData];
-
 }
 
 - (IBAction)cancelCalendar:(id)sender
@@ -502,7 +496,16 @@ int _page;
     
     NSDate *localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
     
-    cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f  •  %@", issue.issueNumber, [issue.price floatValue], [NSDate fuzzyTimeBetweenStartDate:issue.releaseDate andEndDate:localDateTime]].uppercaseString;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(issueNumber == %@) AND (title == %@)", issue.issueNumber, issue.title];
+    NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+    
+    cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f  •  %@ Variant Covers", issue.issueNumber, [issue.price floatValue], [NSNumber numberWithFloat:initialFind.count-1]].uppercaseString;
+    if (initialFind.count == 1) {
+        cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f %@", issue.issueNumber, [issue.price floatValue], [NSDate fuzzyTimeBetweenStartDate:issue.releaseDate andEndDate:localDateTime]].uppercaseString;
+    }
+    else if (initialFind.count == 2) {
+        cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f  •  %@ Variant Cover", issue.issueNumber, [issue.price floatValue], [NSNumber numberWithFloat:initialFind.count-1]].uppercaseString;
+    }
     
     [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"black"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
