@@ -18,6 +18,7 @@
 #import "LBXTitleDetailViewController.h"
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXLogging.h"
+#import "PaintCodeImages.h"
 
 // Categories
 #import "NSArray+ArrayUtilities.h"
@@ -238,6 +239,7 @@ CGFloat cellWidth;
 }
 
 - (void)searchLongboxedWithText:(NSString *)searchText {
+    
     // Search
     [self.client fetchAutocompleteForTitle:searchText withCompletion:^(NSArray *newSearchResultsArray, RKObjectRequestOperation *response, NSError *error) {
         
@@ -245,12 +247,22 @@ CGFloat cellWidth;
             // Create an array of titles names already in pull list so the can't be added twice
             [_alreadyExistingTitles removeAllObjects];
             _alreadyExistingTitles = [NSMutableArray new];
-            for (LBXTitle *title in newSearchResultsArray) {
-                if (![_pullListArray containsObject:title]) {
-                    [_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
+            for (LBXPullListTitle *searchTitle in newSearchResultsArray) {
+                BOOL match = NO;
+                for (LBXPullListTitle *pullListTitle in _pullListArray) {
+                    NSLog(@"Comparing %@ and %@", searchTitle.name, pullListTitle.name);
+                    if (![searchTitle.name isEqualToString:pullListTitle.name]) {
+                        //[_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
+                    }
+                    else {
+                        match = YES;
+                    }
+                }
+                if (match) {
+                   [_alreadyExistingTitles addObject:[NSNumber numberWithBool:YES]];
                 }
                 else {
-                    [_alreadyExistingTitles addObject:[NSNumber numberWithBool:YES]];
+                    [_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
                 }
             }
             [self refreshTableView:[self.searchBarController searchResultsTableView]  withOldSearchResults:self.searchResultsArray newResults:newSearchResultsArray animation:UITableViewRowAnimationFade];
@@ -517,11 +529,8 @@ CGFloat cellWidth;
         cell.imageView.image = nil;
         
         if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-            int checksize = 80;
-            FAKFontAwesome *checkIcon = [FAKFontAwesome checkIconWithSize:checksize];
-            [checkIcon addAttribute:NSForegroundColorAttributeName value:[UIColor LBXGreenColor]];
-            UIImage *iconImage = [checkIcon imageWithSize:CGSizeMake(checksize, checksize)];
-            cell.imageView.image = iconImage;
+            int checksize = PULL_LIST_TABLE_HEIGHT+32;
+            cell.imageView.image = [PaintCodeImages imageOfCheckmarkWithFillColor:[UIColor LBXGreenColor] width:checksize];
             
             // Disable selection of the row
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -668,6 +677,9 @@ CGFloat cellWidth;
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
 {
+    _searchResultsArray = nil;
+    _alreadyExistingTitles = nil;
+    
     // If you scroll down in the search table view, this puts it back to the top next time you search
     [self.searchDisplayController.searchResultsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     

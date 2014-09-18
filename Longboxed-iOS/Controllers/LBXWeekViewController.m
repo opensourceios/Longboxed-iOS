@@ -247,8 +247,8 @@ int _page;
         NSMutableArray *nextWeekArray = [NSMutableArray new];
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is next week
-            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > -4*DAY &&
-                [issue.releaseDate timeIntervalSinceDate:localDateTime] < 7*DAY && issue.releaseDate) {
+            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > -3*DAY &&
+                [issue.releaseDate timeIntervalSinceDate:localDateTime] <= 4*DAY && issue.releaseDate) {
                 [nextWeekArray addObject:issue];
             }
         }
@@ -265,8 +265,8 @@ int _page;
         NSMutableArray *nextWeekArray = [NSMutableArray new];
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is next week
-            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] >= 6*DAY &&
-                [issue.releaseDate timeIntervalSinceDate:localDateTime] < 7*2*DAY && issue.releaseDate) {
+            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > 5*DAY &&
+                [issue.releaseDate timeIntervalSinceDate:localDateTime] <= 12*DAY && issue.releaseDate) {
                 [nextWeekArray addObject:issue];
             }
         }

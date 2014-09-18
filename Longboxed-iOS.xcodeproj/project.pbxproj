@@ -38,25 +38,18 @@
 		E510AFB2198C7B7D004A7225 /* NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF01198C7B7D004A7225 /* NBUKit.m */; };
 		E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AFF4198C7D09004A7225 /* NBUCore.m */; };
 		E5165E49198E8618001CDECA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5165E48198E8618001CDECA /* CoreData.framework */; };
-		E51A778E19904E1F00AD12A7 /* UIColor+customColors.m in Sources */ = {isa = PBXBuildFile; fileRef = E51A778D19904E1F00AD12A7 /* UIColor+customColors.m */; };
-		E51A77911990823800AD12A7 /* UIFont+customFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = E51A77901990823800AD12A7 /* UIFont+customFonts.m */; };
 		E51AB57019A405940066FFF6 /* LBXIssueDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */; };
 		E51AB57119A405940066FFF6 /* LBXIssueDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */; };
 		E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00F9196A1A9C005FCF25 /* LBXIssue.m */; };
 		E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */; };
 		E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FF196A2004005FCF25 /* LBXTitle.m */; };
-		E51F72B91997E15200F643EF /* NSDate+DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E51F72B81997E15200F643EF /* NSDate+DateUtilities.m */; };
-		E51F72BC1997E22D00F643EF /* NSArray+ArrayUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E51F72BB1997E22D00F643EF /* NSArray+ArrayUtilities.m */; };
-		E51F72C21998157800F643EF /* LBXMessageBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E51F72C11998157800F643EF /* LBXMessageBar.m */; };
 		E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E51F72C41998219B00F643EF /* LBXTitleDetailViewController.m */; };
-		E537121E198ED1450065D57A /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E537121D198ED1450065D57A /* UIImage+ImageEffects.m */; };
 		E5371222198EEAFE0065D57A /* LBXSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5371221198EEAFE0065D57A /* LBXSearchTableViewCell.m */; };
 		E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5371227198EF9300065D57A /* FontAwesome.ttf */; };
 		E537122A198EFEE90065D57A /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = E5371229198EFEE90065D57A /* check.png */; };
 		E537122C198F031A0065D57A /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E537122B198F031A0065D57A /* check@2x.png */; };
 		E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */; };
 		E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E53EEC8219BE91600066F712 /* LBXWeekTableViewCell.m */; };
-		E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AEF196B72D80094979A /* NSString+URLQuery.m */; };
 		E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF2196B7ED30094979A /* LBXUser.m */; };
 		E54A6AF9196B9E8B0094979A /* LBXBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF8196B9E8B0094979A /* LBXBundle.m */; };
 		E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AFB196BA45F0094979A /* LBXMap.m */; };
@@ -65,7 +58,6 @@
 		E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54F10951991D21B00DAD4FE /* LBXPullListTableViewCell.xib */; };
 		E54F10991991D28900DAD4FE /* LBXPullListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E54F10981991D28900DAD4FE /* LBXPullListTableViewCell.m */; };
 		E553F5981993213B003E1F5C /* NotAvailable.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E553F5971993213B003E1F5C /* NotAvailable.jpeg */; };
-		E553F59B19932D73003E1F5C /* UIFontDescriptor+AvenirNext.m in Sources */ = {isa = PBXBuildFile; fileRef = E553F59A19932D73003E1F5C /* UIFontDescriptor+AvenirNext.m */; };
 		E553F59F19946393003E1F5C /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = E553F59E19946393003E1F5C /* clear.png */; };
 		E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */; };
 		E55497A519AAE284004501FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E55497A419AAE284004501FF /* SystemConfiguration.framework */; };
@@ -117,7 +109,6 @@
 		E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */; };
 		E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */; };
 		E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D119623E73002654E7 /* LBXNavigationViewController.m */; };
-		E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D819623F52002654E7 /* NSData+Base64.m */; };
 		E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXLoginViewController.m */; };
 		E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */; };
 		E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5B6FCBC199831CC0022F4CA /* LBXTitleDetailView.xib */; };
@@ -145,6 +136,16 @@
 		E5DC732319C8EE770017BFE6 /* ESDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5DC731419C8EE770017BFE6 /* ESDateHelper.m */; };
 		E5DC732619C8EE770017BFE6 /* ESDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E5DC731A19C8EE770017BFE6 /* ESDatePicker.m */; };
 		E5DC732919C8EE770017BFE6 /* ESObjectPool.m in Sources */ = {isa = PBXBuildFile; fileRef = E5DC732019C8EE770017BFE6 /* ESObjectPool.m */; };
+		E5E5161619CA4450005FBD43 /* PaintCodeImages.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161519CA4450005FBD43 /* PaintCodeImages.m */; };
+		E5E5162C19CA446D005FBD43 /* LBXMessageBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161919CA446D005FBD43 /* LBXMessageBar.m */; };
+		E5E5162D19CA446D005FBD43 /* NSArray+ArrayUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161B19CA446D005FBD43 /* NSArray+ArrayUtilities.m */; };
+		E5E5162E19CA446D005FBD43 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161D19CA446D005FBD43 /* NSData+Base64.m */; };
+		E5E5162F19CA446D005FBD43 /* NSDate+DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161F19CA446D005FBD43 /* NSDate+DateUtilities.m */; };
+		E5E5163019CA446D005FBD43 /* NSString+URLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162119CA446D005FBD43 /* NSString+URLQuery.m */; };
+		E5E5163219CA446D005FBD43 /* UIColor+customColors.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162519CA446D005FBD43 /* UIColor+customColors.m */; };
+		E5E5163319CA446D005FBD43 /* UIFont+customFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162719CA446D005FBD43 /* UIFont+customFonts.m */; };
+		E5E5163419CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162919CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m */; };
+		E5E5163519CA446D005FBD43 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162B19CA446D005FBD43 /* UIImage+ImageEffects.m */; };
 		E5E5A52519BBAD5A00471BF8 /* header-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5E5A52419BBAD5A00471BF8 /* header-bg.jpg */; };
 		E5E5A52819BBAE5500471BF8 /* thor-hulk.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5E5A52619BBAE5500471BF8 /* thor-hulk.jpg */; };
 		E5E5A52919BBAE5500471BF8 /* black-spiderman.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5E5A52719BBAE5500471BF8 /* black-spiderman.jpg */; };
@@ -231,10 +232,6 @@
 		E510AFF3198C7D09004A7225 /* NBUCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBUCore.h; sourceTree = "<group>"; };
 		E510AFF4198C7D09004A7225 /* NBUCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBUCore.m; sourceTree = "<group>"; };
 		E5165E48198E8618001CDECA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		E51A778C19904E1F00AD12A7 /* UIColor+customColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+customColors.h"; path = "Categories/UIColor+customColors.h"; sourceTree = "<group>"; };
-		E51A778D19904E1F00AD12A7 /* UIColor+customColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+customColors.m"; path = "Categories/UIColor+customColors.m"; sourceTree = "<group>"; };
-		E51A778F1990823800AD12A7 /* UIFont+customFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIFont+customFonts.h"; path = "Categories/UIFont+customFonts.h"; sourceTree = "<group>"; };
-		E51A77901990823800AD12A7 /* UIFont+customFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+customFonts.m"; path = "Categories/UIFont+customFonts.m"; sourceTree = "<group>"; };
 		E51AB56D19A405940066FFF6 /* LBXIssueDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssueDetailViewController.h; path = Controllers/LBXIssueDetailViewController.h; sourceTree = "<group>"; };
 		E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueDetailViewController.m; path = Controllers/LBXIssueDetailViewController.m; sourceTree = "<group>"; };
 		E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXIssueDetailViewController.xib; path = Controllers/LBXIssueDetailViewController.xib; sourceTree = "<group>"; };
@@ -244,16 +241,8 @@
 		E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisher.m; path = Models/LBXPublisher.m; sourceTree = "<group>"; };
 		E51D00FE196A2004005FCF25 /* LBXTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitle.h; path = Models/LBXTitle.h; sourceTree = "<group>"; };
 		E51D00FF196A2004005FCF25 /* LBXTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitle.m; path = Models/LBXTitle.m; sourceTree = "<group>"; };
-		E51F72B71997E15200F643EF /* NSDate+DateUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+DateUtilities.h"; path = "Categories/NSDate+DateUtilities.h"; sourceTree = "<group>"; };
-		E51F72B81997E15200F643EF /* NSDate+DateUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+DateUtilities.m"; path = "Categories/NSDate+DateUtilities.m"; sourceTree = "<group>"; };
-		E51F72BA1997E22D00F643EF /* NSArray+ArrayUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+ArrayUtilities.h"; path = "Categories/NSArray+ArrayUtilities.h"; sourceTree = "<group>"; };
-		E51F72BB1997E22D00F643EF /* NSArray+ArrayUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+ArrayUtilities.m"; path = "Categories/NSArray+ArrayUtilities.m"; sourceTree = "<group>"; };
-		E51F72C01998157800F643EF /* LBXMessageBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXMessageBar.h; path = Categories/LBXMessageBar.h; sourceTree = "<group>"; };
-		E51F72C11998157800F643EF /* LBXMessageBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXMessageBar.m; path = Categories/LBXMessageBar.m; sourceTree = "<group>"; };
 		E51F72C31998219B00F643EF /* LBXTitleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleDetailViewController.h; path = Controllers/LBXTitleDetailViewController.h; sourceTree = "<group>"; };
 		E51F72C41998219B00F643EF /* LBXTitleDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleDetailViewController.m; path = Controllers/LBXTitleDetailViewController.m; sourceTree = "<group>"; };
-		E537121C198ED1450065D57A /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "Categories/UIImage+ImageEffects.h"; sourceTree = "<group>"; };
-		E537121D198ED1450065D57A /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "Categories/UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		E5371220198EEAFE0065D57A /* LBXSearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSearchTableViewCell.h; path = Views/LBXSearchTableViewCell.h; sourceTree = "<group>"; };
 		E5371221198EEAFE0065D57A /* LBXSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSearchTableViewCell.m; path = Views/LBXSearchTableViewCell.m; sourceTree = "<group>"; };
 		E5371227198EF9300065D57A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
@@ -263,8 +252,6 @@
 		E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXWeekViewController.m; path = Controllers/LBXWeekViewController.m; sourceTree = "<group>"; };
 		E53EEC8119BE91600066F712 /* LBXWeekTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXWeekTableViewCell.h; path = Views/LBXWeekTableViewCell.h; sourceTree = "<group>"; };
 		E53EEC8219BE91600066F712 /* LBXWeekTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXWeekTableViewCell.m; path = Views/LBXWeekTableViewCell.m; sourceTree = "<group>"; };
-		E54A6AEE196B72D80094979A /* NSString+URLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URLQuery.h"; path = "Categories/NSString+URLQuery.h"; sourceTree = "<group>"; };
-		E54A6AEF196B72D80094979A /* NSString+URLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+URLQuery.m"; path = "Categories/NSString+URLQuery.m"; sourceTree = "<group>"; };
 		E54A6AF1196B7ED30094979A /* LBXUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXUser.h; path = Models/LBXUser.h; sourceTree = "<group>"; };
 		E54A6AF2196B7ED30094979A /* LBXUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXUser.m; path = Models/LBXUser.m; sourceTree = "<group>"; };
 		E54A6AF7196B9E8B0094979A /* LBXBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXBundle.h; path = Models/LBXBundle.h; sourceTree = "<group>"; };
@@ -279,8 +266,6 @@
 		E54F10971991D28900DAD4FE /* LBXPullListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListTableViewCell.h; path = Views/LBXPullListTableViewCell.h; sourceTree = "<group>"; };
 		E54F10981991D28900DAD4FE /* LBXPullListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListTableViewCell.m; path = Views/LBXPullListTableViewCell.m; sourceTree = "<group>"; };
 		E553F5971993213B003E1F5C /* NotAvailable.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = NotAvailable.jpeg; path = Assets/NotAvailable.jpeg; sourceTree = SOURCE_ROOT; };
-		E553F59919932D73003E1F5C /* UIFontDescriptor+AvenirNext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIFontDescriptor+AvenirNext.h"; path = "Categories/UIFontDescriptor+AvenirNext.h"; sourceTree = "<group>"; };
-		E553F59A19932D73003E1F5C /* UIFontDescriptor+AvenirNext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFontDescriptor+AvenirNext.m"; path = "Categories/UIFontDescriptor+AvenirNext.m"; sourceTree = "<group>"; };
 		E553F59E19946393003E1F5C /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clear.png; path = Assets/clear.png; sourceTree = SOURCE_ROOT; };
 		E553F5A01994691A003E1F5C /* LBXDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDatabaseManager.h; path = Abstract/LBXDatabaseManager.h; sourceTree = "<group>"; };
 		E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDatabaseManager.m; path = Abstract/LBXDatabaseManager.m; sourceTree = "<group>"; };
@@ -370,8 +355,6 @@
 		E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXWeekTableViewCell.xib; path = Views/LBXWeekTableViewCell.xib; sourceTree = "<group>"; };
 		E5A773D019623E73002654E7 /* LBXNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXNavigationViewController.h; path = Controllers/LBXNavigationViewController.h; sourceTree = "<group>"; };
 		E5A773D119623E73002654E7 /* LBXNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXNavigationViewController.m; path = Controllers/LBXNavigationViewController.m; sourceTree = "<group>"; };
-		E5A773D719623F52002654E7 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Categories/NSData+Base64.h"; sourceTree = "<group>"; };
-		E5A773D819623F52002654E7 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Categories/NSData+Base64.m"; sourceTree = "<group>"; };
 		E5A773DA19624A52002654E7 /* LBXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLoginViewController.h; path = Controllers/LBXLoginViewController.h; sourceTree = "<group>"; };
 		E5A773DB19624A52002654E7 /* LBXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLoginViewController.m; path = Controllers/LBXLoginViewController.m; sourceTree = "<group>"; };
 		E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXLoginViewController.xib; path = Controllers/LBXLoginViewController.xib; sourceTree = "<group>"; };
@@ -419,6 +402,26 @@
 		E5DC731A19C8EE770017BFE6 /* ESDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESDatePicker.m; sourceTree = "<group>"; };
 		E5DC731F19C8EE770017BFE6 /* ESObjectPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESObjectPool.h; sourceTree = "<group>"; };
 		E5DC732019C8EE770017BFE6 /* ESObjectPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESObjectPool.m; sourceTree = "<group>"; };
+		E5E5161419CA4450005FBD43 /* PaintCodeImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintCodeImages.h; sourceTree = "<group>"; };
+		E5E5161519CA4450005FBD43 /* PaintCodeImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintCodeImages.m; sourceTree = "<group>"; };
+		E5E5161819CA446D005FBD43 /* LBXMessageBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXMessageBar.h; sourceTree = "<group>"; };
+		E5E5161919CA446D005FBD43 /* LBXMessageBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXMessageBar.m; sourceTree = "<group>"; };
+		E5E5161A19CA446D005FBD43 /* NSArray+ArrayUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+ArrayUtilities.h"; sourceTree = "<group>"; };
+		E5E5161B19CA446D005FBD43 /* NSArray+ArrayUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+ArrayUtilities.m"; sourceTree = "<group>"; };
+		E5E5161C19CA446D005FBD43 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		E5E5161D19CA446D005FBD43 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		E5E5161E19CA446D005FBD43 /* NSDate+DateUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateUtilities.h"; sourceTree = "<group>"; };
+		E5E5161F19CA446D005FBD43 /* NSDate+DateUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateUtilities.m"; sourceTree = "<group>"; };
+		E5E5162019CA446D005FBD43 /* NSString+URLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLQuery.h"; sourceTree = "<group>"; };
+		E5E5162119CA446D005FBD43 /* NSString+URLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLQuery.m"; sourceTree = "<group>"; };
+		E5E5162419CA446D005FBD43 /* UIColor+customColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+customColors.h"; sourceTree = "<group>"; };
+		E5E5162519CA446D005FBD43 /* UIColor+customColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+customColors.m"; sourceTree = "<group>"; };
+		E5E5162619CA446D005FBD43 /* UIFont+customFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+customFonts.h"; sourceTree = "<group>"; };
+		E5E5162719CA446D005FBD43 /* UIFont+customFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+customFonts.m"; sourceTree = "<group>"; };
+		E5E5162819CA446D005FBD43 /* UIFontDescriptor+AvenirNext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFontDescriptor+AvenirNext.h"; sourceTree = "<group>"; };
+		E5E5162919CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFontDescriptor+AvenirNext.m"; sourceTree = "<group>"; };
+		E5E5162A19CA446D005FBD43 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		E5E5162B19CA446D005FBD43 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		E5E5A52419BBAD5A00471BF8 /* header-bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "header-bg.jpg"; path = "Assets/header-bg.jpg"; sourceTree = SOURCE_ROOT; };
 		E5E5A52619BBAE5500471BF8 /* thor-hulk.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "thor-hulk.jpg"; path = "Assets/thor-hulk.jpg"; sourceTree = SOURCE_ROOT; };
 		E5E5A52719BBAE5500471BF8 /* black-spiderman.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "black-spiderman.jpg"; path = "Assets/black-spiderman.jpg"; sourceTree = SOURCE_ROOT; };
@@ -711,7 +714,7 @@
 				E51D00F4196A1A6F005FCF25 /* Models */,
 				E57D48FF1960960E0014A13F /* Controllers */,
 				E57D48FE1960960A0014A13F /* Views */,
-				E5A773D619623E8B002654E7 /* Categories */,
+				E5E5161319CA4450005FBD43 /* Utilities */,
 				E57D495719611B8D0014A13F /* Extras */,
 				E57D48D8196068E10014A13F /* Images.xcassets */,
 				E57D48CD196068E10014A13F /* Supporting Files */,
@@ -957,31 +960,6 @@
 			name = Pop;
 			sourceTree = "<group>";
 		};
-		E5A773D619623E8B002654E7 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				E537121C198ED1450065D57A /* UIImage+ImageEffects.h */,
-				E537121D198ED1450065D57A /* UIImage+ImageEffects.m */,
-				E5A773D719623F52002654E7 /* NSData+Base64.h */,
-				E5A773D819623F52002654E7 /* NSData+Base64.m */,
-				E54A6AEE196B72D80094979A /* NSString+URLQuery.h */,
-				E54A6AEF196B72D80094979A /* NSString+URLQuery.m */,
-				E51A778C19904E1F00AD12A7 /* UIColor+customColors.h */,
-				E51A778D19904E1F00AD12A7 /* UIColor+customColors.m */,
-				E51A778F1990823800AD12A7 /* UIFont+customFonts.h */,
-				E51A77901990823800AD12A7 /* UIFont+customFonts.m */,
-				E553F59919932D73003E1F5C /* UIFontDescriptor+AvenirNext.h */,
-				E553F59A19932D73003E1F5C /* UIFontDescriptor+AvenirNext.m */,
-				E51F72B71997E15200F643EF /* NSDate+DateUtilities.h */,
-				E51F72B81997E15200F643EF /* NSDate+DateUtilities.m */,
-				E51F72BA1997E22D00F643EF /* NSArray+ArrayUtilities.h */,
-				E51F72BB1997E22D00F643EF /* NSArray+ArrayUtilities.m */,
-				E51F72C01998157800F643EF /* LBXMessageBar.h */,
-				E51F72C11998157800F643EF /* LBXMessageBar.m */,
-			);
-			name = Categories;
-			sourceTree = "<group>";
-		};
 		E5B6FCD419983DFC0022F4CA /* MGSpotyView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1124,6 +1102,41 @@
 				E5DC732019C8EE770017BFE6 /* ESObjectPool.m */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		E5E5161319CA4450005FBD43 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				E5E5161419CA4450005FBD43 /* PaintCodeImages.h */,
+				E5E5161519CA4450005FBD43 /* PaintCodeImages.m */,
+				E5E5161719CA446D005FBD43 /* Categories */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		E5E5161719CA446D005FBD43 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				E5E5161819CA446D005FBD43 /* LBXMessageBar.h */,
+				E5E5161919CA446D005FBD43 /* LBXMessageBar.m */,
+				E5E5161A19CA446D005FBD43 /* NSArray+ArrayUtilities.h */,
+				E5E5161B19CA446D005FBD43 /* NSArray+ArrayUtilities.m */,
+				E5E5161C19CA446D005FBD43 /* NSData+Base64.h */,
+				E5E5161D19CA446D005FBD43 /* NSData+Base64.m */,
+				E5E5161E19CA446D005FBD43 /* NSDate+DateUtilities.h */,
+				E5E5161F19CA446D005FBD43 /* NSDate+DateUtilities.m */,
+				E5E5162019CA446D005FBD43 /* NSString+URLQuery.h */,
+				E5E5162119CA446D005FBD43 /* NSString+URLQuery.m */,
+				E5E5162419CA446D005FBD43 /* UIColor+customColors.h */,
+				E5E5162519CA446D005FBD43 /* UIColor+customColors.m */,
+				E5E5162619CA446D005FBD43 /* UIFont+customFonts.h */,
+				E5E5162719CA446D005FBD43 /* UIFont+customFonts.m */,
+				E5E5162819CA446D005FBD43 /* UIFontDescriptor+AvenirNext.h */,
+				E5E5162919CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m */,
+				E5E5162A19CA446D005FBD43 /* UIImage+ImageEffects.h */,
+				E5E5162B19CA446D005FBD43 /* UIImage+ImageEffects.m */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		E5F1872619638980006C4C26 /* EasyTableView */ = {
@@ -1366,9 +1379,11 @@
 				E5CCAC5719B53C4E0068AD8D /* NBULog+NBUKit.m in Sources */,
 				E54A6AF9196B9E8B0094979A /* LBXBundle.m in Sources */,
 				E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */,
+				E5E5162F19CA446D005FBD43 /* NSDate+DateUtilities.m in Sources */,
 				E57D48D3196068E10014A13F /* main.m in Sources */,
 				E57D49061960961E0014A13F /* ParallaxFlowLayout.m in Sources */,
 				E510AFA3198C7B7D004A7225 /* NSArray+NBUAdditions.m in Sources */,
+				E5E5163319CA446D005FBD43 /* UIFont+customFonts.m in Sources */,
 				E510AFAC198C7B7D004A7225 /* UIResponder+NBUAdditions.m in Sources */,
 				E5F18720196378E4006C4C26 /* LBXPullListViewController.m in Sources */,
 				E510AFA6198C7B7D004A7225 /* NSString+NBUAdditions.m in Sources */,
@@ -1377,17 +1392,18 @@
 				E510AF97198C7B7D004A7225 /* RKOrderedDictionary.m in Sources */,
 				E510AF98198C7B7D004A7225 /* UIImage+RKAdditions.m in Sources */,
 				E56DBFBD19B938580012FB4D /* LBXPublisherCollectionViewController.m in Sources */,
-				E51F72BC1997E22D00F643EF /* NSArray+ArrayUtilities.m in Sources */,
 				E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */,
 				E510AF90198C7B7D004A7225 /* NSBundle+RKAdditions.m in Sources */,
 				E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */,
 				E57D4956196118950014A13F /* REMenuItemView.m in Sources */,
+				E5E5163219CA446D005FBD43 /* UIColor+customColors.m in Sources */,
 				E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */,
 				E5D9A89319A9193200BC06C1 /* JTSSimpleImageDownloader.m in Sources */,
 				E5D9A89419A9193200BC06C1 /* UIApplication+JTSImageViewController.m in Sources */,
 				E51AB57019A405940066FFF6 /* LBXIssueDetailViewController.m in Sources */,
 				E510AFAD198C7B7D004A7225 /* UIScrollView+NBUAdditions.m in Sources */,
 				E510AFAA198C7B7D004A7225 /* UIImageView+NBUAdditions.m in Sources */,
+				E5E5163519CA446D005FBD43 /* UIImage+ImageEffects.m in Sources */,
 				E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */,
 				E5068A5C19B534AC0021CEE8 /* PSDDFormatter.m in Sources */,
 				E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */,
@@ -1399,7 +1415,6 @@
 				E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */,
 				E54F10991991D28900DAD4FE /* LBXPullListTableViewCell.m in Sources */,
 				E57D497919611C8E0014A13F /* SVWebViewControllerActivityChrome.m in Sources */,
-				E553F59B19932D73003E1F5C /* UIFontDescriptor+AvenirNext.m in Sources */,
 				E5D9A89219A9193200BC06C1 /* JTSImageViewController.m in Sources */,
 				E57D49121960A2180014A13F /* LBXClient.m in Sources */,
 				E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */,
@@ -1408,6 +1423,7 @@
 				E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */,
 				E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */,
 				E5371222198EEAFE0065D57A /* LBXSearchTableViewCell.m in Sources */,
+				E5E5162C19CA446D005FBD43 /* LBXMessageBar.m in Sources */,
 				E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */,
 				E510AFA9198C7B7D004A7225 /* UIImage+NBUAdditions.m in Sources */,
 				E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */,
@@ -1422,10 +1438,10 @@
 				E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */,
 				E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */,
 				E5F1873219638BBC006C4C26 /* EasyTableView.m in Sources */,
-				E51A77911990823800AD12A7 /* UIFont+customFonts.m in Sources */,
 				E5DC732619C8EE770017BFE6 /* ESDatePicker.m in Sources */,
 				E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */,
 				E57D496319611BB30014A13F /* SVModalWebViewController.m in Sources */,
+				E5E5163019CA446D005FBD43 /* NSString+URLQuery.m in Sources */,
 				E510AFB2198C7B7D004A7225 /* NBUKit.m in Sources */,
 				E5DC732919C8EE770017BFE6 /* ESObjectPool.m in Sources */,
 				E57D4953196118950014A13F /* REMenu.m in Sources */,
@@ -1438,27 +1454,25 @@
 				E510AF91198C7B7D004A7225 /* NSData+RKAdditions.m in Sources */,
 				E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */,
 				E57D4952196118950014A13F /* RECommonFunctions.m in Sources */,
-				E51A778E19904E1F00AD12A7 /* UIColor+customColors.m in Sources */,
 				E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */,
-				E51F72B91997E15200F643EF /* NSDate+DateUtilities.m in Sources */,
-				E51F72C21998157800F643EF /* LBXMessageBar.m in Sources */,
 				E57D498219611C950014A13F /* SVWebViewControllerActivitySafari.m in Sources */,
-				E54A6AF0196B72D80094979A /* NSString+URLQuery.m in Sources */,
-				E5A773D919623F52002654E7 /* NSData+Base64.m in Sources */,
 				E57E157019A993F4002616F5 /* LBXPublisherDetailView.m in Sources */,
 				E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */,
 				E510AFA5198C7B7D004A7225 /* NSFileManager+NBUAdditions.m in Sources */,
 				E510AF93198C7B7D004A7225 /* NSString+RKAdditions.m in Sources */,
 				E57D4955196118950014A13F /* REMenuItem.m in Sources */,
+				E5E5162E19CA446D005FBD43 /* NSData+Base64.m in Sources */,
 				E57D496519611BB30014A13F /* SVWebViewController.m in Sources */,
 				E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */,
-				E537121E198ED1450065D57A /* UIImage+ImageEffects.m in Sources */,
 				E5C6446A19C67B1D00C63B19 /* LBXComicTableViewCell.m in Sources */,
+				E5E5163419CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m in Sources */,
 				E510AF92198C7B7D004A7225 /* NSDictionary+RKAdditions.m in Sources */,
+				E5E5162D19CA446D005FBD43 /* NSArray+ArrayUtilities.m in Sources */,
 				E57D497119611C7C0014A13F /* SVWebViewControllerActivity.m in Sources */,
 				E510AF8F198C7B7D004A7225 /* NSArray+RKAdditions.m in Sources */,
 				E5DC732319C8EE770017BFE6 /* ESDateHelper.m in Sources */,
 				E57E157F19AA84FF002616F5 /* JGActionSheet.m in Sources */,
+				E5E5161619CA4450005FBD43 /* PaintCodeImages.m in Sources */,
 				E5D9A89119A9193200BC06C1 /* JTSImageInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
