@@ -594,6 +594,12 @@ CGFloat cellWidth;
 {
     _indexPath = indexPath;
     if (tableView == self.searchDisplayController.searchResultsTableView) {
+        
+        // Do nothing if the title is already in the pull list
+        if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+            return;
+        }
+        
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.searchDisplayController setActive:NO animated:NO];
 

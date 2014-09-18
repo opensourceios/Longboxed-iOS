@@ -46,8 +46,6 @@
 		E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E51F72C41998219B00F643EF /* LBXTitleDetailViewController.m */; };
 		E5371222198EEAFE0065D57A /* LBXSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5371221198EEAFE0065D57A /* LBXSearchTableViewCell.m */; };
 		E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5371227198EF9300065D57A /* FontAwesome.ttf */; };
-		E537122A198EFEE90065D57A /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = E5371229198EFEE90065D57A /* check.png */; };
-		E537122C198F031A0065D57A /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E537122B198F031A0065D57A /* check@2x.png */; };
 		E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */; };
 		E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E53EEC8219BE91600066F712 /* LBXWeekTableViewCell.m */; };
 		E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF2196B7ED30094979A /* LBXUser.m */; };
@@ -246,8 +244,6 @@
 		E5371220198EEAFE0065D57A /* LBXSearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSearchTableViewCell.h; path = Views/LBXSearchTableViewCell.h; sourceTree = "<group>"; };
 		E5371221198EEAFE0065D57A /* LBXSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSearchTableViewCell.m; path = Views/LBXSearchTableViewCell.m; sourceTree = "<group>"; };
 		E5371227198EF9300065D57A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
-		E5371229198EFEE90065D57A /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = Assets/check.png; sourceTree = SOURCE_ROOT; };
-		E537122B198F031A0065D57A /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check@2x.png"; path = "Assets/check@2x.png"; sourceTree = SOURCE_ROOT; };
 		E53EEC7E19BE8DC70066F712 /* LBXWeekViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXWeekViewController.h; path = Controllers/LBXWeekViewController.h; sourceTree = "<group>"; };
 		E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXWeekViewController.m; path = Controllers/LBXWeekViewController.m; sourceTree = "<group>"; };
 		E53EEC8119BE91600066F712 /* LBXWeekTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXWeekTableViewCell.h; path = Views/LBXWeekTableViewCell.h; sourceTree = "<group>"; };
@@ -839,8 +835,6 @@
 				E50C2A3A1998605500AD5FC6 /* arrow@2x.png */,
 				E553F59E19946393003E1F5C /* clear.png */,
 				E553F5971993213B003E1F5C /* NotAvailable.jpeg */,
-				E537122B198F031A0065D57A /* check@2x.png */,
-				E5371229198EFEE90065D57A /* check.png */,
 				E5F18733196391D2006C4C26 /* longboxed_full.png */,
 				E5F18734196391D2006C4C26 /* longboxed_full@2x.png */,
 				E57D49231960B8F40014A13F /* black.png */,
@@ -1254,12 +1248,10 @@
 				E5C6446619C67A9200C63B19 /* LBXComicsViewController.xib in Resources */,
 				E5E5A52519BBAD5A00471BF8 /* header-bg.jpg in Resources */,
 				E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */,
-				E537122A198EFEE90065D57A /* check.png in Resources */,
 				E57E156D19A98FB0002616F5 /* arrow_right_small@2x.png in Resources */,
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,
 				E5F187381963A635006C4C26 /* LBXHomeViewController.xib in Resources */,
 				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,
-				E537122C198F031A0065D57A /* check@2x.png in Resources */,
 				E57E157219A99427002616F5 /* LBXPublisherDetailView.xib in Resources */,
 				E5E5A52819BBAE5500471BF8 /* thor-hulk.jpg in Resources */,
 				E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */,
