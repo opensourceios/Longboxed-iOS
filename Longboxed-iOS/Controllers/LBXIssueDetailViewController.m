@@ -10,6 +10,7 @@
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXPublisherDetailViewController.h"
 #import "LBXTitleDetailViewController.h"
+#import "LBXWeekViewController.h"
 
 #import "UIImageView+LBBlurredImage.h"
 #import "UIFont+customFonts.h"
@@ -229,6 +230,8 @@ BOOL saveSheetVisible;
         case 2:
         {
             // Pressing the date in the issue view
+            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithDate:[NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:_issue.releaseDate]];
+            [self.navigationController pushViewController:controller animated:YES];
             break;
         }
         case 3: // Title button

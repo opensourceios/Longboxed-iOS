@@ -49,6 +49,14 @@ CGFloat cellWidth;
 BOOL endOfPages;
 int _page;
 
+- (instancetype)initWithDate:(NSDate *)date {
+    if(self = [super init]) {
+        _selectedWednesday = date;
+        _segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -72,7 +80,7 @@ int _page;
     [_segmentedControl addTarget:self
                           action:@selector(segmentedControlToggle:)
                 forControlEvents:UIControlEventValueChanged];
-    _segmentedControl.selectedSegmentIndex = 0;
+
     _toolBar = [UIToolbar new];
     _toolBar.frame = CGRectMake(0, self.navigationController.navigationBar.frame.origin.y, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height*2);
 
@@ -103,7 +111,14 @@ int _page;
               forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
     
-    [self setIssuesForWeekArrayWithThisWeekIssues];
+    // If not initialized with initWithDate
+    if (!_selectedWednesday) {
+        _segmentedControl.selectedSegmentIndex = 0;
+        [self setIssuesForWeekArrayWithThisWeekIssues];
+    }
+    else {
+        [self setIssuesForWeekArrayWithDate:_selectedWednesday];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -179,10 +194,9 @@ int _page;
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MMM dd, yyyy"];
-    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
     if (_segmentedControl.selectedSegmentIndex == 0) {
         // Get this wednesday
-        NSCalendar *calendar = [NSCalendar currentCalendar];
         NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:[LBXTitleAndPublisherServices getLocalDate]];
         [componentsDay setWeekday:4]; // 4 == Wednesday
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
@@ -191,15 +205,15 @@ int _page;
         // Get next wednesday
         NSDateComponents *components = [NSDateComponents new];
         [components setWeekOfMonth:1];
-        NSCalendar *calendar = [NSCalendar currentCalendar];
         NSDate *newDate = [calendar dateByAddingComponents:components toDate:[LBXTitleAndPublisherServices getLocalDate] options:0];
         NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:newDate];
         [componentsDay setWeekday:4];
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
     }
     else {
-
-        self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:_selectedWednesday]];
+        NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:_selectedWednesday];
+        [componentsDay setWeekday:4];
+        self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:[calendar dateFromComponents:componentsDay]]];
     }
 }
 
