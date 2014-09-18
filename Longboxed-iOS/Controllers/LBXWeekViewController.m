@@ -16,6 +16,7 @@
 #import "LBXLogging.h"
 #import "NSDate+DateUtilities.h"
 #import "UIFont+customFonts.h"
+#import "LBXTitleAndPublisherServices.h"
 
 #import "ESDatePicker.h"
 
@@ -182,7 +183,7 @@ int _page;
     if (_segmentedControl.selectedSegmentIndex == 0) {
         // Get this wednesday
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:[NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]]];
+        NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:[LBXTitleAndPublisherServices getLocalDate]];
         [componentsDay setWeekday:4]; // 4 == Wednesday
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
     }
@@ -191,7 +192,7 @@ int _page;
         NSDateComponents *components = [NSDateComponents new];
         [components setWeekOfMonth:1];
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDate *newDate = [calendar dateByAddingComponents:components toDate:[NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]] options:0];
+        NSDate *newDate = [calendar dateByAddingComponents:components toDate:[LBXTitleAndPublisherServices getLocalDate] options:0];
         NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:newDate];
         [componentsDay setWeekday:4];
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
@@ -243,7 +244,7 @@ int _page;
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(isParent == 1)"];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
-        NSDate *localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
+        NSDate *localDateTime = [LBXTitleAndPublisherServices getLocalDate];
         NSMutableArray *nextWeekArray = [NSMutableArray new];
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is next week
@@ -261,7 +262,7 @@ int _page;
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(isParent == 1)"];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
-        NSDate *localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
+        NSDate *localDateTime = [LBXTitleAndPublisherServices getLocalDate];
         NSMutableArray *nextWeekArray = [NSMutableArray new];
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is next week
@@ -494,7 +495,7 @@ int _page;
     LBXIssue *issue = [_issuesForWeekArray objectAtIndex:indexPath.row];
     cell.titleLabel.text = issue.title.name;
     
-    NSDate *localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
+    NSDate *localDateTime = [LBXTitleAndPublisherServices getLocalDate];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(issueNumber == %@) AND (title == %@)", issue.issueNumber, issue.title];
     NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];

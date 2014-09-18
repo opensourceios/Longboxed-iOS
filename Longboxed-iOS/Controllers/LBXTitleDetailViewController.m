@@ -190,7 +190,8 @@ int page;
     
     _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
     if (_detailTitle.latestIssue != nil) {
-        LBXIssue *issue = _detailTitle.latestIssue;
+        LBXIssue *issue = [LBXTitleAndPublisherServices closestIssueForTitle:_detailTitle];
+        
         NSString *timeSinceString = [LBXTitleAndPublisherServices timeSinceLastIssueForTitle:_detailTitle];
         
         NSString *subtitleString = [NSString stringWithFormat:@"Issue %@ released %@", issue.issueNumber, timeSinceString];

@@ -14,7 +14,9 @@
 
 @interface LBXTitleAndPublisherServices : NSObject
 
++ (NSDate *)getLocalDate;
 + (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title;
++ (LBXIssue *)closestIssueForTitle:(LBXTitle *)title;
 + (NSString *)localTimeZoneStringWithDate:(NSDate *)date;
 + (void)setPublisherCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
 + (void)setTitleCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue;

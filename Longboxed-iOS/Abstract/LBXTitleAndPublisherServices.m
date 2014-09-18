@@ -21,29 +21,48 @@
 
 @implementation LBXTitleAndPublisherServices
 
++ (NSDate *)getLocalDate
+{
+    return [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
+}
+
 // This is for the pull list view
 + (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
-    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+    LBXIssue *issue = [self closestIssueForTitle:title];
     
-    if (allIssuesArray.count != 0) {
-        
-        LBXIssue *issue = allIssuesArray[0];
-        
-        // Get an NSDate with the local time: http://stackoverflow.com/questions/3901474/iphone-nsdate-convert-gmt-to-local-time
-        NSDate *localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
-        
-        if (allIssuesArray.count > 1) {
-            LBXIssue *issue2 = allIssuesArray[1];
-            // Check if the latest issue is next week and the second latest issue is this week
-            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > -3*DAY && [issue2.releaseDate timeIntervalSinceDate:localDateTime] < 4*DAY) {
-                return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:issue2.releaseDate andEndDate:localDateTime]];
-            }
-        }
-        return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:issue.releaseDate andEndDate:localDateTime]];
+    if (issue != nil) {
+        return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:issue.releaseDate andEndDate:[self getLocalDate]]];
     }
     return @"";
+}
+
+// This is for the pull list view
++ (LBXIssue *)closestIssueForTitle:(LBXTitle *)title
+{
+    if ([title.titleID  isEqual: @586]) {
+        
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
+    NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+    
+    if (issuesArray.count != 0) {
+        
+        LBXIssue *newestIssue = issuesArray[0];
+        
+        if (issuesArray.count > 1) {
+            LBXIssue *secondNewestIssue = issuesArray[1];
+            // Check if the latest issue is next week and the second latest issue is this week
+            
+            // If the second newest issues release date is more recent than 4 days ago
+            if ([secondNewestIssue.releaseDate timeIntervalSinceDate:[self getLocalDate]] > -4*DAY) {
+                return secondNewestIssue;
+            }
+            return newestIssue;
+        }
+        return newestIssue;
+    }
+    return nil;
 }
 
 + (NSString *)localTimeZoneStringWithDate:(NSDate *)date
