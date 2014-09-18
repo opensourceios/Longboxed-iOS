@@ -457,7 +457,10 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
     
-    LBXTitle *title = [_titlesForPublisherArray objectAtIndex:indexPath.row];
+    NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section-1];
+    NSArray *array = [dict objectForKey:dict.allKeys[0]];
+    LBXTitle *title = [array objectAtIndex:indexPath.row];
+    
     [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", title]];
     titleViewController.titleID = title.titleID;
     titleViewController.latestIssueImage = cell.latestIssueImageView.image;
