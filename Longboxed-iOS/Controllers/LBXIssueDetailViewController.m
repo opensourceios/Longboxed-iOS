@@ -9,6 +9,7 @@
 #import "LBXIssueDetailViewController.h"
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXPublisherDetailViewController.h"
+#import "LBXTitleDetailViewController.h"
 
 #import "UIImageView+LBBlurredImage.h"
 #import "UIFont+customFonts.h"
@@ -27,7 +28,7 @@
 @property (nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (nonatomic) IBOutlet UIImageView *coverImageView;
 @property (nonatomic) IBOutlet UIButton *imageButton;
-@property (nonatomic) IBOutlet UILabel *titleLabel;
+@property (nonatomic) IBOutlet UIButton *titleButton;
 @property (nonatomic) IBOutlet UILabel *subtitleLabel;
 @property (nonatomic) IBOutlet UILabel *distributorCodeLabel;
 @property (nonatomic) IBOutlet UILabel *priceLabel;
@@ -113,7 +114,8 @@ BOOL saveSheetVisible;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
     
     NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:_issue.title.name options:0 range:NSMakeRange(0, [_issue.title.name length]) withTemplate:@""];
-    _titleLabel.text = [NSString stringWithFormat:@"%@ #%@", modifiedTitleString, _issue.issueNumber];
+    [_titleButton setTitle:[NSString stringWithFormat:@"%@ #%@", modifiedTitleString, _issue.issueNumber] forState:UIControlStateNormal];
+    [_titleButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     _subtitleLabel.text = _issue.subtitle;
     if (_issue.subtitle) {
@@ -129,6 +131,7 @@ BOOL saveSheetVisible;
     
     [_publisherButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_releaseDateButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    _titleButton.tag = 3;
     _publisherButton.tag = 1;
     _releaseDateButton.tag = 2;
     
@@ -227,6 +230,14 @@ BOOL saveSheetVisible;
         {
             // Pressing the date in the issue view
             break;
+        }
+        case 3: // Title button
+        {
+            LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithMainImage:_coverImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title: %@", _issue.title.description]];
+            titleViewController.titleID = _issue.title.titleID;
+            titleViewController.latestIssueImage = _coverImageView.image;
+            [self.navigationController pushViewController:titleViewController animated:YES];
         }
     }
 }
