@@ -39,7 +39,6 @@
 @property (nonatomic, strong) NSMutableArray *latestIssuesInPullListArray;
 @property (nonatomic, strong) NSMutableArray *pullListArray;
 @property (nonatomic, strong) UIImageView *blurImageView;
-@property (nonatomic, strong) UILabel *noResultsLabel;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UISearchDisplayController *searchBarController;
@@ -84,22 +83,6 @@ CGFloat cellWidth;
     [SVProgressHUD setBackgroundColor:[UIColor LBXGrayColor]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     
-    _noResultsLabel = [UILabel new];
-    
-    // TODO: Use autolayout constraints
-    _noResultsLabel.frame = CGRectMake(self.view.frame.origin.x + 30, self.view.frame.origin.y, self.view.frame.size.width - 60, self.view.frame.size.height);
-    _noResultsLabel.textAlignment = NSTextAlignmentCenter;
-    _noResultsLabel.textColor = [UIColor whiteColor];
-    _noResultsLabel.font = [UIFont noResultsFont];
-    _noResultsLabel.numberOfLines = 0;
-    
-    _noResultsLabel.frame = CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y, self.view.frame.size.width - 40, self.view.frame.size.height);
-    _noResultsLabel.alpha = 0.0;
-    
-    _noResultsLabel.text = @"No Results";
-
-    [self.view addSubview:_noResultsLabel];
-    
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
     self.tableView.rowHeight = PULL_LIST_TABLE_HEIGHT;
@@ -125,9 +108,10 @@ CGFloat cellWidth;
     _searchBar.delegate = self;
     _searchBar.hidden = YES;
     _searchBar.placeholder = @"Add Title to Pull List";
-    _searchBar.backgroundColor = [UIColor clearColor];
 
     _searchBar.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, _searchBar.frame.size.height);
+    
+    self.searchDisplayController.searchResultsTableView.rowHeight = SEARCH_TABLE_HEIGHT;
     
     // Reload the pull list when using the back button on the title view
     _client = [LBXClient new];
@@ -192,8 +176,24 @@ CGFloat cellWidth;
         }
     }
     
+
+    
+    // Set the search bar background color
+    self.searchDisplayController.searchBar.barTintColor = [UIColor whiteColor];
+    
+    // Set the search bar text field background color
+    for (UIView *subView in _searchBar.subviews) {
+        for(id field in subView.subviews){
+            if ([field isKindOfClass:[UITextField class]]) {
+                UITextField *textField = (UITextField *)field;
+                [textField setBackgroundColor:[UIColor colorWithHex:@"#CCCCCC"]];
+            }
+        }
+    }
+    
     // SearchBar cursor color
-    [[UISearchBar appearance] setTintColor:[UIColor blackColor]];
+    self.searchDisplayController.searchBar.tintColor = [UIColor blackColor];
+    
 
 }
 
@@ -224,15 +224,15 @@ CGFloat cellWidth;
     [navigationController.menu close];
     
     // Blur the current screen
-    [self blurScreen];
+    //[self blurScreen];
     // Put the search bar in front of the blurred view
     [self.view bringSubviewToFront:_searchBar];
     
     // Show the search bar
     _searchBar.hidden = NO;
-    _searchBar.translucent = YES;
-    _searchBar.backgroundImage = [UIImage new];
-    _searchBar.scopeBarBackgroundImage = [UIImage new];
+    _searchBar.translucent = NO;
+    _searchBar.backgroundImage = [UIImage imageNamed:@"longboxed_full"];
+    _searchBar.scopeBarBackgroundImage = [UIImage imageNamed:@"longboxed_full"];
     [_searchBar becomeFirstResponder];
     [self.searchDisplayController setActive:YES animated:NO];
 
@@ -474,9 +474,11 @@ CGFloat cellWidth;
 {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         // Return the number of rows in the section.
+        if (_searchResultsArray.count == 0) {
+            return 1;
+        }
         return [_searchResultsArray count];
     }
-    
     else {
         return _pullListArray.count;
     }
@@ -529,6 +531,12 @@ CGFloat cellWidth;
         [self setTableViewStylesWithCell:cell andTitle:title];
         [LBXTitleAndPublisherServices setPullListCell:cell withTitle:title];
     }
+    else if (_searchResultsArray.count == 0) {
+        cell.imageViewSeparatorLabel.hidden = YES;
+        cell.latestIssueImageView.hidden = YES;
+        cell.titleLabel.hidden = YES;
+        cell.subtitleLabel.hidden = YES;
+    }
     else {
         title = [_searchResultsArray objectAtIndex:indexPath.row];
         [self setTableViewStylesWithCell:cell andTitle:title];
@@ -550,6 +558,10 @@ CGFloat cellWidth;
 
 - (void)setTableViewStylesWithCell:(LBXPullListTableViewCell *)cell andTitle:(LBXTitle *)title
 {
+    cell.imageViewSeparatorLabel.hidden = NO;
+    cell.latestIssueImageView.hidden = NO;
+    cell.titleLabel.hidden = NO;
+    cell.subtitleLabel.hidden = NO;
     NSArray *viewsToRemove = [cell.latestIssueImageView subviews];
     for (UIView *v in viewsToRemove) [v removeFromSuperview];
 
@@ -574,7 +586,7 @@ CGFloat cellWidth;
         // Do nothing if the title is already in the pull list
         if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Already Added"
-                                                            message:@"This title is already in your pull list"
+                                                            message:@"This title is already in your pull list."
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
@@ -665,23 +677,15 @@ CGFloat cellWidth;
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
 {
-    _searchResultsArray = nil;
-    _alreadyExistingTitles = nil;
-    
     // If you scroll down in the search table view, this puts it back to the top next time you search
     [self.searchDisplayController.searchResultsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
-    
-    // Remove the line separators if there is no results
-    self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
+
 }
 
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
 {
-    // Make the background of the search results transparent
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectZero];
-    backView.backgroundColor = [UIColor clearColor];
-    controller.searchResultsTableView.backgroundView = backView;
-    controller.searchResultsTableView.backgroundColor = [UIColor clearColor];
+    _searchResultsArray = nil;
+    _alreadyExistingTitles = nil;
 }
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
