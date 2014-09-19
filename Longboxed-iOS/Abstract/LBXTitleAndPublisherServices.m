@@ -77,22 +77,31 @@
     return [formatter stringFromDate:date];
 }
 
++ (NSString *)getSubtitleStringWithTitle:(LBXTitle *)title uppercase:(BOOL)uppercase
+{
+    NSString *subtitleString = [NSString new];
+    switch ([title.subscribers integerValue]) {
+        case 1: {
+            subtitleString = [NSString stringWithFormat:@"%@ Subscriber", title.subscribers];
+            break;
+        }
+        default: {
+            subtitleString = [NSString stringWithFormat:@"%@ Subscribers", title.subscribers];
+            break;
+        }
+    }
+    if (uppercase) {
+        return subtitleString.uppercaseString;
+    }
+    return subtitleString;
+}
+
 // This is for the publisher list
 + (void)setPublisherCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
 {
     cell.titleLabel.text = title.name;
     
-    NSString *subtitleString;
-    switch ([title.subscribers integerValue]) {
-        case 1: {
-            subtitleString = [NSString stringWithFormat:@"%@ Subscriber", title.subscribers].uppercaseString;
-            break;
-        }
-        default: {
-            subtitleString = [NSString stringWithFormat:@"%@ Subscribers", title.subscribers].uppercaseString;
-            break;
-        }
-    }
+    NSString *subtitleString = [self getSubtitleStringWithTitle:title uppercase:YES];
     
     if (title.latestIssue != nil) {
         cell.subtitleLabel.text = subtitleString;
@@ -125,7 +134,8 @@
 }
 
 // This is for the pull list
-+ (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
++ (void)setPullListCell:(LBXPullListTableViewCell *)cell
+              withTitle:(LBXTitle *)title
 {
     cell.titleLabel.text = title.name;
     if (title.latestIssue) {
@@ -159,6 +169,58 @@
         cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
     }
 }
+
++ (void)darkenCell:(LBXPullListTableViewCell *)cell
+{
+    // Darken the image
+    UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.latestIssueImageView.frame.size.width, cell.latestIssueImageView.frame.size.height*2)];
+    [overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+    [cell.latestIssueImageView addSubview:overlay];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+}
+
+// This is for the adding to the pull list
++ (void)setAddToPullListSearchCell:(LBXPullListTableViewCell *)cell
+                         withTitle:(LBXTitle *)title
+                       darkenImage:(BOOL)darken
+{
+    cell.titleLabel.text = title.name;
+    if (title.latestIssue) {
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [LBXTitleAndPublisherServices getSubtitleStringWithTitle:title uppercase:YES]];
+        
+        cell.subtitleLabel.text = [subtitleString uppercaseString];
+        
+        // Get the image from the URL and set it
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            
+            [UIView transitionWithView:cell.imageView
+                              duration:0.5f
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{[cell.latestIssueImageView setImage:image];}
+                            completion:NULL];
+            
+            if (darken) [self darkenCell:cell];
+            
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+            if (darken) [self darkenCell:cell];
+        }];
+    }
+    else if (!title.publisher.name) {
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+    }
+    else if (!title.latestIssue) {
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+    }
+    else {
+        cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
+        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+    }
+    if (darken) [self darkenCell:cell];
+}
+
 
 // This is for the title view
 + (void)setTitleCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue

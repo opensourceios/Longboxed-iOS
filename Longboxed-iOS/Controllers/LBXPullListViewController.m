@@ -54,7 +54,7 @@
 LBXNavigationViewController *navigationController;
 
 static const NSUInteger PULL_LIST_TABLE_HEIGHT = 88;
-static const NSUInteger SEARCH_TABLE_HEIGHT = 66;
+static const NSUInteger SEARCH_TABLE_HEIGHT = 88;
 
 CGFloat cellWidth;
 
@@ -496,98 +496,74 @@ CGFloat cellWidth;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        static NSString *CellIdentifier = @"SearchCell";
-        [[UITableViewCell appearance] setBackgroundColor:[UIColor clearColor]];
-        
-        LBXSearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        if (cell == nil) {
-            
-            cell = [[LBXSearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                          reuseIdentifier:CellIdentifier];
-            [cell layoutSubviews];
-        }
-        
-        // Set the line separator to go all the way across
-        [_searchBarController.searchResultsTableView setSeparatorInset:UIEdgeInsetsZero];
-        
-        cell.textLabel.numberOfLines = 0;
-        cell.textLabel.font = [UIFont searchFont];
-        
-        // Make the added images circles in the search table view
-        cell.imageView.layer.cornerRadius = cell.imageView.frame.size.height/2;
-        cell.imageView.layer.borderWidth = 0;
-        
-        cell.imageView.backgroundColor = [UIColor clearColor];
-        // Make the search table view test and cell separators white
-        LBXTitle *title = [_searchResultsArray objectAtIndex:indexPath.row];
-        NSString *text = title.name;
-        
-        // Nil out all imageviews so that only the
-        // ones necessary have checkmarks
-        cell.imageView.image = nil;
-        
-        if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-            int checksize = PULL_LIST_TABLE_HEIGHT+32;
-            cell.imageView.image = [PaintCodeImages imageOfCheckmarkWithFillColor:[UIColor LBXGreenColor] width:checksize];
-            
-            // Disable selection of the row
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        
-        cell.textLabel.text = text;
-        cell.textLabel.textColor = [UIColor whiteColor];
-        return cell;
-    }
+    static NSString *CellIdentifier = @"PullListCell";
     
-    else {
-        
-        static NSString *CellIdentifier = @"PullListCell";
-        
-        LBXPullListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        [tableView setSeparatorInset:UIEdgeInsetsZero];
-        
-        if (cell == nil) {
-            // Custom cell as explained here: https://medium.com/p/9bee5824e722
-            [tableView registerNib:[UINib nibWithNibName:@"LBXPullListTableViewCell" bundle:nil] forCellReuseIdentifier:@"PullListCell"];
-            cell = [tableView dequeueReusableCellWithIdentifier:@"PullListCell"];
+    LBXPullListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    [tableView setSeparatorInset:UIEdgeInsetsZero];
+    
+    if (cell == nil) {
+        // Custom cell as explained here: https://medium.com/p/9bee5824e722
+        [tableView registerNib:[UINib nibWithNibName:@"LBXPullListTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
-            // Remove inset of iOS 7 separators.
-            if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-                cell.separatorInset = UIEdgeInsetsZero;
-            }
-            
-            [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
-            
-            // Setting the background color of the cell.
-            cell.contentView.backgroundColor = [UIColor whiteColor];
+        // Remove inset of iOS 7 separators.
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            cell.separatorInset = UIEdgeInsetsZero;
         }
-        return cell;
+        
+        [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+        
+        // Setting the background color of the cell.
+        cell.contentView.backgroundColor = [UIColor whiteColor];
     }
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(LBXPullListTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Configure the pull list cell info
+    // Configure the cell...
+    LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
     if (tableView != self.searchDisplayController.searchResultsTableView) {
-        // Configure the cell...
-        LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
-        
-        cell.titleLabel.font = [UIFont pullListTitleFont];
-        cell.titleLabel.text = title.name;
-        cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        cell.titleLabel.numberOfLines = 2;
-        
-        cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
-        cell.subtitleLabel.textColor = [UIColor grayColor];
-        cell.subtitleLabel.numberOfLines = 2;
-        
-        cell.latestIssueImageView.image = nil;
-        
+
+        [self setTableViewStylesWithCell:cell andTitle:title];
         [LBXTitleAndPublisherServices setPullListCell:cell withTitle:title];
     }
+    else {
+        title = [_searchResultsArray objectAtIndex:indexPath.row];
+        [self setTableViewStylesWithCell:cell andTitle:title];
+        
+        
+        // Dim the cell if the title is already in the pull list
+        if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+            [LBXTitleAndPublisherServices setAddToPullListSearchCell:cell withTitle:title darkenImage:YES];
+            cell.titleLabel.textColor = [UIColor lightGrayColor];
+            cell.subtitleLabel.textColor = [UIColor lightGrayColor];
+        
+        }
+        else {
+
+            [LBXTitleAndPublisherServices setAddToPullListSearchCell:cell withTitle:title darkenImage:NO];
+        }
+    }
+}
+
+- (void)setTableViewStylesWithCell:(LBXPullListTableViewCell *)cell andTitle:(LBXTitle *)title
+{
+    NSArray *viewsToRemove = [cell.latestIssueImageView subviews];
+    for (UIView *v in viewsToRemove) [v removeFromSuperview];
+
+    cell.titleLabel.font = [UIFont pullListTitleFont];
+    cell.titleLabel.textColor = [UIColor blackColor];
+    cell.titleLabel.text = title.name;
+    cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    cell.titleLabel.numberOfLines = 2;
+    
+    cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
+    cell.subtitleLabel.textColor = [UIColor grayColor];
+    cell.subtitleLabel.numberOfLines = 2;
+    
+    cell.latestIssueImageView.image = nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -597,6 +573,12 @@ CGFloat cellWidth;
         
         // Do nothing if the title is already in the pull list
         if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Already Added"
+                                                            message:@"This title is already in your pull list"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
             return;
         }
         

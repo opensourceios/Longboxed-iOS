@@ -1,18 +1,17 @@
 //
-//  TMWCustomCellTableViewCell.h
-//  ThatMovieWith
+//  LBXSearchTableViewCell.h
+//  Longboxed-iOS
 //
-//  Created by johnrhickey on 4/16/14.
-//  Copyright (c) 2014 Jay Hickey. All rights reserved.
+//  Created by johnrhickey on 9/18/14.
+//  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 @interface LBXSearchTableViewCell : UITableViewCell
 
-#define IMAGE_SIZE 25
-#define IMAGE_RIGHT_OFFSET 30
-#define IMAGE_TOP_OFFSET 8
-#define IMAGE_TEXT_OFFSET 50
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *subtitleLabel;
+@property (nonatomic, weak) IBOutlet UIImageView *searchImageView;
 
 @end

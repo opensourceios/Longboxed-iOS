@@ -18,7 +18,12 @@
 + (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title;
 + (LBXIssue *)closestIssueForTitle:(LBXTitle *)title;
 + (NSString *)localTimeZoneStringWithDate:(NSDate *)date;
++ (NSString *)getSubtitleStringWithTitle:(LBXTitle *)title uppercase:(BOOL)uppercase;
 + (void)setPublisherCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
++ (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
++ (void)setAddToPullListSearchCell:(LBXPullListTableViewCell *)cell
+                         withTitle:(LBXTitle *)title
+                       darkenImage:(BOOL)darken;
 + (void)setTitleCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue;
 + (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
 + (void)setLabel:(UILabel *)textView

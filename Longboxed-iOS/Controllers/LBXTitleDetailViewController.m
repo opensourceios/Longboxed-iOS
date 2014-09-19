@@ -170,13 +170,7 @@ int page;
             issuesString = [NSString stringWithFormat:@"%@ Issues", _detailTitle.issueCount];
         }
         
-        NSString *subscribersString;
-        if ([_detailTitle.subscribers isEqualToNumber:@1]) {
-            subscribersString = [NSString stringWithFormat:@"%@ Subscriber", _detailTitle.subscribers];
-        }
-        else {
-            subscribersString = [NSString stringWithFormat:@"%@ Subscribers", _detailTitle.subscribers];
-        }
+        NSString *subscribersString = [LBXTitleAndPublisherServices getSubtitleStringWithTitle:_detailTitle uppercase:YES];
         
         _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
         _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
