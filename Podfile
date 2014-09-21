@@ -15,7 +15,7 @@ pod 'CocoaLumberjack', '~> 1.9'
 pod 'NSLogger', '~> 1.5'
 pod 'Masonry'
 pod 'DZNEmptyDataSet'
-
+pod 'Pop'
 
 # Customized
 # pod 'JTSImageViewController'

@@ -29,9 +29,11 @@
 #import "UIImage+ImageEffects.h"
 #import "LBXMessageBar.h"
 
+#import <SVProgressHUD/SVProgressHUD.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <UIScrollView+EmptyDataSet.h>
 #import <SVProgressHUD.h>
+#import "POP"
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate,
                                          DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
@@ -47,6 +49,7 @@
 @property (nonatomic, strong) UISearchDisplayController *searchBarController;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) LBXPullListTitle *selectedTitle;
+@property (nonatomic, strong) UIView *loadingView;
 
 @end
 
@@ -88,10 +91,6 @@ CGFloat cellWidth;
     // Background color for the swiping of the cells
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
-    [SVProgressHUD setBackgroundColor:[UIColor LBXGrayColor]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
     self.tableView.rowHeight = PULL_LIST_TABLE_HEIGHT;
@@ -129,6 +128,21 @@ CGFloat cellWidth;
     if (_pullListArray.count == 0) {
         [self refresh];
     }
+    
+    _loadingView = [[UIView alloc] initWithFrame:self.view.frame];
+    _loadingView.backgroundColor = [UIColor whiteColor];
+    [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
+    [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
+    [SVProgressHUD setForegroundColor:[UIColor blackColor]];
+    
+    [self fillPullListArray];
+    
+    if (!_pullListArray.count) {
+        self.tableView.hidden = YES;
+        [self.view insertSubview:_loadingView aboveSubview:self.tableView];
+        [SVProgressHUD show];
+    }
+    
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -403,6 +417,42 @@ CGFloat cellWidth;
             
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.tableView.hidden) {
+                [_loadingView removeFromSuperview];
+                CGFloat ypos = self.tableView.frame.origin.y;
+                self.tableView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+                self.tableView.hidden = NO;
+                
+                // First let's remove any existing animations
+                CALayer *layer = self.label.layer;
+                [layer pop_removeAllAnimations];
+                
+                POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
+                anim.fromValue = @(100);
+                anim.toValue = @(300);
+                anim.springBounciness = self.springBouncinessSlider.value;
+                anim.springSpeed = self.springSpeedSlider.value;
+                
+                
+                anim.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+                    NSLog(@"Animation has completed.");
+                    self.tapGesture.enabled = YES;
+                };
+                
+                [layer pop_addAnimation:anim forKey:@"size"];
+                
+                
+                
+                [UIView animateWithDuration:0.15
+                                      delay:0.0
+                                    options:UIViewAnimationOptionCurveEaseInOut
+                                 animations:^{
+                                     self.tableView.frame = CGRectMake(self.view.frame.origin.x, ypos, self.view.frame.size.width, self.view.frame.size.height);
+                                 }
+                                 completion:nil];
+                
+                [SVProgressHUD dismiss];
+            }
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
         });

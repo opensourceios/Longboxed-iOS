@@ -22,11 +22,10 @@
 #import "ESDatePicker.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
-#import <UIScrollView+EmptyDataSet.h>
 #import "Masonry.h"
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
-                                     ESDatePickerDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+                                     ESDatePickerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
@@ -75,9 +74,6 @@ int _page;
     _tableView.frame = self.view.frame;
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    
-    _tableView.emptyDataSetSource = self;
-    _tableView.emptyDataSetDelegate = self;
     
     // A little trick for removing the cell separators
     _tableView.tableFooterView = [UIView new];
