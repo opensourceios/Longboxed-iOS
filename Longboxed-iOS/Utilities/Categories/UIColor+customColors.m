@@ -26,6 +26,10 @@
     return [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1.0];
 }
 
++ (UIColor *)LBXVeryLightGrayColor {
+    return [UIColor colorWithRed:224/255.0 green:225/255.0 blue:226/255.0 alpha:1.0];
+}
+
 + (UIColor *)colorWithHex:(NSString *)hexString
 {
     int red, green, blue;

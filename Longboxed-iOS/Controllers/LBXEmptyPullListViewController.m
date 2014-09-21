@@ -9,6 +9,8 @@
 #import "LBXEmptyPullListViewController.h"
 #import "PaintCodeImages.h"
 
+#import "UIColor+customColors.h"
+
 @interface LBXEmptyPullListViewController ()
 
 @end
@@ -19,9 +21,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    _mainImageView.image = [PaintCodeImages imageOfLongboxedLogoWithWidth:_mainImageView.frame.size.width];
-    _plusImageView.image = [PaintCodeImages imageOfPlusWithWidth:_plusImageView.frame.size.width];
-    _arrowImageView.image = [PaintCodeImages imageOfArrowWithWidth:_arrowImageView.frame.size.width];
+    _mainImageView.image = [PaintCodeImages imageOfLongboxedLogoWithColor:[UIColor LBXVeryLightGrayColor] width:_mainImageView.frame.size.width];
+    _plusImageView.image = [PaintCodeImages imageOfPlusWithColor:[UIColor LBXVeryLightGrayColor] width:_plusImageView.frame.size.width];
+    _arrowImageView.image = [PaintCodeImages imageOfArrowWithColor:[UIColor LBXVeryLightGrayColor] width:_arrowImageView.frame.size.width];
 }
 
 - (void)didReceiveMemoryWarning {
