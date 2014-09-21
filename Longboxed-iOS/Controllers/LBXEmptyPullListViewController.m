@@ -24,6 +24,8 @@
     _mainImageView.image = [PaintCodeImages imageOfLongboxedLogoWithColor:[UIColor LBXVeryLightGrayColor] width:_mainImageView.frame.size.width];
     _plusImageView.image = [PaintCodeImages imageOfPlusWithColor:[UIColor LBXVeryLightGrayColor] width:_plusImageView.frame.size.width];
     _arrowImageView.image = [PaintCodeImages imageOfArrowWithColor:[UIColor LBXVeryLightGrayColor] width:_arrowImageView.frame.size.width];
+    _titleLabel.textColor = [UIColor colorWithHex:@"#E0E1E2"];
+    _subtitleLabel.textColor = [UIColor colorWithHex:@"#E0E1E2"];
 }
 
 - (void)didReceiveMemoryWarning {
