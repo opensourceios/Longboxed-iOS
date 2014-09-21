@@ -26,6 +26,7 @@
 
 #import <SVProgressHUD.h>
 #import <QuartzCore/QuartzCore.h>
+#import <POP.h>
 
 @interface LBXPublisherDetailViewController () <UIScrollViewDelegate>
 
@@ -35,6 +36,7 @@
 @property (nonatomic, copy) UIImage *publisherImage;
 @property (nonatomic, copy) NSArray *titlesForPublisherArray;
 @property (nonatomic, copy) NSArray *sectionArray;
+@property (nonatomic, strong) UIView *loadingView;
 
 @end
 
@@ -63,7 +65,16 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     [self setDetailView];
     [self setOverView:_detailView];
     
+    _loadingView = [[UIView alloc] initWithFrame:self.view.frame];
+    _loadingView.backgroundColor = [UIColor whiteColor];
+    [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
+    [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
+    [SVProgressHUD setForegroundColor:[UIColor blackColor]];
+    
     [self fetchAllTitlesWithPage:@1];
+    
+    self.tableView.hidden = YES;
+    [self.view insertSubview:_loadingView aboveSubview:_detailView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -118,6 +129,8 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     self.navigationController.navigationBar.topItem.title = _detailPublisher.name;
     
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXPublisher\n%@\ndid appear", _detailPublisher]];
+    
+    [SVProgressHUD show];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -165,17 +178,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
     _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
     [_detailView.issuesAndSubscribersLabel sizeToFit];
-    
-    if (_titlesForPublisherArray.count <= self.tableView.visibleCells.count-1) {
-        _detailView.loadingLabel.text = @"LOADING TITLES...";
-        _detailView.loadingLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
-    }
-    // When loading the title info
-    if ([_detailPublisher.issueCount isEqual:@0]) {
-        _detailView.issuesAndSubscribersLabel.text = @"";
-        _detailView.loadingLabel.text = @"LOADING TITLES...";
-        _detailView.loadingLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
-    }
     
     [self.view setNeedsDisplay];
 }
@@ -258,17 +260,13 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         if (!error) {
             if (titleArray.count == 0 || [_detailPublisher.titleCount intValue] == _titlesForPublisherArray.count) {
                 self.tableView.tableFooterView = nil;
+                [self createTitlesArray];
             }
             else {
+                [self createTitlesArray];
                 int value = [page intValue];
                 [self fetchAllTitlesWithPage:[NSNumber numberWithInt:value + 1]];
             }
-            [self createTitlesArray];
-            [UIView transitionWithView:_detailView.loadingLabel
-                              duration:1.0f
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:^{_detailView.loadingLabel.alpha = 0;}
-                            completion:NULL];
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -285,6 +283,25 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         [self.tableView reloadData];
         [self.view setNeedsDisplay];
     });
+    if (self.tableView.hidden) {
+        [_loadingView removeFromSuperview];
+        self.tableView.hidden = NO;
+        
+        // First let's remove any existing animations
+        CALayer *layer = self.view.layer;
+        [layer pop_removeAllAnimations];
+        
+        POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
+        anim.fromValue = @(self.view.frame.size.height*2+self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height);
+        anim.toValue = @(0+self.view.frame.size.height/2+self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height);
+        anim.springBounciness = 12.0;
+        anim.springSpeed = 18.0;
+        anim.velocity = @(2000.);
+        
+        [layer pop_addAnimation:anim forKey:@"origin.y"];
+        
+        [SVProgressHUD dismiss];
+    }
 }
 
 - (void)generateSectionArray {

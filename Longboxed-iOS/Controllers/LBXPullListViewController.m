@@ -33,7 +33,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <UIScrollView+EmptyDataSet.h>
 #import <SVProgressHUD.h>
-#import "POP"
+#import <POP.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate,
                                          DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
@@ -417,44 +417,27 @@ CGFloat cellWidth;
             
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
             if (self.tableView.hidden) {
                 [_loadingView removeFromSuperview];
-                CGFloat ypos = self.tableView.frame.origin.y;
-                self.tableView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
                 self.tableView.hidden = NO;
                 
                 // First let's remove any existing animations
-                CALayer *layer = self.label.layer;
+                CALayer *layer = self.view.layer;
                 [layer pop_removeAllAnimations];
                 
                 POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
-                anim.fromValue = @(100);
-                anim.toValue = @(300);
-                anim.springBounciness = self.springBouncinessSlider.value;
-                anim.springSpeed = self.springSpeedSlider.value;
+                anim.fromValue = @(self.view.frame.size.height*2);
+                anim.toValue = @(0+self.view.frame.size.height/2);
+                anim.springBounciness = 12.0;
+                anim.springSpeed = 18.0;
+                anim.velocity = @(2000.);
                 
-                
-                anim.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-                    NSLog(@"Animation has completed.");
-                    self.tapGesture.enabled = YES;
-                };
-                
-                [layer pop_addAnimation:anim forKey:@"size"];
-                
-                
-                
-                [UIView animateWithDuration:0.15
-                                      delay:0.0
-                                    options:UIViewAnimationOptionCurveEaseInOut
-                                 animations:^{
-                                     self.tableView.frame = CGRectMake(self.view.frame.origin.x, ypos, self.view.frame.size.width, self.view.frame.size.height);
-                                 }
-                                 completion:nil];
+                [layer pop_addAnimation:anim forKey:@"origin.y"];
                 
                 [SVProgressHUD dismiss];
             }
-            [self.tableView reloadData];
-            [self.refreshControl endRefreshing];
         });
     }];
 }
