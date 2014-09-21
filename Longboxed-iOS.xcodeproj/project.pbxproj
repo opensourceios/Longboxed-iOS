@@ -110,6 +110,9 @@
 		E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D119623E73002654E7 /* LBXNavigationViewController.m */; };
 		E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXLoginViewController.m */; };
 		E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */; };
+		E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */; };
+		E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810619CE10510042109B /* longboxed_logo.svg */; };
+		E5AB810B19CE1C550042109B /* LBXEmptyPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */; };
 		E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5B6FCBC199831CC0022F4CA /* LBXTitleDetailView.xib */; };
 		E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCBF1998351C0022F4CA /* LBXTitleDetailView.m */; };
 		E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCD819983DFC0022F4CA /* UIImage+ImageEffects.m */; };
@@ -145,7 +148,6 @@
 		E5E5163319CA446D005FBD43 /* UIFont+customFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162719CA446D005FBD43 /* UIFont+customFonts.m */; };
 		E5E5163419CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162919CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m */; };
 		E5E5163519CA446D005FBD43 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162B19CA446D005FBD43 /* UIImage+ImageEffects.m */; };
-		E5E5A52519BBAD5A00471BF8 /* header-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5E5A52419BBAD5A00471BF8 /* header-bg.jpg */; };
 		E5E5A52819BBAE5500471BF8 /* thor-hulk.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5E5A52619BBAE5500471BF8 /* thor-hulk.jpg */; };
 		E5E5A52919BBAE5500471BF8 /* black-spiderman.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5E5A52719BBAE5500471BF8 /* black-spiderman.jpg */; };
 		E5F18720196378E4006C4C26 /* LBXPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */; };
@@ -356,6 +358,10 @@
 		E5A773DA19624A52002654E7 /* LBXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLoginViewController.h; path = Controllers/LBXLoginViewController.h; sourceTree = "<group>"; };
 		E5A773DB19624A52002654E7 /* LBXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLoginViewController.m; path = Controllers/LBXLoginViewController.m; sourceTree = "<group>"; };
 		E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXLoginViewController.xib; path = Controllers/LBXLoginViewController.xib; sourceTree = "<group>"; };
+		E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXEmptyPullListViewController.xib; path = Controllers/LBXEmptyPullListViewController.xib; sourceTree = "<group>"; };
+		E5AB810619CE10510042109B /* longboxed_logo.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = longboxed_logo.svg; path = Assets/longboxed_logo.svg; sourceTree = SOURCE_ROOT; };
+		E5AB810819CE1C550042109B /* LBXEmptyPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXEmptyPullListViewController.h; path = Controllers/LBXEmptyPullListViewController.h; sourceTree = "<group>"; };
+		E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXEmptyPullListViewController.m; path = Controllers/LBXEmptyPullListViewController.m; sourceTree = "<group>"; };
 		E5B6FCBC199831CC0022F4CA /* LBXTitleDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXTitleDetailView.xib; path = Views/LBXTitleDetailView.xib; sourceTree = "<group>"; };
 		E5B6FCBE1998351C0022F4CA /* LBXTitleDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleDetailView.h; path = Views/LBXTitleDetailView.h; sourceTree = "<group>"; };
 		E5B6FCBF1998351C0022F4CA /* LBXTitleDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleDetailView.m; path = Views/LBXTitleDetailView.m; sourceTree = "<group>"; };
@@ -420,7 +426,6 @@
 		E5E5162919CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFontDescriptor+AvenirNext.m"; sourceTree = "<group>"; };
 		E5E5162A19CA446D005FBD43 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		E5E5162B19CA446D005FBD43 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
-		E5E5A52419BBAD5A00471BF8 /* header-bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "header-bg.jpg"; path = "Assets/header-bg.jpg"; sourceTree = SOURCE_ROOT; };
 		E5E5A52619BBAE5500471BF8 /* thor-hulk.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "thor-hulk.jpg"; path = "Assets/thor-hulk.jpg"; sourceTree = SOURCE_ROOT; };
 		E5E5A52719BBAE5500471BF8 /* black-spiderman.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "black-spiderman.jpg"; path = "Assets/black-spiderman.jpg"; sourceTree = SOURCE_ROOT; };
 		E5F1871E196378E4006C4C26 /* LBXPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListViewController.h; path = Controllers/LBXPullListViewController.h; sourceTree = "<group>"; };
@@ -784,6 +789,7 @@
 		E57D48FF1960960E0014A13F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E5AB810319CE0DEA0042109B /* Empty Sets */,
 				E51F72C6199821A200F643EF /* Navigation */,
 				E56DBFBE19B942330012FB4D /* Comics */,
 				E5D9A89A19A96E9600BC06C1 /* Title */,
@@ -826,9 +832,9 @@
 		E57D49221960B8E80014A13F /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E5AB810619CE10510042109B /* longboxed_logo.svg */,
 				E5E5A52619BBAE5500471BF8 /* thor-hulk.jpg */,
 				E5E5A52719BBAE5500471BF8 /* black-spiderman.jpg */,
-				E5E5A52419BBAD5A00471BF8 /* header-bg.jpg */,
 				E57E157619A9A55E002616F5 /* loadingCoverTransparent.png */,
 				E57E156A19A98FB0002616F5 /* arrow_right_small.png */,
 				E57E156B19A98FB0002616F5 /* arrow_right_small@2x.png */,
@@ -955,6 +961,16 @@
 				E587FB4F1964E2E5006A3DDB /* PaperButton.m */,
 			);
 			name = Pop;
+			sourceTree = "<group>";
+		};
+		E5AB810319CE0DEA0042109B /* Empty Sets */ = {
+			isa = PBXGroup;
+			children = (
+				E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */,
+				E5AB810819CE1C550042109B /* LBXEmptyPullListViewController.h */,
+				E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */,
+			);
+			name = "Empty Sets";
 			sourceTree = "<group>";
 		};
 		E5B6FCD419983DFC0022F4CA /* MGSpotyView */ = {
@@ -1234,6 +1250,7 @@
 				E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */,
 				E57D498019611C950014A13F /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */,
+				E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */,
 				E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
 				E57D498319611C950014A13F /* SVWebViewControllerActivitySafari@2x.png in Resources */,
@@ -1249,7 +1266,7 @@
 				E57E157819A9A55E002616F5 /* loadingCoverTransparent.png in Resources */,
 				E57D497A19611C8E0014A13F /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				E5C6446619C67A9200C63B19 /* LBXComicsViewController.xib in Resources */,
-				E5E5A52519BBAD5A00471BF8 /* header-bg.jpg in Resources */,
+				E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */,
 				E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */,
 				E57E156D19A98FB0002616F5 /* arrow_right_small@2x.png in Resources */,
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,
@@ -1453,6 +1470,7 @@
 				E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */,
 				E57D498219611C950014A13F /* SVWebViewControllerActivitySafari.m in Sources */,
 				E57E157019A993F4002616F5 /* LBXPublisherDetailView.m in Sources */,
+				E5AB810B19CE1C550042109B /* LBXEmptyPullListViewController.m in Sources */,
 				E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */,
 				E510AFA5198C7B7D004A7225 /* NSFileManager+NBUAdditions.m in Sources */,
 				E510AF93198C7B7D004A7225 /* NSString+RKAdditions.m in Sources */,
@@ -1592,7 +1610,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1609,7 +1627,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1709,7 +1727,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1789,7 +1807,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1869,7 +1887,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";

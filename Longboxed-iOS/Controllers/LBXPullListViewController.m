@@ -17,6 +17,7 @@
 #import "SVWebViewController.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXTitleAndPublisherServices.h"
+#import "LBXEmptyPullListViewController.h"
 #import "LBXLogging.h"
 #import "PaintCodeImages.h"
 
@@ -29,9 +30,11 @@
 #import "LBXMessageBar.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import <UIScrollView+EmptyDataSet.h>
 #import <SVProgressHUD.h>
 
-@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
+@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate,
+                                         DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) NSArray *searchResultsArray;
@@ -75,6 +78,12 @@ CGFloat cellWidth;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
+    
+    // A little trick for removing the cell separators
+    self.tableView.tableFooterView = [UIView new];
     
     // Background color for the swiping of the cells
     self.view.backgroundColor = [UIColor whiteColor];
@@ -466,6 +475,15 @@ CGFloat cellWidth;
     _blurImageView.clipsToBounds = YES;
     [self.view addSubview:_blurImageView];
     
+}
+
+#pragma mark - DZNEmptyDataSet
+
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView {
+    
+    LBXEmptyPullListViewController *controller = [LBXEmptyPullListViewController new];
+    controller.view.frame = CGRectMake(-self.view.frame.size.width/2, -self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height);
+    return controller.view;
 }
 
 #pragma mark UITableView methods

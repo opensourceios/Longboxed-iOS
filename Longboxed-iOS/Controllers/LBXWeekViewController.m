@@ -17,13 +17,16 @@
 #import "NSDate+DateUtilities.h"
 #import "UIFont+customFonts.h"
 #import "LBXTitleAndPublisherServices.h"
+#import "LBXEmptyPullListViewController.h"
 
 #import "ESDatePicker.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import <UIScrollView+EmptyDataSet.h>
 #import "Masonry.h"
 
-@interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource, ESDatePickerDelegate>
+@interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
+                                     ESDatePickerDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
@@ -72,6 +75,12 @@ int _page;
     _tableView.frame = self.view.frame;
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    
+    _tableView.emptyDataSetSource = self;
+    _tableView.emptyDataSetDelegate = self;
+    
+    // A little trick for removing the cell separators
+    _tableView.tableFooterView = [UIView new];
 
     [self.view addSubview:_tableView];
     
@@ -461,6 +470,14 @@ int _page;
 {
     [_calendarView setSelectedDate:nil];
     [_calendarView scrollToDate:[NSDate date] animated:YES];
+}
+
+#pragma mark - DZNEmptyDataSet
+
+- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView {
+    
+    LBXEmptyPullListViewController *controller = [LBXEmptyPullListViewController new];
+    return controller.view;
 }
 
 #pragma mark - Table view data source
