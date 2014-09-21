@@ -230,11 +230,6 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (self.lastUsedOrientation != self.interfaceOrientation) {
-        [self setLastUsedOrientation:self.interfaceOrientation];
-        [self setRotationTransformIsDirty:YES];
-        [self updateLayoutsForCurrentOrientation];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -454,8 +449,6 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     }
     
     [self.view insertSubview:self.snapshotView atIndex:0];
-    [self setStartingInterfaceOrientation:viewController.interfaceOrientation];
-    [self setLastUsedOrientation:viewController.interfaceOrientation];
     CGRect referenceFrameInWindow = [self.imageInfo.referenceView convertRect:self.imageInfo.referenceRect toView:nil];
     self.startingReferenceFrameForThumbnailInPresentingViewControllersOriginalOrientation = [self.view convertRect:referenceFrameInWindow fromView:nil];
     
@@ -465,25 +458,10 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     
     [viewController presentViewController:self animated:NO completion:^{
         
-        if (self.interfaceOrientation != self.startingInterfaceOrientation) {
-            [self setPresentingViewControllerPresentedFromItsUnsupportedOrientation:YES];
-        }
-        
         CGRect referenceFrameInMyView = [self.view convertRect:referenceFrameInWindow fromView:nil];
         [self setStartingReferenceFrameForThumbnail:referenceFrameInMyView];
         [self.imageView setFrame:referenceFrameInMyView];
         [self updateScrollViewAndImageViewForCurrentMetrics];
-        
-        BOOL mustRotateDuringTransition = (self.interfaceOrientation != self.startingInterfaceOrientation);
-        if (mustRotateDuringTransition) {
-            CGRect newStartingRect = [self.snapshotView convertRect:self.startingReferenceFrameForThumbnail toView:self.view];
-            [self.imageView setFrame:newStartingRect];
-            [self updateScrollViewAndImageViewForCurrentMetrics];
-            self.imageView.transform = self.snapshotView.transform;
-            CGPoint centerInRect = CGPointMake(self.startingReferenceFrameForThumbnail.origin.x+self.startingReferenceFrameForThumbnail.size.width/2.0f,
-                                               self.startingReferenceFrameForThumbnail.origin.y+self.startingReferenceFrameForThumbnail.size.height/2.0f);
-            [self.imageView setCenter:centerInRect];
-        }
         
         if ([self.optionsDelegate imageViewerShouldDimThumbnails:self]) {
             [self.imageView setAlpha:0];
@@ -537,11 +515,7 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
                  
                  [weakSelf addMotionEffectsToSnapshotView];
                  [weakSelf.blackBackdrop setAlpha:self.alphaForBackgroundDimmingOverlay];
-                 
-                 if (mustRotateDuringTransition) {
-                     [weakSelf.imageView setTransform:CGAffineTransformIdentity];
-                 }
-                 
+
                  CGRect endFrameForImageView;
                  if (weakSelf.image) {
                      endFrameForImageView = [weakSelf resizedFrameForAutorotatingImageView:weakSelf.image.size];
@@ -595,18 +569,12 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     }
     
     [self.view insertSubview:self.snapshotView atIndex:0];
-    [self setStartingInterfaceOrientation:viewController.interfaceOrientation];
-    [self setLastUsedOrientation:viewController.interfaceOrientation];
     CGRect referenceFrameInWindow = [self.imageInfo.referenceView convertRect:self.imageInfo.referenceRect toView:nil];
     self.startingReferenceFrameForThumbnailInPresentingViewControllersOriginalOrientation = [self.view convertRect:referenceFrameInWindow fromView:nil];
     
     [self.scrollView addSubview:self.imageView];
     
     [viewController presentViewController:self animated:NO completion:^{
-        
-        if (self.interfaceOrientation != self.startingInterfaceOrientation) {
-            [self setPresentingViewControllerPresentedFromItsUnsupportedOrientation:YES];
-        }
         
         [self.scrollView setAlpha:0];
         [self.scrollView setFrame:self.view.bounds];
@@ -684,19 +652,12 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     }
     
     [self.view insertSubview:self.snapshotView atIndex:0];
-    [self setStartingInterfaceOrientation:viewController.interfaceOrientation];
-    [self setLastUsedOrientation:viewController.interfaceOrientation];
     CGRect referenceFrameInWindow = [self.imageInfo.referenceView convertRect:self.imageInfo.referenceRect toView:nil];
     self.startingReferenceFrameForThumbnailInPresentingViewControllersOriginalOrientation = [self.view convertRect:referenceFrameInWindow fromView:nil];
     
     __weak JTSImageViewController *weakSelf = self;
     
     [viewController presentViewController:weakSelf animated:NO completion:^{
-        
-        if (weakSelf.interfaceOrientation != weakSelf.startingInterfaceOrientation) {
-            [weakSelf setPresentingViewControllerPresentedFromItsUnsupportedOrientation:YES];
-        }
-        
         // Replace the text view with a snapshot of itself,
         // to prevent the text from reflowing during the dismissal animation.
         [weakSelf verticallyCenterTextInTextView];
@@ -807,41 +768,21 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
             if (weakSelf.backgroundStyle == JTSImageViewControllerBackgroundStyle_ScaledDimmedBlurred) {
                 [weakSelf.blurredSnapshotView setAlpha:0];
             }
-            
-            BOOL mustRotateDuringTransition = (weakSelf.interfaceOrientation != weakSelf.startingInterfaceOrientation);
-            if (mustRotateDuringTransition) {
-                CGRect newEndingRect;
-                CGPoint centerInRect;
-                if (weakSelf.presentingViewControllerPresentedFromItsUnsupportedOrientation) {
-                    CGRect rectToConvert = weakSelf.startingReferenceFrameForThumbnailInPresentingViewControllersOriginalOrientation;
-                    CGRect rectForCentering = [weakSelf.snapshotView convertRect:rectToConvert toView:weakSelf.view];
-                    centerInRect = CGPointMake(rectForCentering.origin.x+rectForCentering.size.width/2.0f,
-                                               rectForCentering.origin.y+rectForCentering.size.height/2.0f);
-                    newEndingRect = weakSelf.startingReferenceFrameForThumbnailInPresentingViewControllersOriginalOrientation;
-                } else {
-                    newEndingRect = weakSelf.startingReferenceFrameForThumbnail;
-                    CGRect rectForCentering = [weakSelf.snapshotView convertRect:weakSelf.startingReferenceFrameForThumbnail toView:weakSelf.view];
-                    centerInRect = CGPointMake(rectForCentering.origin.x+rectForCentering.size.width/2.0f,
-                                               rectForCentering.origin.y+rectForCentering.size.height/2.0f);
-                }
-                [weakSelf.imageView setFrame:newEndingRect];
-                weakSelf.imageView.transform = weakSelf.currentSnapshotRotationTransform;
-                [weakSelf.imageView setCenter:centerInRect];
+
+            if (weakSelf.presentingViewControllerPresentedFromItsUnsupportedOrientation) {
+                [weakSelf.imageView setFrame:weakSelf.startingReferenceFrameForThumbnailInPresentingViewControllersOriginalOrientation];
             } else {
-                if (weakSelf.presentingViewControllerPresentedFromItsUnsupportedOrientation) {
-                    [weakSelf.imageView setFrame:weakSelf.startingReferenceFrameForThumbnailInPresentingViewControllersOriginalOrientation];
-                } else {
-                    [weakSelf.imageView setFrame:weakSelf.startingReferenceFrameForThumbnail];
-                }
-                
-                // Rotation not needed, so fade the status bar back in. Looks nicer.
-                if ([UIApplication sharedApplication].jts_usesViewControllerBasedStatusBarAppearance) {
-                    [weakSelf setNeedsStatusBarAppearanceUpdate];
-                } else {
-                    [[UIApplication sharedApplication] setStatusBarHidden:weakSelf.statusBarHiddenPriorToPresentation
-                                                            withAnimation:UIStatusBarAnimationFade];
-                }
+                [weakSelf.imageView setFrame:weakSelf.startingReferenceFrameForThumbnail];
             }
+            
+            // Rotation not needed, so fade the status bar back in. Looks nicer.
+            if ([UIApplication sharedApplication].jts_usesViewControllerBasedStatusBarAppearance) {
+                [weakSelf setNeedsStatusBarAppearanceUpdate];
+            } else {
+                [[UIApplication sharedApplication] setStatusBarHidden:weakSelf.statusBarHiddenPriorToPresentation
+                                                        withAnimation:UIStatusBarAnimationFade];
+            }
+            
         } completion:^(BOOL finished) {
             
             // Needed if dismissing from a different orientation then the one we started with
@@ -1072,79 +1013,6 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     }
     
     CGAffineTransform transform = CGAffineTransformIdentity;
-    
-    if (self.startingInterfaceOrientation == UIInterfaceOrientationPortrait) {
-        switch (self.interfaceOrientation) {
-            case UIInterfaceOrientationLandscapeLeft:
-                transform = CGAffineTransformMakeRotation(M_PI/2.0f);
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-                transform = CGAffineTransformMakeRotation(-M_PI/2.0f);
-                break;
-            case UIInterfaceOrientationPortrait:
-                transform = CGAffineTransformIdentity;
-                break;
-            case UIInterfaceOrientationPortraitUpsideDown:
-                transform = CGAffineTransformMakeRotation(M_PI);
-                break;
-            default:
-                break;
-        }
-    }
-    else if (self.startingInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-        switch (self.interfaceOrientation) {
-            case UIInterfaceOrientationLandscapeLeft:
-                transform = CGAffineTransformMakeRotation(-M_PI/2.0f);
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-                transform = CGAffineTransformMakeRotation(M_PI/2.0f);
-                break;
-            case UIInterfaceOrientationPortrait:
-                transform = CGAffineTransformMakeRotation(M_PI);
-                break;
-            case UIInterfaceOrientationPortraitUpsideDown:
-                transform = CGAffineTransformIdentity;
-                break;
-            default:
-                break;
-        }
-    }
-    else if (self.startingInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
-        switch (self.interfaceOrientation) {
-            case UIInterfaceOrientationLandscapeLeft:
-                transform = CGAffineTransformIdentity;
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-                transform = CGAffineTransformMakeRotation(M_PI);
-                break;
-            case UIInterfaceOrientationPortrait:
-                transform = CGAffineTransformMakeRotation(-M_PI/2.0f);
-                break;
-            case UIInterfaceOrientationPortraitUpsideDown:
-                transform = CGAffineTransformMakeRotation(M_PI/2.0f);
-                break;
-            default:
-                break;
-        }
-    }
-    else if (self.startingInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-        switch (self.interfaceOrientation) {
-            case UIInterfaceOrientationLandscapeLeft:
-                transform = CGAffineTransformMakeRotation(M_PI);
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-                transform = CGAffineTransformIdentity;
-                break;
-            case UIInterfaceOrientationPortrait:
-                transform = CGAffineTransformMakeRotation(M_PI/2.0f);
-                break;
-            case UIInterfaceOrientationPortraitUpsideDown:
-                transform = CGAffineTransformMakeRotation(-M_PI/2.0f);
-                break;
-            default:
-                break;
-        }
-    }
     
     self.snapshotView.center = CGPointMake(self.view.bounds.size.width/2.0f, self.view.bounds.size.height/2.0f);
     

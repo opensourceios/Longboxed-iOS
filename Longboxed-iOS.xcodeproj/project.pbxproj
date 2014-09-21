@@ -1215,6 +1215,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Longboxed;
 				TargetAttributes = {
+					E57D48C2196068E10014A13F = {
+						DevelopmentTeam = M7NZ5ETEY2;
+					};
 					E57D48DD196068E10014A13F = {
 						TestTargetID = E57D48C2196068E10014A13F;
 					};

@@ -206,7 +206,7 @@ int _page;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     if (_segmentedControl.selectedSegmentIndex == 0) {
         // Get this wednesday
-        NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:[LBXTitleAndPublisherServices getLocalDate]];
+        NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:[LBXTitleAndPublisherServices getLocalDate]];
         [componentsDay setWeekday:4]; // 4 == Wednesday
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
     }
@@ -215,12 +215,12 @@ int _page;
         NSDateComponents *components = [NSDateComponents new];
         [components setWeekOfMonth:1];
         NSDate *newDate = [calendar dateByAddingComponents:components toDate:[LBXTitleAndPublisherServices getLocalDate] options:0];
-        NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:newDate];
+        NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:newDate];
         [componentsDay setWeekday:4];
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
     }
     else {
-        NSDateComponents *componentsDay = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:_selectedWednesday];
+        NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:_selectedWednesday];
         [componentsDay setWeekday:4];
         self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:[calendar dateFromComponents:componentsDay]]];
     }
@@ -443,7 +443,7 @@ int _page;
 {
     _issuesForWeekArray = nil;
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:date];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:date];
     [components setWeekday:4]; // 4 == Wednesday
     [components setHour:20];
     [components setWeekOfYear:[components weekOfYear]];
