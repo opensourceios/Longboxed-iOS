@@ -18,8 +18,8 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xf4-Pw-OJu">
-                    <rect key="frame" x="134" y="214" width="43" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xf4-Pw-OJu">
+                    <rect key="frame" x="138" y="214" width="43" height="30"/>
                     <state key="normal" title="Log In">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -27,8 +27,8 @@
                         <action selector="buttonPressed:" destination="-1" eventType="touchUpInside" id="Gna-gs-jqs"/>
                     </connections>
                 </button>
-                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6T8-dr-4We">
-                    <rect key="frame" x="127" y="252" width="56" height="30"/>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6T8-dr-4We">
+                    <rect key="frame" x="132" y="252" width="56" height="30"/>
                     <state key="normal" title="Log Out">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -36,27 +36,59 @@
                         <action selector="buttonPressed:" destination="-1" eventType="touchUpInside" id="P7M-DK-NbM"/>
                     </connections>
                 </button>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UNN-ll-ew1">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UNN-ll-ew1">
                     <rect key="frame" x="20" y="88" width="280" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bjX-L6-SwG">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bjX-L6-SwG">
                     <rect key="frame" x="20" y="161" width="280" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
-                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6tk-wM-qyT">
-                    <rect key="frame" x="244" y="304" width="51" height="31"/>
-                </switch>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Use development server" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ivA-Ri-BcE">
-                    <rect key="frame" x="28" y="309" width="187" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WL1-np-sSi">
+                    <rect key="frame" x="30.5" y="304" width="259" height="31"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use development server" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ivA-Ri-BcE">
+                            <rect key="frame" x="0.0" y="0.0" width="186.5" height="31"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6tk-wM-qyT">
+                            <rect key="frame" x="210" y="0.0" width="51" height="31"/>
+                        </switch>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="6tk-wM-qyT" secondAttribute="trailing" id="3d0-Ql-0ka"/>
+                        <constraint firstItem="6tk-wM-qyT" firstAttribute="top" secondItem="WL1-np-sSi" secondAttribute="top" id="SdH-KL-5KL"/>
+                        <constraint firstAttribute="centerY" secondItem="ivA-Ri-BcE" secondAttribute="centerY" id="Ulo-YM-Xpv"/>
+                        <constraint firstItem="6tk-wM-qyT" firstAttribute="centerY" secondItem="ivA-Ri-BcE" secondAttribute="centerY" id="WED-nH-E1c"/>
+                        <constraint firstItem="ivA-Ri-BcE" firstAttribute="top" secondItem="WL1-np-sSi" secondAttribute="top" id="cdW-dw-qr1"/>
+                        <constraint firstItem="ivA-Ri-BcE" firstAttribute="leading" secondItem="WL1-np-sSi" secondAttribute="leading" id="e9x-dl-wJe"/>
+                        <constraint firstItem="6tk-wM-qyT" firstAttribute="leading" secondItem="ivA-Ri-BcE" secondAttribute="trailing" constant="24" id="m7l-Or-JV1"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="centerX" secondItem="UNN-ll-ew1" secondAttribute="centerX" id="0La-tz-WCu"/>
+                <constraint firstItem="bjX-L6-SwG" firstAttribute="top" secondItem="UNN-ll-ew1" secondAttribute="bottom" constant="43" id="1ca-ou-4fD"/>
+                <constraint firstAttribute="centerX" secondItem="6T8-dr-4We" secondAttribute="centerX" id="Bvy-o1-9pa"/>
+                <constraint firstItem="WL1-np-sSi" firstAttribute="top" secondItem="6T8-dr-4We" secondAttribute="bottom" constant="22" id="Kf8-RE-AJe"/>
+                <constraint firstAttribute="centerX" secondItem="Xf4-Pw-OJu" secondAttribute="centerX" id="Rrf-sw-LtF"/>
+                <constraint firstItem="Xf4-Pw-OJu" firstAttribute="top" secondItem="bjX-L6-SwG" secondAttribute="bottom" constant="23" id="cIw-1Y-8xD"/>
+                <constraint firstItem="UNN-ll-ew1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="hGR-3R-5Mb"/>
+                <constraint firstItem="UNN-ll-ew1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="88" id="k4q-zC-FQQ"/>
+                <constraint firstItem="6T8-dr-4We" firstAttribute="top" secondItem="Xf4-Pw-OJu" secondAttribute="bottom" constant="8" id="l4R-Ad-9Vy"/>
+                <constraint firstAttribute="trailing" secondItem="UNN-ll-ew1" secondAttribute="trailing" constant="20" id="nLI-KL-0w1"/>
+                <constraint firstAttribute="trailing" secondItem="bjX-L6-SwG" secondAttribute="trailing" constant="20" id="rlZ-XO-qaA"/>
+                <constraint firstAttribute="centerX" secondItem="WL1-np-sSi" secondAttribute="centerX" id="uCV-Wx-ANB"/>
+                <constraint firstAttribute="centerX" secondItem="bjX-L6-SwG" secondAttribute="centerX" id="ujQ-2f-k9Z"/>
+                <constraint firstItem="bjX-L6-SwG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="xeT-D2-cxg"/>
+                <constraint firstAttribute="centerX" secondItem="Xf4-Pw-OJu" secondAttribute="centerX" id="yva-WK-gj9"/>
+            </constraints>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
