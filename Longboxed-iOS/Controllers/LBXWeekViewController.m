@@ -195,7 +195,7 @@ int _page;
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     
-    [self.refreshControl beginRefreshing];
+    [self refreshControlAction];
     [self fetchThisWeekWithPage:@1];
 }
 
@@ -260,7 +260,7 @@ int _page;
         _issuesForWeekArray = nil;
         [self setIssuesForWeekArrayWithThisWeekIssues];
         [self.tableView reloadData];
-        [self.refreshControl beginRefreshing];
+        [self refreshControlAction];
         [self fetchThisWeekWithPage:@1];
     
     }
@@ -269,7 +269,7 @@ int _page;
         _issuesForWeekArray = nil;
         [self setIssuesForWeekArrayWithNextWeekIssues];
         [self.tableView reloadData];
-        [self.refreshControl beginRefreshing];
+        [self refreshControlAction];
         [self fetchNextWeekWithPage:@1];
     }
 }
@@ -282,14 +282,12 @@ int _page;
     if (_segmentedControl.selectedSegmentIndex == 1) {
         [self fetchNextWeekWithPage:@1];
     }
-    [self.refreshControl beginRefreshing];
-    
 }
 
 - (void)setIssuesForWeekArrayWithThisWeekIssues
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(isParent == 1)"];
-    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
         NSDate *localDateTime = [LBXTitleAndPublisherServices getLocalDate];
         NSMutableArray *nextWeekArray = [NSMutableArray new];
@@ -301,14 +299,14 @@ int _page;
             }
         }
         _issuesForWeekArray = nextWeekArray;
-        [self generateSectionArray];
+        [self fetchPublishers];
     }
 }
 
 - (void)setIssuesForWeekArrayWithNextWeekIssues
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(isParent == 1)"];
-    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
         NSDate *localDateTime = [LBXTitleAndPublisherServices getLocalDate];
         NSMutableArray *nextWeekArray = [NSMutableArray new];
@@ -320,7 +318,7 @@ int _page;
             }
         }
         _issuesForWeekArray = nextWeekArray;
-        [self generateSectionArray];
+        [self fetchPublishers];
     }
 }
 
@@ -328,9 +326,9 @@ int _page;
 {
     int daysToAdd = 1;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isParent == 1) AND (releaseDate >= %@) AND (releaseDate <= %@)", [date dateByAddingTimeInterval:-60*60*24*daysToAdd], [date dateByAddingTimeInterval:60*60*24*daysToAdd]];
-    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
+    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     _issuesForWeekArray = allIssuesArray;
-    [self generateSectionArray];
+    [self fetchPublishers];
 }
 
 - (void)completeRefreshWithArray:(NSArray *)array
@@ -480,7 +478,7 @@ int _page;
     [_segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
     [self setNavTitle];
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self.refreshControl beginRefreshing];
+    [self refreshControlAction];
     //[self setIssuesForWeekArrayWithDate:_selectedWednesday];
     //[self.tableView reloadData];
     [self fetchDate:_selectedWednesday withPage:@1];
@@ -499,42 +497,41 @@ int _page;
     [_calendarView scrollToDate:[NSDate date] animated:YES];
 }
 
-- (void)generateSectionArray {
+- (void)fetchPublishers {
+
+    NSMutableArray *publishersArray = [NSMutableArray new];
+    for (LBXIssue *issue in _issuesForWeekArray) {
+        if (![publishersArray containsObject:issue.publisher]) {
+            [publishersArray addObject:issue.publisher];
+        }
+            
+    }
     
-    [self.client fetchPublishersWithPage:@1 completion:^(NSArray *publisherArray, RKObjectRequestOperation *response, NSError *error) {
-        
-        if (!error) {
-            
-            NSMutableArray *content = [NSMutableArray new];
-            
-            // Loop through every letter of the alphabet
-            for (int i = 0; i < [publisherArray count]; i++ ) {
-                NSMutableDictionary *letterDict = [NSMutableDictionary new];
-                NSMutableArray *letterArray = [NSMutableArray new];
-                // Loop through every issue in the issues array
-                for (LBXIssue *issue in _issuesForWeekArray) {
-                    // Check if the issue name begins with the current character
-                    LBXPublisher *publisher = [publisherArray objectAtIndex:i];
-                    if ([publisher.name isEqualToString:issue.publisher.name]) {
-                        // If it does, append it to an array of all the titles
-                        // for that letter
-                        [letterArray addObject:issue];
-                    }
-                }
-                // Add the letter as the key and the title array as the value
-                // and then make it a part of the larger content array
-                if (letterArray.count) {
-                    LBXPublisher *publisher = [publisherArray objectAtIndex:i];
-                    [letterDict setValue:letterArray forKey:[NSString stringWithFormat:@"%@", publisher.name]];
-                    [content addObject:letterDict];
-                }
+    NSMutableArray *content = [NSMutableArray new];
+    
+    // Loop through every letter of the alphabet
+    for (int i = 0; i < [publishersArray count]; i++ ) {
+        NSMutableDictionary *letterDict = [NSMutableDictionary new];
+        NSMutableArray *letterArray = [NSMutableArray new];
+        // Loop through every issue in the issues array
+        for (LBXIssue *issue in _issuesForWeekArray) {
+            // Check if the issue name begins with the current character
+            LBXPublisher *publisher = [publishersArray objectAtIndex:i];
+            if ([publisher.name isEqualToString:issue.publisher.name]) {
+                // If it does, append it to an array of all the titles
+                // for that letter
+                [letterArray addObject:issue];
             }
-            _sectionArray = content;
         }
-        else {
-            //[LBXMessageBar displayError:error];
+        // Add the letter as the key and the title array as the value
+        // and then make it a part of the larger content array
+        if (letterArray.count) {
+            LBXPublisher *publisher = [publishersArray objectAtIndex:i];
+            [letterDict setValue:letterArray forKey:[NSString stringWithFormat:@"%@", publisher.name]];
+            [content addObject:letterDict];
         }
-    }];
+    }
+    _sectionArray = content;
 }
 
 #pragma mark - DZNEmptyDataSet
@@ -546,13 +543,6 @@ int _page;
 }
 
 #pragma mark - Table view data source
-
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    if(section >= 0)
-//        return [super tableView:tableView viewForHeaderInSection:section];
-//    
-//    return nil;
-//}
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
@@ -569,7 +559,9 @@ int _page;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    
+    if (!_sectionArray.count) {
+        return nil;
+    }
     NSDictionary *dict = [_sectionArray objectAtIndex:section];
     return dict.allKeys.firstObject;
 }
@@ -584,12 +576,15 @@ int _page;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (!_sectionArray.count) {
-        return 1;
+        return 0;
     }
     return _sectionArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (!_sectionArray.count) {
+        return 0;
+    }
     NSDictionary *dict = [_sectionArray objectAtIndex:section];
     NSArray *arr = [dict valueForKey:dict.allKeys[0]];
     return [arr count];
@@ -597,12 +592,7 @@ int _page;
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    if(section == 0) {
-//        UIView *transparentView = [[UIView alloc] initWithFrame:_overView.bounds];
-//        [transparentView setBackgroundColor:[UIColor clearColor]];
-//        return transparentView;
-//    }
-//    
+   
     return nil;
 }
 
@@ -619,6 +609,9 @@ int _page;
     
     cell.titleLabel.font = [UIFont pullListTitleFont];
     
+    if (!_sectionArray.count) {
+        return cell;
+    }
     NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section];
     NSArray *array = [dict objectForKey:dict.allKeys[0]];
     LBXIssue *issue = [array objectAtIndex:indexPath.row];
