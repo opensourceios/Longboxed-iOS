@@ -139,6 +139,12 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     [self setNavBarAlpha:@1];
     self.navigationController.navigationBar.topItem.title = @" ";
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    [SVProgressHUD dismiss];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
 }
 
 - (void)setDetailView

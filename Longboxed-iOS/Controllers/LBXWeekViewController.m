@@ -34,6 +34,7 @@
 @property (nonatomic, copy) LBXClient *client;
 @property (nonatomic, copy) NSArray *issuesForWeekArray;
 @property (nonatomic, strong) NSCalendar *calendar;
+@property (nonatomic, strong) NSArray *sectionArray;
 
 @property (nonatomic, strong) UINavigationController *calendarNavController;
 @property (nonatomic, strong) ESDatePicker *calendarView;
@@ -49,12 +50,26 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
 CGFloat cellWidth;
 BOOL endOfPages;
+BOOL _segmentedShowBool;
 int _page;
 
-- (instancetype)initWithDate:(NSDate *)date {
+- (id)init
+{
+    _segmentedShowBool = YES;
+    self = [super init];
+    
+    if (self == nil) {
+        return nil;
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithDate:(NSDate *)date andShowThisAndNextWeek:(BOOL)segmentedShowBool {
     if(self = [super init]) {
         _selectedWednesday = date;
         _segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
+        _segmentedShowBool = segmentedShowBool;
     }
     return self;
 }
@@ -80,34 +95,41 @@ int _page;
 
     [self.view addSubview:_tableView];
     
-    NSArray *itemArray = [NSArray arrayWithObjects: @"This Week", @"Next Week", nil];
-    _segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-    [_segmentedControl addTarget:self
-                          action:@selector(segmentedControlToggle:)
-                forControlEvents:UIControlEventValueChanged];
-
-    _toolBar = [UIToolbar new];
-    _toolBar.frame = CGRectMake(0, self.navigationController.navigationBar.frame.origin.y, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height*2);
-
-    _toolBar.delegate = self;
-    [_toolBar addSubview:self.segmentedControl];
-    [self setToolbarItems:@[_segmentedControl]];
-    [self.view addSubview:_toolBar];
     
-    // Autolayout the segmented control
-    [_segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(_toolBar.mas_centerY).with.offset(self.navigationController.navigationBar.frame.size.height-8);
-//        make.centerX.equalTo(self.view);
-        make.edges.equalTo(_toolBar).insets(UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height+8, 16, 8, 16));
-    }];
-    _segmentedControl.tintColor = [UIColor blackColor];
-    UIFont *font = [UIFont segmentedControlFont];
-    NSDictionary *attributes = [NSDictionary dictionaryWithObject:font
-                                                           forKey:NSFontAttributeName];
-    [_segmentedControl setTitleTextAttributes:attributes
-                                    forState:UIControlStateNormal];
+    if (_segmentedShowBool) {
+        
+        NSArray *itemArray = [NSArray arrayWithObjects: @"This Week", @"Next Week", nil];
+        _segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+        [_segmentedControl addTarget:self
+                              action:@selector(segmentedControlToggle:)
+                    forControlEvents:UIControlEventValueChanged];
+        
+        _toolBar = [UIToolbar new];
+        _toolBar.frame = CGRectMake(0, self.navigationController.navigationBar.frame.origin.y, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height*2);
+        
+        _toolBar.delegate = self;
+        [_toolBar addSubview:self.segmentedControl];
+        [self setToolbarItems:@[_segmentedControl]];
+        
+        [self.view addSubview:_toolBar];
+        
+        // Autolayout the segmented control
+        [_segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
+            //        make.bottom.equalTo(_toolBar.mas_centerY).with.offset(self.navigationController.navigationBar.frame.size.height-8);
+            //        make.centerX.equalTo(self.view);
+            make.edges.equalTo(_toolBar).insets(UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height+8, 16, 8, 16));
+        }];
+        _segmentedControl.tintColor = [UIColor blackColor];
+        UIFont *font = [UIFont segmentedControlFont];
+        NSDictionary *attributes = [NSDictionary dictionaryWithObject:font
+                                                               forKey:NSFontAttributeName];
+        [_segmentedControl setTitleTextAttributes:attributes
+                                         forState:UIControlStateNormal];
+        _tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
+        
+    }
+
     
-    _tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
     _tableView.scrollIndicatorInsets = _tableView.contentInset;
     
     // Add refresh
@@ -115,6 +137,7 @@ int _page;
     [self.refreshControl addTarget:self action:@selector(refreshControlAction)
               forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
+    
     
     // If not initialized with initWithDate
     if (!_selectedWednesday) {
@@ -137,6 +160,10 @@ int _page;
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
      [UIImage imageNamed:@"arrow"]];
     
+    // Make the nav par translucent again
+    [self.navigationController.navigationBar setBackgroundImage:nil
+                                                  forBarMetrics:UIBarMetricsDefault];
+    
     // Calendar button
     int calendarSize = 20;
     FAKFontAwesome *calendarIcon = [FAKFontAwesome calendarIconWithSize:calendarSize];
@@ -150,10 +177,11 @@ int _page;
          forControlEvents:UIControlEventTouchUpInside];
     [someButton setShowsTouchWhenHighlighted:YES];
     
-    UIBarButtonItem *calendarButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
-    self.navigationItem.rightBarButtonItem = calendarButton;
-    
-    
+    if (_segmentedShowBool) {
+        UIBarButtonItem *calendarButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
+        self.navigationItem.rightBarButtonItem = calendarButton;
+    }
+
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
@@ -273,6 +301,7 @@ int _page;
             }
         }
         _issuesForWeekArray = nextWeekArray;
+        [self generateSectionArray];
     }
 }
 
@@ -291,6 +320,7 @@ int _page;
             }
         }
         _issuesForWeekArray = nextWeekArray;
+        [self generateSectionArray];
     }
 }
 
@@ -300,6 +330,7 @@ int _page;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isParent == 1) AND (releaseDate >= %@) AND (releaseDate <= %@)", [date dateByAddingTimeInterval:-60*60*24*daysToAdd], [date dateByAddingTimeInterval:60*60*24*daysToAdd]];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher" ascending:YES withPredicate:predicate];
     _issuesForWeekArray = allIssuesArray;
+    [self generateSectionArray];
 }
 
 - (void)completeRefreshWithArray:(NSArray *)array
@@ -468,6 +499,44 @@ int _page;
     [_calendarView scrollToDate:[NSDate date] animated:YES];
 }
 
+- (void)generateSectionArray {
+    
+    [self.client fetchPublishersWithPage:@1 completion:^(NSArray *publisherArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            
+            NSMutableArray *content = [NSMutableArray new];
+            
+            // Loop through every letter of the alphabet
+            for (int i = 0; i < [publisherArray count]; i++ ) {
+                NSMutableDictionary *letterDict = [NSMutableDictionary new];
+                NSMutableArray *letterArray = [NSMutableArray new];
+                // Loop through every issue in the issues array
+                for (LBXIssue *issue in _issuesForWeekArray) {
+                    // Check if the issue name begins with the current character
+                    LBXPublisher *publisher = [publisherArray objectAtIndex:i];
+                    if ([publisher.name isEqualToString:issue.publisher.name]) {
+                        // If it does, append it to an array of all the titles
+                        // for that letter
+                        [letterArray addObject:issue];
+                    }
+                }
+                // Add the letter as the key and the title array as the value
+                // and then make it a part of the larger content array
+                if (letterArray.count) {
+                    LBXPublisher *publisher = [publisherArray objectAtIndex:i];
+                    [letterDict setValue:letterArray forKey:[NSString stringWithFormat:@"%@", publisher.name]];
+                    [content addObject:letterDict];
+                }
+            }
+            _sectionArray = content;
+        }
+        else {
+            //[LBXMessageBar displayError:error];
+        }
+    }];
+}
+
 #pragma mark - DZNEmptyDataSet
 
 - (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView {
@@ -478,6 +547,55 @@ int _page;
 
 #pragma mark - Table view data source
 
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    if(section >= 0)
+//        return [super tableView:tableView viewForHeaderInSection:section];
+//    
+//    return nil;
+//}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    // Background color
+    view.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+    
+    // Text Color and font
+    [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextColor:[UIColor blackColor]];
+    [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setFont:[UIFont titleDetailSubscribersAndIssuesFont]];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 18.0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    NSDictionary *dict = [_sectionArray objectAtIndex:section];
+    return dict.allKeys.firstObject;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    NSMutableArray *arr = [NSMutableArray new];
+    for (NSDictionary *dict in _sectionArray) {
+        [arr addObject:dict.allKeys[0]];
+    }
+    return [arr indexOfObject:title];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (!_sectionArray.count) {
+        return 1;
+    }
+    return _sectionArray.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSDictionary *dict = [_sectionArray objectAtIndex:section];
+    NSArray *arr = [dict valueForKey:dict.allKeys[0]];
+    return [arr count];
+}
+
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 //    if(section == 0) {
 //        UIView *transparentView = [[UIView alloc] initWithFrame:_overView.bounds];
@@ -486,24 +604,6 @@ int _page;
 //    }
 //    
     return nil;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    if(section == 0)
-//        return _overView.frame.size.height;
-    
-    return 0.0;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section == 0)
-        return _issuesForWeekArray.count;
-    
-    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -519,7 +619,9 @@ int _page;
     
     cell.titleLabel.font = [UIFont pullListTitleFont];
     
-    LBXIssue *issue = [_issuesForWeekArray objectAtIndex:indexPath.row];
+    NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section];
+    NSArray *array = [dict objectForKey:dict.allKeys[0]];
+    LBXIssue *issue = [array objectAtIndex:indexPath.row];
     cell.titleLabel.text = issue.title.name;
     
     NSDate *localDateTime = [LBXTitleAndPublisherServices getLocalDate];
@@ -564,7 +666,10 @@ int _page;
         return;
     }
     
-    LBXIssue *issue = [_issuesForWeekArray objectAtIndex:indexPath.row];
+    NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section];
+    NSArray *array = [dict objectForKey:dict.allKeys[0]];
+    LBXIssue *issue = [array objectAtIndex:indexPath.row];
+    //LBXIssue *issue = [_issuesForWeekArray objectAtIndex:indexPath.row];
     
     cell.titleLabel.font = [UIFont pullListTitleFont];
     cell.titleLabel.text = issue.completeTitle;

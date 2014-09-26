@@ -228,8 +228,9 @@ CGFloat cellWidth;
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [self.refreshControl endRefreshing];
     [super viewDidDisappear:animated];
+    [self.refreshControl endRefreshing];
+    [SVProgressHUD dismiss];
 }
 
 - (void)viewWillLayoutSubviews

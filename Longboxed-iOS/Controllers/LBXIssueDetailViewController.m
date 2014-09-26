@@ -230,7 +230,7 @@ BOOL saveSheetVisible;
         case 2:
         {
             // Pressing the date in the issue view
-            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithDate:[NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:_issue.releaseDate]];
+            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithDate:[NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:_issue.releaseDate] andShowThisAndNextWeek:NO];
             [self.navigationController pushViewController:controller animated:YES];
             break;
         }
