@@ -292,7 +292,7 @@ int _page;
         NSDate *localDateTime = [LBXTitleAndPublisherServices getLocalDate];
         NSMutableArray *nextWeekArray = [NSMutableArray new];
         for (LBXIssue *issue in allIssuesArray) {
-            // Check if the issue is next week
+            // Check if the issue is this week
             if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > -3*DAY &&
                 [issue.releaseDate timeIntervalSinceDate:localDateTime] <= 4*DAY && issue.releaseDate) {
                 [nextWeekArray addObject:issue];
@@ -444,7 +444,8 @@ int _page;
     _calendarView = [[ESDatePicker alloc] initWithFrame:CGRectMake(20, 50, 280, 300)];
     _calendarView.beginOfWeek = 1;
     [_calendarView setDelegate:self];
-    [_calendarView showDates:startDate:[NSDate date]];
+    NSDate *now = [NSDate date];
+    [_calendarView showDates:startDate:[now dateByAddingTimeInterval:60*60*24*7]];
     [_calendarView setSelectedDate:nil];
 
     // Initialize the view
@@ -479,6 +480,19 @@ int _page;
     [self setNavTitle];
     [self dismissViewControllerAnimated:YES completion:nil];
     [self refreshControlAction];
+    
+    // Check if the issue is this week
+    if ([_selectedWednesday timeIntervalSinceDate:[LBXTitleAndPublisherServices getLocalDate]] > -3*DAY &&
+        [_selectedWednesday timeIntervalSinceDate:[LBXTitleAndPublisherServices getLocalDate]] <= 4*DAY) {
+        _segmentedControl.selectedSegmentIndex = 0;
+    }
+    
+    // Check if the issue is next week
+    else if ([_selectedWednesday timeIntervalSinceDate:[LBXTitleAndPublisherServices getLocalDate]] > 5*DAY &&
+        [_selectedWednesday timeIntervalSinceDate:[LBXTitleAndPublisherServices getLocalDate]] <= 12*DAY) {
+        _segmentedControl.selectedSegmentIndex = 1;
+    }
+    
     //[self setIssuesForWeekArrayWithDate:_selectedWednesday];
     //[self.tableView reloadData];
     [self fetchDate:_selectedWednesday withPage:@1];
