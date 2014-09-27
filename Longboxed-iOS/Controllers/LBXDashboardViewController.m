@@ -27,7 +27,7 @@ LBXNavigationViewController *navigationController;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Do any additional setup after loading the view from its nib.
-        self.edgesForExtendedLayout = UIRectEdgeNone;
+        //self.edgesForExtendedLayout = UIRectEdgeNone;
         // Custom initialization
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
         LBXNavigationViewController *navController = [LBXNavigationViewController new];
@@ -58,8 +58,7 @@ LBXNavigationViewController *navigationController;
     [super viewWillLayoutSubviews];
     navigationController = (LBXNavigationViewController *)self.navigationController;
     [navigationController.menu setNeedsLayout];
-    navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    navigationController.navigationBar.translucent = NO;
+    self.topTableView.contentInset = UIEdgeInsetsZero;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
