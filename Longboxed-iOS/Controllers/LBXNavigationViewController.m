@@ -8,7 +8,7 @@
 //  Sample icons from http://icons8.com/download-free-icons-for-ios-tab-bar
 //
 
-#import "LBXHomeViewController.h"
+#import "LBXDashboardViewController.h"
 #import "LBXLoginViewController.h"
 #import "LBXNavigationViewController.h"
 #import "LBXPullListViewController.h"
@@ -47,7 +47,7 @@ PaperButton *button;
                                                             image:iconImage
                                                  highlightedImage:nil
                                                            action:^(REMenuItem *item) {
-                                                               LBXHomeViewController *controller = [[LBXHomeViewController alloc] init];
+                                                               LBXDashboardViewController *controller = [[LBXDashboardViewController alloc] init];
                                                                controller.title = @"Home";
                                                                
                                                                [self addPaperButtonToViewController:controller];

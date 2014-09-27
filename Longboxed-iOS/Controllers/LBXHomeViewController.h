@@ -10,6 +10,7 @@
 
 @interface LBXHomeViewController : UIViewController <NSFetchedResultsControllerDelegate>
 
+// TODO: Remove this
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 

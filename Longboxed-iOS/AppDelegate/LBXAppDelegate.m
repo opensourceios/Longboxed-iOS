@@ -8,7 +8,7 @@
 
 #import "LBXDatabaseManager.h"
 #import "LBXAppDelegate.h"
-#import "LBXHomeViewController.h"
+#import "LBXDashboardViewController.h"
 #import "LBXNavigationViewController.h"
 #import "LBXLogging.h"
 
@@ -44,7 +44,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    LBXHomeViewController *dashboardViewController = [LBXHomeViewController new];
+    LBXDashboardViewController *dashboardViewController = [LBXDashboardViewController new];
     
     self.window.rootViewController = [[LBXNavigationViewController alloc] initWithRootViewController:dashboardViewController];
     dashboardViewController.managedObjectContext = [NSManagedObjectContext MR_defaultContext];

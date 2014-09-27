@@ -104,6 +104,12 @@
 		E57E157819A9A55E002616F5 /* loadingCoverTransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E157619A9A55E002616F5 /* loadingCoverTransparent.png */; };
 		E57E157F19AA84FF002616F5 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = E57E157C19AA84FF002616F5 /* JGActionSheet.m */; };
 		E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E587FB4F1964E2E5006A3DDB /* PaperButton.m */; };
+		E593F53D19D70FDB00D310C6 /* LBXDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E593F53B19D70FDB00D310C6 /* LBXDashboardViewController.m */; };
+		E593F53E19D70FDB00D310C6 /* LBXDashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E593F53C19D70FDB00D310C6 /* LBXDashboardViewController.xib */; };
+		E593F55019D7160C00D310C6 /* ActualTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E593F54B19D7160C00D310C6 /* ActualTableViewCell.m */; };
+		E593F55119D7160C00D310C6 /* ActualTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E593F54C19D7160C00D310C6 /* ActualTableViewCell.xib */; };
+		E593F55219D7160C00D310C6 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E593F54E19D7160C00D310C6 /* TableViewCell.m */; };
+		E593F55319D7160C00D310C6 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E593F54F19D7160C00D310C6 /* TableViewCell.xib */; };
 		E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5977737198EAC7D0047E261 /* LBXPullListTitle.m */; };
 		E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */; };
 		E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */; };
@@ -349,6 +355,15 @@
 		E57E157C19AA84FF002616F5 /* JGActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGActionSheet.m; sourceTree = "<group>"; };
 		E587FB4E1964E2B3006A3DDB /* PaperButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PaperButton.h; path = Extras/Pop/PaperButton.h; sourceTree = "<group>"; };
 		E587FB4F1964E2E5006A3DDB /* PaperButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperButton.m; path = Extras/Pop/PaperButton.m; sourceTree = "<group>"; };
+		E593F53A19D70FDB00D310C6 /* LBXDashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDashboardViewController.h; path = Controllers/LBXDashboardViewController.h; sourceTree = "<group>"; };
+		E593F53B19D70FDB00D310C6 /* LBXDashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDashboardViewController.m; path = Controllers/LBXDashboardViewController.m; sourceTree = "<group>"; };
+		E593F53C19D70FDB00D310C6 /* LBXDashboardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXDashboardViewController.xib; path = Controllers/LBXDashboardViewController.xib; sourceTree = "<group>"; };
+		E593F54A19D7160C00D310C6 /* ActualTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActualTableViewCell.h; path = Controllers/ActualTableViewCell.h; sourceTree = "<group>"; };
+		E593F54B19D7160C00D310C6 /* ActualTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActualTableViewCell.m; path = Controllers/ActualTableViewCell.m; sourceTree = "<group>"; };
+		E593F54C19D7160C00D310C6 /* ActualTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActualTableViewCell.xib; path = Controllers/ActualTableViewCell.xib; sourceTree = "<group>"; };
+		E593F54D19D7160C00D310C6 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCell.h; path = Controllers/TableViewCell.h; sourceTree = "<group>"; };
+		E593F54E19D7160C00D310C6 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCell.m; path = Controllers/TableViewCell.m; sourceTree = "<group>"; };
+		E593F54F19D7160C00D310C6 /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableViewCell.xib; path = Controllers/TableViewCell.xib; sourceTree = "<group>"; };
 		E5977736198EAC7D0047E261 /* LBXPullListTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListTitle.h; path = Models/LBXPullListTitle.h; sourceTree = "<group>"; };
 		E5977737198EAC7D0047E261 /* LBXPullListTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListTitle.m; path = Models/LBXPullListTitle.m; sourceTree = "<group>"; };
 		E597773D198EADA60047E261 /* LBXCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LBXCoreData.xcdatamodel; sourceTree = "<group>"; };
@@ -625,6 +640,7 @@
 			children = (
 				E5A773D019623E73002654E7 /* LBXNavigationViewController.h */,
 				E5A773D119623E73002654E7 /* LBXNavigationViewController.m */,
+				E593F53F19D715CB00D310C6 /* Dashboard */,
 				E5F18721196382BA006C4C26 /* LBXHomeViewController.h */,
 				E5F18722196382BA006C4C26 /* LBXHomeViewController.m */,
 				E5F187371963A635006C4C26 /* LBXHomeViewController.xib */,
@@ -963,6 +979,22 @@
 			name = Pop;
 			sourceTree = "<group>";
 		};
+		E593F53F19D715CB00D310C6 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				E593F53A19D70FDB00D310C6 /* LBXDashboardViewController.h */,
+				E593F53B19D70FDB00D310C6 /* LBXDashboardViewController.m */,
+				E593F53C19D70FDB00D310C6 /* LBXDashboardViewController.xib */,
+				E593F54D19D7160C00D310C6 /* TableViewCell.h */,
+				E593F54E19D7160C00D310C6 /* TableViewCell.m */,
+				E593F54F19D7160C00D310C6 /* TableViewCell.xib */,
+				E593F54A19D7160C00D310C6 /* ActualTableViewCell.h */,
+				E593F54B19D7160C00D310C6 /* ActualTableViewCell.m */,
+				E593F54C19D7160C00D310C6 /* ActualTableViewCell.xib */,
+			);
+			name = Dashboard;
+			sourceTree = "<group>";
+		};
 		E5AB810319CE0DEA0042109B /* Empty Sets */ = {
 			isa = PBXGroup;
 			children = (
@@ -1247,14 +1279,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E593F53E19D70FDB00D310C6 /* LBXDashboardViewController.xib in Resources */,
 				E51AB57119A405940066FFF6 /* LBXIssueDetailViewController.xib in Resources */,
 				E57D496419611BB30014A13F /* SVWebViewController.bundle in Resources */,
 				E5C6446B19C67B1D00C63B19 /* LBXComicTableViewCell.xib in Resources */,
+				E593F55319D7160C00D310C6 /* TableViewCell.xib in Resources */,
 				E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */,
 				E57D498019611C950014A13F /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */,
 				E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */,
 				E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */,
+				E593F55119D7160C00D310C6 /* ActualTableViewCell.xib in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
 				E57D498319611C950014A13F /* SVWebViewControllerActivitySafari@2x.png in Resources */,
 				E57E156819A987ED002616F5 /* arrow_right.png in Resources */,
@@ -1435,9 +1470,11 @@
 				E5D9A89219A9193200BC06C1 /* JTSImageViewController.m in Sources */,
 				E57D49121960A2180014A13F /* LBXClient.m in Sources */,
 				E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */,
+				E593F55219D7160C00D310C6 /* TableViewCell.m in Sources */,
 				E5C6446519C67A9200C63B19 /* LBXComicsViewController.m in Sources */,
 				E5D9A89519A9193200BC06C1 /* UIImage+JTSImageEffects.m in Sources */,
 				E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */,
+				E593F55019D7160C00D310C6 /* ActualTableViewCell.m in Sources */,
 				E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */,
 				E5E5162C19CA446D005FBD43 /* LBXMessageBar.m in Sources */,
 				E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */,
@@ -1448,6 +1485,7 @@
 				E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */,
 				E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */,
 				E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */,
+				E593F53D19D70FDB00D310C6 /* LBXDashboardViewController.m in Sources */,
 				E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */,
 				E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */,
 				E510AF94198C7B7D004A7225 /* NSURL+RKAdditions.m in Sources */,
