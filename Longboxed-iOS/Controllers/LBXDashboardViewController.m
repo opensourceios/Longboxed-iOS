@@ -9,8 +9,16 @@
 #import "LBXDashboardViewController.h"
 #import "LBXNavigationViewController.h"
 #import "TableViewCell.h"
+#import "LBXClient.h"
+#import "LBXBundle.h"
+
+#import <UICKeyChainStore.h>
 
 @interface LBXDashboardViewController ()
+
+@property (nonatomic, strong) LBXClient *client;
+@property (nonatomic, strong) NSArray *popularIssuesArray;
+@property (nonatomic, strong) NSArray *bundleIssuesArray;
 
 @end
 
@@ -50,7 +58,8 @@ LBXNavigationViewController *navigationController;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.topTableView reloadData];
+    _client = [LBXClient new];
+    [self refresh];
 }
 
 - (void)viewWillLayoutSubviews
@@ -60,6 +69,60 @@ LBXNavigationViewController *navigationController;
     [navigationController.menu setNeedsLayout];
     self.topTableView.contentInset = UIEdgeInsetsZero;
 }
+
+#pragma mark Private Methods
+
+- (void)refresh
+{
+    [self fetchPopularIssues];
+    [self fetchBundle];
+}
+
+- (void)fetchPopularIssues
+{
+    // Fetch this weeks comics
+    [self.client fetchPopularIssuesWithCompletion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            _popularIssuesArray = popularIssuesArray;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.bottomTableView reloadData];
+            });
+        }
+        else {
+            //[LBXMessageBar displayError:error];
+        }
+    }];
+}
+
+- (void)fetchBundle
+{
+    if ([UICKeyChainStore stringForKey:@"id"]) {
+        // Fetch the users bundles
+        [self.client fetchBundleResourcesWithCompletion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+            
+            if (!error) {
+                // Get the bundles from Core Data
+                NSArray *coreDataBundleArray = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
+                LBXBundle *bundle;
+                if (coreDataBundleArray.firstObject) {
+                    bundle = bundleArray.firstObject;
+                    _bundleIssuesArray = [bundle.issues allObjects];
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.topTableView reloadData];
+                });
+            }
+            else {
+                //[LBXMessageBar displayError:error];
+            }
+        }];
+    }
+}
+
+#pragma mark TableView Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
@@ -84,7 +147,7 @@ LBXNavigationViewController *navigationController;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
-//    TableViewCell *cell = (TableViewCell*)[self.bottomTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
     TableViewCell *cell = (TableViewCell*)[self.topTableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (tableView == self.bottomTableView) {
         cell = (TableViewCell*)[self.bottomTableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -96,29 +159,29 @@ LBXNavigationViewController *navigationController;
         CGAffineTransform rotateTable = CGAffineTransformMakeRotation(-M_PI_2);
         tableViewCell.horizontalTableView.transform = rotateTable;
         tableViewCell.horizontalTableView.frame = CGRectMake(0, 0, tableViewCell.horizontalTableView.frame.size.width, tableViewCell.horizontalTableView.frame.size.height);
-        if (tableView == self.topTableView) {
-            //tableViewCell.horizontalTableView.frame = CGRectMake(0, -86, tableViewCell.horizontalTableView.frame.size.width, tableViewCell.horizontalTableView.frame.size.height);
-//            tableViewCell.horizontalTableView.
-        }
-        
-        tableViewCell.contentArray = @[@{@"ImageName" : @"NotAvailable.jpeg",
-                                         @"PubDate" : [NSDate date],
-                                         @"Title" : @"This just in: Bananas are tasty!"},
-                                       @{@"ImageName" : @"black-spiderman.jpg",
-                                         @"PubDate" : [NSDate date],
-                                         @"Title" : @"This just in: Bananas are tasty!"},
-                                       @{@"ImageName" : @"thor-hulk.jpg",
-                                         @"PubDate" : [NSDate date],
-                                         @"Title" : @"This just in: Bananas are tasty!"},
-                                       @{@"ImageName" : @"thor-hulk.jpg",
-                                         @"PubDate" : [NSDate date],
-                                         @"Title" : @"This just in: Bananas are tasty!"}];
         
         tableViewCell.horizontalTableView.allowsSelection = YES;
         cell = tableViewCell;
-        //self.tableViewCell = nil;
-        
     }
+    
+    if (tableView == self.bottomTableView) {
+        tableViewCell.contentArray = _popularIssuesArray;
+        if (_popularIssuesArray.count) {
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:@"reloadTableView"
+             object:self];
+        }
+    }
+    else if (tableView == self.topTableView) {
+        tableViewCell.contentArray = _bundleIssuesArray;
+        if (_bundleIssuesArray.count) {
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:@"reloadTableView"
+             object:self];
+        }
+    }
+    
+    cell = tableViewCell;
     cell.selectedBackgroundView.backgroundColor = [UIColor orangeColor];
     return cell;
 }

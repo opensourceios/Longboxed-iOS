@@ -109,6 +109,18 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     });
 }
 
+- (void)testPopularIssuesEndpoint
+{
+    hxRunInMainLoop(^(BOOL *done) {
+        [self.client fetchPopularIssuesWithCompletion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues collection for current week endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+            // Don't check this because it's possible there are no issues for next week yet
+            XCTAssertNotEqual(popularIssuesArray.count, 0, @"/issues/popular/ JSON is returning nil");
+            *done = YES;
+        }];
+    });
+}
+
 
 ///////////////
 // Titles Tests

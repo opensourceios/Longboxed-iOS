@@ -8,17 +8,30 @@
 
 #import "TableViewCell.h"
 #import "ActualTableViewCell.h"
+#import "LBXDashboardViewController.h"
+#import "LBXIssue.h"
+
+#import <UIImageView+AFNetworking.h>
 
 @implementation TableViewCell
 @synthesize horizontalTableView;
 @synthesize contentArray;
 
-float imageWidth;
-
 - (void)awakeFromNib {
     // Initialization code
     self.horizontalTableView.frame = CGRectMake(self.horizontalTableView.frame.origin.x, self.horizontalTableView.frame.origin.y, 0, self.horizontalTableView.frame.size.height);
     self.horizontalTableView.rowHeight = 200;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadTableView)
+                                                 name:@"reloadTableView"
+                                               object:nil];
+}
+
+- (void)reloadTableView
+{
+    if (self.horizontalTableView)
+        [self.horizontalTableView reloadData];
 }
 
 - (NSString *) reuseIdentifier {
@@ -30,31 +43,36 @@ float imageWidth;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return contentArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"ActualTableViewCell";
     ActualTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	if(!cell)
+    if(!cell)
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ActualTableViewCell"
-													 owner:self options:nil];
-		for (id oneObject in nib) if ([oneObject isKindOfClass:[ActualTableViewCell class]])
-			cell = (ActualTableViewCell *)oneObject;
+                                                     owner:self options:nil];
+        for (id oneObject in nib) if ([oneObject isKindOfClass:[ActualTableViewCell class]])
+            cell = (ActualTableViewCell *)oneObject;
     }
-    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
-    dispatch_async(concurrentQueue, ^{        
-        UIImage *image = nil;        
-        image = [UIImage imageNamed:[[contentArray objectAtIndex:indexPath.row] objectForKey:@"ImageName"]];
+    LBXIssue *issue = [contentArray objectAtIndex:indexPath.row];
+    
+    __weak typeof(cell) weakCell = cell;
+    [cell.tileImg setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [cell.tileImg setImage:image]; 
-        });
-        imageWidth = cell.tileImg.frame.size.height;
-    }); 
-    [cell.titleName setText:[[contentArray objectAtIndex:indexPath.row] objectForKey:@"ImageName"]];
+        [UIView transitionWithView:weakCell.imageView
+                          duration:0.5f
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{[weakCell.tileImg setImage:image];}
+                        completion:NULL];
+        
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        weakCell.tileImg.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+    }];
+    
+    [cell.titleName setText:issue.completeTitle];
     CGAffineTransform rotate= CGAffineTransformMakeRotation(M_PI_2);
     cell.transform=rotate;
     return cell;
@@ -62,12 +80,12 @@ float imageWidth;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return imageWidth;
+    return [UIScreen mainScreen].bounds.size.width/2.8;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"values: %@",[contentArray objectAtIndex:indexPath.row]);  
-//    self.detailObj=[[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+    NSLog(@"values: %@",[contentArray objectAtIndex:indexPath.row]);
+    //    self.detailObj=[[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
     
 }
 

@@ -17,21 +17,21 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" scrollEnabled="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" sectionIndexMinimumDisplayRowCount="1" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="slL-OO-oAz">
-                    <rect key="frame" x="0.0" y="170" width="320" height="158.5"/>
+                    <rect key="frame" x="0.0" y="205" width="320" height="141"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="4CG-a3-0Ho"/>
                         <outlet property="delegate" destination="-1" id="KlO-8B-oCW"/>
                     </connections>
                 </tableView>
                 <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" scrollEnabled="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xmk-nS-8Ps">
-                    <rect key="frame" x="0.0" y="401.5" width="320" height="158.5"/>
+                    <rect key="frame" x="0.0" y="419" width="320" height="141"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Ft0-mn-Nmq"/>
                         <outlet property="delegate" destination="-1" id="N7k-q7-ESL"/>
                     </connections>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y8v-qX-v5k">
-                    <rect key="frame" x="8" y="360.5" width="63" height="37"/>
+                    <rect key="frame" x="8" y="378" width="63" height="37"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
                     <state key="normal" title="Popular">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -39,7 +39,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7rd-mt-NSU">
-                    <rect key="frame" x="8" y="130" width="87" height="36"/>
+                    <rect key="frame" x="8" y="165" width="87" height="36"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                     <state key="normal" title="Your Issues">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -54,7 +54,7 @@
                 <constraint firstItem="xmk-nS-8Ps" firstAttribute="top" secondItem="y8v-qX-v5k" secondAttribute="bottom" constant="4" id="7DZ-ce-h6e"/>
                 <constraint firstItem="xmk-nS-8Ps" firstAttribute="height" secondItem="slL-OO-oAz" secondAttribute="height" id="Asd-I7-OCe"/>
                 <constraint firstItem="y8v-qX-v5k" firstAttribute="top" secondItem="slL-OO-oAz" secondAttribute="bottom" constant="32" id="BXB-Bx-0df"/>
-                <constraint firstItem="7rd-mt-NSU" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="130" id="DyG-vy-Kml"/>
+                <constraint firstItem="7rd-mt-NSU" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="165" id="DyG-vy-Kml"/>
                 <constraint firstItem="y8v-qX-v5k" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="RUe-T0-pxy"/>
                 <constraint firstAttribute="trailing" secondItem="slL-OO-oAz" secondAttribute="trailing" id="UdV-NE-wdp"/>
                 <constraint firstItem="slL-OO-oAz" firstAttribute="top" secondItem="7rd-mt-NSU" secondAttribute="bottom" constant="4" id="WUz-gE-WQf"/>

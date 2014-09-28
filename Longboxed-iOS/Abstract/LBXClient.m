@@ -197,6 +197,12 @@
     }];
 }
 
+- (void)fetchPopularIssuesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    [self GETWithRouteName:@"Popular Issues for Current Week" objectDictParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        completion(mappingResult.array, response, error);
+    }];
+}
+
 // Titles
 - (void)fetchTitleCollectionWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     [self GETWithRouteName:@"Titles Collection" objectDictParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
