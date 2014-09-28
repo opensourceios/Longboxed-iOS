@@ -811,8 +811,8 @@
 		E57D48FF1960960E0014A13F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E5AB810319CE0DEA0042109B /* Empty Sets */,
 				E51F72C6199821A200F643EF /* Navigation */,
+				E5AB810319CE0DEA0042109B /* Empty Sets */,
 				E56DBFBE19B942330012FB4D /* Comics */,
 				E5D9A89A19A96E9600BC06C1 /* Title */,
 				E5D9A89B19A96F9A00BC06C1 /* Publisher */,
