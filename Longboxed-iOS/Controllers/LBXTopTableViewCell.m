@@ -10,6 +10,7 @@
 #import "ActualTableViewCell.h"
 #import "LBXDashboardViewController.h"
 #import "LBXIssue.h"
+#import "LBXIssueDetailViewController.h"
 
 #import <UIImageView+AFNetworking.h>
 
@@ -24,7 +25,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reloadTableView)
-                                                 name:@"reloadTableView"
+                                                 name:@"reloadTopTableView"
                                                object:nil];
 }
 
@@ -73,20 +74,25 @@
     }];
     
     [cell.titleName setText:issue.completeTitle];
-    CGAffineTransform rotate= CGAffineTransformMakeRotation(M_PI_2);
-    cell.transform=rotate;
+    CGAffineTransform rotate = CGAffineTransformMakeRotation(M_PI_2);
+    cell.transform = rotate;
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return [UIScreen mainScreen].bounds.size.width/3.8;
+    return self.horizontalTableView.frame.size.height / 1.7;
 }
 
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"values: %@",[contentArray objectAtIndex:indexPath.row]);
-    //    self.detailObj=[[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LBXIssue *issue = [contentArray objectAtIndex:indexPath.row];
+    ActualTableViewCell *cell = (ActualTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    NSDictionary *dict = @{@"issue" : issue,
+                           @"image" : cell.tileImg.image};
     
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"pushToIssueWithDict"
+     object:self userInfo:dict];
 }
 
 

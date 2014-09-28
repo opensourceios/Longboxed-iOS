@@ -24,7 +24,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reloadTableView)
-                                                 name:@"reloadTableView"
+                                                 name:@"reloadBottomTableView"
                                                object:nil];
 }
 
@@ -79,14 +79,19 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return [UIScreen mainScreen].bounds.size.width/3.8;
+    return self.horizontalTableView.frame.size.height / 1.7;
 }
 
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"values: %@",[contentArray objectAtIndex:indexPath.row]);
-    //    self.detailObj=[[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LBXIssue *issue = [contentArray objectAtIndex:indexPath.row];
+    ActualTableViewCell *cell = (ActualTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    NSDictionary *dict = @{@"issue" : issue,
+                           @"image" : cell.tileImg.image};
     
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"pushToIssueWithDict"
+     object:self userInfo:dict];
 }
 
 

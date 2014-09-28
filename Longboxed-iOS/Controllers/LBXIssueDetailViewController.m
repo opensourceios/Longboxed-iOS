@@ -161,6 +161,11 @@ BOOL saveSheetVisible;
     _releaseDateButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_releaseDateButton.imageView.frame.size.width, 0, _releaseDateButton.imageView.frame.size.width);
     _releaseDateButton.imageEdgeInsets = UIEdgeInsetsMake(0, _releaseDateButton.titleLabel.frame.size.width + 8, 0, -_releaseDateButton.titleLabel.frame.size.width);
     
+    [_publisherButton setTitleColor:[UIColor lightGrayColor]
+                           forState:UIControlStateHighlighted];
+    [_releaseDateButton setTitleColor:[UIColor lightGrayColor]
+                             forState:UIControlStateHighlighted];
+    
     NSString *modifiedDescriptionString = [regex stringByReplacingMatchesInString:_issue.issueDescription options:0 range:NSMakeRange(0, [_issue.issueDescription length]) withTemplate:@""];
     _descriptionTextView.text = modifiedDescriptionString;
     _descriptionTextView.selectable = NO;

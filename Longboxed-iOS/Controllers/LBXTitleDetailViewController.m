@@ -207,13 +207,6 @@ int page;
     [self.view setNeedsDisplay];
 }
 
-- (void)setInitialDetailView
-{
-    // Move the arrow so it is on the right side of the publisher text
-    _detailView.publisherButton.titleEdgeInsets = UIEdgeInsetsMake(0, -_detailView.publisherButton.imageView.frame.size.width, 0, _detailView.publisherButton.imageView.frame.size.width);
-    _detailView.publisherButton.imageEdgeInsets = UIEdgeInsetsMake(0, _detailView.publisherButton.titleLabel.frame.size.width + 8, 0, -_detailView.publisherButton.titleLabel.frame.size.width);
-}
-
 - (BOOL)prefersStatusBarHidden {
     return NO;
 }

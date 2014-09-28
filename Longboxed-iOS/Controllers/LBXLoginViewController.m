@@ -75,9 +75,7 @@ UICKeyChainStore *store;
 
 - (void)removeCredentials
 {
-    [UICKeyChainStore removeItemForKey:@"username"];
-    [UICKeyChainStore removeItemForKey:@"password"];
-    [UICKeyChainStore removeItemForKey:@"id"];
+    [UICKeyChainStore removeAllItems];
     [store synchronize]; // Write to keychain.
 }
 

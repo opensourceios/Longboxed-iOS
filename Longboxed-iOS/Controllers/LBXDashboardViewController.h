@@ -18,6 +18,9 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *topTableView;
 @property (nonatomic, retain) IBOutlet UITableView *bottomTableView;
+@property (nonatomic, retain) IBOutlet UIButton *bundleButton;
+@property (nonatomic, retain) IBOutlet UIButton *popularButton;
+@property (nonatomic, retain) IBOutlet UILabel *issuesLabel;
 @property (nonatomic, retain) IBOutlet LBXTopTableViewCell *topTableViewCell;
 @property (nonatomic, retain) IBOutlet LBXBottomTableViewCell *bottomTableViewCell;
 
