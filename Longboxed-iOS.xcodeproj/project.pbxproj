@@ -161,11 +161,9 @@
 		E5E5A52819BBAE5500471BF8 /* thor-hulk.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5E5A52619BBAE5500471BF8 /* thor-hulk.jpg */; };
 		E5E5A52919BBAE5500471BF8 /* black-spiderman.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5E5A52719BBAE5500471BF8 /* black-spiderman.jpg */; };
 		E5F18720196378E4006C4C26 /* LBXPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */; };
-		E5F18724196382BA006C4C26 /* LBXHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F18722196382BA006C4C26 /* LBXHomeViewController.m */; };
 		E5F1873219638BBC006C4C26 /* EasyTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1873119638BBC006C4C26 /* EasyTableView.m */; };
 		E5F18735196391D2006C4C26 /* longboxed_full.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F18733196391D2006C4C26 /* longboxed_full.png */; };
 		E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F18734196391D2006C4C26 /* longboxed_full@2x.png */; };
-		E5F187381963A635006C4C26 /* LBXHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5F187371963A635006C4C26 /* LBXHomeViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -454,13 +452,10 @@
 		E5E5A52719BBAE5500471BF8 /* black-spiderman.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "black-spiderman.jpg"; path = "Assets/black-spiderman.jpg"; sourceTree = SOURCE_ROOT; };
 		E5F1871E196378E4006C4C26 /* LBXPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListViewController.h; path = Controllers/LBXPullListViewController.h; sourceTree = "<group>"; };
 		E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListViewController.m; path = Controllers/LBXPullListViewController.m; sourceTree = "<group>"; };
-		E5F18721196382BA006C4C26 /* LBXHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXHomeViewController.h; path = Controllers/LBXHomeViewController.h; sourceTree = "<group>"; };
-		E5F18722196382BA006C4C26 /* LBXHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXHomeViewController.m; path = Controllers/LBXHomeViewController.m; sourceTree = "<group>"; };
 		E5F1873019638BBC006C4C26 /* EasyTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EasyTableView.h; path = Extras/EasyTableView/EasyTableView.h; sourceTree = "<group>"; };
 		E5F1873119638BBC006C4C26 /* EasyTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EasyTableView.m; path = Extras/EasyTableView/EasyTableView.m; sourceTree = "<group>"; };
 		E5F18733196391D2006C4C26 /* longboxed_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = longboxed_full.png; path = Assets/longboxed_full.png; sourceTree = SOURCE_ROOT; };
 		E5F18734196391D2006C4C26 /* longboxed_full@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "longboxed_full@2x.png"; path = "Assets/longboxed_full@2x.png"; sourceTree = SOURCE_ROOT; };
-		E5F187371963A635006C4C26 /* LBXHomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXHomeViewController.xib; path = Controllers/LBXHomeViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -650,9 +645,6 @@
 				E5A773D019623E73002654E7 /* LBXNavigationViewController.h */,
 				E5A773D119623E73002654E7 /* LBXNavigationViewController.m */,
 				E593F53F19D715CB00D310C6 /* Dashboard */,
-				E5F18721196382BA006C4C26 /* LBXHomeViewController.h */,
-				E5F18722196382BA006C4C26 /* LBXHomeViewController.m */,
-				E5F187371963A635006C4C26 /* LBXHomeViewController.xib */,
 				E5C6446219C67A9200C63B19 /* LBXComicsViewController.h */,
 				E5C6446319C67A9200C63B19 /* LBXComicsViewController.m */,
 				E5C6446419C67A9200C63B19 /* LBXComicsViewController.xib */,
@@ -1326,7 +1318,6 @@
 				E57E156D19A98FB0002616F5 /* arrow_right_small@2x.png in Resources */,
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,
 				E57CCAC719CB8C8E0086B39E /* LBXSearchTableViewCell.xib in Resources */,
-				E5F187381963A635006C4C26 /* LBXHomeViewController.xib in Resources */,
 				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,
 				E57E157219A99427002616F5 /* LBXPublisherDetailView.xib in Resources */,
 				E5E5A52819BBAE5500471BF8 /* thor-hulk.jpg in Resources */,
@@ -1481,7 +1472,6 @@
 				E510AFAB198C7B7D004A7225 /* UINavigationController+NBUAdditions.m in Sources */,
 				E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */,
 				E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */,
-				E5F18724196382BA006C4C26 /* LBXHomeViewController.m in Sources */,
 				E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */,
 				E54F10991991D28900DAD4FE /* LBXPullListTableViewCell.m in Sources */,
 				E57D497919611C8E0014A13F /* SVWebViewControllerActivityChrome.m in Sources */,

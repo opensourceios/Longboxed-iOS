@@ -60,16 +60,16 @@
     LBXIssue *issue = [contentArray objectAtIndex:indexPath.row];
     
     __weak typeof(cell) weakCell = cell;
-    [cell.tileImg setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [cell.coverImage setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         [UIView transitionWithView:weakCell.imageView
                           duration:0.5f
                            options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{[weakCell.tileImg setImage:image];}
+                        animations:^{[weakCell.coverImage setImage:image];}
                         completion:NULL];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        weakCell.tileImg.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        weakCell.coverImage.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
     }];
     
     [cell.titleName setText:issue.completeTitle];
@@ -87,7 +87,7 @@
     LBXIssue *issue = [contentArray objectAtIndex:indexPath.row];
     ActualTableViewCell *cell = (ActualTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     NSDictionary *dict = @{@"issue" : issue,
-                           @"image" : cell.tileImg.image};
+                           @"image" : cell.coverImage.image};
     
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"pushToIssueWithDict"

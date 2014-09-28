@@ -7,16 +7,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="ActualTableViewCell" id="3" customClass="ActualTableViewCell">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ActualTableViewCell" id="3" customClass="ActualTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3" id="lJk-e3-QPp">
                 <rect key="frame" x="0.0" y="0.0" width="100" height="99"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="4">
-                        <rect key="frame" x="0.0" y="0.0" width="100" height="65"/>
-                    </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OSt-hK-f9e">
                         <rect key="frame" x="0.0" y="65" width="100" height="34"/>
                         <subviews>
@@ -34,6 +31,9 @@
                             <constraint firstAttribute="trailing" secondItem="5" secondAttribute="trailing" id="aoz-OX-7cT"/>
                         </constraints>
                     </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="65"/>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="4" firstAttribute="top" secondItem="lJk-e3-QPp" secondAttribute="top" id="NEx-Qb-kRv"/>
@@ -50,7 +50,7 @@
                 <constraint firstItem="4" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="dGC-Tr-7lv"/>
             </constraints>
             <connections>
-                <outlet property="tileImg" destination="4" id="8"/>
+                <outlet property="coverImage" destination="4" id="Ej4-pq-b7h"/>
                 <outlet property="titleName" destination="5" id="9"/>
             </connections>
             <point key="canvasLocation" x="140" y="157"/>
