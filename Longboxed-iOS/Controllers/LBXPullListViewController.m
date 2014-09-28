@@ -7,7 +7,6 @@
 //
 
 #import "LBXClient.h"
-#import "LBXNavigationViewController.h"
 #import "LBXPullListTableViewCell.h"
 #import "LBXPullListTitle.h"
 #import "LBXPullListViewController.h"
@@ -55,8 +54,6 @@
 
 
 @implementation LBXPullListViewController
-
-LBXNavigationViewController *navigationController;
 
 static const NSUInteger PULL_LIST_TABLE_HEIGHT = 88;
 static const NSUInteger SEARCH_TABLE_HEIGHT = 88;
@@ -134,15 +131,6 @@ CGFloat cellWidth;
     [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
     [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
     [SVProgressHUD setForegroundColor:[UIColor blackColor]];
-    
-    [self fillPullListArray];
-    
-    if (!_pullListArray.count) {
-        self.tableView.hidden = YES;
-        [self.view insertSubview:_loadingView aboveSubview:self.tableView];
-        [SVProgressHUD show];
-    }
-    
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -169,6 +157,14 @@ CGFloat cellWidth;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self fillPullListArray];
+    
+    if (!_pullListArray.count) {
+        self.tableView.hidden = YES;
+        [self.view insertSubview:_loadingView aboveSubview:self.tableView];
+        [SVProgressHUD show];
+    }
     
     [self refresh];
     
@@ -243,17 +239,12 @@ CGFloat cellWidth;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationViewController *)self.navigationController;
-    [navigationController.menu setNeedsLayout];
 }
 
 #pragma mark - PrivateMethods
 
 - (void)setupSearchView
 {
-    // Close the nav menu if it is open
-    [navigationController.menu close];
-    
     // Blur the current screen
     //[self blurScreen];
     // Put the search bar in front of the blurred view

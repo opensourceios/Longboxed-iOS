@@ -17,7 +17,6 @@
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
-#import "LBXNavigationViewController.h"
 #import "LBXLogging.h"
 
 #import "UIFont+customFonts.h"
@@ -41,8 +40,6 @@
 @end
 
 @implementation LBXPublisherDetailViewController
-
-LBXNavigationViewController *navigationController;
 
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
@@ -111,7 +108,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationViewController *)self.navigationController;
 }
 
 - (void)viewDidAppear:(BOOL)animated

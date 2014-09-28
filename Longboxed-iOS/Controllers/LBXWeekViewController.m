@@ -10,7 +10,6 @@
 #import "LBXWeekTableViewCell.h"
 #import "LBXClient.h"
 #import "UIFont+customFonts.h"
-#import "LBXNavigationViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXLogging.h"
@@ -44,8 +43,6 @@
 @end
 
 @implementation LBXWeekViewController
-
-LBXNavigationViewController *navigationController;
 
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
@@ -223,8 +220,6 @@ int _page;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationViewController *)self.navigationController;
-    [navigationController.menu setNeedsLayout];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

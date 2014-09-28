@@ -8,7 +8,6 @@
 
 #import "LBXComicsViewController.h"
 #import "LBXComicTableViewCell.h"
-#import "LBXNavigationViewController.h"
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXPublisherCollectionViewController.h"
 #import "LBXWeekViewController.h"
@@ -30,7 +29,6 @@
 
 @implementation LBXComicsViewController
 
-LBXNavigationViewController *navigationController;
 static const NSUInteger SEARCH_TABLE_HEIGHT = 66;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -69,8 +67,6 @@ static const NSUInteger SEARCH_TABLE_HEIGHT = 66;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationViewController *)self.navigationController;
-    [navigationController.menu setNeedsLayout];
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }

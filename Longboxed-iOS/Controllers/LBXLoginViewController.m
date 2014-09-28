@@ -7,7 +7,6 @@
 //
 
 #import "LBXLoginViewController.h"
-#import "LBXNavigationViewController.h"
 #import "LBXDatabaseManager.h"
 #import "LBXClient.h"
 #import "LBXMessageBar.h"
@@ -117,6 +116,7 @@ UICKeyChainStore *store;
         case 0:
         {
             [self login];
+            [self dismissViewControllerAnimated:YES completion:nil];
 
             break;
         }

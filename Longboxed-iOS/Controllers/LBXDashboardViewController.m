@@ -7,13 +7,13 @@
 //
 
 #import "LBXDashboardViewController.h"
-#import "LBXNavigationViewController.h"
 #import "LBXTopTableViewCell.h"
 #import "LBXBottomTableViewCell.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXPublisherCollectionViewController.h"
 #import "LBXTitleAndPublisherServices.h"
+#import "LBXLoginViewController.h"
 #import "LBXWeekViewController.h"
 #import "LBXSearchViewController.h"
 #import "LBXPullListViewController.h"
@@ -38,8 +38,6 @@
 
 @implementation LBXDashboardViewController
 
-LBXNavigationViewController *navigationController;
-
 @synthesize topTableView;
 @synthesize bottomTableView;
 @synthesize topTableViewCell;
@@ -53,11 +51,19 @@ LBXNavigationViewController *navigationController;
         //self.edgesForExtendedLayout = UIRectEdgeNone;
         // Custom initialization
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
-        LBXNavigationViewController *navController = [LBXNavigationViewController new];
-        [navController addPaperButtonToViewController:self];
         UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
         self.navigationItem.rightBarButtonItem = actionButton;
         [self.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
+        
+        int checksize = 24;
+        FAKFontAwesome *cogIcon = [FAKFontAwesome cogIconWithSize:checksize];
+        [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+        UIImage *cogImage = [cogIcon imageWithSize:CGSizeMake(checksize, checksize)];
+        
+        UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:cogImage style:UIBarButtonItemStylePlain target:self action:@selector(settingsPressed)];
+        
+        self.navigationItem.leftBarButtonItem = settingsButton;
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor blackColor];
         
         self.view.backgroundColor = [UIColor whiteColor];
         
@@ -97,8 +103,6 @@ LBXNavigationViewController *navigationController;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationViewController *)self.navigationController;
-    [navigationController.menu setNeedsLayout];
     self.topTableView.contentInset = UIEdgeInsetsZero;
     [_bundleButton setTitleColor:[UIColor lightGrayColor]
                         forState:UIControlStateHighlighted];
@@ -241,6 +245,18 @@ LBXNavigationViewController *navigationController;
         titleViewController.issue = issue;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
+}
+
+- (void)settingsPressed
+{
+    UINavigationController *navController = [UINavigationController new];
+    
+    LBXLoginViewController *controller = [LBXLoginViewController new];
+    [navController addChildViewController:controller];
+    
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(refresh)];
+    navController.navigationItem.rightBarButtonItem = actionButton;
+    [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
 - (IBAction)onClick:(id)sender
