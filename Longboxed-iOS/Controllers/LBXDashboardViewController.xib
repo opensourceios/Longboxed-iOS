@@ -50,7 +50,9 @@
                         <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" scrollEnabled="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xmk-nS-8Ps">
                             <rect key="frame" x="20" y="459" width="320" height="104.5"/>
                             <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="KKZ-hR-g2A"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="KKZ-hR-g2A">
+                                    <variation key="widthClass=compact" constant="135"/>
+                                </constraint>
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
@@ -98,12 +100,12 @@
                                 <rect key="frame" x="8" y="416" width="70" height="20"/>
                             </variation>
                         </button>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" scrollEnabled="NO" style="grouped" sectionIndexMinimumDisplayRowCount="2" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="zdW-xx-oVc">
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" scrollEnabled="NO" style="grouped" sectionIndexMinimumDisplayRowCount="3" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="zdW-xx-oVc">
                             <rect key="frame" x="20" y="152" width="320" height="87"/>
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="87" id="ar3-h2-Pex">
-                                    <variation key="widthClass=compact" constant="86"/>
+                                    <variation key="widthClass=compact" constant="130"/>
                                 </constraint>
                             </constraints>
                             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="16" maxY="0.0"/>

@@ -155,6 +155,13 @@ CGFloat cellWidth;
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
     
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
+    [self.navigationController.navigationBar setBackIndicatorImage:
+     [UIImage imageNamed:@"arrow"]];
+    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
+     [UIImage imageNamed:@"arrow"]];
+    
     // Special attribute set for title text color
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 }

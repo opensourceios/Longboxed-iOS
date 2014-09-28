@@ -16,6 +16,7 @@
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXWeekViewController.h"
 #import "LBXSearchViewController.h"
+#import "LBXPullListViewController.h"
 #import "LBXClient.h"
 #import "LBXBundle.h"
 
@@ -75,13 +76,6 @@ LBXNavigationViewController *navigationController;
                                                                                 metrics:nil
                                                                                     views: @{@"topTableView" :self.topTableView}]];
         }
-        
-        CALayer *TopBorder = [CALayer layer];
-        TopBorder.frame = CGRectMake(16.0f, _browseTableView.frame.size.height, _browseTableView.frame.size.width + 24.0f, 0.3f);
-        TopBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
-        [_browseTableView.layer addSublayer:TopBorder];
-    
-        
     }
     return self;
 }
@@ -92,6 +86,12 @@ LBXNavigationViewController *navigationController;
     NSIndexPath *tableSelection = [self.browseTableView indexPathForSelectedRow];
     [self.browseTableView deselectRowAtIndexPath:tableSelection animated:YES];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
+    
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(16.0f, _browseTableView.frame.size.height + 44, [UIScreen mainScreen].bounds.size.width - 32, 0.3f);
+    bottomBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
+    [_browseTableView.layer addSublayer:bottomBorder];
+    
 }
 
 - (void)viewWillLayoutSubviews
@@ -272,7 +272,7 @@ LBXNavigationViewController *navigationController;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.browseTableView) return 2;
+    if (tableView == self.browseTableView) return 3;
     return 1;
 }
 
@@ -375,8 +375,12 @@ LBXNavigationViewController *navigationController;
         [comicsIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
         UIImage *calendarIconImage = [calendarIcon imageWithSize:CGSizeMake(checksize, checksize)];
         
-        NSArray *imageArray = @[comicsImage, calendarIconImage];
-        NSArray *textArray = @[@"Comics", @"Releases"];
+        FAKFontAwesome *pullListIcon = [FAKFontAwesome listIconWithSize:checksize];
+        [pullListIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+        UIImage *pullListIconImage = [pullListIcon imageWithSize:CGSizeMake(checksize, checksize)];
+        
+        NSArray *imageArray = @[comicsImage, calendarIconImage, pullListIconImage];
+        NSArray *textArray = @[@"Comics", @"Releases", @"Pull List"];
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [textArray objectAtIndex:indexPath.row];
@@ -401,6 +405,12 @@ LBXNavigationViewController *navigationController;
             }
             case 1: {
                 LBXWeekViewController *controller = [LBXWeekViewController new];
+                [self.navigationController pushViewController:controller animated:YES];
+                break;
+            }
+            case 2: {
+                LBXPullListViewController *controller = [[LBXPullListViewController alloc] init];
+                controller.title = @"Pull List";
                 [self.navigationController pushViewController:controller animated:YES];
                 break;
             }
