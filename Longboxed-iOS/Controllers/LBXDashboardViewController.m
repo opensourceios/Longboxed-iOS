@@ -11,9 +11,12 @@
 #import "LBXTopTableViewCell.h"
 #import "LBXBottomTableViewCell.h"
 #import "LBXIssueDetailViewController.h"
+#import "LBXPublisherCollectionViewController.h"
+#import "LBXWeekViewController.h"
 #import "LBXClient.h"
 #import "LBXBundle.h"
 
+#import <FontAwesomeKit/FontAwesomeKit.h>
 #import <UICKeyChainStore.h>
 
 @interface LBXDashboardViewController ()
@@ -53,6 +56,8 @@ LBXNavigationViewController *navigationController;
                                                  selector:@selector(pushToIssueWithDict:)
                                                      name:@"pushToIssueWithDict"
                                                    object:nil];
+        
+        self.browseTableView.contentInset = UIEdgeInsetsMake(-2, 0, -2, 0);
     }
     return self;
 }
@@ -60,6 +65,8 @@ LBXNavigationViewController *navigationController;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    NSIndexPath *tableSelection = [self.browseTableView indexPathForSelectedRow];
+    [self.browseTableView deselectRowAtIndexPath:tableSelection animated:YES];
 }
 
 - (void)viewWillLayoutSubviews
@@ -74,6 +81,9 @@ LBXNavigationViewController *navigationController;
                          forState:UIControlStateHighlighted];
     [self setArrowsForButton:_bundleButton];
     [self setArrowsForButton:_popularButton];
+    
+    [_bundleButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_popularButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -92,7 +102,6 @@ LBXNavigationViewController *navigationController;
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor whiteColor];
 
-    self.issuesLabel.text = @"";
     _client = [LBXClient new];
     [self refresh];
 }
@@ -133,7 +142,7 @@ LBXNavigationViewController *navigationController;
     }];
 }
 
-- (void)fetchBundle
+- (void)getCoreDataBundle
 {
     NSArray *coreDataBundleArray = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
     LBXBundle *bundle;
@@ -141,9 +150,19 @@ LBXNavigationViewController *navigationController;
         bundle = coreDataBundleArray.firstObject;
         _bundleIssuesArray = [bundle.issues allObjects];
         [self.topTableView reloadData];
-        _issuesLabel.text = [NSString stringWithFormat:@"%lu Issues", (unsigned long)bundle.issues.count];
+        [_bundleButton setTitle:[NSString stringWithFormat:@"%lu ISSUES", (unsigned long)bundle.issues.count]
+                       forState:UIControlStateNormal];
+        [_bundleButton setNeedsDisplay];
+    }
+    else {
+        [_bundleButton setTitle:@"0 ISSUES"
+                       forState:UIControlStateNormal];
     }
     
+}
+
+- (void)fetchBundle
+{
     if ([UICKeyChainStore stringForKey:@"id"]) {
         // Fetch the users bundles
         [self.client fetchBundleResourcesWithCompletion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
@@ -156,7 +175,8 @@ LBXNavigationViewController *navigationController;
                     bundle = coreDataBundleArray.firstObject;
                     _bundleIssuesArray = [bundle.issues allObjects];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        _issuesLabel.text = [NSString stringWithFormat:@"%lu Issues", (unsigned long)bundle.issues.count];
+                        [_bundleButton setTitle:[NSString stringWithFormat:@"%lu ISSUES", (unsigned long)bundle.issues.count]
+                                       forState:UIControlStateNormal];
                     });
                 }
                 
@@ -180,6 +200,27 @@ LBXNavigationViewController *navigationController;
     [self.navigationController pushViewController:titleViewController animated:YES];
 }
 
+- (IBAction)onClick:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    switch ([button tag]) {
+        case 0: // Add title to pull list
+        {
+            // Pressing the your bundle/issues button
+            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_bundleIssuesArray andTitle:@"Your Bundle"];
+            [self.navigationController pushViewController:controller animated:YES];
+            break;
+        }
+        case 1:
+        {
+            // Pressing the popular button
+            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_popularIssuesArray andTitle:@"Popular This Week"];
+            [self.navigationController pushViewController:controller animated:YES];
+            break;
+        }
+    }
+}
+
 #pragma mark TableView Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -188,14 +229,30 @@ LBXNavigationViewController *navigationController;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == self.browseTableView) return 2;
     return 1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0;
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 1.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 1.0;
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == self.browseTableView) return 44;
     return tableView.frame.size.height+100;
 }
 
@@ -220,12 +277,14 @@ LBXNavigationViewController *navigationController;
              postNotificationName:@"reloadTopTableView"
              object:self];
         }
+        else {
+            [self getCoreDataBundle];
+        }
         
         cell = self.topTableViewCell;
         cell.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
         return cell;
     }
-
     else if (tableView == self.bottomTableView) {
         LBXBottomTableViewCell *cell = (LBXBottomTableViewCell*)[self.bottomTableView dequeueReusableCellWithIdentifier:CellIdentifier];
         [cell setBackgroundColor:[UIColor clearColor]];
@@ -250,7 +309,56 @@ LBXNavigationViewController *navigationController;
         cell.selectedBackgroundView.backgroundColor = [UIColor orangeColor];
         return cell;
     }
+    else if (tableView == self.browseTableView) {
+        static NSString *CellIdentifier = @"Cell";
+        UITableViewCell *cell = [tableView
+                                 dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc]
+                     initWithStyle:UITableViewCellStyleDefault
+                     reuseIdentifier:CellIdentifier];
+        }
+        
+        int checksize = cell.frame.size.height/2;
+        FAKFontAwesome *comicsIcon = [FAKFontAwesome bookIconWithSize:checksize];
+        [comicsIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+        UIImage *comicsImage = [comicsIcon imageWithSize:CGSizeMake(checksize, checksize)];
+        
+        FAKFontAwesome *calendarIcon = [FAKFontAwesome calendarIconWithSize:checksize];
+        [comicsIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+        UIImage *calendarIconImage = [calendarIcon imageWithSize:CGSizeMake(checksize, checksize)];
+        
+        NSArray *imageArray = @[comicsImage, calendarIconImage];
+        NSArray *textArray = @[@"Publishers", @"Releases"];
+        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.text = [textArray objectAtIndex:indexPath.row];
+        cell.imageView.image = [imageArray objectAtIndex:indexPath.row];
+        
+        return cell;
+    }
     return nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.browseTableView)
+    {
+        //    LBXPublisherCollectionViewController *controller = [LBXPublisherCollectionViewController new];
+        switch (indexPath.row) {
+            case 0: {
+                LBXPublisherCollectionViewController *controller = [LBXPublisherCollectionViewController new];
+                [self.navigationController pushViewController:controller animated:YES];
+                break;
+            }
+            case 1: {
+                LBXWeekViewController *controller = [LBXWeekViewController new];
+                [self.navigationController pushViewController:controller animated:YES];
+                break;
+            }
+        }
+    }
 }
 
 @end

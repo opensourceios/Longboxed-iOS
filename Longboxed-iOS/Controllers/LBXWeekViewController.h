@@ -11,5 +11,6 @@
 @interface LBXWeekViewController : UIViewController
 
 - (instancetype)initWithDate:(NSDate *)date andShowThisAndNextWeek:(BOOL)segmentedShowBool;
+- (instancetype)initWithIssues:(NSArray *)issues andTitle:(NSString *)title;
 
 @end

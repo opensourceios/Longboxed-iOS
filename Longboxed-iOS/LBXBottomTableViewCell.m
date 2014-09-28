@@ -30,8 +30,7 @@
 
 - (void)reloadTableView
 {
-    if (self.horizontalTableView)
-        [self.horizontalTableView reloadData];
+    [self.horizontalTableView reloadData];
 }
 
 - (NSString *) reuseIdentifier {
@@ -82,7 +81,7 @@
     return self.horizontalTableView.frame.size.height / 1.7;
 }
 
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LBXIssue *issue = [contentArray objectAtIndex:indexPath.row];
     ActualTableViewCell *cell = (ActualTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];

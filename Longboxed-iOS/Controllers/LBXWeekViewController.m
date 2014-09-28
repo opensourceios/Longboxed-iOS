@@ -35,6 +35,7 @@
 @property (nonatomic, copy) NSArray *issuesForWeekArray;
 @property (nonatomic, strong) NSCalendar *calendar;
 @property (nonatomic, strong) NSArray *sectionArray;
+@property (nonatomic, strong) NSString *customNavTitle;
 
 @property (nonatomic, strong) UINavigationController *calendarNavController;
 @property (nonatomic, strong) ESDatePicker *calendarView;
@@ -51,11 +52,14 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 CGFloat cellWidth;
 BOOL endOfPages;
 BOOL _segmentedShowBool;
+BOOL _displayReleasesOfDate;
 int _page;
 
 - (id)init
 {
     _segmentedShowBool = YES;
+    _displayReleasesOfDate = YES;
+    _issuesForWeekArray = [NSArray new];
     self = [super init];
     
     if (self == nil) {
@@ -69,7 +73,21 @@ int _page;
     if(self = [super init]) {
         _selectedWednesday = date;
         _segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
+        _displayReleasesOfDate = YES;
         _segmentedShowBool = segmentedShowBool;
+        _issuesForWeekArray = [NSArray new];
+    }
+    return self;
+}
+
+- (instancetype)initWithIssues:(NSArray *)issues andTitle:(NSString *)title {
+    if(self = [super init]) {
+        _selectedWednesday = nil;
+        _segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
+        _segmentedShowBool = NO;
+        _displayReleasesOfDate = NO;
+        _issuesForWeekArray = issues;
+        _customNavTitle = title;
     }
     return self;
 }
@@ -82,8 +100,6 @@ int _page;
     
     _page = 1;
     endOfPages = NO;
-    
-    _issuesForWeekArray = [NSArray new];
     
     _tableView = [UITableView new];
     _tableView.frame = self.view.frame;
@@ -133,19 +149,24 @@ int _page;
     _tableView.scrollIndicatorInsets = _tableView.contentInset;
     
     // Add refresh
-    self.refreshControl = [UIRefreshControl new];
-    [self.refreshControl addTarget:self action:@selector(refreshControlAction)
-              forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl];
+    if (_displayReleasesOfDate) {
+        self.refreshControl = [UIRefreshControl new];
+        [self.refreshControl addTarget:self action:@selector(refreshControlAction)
+                  forControlEvents:UIControlEventValueChanged];
+        [self.tableView addSubview:self.refreshControl];
+    }
     
     
     // If not initialized with initWithDate
-    if (!_selectedWednesday) {
+    if (!_selectedWednesday && _displayReleasesOfDate) {
         _segmentedControl.selectedSegmentIndex = 0;
         [self setIssuesForWeekArrayWithThisWeekIssues];
     }
-    else {
+    else if (_displayReleasesOfDate) {
         [self setIssuesForWeekArrayWithDate:_selectedWednesday];
+    }
+    else {
+        [self fetchPublishers];
     }
 }
 
@@ -228,13 +249,13 @@ int _page;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MMM dd, yyyy"];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    if (_segmentedControl.selectedSegmentIndex == 0) {
+    if (_segmentedControl.selectedSegmentIndex == 0 && _displayReleasesOfDate) {
         // Get this wednesday
         NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:[LBXTitleAndPublisherServices getLocalDate]];
         [componentsDay setWeekday:4]; // 4 == Wednesday
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
     }
-    else if (_segmentedControl.selectedSegmentIndex == 1) {
+    else if (_segmentedControl.selectedSegmentIndex == 1 && _displayReleasesOfDate) {
         // Get next wednesday
         NSDateComponents *components = [NSDateComponents new];
         [components setWeekOfMonth:1];
@@ -243,10 +264,13 @@ int _page;
         [componentsDay setWeekday:4];
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
     }
-    else {
+    else if (_displayReleasesOfDate) {
         NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:_selectedWednesday];
         [componentsDay setWeekday:4];
         self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:[calendar dateFromComponents:componentsDay]]];
+    }
+    else {
+        self.navigationController.navigationBar.topItem.title = _customNavTitle;
     }
 }
 
@@ -344,7 +368,10 @@ int _page;
         [self setIssuesForWeekArrayWithNextWeekIssues];
     }
     else if (_segmentedControl.selectedSegmentIndex == UISegmentedControlNoSegment) {
-        [self setIssuesForWeekArrayWithDate:_selectedWednesday];
+        if (_selectedWednesday != nil) {
+            [self setIssuesForWeekArrayWithDate:_selectedWednesday];
+        }
+        [self fetchPublishers];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -631,14 +658,12 @@ int _page;
     LBXIssue *issue = [array objectAtIndex:indexPath.row];
     cell.titleLabel.text = issue.title.name;
     
-    NSDate *localDateTime = [LBXTitleAndPublisherServices getLocalDate];
-    
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(issueNumber == %@) AND (title == %@)", issue.issueNumber, issue.title];
     NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
     
     cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f  •  %@ Variant Covers", issue.issueNumber, [issue.price floatValue], [NSNumber numberWithFloat:initialFind.count-1]].uppercaseString;
     if (initialFind.count == 1) {
-        cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f %@", issue.issueNumber, [issue.price floatValue], [NSDate fuzzyTimeBetweenStartDate:issue.releaseDate andEndDate:localDateTime]].uppercaseString;
+        cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f", issue.issueNumber, [issue.price floatValue]].uppercaseString;
     }
     else if (initialFind.count == 2) {
         cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f  •  %@ Variant Cover", issue.issueNumber, [issue.price floatValue], [NSNumber numberWithFloat:initialFind.count-1]].uppercaseString;

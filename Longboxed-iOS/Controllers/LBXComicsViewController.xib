@@ -48,7 +48,7 @@
                 <constraint firstAttribute="trailing" secondItem="FyP-bj-xcB" secondAttribute="trailing" id="zkY-vr-x0o"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+            <nil key="simulatedTopBarMetrics"/>
             <variation key="default">
                 <mask key="subviews">
                     <exclude reference="nbQ-kJ-kuw"/>
