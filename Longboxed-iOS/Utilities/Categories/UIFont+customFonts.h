@@ -19,6 +19,7 @@
 + (UIFont *)searchPlaceholderFont;
 + (UIFont *)noResultsFont;
 + (UIFont *)SVProgressHUDFont;
++ (UIFont *)browseTableViewFont;
 + (UIFont *)collectionTitleFontUltraLight;
 + (UIFont *)collectionTitleFontRegular;
 + (UIFont *)comicsViewFontUltraLight;

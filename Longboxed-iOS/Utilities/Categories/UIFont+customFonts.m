@@ -80,6 +80,11 @@ static const NSString *fontFace = @"AvenirNext";
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
 }
 
++ (UIFont *)browseTableViewFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:18];
+}
+
 + (UIFont *)pullListTitleFont
 {
     // Set to 17, should be 18

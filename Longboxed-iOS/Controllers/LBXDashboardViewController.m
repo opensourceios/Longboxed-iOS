@@ -13,9 +13,13 @@
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXPublisherCollectionViewController.h"
+#import "LBXTitleAndPublisherServices.h"
 #import "LBXWeekViewController.h"
+#import "LBXSearchViewController.h"
 #import "LBXClient.h"
 #import "LBXBundle.h"
+
+#import "UIFont+customFonts.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <UICKeyChainStore.h>
@@ -25,6 +29,7 @@
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) NSArray *popularIssuesArray;
 @property (nonatomic, strong) NSArray *bundleIssuesArray;
+@property (nonatomic, strong) LBXSearchViewController *searchViewController;
 
 @end
 
@@ -59,6 +64,17 @@ LBXNavigationViewController *navigationController;
                                                    object:nil];
         
         self.browseTableView.contentInset = UIEdgeInsetsMake(-2, 0, -2, 0);
+        
+        [self.topTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        
+        if ([UIScreen mainScreen].bounds.size.height > 667) {
+        [self.topTableView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[topTableView(==%d)]", 190]
+                                                                                options:0
+                                                                                metrics:nil
+                                                                                    views: @{@"topTableView" :self.topTableView}]];
+        }
+    
+        
     }
     return self;
 }
@@ -68,6 +84,7 @@ LBXNavigationViewController *navigationController;
     [super viewWillAppear:animated];
     NSIndexPath *tableSelection = [self.browseTableView indexPathForSelectedRow];
     [self.browseTableView deselectRowAtIndexPath:tableSelection animated:YES];
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
 }
 
 - (void)viewWillLayoutSubviews
@@ -123,6 +140,17 @@ LBXNavigationViewController *navigationController;
 {
     [self fetchBundle];
     [self fetchPopularIssues];
+}
+
+- (void)getCoreDataPopularIssues
+{
+    NSDate *currentDate = [LBXTitleAndPublisherServices getLocalDate];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [currentDate dateByAddingTimeInterval:- 3*DAY], [currentDate dateByAddingTimeInterval:4*DAY], @1];
+    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
+
+    _popularIssuesArray = [allIssuesArray subarrayWithRange:NSMakeRange(0, 10)];
+
+    [self.bottomTableView reloadData];
 }
 
 - (void)fetchPopularIssues
@@ -315,6 +343,9 @@ LBXNavigationViewController *navigationController;
              postNotificationName:@"reloadBottomTableView"
              object:self];
         }
+        else {
+            [self getCoreDataPopularIssues];
+        }
         
         cell = self.bottomTableViewCell;
         cell.selectedBackgroundView.backgroundColor = [UIColor orangeColor];
@@ -345,6 +376,7 @@ LBXNavigationViewController *navigationController;
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [textArray objectAtIndex:indexPath.row];
+        cell.textLabel.font = [UIFont browseTableViewFont];
         cell.imageView.image = [imageArray objectAtIndex:indexPath.row];
         
         return cell;
