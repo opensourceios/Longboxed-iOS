@@ -11,6 +11,7 @@
 #import "LBXTopTableViewCell.h"
 #import "LBXBottomTableViewCell.h"
 #import "LBXIssueDetailViewController.h"
+#import "LBXIssueScrollViewController.h"
 #import "LBXPublisherCollectionViewController.h"
 #import "LBXWeekViewController.h"
 #import "LBXClient.h"
@@ -195,9 +196,19 @@ LBXNavigationViewController *navigationController;
 {
     NSDictionary *dict = notification.userInfo;
     LBXIssue *issue = dict[@"issue"];
-    LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:dict[@"image"]];
-    titleViewController.issue = issue;
-    [self.navigationController pushViewController:titleViewController animated:YES];
+    
+    // Set up the scroll view controller containment if there are alternate issues
+    if (issue.alternates.count) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
+        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
+        LBXIssueScrollViewController *scrollViewController = [[LBXIssueScrollViewController alloc] initWithIssues:issuesArray andImage:dict[@"image"]];
+        [self.navigationController pushViewController:scrollViewController animated:YES];
+    }
+    else {
+        LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:dict[@"image"]];
+        titleViewController.issue = issue;
+        [self.navigationController pushViewController:titleViewController animated:YES];
+    }
 }
 
 - (IBAction)onClick:(id)sender

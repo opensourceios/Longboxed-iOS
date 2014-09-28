@@ -728,7 +728,9 @@ int _page;
         return;
     }
     
-    LBXIssue *issue = [_issuesForWeekArray objectAtIndex:indexPath.row];
+    NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section];
+    NSArray *array = [dict objectForKey:dict.allKeys[0]];
+    LBXIssue *issue = [array objectAtIndex:indexPath.row];
     [LBXLogging logMessage:[NSString stringWithFormat:@"Selected issue %@", issue]];
     LBXWeekTableViewCell *cell = (LBXWeekTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
