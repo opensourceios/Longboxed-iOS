@@ -20,9 +20,11 @@
 #import "LBXBundle.h"
 
 #import "UIFont+customFonts.h"
+#import "UIColor+customColors.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <UICKeyChainStore.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface LBXDashboardViewController ()
 
@@ -73,6 +75,11 @@ LBXNavigationViewController *navigationController;
                                                                                 metrics:nil
                                                                                     views: @{@"topTableView" :self.topTableView}]];
         }
+        
+        CALayer *TopBorder = [CALayer layer];
+        TopBorder.frame = CGRectMake(16.0f, _browseTableView.frame.size.height, _browseTableView.frame.size.width + 24.0f, 0.3f);
+        TopBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
+        [_browseTableView.layer addSublayer:TopBorder];
     
         
     }
@@ -147,9 +154,15 @@ LBXNavigationViewController *navigationController;
     NSDate *currentDate = [LBXTitleAndPublisherServices getLocalDate];
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [currentDate dateByAddingTimeInterval:- 3*DAY], [currentDate dateByAddingTimeInterval:4*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
-
-    _popularIssuesArray = [allIssuesArray subarrayWithRange:NSMakeRange(0, 10)];
-
+    
+    NSSortDescriptor *boolDescr = [[NSSortDescriptor alloc] initWithKey:@"title.subscribers" ascending:NO];
+    NSArray *sortDescriptors = @[boolDescr];
+    NSArray *sortedArray = [NSArray new];
+    if (allIssuesArray.count >= 10) {
+        sortedArray = [[allIssuesArray subarrayWithRange:NSMakeRange(0, 10)] sortedArrayUsingDescriptors:sortDescriptors];
+    }
+    
+    _popularIssuesArray = sortedArray;
     [self.bottomTableView reloadData];
 }
 
@@ -159,7 +172,7 @@ LBXNavigationViewController *navigationController;
     [self.client fetchPopularIssuesWithCompletion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            _popularIssuesArray = popularIssuesArray;
+            [self getCoreDataPopularIssues];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.bottomTableView reloadData];
@@ -198,17 +211,8 @@ LBXNavigationViewController *navigationController;
             
             if (!error) {
                 // Get the bundles from Core Data
-                NSArray *coreDataBundleArray = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
-                LBXBundle *bundle;
-                if (coreDataBundleArray.firstObject) {
-                    bundle = coreDataBundleArray.firstObject;
-                    _bundleIssuesArray = [bundle.issues allObjects];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [_bundleButton setTitle:[NSString stringWithFormat:@"%lu ISSUES", (unsigned long)bundle.issues.count]
-                                       forState:UIControlStateNormal];
-                    });
-                }
-                
+                [self getCoreDataBundle];
+            
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.topTableView reloadData];
                 });
@@ -372,7 +376,7 @@ LBXNavigationViewController *navigationController;
         UIImage *calendarIconImage = [calendarIcon imageWithSize:CGSizeMake(checksize, checksize)];
         
         NSArray *imageArray = @[comicsImage, calendarIconImage];
-        NSArray *textArray = @[@"Publishers", @"Releases"];
+        NSArray *textArray = @[@"Comics", @"Releases"];
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [textArray objectAtIndex:indexPath.row];

@@ -45,10 +45,6 @@
                     <constraint firstItem="OSt-hK-f9e" firstAttribute="top" secondItem="4" secondAttribute="bottom" id="sTL-ug-Xv9"/>
                 </constraints>
             </tableViewCellContentView>
-            <constraints>
-                <constraint firstItem="4" firstAttribute="top" secondItem="3" secondAttribute="top" id="dCo-PF-JtI"/>
-                <constraint firstItem="4" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="dGC-Tr-7lv"/>
-            </constraints>
             <connections>
                 <outlet property="coverImage" destination="4" id="Ej4-pq-b7h"/>
                 <outlet property="titleName" destination="5" id="9"/>

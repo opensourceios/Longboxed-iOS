@@ -102,9 +102,11 @@
                             <rect key="frame" x="20" y="152" width="320" height="87"/>
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="87" id="ar3-h2-Pex"/>
+                                <constraint firstAttribute="height" constant="87" id="ar3-h2-Pex">
+                                    <variation key="widthClass=compact" constant="86"/>
+                                </constraint>
                             </constraints>
-                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="16" maxY="0.0"/>
                             <variation key="widthClass=compact" misplaced="YES">
                                 <rect key="frame" x="0.0" y="88" width="400" height="87"/>
                             </variation>
@@ -124,7 +126,7 @@
                         </label>
                         <searchBar contentMode="redraw" ambiguous="YES" misplaced="YES" searchBarStyle="minimal" placeholder="Search Comics" translatesAutoresizingMaskIntoConstraints="NO" id="eDq-OV-8AS">
                             <rect key="frame" x="20" y="64" width="320" height="44"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="J4x-qT-65N"/>
                             </connections>
@@ -135,7 +137,6 @@
                         <constraint firstItem="7rd-mt-NSU" firstAttribute="top" secondItem="8HB-Eq-bhK" secondAttribute="bottom" constant="4" id="46e-1W-FAB"/>
                         <constraint firstItem="09e-w1-j5d" firstAttribute="top" secondItem="eDq-OV-8AS" secondAttribute="bottom" constant="4" id="4h9-yG-MJ0"/>
                         <constraint firstItem="y8v-qX-v5k" firstAttribute="leading" secondItem="7rd-mt-NSU" secondAttribute="leading" id="9qt-sI-iJJ"/>
-                        <constraint firstAttribute="height" constant="800" id="A56-wP-5j9"/>
                         <constraint firstAttribute="bottom" secondItem="xmk-nS-8Ps" secondAttribute="bottom" constant="4" id="C0r-Ye-6Jw"/>
                         <constraint firstItem="slL-OO-oAz" firstAttribute="leading" secondItem="6gX-gt-tvL" secondAttribute="leading" id="F8o-Vp-cJL"/>
                         <constraint firstItem="y8v-qX-v5k" firstAttribute="top" secondItem="slL-OO-oAz" secondAttribute="bottom" constant="15" id="Hhr-wm-F6F"/>
@@ -143,12 +144,16 @@
                         <constraint firstItem="xmk-nS-8Ps" firstAttribute="top" secondItem="y8v-qX-v5k" secondAttribute="bottom" constant="4" id="IgY-Il-P8b"/>
                         <constraint firstItem="eDq-OV-8AS" firstAttribute="top" secondItem="6gX-gt-tvL" secondAttribute="top" id="M85-2V-yTg"/>
                         <constraint firstItem="8HB-Eq-bhK" firstAttribute="leading" secondItem="09e-w1-j5d" secondAttribute="leading" id="Ngt-A1-hsd"/>
-                        <constraint firstItem="zdW-xx-oVc" firstAttribute="top" secondItem="09e-w1-j5d" secondAttribute="bottom" constant="4" id="NkH-q0-d3s"/>
+                        <constraint firstItem="zdW-xx-oVc" firstAttribute="top" secondItem="09e-w1-j5d" secondAttribute="bottom" constant="4" id="NkH-q0-d3s">
+                            <variation key="widthClass=compact" constant="2"/>
+                        </constraint>
                         <constraint firstItem="slL-OO-oAz" firstAttribute="height" secondItem="xmk-nS-8Ps" secondAttribute="height" id="QeV-qF-z9U"/>
                         <constraint firstItem="7rd-mt-NSU" firstAttribute="leading" secondItem="8HB-Eq-bhK" secondAttribute="leading" id="Tb3-HZ-9G1">
                             <variation key="widthClass=compact" constant="4"/>
                         </constraint>
-                        <constraint firstItem="8HB-Eq-bhK" firstAttribute="top" secondItem="zdW-xx-oVc" secondAttribute="bottom" constant="12" id="XGl-el-wtw"/>
+                        <constraint firstItem="8HB-Eq-bhK" firstAttribute="top" secondItem="zdW-xx-oVc" secondAttribute="bottom" constant="12" id="XGl-el-wtw">
+                            <variation key="widthClass=compact" constant="14"/>
+                        </constraint>
                         <constraint firstAttribute="trailing" secondItem="zdW-xx-oVc" secondAttribute="trailing" constant="20" id="ZxG-70-Y0d">
                             <variation key="widthClass=compact" constant="0.0"/>
                         </constraint>
@@ -177,7 +182,6 @@
                     <variation key="widthClass=compact" ambiguous="YES">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
                         <mask key="constraints">
-                            <exclude reference="A56-wP-5j9"/>
                             <exclude reference="QeV-qF-z9U"/>
                             <include reference="fcO-aV-xmd"/>
                             <include reference="C0r-Ye-6Jw"/>
