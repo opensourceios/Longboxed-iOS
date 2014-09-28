@@ -213,8 +213,10 @@ int _page;
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     
-    [self refreshControlAction];
-    [self fetchThisWeekWithPage:@1];
+    if (_displayReleasesOfDate) {
+        [self refreshControlAction];
+        [self fetchThisWeekWithPage:@1];
+    }
 }
 
 - (void)viewWillLayoutSubviews

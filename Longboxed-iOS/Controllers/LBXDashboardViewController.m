@@ -77,7 +77,7 @@
         [self.topTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
         
         if ([UIScreen mainScreen].bounds.size.height > 667) {
-        [self.topTableView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[topTableView(==%d)]", 190]
+        [self.topTableView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[topTableView(==%d)]", 165]
                                                                                 options:0
                                                                                 metrics:nil
                                                                                     views: @{@"topTableView" :self.topTableView}]];
@@ -196,7 +196,11 @@
         bundle = coreDataBundleArray.firstObject;
         _bundleIssuesArray = [bundle.issues allObjects];
         [self.topTableView reloadData];
-        [_bundleButton setTitle:[NSString stringWithFormat:@"%lu ISSUES", (unsigned long)bundle.issues.count]
+        NSString *issuesString = @"ISSUES";
+        if (bundle.issues.count == 1) {
+            issuesString = @"ISSUE";
+        }
+        [_bundleButton setTitle:[NSString stringWithFormat:@"%lu %@", (unsigned long)bundle.issues.count, issuesString]
                        forState:UIControlStateNormal];
         [_bundleButton setNeedsDisplay];
     }
@@ -266,7 +270,7 @@
         case 0: // Add title to pull list
         {
             // Pressing the your bundle/issues button
-            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_bundleIssuesArray andTitle:@"Your Bundle"];
+            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_bundleIssuesArray andTitle:@"Your Issues"];
             [self.navigationController pushViewController:controller animated:YES];
             break;
         }
