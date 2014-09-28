@@ -8,7 +8,8 @@
 
 #import "LBXDashboardViewController.h"
 #import "LBXNavigationViewController.h"
-#import "TableViewCell.h"
+#import "LBXTopTableViewCell.h"
+#import "LBXBottomTableViewCell.h"
 #import "LBXClient.h"
 #import "LBXBundle.h"
 
@@ -28,7 +29,8 @@ LBXNavigationViewController *navigationController;
 
 @synthesize topTableView;
 @synthesize bottomTableView;
-@synthesize tableViewCell;
+@synthesize topTableViewCell;
+@synthesize bottomTableViewCell;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -74,8 +76,8 @@ LBXNavigationViewController *navigationController;
 
 - (void)refresh
 {
-    [self fetchPopularIssues];
     [self fetchBundle];
+    [self fetchPopularIssues];
 }
 
 - (void)fetchPopularIssues
@@ -148,42 +150,55 @@ LBXNavigationViewController *navigationController;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
 
-    TableViewCell *cell = (TableViewCell*)[self.topTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (tableView == self.bottomTableView) {
-        cell = (TableViewCell*)[self.bottomTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    }
-    [cell setBackgroundColor:[UIColor clearColor]];
-    if (!cell) {
-        [[NSBundle mainBundle] loadNibNamed:@"TableViewCell" owner:self options:nil];
-        
-        CGAffineTransform rotateTable = CGAffineTransformMakeRotation(-M_PI_2);
-        tableViewCell.horizontalTableView.transform = rotateTable;
-        tableViewCell.horizontalTableView.frame = CGRectMake(0, 0, tableViewCell.horizontalTableView.frame.size.width, tableViewCell.horizontalTableView.frame.size.height);
-        
-        tableViewCell.horizontalTableView.allowsSelection = YES;
-        cell = tableViewCell;
-    }
-    
-    if (tableView == self.bottomTableView) {
-        tableViewCell.contentArray = _popularIssuesArray;
-        if (_popularIssuesArray.count) {
-            [[NSNotificationCenter defaultCenter]
-             postNotificationName:@"reloadTableView"
-             object:self];
+    if (tableView == self.topTableView) {
+        LBXTopTableViewCell *cell = (LBXTopTableViewCell*)[self.topTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        [cell setBackgroundColor:[UIColor clearColor]];
+        if (!cell) {
+            [[NSBundle mainBundle] loadNibNamed:@"LBXTopTableViewCell" owner:self options:nil];
+            CGAffineTransform rotateTable = CGAffineTransformMakeRotation(-M_PI_2);
+            self.topTableViewCell.horizontalTableView.transform = rotateTable;
+            self.topTableViewCell.horizontalTableView.frame = CGRectMake(0, 0, self.topTableViewCell.horizontalTableView.frame.size.width, self.topTableViewCell.horizontalTableView.frame.size.height);
+            
+            self.topTableViewCell.horizontalTableView.allowsSelection = YES;
+            cell = self.topTableViewCell;
         }
-    }
-    else if (tableView == self.topTableView) {
-        tableViewCell.contentArray = _bundleIssuesArray;
+        self.topTableViewCell.contentArray = _bundleIssuesArray;
         if (_bundleIssuesArray.count) {
             [[NSNotificationCenter defaultCenter]
              postNotificationName:@"reloadTableView"
              object:self];
         }
+        
+        cell = self.topTableViewCell;
+        cell.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
+        return cell;
     }
-    
-    cell = tableViewCell;
-    cell.selectedBackgroundView.backgroundColor = [UIColor orangeColor];
-    return cell;
+
+    else if (tableView == self.bottomTableView) {
+        LBXBottomTableViewCell *cell = (LBXBottomTableViewCell*)[self.bottomTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        [cell setBackgroundColor:[UIColor clearColor]];
+        if (!cell) {
+            [[NSBundle mainBundle] loadNibNamed:@"LBXBottomTableViewCell" owner:self options:nil];
+            
+            CGAffineTransform rotateTable = CGAffineTransformMakeRotation(-M_PI_2);
+            self.bottomTableViewCell.horizontalTableView.transform = rotateTable;
+            self.bottomTableViewCell.horizontalTableView.frame = CGRectMake(0, 0, self.bottomTableViewCell.horizontalTableView.frame.size.width, self.bottomTableViewCell.horizontalTableView.frame.size.height);
+            
+            self.bottomTableViewCell.horizontalTableView.allowsSelection = YES;
+            cell = self.bottomTableViewCell;
+        }
+        self.bottomTableViewCell.contentArray = _popularIssuesArray;
+        if (_popularIssuesArray.count) {
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:@"reloadTableView"
+             object:self];
+        }
+        
+        cell = self.bottomTableViewCell;
+        cell.selectedBackgroundView.backgroundColor = [UIColor orangeColor];
+        return cell;
+    }
+    return nil;
 }
 
 @end

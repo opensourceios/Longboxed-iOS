@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class TableViewCell;
+@class LBXTopTableViewCell;
+@class LBXBottomTableViewCell;
 
 @interface LBXDashboardViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate> 
 
@@ -17,6 +18,7 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *topTableView;
 @property (nonatomic, retain) IBOutlet UITableView *bottomTableView;
-@property (nonatomic, retain) IBOutlet TableViewCell *tableViewCell;
+@property (nonatomic, retain) IBOutlet LBXTopTableViewCell *topTableViewCell;
+@property (nonatomic, retain) IBOutlet LBXBottomTableViewCell *bottomTableViewCell;
 
 @end

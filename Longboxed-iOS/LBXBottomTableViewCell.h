@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TableViewCell : UITableViewCell <UITableViewDataSource, UITableViewDelegate> {
+@interface LBXBottomTableViewCell : UITableViewCell <UITableViewDataSource, UITableViewDelegate> {
     
     UITableView *horizontalTableView;
     

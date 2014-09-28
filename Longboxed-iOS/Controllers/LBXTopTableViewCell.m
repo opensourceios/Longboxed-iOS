@@ -6,14 +6,14 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "TableViewCell.h"
+#import "LBXTopTableViewCell.h"
 #import "ActualTableViewCell.h"
 #import "LBXDashboardViewController.h"
 #import "LBXIssue.h"
 
 #import <UIImageView+AFNetworking.h>
 
-@implementation TableViewCell
+@implementation LBXTopTableViewCell
 @synthesize horizontalTableView;
 @synthesize contentArray;
 
@@ -80,7 +80,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return [UIScreen mainScreen].bounds.size.width/2.8;
+    return [UIScreen mainScreen].bounds.size.width/3.8;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
