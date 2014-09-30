@@ -7,6 +7,7 @@
 //
 
 #import "LBXLoginViewController.h"
+#import "LBXDashboardViewController.h"
 #import "LBXDatabaseManager.h"
 #import "LBXClient.h"
 #import "LBXMessageBar.h"
@@ -16,6 +17,8 @@
 #import <UICKeyChainStore.h>
 #import <TWMessageBarManager.h>
 #import "RestKit/RestKit.h"
+
+#import "UIFont+customFonts.h"
 
 @interface LBXLoginViewController ()
 
@@ -54,6 +57,9 @@ UICKeyChainStore *store;
     [_developmentServerSwitch addTarget:self
                                  action:@selector(stateChanged:)
                        forControlEvents:UIControlEventValueChanged];
+    
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
+    self.navigationItem.rightBarButtonItem = actionButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -64,12 +70,24 @@ UICKeyChainStore *store;
     if ([[responseDescriptor.baseURL absoluteString] isEqualToString:[[LBXEndpoints productionURL] absoluteString]]) {
         [_developmentServerSwitch setOn:NO animated:NO];
     }
+    [self.navigationItem setHidesBackButton:YES animated:YES];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    self.navigationController.navigationBar.topItem.title = @"Settings";
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)donePressed
+{
+    [self.navigationController pushViewController:[LBXDashboardViewController new] animated:YES];
 }
 
 - (void)removeCredentials

@@ -89,6 +89,7 @@
                 <constraint firstItem="bjX-L6-SwG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="xeT-D2-cxg"/>
                 <constraint firstAttribute="centerX" secondItem="Xf4-Pw-OJu" secondAttribute="centerX" id="yva-WK-gj9"/>
             </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
