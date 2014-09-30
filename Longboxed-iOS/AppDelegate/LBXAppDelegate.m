@@ -9,7 +9,6 @@
 #import "LBXDatabaseManager.h"
 #import "LBXAppDelegate.h"
 #import "LBXDashboardViewController.h"
-#import "LBXNavigationViewController.h"
 #import "LBXLogging.h"
 
 #import "HockeySDK.h"
@@ -46,7 +45,7 @@
     
     LBXDashboardViewController *dashboardViewController = [LBXDashboardViewController new];
     
-    self.window.rootViewController = [[LBXNavigationViewController alloc] initWithRootViewController:dashboardViewController];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
     dashboardViewController.managedObjectContext = [NSManagedObjectContext MR_defaultContext];
     
     [self.window makeKeyAndVisible];

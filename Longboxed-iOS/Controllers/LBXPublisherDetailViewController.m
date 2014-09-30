@@ -17,7 +17,6 @@
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
-#import "LBXNavigationViewController.h"
 #import "LBXLogging.h"
 
 #import "UIFont+customFonts.h"
@@ -41,8 +40,6 @@
 @end
 
 @implementation LBXPublisherDetailViewController
-
-LBXNavigationViewController *navigationController;
 
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
@@ -111,7 +108,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationViewController *)self.navigationController;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -362,7 +358,8 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // Background color
-    view.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+    view.tintColor = [UIColor colorWithHex:@"#E0E1E2"];
+    view.alpha = 0.8;
     
     // Text Color and font
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextColor:[UIColor blackColor]];

@@ -23,6 +23,8 @@
 @property (nonatomic, retain) IBOutlet UIButton *popularButton;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, retain) IBOutlet UIView *separatorView;
+@property (nonatomic, retain) IBOutlet UILabel *thisWeekLabel;
 @property (nonatomic, retain) IBOutlet LBXTopTableViewCell *topTableViewCell;
 @property (nonatomic, retain) IBOutlet LBXBottomTableViewCell *bottomTableViewCell;
 

@@ -119,7 +119,6 @@
 		E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5977737198EAC7D0047E261 /* LBXPullListTitle.m */; };
 		E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */; };
 		E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */; };
-		E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773D119623E73002654E7 /* LBXNavigationViewController.m */; };
 		E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXLoginViewController.m */; };
 		E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */; };
 		E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */; };
@@ -380,8 +379,6 @@
 		E5977737198EAC7D0047E261 /* LBXPullListTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListTitle.m; path = Models/LBXPullListTitle.m; sourceTree = "<group>"; };
 		E597773D198EADA60047E261 /* LBXCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LBXCoreData.xcdatamodel; sourceTree = "<group>"; };
 		E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXWeekTableViewCell.xib; path = Views/LBXWeekTableViewCell.xib; sourceTree = "<group>"; };
-		E5A773D019623E73002654E7 /* LBXNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXNavigationViewController.h; path = Controllers/LBXNavigationViewController.h; sourceTree = "<group>"; };
-		E5A773D119623E73002654E7 /* LBXNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXNavigationViewController.m; path = Controllers/LBXNavigationViewController.m; sourceTree = "<group>"; };
 		E5A773DA19624A52002654E7 /* LBXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLoginViewController.h; path = Controllers/LBXLoginViewController.h; sourceTree = "<group>"; };
 		E5A773DB19624A52002654E7 /* LBXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLoginViewController.m; path = Controllers/LBXLoginViewController.m; sourceTree = "<group>"; };
 		E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXLoginViewController.xib; path = Controllers/LBXLoginViewController.xib; sourceTree = "<group>"; };
@@ -647,8 +644,6 @@
 		E51F72C6199821A200F643EF /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				E5A773D019623E73002654E7 /* LBXNavigationViewController.h */,
-				E5A773D119623E73002654E7 /* LBXNavigationViewController.m */,
 				E593F53F19D715CB00D310C6 /* Dashboard */,
 				E5C6446219C67A9200C63B19 /* LBXComicsViewController.h */,
 				E5C6446319C67A9200C63B19 /* LBXComicsViewController.m */,
@@ -1477,7 +1472,6 @@
 				E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */,
 				E5068A5C19B534AC0021CEE8 /* PSDDFormatter.m in Sources */,
 				E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */,
-				E5A773D219623E73002654E7 /* LBXNavigationViewController.m in Sources */,
 				E510AFAB198C7B7D004A7225 /* UINavigationController+NBUAdditions.m in Sources */,
 				E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */,
 				E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */,

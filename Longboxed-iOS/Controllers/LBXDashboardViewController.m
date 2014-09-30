@@ -7,13 +7,13 @@
 //
 
 #import "LBXDashboardViewController.h"
-#import "LBXNavigationViewController.h"
 #import "LBXTopTableViewCell.h"
 #import "LBXBottomTableViewCell.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXPublisherCollectionViewController.h"
 #import "LBXTitleAndPublisherServices.h"
+#import "LBXLoginViewController.h"
 #import "LBXWeekViewController.h"
 #import "LBXSearchViewController.h"
 #import "LBXPullListViewController.h"
@@ -38,8 +38,6 @@
 
 @implementation LBXDashboardViewController
 
-LBXNavigationViewController *navigationController;
-
 @synthesize topTableView;
 @synthesize bottomTableView;
 @synthesize topTableViewCell;
@@ -53,11 +51,19 @@ LBXNavigationViewController *navigationController;
         //self.edgesForExtendedLayout = UIRectEdgeNone;
         // Custom initialization
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
-        LBXNavigationViewController *navController = [LBXNavigationViewController new];
-        [navController addPaperButtonToViewController:self];
         UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
         self.navigationItem.rightBarButtonItem = actionButton;
         [self.navigationItem.rightBarButtonItem setTintColor:[UIColor blackColor]];
+        
+        int checksize = 24;
+        FAKFontAwesome *cogIcon = [FAKFontAwesome cogIconWithSize:checksize];
+        [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+        UIImage *cogImage = [cogIcon imageWithSize:CGSizeMake(checksize, checksize)];
+        
+        UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:cogImage style:UIBarButtonItemStylePlain target:self action:@selector(settingsPressed)];
+        
+        self.navigationItem.leftBarButtonItem = settingsButton;
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor blackColor];
         
         self.view.backgroundColor = [UIColor whiteColor];
         
@@ -70,12 +76,14 @@ LBXNavigationViewController *navigationController;
         
         [self.topTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
         
-        if ([UIScreen mainScreen].bounds.size.height > 667) {
-        [self.topTableView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[topTableView(==%d)]", 190]
-                                                                                options:0
-                                                                                metrics:nil
-                                                                                    views: @{@"topTableView" :self.topTableView}]];
-        }
+        self.bottomTableView.tableFooterView = [UIView new];
+        
+//        if ([UIScreen mainScreen].bounds.size.height > 667) {
+//        [self.topTableView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[topTableView(==%d)]", 165]
+//                                                                                options:0
+//                                                                                metrics:nil
+//                                                                                    views: @{@"topTableView" :self.topTableView}]];
+//        }
     }
     return self;
 }
@@ -86,19 +94,11 @@ LBXNavigationViewController *navigationController;
     NSIndexPath *tableSelection = [self.browseTableView indexPathForSelectedRow];
     [self.browseTableView deselectRowAtIndexPath:tableSelection animated:YES];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
-    
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.frame = CGRectMake(16.0f, _browseTableView.frame.size.height + 44, [UIScreen mainScreen].bounds.size.width - 32, 0.3f);
-    bottomBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
-    [_browseTableView.layer addSublayer:bottomBorder];
-    
 }
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    navigationController = (LBXNavigationViewController *)self.navigationController;
-    [navigationController.menu setNeedsLayout];
     self.topTableView.contentInset = UIEdgeInsetsZero;
     [_bundleButton setTitleColor:[UIColor lightGrayColor]
                         forState:UIControlStateHighlighted];
@@ -109,6 +109,17 @@ LBXNavigationViewController *navigationController;
     
     [_bundleButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     [_popularButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+
+    // Add 1px line
+    CALayer *separatorBottomBorder = [CALayer layer];
+    separatorBottomBorder.frame = CGRectMake(-self.thisWeekLabel.frame.origin.x, -self.thisWeekLabel.frame.origin.x, [UIScreen mainScreen].bounds.size.width, 1.0f);
+    separatorBottomBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
+    [self.thisWeekLabel.layer addSublayer:separatorBottomBorder];
+
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1.0f);
+    bottomBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
+    [_separatorView.layer addSublayer:bottomBorder];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -192,7 +203,11 @@ LBXNavigationViewController *navigationController;
         bundle = coreDataBundleArray.firstObject;
         _bundleIssuesArray = [bundle.issues allObjects];
         [self.topTableView reloadData];
-        [_bundleButton setTitle:[NSString stringWithFormat:@"%lu ISSUES", (unsigned long)bundle.issues.count]
+        NSString *issuesString = @"ISSUES";
+        if (bundle.issues.count == 1) {
+            issuesString = @"ISSUE";
+        }
+        [_bundleButton setTitle:[NSString stringWithFormat:@"%lu %@", (unsigned long)bundle.issues.count, issuesString]
                        forState:UIControlStateNormal];
         [_bundleButton setNeedsDisplay];
     }
@@ -243,6 +258,15 @@ LBXNavigationViewController *navigationController;
     }
 }
 
+- (void)settingsPressed
+{
+    UIViewController *newVC = [LBXLoginViewController new];;
+    NSMutableArray *vcs =  [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    [vcs insertObject:newVC atIndex:[vcs count]-1];
+    [self.navigationController setViewControllers:vcs animated:NO];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)onClick:(id)sender
 {
     UIButton *button = (UIButton *)sender;
@@ -250,7 +274,7 @@ LBXNavigationViewController *navigationController;
         case 0: // Add title to pull list
         {
             // Pressing the your bundle/issues button
-            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_bundleIssuesArray andTitle:@"Your Bundle"];
+            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_bundleIssuesArray andTitle:@"Your Issues"];
             [self.navigationController pushViewController:controller animated:YES];
             break;
         }
@@ -380,7 +404,7 @@ LBXNavigationViewController *navigationController;
         UIImage *pullListIconImage = [pullListIcon imageWithSize:CGSizeMake(checksize, checksize)];
         
         NSArray *imageArray = @[comicsImage, calendarIconImage, pullListIconImage];
-        NSArray *textArray = @[@"Comics", @"Releases", @"Pull List"];
+        NSArray *textArray = @[@"Comics", @"Releases", @"Your Pull List"];
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [textArray objectAtIndex:indexPath.row];
