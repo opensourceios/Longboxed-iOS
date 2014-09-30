@@ -358,7 +358,8 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // Background color
-    view.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+    view.tintColor = [UIColor colorWithHex:@"#E0E1E2"];
+    view.alpha = 0.8;
     
     // Text Color and font
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextColor:[UIColor blackColor]];

@@ -20,6 +20,7 @@
 
 #import "ESDatePicker.h"
 
+#import "UIColor+customColors.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "Masonry.h"
 
@@ -209,9 +210,9 @@ int _page;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self setNavTitle];
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    [self setNavTitle];
     
     if (_displayReleasesOfDate) {
         [self refreshControlAction];
@@ -222,6 +223,8 @@ int _page;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    [self setNavTitle];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -477,6 +480,8 @@ int _page;
     viewController.automaticallyAdjustsScrollViewInsets = YES;
     _calendarNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
     
+    [_calendarNavController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    
     viewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelCalendar:)];
     
     viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain target:self action:@selector(goToToday:)];
@@ -585,7 +590,7 @@ int _page;
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // Background color
-    view.tintColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+    view.tintColor = [UIColor colorWithHex:@"#E0E1E2"];
     
     // Text Color and font
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextColor:[UIColor blackColor]];
