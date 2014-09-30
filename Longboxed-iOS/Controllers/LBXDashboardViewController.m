@@ -76,12 +76,14 @@
         
         [self.topTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
         
-        if ([UIScreen mainScreen].bounds.size.height > 667) {
-        [self.topTableView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[topTableView(==%d)]", 165]
-                                                                                options:0
-                                                                                metrics:nil
-                                                                                    views: @{@"topTableView" :self.topTableView}]];
-        }
+        self.bottomTableView.tableFooterView = [UIView new];
+        
+//        if ([UIScreen mainScreen].bounds.size.height > 667) {
+//        [self.topTableView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[topTableView(==%d)]", 165]
+//                                                                                options:0
+//                                                                                metrics:nil
+//                                                                                    views: @{@"topTableView" :self.topTableView}]];
+//        }
     }
     return self;
 }
@@ -92,12 +94,6 @@
     NSIndexPath *tableSelection = [self.browseTableView indexPathForSelectedRow];
     [self.browseTableView deselectRowAtIndexPath:tableSelection animated:YES];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
-    
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.frame = CGRectMake(16.0f, _browseTableView.frame.size.height + 44, [UIScreen mainScreen].bounds.size.width - 32, 0.3f);
-    bottomBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
-    [_browseTableView.layer addSublayer:bottomBorder];
-    
 }
 
 - (void)viewWillLayoutSubviews
@@ -113,6 +109,17 @@
     
     [_bundleButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     [_popularButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+
+    // Add 1px line
+    CALayer *separatorBottomBorder = [CALayer layer];
+    separatorBottomBorder.frame = CGRectMake(-self.thisWeekLabel.frame.origin.x, -self.thisWeekLabel.frame.origin.x, [UIScreen mainScreen].bounds.size.width, 1.0f);
+    separatorBottomBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
+    [self.thisWeekLabel.layer addSublayer:separatorBottomBorder];
+
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1.0f);
+    bottomBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
+    [_separatorView.layer addSublayer:bottomBorder];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -253,14 +260,11 @@
 
 - (void)settingsPressed
 {
-    UINavigationController *navController = [UINavigationController new];
-    
-    LBXLoginViewController *controller = [LBXLoginViewController new];
-    [navController addChildViewController:controller];
-    
-    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(refresh)];
-    navController.navigationItem.rightBarButtonItem = actionButton;
-    [self.navigationController presentViewController:navController animated:YES completion:nil];
+    UIViewController *newVC = [LBXLoginViewController new];;
+    NSMutableArray *vcs =  [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    [vcs insertObject:newVC atIndex:[vcs count]-1];
+    [self.navigationController setViewControllers:vcs animated:NO];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)onClick:(id)sender
@@ -400,7 +404,7 @@
         UIImage *pullListIconImage = [pullListIcon imageWithSize:CGSizeMake(checksize, checksize)];
         
         NSArray *imageArray = @[comicsImage, calendarIconImage, pullListIconImage];
-        NSArray *textArray = @[@"Comics", @"Releases", @"Pull List"];
+        NSArray *textArray = @[@"Comics", @"Releases", @"Your Pull List"];
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [textArray objectAtIndex:indexPath.row];
