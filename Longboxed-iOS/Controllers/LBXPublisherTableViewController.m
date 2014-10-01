@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
-#import "LBXPublisherViewController.h"
+#import "LBXPublisherTableViewController.h"
 #import "LBXPublisherListTableViewCell.h"
 #import "LBXPublisherDetailViewController.h"
 #import "LBXPublisher.h"
@@ -18,15 +18,14 @@
 
 #import <UIImageView+AFNetworking.h>
 
-@interface LBXPublisherViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface LBXPublisherTableViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic) LBXClient *client;
 @property (nonatomic) NSArray *publishersArray;
 
 @end
 
-@implementation LBXPublisherViewController
+@implementation LBXPublisherTableViewController
 
 static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
 
@@ -38,17 +37,15 @@ BOOL endOfPublishers;
     
     _client = [LBXClient new];
     
-    _tableView = [UITableView new];
-    _tableView.frame = self.view.frame;
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
+    self.tableView = [UITableView new];
+    self.tableView.frame = self.view.frame;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
     // A little trick for removing the cell separators
-    _tableView.tableFooterView = [UIView new];
+    self.tableView.tableFooterView = [UIView new];
     
-    [self.view addSubview:_tableView];
-    
-    _tableView.scrollIndicatorInsets = _tableView.contentInset;
+    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     
     [self setPublisherArrayWithPublishers];
     // Do any additional setup after loading the view.

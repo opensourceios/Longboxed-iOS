@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LBXPublisherViewController : UIViewController
+@interface LBXPublisherTableViewController : UITableViewController
 
 @end
