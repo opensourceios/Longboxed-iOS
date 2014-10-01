@@ -22,6 +22,9 @@
 
 #import "UIFont+customFonts.h"
 #import "UIColor+customColors.h"
+#import "UIImage+CreateImage.h"
+#import "UIImage+DrawOnImage.h"
+#import "UIImage+ImageEffects.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <UICKeyChainStore.h>
@@ -164,6 +167,52 @@
     [self fetchPopularIssues];
 }
 
+- (void)setFeaturedIssue:(LBXIssue *)issue
+{
+    self.featuredTitleLabel.text = issue.completeTitle;
+    self.featuredTextView.text = issue.issueDescription;
+    
+    __weak __typeof(self) weakSelf = self;
+    [self.featuredImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage singlePixelImageWithColor:[UIColor clearColor]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    
+        // Only fade in the image if it was fetched (not from cache)
+        if (request) {
+            [weakSelf setFeaturedBlurredImageViewWithImage:image];
+            [UIView transitionWithView:weakSelf.featuredImageView
+                              duration:0.5f
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{weakSelf.featuredImageView.image = image;}
+                            completion:NULL];
+        }
+        else {
+            [weakSelf setFeaturedBlurredImageViewWithImage:image];
+            weakSelf.featuredImageView.image = image;
+        }
+        
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        
+        UIImage *defaultImage = [UIImage imageByDrawingInitialsOnImage:[UIImage imageWithColor:[UIColor clearColor] rect:weakSelf.featuredImageView.frame] withInitials:issue.title.publisher.name font:[UIFont defaultPublisherInitialsFont]];
+        
+        [weakSelf setFeaturedBlurredImageViewWithImage:defaultImage];
+        
+        weakSelf.featuredImageView.image = defaultImage;
+    }];
+}
+
+-(void)setFeaturedBlurredImageViewWithImage:(UIImage *)image
+{
+    UIImage *blurredImage = [image applyBlurWithRadius:20
+                                             tintColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1]
+                                 saturationDeltaFactor:1
+                                             maskImage:nil];
+    
+    [UIView transitionWithView:self.featuredBlurredImageView
+                      duration:0.5f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{self.featuredBlurredImageView.image = blurredImage;}
+                    completion:NULL];
+}
+
 - (void)getCoreDataPopularIssues
 {
     NSDate *currentDate = [LBXTitleAndPublisherServices getLocalDate];
@@ -178,6 +227,8 @@
     }
     
     _popularIssuesArray = sortedArray;
+    
+    [self setFeaturedIssue:_popularIssuesArray[1]];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.bottomTableView reloadData];
