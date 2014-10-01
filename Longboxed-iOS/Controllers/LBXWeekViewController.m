@@ -581,7 +581,7 @@ int _page;
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // Background color
-    view.tintColor = [UIColor colorWithHex:@"#E0E1E2"];
+    view.tintColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
     
     // Text Color and font
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextColor:[UIColor blackColor]];

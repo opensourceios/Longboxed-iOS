@@ -159,10 +159,6 @@ CGFloat cellWidth;
 {
     [super viewDidAppear:animated];
     
-    [self fillPullListArray];
-    
-    [self.tableView reloadData];
-    
     if (!_pullListArray.count) {
         self.tableView.hidden = YES;
         [self.view insertSubview:_loadingView aboveSubview:self.tableView];
@@ -394,7 +390,7 @@ CGFloat cellWidth;
         [self.refreshControl beginRefreshing];
     }
     
-    [self fillPullListArray];
+    if (oldArray.count < _pullListArray.count) [self fillPullListArray];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];

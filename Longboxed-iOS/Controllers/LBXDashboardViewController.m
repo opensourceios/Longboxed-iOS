@@ -178,20 +178,27 @@
     }
     
     _popularIssuesArray = sortedArray;
-    [self.bottomTableView reloadData];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.bottomTableView reloadData];
+    });
 }
 
 - (void)fetchPopularIssues
 {
-    // Fetch this weeks comics
+    // Fetch popular issues
     [self.client fetchPopularIssuesWithCompletion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            [self getCoreDataPopularIssues];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.bottomTableView reloadData];
-            });
+            __block int count = 0;
+            for (LBXIssue *issue in popularIssuesArray) {
+                [self.client fetchTitle:issue.title.titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {
+                    count++;
+                    if (popularIssuesArray.count == count) {
+                        [self getCoreDataPopularIssues];
+                    }
+                }];
+            }
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -205,7 +212,11 @@
     LBXBundle *bundle;
     if (coreDataBundleArray.firstObject) {
         bundle = coreDataBundleArray.firstObject;
-        _bundleIssuesArray = [bundle.issues allObjects];
+        
+        NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"completeTitle" ascending:YES];
+        NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+        _bundleIssuesArray = [[bundle.issues allObjects] sortedArrayUsingDescriptors:descriptors];
+        
         [self.topTableView reloadData];
         NSString *issuesString = @"ISSUES";
         if (bundle.issues.count == 1) {
