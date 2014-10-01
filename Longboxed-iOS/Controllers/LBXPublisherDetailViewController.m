@@ -57,7 +57,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
     [self setDetailPublisher];
     [self fetchPublisher];
-    [self createTitlesArray];
     
     [self setDetailView];
     [self setOverView:_detailView];
@@ -67,8 +66,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
     [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
     [SVProgressHUD setForegroundColor:[UIColor blackColor]];
-    
-    [self fetchAllTitlesWithPage:@1];
     
     self.tableView.hidden = YES;
     [self.view insertSubview:_loadingView aboveSubview:_detailView];
@@ -124,9 +121,15 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     self.title = _detailPublisher.name;
     self.navigationController.navigationBar.topItem.title = _detailPublisher.name;
     
-    [LBXLogging logMessage:[NSString stringWithFormat:@"LBXPublisher\n%@\ndid appear", _detailPublisher]];
+    [self createTitlesArray];
     
-    [SVProgressHUD show];
+    if (!_titlesForPublisherArray.count) {
+        [SVProgressHUD show];
+    }
+    
+    [self fetchAllTitlesWithPage:@1];
+    
+    [LBXLogging logMessage:[NSString stringWithFormat:@"LBXPublisher\n%@\ndid appear", _detailPublisher]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -285,7 +288,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         [self.tableView reloadData];
         [self.view setNeedsDisplay];
     });
-    if (self.tableView.hidden) {
+    if (self.tableView.hidden && _titlesForPublisherArray.count) {
         [_loadingView removeFromSuperview];
         self.tableView.hidden = NO;
         
@@ -301,8 +304,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         anim.velocity = @(2000.);
         
         [layer pop_addAnimation:anim forKey:@"origin.y"];
-        
-        [SVProgressHUD dismiss];
+        [SVProgressHUD dismiss];   
     }
 }
 
@@ -359,7 +361,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 {
     // Background color
     view.tintColor = [UIColor colorWithHex:@"#E0E1E2"];
-    view.alpha = 0.8;
     
     // Text Color and font
     [[UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], nil] setTextColor:[UIColor blackColor]];

@@ -73,6 +73,8 @@ BOOL endOfPublishers;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+    
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 16);
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -177,7 +179,6 @@ BOOL endOfPublishers;
         cell.latestIssueImageView.image = defaultImage;
     }];
     
-    NSLog(@"Title: %@\nimage view: %f\nimage:%f\n\n\n", cell.titleLabel.text, cell.latestIssueImageView.frame.size.height, cell.latestIssueImageView.image.size.height);
     cell.latestIssueImageView.contentMode = UIViewContentModeScaleAspectFit;
     cell.latestIssueImageView.clipsToBounds = YES;
     
