@@ -44,6 +44,11 @@
 		E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */; };
 		E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FF196A2004005FCF25 /* LBXTitle.m */; };
 		E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E51F72C41998219B00F643EF /* LBXTitleDetailViewController.m */; };
+		E535EBA619DB6444001B729A /* LBXPublisherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E535EBA519DB6444001B729A /* LBXPublisherViewController.m */; };
+		E535EBAA19DB74A5001B729A /* LBXPublisherListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E535EBA819DB74A5001B729A /* LBXPublisherListTableViewCell.m */; };
+		E535EBAB19DB74A5001B729A /* LBXPublisherListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E535EBA919DB74A5001B729A /* LBXPublisherListTableViewCell.xib */; };
+		E535EBAE19DB7B63001B729A /* UIImage+DrawOnImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E535EBAD19DB7B63001B729A /* UIImage+DrawOnImage.m */; };
+		E535EBB119DB7DD7001B729A /* UIImage+CreateImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E535EBB019DB7DD7001B729A /* UIImage+CreateImage.m */; };
 		E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5371227198EF9300065D57A /* FontAwesome.ttf */; };
 		E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */; };
 		E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E53EEC8219BE91600066F712 /* LBXWeekTableViewCell.m */; };
@@ -59,7 +64,6 @@
 		E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */; };
 		E55497A519AAE284004501FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E55497A419AAE284004501FF /* SystemConfiguration.framework */; };
 		E555D38F196359D1003B97C0 /* LBXAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38E196359D1003B97C0 /* LBXAPITests.m */; };
-		E56DBFBD19B938580012FB4D /* LBXPublisherCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E56DBFBC19B938580012FB4D /* LBXPublisherCollectionViewController.m */; };
 		E57C6BB519D79E7C002DE4BA /* LBXBottomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E57C6BB319D79E7C002DE4BA /* LBXBottomTableViewCell.m */; };
 		E57C6BB619D79E7C002DE4BA /* LBXBottomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB419D79E7C002DE4BA /* LBXBottomTableViewCell.xib */; };
 		E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */; };
@@ -253,6 +257,15 @@
 		E51D00FF196A2004005FCF25 /* LBXTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitle.m; path = Models/LBXTitle.m; sourceTree = "<group>"; };
 		E51F72C31998219B00F643EF /* LBXTitleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleDetailViewController.h; path = Controllers/LBXTitleDetailViewController.h; sourceTree = "<group>"; };
 		E51F72C41998219B00F643EF /* LBXTitleDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleDetailViewController.m; path = Controllers/LBXTitleDetailViewController.m; sourceTree = "<group>"; };
+		E535EBA419DB6444001B729A /* LBXPublisherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherViewController.h; path = Controllers/LBXPublisherViewController.h; sourceTree = "<group>"; };
+		E535EBA519DB6444001B729A /* LBXPublisherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherViewController.m; path = Controllers/LBXPublisherViewController.m; sourceTree = "<group>"; };
+		E535EBA719DB74A5001B729A /* LBXPublisherListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherListTableViewCell.h; path = Controllers/LBXPublisherListTableViewCell.h; sourceTree = "<group>"; };
+		E535EBA819DB74A5001B729A /* LBXPublisherListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherListTableViewCell.m; path = Controllers/LBXPublisherListTableViewCell.m; sourceTree = "<group>"; };
+		E535EBA919DB74A5001B729A /* LBXPublisherListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXPublisherListTableViewCell.xib; path = Controllers/LBXPublisherListTableViewCell.xib; sourceTree = "<group>"; };
+		E535EBAC19DB7B63001B729A /* UIImage+DrawOnImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+DrawOnImage.h"; sourceTree = "<group>"; };
+		E535EBAD19DB7B63001B729A /* UIImage+DrawOnImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+DrawOnImage.m"; sourceTree = "<group>"; };
+		E535EBAF19DB7DD7001B729A /* UIImage+CreateImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+CreateImage.h"; sourceTree = "<group>"; };
+		E535EBB019DB7DD7001B729A /* UIImage+CreateImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+CreateImage.m"; sourceTree = "<group>"; };
 		E5371227198EF9300065D57A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		E53EEC7E19BE8DC70066F712 /* LBXWeekViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXWeekViewController.h; path = Controllers/LBXWeekViewController.h; sourceTree = "<group>"; };
 		E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXWeekViewController.m; path = Controllers/LBXWeekViewController.m; sourceTree = "<group>"; };
@@ -277,8 +290,6 @@
 		E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDatabaseManager.m; path = Abstract/LBXDatabaseManager.m; sourceTree = "<group>"; };
 		E55497A419AAE284004501FF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E555D38E196359D1003B97C0 /* LBXAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXAPITests.m; sourceTree = "<group>"; };
-		E56DBFBB19B938580012FB4D /* LBXPublisherCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherCollectionViewController.h; path = Controllers/LBXPublisherCollectionViewController.h; sourceTree = "<group>"; };
-		E56DBFBC19B938580012FB4D /* LBXPublisherCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherCollectionViewController.m; path = Controllers/LBXPublisherCollectionViewController.m; sourceTree = "<group>"; };
 		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
 		E575162219908AD00052D4C4 /* libPods-HockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-HockeySDK.a"; path = "Pods/build/Debug-iphoneos/libPods-HockeySDK.a"; sourceTree = "<group>"; };
@@ -669,8 +680,8 @@
 		E56DBFBE19B942330012FB4D /* Comics */ = {
 			isa = PBXGroup;
 			children = (
-				E56DBFBB19B938580012FB4D /* LBXPublisherCollectionViewController.h */,
-				E56DBFBC19B938580012FB4D /* LBXPublisherCollectionViewController.m */,
+				E535EBA419DB6444001B729A /* LBXPublisherViewController.h */,
+				E535EBA519DB6444001B729A /* LBXPublisherViewController.m */,
 				E53EEC7E19BE8DC70066F712 /* LBXWeekViewController.h */,
 				E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */,
 			);
@@ -790,6 +801,9 @@
 				E54F10971991D28900DAD4FE /* LBXPullListTableViewCell.h */,
 				E54F10981991D28900DAD4FE /* LBXPullListTableViewCell.m */,
 				E54F10951991D21B00DAD4FE /* LBXPullListTableViewCell.xib */,
+				E535EBA719DB74A5001B729A /* LBXPublisherListTableViewCell.h */,
+				E535EBA819DB74A5001B729A /* LBXPublisherListTableViewCell.m */,
+				E535EBA919DB74A5001B729A /* LBXPublisherListTableViewCell.xib */,
 				E57D49001960961E0014A13F /* ParallaxFlowLayout.h */,
 				E57D49011960961E0014A13F /* ParallaxFlowLayout.m */,
 				E57D49021960961E0014A13F /* ParallaxLayoutAttributes.h */,
@@ -1189,6 +1203,10 @@
 				E5E5162919CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m */,
 				E5E5162A19CA446D005FBD43 /* UIImage+ImageEffects.h */,
 				E5E5162B19CA446D005FBD43 /* UIImage+ImageEffects.m */,
+				E535EBAC19DB7B63001B729A /* UIImage+DrawOnImage.h */,
+				E535EBAD19DB7B63001B729A /* UIImage+DrawOnImage.m */,
+				E535EBAF19DB7DD7001B729A /* UIImage+CreateImage.h */,
+				E535EBB019DB7DD7001B729A /* UIImage+CreateImage.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1288,6 +1306,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E535EBAB19DB74A5001B729A /* LBXPublisherListTableViewCell.xib in Resources */,
 				E593F53E19D70FDB00D310C6 /* LBXDashboardViewController.xib in Resources */,
 				E51AB57119A405940066FFF6 /* LBXIssueDetailViewController.xib in Resources */,
 				E57D496419611BB30014A13F /* SVWebViewController.bundle in Resources */,
@@ -1444,6 +1463,8 @@
 				E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */,
 				E5E5162F19CA446D005FBD43 /* NSDate+DateUtilities.m in Sources */,
 				E57D48D3196068E10014A13F /* main.m in Sources */,
+				E535EBAA19DB74A5001B729A /* LBXPublisherListTableViewCell.m in Sources */,
+				E535EBAE19DB7B63001B729A /* UIImage+DrawOnImage.m in Sources */,
 				E57D49061960961E0014A13F /* ParallaxFlowLayout.m in Sources */,
 				E510AFA3198C7B7D004A7225 /* NSArray+NBUAdditions.m in Sources */,
 				E5E5163319CA446D005FBD43 /* UIFont+customFonts.m in Sources */,
@@ -1454,7 +1475,6 @@
 				E510AFB1198C7B7D004A7225 /* UIWebView+NBUAdditions.m in Sources */,
 				E510AF97198C7B7D004A7225 /* RKOrderedDictionary.m in Sources */,
 				E510AF98198C7B7D004A7225 /* UIImage+RKAdditions.m in Sources */,
-				E56DBFBD19B938580012FB4D /* LBXPublisherCollectionViewController.m in Sources */,
 				E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */,
 				E510AF90198C7B7D004A7225 /* NSBundle+RKAdditions.m in Sources */,
 				E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */,
@@ -1486,11 +1506,13 @@
 				E5D9A89519A9193200BC06C1 /* UIImage+JTSImageEffects.m in Sources */,
 				E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */,
 				E593F55019D7160C00D310C6 /* ActualTableViewCell.m in Sources */,
+				E535EBB119DB7DD7001B729A /* UIImage+CreateImage.m in Sources */,
 				E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */,
 				E5E5162C19CA446D005FBD43 /* LBXMessageBar.m in Sources */,
 				E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */,
 				E510AFA9198C7B7D004A7225 /* UIImage+NBUAdditions.m in Sources */,
 				E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */,
+				E535EBA619DB6444001B729A /* LBXPublisherViewController.m in Sources */,
 				E5B6FCE51998497A0022F4CA /* LBXTitleAndPublisherServices.m in Sources */,
 				E5D9A89019A9193200BC06C1 /* JTSAnimatedGIFUtility.m in Sources */,
 				E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */,

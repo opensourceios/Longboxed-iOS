@@ -11,7 +11,7 @@
 #import "LBXBottomTableViewCell.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
-#import "LBXPublisherCollectionViewController.h"
+#import "LBXPublisherViewController.h"
 #import "LBXTitleAndPublisherServices.h"
 #import "LBXLoginViewController.h"
 #import "LBXWeekViewController.h"
@@ -423,7 +423,7 @@
         //    LBXPublisherCollectionViewController *controller = [LBXPublisherCollectionViewController new];
         switch (indexPath.row) {
             case 0: {
-                LBXPublisherCollectionViewController *controller = [LBXPublisherCollectionViewController new];
+                LBXPublisherViewController *controller = [LBXPublisherViewController new];
                 [self.navigationController pushViewController:controller animated:YES];
                 break;
             }

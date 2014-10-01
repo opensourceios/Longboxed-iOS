@@ -36,5 +36,6 @@
 + (UIFont *)actionSheetCancelFont;
 + (UIFont *)calendarNumbersFont;
 + (UIFont *)calendarMonthsFont;
++ (UIFont *)defaultPublisherInitialsFont;
 
 @end

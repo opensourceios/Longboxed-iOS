@@ -16,7 +16,6 @@
 #import "NSDate+DateUtilities.h"
 #import "UIFont+customFonts.h"
 #import "LBXTitleAndPublisherServices.h"
-#import "LBXEmptyPullListViewController.h"
 
 #import "ESDatePicker.h"
 
@@ -577,14 +576,6 @@ int _page;
     _sectionArray = content;
 }
 
-#pragma mark - DZNEmptyDataSet
-
-- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView {
-    
-    LBXEmptyPullListViewController *controller = [LBXEmptyPullListViewController new];
-    return controller.view;
-}
-
 #pragma mark - Table view data source
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
@@ -700,13 +691,7 @@ int _page;
         return;
     }
     
-    NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section];
-    NSArray *array = [dict objectForKey:dict.allKeys[0]];
-    LBXIssue *issue = [array objectAtIndex:indexPath.row];
-    //LBXIssue *issue = [_issuesForWeekArray objectAtIndex:indexPath.row];
-    
     cell.titleLabel.font = [UIFont pullListTitleFont];
-    cell.titleLabel.text = issue.completeTitle;
     cell.titleLabel.numberOfLines = 2;
     cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     
