@@ -15,7 +15,7 @@
 #import "LBXLogging.h"
 #import "NSDate+DateUtilities.h"
 #import "UIFont+customFonts.h"
-#import "LBXTitleAndPublisherServices.h"
+#import "LBXControllerServices.h"
 
 #import "ESDatePicker.h"
 
@@ -250,7 +250,7 @@ int _page;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     if (_segmentedControl.selectedSegmentIndex == 0 && _displayReleasesOfDate) {
         // Get this wednesday
-        NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:[LBXTitleAndPublisherServices getLocalDate]];
+        NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:[LBXControllerServices getLocalDate]];
         [componentsDay setWeekday:4]; // 4 == Wednesday
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
     }
@@ -258,7 +258,7 @@ int _page;
         // Get next wednesday
         NSDateComponents *components = [NSDateComponents new];
         [components setWeekOfMonth:1];
-        NSDate *newDate = [calendar dateByAddingComponents:components toDate:[LBXTitleAndPublisherServices getLocalDate] options:0];
+        NSDate *newDate = [calendar dateByAddingComponents:components toDate:[LBXControllerServices getLocalDate] options:0];
         NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:newDate];
         [componentsDay setWeekday:4];
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
@@ -312,7 +312,7 @@ int _page;
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(isParent == 1)"];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
-        NSDate *localDateTime = [LBXTitleAndPublisherServices getLocalDate];
+        NSDate *localDateTime = [LBXControllerServices getLocalDate];
         NSMutableArray *nextWeekArray = [NSMutableArray new];
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is this week
@@ -331,7 +331,7 @@ int _page;
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(isParent == 1)"];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
-        NSDate *localDateTime = [LBXTitleAndPublisherServices getLocalDate];
+        NSDate *localDateTime = [LBXControllerServices getLocalDate];
         NSMutableArray *nextWeekArray = [NSMutableArray new];
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is next week
@@ -510,14 +510,14 @@ int _page;
     [self refreshControlAction];
     
     // Check if the issue is this week
-    if ([_selectedWednesday timeIntervalSinceDate:[LBXTitleAndPublisherServices getLocalDate]] > -3*DAY &&
-        [_selectedWednesday timeIntervalSinceDate:[LBXTitleAndPublisherServices getLocalDate]] <= 4*DAY) {
+    if ([_selectedWednesday timeIntervalSinceDate:[LBXControllerServices getLocalDate]] > -3*DAY &&
+        [_selectedWednesday timeIntervalSinceDate:[LBXControllerServices getLocalDate]] <= 4*DAY) {
         _segmentedControl.selectedSegmentIndex = 0;
     }
     
     // Check if the issue is next week
-    else if ([_selectedWednesday timeIntervalSinceDate:[LBXTitleAndPublisherServices getLocalDate]] > 5*DAY &&
-        [_selectedWednesday timeIntervalSinceDate:[LBXTitleAndPublisherServices getLocalDate]] <= 12*DAY) {
+    else if ([_selectedWednesday timeIntervalSinceDate:[LBXControllerServices getLocalDate]] > 5*DAY &&
+        [_selectedWednesday timeIntervalSinceDate:[LBXControllerServices getLocalDate]] <= 12*DAY) {
         _segmentedControl.selectedSegmentIndex = 1;
     }
     

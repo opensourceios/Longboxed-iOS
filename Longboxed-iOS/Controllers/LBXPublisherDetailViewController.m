@@ -14,7 +14,7 @@
 #import "LBXPublisherDetailView.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXTitle.h"
-#import "LBXTitleAndPublisherServices.h"
+#import "LBXControllerServices.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXLogging.h"
@@ -215,7 +215,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
             
             CGSize size = CGSizeMake(self.detailView.latestIssueImageView.frame.size.width, self.view.frame.size.width);
             
-            UIImage *colorImage = [LBXTitleAndPublisherServices generateImageForPublisher:_detailPublisher size:size];
+            UIImage *colorImage = [LBXControllerServices generateImageForPublisher:_detailPublisher size:size];
             
             __block typeof(self) bself = self;
             
@@ -453,7 +453,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     
     cell.latestIssueImageView.image = nil;
     
-    [LBXTitleAndPublisherServices setPublisherCell:cell withTitle:title];
+    [LBXControllerServices setPublisherCell:cell withTitle:title];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     

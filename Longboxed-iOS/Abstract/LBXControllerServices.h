@@ -12,7 +12,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LBXTitleAndPublisherServices : NSObject
+@interface LBXControllerServices : NSObject
 
 + (NSDate *)getLocalDate;
 + (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title;
@@ -30,5 +30,9 @@
             font:(UIFont *)font
   inBoundsOfView:(UIView *)view;
 + (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size;
++ (NSString *)getHashOfImage:(UIImage *)image;
++ (NSArray *)refreshTableView:(UITableView *)tableView withOldSearchResults:(NSArray *)oldResultsArray
+                   newResults:(NSArray *)newResultsArray
+                    animation:(UITableViewRowAnimation)animation;
 
 @end

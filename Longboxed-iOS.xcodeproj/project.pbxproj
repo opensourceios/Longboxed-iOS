@@ -37,6 +37,7 @@
 		E510AFB1198C7B7D004A7225 /* UIWebView+NBUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AEFF198C7B7D004A7225 /* UIWebView+NBUAdditions.m */; };
 		E510AFB2198C7B7D004A7225 /* NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF01198C7B7D004A7225 /* NBUKit.m */; };
 		E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AFF4198C7D09004A7225 /* NBUCore.m */; };
+		E515746319DCC4360072EE3E /* LBXSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E515746219DCC4360072EE3E /* LBXSearchTableViewController.m */; };
 		E5165E49198E8618001CDECA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5165E48198E8618001CDECA /* CoreData.framework */; };
 		E51AB57019A405940066FFF6 /* LBXIssueDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */; };
 		E51AB57119A405940066FFF6 /* LBXIssueDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */; };
@@ -44,7 +45,7 @@
 		E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FC196A1FF2005FCF25 /* LBXPublisher.m */; };
 		E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00FF196A2004005FCF25 /* LBXTitle.m */; };
 		E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E51F72C41998219B00F643EF /* LBXTitleDetailViewController.m */; };
-		E535EBA619DB6444001B729A /* LBXPublisherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E535EBA519DB6444001B729A /* LBXPublisherViewController.m */; };
+		E535EBA619DB6444001B729A /* LBXPublisherTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E535EBA519DB6444001B729A /* LBXPublisherTableViewController.m */; };
 		E535EBAA19DB74A5001B729A /* LBXPublisherListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E535EBA819DB74A5001B729A /* LBXPublisherListTableViewCell.m */; };
 		E535EBAB19DB74A5001B729A /* LBXPublisherListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E535EBA919DB74A5001B729A /* LBXPublisherListTableViewCell.xib */; };
 		E535EBAE19DB7B63001B729A /* UIImage+DrawOnImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E535EBAD19DB7B63001B729A /* UIImage+DrawOnImage.m */; };
@@ -133,7 +134,7 @@
 		E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCD819983DFC0022F4CA /* UIImage+ImageEffects.m */; };
 		E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDA19983DFC0022F4CA /* UIImageView+LBBlurredImage.m */; };
 		E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */; };
-		E5B6FCE51998497A0022F4CA /* LBXTitleAndPublisherServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */; };
+		E5B6FCE51998497A0022F4CA /* LBXControllerServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCE41998497A0022F4CA /* LBXControllerServices.m */; };
 		E5C6446A19C67B1D00C63B19 /* LBXComicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C6446819C67B1D00C63B19 /* LBXComicTableViewCell.m */; };
 		E5C6446B19C67B1D00C63B19 /* LBXComicTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5C6446919C67B1D00C63B19 /* LBXComicTableViewCell.xib */; };
 		E5CCAC5419B53BD30068AD8D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */; };
@@ -243,6 +244,8 @@
 		E510AFF2198C7D09004A7225 /* NBUAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBUAvailability.h; sourceTree = "<group>"; };
 		E510AFF3198C7D09004A7225 /* NBUCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBUCore.h; sourceTree = "<group>"; };
 		E510AFF4198C7D09004A7225 /* NBUCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBUCore.m; sourceTree = "<group>"; };
+		E515746119DCC4360072EE3E /* LBXSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSearchTableViewController.h; path = Controllers/LBXSearchTableViewController.h; sourceTree = "<group>"; };
+		E515746219DCC4360072EE3E /* LBXSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSearchTableViewController.m; path = Controllers/LBXSearchTableViewController.m; sourceTree = "<group>"; };
 		E5165E48198E8618001CDECA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E51AB56D19A405940066FFF6 /* LBXIssueDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssueDetailViewController.h; path = Controllers/LBXIssueDetailViewController.h; sourceTree = "<group>"; };
 		E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueDetailViewController.m; path = Controllers/LBXIssueDetailViewController.m; sourceTree = "<group>"; };
@@ -255,8 +258,8 @@
 		E51D00FF196A2004005FCF25 /* LBXTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitle.m; path = Models/LBXTitle.m; sourceTree = "<group>"; };
 		E51F72C31998219B00F643EF /* LBXTitleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleDetailViewController.h; path = Controllers/LBXTitleDetailViewController.h; sourceTree = "<group>"; };
 		E51F72C41998219B00F643EF /* LBXTitleDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleDetailViewController.m; path = Controllers/LBXTitleDetailViewController.m; sourceTree = "<group>"; };
-		E535EBA419DB6444001B729A /* LBXPublisherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherViewController.h; path = Controllers/LBXPublisherViewController.h; sourceTree = "<group>"; };
-		E535EBA519DB6444001B729A /* LBXPublisherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherViewController.m; path = Controllers/LBXPublisherViewController.m; sourceTree = "<group>"; };
+		E535EBA419DB6444001B729A /* LBXPublisherTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherTableViewController.h; path = Controllers/LBXPublisherTableViewController.h; sourceTree = "<group>"; };
+		E535EBA519DB6444001B729A /* LBXPublisherTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherTableViewController.m; path = Controllers/LBXPublisherTableViewController.m; sourceTree = "<group>"; };
 		E535EBA719DB74A5001B729A /* LBXPublisherListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherListTableViewCell.h; path = Controllers/LBXPublisherListTableViewCell.h; sourceTree = "<group>"; };
 		E535EBA819DB74A5001B729A /* LBXPublisherListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherListTableViewCell.m; path = Controllers/LBXPublisherListTableViewCell.m; sourceTree = "<group>"; };
 		E535EBA919DB74A5001B729A /* LBXPublisherListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXPublisherListTableViewCell.xib; path = Controllers/LBXPublisherListTableViewCell.xib; sourceTree = "<group>"; };
@@ -404,8 +407,8 @@
 		E5B6FCDA19983DFC0022F4CA /* UIImageView+LBBlurredImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+LBBlurredImage.m"; sourceTree = "<group>"; };
 		E5B6FCDB19983DFC0022F4CA /* MGSpotyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSpotyViewController.h; sourceTree = "<group>"; };
 		E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSpotyViewController.m; sourceTree = "<group>"; };
-		E5B6FCE31998497A0022F4CA /* LBXTitleAndPublisherServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleAndPublisherServices.h; path = Abstract/LBXTitleAndPublisherServices.h; sourceTree = "<group>"; };
-		E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleAndPublisherServices.m; path = Abstract/LBXTitleAndPublisherServices.m; sourceTree = "<group>"; };
+		E5B6FCE31998497A0022F4CA /* LBXControllerServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXControllerServices.h; path = Abstract/LBXControllerServices.h; sourceTree = "<group>"; };
+		E5B6FCE41998497A0022F4CA /* LBXControllerServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXControllerServices.m; path = Abstract/LBXControllerServices.m; sourceTree = "<group>"; };
 		E5C6446719C67B1D00C63B19 /* LBXComicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXComicTableViewCell.h; path = Controllers/LBXComicTableViewCell.h; sourceTree = "<group>"; };
 		E5C6446819C67B1D00C63B19 /* LBXComicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXComicTableViewCell.m; path = Controllers/LBXComicTableViewCell.m; sourceTree = "<group>"; };
 		E5C6446919C67B1D00C63B19 /* LBXComicTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXComicTableViewCell.xib; path = Controllers/LBXComicTableViewCell.xib; sourceTree = "<group>"; };
@@ -627,6 +630,15 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		E515746019DCC40E0072EE3E /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E515746119DCC4360072EE3E /* LBXSearchTableViewController.h */,
+				E515746219DCC4360072EE3E /* LBXSearchTableViewController.m */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
 		E51D00F4196A1A6F005FCF25 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -650,6 +662,7 @@
 		E51F72C6199821A200F643EF /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				E515746019DCC40E0072EE3E /* Search */,
 				E593F53F19D715CB00D310C6 /* Dashboard */,
 				E5F1871E196378E4006C4C26 /* LBXPullListViewController.h */,
 				E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */,
@@ -672,8 +685,8 @@
 		E56DBFBE19B942330012FB4D /* Comics */ = {
 			isa = PBXGroup;
 			children = (
-				E535EBA419DB6444001B729A /* LBXPublisherViewController.h */,
-				E535EBA519DB6444001B729A /* LBXPublisherViewController.m */,
+				E535EBA419DB6444001B729A /* LBXPublisherTableViewController.h */,
+				E535EBA519DB6444001B729A /* LBXPublisherTableViewController.m */,
 				E53EEC7E19BE8DC70066F712 /* LBXWeekViewController.h */,
 				E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */,
 			);
@@ -837,8 +850,8 @@
 				E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */,
 				E57D49101960A2180014A13F /* LBXClient.h */,
 				E57D49111960A2180014A13F /* LBXClient.m */,
-				E5B6FCE31998497A0022F4CA /* LBXTitleAndPublisherServices.h */,
-				E5B6FCE41998497A0022F4CA /* LBXTitleAndPublisherServices.m */,
+				E5B6FCE31998497A0022F4CA /* LBXControllerServices.h */,
+				E5B6FCE41998497A0022F4CA /* LBXControllerServices.m */,
 			);
 			name = Abstract;
 			sourceTree = "<group>";
@@ -1502,8 +1515,8 @@
 				E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */,
 				E510AFA9198C7B7D004A7225 /* UIImage+NBUAdditions.m in Sources */,
 				E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */,
-				E535EBA619DB6444001B729A /* LBXPublisherViewController.m in Sources */,
-				E5B6FCE51998497A0022F4CA /* LBXTitleAndPublisherServices.m in Sources */,
+				E535EBA619DB6444001B729A /* LBXPublisherTableViewController.m in Sources */,
+				E5B6FCE51998497A0022F4CA /* LBXControllerServices.m in Sources */,
 				E5D9A89019A9193200BC06C1 /* JTSAnimatedGIFUtility.m in Sources */,
 				E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */,
 				E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */,
@@ -1516,6 +1529,7 @@
 				E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */,
 				E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */,
 				E5F1873219638BBC006C4C26 /* EasyTableView.m in Sources */,
+				E515746319DCC4360072EE3E /* LBXSearchTableViewController.m in Sources */,
 				E5DC732619C8EE770017BFE6 /* ESDatePicker.m in Sources */,
 				E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */,
 				E57D496319611BB30014A13F /* SVModalWebViewController.m in Sources */,

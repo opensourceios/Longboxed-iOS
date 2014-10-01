@@ -7,7 +7,7 @@
 //
 
 #import "LBXIssueDetailViewController.h"
-#import "LBXTitleAndPublisherServices.h"
+#import "LBXControllerServices.h"
 #import "LBXPublisherDetailViewController.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXWeekViewController.h"
@@ -127,7 +127,7 @@ BOOL saveSheetVisible;
     _priceLabel.text = [NSString stringWithFormat:@"$%.02f", [_issue.price floatValue]];
     [_publisherButton setTitle:_issue.publisher.name
                       forState:UIControlStateNormal];
-    [_releaseDateButton setTitle:[LBXTitleAndPublisherServices localTimeZoneStringWithDate:_issue.releaseDate]
+    [_releaseDateButton setTitle:[LBXControllerServices localTimeZoneStringWithDate:_issue.releaseDate]
                         forState:UIControlStateNormal];
     
     [_publisherButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];

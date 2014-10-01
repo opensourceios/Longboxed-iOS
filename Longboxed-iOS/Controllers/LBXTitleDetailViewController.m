@@ -13,7 +13,7 @@
 #import "LBXBundle.h"
 #import "LBXTitleDetailView.h"
 #import "LBXTitleDetailViewController.h"
-#import "LBXTitleAndPublisherServices.h"
+#import "LBXControllerServices.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXPublisherDetailViewController.h"
@@ -173,7 +173,7 @@ int page;
             issuesString = [NSString stringWithFormat:@"%@ Issues", _detailTitle.issueCount];
         }
         
-        NSString *subscribersString = [LBXTitleAndPublisherServices getSubtitleStringWithTitle:_detailTitle uppercase:YES];
+        NSString *subscribersString = [LBXControllerServices getSubtitleStringWithTitle:_detailTitle uppercase:YES];
         
         _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
         _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
@@ -187,9 +187,9 @@ int page;
     
     _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
     if (_detailTitle.latestIssue != nil) {
-        LBXIssue *issue = [LBXTitleAndPublisherServices closestIssueForTitle:_detailTitle];
+        LBXIssue *issue = [LBXControllerServices closestIssueForTitle:_detailTitle];
         
-        NSString *timeSinceString = [LBXTitleAndPublisherServices timeSinceLastIssueForTitle:_detailTitle];
+        NSString *timeSinceString = [LBXControllerServices timeSinceLastIssueForTitle:_detailTitle];
         
         NSString *subtitleString = [NSString stringWithFormat:@"Issue %@ released %@", issue.issueNumber, timeSinceString];
         if ([timeSinceString hasPrefix:@"in"]) {
@@ -626,7 +626,7 @@ int page;
     
     cell.latestIssueImageView.image = nil;
     
-    [LBXTitleAndPublisherServices setTitleCell:cell withIssue:issue];
+    [LBXControllerServices setTitleCell:cell withIssue:issue];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     

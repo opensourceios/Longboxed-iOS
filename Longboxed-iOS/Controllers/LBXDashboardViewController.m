@@ -11,8 +11,8 @@
 #import "LBXBottomTableViewCell.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
-#import "LBXPublisherViewController.h"
-#import "LBXTitleAndPublisherServices.h"
+#import "LBXPublisherTableViewController.h"
+#import "LBXControllerServices.h"
 #import "LBXLoginViewController.h"
 #import "LBXWeekViewController.h"
 #import "LBXSearchViewController.h"
@@ -167,8 +167,29 @@
     [self fetchPopularIssues];
 }
 
-- (void)setFeaturedIssue:(LBXIssue *)issue
+- (void)setFeaturedIssueWithIssuesArray:(NSArray *)popularIssuesArray
 {
+    if (!_popularIssuesArray.count) return;
+    
+    // TODO: Remove this after Tim adds server side hashing
+    // Hash the image to make sure the featured issue image is something other than "Not Available"
+    BOOL validImage = NO;
+    LBXIssue *issue = popularIssuesArray[0];
+    NSString *localHash = [LBXControllerServices getHashOfImage:[UIImage imageNamed:@"NotAvailable.jpeg"]];
+    
+    for (LBXIssue *popularIssue in popularIssuesArray) {
+        if (!validImage) {
+            // MD5 checksum compare image
+            NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:popularIssue.coverImage]];
+            UIImage *image = [UIImage imageWithData:imageData];
+            NSString *remoteHash = [LBXControllerServices getHashOfImage:image];
+            if (![remoteHash isEqualToString:localHash]) {
+                validImage = YES;
+                issue = popularIssue;
+            }
+        }
+    }
+    
     self.featuredTitleLabel.text = issue.completeTitle;
     self.featuredTextView.text = issue.issueDescription;
     
@@ -215,7 +236,7 @@
 
 - (void)getCoreDataPopularIssues
 {
-    NSDate *currentDate = [LBXTitleAndPublisherServices getLocalDate];
+    NSDate *currentDate = [LBXControllerServices getLocalDate];
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [currentDate dateByAddingTimeInterval:- 3*DAY], [currentDate dateByAddingTimeInterval:4*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
     
@@ -228,7 +249,7 @@
     
     _popularIssuesArray = sortedArray;
     
-    [self setFeaturedIssue:_popularIssuesArray[1]];
+    [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.bottomTableView reloadData];
@@ -489,7 +510,7 @@
         //    LBXPublisherCollectionViewController *controller = [LBXPublisherCollectionViewController new];
         switch (indexPath.row) {
             case 0: {
-                LBXPublisherViewController *controller = [LBXPublisherViewController new];
+                LBXPublisherTableViewController *controller = [LBXPublisherTableViewController new];
                 [self.navigationController pushViewController:controller animated:YES];
                 break;
             }

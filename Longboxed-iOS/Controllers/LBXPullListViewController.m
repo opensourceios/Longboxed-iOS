@@ -16,7 +16,7 @@
 #import "ParallaxPhotoCell.h"
 #import "SVWebViewController.h"
 #import "LBXTitleDetailViewController.h"
-#import "LBXTitleAndPublisherServices.h"
+#import "LBXControllerServices.h"
 #import "LBXEmptyPullListViewController.h"
 #import "LBXLogging.h"
 #import "PaintCodeImages.h"
@@ -286,93 +286,13 @@ CGFloat cellWidth;
                     [_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
                 }
             }
-            [self refreshTableView:[self.searchBarController searchResultsTableView]  withOldSearchResults:self.searchResultsArray newResults:newSearchResultsArray animation:UITableViewRowAnimationFade];
+            self.searchResultsArray = [LBXControllerServices refreshTableView:[self.searchBarController searchResultsTableView]  withOldSearchResults:self.searchResultsArray newResults:newSearchResultsArray animation:UITableViewRowAnimationFade];
         }
         else {
             //[LBXMessageBar displayError:error];
         }
     }];
 }
-
-- (void)refreshTableView:(UITableView *)tableView withOldSearchResults:(NSArray *)oldResultsArray
-                                  newResults:(NSArray *)newResultsArray
-                                   animation:(UITableViewRowAnimation)animation
-{
-    // If rows are removed
-    if (newResultsArray.count < oldResultsArray.count && oldResultsArray.count) {
-        NSMutableArray *diferentIndexes = [NSMutableArray new];
-        for (int i = 0; i < newResultsArray.count; i++) {
-            if (oldResultsArray[i] != newResultsArray[i]) { //Maybe add "&& newSearchResultsArray.count" here
-                [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            }
-        }
-        
-        NSMutableArray *oldIndexes = [NSMutableArray new];
-        if (newResultsArray.count < oldResultsArray.count) {
-            for (NSUInteger i = newResultsArray.count; i < oldResultsArray.count; i++) {
-                [oldIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            }
-        }
-        
-        // Update the table view
-        [tableView beginUpdates];
-        [tableView numberOfRowsInSection:newResultsArray.count];
-        [tableView deleteRowsAtIndexPaths:oldIndexes withRowAnimation:animation];
-        
-        self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
-        [tableView endUpdates];
-    }
-    
-    
-    // If rows are added
-    else if (newResultsArray.count > oldResultsArray.count && oldResultsArray.count != 0) {
-        NSMutableArray *diferentIndexes = [NSMutableArray new];
-        for (int i = 0; i < oldResultsArray.count; i++) {
-            if (oldResultsArray[i] != newResultsArray[i]) { //Maybe add "&& newSearchResultsArray.count" here
-                [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            }
-        }
-        NSMutableArray *newIndexes = [NSMutableArray new];
-        if (newResultsArray.count > oldResultsArray.count) {
-            NSUInteger index;
-            if (!oldResultsArray.count) index = 0; else index = oldResultsArray.count;
-            for (NSUInteger i = index; i < newResultsArray.count; i++) {
-                [newIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            }
-        }
-        
-        // Update the table view
-        [tableView beginUpdates];
-        [tableView insertRowsAtIndexPaths:newIndexes withRowAnimation:animation];
-        self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
-        [tableView endUpdates];
-    }
-    
-    // Rows are just changed
-    else if (newResultsArray.count == oldResultsArray.count && oldResultsArray.count != 0) {
-        NSMutableArray *diferentIndexes = [NSMutableArray new];
-        for (int i = 0; i < oldResultsArray.count; i++) {
-            if (oldResultsArray[i] != newResultsArray[i]) { //Maybe add "&& newSearchResultsArray.count" here
-                [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            }
-        }
-        
-        // Update the table view
-        [tableView beginUpdates];
-        [tableView reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:animation];
-        self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
-        [tableView endUpdates];
-    }
-    
-    // If entire view needs refreshed
-    else if (oldResultsArray.count == 0) {
-        dispatch_async(dispatch_get_main_queue(),^{
-            [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:animation];
-        });
-        self.searchResultsArray = [[NSArray alloc] initWithArray:newResultsArray];
-    }
-}
-
 
 - (void)fillPullListArray
 {
@@ -383,7 +303,7 @@ CGFloat cellWidth;
 {
     NSArray *oldArray = _pullListArray;
     [self fillPullListArray];
-    [self refreshTableView:self.tableView withOldSearchResults:oldArray newResults:_pullListArray animation:UITableViewRowAnimationLeft];
+    self.searchResultsArray = [LBXControllerServices refreshTableView:self.tableView withOldSearchResults:oldArray newResults:_pullListArray animation:UITableViewRowAnimationLeft];
     
     if (_pullListArray.count == 0) {
         self.tableView.contentOffset = CGPointMake(0, -self.refreshControl.frame.size.height);
@@ -586,7 +506,7 @@ CGFloat cellWidth;
     if (tableView != self.searchDisplayController.searchResultsTableView) {
 
         [self setTableViewStylesWithCell:cell andTitle:title];
-        [LBXTitleAndPublisherServices setPullListCell:cell withTitle:title];
+        [LBXControllerServices setPullListCell:cell withTitle:title];
     }
     else if (_searchResultsArray.count == 0) {
         cell.imageViewSeparatorLabel.hidden = YES;
@@ -601,14 +521,14 @@ CGFloat cellWidth;
         
         // Dim the cell if the title is already in the pull list
         if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-            [LBXTitleAndPublisherServices setAddToPullListSearchCell:cell withTitle:title darkenImage:YES];
+            [LBXControllerServices setAddToPullListSearchCell:cell withTitle:title darkenImage:YES];
             cell.titleLabel.textColor = [UIColor lightGrayColor];
             cell.subtitleLabel.textColor = [UIColor lightGrayColor];
         
         }
         else {
 
-            [LBXTitleAndPublisherServices setAddToPullListSearchCell:cell withTitle:title darkenImage:NO];
+            [LBXControllerServices setAddToPullListSearchCell:cell withTitle:title darkenImage:NO];
         }
     }
 }

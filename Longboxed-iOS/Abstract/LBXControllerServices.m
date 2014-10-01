@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
-#import "LBXTitleAndPublisherServices.h"
+#import "LBXControllerServices.h"
 #import "UIFont+customFonts.h"
 
 #import "NSDate+DateUtilities.h"
@@ -14,12 +14,13 @@
 
 #import <UIImageView+AFNetworking.h>
 #import <SVProgressHUD.h>
+#import <CommonCrypto/CommonDigest.h>
 
-@interface LBXTitleAndPublisherServices ()
+@interface LBXControllerServices ()
 
 @end
 
-@implementation LBXTitleAndPublisherServices
+@implementation LBXControllerServices
 
 + (NSDate *)getLocalDate
 {
@@ -139,7 +140,7 @@
 {
     cell.titleLabel.text = title.name;
     if (title.latestIssue) {
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [LBXTitleAndPublisherServices timeSinceLastIssueForTitle:title]];
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [LBXControllerServices timeSinceLastIssueForTitle:title]];
         
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
@@ -186,7 +187,7 @@
 {
     cell.titleLabel.text = title.name;
     if (title.latestIssue) {
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [LBXTitleAndPublisherServices getSubtitleStringWithTitle:title uppercase:YES]];
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [LBXControllerServices getSubtitleStringWithTitle:title uppercase:YES]];
         
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
@@ -315,6 +316,102 @@
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
+}
+
++ (NSString *)getHashOfImage:(UIImage *)image
+{
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
+    CC_MD5([imageData bytes], (uint)[imageData length], result);
+    return [NSString stringWithFormat:
+            @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
+            result[0], result[1], result[2], result[3],
+            result[4], result[5], result[6], result[7],
+            result[8], result[9], result[10], result[11],
+            result[12], result[13], result[14], result[15]
+            ];
+}
+
++ (NSArray *)refreshTableView:(UITableView *)tableView withOldSearchResults:(NSArray *)oldResultsArray
+                   newResults:(NSArray *)newResultsArray
+                    animation:(UITableViewRowAnimation)animation
+{
+    NSArray *returnArray = [NSArray new];
+    // If rows are removed
+    if (newResultsArray.count < oldResultsArray.count && oldResultsArray.count) {
+        NSMutableArray *diferentIndexes = [NSMutableArray new];
+        for (int i = 0; i < newResultsArray.count; i++) {
+            if (oldResultsArray[i] != newResultsArray[i]) { //Maybe add "&& newSearchResultsArray.count" here
+                [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+        }
+        
+        NSMutableArray *oldIndexes = [NSMutableArray new];
+        if (newResultsArray.count < oldResultsArray.count) {
+            for (NSUInteger i = newResultsArray.count; i < oldResultsArray.count; i++) {
+                [oldIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+        }
+        
+        // Update the table view
+        [tableView beginUpdates];
+        [tableView numberOfRowsInSection:newResultsArray.count];
+        [tableView deleteRowsAtIndexPaths:oldIndexes withRowAnimation:animation];
+        
+        returnArray = [[NSArray alloc] initWithArray:newResultsArray];
+        [tableView endUpdates];
+    }
+    
+    
+    // If rows are added
+    else if (newResultsArray.count > oldResultsArray.count && oldResultsArray.count != 0) {
+        NSMutableArray *diferentIndexes = [NSMutableArray new];
+        for (int i = 0; i < oldResultsArray.count; i++) {
+            if (oldResultsArray[i] != newResultsArray[i]) { //Maybe add "&& newSearchResultsArray.count" here
+                [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+        }
+        NSMutableArray *newIndexes = [NSMutableArray new];
+        if (newResultsArray.count > oldResultsArray.count) {
+            NSUInteger index;
+            if (!oldResultsArray.count) index = 0; else index = oldResultsArray.count;
+            for (NSUInteger i = index; i < newResultsArray.count; i++) {
+                [newIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+        }
+        
+        // Update the table view
+        [tableView beginUpdates];
+        [tableView insertRowsAtIndexPaths:newIndexes withRowAnimation:animation];
+        returnArray = [[NSArray alloc] initWithArray:newResultsArray];
+        [tableView endUpdates];
+    }
+    
+    // Rows are just changed
+    else if (newResultsArray.count == oldResultsArray.count && oldResultsArray.count != 0) {
+        NSMutableArray *diferentIndexes = [NSMutableArray new];
+        for (int i = 0; i < oldResultsArray.count; i++) {
+            if (oldResultsArray[i] != newResultsArray[i]) { //Maybe add "&& newSearchResultsArray.count" here
+                [diferentIndexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            }
+        }
+        
+        // Update the table view
+        [tableView beginUpdates];
+        [tableView reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:animation];
+        returnArray = [[NSArray alloc] initWithArray:newResultsArray];
+        [tableView endUpdates];
+    }
+    
+    // If entire view needs refreshed
+    else if (oldResultsArray.count == 0) {
+        dispatch_async(dispatch_get_main_queue(),^{
+            [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:animation];
+        });
+        returnArray = [[NSArray alloc] initWithArray:newResultsArray];
+    }
+    
+    return returnArray;
 }
 
 @end
