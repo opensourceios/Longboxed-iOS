@@ -139,6 +139,10 @@
     self.navigationController.view.backgroundColor = [UIColor whiteColor];
 
     _client = [LBXClient new];
+    
+    [self getCoreDataBundle];
+    [self.topTableView reloadData];
+    
     [self refresh];
 }
 

@@ -9,6 +9,7 @@
 #import "LBXClient.h"
 #import "LBXPullListTableViewCell.h"
 #import "LBXPullListTitle.h"
+#import "LBXBundle.h"
 #import "LBXPullListViewController.h"
 #import "LBXSearchTableViewCell.h"
 #import "ParallaxFlowLayout.h"
@@ -159,6 +160,8 @@ CGFloat cellWidth;
     [super viewDidAppear:animated];
     
     [self fillPullListArray];
+    
+    [self.tableView reloadData];
     
     if (!_pullListArray.count) {
         self.tableView.hidden = YES;
@@ -482,6 +485,14 @@ CGFloat cellWidth;
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", title.titleID];
     [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
+    
+    NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+    if (bundleArray.count) {
+        LBXBundle *bundle = bundleArray[0];
+        predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
+        [LBXBundle MR_deleteAllMatchingPredicate:predicate];
+    }
+    
     [self fillPullListArray];
 }
 

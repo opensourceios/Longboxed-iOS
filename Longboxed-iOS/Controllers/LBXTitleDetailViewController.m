@@ -10,6 +10,7 @@
 #import "LBXPullListTableViewCell.h"
 #import "LBXPullListTitle.h"
 #import "LBXTitle.h"
+#import "LBXBundle.h"
 #import "LBXTitleDetailView.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXTitleAndPublisherServices.h"
@@ -506,6 +507,15 @@ int page;
     }];
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", title.titleID];
     [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
+    
+    NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+    if (bundleArray.count) {
+        LBXBundle *bundle = bundleArray[0];
+        predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
+        [LBXBundle MR_deleteAllMatchingPredicate:predicate];
+    }
+    
+    [self.client fetchBundleResourcesWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {}];
     [self createPullListArray];
 }
 
