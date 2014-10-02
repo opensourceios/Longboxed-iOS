@@ -27,6 +27,27 @@
     return [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
 }
 
++ (NSDate *)getThisWednesdayOfDate:(NSDate *)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:date];
+    [componentsDay setWeekday:4];
+    return [calendar dateFromComponents:componentsDay];
+}
+
++ (NSDate *)getNextWednesdayOfDate:(NSDate *)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [NSDateComponents new];
+    [components setWeekOfMonth:1];
+    NSDate *newDate = [calendar dateByAddingComponents:components toDate:[LBXControllerServices getLocalDate] options:0];
+    NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:newDate];
+    [componentsDay setWeekday:4];
+    return [calendar dateFromComponents:componentsDay];
+}
+
+
+
 // This is for the pull list view
 + (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title
 {

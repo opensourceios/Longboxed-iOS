@@ -139,6 +139,7 @@
     _searchController.searchBar.backgroundColor = [UIColor clearColor];
     _searchController.searchBar.tintColor = [UIColor clearColor];
     _searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
+    _searchController.searchBar.placeholder = @"Search Comics";
     _searchController.searchBar.clipsToBounds = YES;
     _searchController.hidesNavigationBarDuringPresentation = YES;
 }

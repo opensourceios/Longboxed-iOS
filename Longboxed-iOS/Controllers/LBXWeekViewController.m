@@ -66,10 +66,11 @@ int _page;
     return self;
 }
 
+// When selecting a date from an issue detail
 - (instancetype)initWithDate:(NSDate *)date andShowThisAndNextWeek:(BOOL)segmentedShowBool {
     if(self = [super init]) {
         _selectedWednesday = date;
-        _segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
+        _segmentedControl.selectedSegmentIndex = 999;
         _displayReleasesOfDate = YES;
         _segmentedShowBool = segmentedShowBool;
         _issuesForWeekArray = [NSArray new];
@@ -80,7 +81,7 @@ int _page;
 - (instancetype)initWithIssues:(NSArray *)issues andTitle:(NSString *)title {
     if(self = [super init]) {
         _selectedWednesday = nil;
-        _segmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment;
+        _segmentedControl.selectedSegmentIndex = 999;
         _segmentedShowBool = NO;
         _displayReleasesOfDate = NO;
         _issuesForWeekArray = issues;
@@ -213,9 +214,16 @@ int _page;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     [self setNavTitle];
     
-    if (_displayReleasesOfDate) {
+    if (_segmentedControl == nil) {
+        [self fetchDate:_selectedWednesday withPage:@1];
+    }
+    else if (_segmentedControl.selectedSegmentIndex == 0) {
         [self refreshControlAction];
         [self fetchThisWeekWithPage:@1];
+    }
+    else if (_segmentedControl.selectedSegmentIndex == 1) {
+        [self refreshControlAction];
+        [self fetchNextWeekWithPage:@1];
     }
 }
 
@@ -247,29 +255,22 @@ int _page;
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"MMM dd, yyyy"];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    if (_segmentedControl.selectedSegmentIndex == 0 && _displayReleasesOfDate) {
-        // Get this wednesday
-        NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:[LBXControllerServices getLocalDate]];
-        [componentsDay setWeekday:4]; // 4 == Wednesday
-        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
-    }
-    else if (_segmentedControl.selectedSegmentIndex == 1 && _displayReleasesOfDate) {
-        // Get next wednesday
-        NSDateComponents *components = [NSDateComponents new];
-        [components setWeekOfMonth:1];
-        NSDate *newDate = [calendar dateByAddingComponents:components toDate:[LBXControllerServices getLocalDate] options:0];
-        NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:newDate];
-        [componentsDay setWeekday:4];
-        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[calendar dateFromComponents:componentsDay]];
-    }
-    else if (_displayReleasesOfDate) {
-        NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:_selectedWednesday];
-        [componentsDay setWeekday:4];
-        self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:[calendar dateFromComponents:componentsDay]]];
-    }
-    else {
+    
+    // Custom Nav Title
+    if (_customNavTitle) {
         self.navigationController.navigationBar.topItem.title = _customNavTitle;
+    }
+    // Specific Date
+    else if (_displayReleasesOfDate && _selectedWednesday) {
+        self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:[LBXControllerServices getThisWednesdayOfDate:_selectedWednesday]]];
+    }
+    // This Week
+    else if (_segmentedControl.selectedSegmentIndex == 0 && _displayReleasesOfDate) {
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[LBXControllerServices getThisWednesdayOfDate:[LBXControllerServices getLocalDate]]];
+    }
+    // Next Week
+    else if (_segmentedControl.selectedSegmentIndex == 1 && _displayReleasesOfDate) {
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[LBXControllerServices getNextWednesdayOfDate:[LBXControllerServices getLocalDate]]];
     }
 }
 
@@ -299,10 +300,11 @@ int _page;
 
 - (void)refreshControlAction
 {
-    if (_segmentedControl.selectedSegmentIndex == 0) {
+    if (_segmentedControl == nil) return;
+    else if (_segmentedControl.selectedSegmentIndex == 0) {
         [self fetchThisWeekWithPage:@1];
     }
-    if (_segmentedControl.selectedSegmentIndex == 1) {
+    else if (_segmentedControl.selectedSegmentIndex == 1) {
         [self fetchNextWeekWithPage:@1];
     }
 }
@@ -354,23 +356,19 @@ int _page;
     [self fetchPublishers];
 }
 
-- (void)completeRefreshWithArray:(NSArray *)array
+- (void)completeRefresh
 {
-    if (array.count == 0) {
-        endOfPages = YES;
+    if (!_segmentedControl) {
+        if (_selectedWednesday) {
+            [self setIssuesForWeekArrayWithDate:_selectedWednesday];
+        }
+        [self fetchPublishers];
     }
-    
-    if (_segmentedControl.selectedSegmentIndex == 0) {
+    else if (_segmentedControl.selectedSegmentIndex == 0) {
         [self setIssuesForWeekArrayWithThisWeekIssues];
     }
     else if (_segmentedControl.selectedSegmentIndex == 1) {
         [self setIssuesForWeekArrayWithNextWeekIssues];
-    }
-    else if (_segmentedControl.selectedSegmentIndex == UISegmentedControlNoSegment) {
-        if (_selectedWednesday != nil) {
-            [self setIssuesForWeekArrayWithDate:_selectedWednesday];
-        }
-        [self fetchPublishers];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -387,10 +385,10 @@ int _page;
             if (!error) {
                 if (!thisWeekArray.count) {
                     endOfPages = YES;
+                    [self completeRefresh];
                 }
                 else {
                     _page += 1;
-                    [self completeRefreshWithArray:thisWeekArray];
                     [self fetchThisWeekWithPage:[NSNumber numberWithInt:_page]];
                     
                 }
@@ -412,10 +410,10 @@ int _page;
         if (!error) {
             if (!nextWeekArray.count) {
                 endOfPages = YES;
+                [self completeRefresh];
             }
             else {
                 _page += 1;
-                [self completeRefreshWithArray:nextWeekArray];
                 [self fetchNextWeekWithPage:[NSNumber numberWithInt:_page]];
                 
             }
@@ -433,7 +431,7 @@ int _page;
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *dateString = [dateFormatter stringFromDate:date];
+    NSString *dateString = [dateFormatter stringFromDate:[LBXControllerServices getThisWednesdayOfDate:date]    ];
     
     // Fetch this weeks comics
     [self.client fetchIssuesCollectionWithDate:[dateFormatter dateFromString:dateString] page:page completion:^(NSArray *issuesForDateArray, RKObjectRequestOperation *response, NSError *error) {
@@ -441,11 +439,11 @@ int _page;
         if (!error) {
             if (!issuesForDateArray.count) {
                 endOfPages = YES;
+                [self completeRefresh];
             }
             else {
                 _page += 1;
-                [self completeRefreshWithArray:issuesForDateArray];
-                [self fetchDate:date withPage:[NSNumber numberWithInt:_page]];   
+                [self fetchDate:date withPage:[NSNumber numberWithInt:_page]];
             }
         }
         else {

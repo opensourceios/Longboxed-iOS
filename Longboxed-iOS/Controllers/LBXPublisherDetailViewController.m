@@ -22,6 +22,8 @@
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
 #import "UIColor+customColors.h"
+#import "UIImage+DrawOnImage.h"
+#import "UIImage+CreateImage.h"
 
 #import <SVProgressHUD.h>
 #import <QuartzCore/QuartzCore.h>
@@ -235,6 +237,14 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
             // Main image (publisher's logo)
             [self.detailView.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:publisher.mediumLogo]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                 
+                if (image.size.width > image.size.height * 1.2) {
+                    float percentageSmallerInWidth = bself.detailView.latestIssueImageView.frame.size.width/image.size.width;
+                    float shrunkHeight = image.size.height * percentageSmallerInWidth;
+                    float center = bself.detailView.latestIssueImageView.center.y;
+                    
+                    bself.detailView.latestIssueImageView.frame = CGRectMake(bself.detailView.latestIssueImageView.frame.origin.x, -center +  shrunkHeight - 2, bself.detailView.latestIssueImageView.frame.size.width, bself.detailView.latestIssueImageView.frame.size.height);
+                }
+                
                 [UIView transitionWithView:bself.detailView.latestIssueImageView
                                   duration:0.5f
                                    options:UIViewAnimationOptionTransitionCrossDissolve
@@ -244,10 +254,12 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
                 
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 
+                UIImage *defaultImage = [UIImage imageByDrawingInitialsOnImage:[UIImage imageWithColor:[UIColor clearColor] rect:bself.detailView.latestIssueImageView.frame] withInitials:publisher.name font:[UIFont detailPublisherInitialsFont]];
+                
                 [UIView transitionWithView:bself.detailView.latestIssueImageView
                                   duration:0.5f
                                    options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{bself.detailView.latestIssueImageView.image = self.mainImageView.image;}
+                                animations:^{bself.detailView.latestIssueImageView.image = defaultImage;}
                                 completion:NULL];
             }];
         }

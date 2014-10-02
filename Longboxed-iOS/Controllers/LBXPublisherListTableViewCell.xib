@@ -15,13 +15,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0ro-F9-Lli">
-                        <rect key="frame" x="8" y="0.0" width="60" height="81.5"/>
+                        <rect key="frame" x="16" y="8" width="60" height="65.5"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="eNE-Yc-X5q"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oM8-yC-Yyx">
-                        <rect key="frame" x="68" y="8" width="1" height="65.5"/>
+                        <rect key="frame" x="76" y="8" width="1" height="65.5"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="1" id="185-lM-bxU"/>
                         </constraints>
@@ -30,13 +30,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="haa-Wm-8Mn">
-                        <rect key="frame" x="80" y="40" width="172" height="2"/>
+                        <rect key="frame" x="88" y="40" width="164" height="2"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="252" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r91-Xy-gFE">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="252" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r91-Xy-gFE">
                                 <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="18"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="xDz-Ki-Xg9">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="xDz-Ki-Xg9">
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="20"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -57,16 +57,21 @@
                             <constraint firstItem="xDz-Ki-Xg9" firstAttribute="top" secondItem="haa-Wm-8Mn" secondAttribute="top" id="gRb-Lq-cWx"/>
                             <constraint firstAttribute="trailing" secondItem="r91-Xy-gFE" secondAttribute="trailing" id="sfF-R5-PZ2"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="PXS-8o-iEj"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="haa-Wm-8Mn" secondAttribute="centerY" id="5Kf-Ji-hyX"/>
                     <constraint firstItem="0ro-F9-Lli" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="6L4-jh-I4O"/>
-                    <constraint firstAttribute="bottom" secondItem="0ro-F9-Lli" secondAttribute="bottom" id="FQP-ch-sdV"/>
+                    <constraint firstAttribute="bottom" secondItem="0ro-F9-Lli" secondAttribute="bottom" constant="8" id="FQP-ch-sdV"/>
                     <constraint firstAttribute="trailingMargin" secondItem="haa-Wm-8Mn" secondAttribute="trailing" id="I9m-LW-kNr"/>
                     <constraint firstAttribute="bottom" secondItem="0ro-F9-Lli" secondAttribute="bottom" id="MYF-sy-HvA"/>
                     <constraint firstItem="0ro-F9-Lli" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="RtY-Sh-Ye7"/>
-                    <constraint firstItem="0ro-F9-Lli" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="X67-LM-Nwc"/>
+                    <constraint firstItem="0ro-F9-Lli" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="X67-LM-Nwc"/>
                     <constraint firstItem="0ro-F9-Lli" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Z9v-5V-yff"/>
                     <constraint firstItem="oM8-yC-Yyx" firstAttribute="leading" secondItem="0ro-F9-Lli" secondAttribute="trailing" id="Zfc-KH-F2q"/>
                     <constraint firstAttribute="bottomMargin" secondItem="oM8-yC-Yyx" secondAttribute="bottom" id="aTC-ql-791"/>
@@ -75,7 +80,7 @@
                     <constraint firstItem="haa-Wm-8Mn" firstAttribute="leading" secondItem="oM8-yC-Yyx" secondAttribute="trailing" constant="11" id="frF-tH-YH4"/>
                     <constraint firstAttribute="bottom" secondItem="0ro-F9-Lli" secondAttribute="bottom" id="gwc-Gq-9yB"/>
                     <constraint firstItem="0ro-F9-Lli" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="jPA-bo-s0f"/>
-                    <constraint firstItem="0ro-F9-Lli" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="zfc-oP-ijj"/>
+                    <constraint firstItem="0ro-F9-Lli" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="zfc-oP-ijj"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">

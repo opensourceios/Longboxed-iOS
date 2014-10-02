@@ -189,7 +189,7 @@ BOOL endOfPublishers;
     
     cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
     cell.subtitleLabel.textColor = [UIColor grayColor];
-    cell.subtitleLabel.numberOfLines = 2;
+    cell.subtitleLabel.numberOfLines = 1;
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     

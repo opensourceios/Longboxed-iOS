@@ -15,9 +15,14 @@
 @interface LBXControllerServices : NSObject
 
 + (NSDate *)getLocalDate;
++ (NSDate *)getThisWednesdayOfDate:(NSDate *)date;
++ (NSDate *)getNextWednesdayOfDate:(NSDate *)date;
+
 + (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title;
 + (LBXIssue *)closestIssueForTitle:(LBXTitle *)title;
 + (NSString *)localTimeZoneStringWithDate:(NSDate *)date;
+
+
 + (NSString *)getSubtitleStringWithTitle:(LBXTitle *)title uppercase:(BOOL)uppercase;
 + (void)setPublisherCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
 + (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;

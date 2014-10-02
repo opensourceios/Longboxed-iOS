@@ -45,7 +45,7 @@
         CGSize size = [combinedInitials sizeWithAttributes:attributes];
         if (size.width < image.size.width)
         {
-            CGRect textRect = CGRectMake(0, (image.size.height - size.height)/2, image.size.width, (image.size.height - size.height));
+            CGRect textRect = CGRectMake(0, (image.size.height - size.height)/2, image.size.width, image.size.height);
             
             [combinedInitials drawInRect:textRect withAttributes:@{NSFontAttributeName:textFont, NSParagraphStyleAttributeName:textStyle, NSForegroundColorAttributeName:[UIColor blackColor]}];
         }

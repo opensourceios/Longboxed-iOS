@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="445" height="419"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" placeholderIntrinsicWidth="60" placeholderIntrinsicHeight="90" translatesAutoresizingMaskIntoConstraints="NO" id="AmD-uH-Jfe">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" placeholderIntrinsicWidth="60" placeholderIntrinsicHeight="90" translatesAutoresizingMaskIntoConstraints="NO" id="AmD-uH-Jfe">
                     <rect key="frame" x="14" y="4" width="212" height="318"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="AmD-uH-Jfe" secondAttribute="height" multiplier="1:1" id="H5s-Jw-HOQ"/>

@@ -150,7 +150,12 @@ static const NSString *fontFace = @"AvenirNext";
 
 + (UIFont *)defaultPublisherInitialsFont
 {
-    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Medium", fontFace] size:34];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-UltraLight", fontFace] size:48];
+}
+
++ (UIFont *)detailPublisherInitialsFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-UltraLight", fontFace] size:80];
 }
 
 @end
