@@ -111,8 +111,6 @@
 		E57E157219A99427002616F5 /* LBXPublisherDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E57E157119A99427002616F5 /* LBXPublisherDetailView.xib */; };
 		E57E157819A9A55E002616F5 /* loadingCoverTransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E157619A9A55E002616F5 /* loadingCoverTransparent.png */; };
 		E57E157F19AA84FF002616F5 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = E57E157C19AA84FF002616F5 /* JGActionSheet.m */; };
-		E5849F2719D876840052636C /* LBXSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5849F2519D876840052636C /* LBXSearchViewController.m */; };
-		E5849F2819D876840052636C /* LBXSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5849F2619D876840052636C /* LBXSearchViewController.xib */; };
 		E587FB501964E2E5006A3DDB /* PaperButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E587FB4F1964E2E5006A3DDB /* PaperButton.m */; };
 		E593F53D19D70FDB00D310C6 /* LBXDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E593F53B19D70FDB00D310C6 /* LBXDashboardViewController.m */; };
 		E593F53E19D70FDB00D310C6 /* LBXDashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E593F53C19D70FDB00D310C6 /* LBXDashboardViewController.xib */; };
@@ -367,9 +365,6 @@
 		E57E157619A9A55E002616F5 /* loadingCoverTransparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loadingCoverTransparent.png; path = Assets/loadingCoverTransparent.png; sourceTree = SOURCE_ROOT; };
 		E57E157B19AA84FF002616F5 /* JGActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JGActionSheet.h; sourceTree = "<group>"; };
 		E57E157C19AA84FF002616F5 /* JGActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGActionSheet.m; sourceTree = "<group>"; };
-		E5849F2419D876840052636C /* LBXSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSearchViewController.h; path = Controllers/LBXSearchViewController.h; sourceTree = "<group>"; };
-		E5849F2519D876840052636C /* LBXSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSearchViewController.m; path = Controllers/LBXSearchViewController.m; sourceTree = "<group>"; };
-		E5849F2619D876840052636C /* LBXSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXSearchViewController.xib; path = Controllers/LBXSearchViewController.xib; sourceTree = "<group>"; };
 		E587FB4E1964E2B3006A3DDB /* PaperButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PaperButton.h; path = Extras/Pop/PaperButton.h; sourceTree = "<group>"; };
 		E587FB4F1964E2E5006A3DDB /* PaperButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperButton.m; path = Extras/Pop/PaperButton.m; sourceTree = "<group>"; };
 		E593F53A19D70FDB00D310C6 /* LBXDashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDashboardViewController.h; path = Controllers/LBXDashboardViewController.h; sourceTree = "<group>"; };
@@ -992,9 +987,6 @@
 				E593F53A19D70FDB00D310C6 /* LBXDashboardViewController.h */,
 				E593F53B19D70FDB00D310C6 /* LBXDashboardViewController.m */,
 				E593F53C19D70FDB00D310C6 /* LBXDashboardViewController.xib */,
-				E5849F2419D876840052636C /* LBXSearchViewController.h */,
-				E5849F2519D876840052636C /* LBXSearchViewController.m */,
-				E5849F2619D876840052636C /* LBXSearchViewController.xib */,
 				E593F54D19D7160C00D310C6 /* LBXTopTableViewCell.h */,
 				E593F54E19D7160C00D310C6 /* LBXTopTableViewCell.m */,
 				E593F54F19D7160C00D310C6 /* LBXTopTableViewCell.xib */,
@@ -1315,7 +1307,6 @@
 				E5E5A52919BBAE5500471BF8 /* black-spiderman.jpg in Resources */,
 				E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */,
 				E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */,
-				E5849F2819D876840052636C /* LBXSearchViewController.xib in Resources */,
 				E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
 				E57D497819611C8E0014A13F /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
 				E57C6BB619D79E7C002DE4BA /* LBXBottomTableViewCell.xib in Resources */,
@@ -1504,7 +1495,6 @@
 				E5D9A89019A9193200BC06C1 /* JTSAnimatedGIFUtility.m in Sources */,
 				E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */,
 				E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */,
-				E5849F2719D876840052636C /* LBXSearchViewController.m in Sources */,
 				E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */,
 				E593F53D19D70FDB00D310C6 /* LBXDashboardViewController.m in Sources */,
 				E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */,

@@ -15,7 +15,6 @@
 #import "LBXControllerServices.h"
 #import "LBXLoginViewController.h"
 #import "LBXWeekViewController.h"
-#import "LBXSearchViewController.h"
 #import "LBXPullListViewController.h"
 #import "LBXSearchTableViewController.h"
 #import "LBXClient.h"
@@ -36,7 +35,6 @@
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) NSArray *popularIssuesArray;
 @property (nonatomic, strong) NSArray *bundleIssuesArray;
-@property (nonatomic, strong) LBXSearchViewController *searchViewController;
 @property (nonatomic, strong) UISearchController *searchController;
 
 @end
@@ -303,6 +301,10 @@
 {
     NSArray *coreDataBundleArray = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
     LBXBundle *bundle;
+    NSString *issuesString = @"SUBSCRIBED ISSUES";
+    if (bundle.issues.count == 1) {
+        issuesString = @"SUBSCRIBED ISSUE";
+    }
     if (coreDataBundleArray.firstObject) {
         bundle = coreDataBundleArray.firstObject;
         
@@ -311,16 +313,12 @@
         _bundleIssuesArray = [[bundle.issues allObjects] sortedArrayUsingDescriptors:descriptors];
         
         [self.topTableView reloadData];
-        NSString *issuesString = @"ISSUES";
-        if (bundle.issues.count == 1) {
-            issuesString = @"ISSUE";
-        }
         [_bundleButton setTitle:[NSString stringWithFormat:@"%lu %@", (unsigned long)bundle.issues.count, issuesString]
                        forState:UIControlStateNormal];
         [_bundleButton setNeedsDisplay];
     }
     else {
-        [_bundleButton setTitle:@"0 ISSUES"
+        [_bundleButton setTitle:[NSString stringWithFormat:@"0 %@", issuesString]
                        forState:UIControlStateNormal];
     }
     
@@ -360,8 +358,8 @@
         [self.navigationController pushViewController:scrollViewController animated:YES];
     }
     else {
-        LBXSearchTableViewController *titleViewController = [[LBXSearchTableViewController alloc] init];
-        //titleViewController.issue = issue;
+        LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] init];
+        titleViewController.issue = issue;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
 }

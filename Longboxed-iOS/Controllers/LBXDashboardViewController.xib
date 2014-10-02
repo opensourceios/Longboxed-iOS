@@ -147,7 +147,7 @@
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="87" id="ar3-h2-Pex">
-                                    <variation key="widthClass=compact" constant="130"/>
+                                    <variation key="widthClass=compact" constant="150"/>
                                 </constraint>
                             </constraints>
                             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="16" maxY="0.0"/>

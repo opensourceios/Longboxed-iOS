@@ -47,7 +47,6 @@
 static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
 CGFloat cellWidth;
-BOOL endOfPages;
 BOOL _segmentedShowBool;
 BOOL _displayReleasesOfDate;
 int _page;
@@ -97,7 +96,6 @@ int _page;
     _client = [LBXClient new];
     
     _page = 1;
-    endOfPages = NO;
     
     _tableView = [UITableView new];
     _tableView.frame = self.view.frame;
@@ -214,7 +212,7 @@ int _page;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     [self setNavTitle];
     
-    if (_segmentedControl == nil) {
+    if (_segmentedControl == nil && _selectedWednesday) {
         [self fetchDate:_selectedWednesday withPage:@1];
     }
     else if (_segmentedControl.selectedSegmentIndex == 0) {
@@ -384,13 +382,13 @@ int _page;
             
             if (!error) {
                 if (!thisWeekArray.count) {
-                    endOfPages = YES;
                     [self completeRefresh];
                 }
                 else {
                     _page += 1;
                     [self fetchThisWeekWithPage:[NSNumber numberWithInt:_page]];
-                    
+                    // TODO: Uncomment this once date pagination is working
+                    //[self completeRefresh];
                 }
             }
             else {
@@ -409,13 +407,13 @@ int _page;
         
         if (!error) {
             if (!nextWeekArray.count) {
-                endOfPages = YES;
                 [self completeRefresh];
             }
             else {
                 _page += 1;
                 [self fetchNextWeekWithPage:[NSNumber numberWithInt:_page]];
-                
+                // TODO: Uncomment this once date pagination is working
+                //[self completeRefresh];
             }
         }
         else {
@@ -438,12 +436,13 @@ int _page;
         
         if (!error) {
             if (!issuesForDateArray.count) {
-                endOfPages = YES;
                 [self completeRefresh];
             }
             else {
                 _page += 1;
                 [self fetchDate:date withPage:[NSNumber numberWithInt:_page]];
+                // TODO: Uncomment this once date pagination is working
+                //[self completeRefresh];
             }
         }
         else {
@@ -519,8 +518,6 @@ int _page;
         _segmentedControl.selectedSegmentIndex = 1;
     }
     
-    //[self setIssuesForWeekArrayWithDate:_selectedWednesday];
-    //[self.tableView reloadData];
     [self fetchDate:_selectedWednesday withPage:@1];
 }
 
