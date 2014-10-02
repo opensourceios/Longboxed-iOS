@@ -387,8 +387,7 @@ int _page;
                 else {
                     _page += 1;
                     [self fetchThisWeekWithPage:[NSNumber numberWithInt:_page]];
-                    // TODO: Uncomment this once date pagination is working
-                    //[self completeRefresh];
+                    [self completeRefresh];
                 }
             }
             else {
@@ -412,8 +411,7 @@ int _page;
             else {
                 _page += 1;
                 [self fetchNextWeekWithPage:[NSNumber numberWithInt:_page]];
-                // TODO: Uncomment this once date pagination is working
-                //[self completeRefresh];
+                [self completeRefresh];
             }
         }
         else {
@@ -441,8 +439,7 @@ int _page;
             else {
                 _page += 1;
                 [self fetchDate:date withPage:[NSNumber numberWithInt:_page]];
-                // TODO: Uncomment this once date pagination is working
-                //[self completeRefresh];
+                [self completeRefresh];
             }
         }
         else {

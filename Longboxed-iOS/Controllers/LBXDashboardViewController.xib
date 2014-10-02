@@ -44,15 +44,20 @@
                                 <constraint firstAttribute="height" constant="105" id="Y7z-9r-wVX">
                                     <variation key="widthClass=compact" constant="150"/>
                                 </constraint>
+                                <constraint firstAttribute="height" constant="150" id="adg-ck-cIb">
+                                    <variation key="widthClass=compact" constant="170"/>
+                                </constraint>
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
                                     <exclude reference="Y7z-9r-wVX"/>
+                                    <exclude reference="adg-ck-cIb"/>
                                 </mask>
                             </variation>
                             <variation key="widthClass=compact">
                                 <mask key="constraints">
                                     <exclude reference="Y7z-9r-wVX"/>
+                                    <exclude reference="adg-ck-cIb"/>
                                 </mask>
                             </variation>
                             <connections>
@@ -64,7 +69,7 @@
                             <rect key="frame" x="20" y="459" width="320" height="104.5"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="150" id="KKZ-hR-g2A">
-                                    <variation key="widthClass=compact" constant="190"/>
+                                    <variation key="widthClass=compact" constant="180"/>
                                 </constraint>
                             </constraints>
                             <variation key="default">
@@ -147,7 +152,7 @@
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="87" id="ar3-h2-Pex">
-                                    <variation key="widthClass=compact" constant="150"/>
+                                    <variation key="widthClass=compact" constant="130"/>
                                 </constraint>
                             </constraints>
                             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="16" maxY="0.0"/>
@@ -253,7 +258,7 @@
                         <constraint firstItem="7rd-mt-NSU" firstAttribute="top" secondItem="8HB-Eq-bhK" secondAttribute="bottom" constant="4" id="46e-1W-FAB"/>
                         <constraint firstItem="slL-OO-oAz" firstAttribute="top" secondItem="8PZ-k4-aqN" secondAttribute="bottom" id="4B4-AE-vof"/>
                         <constraint firstAttribute="trailing" secondItem="eXB-f9-z9L" secondAttribute="trailing" id="5gH-Ms-16K">
-                            <variation key="widthClass=compact" constant="4"/>
+                            <variation key="widthClass=compact" constant="8"/>
                         </constraint>
                         <constraint firstItem="y8v-qX-v5k" firstAttribute="leading" secondItem="7rd-mt-NSU" secondAttribute="leading" id="9qt-sI-iJJ"/>
                         <constraint firstAttribute="bottom" secondItem="xmk-nS-8Ps" secondAttribute="bottom" constant="4" id="C0r-Ye-6Jw">
@@ -281,7 +286,9 @@
                         <constraint firstItem="eQe-rv-YnJ" firstAttribute="top" secondItem="eXB-f9-z9L" secondAttribute="bottom" id="Tef-9G-wfC">
                             <variation key="widthClass=compact" constant="-4"/>
                         </constraint>
-                        <constraint firstAttribute="trailing" secondItem="eQe-rv-YnJ" secondAttribute="trailing" id="Tmf-jy-C5d"/>
+                        <constraint firstAttribute="trailing" secondItem="eQe-rv-YnJ" secondAttribute="trailing" id="Tmf-jy-C5d">
+                            <variation key="widthClass=compact" constant="8"/>
+                        </constraint>
                         <constraint firstItem="eQe-rv-YnJ" firstAttribute="top" secondItem="eXB-f9-z9L" secondAttribute="bottom" constant="8" id="Urx-Kw-9pQ">
                             <variation key="widthClass=compact" constant="0.0"/>
                         </constraint>
@@ -298,7 +305,7 @@
                         </constraint>
                         <constraint firstAttribute="centerX" secondItem="xmk-nS-8Ps" secondAttribute="centerX" id="bzk-NS-zZh"/>
                         <constraint firstAttribute="trailing" secondItem="DQD-7i-keC" secondAttribute="trailing" id="cNb-vS-peH">
-                            <variation key="widthClass=compact" constant="4"/>
+                            <variation key="widthClass=compact" constant="8"/>
                         </constraint>
                         <constraint firstItem="HgF-uK-2Et" firstAttribute="leading" secondItem="6gX-gt-tvL" secondAttribute="leading" id="cWR-Kp-3ja">
                             <variation key="widthClass=compact" constant="8"/>
@@ -325,6 +332,7 @@
                         <constraint firstItem="zdW-xx-oVc" firstAttribute="top" secondItem="ERq-rc-N1h" secondAttribute="bottom" constant="4" id="vLt-6E-atf"/>
                         <constraint firstItem="xmk-nS-8Ps" firstAttribute="leading" secondItem="6gX-gt-tvL" secondAttribute="leading" id="vPF-La-Rsx"/>
                         <constraint firstItem="ERq-rc-N1h" firstAttribute="leading" secondItem="6gX-gt-tvL" secondAttribute="leading" id="wEo-GB-4Yk"/>
+                        <constraint firstItem="slL-OO-oAz" firstAttribute="height" secondItem="xmk-nS-8Ps" secondAttribute="height" id="xDU-O2-BWw"/>
                         <constraint firstItem="slL-OO-oAz" firstAttribute="top" secondItem="7rd-mt-NSU" secondAttribute="bottom" constant="4" id="zPV-8l-SQo"/>
                     </constraints>
                     <variation key="default">
@@ -362,14 +370,15 @@
                             <exclude reference="25j-QK-ZZs"/>
                             <exclude reference="M9o-Wd-b6J"/>
                             <exclude reference="bzc-bw-bew"/>
-                            <exclude reference="DBR-w4-xrg"/>
-                            <exclude reference="OLv-va-L1e"/>
                             <exclude reference="46O-tz-wmu"/>
                             <exclude reference="IEL-TO-0OF"/>
                             <exclude reference="WL5-Q9-FfY"/>
                             <exclude reference="sao-iA-bVi"/>
+                            <exclude reference="DBR-w4-xrg"/>
+                            <exclude reference="OLv-va-L1e"/>
                             <exclude reference="4B4-AE-vof"/>
                             <exclude reference="fcO-aV-xmd"/>
+                            <exclude reference="xDU-O2-BWw"/>
                             <exclude reference="C0r-Ye-6Jw"/>
                             <exclude reference="bzk-NS-zZh"/>
                         </mask>
@@ -409,14 +418,15 @@
                             <include reference="25j-QK-ZZs"/>
                             <include reference="M9o-Wd-b6J"/>
                             <include reference="bzc-bw-bew"/>
-                            <include reference="DBR-w4-xrg"/>
-                            <include reference="OLv-va-L1e"/>
                             <exclude reference="46O-tz-wmu"/>
                             <include reference="IEL-TO-0OF"/>
                             <include reference="WL5-Q9-FfY"/>
                             <include reference="sao-iA-bVi"/>
+                            <include reference="DBR-w4-xrg"/>
+                            <include reference="OLv-va-L1e"/>
                             <include reference="4B4-AE-vof"/>
-                            <include reference="fcO-aV-xmd"/>
+                            <exclude reference="fcO-aV-xmd"/>
+                            <include reference="xDU-O2-BWw"/>
                             <include reference="C0r-Ye-6Jw"/>
                             <include reference="bzk-NS-zZh"/>
                         </mask>

@@ -156,7 +156,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     // For debugging
-    NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date]};
+    NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date], @"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     [self GETWithRouteName:@"Issues Collection" objectDictParams:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
