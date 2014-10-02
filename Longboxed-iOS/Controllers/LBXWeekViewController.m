@@ -277,8 +277,11 @@ int _page;
     UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
     NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
     
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMM dd, yyyy"];
+    
     if (selectedSegment == 0) {
-        [self setNavTitle];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[LBXControllerServices getThisWednesdayOfDate:[LBXControllerServices getLocalDate]]];
         _issuesForWeekArray = nil;
         [self setIssuesForWeekArrayWithThisWeekIssues];
         [self.tableView reloadData];
@@ -287,7 +290,7 @@ int _page;
     
     }
     else if (selectedSegment == 1) {
-        [self setNavTitle];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[LBXControllerServices getNextWednesdayOfDate:[LBXControllerServices getLocalDate]]];
         _issuesForWeekArray = nil;
         [self setIssuesForWeekArrayWithNextWeekIssues];
         [self.tableView reloadData];
@@ -367,6 +370,9 @@ int _page;
     }
     else if (_segmentedControl.selectedSegmentIndex == 1) {
         [self setIssuesForWeekArrayWithNextWeekIssues];
+    }
+    else {
+        [self setIssuesForWeekArrayWithDate:_selectedWednesday];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -490,13 +496,7 @@ int _page;
 - (void)datePicker:(ESDatePicker *)datePicker dateSelected:(NSDate *)date
 {
     _issuesForWeekArray = nil;
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:date];
-    [components setWeekday:4]; // 4 == Wednesday
-    [components setHour:20];
-    [components setWeekOfYear:[components weekOfYear]];
-    
-    _selectedWednesday = [calendar dateFromComponents:components];
+    _selectedWednesday = [LBXControllerServices getThisWednesdayOfDate:date];
     
     [_segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
     [self setNavTitle];
@@ -514,8 +514,10 @@ int _page;
         [_selectedWednesday timeIntervalSinceDate:[LBXControllerServices getLocalDate]] <= 12*DAY) {
         _segmentedControl.selectedSegmentIndex = 1;
     }
-    
-    [self fetchDate:_selectedWednesday withPage:@1];
+    else {
+        [self fetchDate:_selectedWednesday withPage:@1];
+        _segmentedControl = nil;
+    }
 }
 
 - (IBAction)cancelCalendar:(id)sender
