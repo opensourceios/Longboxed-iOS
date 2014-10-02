@@ -76,7 +76,6 @@ RK_FIX_CATEGORY_BUG(NSString_RKAdditions)
     return [self queryParametersUsingArrays:NO encoding:encoding];
 }
 
-// TODO: Eliminate...
 - (NSDictionary *)queryParametersUsingArrays:(BOOL)shouldUseArrays encoding:(NSStringEncoding)encoding
 {
     NSString *stringToParse = self;
@@ -140,7 +139,6 @@ RK_FIX_CATEGORY_BUG(NSString_RKAdditions)
         return (__bridge NSString *)encodedString;
     }
 
-    // TODO: Log a warning?
     return @"";
 }
 

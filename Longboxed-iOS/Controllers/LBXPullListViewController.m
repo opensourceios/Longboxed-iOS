@@ -12,8 +12,6 @@
 #import "LBXBundle.h"
 #import "LBXPullListViewController.h"
 #import "LBXSearchTableViewCell.h"
-#import "ParallaxFlowLayout.h"
-#import "ParallaxPhotoCell.h"
 #import "SVWebViewController.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXControllerServices.h"
@@ -158,6 +156,8 @@ CGFloat cellWidth;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor blackColor]];
     
     if (!_pullListArray.count) {
         self.tableView.hidden = YES;

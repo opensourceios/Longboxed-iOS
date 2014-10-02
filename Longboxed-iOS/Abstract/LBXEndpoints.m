@@ -11,7 +11,7 @@
 @implementation LBXEndpoints
 
 NSString *stagingURL = @"http://new.longboxed.com";
-NSString *productionURL = @"http://www.longboxed.com";
+NSString *productionURL = @"http://longboxed.com";
 
 + (NSURL *)stagingURL
 {

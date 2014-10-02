@@ -58,7 +58,6 @@ RK_FIX_CATEGORY_BUG(NSDictionary_RKAdditions)
     return results;
 }
 
-// TODO: Unit tests...
 + (NSDictionary *)dictionaryWithURLEncodedString:(NSString *)URLEncodedString
 {
     NSMutableDictionary *queryComponents = [NSMutableDictionary dictionary];

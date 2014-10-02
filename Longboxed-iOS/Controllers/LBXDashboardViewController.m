@@ -17,6 +17,7 @@
 #import "LBXWeekViewController.h"
 #import "LBXSearchViewController.h"
 #import "LBXPullListViewController.h"
+#import "LBXSearchTableViewController.h"
 #import "LBXClient.h"
 #import "LBXBundle.h"
 
@@ -36,6 +37,7 @@
 @property (nonatomic, strong) NSArray *popularIssuesArray;
 @property (nonatomic, strong) NSArray *bundleIssuesArray;
 @property (nonatomic, strong) LBXSearchViewController *searchViewController;
+@property (nonatomic, strong) UISearchController *searchController;
 
 @end
 
@@ -81,12 +83,18 @@
         
         self.bottomTableView.tableFooterView = [UIView new];
         
-//        if ([UIScreen mainScreen].bounds.size.height > 667) {
-//        [self.topTableView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[topTableView(==%d)]", 165]
-//                                                                                options:0
-//                                                                                metrics:nil
-//                                                                                    views: @{@"topTableView" :self.topTableView}]];
-//        }
+        LBXSearchTableViewController *searchResultsController = [LBXSearchTableViewController new];
+        _searchController = [[UISearchController alloc]
+                                                initWithSearchResultsController:searchResultsController];
+        _searchController.searchResultsUpdater = searchResultsController;
+        _searchController.dimsBackgroundDuringPresentation = YES;
+        _searchController.delegate = self;
+//        _searchController.searchBar
+        //_searchBar.hidden = YES;
+        self.definesPresentationContext = YES;
+        [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
+        
+        [_scrollView addSubview:_searchController.searchBar];
     }
     return self;
 }
@@ -110,6 +118,8 @@
     [self setArrowsForButton:_bundleButton];
     [self setArrowsForButton:_popularButton];
     
+    _searchBar.hidden = YES;
+
     [_bundleButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     [_popularButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -123,11 +133,21 @@
     bottomBorder.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1.0f);
     bottomBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
     [_separatorView.layer addSublayer:bottomBorder];
+    
+    _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
+    _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
+    _searchController.searchBar.backgroundColor = [UIColor clearColor];
+    _searchController.searchBar.tintColor = [UIColor clearColor];
+    _searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
+    _searchController.searchBar.clipsToBounds = YES;
+    _searchController.hidesNavigationBarDuringPresentation = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
     
     self.navigationController.navigationBar.topItem.title = @" ";
     
@@ -339,8 +359,8 @@
         [self.navigationController pushViewController:scrollViewController animated:YES];
     }
     else {
-        LBXIssueDetailViewController *titleViewController = [[LBXIssueDetailViewController alloc] initWithMainImage:dict[@"image"]];
-        titleViewController.issue = issue;
+        LBXSearchTableViewController *titleViewController = [[LBXSearchTableViewController alloc] init];
+        //titleViewController.issue = issue;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
 }

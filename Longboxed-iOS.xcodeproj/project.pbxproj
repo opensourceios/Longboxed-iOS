@@ -38,6 +38,8 @@
 		E510AFB2198C7B7D004A7225 /* NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF01198C7B7D004A7225 /* NBUKit.m */; };
 		E510AFF8198C7D09004A7225 /* NBUCore.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AFF4198C7D09004A7225 /* NBUCore.m */; };
 		E515746319DCC4360072EE3E /* LBXSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E515746219DCC4360072EE3E /* LBXSearchTableViewController.m */; };
+		E515746719DCD1D00072EE3E /* LBXComicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E515746519DCD1D00072EE3E /* LBXComicTableViewCell.m */; };
+		E515746819DCD1D00072EE3E /* LBXComicTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E515746619DCD1D00072EE3E /* LBXComicTableViewCell.xib */; };
 		E5165E49198E8618001CDECA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5165E48198E8618001CDECA /* CoreData.framework */; };
 		E51AB57019A405940066FFF6 /* LBXIssueDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */; };
 		E51AB57119A405940066FFF6 /* LBXIssueDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */; };
@@ -81,9 +83,6 @@
 		E57D48E1196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
 		E57D48E2196068E10014A13F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48CA196068E10014A13F /* UIKit.framework */; };
 		E57D48EA196068E10014A13F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E57D48E8196068E10014A13F /* InfoPlist.strings */; };
-		E57D49061960961E0014A13F /* ParallaxFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49011960961E0014A13F /* ParallaxFlowLayout.m */; };
-		E57D49071960961E0014A13F /* ParallaxLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49031960961E0014A13F /* ParallaxLayoutAttributes.m */; };
-		E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49051960961E0014A13F /* ParallaxPhotoCell.m */; };
 		E57D49121960A2180014A13F /* LBXClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D49111960A2180014A13F /* LBXClient.m */; };
 		E57D49241960B8F40014A13F /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57D49231960B8F40014A13F /* black.png */; };
 		E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D494219610C970014A13F /* LBXAppDelegate.m */; };
@@ -135,8 +134,6 @@
 		E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDA19983DFC0022F4CA /* UIImageView+LBBlurredImage.m */; };
 		E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */; };
 		E5B6FCE51998497A0022F4CA /* LBXControllerServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCE41998497A0022F4CA /* LBXControllerServices.m */; };
-		E5C6446A19C67B1D00C63B19 /* LBXComicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C6446819C67B1D00C63B19 /* LBXComicTableViewCell.m */; };
-		E5C6446B19C67B1D00C63B19 /* LBXComicTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5C6446919C67B1D00C63B19 /* LBXComicTableViewCell.xib */; };
 		E5CCAC5419B53BD30068AD8D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */; };
 		E5CCAC5619B53BE60068AD8D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */; };
 		E5CCAC5719B53C4E0068AD8D /* NBULog+NBUKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E510AF04198C7B7D004A7225 /* NBULog+NBUKit.m */; };
@@ -246,6 +243,9 @@
 		E510AFF4198C7D09004A7225 /* NBUCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBUCore.m; sourceTree = "<group>"; };
 		E515746119DCC4360072EE3E /* LBXSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSearchTableViewController.h; path = Controllers/LBXSearchTableViewController.h; sourceTree = "<group>"; };
 		E515746219DCC4360072EE3E /* LBXSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSearchTableViewController.m; path = Controllers/LBXSearchTableViewController.m; sourceTree = "<group>"; };
+		E515746419DCD1D00072EE3E /* LBXComicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXComicTableViewCell.h; path = Views/LBXComicTableViewCell.h; sourceTree = "<group>"; };
+		E515746519DCD1D00072EE3E /* LBXComicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXComicTableViewCell.m; path = Views/LBXComicTableViewCell.m; sourceTree = "<group>"; };
+		E515746619DCD1D00072EE3E /* LBXComicTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXComicTableViewCell.xib; path = Views/LBXComicTableViewCell.xib; sourceTree = "<group>"; };
 		E5165E48198E8618001CDECA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E51AB56D19A405940066FFF6 /* LBXIssueDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssueDetailViewController.h; path = Controllers/LBXIssueDetailViewController.h; sourceTree = "<group>"; };
 		E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueDetailViewController.m; path = Controllers/LBXIssueDetailViewController.m; sourceTree = "<group>"; };
@@ -325,12 +325,6 @@
 		E57D48DF196068E10014A13F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E57D48E7196068E10014A13F /* Longboxed-iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Longboxed-iOSTests-Info.plist"; sourceTree = "<group>"; };
 		E57D48E9196068E10014A13F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		E57D49001960961E0014A13F /* ParallaxFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParallaxFlowLayout.h; path = Views/ParallaxFlowLayout.h; sourceTree = "<group>"; };
-		E57D49011960961E0014A13F /* ParallaxFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParallaxFlowLayout.m; path = Views/ParallaxFlowLayout.m; sourceTree = "<group>"; };
-		E57D49021960961E0014A13F /* ParallaxLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParallaxLayoutAttributes.h; path = Views/ParallaxLayoutAttributes.h; sourceTree = "<group>"; };
-		E57D49031960961E0014A13F /* ParallaxLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParallaxLayoutAttributes.m; path = Views/ParallaxLayoutAttributes.m; sourceTree = "<group>"; };
-		E57D49041960961E0014A13F /* ParallaxPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParallaxPhotoCell.h; path = Views/ParallaxPhotoCell.h; sourceTree = "<group>"; };
-		E57D49051960961E0014A13F /* ParallaxPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParallaxPhotoCell.m; path = Views/ParallaxPhotoCell.m; sourceTree = "<group>"; };
 		E57D49101960A2180014A13F /* LBXClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXClient.h; path = Abstract/LBXClient.h; sourceTree = "<group>"; };
 		E57D49111960A2180014A13F /* LBXClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXClient.m; path = Abstract/LBXClient.m; sourceTree = "<group>"; };
 		E57D49231960B8F40014A13F /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = black.png; path = Assets/black.png; sourceTree = SOURCE_ROOT; };
@@ -409,9 +403,6 @@
 		E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSpotyViewController.m; sourceTree = "<group>"; };
 		E5B6FCE31998497A0022F4CA /* LBXControllerServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXControllerServices.h; path = Abstract/LBXControllerServices.h; sourceTree = "<group>"; };
 		E5B6FCE41998497A0022F4CA /* LBXControllerServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXControllerServices.m; path = Abstract/LBXControllerServices.m; sourceTree = "<group>"; };
-		E5C6446719C67B1D00C63B19 /* LBXComicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXComicTableViewCell.h; path = Controllers/LBXComicTableViewCell.h; sourceTree = "<group>"; };
-		E5C6446819C67B1D00C63B19 /* LBXComicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXComicTableViewCell.m; path = Controllers/LBXComicTableViewCell.m; sourceTree = "<group>"; };
-		E5C6446919C67B1D00C63B19 /* LBXComicTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXComicTableViewCell.xib; path = Controllers/LBXComicTableViewCell.xib; sourceTree = "<group>"; };
 		E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		E5CCAC5819B53EDB0068AD8D /* LBXLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLogging.h; path = Abstract/LBXLogging.h; sourceTree = "<group>"; };
@@ -791,9 +782,9 @@
 		E57D48FE1960960A0014A13F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E5C6446719C67B1D00C63B19 /* LBXComicTableViewCell.h */,
-				E5C6446819C67B1D00C63B19 /* LBXComicTableViewCell.m */,
-				E5C6446919C67B1D00C63B19 /* LBXComicTableViewCell.xib */,
+				E515746419DCD1D00072EE3E /* LBXComicTableViewCell.h */,
+				E515746519DCD1D00072EE3E /* LBXComicTableViewCell.m */,
+				E515746619DCD1D00072EE3E /* LBXComicTableViewCell.xib */,
 				E57E156E19A993F4002616F5 /* LBXPublisherDetailView.h */,
 				E57E156F19A993F4002616F5 /* LBXPublisherDetailView.m */,
 				E57E157119A99427002616F5 /* LBXPublisherDetailView.xib */,
@@ -809,12 +800,6 @@
 				E535EBA719DB74A5001B729A /* LBXPublisherListTableViewCell.h */,
 				E535EBA819DB74A5001B729A /* LBXPublisherListTableViewCell.m */,
 				E535EBA919DB74A5001B729A /* LBXPublisherListTableViewCell.xib */,
-				E57D49001960961E0014A13F /* ParallaxFlowLayout.h */,
-				E57D49011960961E0014A13F /* ParallaxFlowLayout.m */,
-				E57D49021960961E0014A13F /* ParallaxLayoutAttributes.h */,
-				E57D49031960961E0014A13F /* ParallaxLayoutAttributes.m */,
-				E57D49041960961E0014A13F /* ParallaxPhotoCell.h */,
-				E57D49051960961E0014A13F /* ParallaxPhotoCell.m */,
 				E57CCAC319CB8C8E0086B39E /* LBXSearchTableViewCell.h */,
 				E57CCAC419CB8C8E0086B39E /* LBXSearchTableViewCell.m */,
 				E57CCAC519CB8C8E0086B39E /* LBXSearchTableViewCell.xib */,
@@ -1315,7 +1300,6 @@
 				E593F53E19D70FDB00D310C6 /* LBXDashboardViewController.xib in Resources */,
 				E51AB57119A405940066FFF6 /* LBXIssueDetailViewController.xib in Resources */,
 				E57D496419611BB30014A13F /* SVWebViewController.bundle in Resources */,
-				E5C6446B19C67B1D00C63B19 /* LBXComicTableViewCell.xib in Resources */,
 				E593F55319D7160C00D310C6 /* LBXTopTableViewCell.xib in Resources */,
 				E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */,
 				E57D498019611C950014A13F /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
@@ -1339,6 +1323,7 @@
 				E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */,
 				E57E157819A9A55E002616F5 /* loadingCoverTransparent.png in Resources */,
 				E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */,
+				E515746819DCD1D00072EE3E /* LBXComicTableViewCell.xib in Resources */,
 				E57D497A19611C8E0014A13F /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */,
 				E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */,
@@ -1469,7 +1454,6 @@
 				E57D48D3196068E10014A13F /* main.m in Sources */,
 				E535EBAA19DB74A5001B729A /* LBXPublisherListTableViewCell.m in Sources */,
 				E535EBAE19DB7B63001B729A /* UIImage+DrawOnImage.m in Sources */,
-				E57D49061960961E0014A13F /* ParallaxFlowLayout.m in Sources */,
 				E510AFA3198C7B7D004A7225 /* NSArray+NBUAdditions.m in Sources */,
 				E5E5163319CA446D005FBD43 /* UIFont+customFonts.m in Sources */,
 				E510AFAC198C7B7D004A7225 /* UIResponder+NBUAdditions.m in Sources */,
@@ -1485,7 +1469,6 @@
 				E57D4956196118950014A13F /* REMenuItemView.m in Sources */,
 				E57CCAC619CB8C8E0086B39E /* LBXSearchTableViewCell.m in Sources */,
 				E5E5163219CA446D005FBD43 /* UIColor+customColors.m in Sources */,
-				E57D49081960961E0014A13F /* ParallaxPhotoCell.m in Sources */,
 				E5D9A89319A9193200BC06C1 /* JTSSimpleImageDownloader.m in Sources */,
 				E5D9A89419A9193200BC06C1 /* UIApplication+JTSImageViewController.m in Sources */,
 				E51AB57019A405940066FFF6 /* LBXIssueDetailViewController.m in Sources */,
@@ -1511,6 +1494,7 @@
 				E593F55019D7160C00D310C6 /* ActualTableViewCell.m in Sources */,
 				E535EBB119DB7DD7001B729A /* UIImage+CreateImage.m in Sources */,
 				E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */,
+				E515746719DCD1D00072EE3E /* LBXComicTableViewCell.m in Sources */,
 				E5E5162C19CA446D005FBD43 /* LBXMessageBar.m in Sources */,
 				E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */,
 				E510AFA9198C7B7D004A7225 /* UIImage+NBUAdditions.m in Sources */,
@@ -1542,7 +1526,6 @@
 				E57D4954196118950014A13F /* REMenuContainerView.m in Sources */,
 				E510AFA8198C7B7D004A7225 /* UIButton+NBUAdditions.m in Sources */,
 				E510AF96198C7B7D004A7225 /* RKDirectory.m in Sources */,
-				E57D49071960961E0014A13F /* ParallaxLayoutAttributes.m in Sources */,
 				E510AF91198C7B7D004A7225 /* NSData+RKAdditions.m in Sources */,
 				E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */,
 				E57D4952196118950014A13F /* RECommonFunctions.m in Sources */,
@@ -1557,7 +1540,6 @@
 				E5E5162E19CA446D005FBD43 /* NSData+Base64.m in Sources */,
 				E57D496519611BB30014A13F /* SVWebViewController.m in Sources */,
 				E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */,
-				E5C6446A19C67B1D00C63B19 /* LBXComicTableViewCell.m in Sources */,
 				E5E5163419CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m in Sources */,
 				E510AF92198C7B7D004A7225 /* NSDictionary+RKAdditions.m in Sources */,
 				E5E5162D19CA446D005FBD43 /* NSArray+ArrayUtilities.m in Sources */,
