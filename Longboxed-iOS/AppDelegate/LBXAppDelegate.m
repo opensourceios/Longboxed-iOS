@@ -21,6 +21,8 @@
 #import "NSLogger.h"
 #import "PSDDFormatter.h"
 
+#import <Crashlytics/Crashlytics.h>
+
 @implementation LBXAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -56,6 +58,9 @@
     _fileLogger.logFileManager.maximumNumberOfLogFiles = 1;
     [_fileLogger rollLogFileWithCompletionBlock:nil];
     [DDLog addLogger:_fileLogger];
+    
+    // Crashlytics
+    [Crashlytics startWithAPIKey:@"16ebe072876d720b57b612526b0b6f214e2c3cf5"];
     
     // Hockey app needs to be the last 3rd party integration in this method
     
