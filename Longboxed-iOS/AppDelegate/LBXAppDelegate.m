@@ -63,7 +63,6 @@
     [Crashlytics startWithAPIKey:@"16ebe072876d720b57b612526b0b6f214e2c3cf5"];
     
     // Hockey app needs to be the last 3rd party integration in this method
-    
     // Alpha Version
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"4064359702d9b0088c5ccb88d7d897b5"];
     

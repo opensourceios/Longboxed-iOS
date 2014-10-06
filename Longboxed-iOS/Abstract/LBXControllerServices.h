@@ -40,4 +40,8 @@
                    newResults:(NSArray *)newResultsArray
                     animation:(UITableViewRowAnimation)animation;
 
++ (NSArray *)getPublisherTableViewSectionArrayForArray:(NSArray *)array;
++ (NSArray *)getBundleTableViewSectionArrayForArray:(NSArray *)array;
++ (NSArray *)getAlphabeticalTableViewSectionArrayForArray:(NSArray *)array;
+
 @end

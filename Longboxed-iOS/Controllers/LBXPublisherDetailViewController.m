@@ -295,7 +295,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(publisher == %@)", _detailPublisher];
     _titlesForPublisherArray = [LBXTitle MR_findAllSortedBy:@"name" ascending:YES withPredicate:predicate];
-    [self generateSectionArray];
+    _sectionArray = [LBXControllerServices getAlphabeticalTableViewSectionArrayForArray:_titlesForPublisherArray];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
         [self.view setNeedsDisplay];
@@ -318,38 +318,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         [layer pop_addAnimation:anim forKey:@"origin.y"];
         [SVProgressHUD dismiss];   
     }
-}
-
-- (void)generateSectionArray {
-    
-    static NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ#";
-    
-    NSMutableArray *content = [NSMutableArray new];
-    
-    // Loop through every letter of the alphabet
-    for (int i = 0; i < [letters length]; i++ ) {
-        NSMutableDictionary *letterDict = [NSMutableDictionary new];
-        NSMutableArray *letterArray = [NSMutableArray new];
-        // Loop through every title in the publisher array
-        for (LBXTitle *title in _titlesForPublisherArray) {
-            // Check if the title name begins with the current character
-            if (toupper([letters characterAtIndex:i]) == toupper([title.name characterAtIndex:0])) {
-                // If it does, append it to an array of all the titles
-                // for that letter
-                [letterArray addObject:title];
-            }
-            if ([letters characterAtIndex:i] == '#' && isdigit([title.name characterAtIndex:0])) {
-                [letterArray addObject:title];
-            }
-        }
-        // Add the letter as the key and the title array as the value
-        // and then make it a part of the larger content array
-        if (letterArray.count) {
-            [letterDict setValue:letterArray forKey:[NSString stringWithFormat:@"%c", [letters characterAtIndex:i]]];
-            [content addObject:letterDict];
-        }
-    }
-    _sectionArray = content;
 }
 
 #pragma mark - Setter overrides

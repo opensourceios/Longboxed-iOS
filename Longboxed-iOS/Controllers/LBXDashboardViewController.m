@@ -35,6 +35,7 @@
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) NSArray *popularIssuesArray;
 @property (nonatomic, strong) NSArray *bundleIssuesArray;
+@property (nonatomic, strong) NSMutableArray *lastFiveBundlesIssuesArray;
 @property (nonatomic, strong) UISearchController *searchController;
 
 @end
@@ -162,7 +163,7 @@
 
     _client = [LBXClient new];
     
-    [self getCoreDataBundle];
+    [self getCoreDataLatestBundle];
     [self.topTableView reloadData];
     
     [self refresh];
@@ -297,16 +298,17 @@
     }];
 }
 
-- (void)getCoreDataBundle
+- (void)getCoreDataLatestBundle
 {
     NSArray *coreDataBundleArray = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
     LBXBundle *bundle;
-    NSString *issuesString = @"SUBSCRIBED ISSUES";
-    if (bundle.issues.count == 1) {
-        issuesString = @"SUBSCRIBED ISSUE";
-    }
     if (coreDataBundleArray.firstObject) {
         bundle = coreDataBundleArray.firstObject;
+        
+        NSString *issuesString = @"SUBSCRIBED ISSUES";
+        if (bundle.issues.count == 1) {
+            issuesString = @"SUBSCRIBED ISSUE";
+        }
         
         NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"completeTitle" ascending:YES];
         NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
@@ -318,10 +320,23 @@
         [_bundleButton setNeedsDisplay];
     }
     else {
-        [_bundleButton setTitle:[NSString stringWithFormat:@"0 %@", issuesString]
+        [_bundleButton setTitle:@"0 SUBSCRIBED ISSUES"
                        forState:UIControlStateNormal];
     }
     
+}
+
+- (void)getCoreDataLastFiveBundles
+{
+    _lastFiveBundlesIssuesArray = [NSMutableArray new];
+    NSArray *coreDataBundleArray = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
+    if (coreDataBundleArray.firstObject) {
+        for (LBXBundle *bundle in coreDataBundleArray) {
+            NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"completeTitle" ascending:YES];
+            NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
+            [_lastFiveBundlesIssuesArray addObject:[[bundle.issues allObjects] sortedArrayUsingDescriptors:descriptors]];
+        }
+    }
 }
 
 - (void)fetchBundle
@@ -332,7 +347,7 @@
             
             if (!error) {
                 // Get the bundles from Core Data
-                [self getCoreDataBundle];
+                [self getCoreDataLatestBundle];
             
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.topTableView reloadData];
@@ -379,8 +394,9 @@
     switch ([button tag]) {
         case 0: // Add title to pull list
         {
+            [self getCoreDataLastFiveBundles];
             // Pressing the your bundle/issues button
-            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_bundleIssuesArray andTitle:@"Your Issues"];
+            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_lastFiveBundlesIssuesArray andTitle:@"Your Issues"];
             [self.navigationController pushViewController:controller animated:YES];
             break;
         }
@@ -451,7 +467,7 @@
              object:self];
         }
         else {
-            [self getCoreDataBundle];
+            [self getCoreDataLatestBundle];
         }
         
         cell = self.topTableViewCell;

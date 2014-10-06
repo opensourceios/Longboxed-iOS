@@ -161,8 +161,11 @@ int _page;
     else if (_displayReleasesOfDate) {
         [self setIssuesForWeekArrayWithDate:_selectedWednesday];
     }
+    else if ([_customNavTitle isEqualToString:@"Your Issues"]) {
+        _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
+    }
     else {
-        [self fetchPublishers];
+        _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
     }
 }
 
@@ -325,7 +328,10 @@ int _page;
             }
         }
         _issuesForWeekArray = nextWeekArray;
-        [self fetchPublishers];
+        if ([_customNavTitle isEqualToString:@"Your Issues"]) {
+            _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
+        }
+        else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
     }
 }
 
@@ -344,7 +350,10 @@ int _page;
             }
         }
         _issuesForWeekArray = nextWeekArray;
-        [self fetchPublishers];
+        if ([_customNavTitle isEqualToString:@"Your Issues"]) {
+            _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
+        }
+        else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
     }
 }
 
@@ -354,7 +363,10 @@ int _page;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isParent == 1) AND (releaseDate >= %@) AND (releaseDate <= %@)", [date dateByAddingTimeInterval:-60*60*24*daysToAdd], [date dateByAddingTimeInterval:60*60*24*daysToAdd]];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     _issuesForWeekArray = allIssuesArray;
-    [self fetchPublishers];
+    if ([_customNavTitle isEqualToString:@"Your Issues"]) {
+        _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
+    }
+    else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
 }
 
 - (void)completeRefresh
@@ -363,7 +375,10 @@ int _page;
         if (_selectedWednesday) {
             [self setIssuesForWeekArrayWithDate:_selectedWednesday];
         }
-        [self fetchPublishers];
+        if ([_customNavTitle isEqualToString:@"Your Issues"]) {
+            _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
+        }
+        else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
     }
     else if (_segmentedControl.selectedSegmentIndex == 0) {
         [self setIssuesForWeekArrayWithThisWeekIssues];
@@ -531,43 +546,6 @@ int _page;
 {
     [_calendarView setSelectedDate:nil];
     [_calendarView scrollToDate:[NSDate date] animated:YES];
-}
-
-- (void)fetchPublishers {
-
-    NSMutableArray *publishersArray = [NSMutableArray new];
-    for (LBXIssue *issue in _issuesForWeekArray) {
-        if (![publishersArray containsObject:issue.publisher]) {
-            [publishersArray addObject:issue.publisher];
-        }
-            
-    }
-    
-    NSMutableArray *content = [NSMutableArray new];
-    
-    // Loop through every letter of the alphabet
-    for (int i = 0; i < [publishersArray count]; i++ ) {
-        NSMutableDictionary *letterDict = [NSMutableDictionary new];
-        NSMutableArray *letterArray = [NSMutableArray new];
-        // Loop through every issue in the issues array
-        for (LBXIssue *issue in _issuesForWeekArray) {
-            // Check if the issue name begins with the current character
-            LBXPublisher *publisher = [publishersArray objectAtIndex:i];
-            if ([publisher.name isEqualToString:issue.publisher.name]) {
-                // If it does, append it to an array of all the titles
-                // for that letter
-                [letterArray addObject:issue];
-            }
-        }
-        // Add the letter as the key and the title array as the value
-        // and then make it a part of the larger content array
-        if (letterArray.count) {
-            LBXPublisher *publisher = [publishersArray objectAtIndex:i];
-            [letterDict setValue:letterArray forKey:[NSString stringWithFormat:@"%@", publisher.name]];
-            [content addObject:letterDict];
-        }
-    }
-    _sectionArray = content;
 }
 
 #pragma mark - Table view data source
