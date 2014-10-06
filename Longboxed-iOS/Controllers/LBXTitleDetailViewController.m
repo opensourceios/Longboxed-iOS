@@ -73,6 +73,11 @@ int page;
     [self fetchPullList];
     [self fetchAllIssuesWithPage:@1];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(setForegroundImageView)
+                                                 name:@"setTitleDetailForegroundImage"
+                                               object:nil];
+    
     // Adjustment for images with a height that is less than _detailView.latestIssueImageView
     [self setCustomBlurredBackgroundImageWithImage:_detailView.latestIssueImageView.image];
 }
@@ -147,7 +152,23 @@ int page;
     _detailView.addToPullListButton.layer.borderWidth = 1.0f;
     _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
     _detailView.latestIssueImageView.image = _latestIssueImage;
+    _detailView.latestIssueImageView.contentMode = UIViewContentModeScaleAspectFit;
+    if (_latestIssueImage.size.height < _detailView.latestIssueImageView.frame.size.height) {
+        _detailView.latestIssueImageView.contentMode = UIViewContentModeScaleToFill;
+    }
+}
+
+- (void)setForegroundImageView
+{
+    [UIView transitionWithView:_detailView.latestIssueImageView
+                      duration:0.3f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        _detailView.latestIssueImageView.image = self.foregroundImage;
+                    } completion:nil];
+    _detailView.latestIssueImageView.contentMode = UIViewContentModeScaleAspectFit;
     [_detailView.latestIssueImageView sizeToFit];
+    [_detailView setNeedsLayout];
 }
 
 - (void)updateDetailView

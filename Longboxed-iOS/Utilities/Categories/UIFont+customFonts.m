@@ -148,6 +148,11 @@ static const NSString *fontFace = @"AvenirNext";
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:24];
 }
 
++ (UIFont *)featuredIssueDescriptionFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:12];
+}
+
 + (UIFont *)defaultPublisherInitialsFont
 {
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-UltraLight", fontFace] size:48];

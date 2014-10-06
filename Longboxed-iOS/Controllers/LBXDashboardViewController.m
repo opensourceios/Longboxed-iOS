@@ -118,6 +118,9 @@
     [self setArrowsForButton:_popularButton];
     
     _searchBar.hidden = YES;
+    
+    _featuredTextView.textColor = [UIColor whiteColor];
+    _featuredTextView.font = [UIFont featuredIssueDescriptionFont];
 
     [_bundleButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     [_popularButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];

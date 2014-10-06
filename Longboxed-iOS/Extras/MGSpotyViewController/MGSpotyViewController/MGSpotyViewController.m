@@ -9,6 +9,7 @@
 #import "MGSpotyViewController.h"
 #import "UIImageView+LBBlurredImage.h"
 #import "LBXTitleDetailView.h"
+#import "LBXClient.h"
 
 #import <UIImageView+AFNetworking.h>
 
@@ -28,6 +29,42 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         _backgroundImage = [image copy];
         _mainImageView = [UIImageView new];
         [_mainImageView setImage:_foregroundImage];
+        _overView = [UIView new];
+        _tableView = [UITableView new];
+        _frameRect = frame;
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithTitle:(LBXTitle *)title andTopViewFrame:(CGRect)frame
+{
+    if(self = [super init]) {
+        _foregroundImage = [UIImage imageNamed:@"black"];
+        _backgroundImage = [UIImage imageNamed:@"black"];
+        [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
+        [self getLatestIssueImageForTitle:title withCompletion:^(UIImage *image) {
+            _foregroundImage = image;
+            _backgroundImage = image;
+            //[_mainImageView setImage:_foregroundImage];
+            UIImageView *imageView = [UIImageView new];
+            __block typeof(imageView) bImageView = imageView;
+            __block typeof(self) bself = self;
+            [imageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:^ {
+                [UIView transitionWithView:_mainImageView
+                                  duration:0.3f
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{
+                                    bself.mainImageView.image = bImageView.image;
+                                } completion:nil];
+                
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:@"setTitleDetailForegroundImage"
+                 object:self userInfo:nil];
+            }];
+        }];
+        
+        _mainImageView = [UIImageView new];
         _overView = [UIView new];
         _tableView = [UITableView new];
         _frameRect = frame;
@@ -70,7 +107,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     
     [_mainImageView setFrame:_frameRect];
     [_mainImageView setContentMode:UIViewContentModeScaleAspectFill];
-    [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
+    if (_backgroundImage) [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
     [view addSubview:_mainImageView];
 
     [_overView setFrame:_mainImageView.bounds];
@@ -95,6 +132,32 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     
     //Set the view
     self.view = view;
+}
+
+- (void)getLatestIssueImageForTitle:(LBXTitle *)title withCompletion:(void (^)(UIImage *))completion
+{
+    UIImageView *imageView = [UIImageView new];
+    LBXClient *client = [LBXClient new];
+    [client fetchIssuesForTitle:title.titleID page:@1 count:@1 withCompletion:^(NSArray *issueArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            if (issueArray.count) {
+                [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:((LBXIssue *)issueArray[0]).coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                    
+                    completion(image);
+                    
+                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                    completion([UIImage imageNamed:@"NotAvailable.jpeg"]);
+
+                }];
+            }
+            else completion([UIImage imageNamed:@"NotAvailable.jpeg"]);
+        }
+        else {
+            completion([UIImage imageNamed:@"NotAvailable.jpeg"]);
+            //[LBXMessageBar displayError:error];
+        }
+    }];
 }
 
 - (void)setCustomBackgroundImageWithImage:(UIImage *)image

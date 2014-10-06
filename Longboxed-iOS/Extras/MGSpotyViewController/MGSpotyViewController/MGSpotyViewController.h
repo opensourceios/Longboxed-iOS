@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LBXTitle.h"
 
 extern CGFloat const kMGOffsetEffects;
 extern CGFloat const kMGOffsetBlurEffect;
@@ -23,6 +24,7 @@ extern CGFloat const kMGOffsetBlurEffect;
 
 - (instancetype)initWithMainImage:(UIImage *)image andTopViewFrame:(CGRect)frame;
 - (instancetype)initWithTopViewFrame:(CGRect)frame;
+- (instancetype)initWithTitle:(LBXTitle *)title andTopViewFrame:(CGRect)frame;
 - (void)setCustomBackgroundImageWithImage:(UIImage *)image;
 - (void)setCustomBlurredBackgroundImageWithImage:(UIImage *)image;
 - (void)setCustomForegroundImageWithImage:(UIImage *)image;

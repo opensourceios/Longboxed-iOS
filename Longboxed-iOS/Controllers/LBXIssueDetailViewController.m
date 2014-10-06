@@ -11,6 +11,7 @@
 #import "LBXPublisherDetailViewController.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXWeekViewController.h"
+#import "LBXClient.h"
 
 #import "UIImageView+LBBlurredImage.h"
 #import "UIFont+customFonts.h"
@@ -36,6 +37,7 @@
 @property (nonatomic) IBOutlet UIButton *publisherButton;
 @property (nonatomic) IBOutlet UIButton *releaseDateButton;
 
+@property (nonatomic, copy) UIImageView *latestIssueForTitleImageView;
 @property (nonatomic, copy) UIImage *issueImage;
 
 @end
@@ -173,6 +175,8 @@ BOOL saveSheetVisible;
     
     [_imageButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _imageButton.tag = 0;
+    
+    _latestIssueForTitleImageView = [UIImageView new];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -241,10 +245,10 @@ BOOL saveSheetVisible;
         }
         case 3: // Title button
         {
-            LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithMainImage:_coverImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
+            LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_issue.title andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
             [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title: %@", _issue.title.description]];
             titleViewController.titleID = _issue.title.titleID;
-            titleViewController.latestIssueImage = _coverImageView.image;
+            titleViewController.latestIssueImage = [UIImage imageNamed:@"black"];
             [self.navigationController pushViewController:titleViewController animated:YES];
         }
     }
