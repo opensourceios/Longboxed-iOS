@@ -1,3 +1,5 @@
 language: objective-c
-xcode_workspace: Longboxed-iOS.xcworkspace # path to your xcodeproj folder
-xcode_scheme: MyNewProjectTests
+
+script:
+	- pod install
+	- xcodebuild -workspace Longboxed-iOS.xcworkspace -scheme Alpha-Longboxed-iOS -sdk iphonesimulator clean build test ONLY_ACTIVE_ARCH=NO
