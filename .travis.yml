@@ -1,5 +1,7 @@
 language: objective-c
-script:
-    - xctool test -workspace Longboxed-iOS.xcworkspace -scheme Alpha-Longboxed-iOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
-    - xctool test -workspace Longboxed-iOS.xcworkspace -scheme Alpha-Longboxed-iOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+before_install:
+  - brew update
+  - brew reinstall xctool
 
+xcode_workspace: Longboxed-iOS.xcworkspace
+xcode_scheme: Alpha-Longboxed-iOS
