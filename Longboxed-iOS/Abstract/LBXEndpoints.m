@@ -12,6 +12,7 @@
 
 NSString *stagingURL = @"https://dev.longboxed.com";
 NSString *productionURL = @"https://longboxed.com";
+NSString *versionAPI = @"v1";
 
 + (NSURL *)stagingURL
 {
@@ -35,24 +36,25 @@ NSString *productionURL = @"https://longboxed.com";
 
 + (NSDictionary *)endpoints
 {
-  return  @{@"Issues Collection"                  : @"/api/v1/issues/",
-            @"Issues Collection for Current Week" : @"/api/v1/issues/thisweek/",
-            @"Issues Collection for Next Week"    : @"/api/v1/issues/nextweek/",
-            @"Popular Issues for Current Week"    : @"/api/v1/issues/popular/",
-            @"Issue"                              : @"/api/v1/issues/:issueID",
-            @"Titles Collection"                  : @"/api/v1/titles/",
-            @"Title"                              : @"/api/v1/titles/:titleID",
-            @"Issues for Title"                   : @"/api/v1/titles/:titleID/issues/",
-            @"Autocomplete for Title"             : @"/api/v1/titles/autocomplete/",
-            @"Publisher Collection"               : @"/api/v1/publishers/",
-            @"Publisher"                          : @"/api/v1/publishers/:publisherID",
-            @"Titles for Publisher"               : @"/api/v1/publishers/:publisherID/titles/",
-            @"Login"                              : @"/api/v1/users/login",
-            @"User Pull List"                     : @"/api/v1/users/:userID/pull_list/",
-            @"Add Title to Pull List"             : @"/api/v1/users/:userID/pull_list/",
-            @"Remove Title from Pull List"        : @"/api/v1/users/:userID/pull_list/:titleID",
-            @"Bundle Resources for User"          : @"/api/v1/users/:userID/bundles/",
-            @"Latest Bundle"                      : @"/api/v1/users/:userID/bundles/latest"
+  return  @{@"Issues Collection"                  : [NSString stringWithFormat:@"/api/%@/issues/", versionAPI],
+            @"Issues Collection for Current Week" : [NSString stringWithFormat:@"/api/%@/issues/thisweek/", versionAPI],
+            @"Issues Collection for Next Week"    : [NSString stringWithFormat:@"/api/%@/issues/nextweek/", versionAPI],
+            @"Popular Issues for Current Week"    : [NSString stringWithFormat:@"/api/%@/issues/popular/", versionAPI],
+            @"Issue"                              : [NSString stringWithFormat:@"/api/%@/issues/:issueID", versionAPI],
+            @"Titles Collection"                  : [NSString stringWithFormat:@"/api/%@/titles/", versionAPI],
+            @"Title"                              : [NSString stringWithFormat:@"/api/%@/titles/:titleID", versionAPI],
+            @"Issues for Title"                   : [NSString stringWithFormat:@"/api/%@/titles/:titleID/issues/", versionAPI],
+            @"Autocomplete for Title"             : [NSString stringWithFormat:@"/api/%@/titles/autocomplete/", versionAPI],
+            @"Publisher Collection"               : [NSString stringWithFormat:@"/api/%@/publishers/", versionAPI],
+            @"Publisher"                          : [NSString stringWithFormat:@"/api/%@/publishers/:publisherID", versionAPI],
+            @"Titles for Publisher"               : [NSString stringWithFormat:@"/api/%@/publishers/:publisherID/titles/", versionAPI],
+            @"Register"                           : [NSString stringWithFormat:@"/api/%@/users/register", versionAPI],
+            @"Login"                              : [NSString stringWithFormat:@"/api/%@/users/login", versionAPI],
+            @"User Pull List"                     : [NSString stringWithFormat:@"/api/%@/users/:userID/pull_list/", versionAPI],
+            @"Add Title to Pull List"             : [NSString stringWithFormat:@"/api/%@/users/:userID/pull_list/", versionAPI],
+            @"Remove Title from Pull List"        : [NSString stringWithFormat:@"/api/%@/users/:userID/pull_list/:titleID", versionAPI],
+            @"Bundle Resources for User"          : [NSString stringWithFormat:@"/api/%@/users/:userID/bundles/", versionAPI],
+            @"Latest Bundle"                      : [NSString stringWithFormat:@"/api/%@/users/:userID/bundles/latest", versionAPI]
             };
 }
 

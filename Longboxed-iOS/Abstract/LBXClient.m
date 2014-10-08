@@ -70,7 +70,8 @@
 // Using AFNetworking for the POST and DELETE requests
 // instead of over-abstracting things with RESTKIT
 - (void)POSTWithRouteName:(NSString *)routeName
-          queryParameters:(NSDictionary *)parameters
+          queryParameters:(NSDictionary *)queryParameters
+           jsonParameters:(NSDictionary *)jsonParameters
               credentials:(BOOL)credentials
                completion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion
 {
@@ -79,18 +80,23 @@
     
     AFHTTPClient *client = [self setupAFNetworkingRouter];
     
+    NSString *postPath = endpointDict[routeName];
+    
     // Auth
-    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    [client setAuthorizationHeaderWithUsername:store[@"username"] password:store[@"password"]];
-    
-    NSString *postPath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
-                                               withDictionary:parameters] stringByReplacingOccurrencesOfString:@":userID" withString:store[@"id"]];
-    
+    if (credentials) {
+        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+        [client setAuthorizationHeaderWithUsername:store[@"username"] password:store[@"password"]];
+        postPath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
+                                                   withDictionary:queryParameters] stringByReplacingOccurrencesOfString:@":userID" withString:store[@"id"]];
+    }
+    NSLog(@"%@", jsonParameters);
+    NSLog(@"%@", postPath);
     [client postPath:postPath
-          parameters:nil
+          parameters:jsonParameters
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+                 
                  
                  if (completion) {
                      completion(jsonFromData, operation, nil);
@@ -143,8 +149,9 @@
 - (AFHTTPClient *)setupAFNetworkingRouter
 {
     // Prepare the request
-    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:[UICKeyChainStore stringForKey:@"baseURLString"]]];
-    [client setParameterEncoding:AFJSONParameterEncoding];
+    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]];
+    client.parameterEncoding = AFJSONParameterEncoding;
+    client.allowsInvalidSSLCertificate = YES; // For the self signed production SSL cert
     [client setDefaultHeader:@"Accept" value:@"application/json"];
     
     return client;
@@ -303,6 +310,16 @@
 
 
 // Users
+- (void)registerWithEmail:(NSString*)email password:(NSString *)password passwordConfirm:(NSString *)passwordConfirm withCompletion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion {
+    
+    NSDictionary *parameters = @{@"email" : email, @"password" : password, @"password_confirm" : passwordConfirm};
+    
+    [self POSTWithRouteName:@"Register" queryParameters:nil jsonParameters:parameters credentials:NO completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+        completion(resultDict, response, error);
+    }];
+}
+
+
 - (void)fetchLogInWithCompletion:(void (^)(LBXUser*, RKObjectRequestOperation*, NSError*))completion {
     [self GETWithRouteName:@"Login" objectDictParams:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
@@ -338,7 +355,7 @@
 
     NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
     
-    [self POSTWithRouteName:@"Add Title to Pull List" queryParameters:parameters credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+    [self POSTWithRouteName:@"Add Title to Pull List" queryParameters:parameters jsonParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         
         // Refetch the pull list for Core Data Storage purposes
         [self fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *err) {

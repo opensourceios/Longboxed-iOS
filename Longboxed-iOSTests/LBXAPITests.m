@@ -11,6 +11,7 @@
 
 #import "LBXClient.h"
 #import "LBXIssue.h"
+#import "LBXEndpoints.h"
 
 @interface LBXAPITests : XCTestCase
 
@@ -37,7 +38,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 
-    _client = [[LBXClient alloc] init];
+    _client = [LBXClient new];
     
     store = [UICKeyChainStore keyChainStore];
     [UICKeyChainStore setString:@"johnrhickey+test@gmail.com" forKey:@"username"];
@@ -209,6 +210,17 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 }
 
 // Users
+
+- (void)testSignUpEndpoint
+{
+    [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
+    hxRunInMainLoop(^(BOOL *done) {
+        [self.client registerWithEmail:@"johnrhickey@gmail.com" password:@"test1234" passwordConfirm:@"test1234" withCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
+            NSLog(@"%@", response);
+            NSLog(@"%@", responseDict);
+        }];
+    });
+}
 
 - (void)testLogInEndpoint
 {
