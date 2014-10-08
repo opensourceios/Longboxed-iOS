@@ -1,5 +1,5 @@
 language: objective-c
-
 script:
-	- pod install
-	- xcodebuild -workspace Longboxed-iOS.xcworkspace -scheme Alpha-Longboxed-iOS -sdk iphonesimulator clean build test ONLY_ACTIVE_ARCH=NO
+    - xctool test -workspace Longboxed-iOS.xcworkspace -scheme Alpha-Longboxed-iOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+    - xctool test -workspace Longboxed-iOS.xcworkspace -scheme Alpha-Longboxed-iOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+
