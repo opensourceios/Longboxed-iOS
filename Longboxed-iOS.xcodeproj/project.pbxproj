@@ -1214,11 +1214,9 @@
 			buildConfigurationList = E57D48EF196068E10014A13F /* Build configuration list for PBXNativeTarget "Longboxed-iOS" */;
 			buildPhases = (
 				C793CE1CB37D4890A7508BD1 /* Check Pods Manifest.lock */,
-				E57D48FB196069F60014A13F /* Set Bundle Identifier and Display Name */,
 				E57D48C0196068E10014A13F /* Frameworks */,
 				E57D48C1196068E10014A13F /* Resources */,
 				E57D48BF196068E10014A13F /* Sources */,
-				E57D48FC19606A500014A13F /* Increment Build Number */,
 				E515746919E335AF0072EE3E /* Crashlytics */,
 				516CA5D694294377A3226C09 /* Copy Pods Resources */,
 			);
@@ -1421,34 +1419,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Crashlytics.framework/run 16ebe072876d720b57b612526b0b6f214e2c3cf5 9633d56ec698339d3da804ff7d9c0e99f815ee891164ce80a712b9f8ff21aac7";
-		};
-		E57D48FB196069F60014A13F /* Set Bundle Identifier and Display Name */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Set Bundle Identifier and Display Name";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\nbundleIdentifier=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INFOPLIST_FILE\")\nbundleDisplayName=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n\nif [ $CONFIGURATION == AppStore ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS\"\nbundleDisplayName=\"Longboxed\"\n\nelif [ $CONFIGURATION == Beta ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSBeta\"\nbundleDisplayName=\"Longboxed β\"\n\nelif [ $CONFIGURATION == Alpha ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSAlpha\"\nbundleDisplayName=\"Longboxed α\"\n\nelif [ $CONFIGURATION == Staging ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS-Staging\"\nbundleDisplayName=\"Longboxed ε\"\n\nelse\nbundleIdentifier=\"com.longboxed.Longboxed-iOSDebug\"\nbundleDisplayName=\"Longboxed Δ\"\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $bundleIdentifier\" \"$INFOPLIST_FILE\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $bundleDisplayName\" \"$INFOPLIST_FILE\"\n";
-		};
-		E57D48FC19606A500014A13F /* Increment Build Number */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Increment Build Number";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ $CONFIGURATION == Beta ] || [ $CONFIGURATION == AppStore ] || [ $CONFIGURATION == Alpha ]; then\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
