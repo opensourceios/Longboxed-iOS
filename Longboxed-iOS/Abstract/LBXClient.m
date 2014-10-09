@@ -14,11 +14,13 @@
 #import "LBXDescriptors.h"
 #import "LBXEndpoints.h"
 #import "LBXPullListTitle.h"
+#import "LBXBundle.h"
 
 #import "NSData+Base64.h"
 #import "NSString+URLQuery.h"
 #import "NSString+RKAdditions.h"
 #import "NSDictionary+RKAdditions.h"
+#import "NSArray+ArrayUtilities.h"
 
 @interface LBXClient()
 
@@ -89,8 +91,7 @@
         postPath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
                                                    withDictionary:queryParameters] stringByReplacingOccurrencesOfString:@":userID" withString:store[@"id"]];
     }
-    NSLog(@"%@", jsonParameters);
-    NSLog(@"%@", postPath);
+ 
     [client postPath:postPath
           parameters:jsonParameters
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -149,9 +150,13 @@
 - (AFHTTPClient *)setupAFNetworkingRouter
 {
     // Prepare the request
-    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]];
+    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:[UICKeyChainStore stringForKey:@"baseURLString"]]];
     client.parameterEncoding = AFJSONParameterEncoding;
-    client.allowsInvalidSSLCertificate = YES; // For the self signed production SSL cert
+    
+    // For the self signed production SSL cert
+    if ([[UICKeyChainStore stringForKey:@"baseURLString"] isEqualToString:[[LBXEndpoints stagingURL] absoluteString]]) {
+        client.allowsInvalidSSLCertificate = YES;
+    }
     [client setDefaultHeader:@"Accept" value:@"application/json"];
     
     return client;
@@ -351,29 +356,37 @@
     }];
 }
 
-- (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+- (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
 
     NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
     
     [self POSTWithRouteName:@"Add Title to Pull List" queryParameters:parameters jsonParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         
-        // Refetch the pull list for Core Data Storage purposes
-        [self fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *err) {
-            completion(pullListArray, resp, err);
-        }];
+        NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
+        completion(pullListArray, response, error);
     }];
 }
 
-- (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+- (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
     
     NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
     
     [self DELETEWithRouteName:@"Add Title to Pull List" queryParameters:parameters credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         
-        // Refetch the pull list for Core Data Storage purposes
-        [self fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *err) {
-            completion(pullListArray, resp, err);
-        }];
+        // Remove the title from Core Data
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", titleID];
+        [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
+        
+        // Remove the title from the latest bundle
+        NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+        if (bundleArray.count) {
+            LBXBundle *bundle = bundleArray[0];
+            predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
+            [LBXBundle MR_deleteAllMatchingPredicate:predicate];
+        }
+        
+        NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
+        completion(pullListArray, response, error);
     }];
 }
 

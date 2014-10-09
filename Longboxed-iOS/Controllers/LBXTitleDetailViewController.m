@@ -506,7 +506,7 @@ int page;
     pullListTitle.latestIssue = title.latestIssue;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     [self createPullListArray];
-    [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
         }
         else {
@@ -518,7 +518,7 @@ int page;
 - (void)deleteTitle:(LBXTitle *)title
 {
     // Fetch pull list titles
-    [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
             _pullListArray = pullListArray;
         }
@@ -526,15 +526,6 @@ int page;
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
     }];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", title.titleID];
-    [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
-    
-    NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
-    if (bundleArray.count) {
-        LBXBundle *bundle = bundleArray[0];
-        predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
-        [LBXBundle MR_deleteAllMatchingPredicate:predicate];
-    }
     
     [self.client fetchBundleResourcesWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {}];
     [self createPullListArray];

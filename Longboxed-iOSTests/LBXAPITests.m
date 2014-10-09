@@ -43,6 +43,8 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     store = [UICKeyChainStore keyChainStore];
     [UICKeyChainStore setString:@"johnrhickey+test@gmail.com" forKey:@"username"];
     [UICKeyChainStore setString:@"test1234" forKey:@"password"];
+    [UICKeyChainStore setString:[[LBXEndpoints stagingURL] absoluteString] forKey:@"baseURLString"];
+    
     [store synchronize]; // Write to keychain.
 }
 
@@ -53,6 +55,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     [UICKeyChainStore removeItemForKey:@"username"];
     [UICKeyChainStore removeItemForKey:@"password"];
     [UICKeyChainStore removeItemForKey:@"id"];
+    [UICKeyChainStore removeItemForKey:@"baseURLString"];
     [store synchronize]; // Write to keychain.
 }
 
@@ -215,9 +218,32 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 {
     [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client registerWithEmail:@"johnrhickey@gmail.com" password:@"test1234" passwordConfirm:@"test1234" withCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
-            NSLog(@"%@", response);
-            NSLog(@"%@", responseDict);
+        [self.client registerWithEmail:@"johnrhickey+signup@gmail.com" password:@"test1234" passwordConfirm:@"test1234" withCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
+            if (error) {
+                NSString *errorJSONString = error.userInfo[@"NSLocalizedRecoverySuggestion"];
+                NSData *data = [errorJSONString dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                NSDictionary *errors = jsonDict[@"errors"];
+                for (NSString *error in [errors allKeys]) {
+                    if ([error isEqualToString:@"email"]) {
+                        NSLog(@"%@", errors[error]);
+                        *done = YES;
+                    }
+                    else if ([error isEqualToString:@"password"]) {
+                        NSLog(@"%@", errors[error]);
+                        *done = YES;
+                    }
+                    else if ([error isEqualToString:@"password_confirm"]) {
+                        NSLog(@"%@", errors[error]);
+                        *done = YES;
+                    }
+                }
+                NSLog(@"%@", errors);
+            }
+            else {
+                XCTAssertEqual(response.response.statusCode, 200, @"Sign up endpoint is returning a status code %ldd", (long)response.response.statusCode);
+            }
+            *done = YES;
         }];
     });
 }
@@ -248,30 +274,31 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 
 - (void)testAddandRemovePullListTitleEndpoint
 {
-    NSNumber *titleNum = [NSNumber numberWithLong:29];
+    NSNumber *titleNum = @5;
 
     // Add a title
     __weak typeof(self)weakSelf = self;
     
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
-            [weakSelf.client addTitleToPullList:titleNum withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *error) {
+            NSLog(@"%@", user.userID);
+            NSLog(@"%@", user.email);
+            [weakSelf.client addTitleToPullList:titleNum withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *resp, NSError *error) {
                 
-                
-                XCTAssertEqual(resp.HTTPRequestOperation.response.statusCode, 200, @"Add to pull list endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+                XCTAssertEqual(resp.response.statusCode, 200, @"Add to pull list endpoint is returning a status code %ldd", (long)resp.response.statusCode);
                 
                 // Check for the title in the pull list response
                 NSNumber *nilCheck;
                 for (LBXTitle *title in pullListArray) {
                     if ([title.titleID isEqualToNumber:titleNum]) nilCheck = title.titleID;
                 }
-
+                
                 XCTAssertNotNil(nilCheck, @"Title was not added to pull list");
                 
                 // Then remove it
-                [self.client removeTitleFromPullList:titleNum withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *resp, NSError *error) {
+                [self.client removeTitleFromPullList:titleNum withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *resp, NSError *error) {
                     
-                    XCTAssertEqual(resp.HTTPRequestOperation.response.statusCode, 200, @"Add to pull list endpoint is returning a status code %ldd", (long)resp.HTTPRequestOperation.response.statusCode);
+                    XCTAssertEqual(resp.response.statusCode, 200, @"Remove from pull list endpoint is returning a status code %ldd", (long)resp.response.statusCode);
                     
                     // Check for the title in the pull list response
                     NSNumber *nilCheck;
@@ -279,6 +306,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
                         if ([title.titleID isEqualToNumber:titleNum]) nilCheck = title.titleID;
                     }
                     XCTAssertNil(nilCheck, @"Title was not removed from pull list");
+                    
                     *done = YES;
                 }];
             }];

@@ -38,7 +38,6 @@
 + (UIFont *)calendarMonthsFont;
 + (UIFont *)defaultPublisherInitialsFont;
 + (UIFont *)detailPublisherInitialsFont;
-+ (UIFont *)publisherTableViewTitleFont;
 + (UIFont *)featuredIssueDescriptionFont;
 
 @end

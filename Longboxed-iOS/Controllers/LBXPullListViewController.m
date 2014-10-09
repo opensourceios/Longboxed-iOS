@@ -373,7 +373,7 @@ CGFloat cellWidth;
     [self fillPullListArray];
     [self.tableView reloadData];
     __block typeof(self) bself = self;
-    [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
             [bself fillPullListArray];
         }
@@ -387,7 +387,7 @@ CGFloat cellWidth;
 - (void)deleteTitle:(LBXTitle *)title
 {
     // Fetch pull list titles
-    [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         [self.refreshControl endRefreshing];
         if (!error) {
         }
@@ -398,16 +398,6 @@ CGFloat cellWidth;
 //            [self.tableView reloadData];
 //        });
     }];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", title.titleID];
-    [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
-    
-    NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
-    if (bundleArray.count) {
-        LBXBundle *bundle = bundleArray[0];
-        predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
-        [LBXBundle MR_deleteAllMatchingPredicate:predicate];
-    }
     
     [self fillPullListArray];
 }

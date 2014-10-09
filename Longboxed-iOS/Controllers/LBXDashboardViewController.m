@@ -30,7 +30,7 @@
 #import <UICKeyChainStore.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface LBXDashboardViewController ()
+@interface LBXDashboardViewController () <UISearchControllerDelegate>
 
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) NSArray *popularIssuesArray;
