@@ -8,6 +8,7 @@
 
 #import "LBXEmptyPullListViewController.h"
 #import "PaintCodeImages.h"
+#import "SDiPhoneVersion.h"
 
 #import "UIColor+customColors.h"
 
@@ -35,7 +36,20 @@
 
 - (void)viewDidLayoutSubviews
 {
-
+    NSDictionary *viewsDictionary = @{@"arrowImageView":self.arrowImageView};
+    NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[arrowImageView]-9-|"
+                                                                   options:0
+                                                                   metrics:nil
+                                                                     views:viewsDictionary];
+    
+    // To align the empty view arrow below the plus button on iPhone 6 Plus
+    if ([SDiPhoneVersion deviceVersion] == iPhone6Plus) {
+        constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[arrowImageView]-12-|"
+                                                              options:0
+                                                              metrics:nil
+                                                                views:viewsDictionary];
+    }
+    [self.view addConstraints:constraints];
 }
 
 /*

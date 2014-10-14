@@ -14,7 +14,7 @@ pod 'SVProgressHUD', :head
 pod 'CocoaLumberjack', '~> 1.9'
 pod 'NSLogger', '~> 1.5'
 pod 'Masonry'
-pod 'DZNEmptyDataSet'
+pod 'SDiPhoneVersion'
 
 # Customized
 # pod 'JTSImageViewController'

@@ -29,12 +29,10 @@
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
-#import <UIScrollView+EmptyDataSet.h>
 #import <SVProgressHUD.h>
 #import <POP.h>
 
-@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate,
-                                         DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
 
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) NSArray *searchResultsArray;
@@ -77,9 +75,6 @@ CGFloat cellWidth;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
     
     // A little trick for removing the cell separators
     self.tableView.tableFooterView = [UIView new];
@@ -149,6 +144,8 @@ CGFloat cellWidth;
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
      [UIImage imageNamed:@"arrow"]];
     
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    
     // Special attribute set for title text color
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 }
@@ -170,7 +167,6 @@ CGFloat cellWidth;
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.shadowImage = nil;
     self.navigationController.navigationBar.topItem.title = @"Pull List";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     
     [self.navigationController.navigationBar setBackgroundImage:nil
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -354,6 +350,13 @@ CGFloat cellWidth;
                 
                 [layer pop_addAnimation:anim forKey:@"origin.y"];
                 
+                // Add empty view if there the pull list is empty
+                if (!_pullListArray.count) {
+                    LBXEmptyPullListViewController *controller = [LBXEmptyPullListViewController new];
+                    controller.view.frame = self.tableView.frame;
+                    self.tableView.backgroundView = controller.view;
+                }
+                
                 [SVProgressHUD dismiss];
             }
         });
@@ -424,15 +427,6 @@ CGFloat cellWidth;
     _blurImageView.clipsToBounds = YES;
     [self.view addSubview:_blurImageView];
     
-}
-
-#pragma mark - DZNEmptyDataSet
-
-- (UIView *)customViewForEmptyDataSet:(UIScrollView *)scrollView {
-    
-    LBXEmptyPullListViewController *controller = [LBXEmptyPullListViewController new];
-    controller.view.frame = CGRectMake(-self.view.frame.size.width/2, -self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height);
-    return controller.view;
 }
 
 #pragma mark UITableView methods
