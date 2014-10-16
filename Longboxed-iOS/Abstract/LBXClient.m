@@ -371,11 +371,11 @@
     
     NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
     
+    // Remove the title from Core Data
+    __block NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", titleID];
+    [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
+    
     [self DELETEWithRouteName:@"Add Title to Pull List" queryParameters:parameters credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
-        
-        // Remove the title from Core Data
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", titleID];
-        [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
         
         // Remove the title from the latest bundle
         NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];

@@ -353,7 +353,7 @@
             ];
 }
 
-+ (NSArray *)refreshTableView:(UITableView *)tableView withOldSearchResults:(NSArray *)oldResultsArray
++ (void)refreshTableView:(UITableView *)tableView withOldSearchResults:(NSArray *)oldResultsArray
                    newResults:(NSArray *)newResultsArray
                     animation:(UITableViewRowAnimation)animation
 {
@@ -431,8 +431,6 @@
         });
         returnArray = [[NSArray alloc] initWithArray:newResultsArray];
     }
-    
-    return returnArray;
 }
 
 + (NSArray *)getPublisherTableViewSectionArrayForArray:(NSArray *)array

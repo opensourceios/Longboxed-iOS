@@ -36,7 +36,7 @@
   inBoundsOfView:(UIView *)view;
 + (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size;
 + (NSString *)getHashOfImage:(UIImage *)image;
-+ (NSArray *)refreshTableView:(UITableView *)tableView withOldSearchResults:(NSArray *)oldResultsArray
++ (void)refreshTableView:(UITableView *)tableView withOldSearchResults:(NSArray *)oldResultsArray
                    newResults:(NSArray *)newResultsArray
                     animation:(UITableViewRowAnimation)animation;
 

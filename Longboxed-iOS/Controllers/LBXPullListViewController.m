@@ -282,7 +282,9 @@ CGFloat cellWidth;
                     [_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
                 }
             }
-            self.searchResultsArray = [LBXControllerServices refreshTableView:[self.searchBarController searchResultsTableView]  withOldSearchResults:self.searchResultsArray newResults:newSearchResultsArray animation:UITableViewRowAnimationFade];
+            NSArray *oldSearchresultsArray = self.searchResultsArray;
+            self.searchResultsArray = newSearchResultsArray;
+            [LBXControllerServices refreshTableView:[self.searchBarController searchResultsTableView]  withOldSearchResults:oldSearchresultsArray newResults:newSearchResultsArray animation:UITableViewRowAnimationFade];
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -299,7 +301,8 @@ CGFloat cellWidth;
 {
     NSArray *oldArray = _pullListArray;
     [self fillPullListArray];
-    self.searchResultsArray = [LBXControllerServices refreshTableView:self.tableView withOldSearchResults:oldArray newResults:_pullListArray animation:UITableViewRowAnimationLeft];
+    self.searchResultsArray = _pullListArray;
+    [LBXControllerServices refreshTableView:self.tableView withOldSearchResults:oldArray newResults:_pullListArray animation:UITableViewRowAnimationLeft];
     
     if (_pullListArray.count == 0) {
         self.tableView.contentOffset = CGPointMake(0, -self.refreshControl.frame.size.height);
