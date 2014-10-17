@@ -96,7 +96,6 @@
 		E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */; };
 		E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */; };
 		E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */; };
-		E5DC732919C8EE770017BFE6 /* ESObjectPool.m in Sources */ = {isa = PBXBuildFile; fileRef = E5DC732019C8EE770017BFE6 /* ESObjectPool.m */; };
 		E5E5161619CA4450005FBD43 /* PaintCodeImages.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161519CA4450005FBD43 /* PaintCodeImages.m */; };
 		E5E5162C19CA446D005FBD43 /* LBXMessageBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161919CA446D005FBD43 /* LBXMessageBar.m */; };
 		E5E5162D19CA446D005FBD43 /* NSArray+ArrayUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161B19CA446D005FBD43 /* NSArray+ArrayUtilities.m */; };
@@ -276,8 +275,6 @@
 		E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueScrollViewController.m; path = Controllers/LBXIssueScrollViewController.m; sourceTree = "<group>"; };
 		E5D9A89C19A96FBB00BC06C1 /* LBXPublisherDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherDetailViewController.h; path = Controllers/LBXPublisherDetailViewController.h; sourceTree = "<group>"; };
 		E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherDetailViewController.m; path = Controllers/LBXPublisherDetailViewController.m; sourceTree = "<group>"; };
-		E5DC731F19C8EE770017BFE6 /* ESObjectPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESObjectPool.h; sourceTree = "<group>"; };
-		E5DC732019C8EE770017BFE6 /* ESObjectPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESObjectPool.m; sourceTree = "<group>"; };
 		E5E5161419CA4450005FBD43 /* PaintCodeImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintCodeImages.h; sourceTree = "<group>"; };
 		E5E5161519CA4450005FBD43 /* PaintCodeImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintCodeImages.m; sourceTree = "<group>"; };
 		E5E5161819CA446D005FBD43 /* LBXMessageBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXMessageBar.h; sourceTree = "<group>"; };
@@ -609,7 +606,6 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
-				E5DC731D19C8EE770017BFE6 /* ESObjectPool */,
 				E5B6FCD519983DFC0022F4CA /* MGSpotyViewController */,
 				E5068A5319B534AC0021CEE8 /* Lumberjack */,
 				E5371226198EF9300065D57A /* Fonts */,
@@ -706,24 +702,6 @@
 				E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */,
 			);
 			name = Publisher;
-			sourceTree = "<group>";
-		};
-		E5DC731D19C8EE770017BFE6 /* ESObjectPool */ = {
-			isa = PBXGroup;
-			children = (
-				E5DC731E19C8EE770017BFE6 /* Classes */,
-			);
-			name = ESObjectPool;
-			path = Extras/ESObjectPool;
-			sourceTree = "<group>";
-		};
-		E5DC731E19C8EE770017BFE6 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				E5DC731F19C8EE770017BFE6 /* ESObjectPool.h */,
-				E5DC732019C8EE770017BFE6 /* ESObjectPool.m */,
-			);
-			path = Classes;
 			sourceTree = "<group>";
 		};
 		E5E5161319CA4450005FBD43 /* Utilities */ = {
@@ -1064,7 +1042,6 @@
 				E515746319DCC4360072EE3E /* LBXSearchTableViewController.m in Sources */,
 				E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */,
 				E5E5163019CA446D005FBD43 /* NSString+URLQuery.m in Sources */,
-				E5DC732919C8EE770017BFE6 /* ESObjectPool.m in Sources */,
 				E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */,
 				E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */,
 				E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */,
