@@ -1823,7 +1823,6 @@
 		};
 		E57D48F7196069610014A13F /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7145E4C42772702B1A01D42 /* Pods.alpha.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
