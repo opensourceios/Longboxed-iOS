@@ -154,7 +154,8 @@ int page;
     _detailView.latestIssueImageView.image = _latestIssueImage;
     _detailView.latestIssueImageView.contentMode = UIViewContentModeScaleAspectFit;
     if (_latestIssueImage.size.height < _detailView.latestIssueImageView.frame.size.height) {
-        _detailView.latestIssueImageView.contentMode = UIViewContentModeScaleToFill;
+        _detailView.latestIssueImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _detailView.latestIssueImageView.clipsToBounds = YES;
     }
 }
 
