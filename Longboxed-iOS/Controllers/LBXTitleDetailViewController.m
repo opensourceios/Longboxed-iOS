@@ -22,10 +22,10 @@
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
 #import "JGActionSheet.h"
+#import "SVProgressHUD.h"
 
 #import "UIColor+customColors.h"
 
-#import <SVProgressHUD.h>
 #import <JTSImageViewController.h>
 #import <QuartzCore/QuartzCore.h>
 

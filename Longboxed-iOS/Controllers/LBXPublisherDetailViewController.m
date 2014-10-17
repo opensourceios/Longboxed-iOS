@@ -24,8 +24,8 @@
 #import "UIColor+customColors.h"
 #import "UIImage+DrawOnImage.h"
 #import "UIImage+CreateImage.h"
+#import "SVProgressHUD.h"
 
-#import <SVProgressHUD.h>
 #import <QuartzCore/QuartzCore.h>
 #import <POP.h>
 

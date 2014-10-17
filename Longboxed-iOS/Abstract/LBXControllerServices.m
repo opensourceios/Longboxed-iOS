@@ -11,9 +11,9 @@
 
 #import "NSDate+DateUtilities.h"
 #import "UIColor+customColors.h"
+#import "SVProgressHUD.h"
 
 #import <UIImageView+AFNetworking.h>
-#import <SVProgressHUD.h>
 #import <CommonCrypto/CommonDigest.h>
 
 @interface LBXControllerServices ()

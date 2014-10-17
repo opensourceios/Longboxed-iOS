@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <DDFileLogger.h>
 
-@interface LBXAppDelegate : UIResponder <UIApplicationDelegate>
+#import <HockeySDK.h>
+
+@interface LBXAppDelegate : UIResponder <UIApplicationDelegate, BITHockeyManagerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic) DDFileLogger *fileLogger;

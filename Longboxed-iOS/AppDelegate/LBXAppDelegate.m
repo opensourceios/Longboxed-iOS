@@ -11,7 +11,6 @@
 #import "LBXDashboardViewController.h"
 #import "LBXLogging.h"
 
-#import "HockeySDK.h"
 #import "UIFont+customFonts.h"
 
 // Logging
@@ -80,7 +79,7 @@
     // Automatically send crash reports
     [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus: BITCrashManagerStatusAutoSend];
     
-    [[BITHockeyManager sharedHockeyManager].crashManager setDelegate:self];
+    [[BITHockeyManager sharedHockeyManager] setDelegate:self];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     

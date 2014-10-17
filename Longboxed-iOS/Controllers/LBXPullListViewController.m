@@ -26,10 +26,9 @@
 #import "UIFont+customFonts.h"
 #import "UIImage+ImageEffects.h"
 #import "LBXMessageBar.h"
+#import "SVProgressHUD.h"
 
-#import <SVProgressHUD/SVProgressHUD.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
-#import <SVProgressHUD.h>
 #import <POP.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>

@@ -18,11 +18,11 @@
 #import "UIImage+ImageEffects.h"
 #import "JGActionSheet.h"
 #import "LBXLogging.h"
+#import "SVProgressHUD.h"
 
 #import <QuartzCore/QuartzCore.h>
 #import <JTSImageViewController.h>
 #import <UIImageView+AFNetworking.h>
-#import <SVProgressHUD.h>
 
 @interface LBXIssueDetailViewController () <JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate, JGActionSheetDelegate>
 
