@@ -25,10 +25,8 @@ pod '1PasswordExtension'
 
 
 # Customized
+# pod 'MGSpotyViewController' (Has LBX dependencies so must remain in project)
 pod 'SVProgressHUD', :git => 'git@github.com:jayhickey/SVProgressHUD.git', :branch => 'master'
-# pod 'MGSpotyViewController'
-# pod 'EasyTableView'
-# pod 'SVWebViewController'
-# pod 'REMenu'
-# pod 'JGActionSheet'
-# pod 'ESDatePicker'
+pod 'JGActionSheet', :git => 'git@github.com:jayhickey/JGActionSheet.git', :branch => 'master'
+pod 'ESDatePicker', :git => 'git@github.com:jayhickey/ESDatePicker.git', :branch => 'master'
+pod 'NBUKit', :git => 'git@github.com:jayhickey/iOS-NBUKit.git', :branch => 'master'

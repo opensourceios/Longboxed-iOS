@@ -128,16 +128,6 @@ static const NSString *fontFace = @"AvenirNext";
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Medium", fontFace] size:16];
 }
 
-+ (UIFont *)actionSheetCancelFont
-{
-    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
-}
-
-+ (UIFont *)actionSheetFont
-{
-    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
-}
-
 + (UIFont *)calendarNumbersFont
 {
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
