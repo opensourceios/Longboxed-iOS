@@ -25,7 +25,7 @@ pod '1PasswordExtension'
 
 
 # Customized
-# pod 'SVProgressHUD', :head
+pod 'SVProgressHUD', :git => 'git@github.com:jayhickey/SVProgressHUD.git', :branch => 'master'
 # pod 'MGSpotyViewController'
 # pod 'EasyTableView'
 # pod 'SVWebViewController'

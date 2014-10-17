@@ -70,8 +70,6 @@
 		E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */; };
 		E55497A519AAE284004501FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E55497A419AAE284004501FF /* SystemConfiguration.framework */; };
 		E555D38F196359D1003B97C0 /* LBXAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38E196359D1003B97C0 /* LBXAPITests.m */; };
-		E56F719319F0B65B001DDDE9 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E56F718E19F0B65B001DDDE9 /* SVProgressHUD.bundle */; };
-		E56F719419F0B65B001DDDE9 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E56F719019F0B65B001DDDE9 /* SVProgressHUD.m */; };
 		E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */; };
 		E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB819D7C37E002DE4BA /* arrow_right_small_black@2x.png */; };
 		E57CCAC619CB8C8E0086B39E /* LBXSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E57CCAC419CB8C8E0086B39E /* LBXSearchTableViewCell.m */; };
@@ -293,9 +291,6 @@
 		E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDatabaseManager.m; path = Abstract/LBXDatabaseManager.m; sourceTree = "<group>"; };
 		E55497A419AAE284004501FF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E555D38E196359D1003B97C0 /* LBXAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXAPITests.m; sourceTree = "<group>"; };
-		E56F718E19F0B65B001DDDE9 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
-		E56F718F19F0B65B001DDDE9 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
-		E56F719019F0B65B001DDDE9 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
 		E575162219908AD00052D4C4 /* libPods-HockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-HockeySDK.a"; path = "Pods/build/Debug-iphoneos/libPods-HockeySDK.a"; sourceTree = "<group>"; };
@@ -673,25 +668,6 @@
 			name = Comics;
 			sourceTree = "<group>";
 		};
-		E56F718A19F0B65B001DDDE9 /* SVProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				E56F718D19F0B65B001DDDE9 /* SVProgressHUD */,
-			);
-			name = SVProgressHUD;
-			path = Extras/SVProgressHUD;
-			sourceTree = "<group>";
-		};
-		E56F718D19F0B65B001DDDE9 /* SVProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				E56F718E19F0B65B001DDDE9 /* SVProgressHUD.bundle */,
-				E56F718F19F0B65B001DDDE9 /* SVProgressHUD.h */,
-				E56F719019F0B65B001DDDE9 /* SVProgressHUD.m */,
-			);
-			path = SVProgressHUD;
-			sourceTree = "<group>";
-		};
 		E57D48BA196068E10014A13F = {
 			isa = PBXGroup;
 			children = (
@@ -903,7 +879,6 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
-				E56F718A19F0B65B001DDDE9 /* SVProgressHUD */,
 				E5DC731119C8EE770017BFE6 /* ESDateHelper */,
 				E5DC731719C8EE770017BFE6 /* ESDatePicker */,
 				E5DC731D19C8EE770017BFE6 /* ESObjectPool */,
@@ -1308,7 +1283,6 @@
 				E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */,
 				E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */,
 				E57D498119611C950014A13F /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
-				E56F719319F0B65B001DDDE9 /* SVProgressHUD.bundle in Resources */,
 				E57D497819611C8E0014A13F /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
 				E553F59F19946393003E1F5C /* clear.png in Resources */,
 				E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */,
@@ -1494,7 +1468,6 @@
 				E593F55019D7160C00D310C6 /* ActualTableViewCell.m in Sources */,
 				E535EBB119DB7DD7001B729A /* UIImage+CreateImage.m in Sources */,
 				E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */,
-				E56F719419F0B65B001DDDE9 /* SVProgressHUD.m in Sources */,
 				E515746719DCD1D00072EE3E /* LBXComicTableViewCell.m in Sources */,
 				E5E5162C19CA446D005FBD43 /* LBXMessageBar.m in Sources */,
 				E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */,
