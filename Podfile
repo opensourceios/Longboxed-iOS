@@ -13,16 +13,15 @@ pod 'HockeySDK'
 pod 'UICKeyChainStore'
 pod 'pop'
 pod 'RestKit'
-pod 'MagicalRecord' , :git => 'https://github.com/magicalpanda/MagicalRecord.git', :branch => 'develop'
-pod 'FontAwesomeKit', '~> 2.1.0'
 pod 'MCSwipeTableViewCell'
-pod 'CocoaLumberjack', '~> 1.9'
-pod 'NSLogger', '~> 1.5'
 pod 'Masonry'
 pod 'SDiPhoneVersion'
-pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImageViewController.git', :branch => 'dev'
 pod '1PasswordExtension'
-
+pod 'FontAwesomeKit', '~> 2.1.0'
+pod 'CocoaLumberjack', '~> 1.9'
+pod 'NSLogger', '~> 1.5'
+pod 'MagicalRecord' , :git => 'https://github.com/magicalpanda/MagicalRecord.git', :branch => 'develop'
+pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImageViewController.git', :branch => 'dev'
 
 # Customized
 # pod 'MGSpotyViewController' (Has LBX dependencies so must remain in project)
