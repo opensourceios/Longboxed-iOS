@@ -16,6 +16,7 @@
 
 #import <UICKeyChainStore.h>
 #import <TWMessageBarManager.h>
+#import <OnePasswordExtension.h>
 #import "RestKit/RestKit.h"
 
 #import "UIFont+customFonts.h"
@@ -49,6 +50,9 @@ UICKeyChainStore *store;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Only show the 1Password button if the app is installed
+    [self.onePasswordButton setHidden:![[OnePasswordExtension sharedExtension] isAppExtensionAvailable]];
     
     // Do any additional setup after loading the view from its nib.
     store = [UICKeyChainStore keyChainStore];
@@ -148,6 +152,21 @@ UICKeyChainStore *store;
             _usernameField.text = @"";
             _passwordField.text = @"";
             [_usernameField becomeFirstResponder];
+        }
+        // 1Password
+        case 2:
+        {
+            [[OnePasswordExtension sharedExtension] findLoginForURLString:@"https://www.longboxed.com" forViewController:self sender:sender completion:^(NSDictionary *loginDict, NSError *error) {
+                if (!loginDict) {
+                    if (error.code != AppExtensionErrorCodeCancelledByUser) {
+                        NSLog(@"Error invoking 1Password App Extension for find login: %@", error);
+                    }
+                    return;
+                }
+                _usernameField.text = loginDict[AppExtensionUsernameKey];
+                _passwordField.text = loginDict[AppExtensionPasswordKey];
+                [_loginButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+            }];
         }
     }
 }

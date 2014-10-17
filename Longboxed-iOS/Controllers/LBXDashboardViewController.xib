@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
@@ -346,6 +346,11 @@
                             <exclude reference="eQe-rv-YnJ"/>
                         </mask>
                         <mask key="constraints">
+                            <exclude reference="0Pb-eA-IID"/>
+                            <exclude reference="cNb-vS-peH"/>
+                            <exclude reference="r56-O8-Jls"/>
+                            <exclude reference="5gH-Ms-16K"/>
+                            <exclude reference="dwI-DA-psZ"/>
                             <exclude reference="2lV-xO-ln5"/>
                             <exclude reference="Zv1-HZ-4iY"/>
                             <exclude reference="wEo-GB-4Yk"/>
@@ -355,11 +360,6 @@
                             <exclude reference="WYO-V4-cgR"/>
                             <exclude reference="cWR-Kp-3ja"/>
                             <exclude reference="nIF-EH-aT8"/>
-                            <exclude reference="0Pb-eA-IID"/>
-                            <exclude reference="cNb-vS-peH"/>
-                            <exclude reference="r56-O8-Jls"/>
-                            <exclude reference="5gH-Ms-16K"/>
-                            <exclude reference="dwI-DA-psZ"/>
                             <exclude reference="32l-Os-bpJ"/>
                             <exclude reference="Tef-9G-wfC"/>
                             <exclude reference="Tmf-jy-C5d"/>
@@ -367,13 +367,6 @@
                             <exclude reference="rKf-bS-JlK"/>
                             <exclude reference="uWs-ka-dD7"/>
                             <exclude reference="vLt-6E-atf"/>
-                            <exclude reference="25j-QK-ZZs"/>
-                            <exclude reference="M9o-Wd-b6J"/>
-                            <exclude reference="bzc-bw-bew"/>
-                            <exclude reference="46O-tz-wmu"/>
-                            <exclude reference="IEL-TO-0OF"/>
-                            <exclude reference="WL5-Q9-FfY"/>
-                            <exclude reference="sao-iA-bVi"/>
                             <exclude reference="DBR-w4-xrg"/>
                             <exclude reference="OLv-va-L1e"/>
                             <exclude reference="4B4-AE-vof"/>
@@ -381,6 +374,13 @@
                             <exclude reference="xDU-O2-BWw"/>
                             <exclude reference="C0r-Ye-6Jw"/>
                             <exclude reference="bzk-NS-zZh"/>
+                            <exclude reference="46O-tz-wmu"/>
+                            <exclude reference="IEL-TO-0OF"/>
+                            <exclude reference="WL5-Q9-FfY"/>
+                            <exclude reference="sao-iA-bVi"/>
+                            <exclude reference="25j-QK-ZZs"/>
+                            <exclude reference="M9o-Wd-b6J"/>
+                            <exclude reference="bzc-bw-bew"/>
                         </mask>
                     </variation>
                     <variation key="widthClass=compact">
@@ -394,6 +394,11 @@
                             <include reference="eQe-rv-YnJ"/>
                         </mask>
                         <mask key="constraints">
+                            <include reference="0Pb-eA-IID"/>
+                            <include reference="cNb-vS-peH"/>
+                            <include reference="r56-O8-Jls"/>
+                            <include reference="5gH-Ms-16K"/>
+                            <include reference="dwI-DA-psZ"/>
                             <include reference="2lV-xO-ln5"/>
                             <include reference="Zv1-HZ-4iY"/>
                             <include reference="wEo-GB-4Yk"/>
@@ -403,11 +408,6 @@
                             <include reference="WYO-V4-cgR"/>
                             <include reference="cWR-Kp-3ja"/>
                             <include reference="nIF-EH-aT8"/>
-                            <include reference="0Pb-eA-IID"/>
-                            <include reference="cNb-vS-peH"/>
-                            <include reference="r56-O8-Jls"/>
-                            <include reference="5gH-Ms-16K"/>
-                            <include reference="dwI-DA-psZ"/>
                             <exclude reference="32l-Os-bpJ"/>
                             <include reference="Tef-9G-wfC"/>
                             <include reference="Tmf-jy-C5d"/>
@@ -415,13 +415,6 @@
                             <include reference="rKf-bS-JlK"/>
                             <include reference="uWs-ka-dD7"/>
                             <include reference="vLt-6E-atf"/>
-                            <include reference="25j-QK-ZZs"/>
-                            <include reference="M9o-Wd-b6J"/>
-                            <include reference="bzc-bw-bew"/>
-                            <exclude reference="46O-tz-wmu"/>
-                            <include reference="IEL-TO-0OF"/>
-                            <include reference="WL5-Q9-FfY"/>
-                            <include reference="sao-iA-bVi"/>
                             <include reference="DBR-w4-xrg"/>
                             <include reference="OLv-va-L1e"/>
                             <include reference="4B4-AE-vof"/>
@@ -429,6 +422,13 @@
                             <include reference="xDU-O2-BWw"/>
                             <include reference="C0r-Ye-6Jw"/>
                             <include reference="bzk-NS-zZh"/>
+                            <exclude reference="46O-tz-wmu"/>
+                            <include reference="IEL-TO-0OF"/>
+                            <include reference="WL5-Q9-FfY"/>
+                            <include reference="sao-iA-bVi"/>
+                            <include reference="25j-QK-ZZs"/>
+                            <include reference="M9o-Wd-b6J"/>
+                            <include reference="bzc-bw-bew"/>
                         </mask>
                     </variation>
                 </scrollView>

@@ -10,4 +10,6 @@
 
 @interface LBXLoginViewController : UIViewController
 
+@property (nonatomic, retain) IBOutlet UIButton *onePasswordButton;
+
 @end

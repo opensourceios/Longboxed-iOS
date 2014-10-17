@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="developmentServerSwitch" destination="6tk-wM-qyT" id="DbH-UV-04t"/>
                 <outlet property="loginButton" destination="Xf4-Pw-OJu" id="AEc-AG-KK3"/>
+                <outlet property="onePasswordButton" destination="ZY7-4c-Oqc" id="kpD-fj-cPs"/>
                 <outlet property="passwordField" destination="bjX-L6-SwG" id="4Kj-DK-gq5"/>
                 <outlet property="usernameField" destination="UNN-ll-ew1" id="vFA-Ar-rZY"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -19,7 +20,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xf4-Pw-OJu">
-                    <rect key="frame" x="138" y="214" width="43" height="30"/>
+                    <rect key="frame" x="138" y="180" width="43" height="30"/>
                     <state key="normal" title="Log In">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -28,7 +29,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6T8-dr-4We">
-                    <rect key="frame" x="132" y="252" width="56" height="30"/>
+                    <rect key="frame" x="132" y="218" width="56" height="30"/>
                     <state key="normal" title="Log Out">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -36,18 +37,18 @@
                         <action selector="buttonPressed:" destination="-1" eventType="touchUpInside" id="P7M-DK-NbM"/>
                     </connections>
                 </button>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UNN-ll-ew1">
-                    <rect key="frame" x="20" y="88" width="280" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UNN-ll-ew1">
+                    <rect key="frame" x="52" y="88" width="216" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bjX-L6-SwG">
-                    <rect key="frame" x="20" y="161" width="280" height="30"/>
+                    <rect key="frame" x="52" y="134" width="216" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WL1-np-sSi">
-                    <rect key="frame" x="30.5" y="304" width="259" height="31"/>
+                    <rect key="frame" x="30" y="264" width="259" height="31"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use development server" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ivA-Ri-BcE">
                             <rect key="frame" x="0.0" y="0.0" width="186.5" height="31"/>
@@ -70,28 +71,46 @@
                         <constraint firstItem="6tk-wM-qyT" firstAttribute="leading" secondItem="ivA-Ri-BcE" secondAttribute="trailing" constant="24" id="m7l-Or-JV1"/>
                     </constraints>
                 </view>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZY7-4c-Oqc">
+                    <rect key="frame" x="268" y="127" width="44" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="mNh-Pc-CFa"/>
+                        <constraint firstAttribute="width" constant="44" id="ziq-KZ-2h9"/>
+                    </constraints>
+                    <state key="normal" image="onepassword-button">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonPressed:" destination="-1" eventType="touchDown" id="C0V-bd-svi"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="UNN-ll-ew1" secondAttribute="centerX" id="0La-tz-WCu"/>
-                <constraint firstItem="bjX-L6-SwG" firstAttribute="top" secondItem="UNN-ll-ew1" secondAttribute="bottom" constant="43" id="1ca-ou-4fD"/>
+                <constraint firstItem="bjX-L6-SwG" firstAttribute="top" secondItem="UNN-ll-ew1" secondAttribute="bottom" constant="16" id="1ca-ou-4fD"/>
                 <constraint firstAttribute="centerX" secondItem="6T8-dr-4We" secondAttribute="centerX" id="Bvy-o1-9pa"/>
-                <constraint firstItem="WL1-np-sSi" firstAttribute="top" secondItem="6T8-dr-4We" secondAttribute="bottom" constant="22" id="Kf8-RE-AJe"/>
+                <constraint firstItem="ZY7-4c-Oqc" firstAttribute="centerY" secondItem="bjX-L6-SwG" secondAttribute="centerY" id="I0r-Xs-NLL"/>
+                <constraint firstItem="WL1-np-sSi" firstAttribute="top" secondItem="6T8-dr-4We" secondAttribute="bottom" constant="16" id="Kf8-RE-AJe"/>
                 <constraint firstAttribute="centerX" secondItem="Xf4-Pw-OJu" secondAttribute="centerX" id="Rrf-sw-LtF"/>
-                <constraint firstItem="Xf4-Pw-OJu" firstAttribute="top" secondItem="bjX-L6-SwG" secondAttribute="bottom" constant="23" id="cIw-1Y-8xD"/>
-                <constraint firstItem="UNN-ll-ew1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="hGR-3R-5Mb"/>
+                <constraint firstAttribute="trailing" secondItem="ZY7-4c-Oqc" secondAttribute="trailing" constant="8" id="TJc-nc-v9e"/>
+                <constraint firstAttribute="centerX" secondItem="bjX-L6-SwG" secondAttribute="centerX" id="TSF-nn-Vha"/>
+                <constraint firstItem="ZY7-4c-Oqc" firstAttribute="leading" secondItem="bjX-L6-SwG" secondAttribute="trailing" id="TaW-11-NQF"/>
+                <constraint firstItem="Xf4-Pw-OJu" firstAttribute="top" secondItem="bjX-L6-SwG" secondAttribute="bottom" constant="16" id="cIw-1Y-8xD"/>
+                <constraint firstItem="UNN-ll-ew1" firstAttribute="trailing" secondItem="bjX-L6-SwG" secondAttribute="trailing" id="gbE-c7-EYY"/>
                 <constraint firstItem="UNN-ll-ew1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="88" id="k4q-zC-FQQ"/>
                 <constraint firstItem="6T8-dr-4We" firstAttribute="top" secondItem="Xf4-Pw-OJu" secondAttribute="bottom" constant="8" id="l4R-Ad-9Vy"/>
-                <constraint firstAttribute="trailing" secondItem="UNN-ll-ew1" secondAttribute="trailing" constant="20" id="nLI-KL-0w1"/>
-                <constraint firstAttribute="trailing" secondItem="bjX-L6-SwG" secondAttribute="trailing" constant="20" id="rlZ-XO-qaA"/>
                 <constraint firstAttribute="centerX" secondItem="WL1-np-sSi" secondAttribute="centerX" id="uCV-Wx-ANB"/>
-                <constraint firstAttribute="centerX" secondItem="bjX-L6-SwG" secondAttribute="centerX" id="ujQ-2f-k9Z"/>
-                <constraint firstItem="bjX-L6-SwG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="xeT-D2-cxg"/>
+                <constraint firstItem="UNN-ll-ew1" firstAttribute="leading" secondItem="bjX-L6-SwG" secondAttribute="leading" id="wfF-0R-D6T"/>
                 <constraint firstAttribute="centerX" secondItem="Xf4-Pw-OJu" secondAttribute="centerX" id="yva-WK-gj9"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+            <point key="canvasLocation" x="270" y="298"/>
         </view>
     </objects>
+    <resources>
+        <image name="onepassword-button" width="27" height="27"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

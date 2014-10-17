@@ -21,6 +21,8 @@ pod 'NSLogger', '~> 1.5'
 pod 'Masonry'
 pod 'SDiPhoneVersion'
 pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImageViewController.git', :branch => 'dev'
+pod '1PasswordExtension'
+
 
 # Customized
 # pod 'SVProgressHUD', :head
