@@ -16,11 +16,11 @@
 #import "UIImageView+LBBlurredImage.h"
 #import "UIFont+customFonts.h"
 #import "UIImage+ImageEffects.h"
-#import "JTSImageViewController.h"
 #import "JGActionSheet.h"
 #import "LBXLogging.h"
 
 #import <QuartzCore/QuartzCore.h>
+#import <JTSImageViewController.h>
 #import <UIImageView+AFNetworking.h>
 #import <SVProgressHUD.h>
 
@@ -217,7 +217,7 @@ BOOL saveSheetVisible;
             JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
                                                    initWithImageInfo:imageInfo
                                                    mode:JTSImageViewControllerMode_Image
-                                                   backgroundStyle:JTSImageViewControllerBackgroundStyle_ScaledDimmedBlurred];
+                                                   backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
             imageViewer.interactionsDelegate = self;
             imageViewer.dismissalDelegate = self;
             
@@ -256,7 +256,7 @@ BOOL saveSheetVisible;
 
 #pragma mark JTSImageViewControllerInteractionsDelegate methods
 
-- (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer
+- (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer atRect:(CGRect)rect
 {
     if (!saveSheetVisible) {
         JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Save Image", @"Copy Image"] buttonStyle:JGActionSheetButtonStyleDefault];
@@ -304,9 +304,7 @@ BOOL saveSheetVisible;
                 }
                 case 1:
                 {
-                    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-                    [pasteboard setImage:_issueImage];
-                    [SVProgressHUD showSuccessWithStatus:@"Copied!"];
+                    [LBXControllerServices copyImageToPasteboard:_issueImage];
                     break;
                 }
                 default:

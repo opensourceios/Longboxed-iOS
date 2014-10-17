@@ -44,4 +44,6 @@
 + (NSArray *)getBundleTableViewSectionArrayForArray:(NSArray *)array;
 + (NSArray *)getAlphabeticalTableViewSectionArrayForArray:(NSArray *)array;
 
++ (void)copyImageToPasteboard:(UIImage *)image;
+
 @end
