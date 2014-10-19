@@ -31,9 +31,7 @@
 + (UIFont *)titleDetailAddToPullListFont;
 + (UIFont *)pullListTitleFont;
 + (UIFont *)pullListSubtitleFont;
-+ (UIFont *)actionSheetFont;
 + (UIFont *)actionSheetTitleFont;
-+ (UIFont *)actionSheetCancelFont;
 + (UIFont *)calendarNumbersFont;
 + (UIFont *)calendarMonthsFont;
 + (UIFont *)defaultPublisherInitialsFont;

@@ -274,7 +274,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 
 - (void)testAddandRemovePullListTitleEndpoint
 {
-    NSNumber *titleNum = @5;
+    NSNumber *titleNum = @6;
 
     // Add a title
     __weak typeof(self)weakSelf = self;

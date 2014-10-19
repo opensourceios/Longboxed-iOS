@@ -64,10 +64,10 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     [self setOverView:_detailView];
     
     _loadingView = [[UIView alloc] initWithFrame:self.view.frame];
-    _loadingView.backgroundColor = [UIColor whiteColor];
-    [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
-    [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
-    [SVProgressHUD setForegroundColor:[UIColor blackColor]];
+//    _loadingView.backgroundColor = [UIColor whiteColor];
+//    [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
+//    [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
+//    [SVProgressHUD setForegroundColor:[UIColor blackColor]];
     
     self.tableView.hidden = YES;
     [self.view insertSubview:_loadingView aboveSubview:_detailView];

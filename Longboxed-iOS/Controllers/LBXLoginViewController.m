@@ -152,6 +152,8 @@ UICKeyChainStore *store;
             _usernameField.text = @"";
             _passwordField.text = @"";
             [_usernameField becomeFirstResponder];
+            
+            break;
         }
         // 1Password
         case 2:
@@ -167,6 +169,7 @@ UICKeyChainStore *store;
                 _passwordField.text = loginDict[AppExtensionPasswordKey];
                 [_loginButton sendActionsForControlEvents:UIControlEventTouchUpInside];
             }];
+            break;
         }
     }
 }
