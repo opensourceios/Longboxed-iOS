@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		7A07AC5BCD7045119317C8CF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		CDE56D0EB54A49F3B06F8E78 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; };
+		E50183DF19F45F4C00DA3CAB /* ESDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183D619F45F4C00DA3CAB /* ESDateHelper.m */; };
+		E50183E019F45F4C00DA3CAB /* ESDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183DA19F45F4C00DA3CAB /* ESDatePicker.m */; };
+		E50183E119F45F4C00DA3CAB /* ESObjectPool.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183DE19F45F4C00DA3CAB /* ESObjectPool.m */; };
 		E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5519B534AC0021CEE8 /* ColorLog.m */; };
 		E5068A5C19B534AC0021CEE8 /* PSDDFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5919B534AC0021CEE8 /* PSDDFormatter.m */; };
 		E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5F19B53A5B0021CEE8 /* DDNSLoggerLogger.m */; };
@@ -129,6 +132,12 @@
 		87C1690C3A7EEC6A941CAAD8 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		BDAD9AC9556EEDE7B4890293 /* Pods.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.staging.xcconfig; path = "Pods/Target Support Files/Pods/Pods.staging.xcconfig"; sourceTree = "<group>"; };
 		E1E220888AF5409D902176E2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E50183D519F45F4C00DA3CAB /* ESDateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESDateHelper.h; sourceTree = "<group>"; };
+		E50183D619F45F4C00DA3CAB /* ESDateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESDateHelper.m; sourceTree = "<group>"; };
+		E50183D919F45F4C00DA3CAB /* ESDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESDatePicker.h; sourceTree = "<group>"; };
+		E50183DA19F45F4C00DA3CAB /* ESDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESDatePicker.m; sourceTree = "<group>"; };
+		E50183DD19F45F4C00DA3CAB /* ESObjectPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESObjectPool.h; sourceTree = "<group>"; };
+		E50183DE19F45F4C00DA3CAB /* ESObjectPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESObjectPool.m; sourceTree = "<group>"; };
 		E5068A5419B534AC0021CEE8 /* ColorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorLog.h; sourceTree = "<group>"; };
 		E5068A5519B534AC0021CEE8 /* ColorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorLog.m; sourceTree = "<group>"; };
 		E5068A5819B534AC0021CEE8 /* PSDDFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSDDFormatter.h; sourceTree = "<group>"; };
@@ -335,6 +344,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E50183D319F45F4C00DA3CAB /* ESDateHelper */ = {
+			isa = PBXGroup;
+			children = (
+				E50183D419F45F4C00DA3CAB /* Classes */,
+			);
+			name = ESDateHelper;
+			path = Extras/ESDateHelper;
+			sourceTree = "<group>";
+		};
+		E50183D419F45F4C00DA3CAB /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E50183D519F45F4C00DA3CAB /* ESDateHelper.h */,
+				E50183D619F45F4C00DA3CAB /* ESDateHelper.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		E50183D719F45F4C00DA3CAB /* ESDatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				E50183D819F45F4C00DA3CAB /* Classes */,
+			);
+			name = ESDatePicker;
+			path = Extras/ESDatePicker;
+			sourceTree = "<group>";
+		};
+		E50183D819F45F4C00DA3CAB /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E50183D919F45F4C00DA3CAB /* ESDatePicker.h */,
+				E50183DA19F45F4C00DA3CAB /* ESDatePicker.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		E50183DB19F45F4C00DA3CAB /* ESObjectPool */ = {
+			isa = PBXGroup;
+			children = (
+				E50183DC19F45F4C00DA3CAB /* Classes */,
+			);
+			name = ESObjectPool;
+			path = Extras/ESObjectPool;
+			sourceTree = "<group>";
+		};
+		E50183DC19F45F4C00DA3CAB /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E50183DD19F45F4C00DA3CAB /* ESObjectPool.h */,
+				E50183DE19F45F4C00DA3CAB /* ESObjectPool.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		E5068A5319B534AC0021CEE8 /* Lumberjack */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,6 +669,9 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				E50183D319F45F4C00DA3CAB /* ESDateHelper */,
+				E50183D719F45F4C00DA3CAB /* ESDatePicker */,
+				E50183DB19F45F4C00DA3CAB /* ESObjectPool */,
 				E5B6FCD519983DFC0022F4CA /* MGSpotyViewController */,
 				E5068A5319B534AC0021CEE8 /* Lumberjack */,
 				E5371226198EF9300065D57A /* Fonts */,
@@ -1012,8 +1078,10 @@
 				E5E5163219CA446D005FBD43 /* UIColor+customColors.m in Sources */,
 				E51AB57019A405940066FFF6 /* LBXIssueDetailViewController.m in Sources */,
 				E5E5163519CA446D005FBD43 /* UIImage+ImageEffects.m in Sources */,
+				E50183E019F45F4C00DA3CAB /* ESDatePicker.m in Sources */,
 				E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */,
 				E5068A5C19B534AC0021CEE8 /* PSDDFormatter.m in Sources */,
+				E50183E119F45F4C00DA3CAB /* ESObjectPool.m in Sources */,
 				E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */,
 				E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */,
 				E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */,
@@ -1030,6 +1098,7 @@
 				E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */,
 				E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */,
 				E535EBA619DB6444001B729A /* LBXPublisherTableViewController.m in Sources */,
+				E50183DF19F45F4C00DA3CAB /* ESDateHelper.m in Sources */,
 				E5B6FCE51998497A0022F4CA /* LBXControllerServices.m in Sources */,
 				E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */,
 				E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */,
@@ -1128,7 +1197,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1162,7 +1231,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1288,7 +1357,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1384,7 +1453,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1469,7 +1538,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
