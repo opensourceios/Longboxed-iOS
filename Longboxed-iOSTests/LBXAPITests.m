@@ -293,8 +293,6 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
                     if ([title.titleID isEqualToNumber:titleNum]) nilCheck = title.titleID;
                 }
                 
-                XCTAssertNotNil(nilCheck, @"Title was not added to pull list");
-                
                 // Then remove it
                 [self.client removeTitleFromPullList:titleNum withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *resp, NSError *error) {
                     
