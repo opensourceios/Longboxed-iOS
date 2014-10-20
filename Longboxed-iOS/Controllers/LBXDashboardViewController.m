@@ -17,6 +17,7 @@
 #import "LBXWeekViewController.h"
 #import "LBXPullListViewController.h"
 #import "LBXSearchTableViewController.h"
+#import "PaintCodeImages.h"
 #import "LBXClient.h"
 #import "LBXBundle.h"
 
@@ -91,7 +92,6 @@
 //        _searchController.searchBar
         //_searchBar.hidden = YES;
         self.definesPresentationContext = YES;
-        [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
         
         [_scrollView addSubview:_searchController.searchBar];
     }
@@ -104,6 +104,7 @@
     NSIndexPath *tableSelection = [self.browseTableView indexPathForSelectedRow];
     [self.browseTableView deselectRowAtIndexPath:tableSelection animated:YES];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor purpleColor]];
     [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
 }
 
@@ -140,18 +141,19 @@
     _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
     _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
     _searchController.searchBar.backgroundColor = [UIColor clearColor];
-    _searchController.searchBar.tintColor = [UIColor clearColor];
     _searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
     _searchController.searchBar.placeholder = @"Search Comics";
     _searchController.searchBar.clipsToBounds = YES;
     _searchController.hidesNavigationBarDuringPresentation = YES;
+    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
+    UIImage *image = [PaintCodeImages imageOfMagnifyingGlassWithColor:[UIColor whiteColor] width:24];
+    [_searchController.searchBar setImage:image forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
     
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
