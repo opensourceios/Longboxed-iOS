@@ -37,6 +37,13 @@ BOOL endOfPublishers;
     
     _client = [LBXClient new];
     
+    UILabel *label = [UILabel new];
+    label.text = @"Publishers";
+    label.font = [UIFont navTitleFont];
+    [label sizeToFit];
+    
+    self.navigationItem.titleView = label;
+    
     self.tableView = [UITableView new];
     self.tableView.frame = self.view.frame;
     self.tableView.delegate = self;
@@ -80,8 +87,9 @@ BOOL endOfPublishers;
     
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.shadowImage = nil;
-    self.navigationController.navigationBar.topItem.title = @"Publishers";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    
+    self.navigationController.navigationBar.topItem.title = @" ";
     
     [self.navigationController.navigationBar setBackgroundImage:nil
                                                   forBarMetrics:UIBarMetricsDefault];

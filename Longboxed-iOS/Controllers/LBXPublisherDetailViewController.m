@@ -49,7 +49,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
-    self.navigationController.navigationBar.topItem.title = @"";
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -70,6 +69,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
      [UIImage imageNamed:@"arrow"]];
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
      [UIImage imageNamed:@"arrow"]];
+    self.navigationController.navigationBar.backItem.title = @" ";
     
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
     
@@ -124,7 +124,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.topItem.title = @" ";
     [SVProgressHUD dismiss];
 }
 
