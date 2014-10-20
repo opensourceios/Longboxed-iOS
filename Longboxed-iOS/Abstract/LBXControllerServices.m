@@ -526,4 +526,73 @@
     [SVProgressHUD setWidth:400 andHeight:400];
 }
 
++ (void)setViewWillAppearWhiteNavigationController:(UIViewController *)viewController
+{
+    viewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    [viewController.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
+    [viewController.navigationController.navigationBar setBackIndicatorImage:
+     [UIImage imageNamed:@"arrow"]];
+    [viewController.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
+     [UIImage imageNamed:@"arrow"]];
+    viewController.navigationController.navigationBar.backItem.title = @" ";
+    viewController.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    
+    // Make the nav par translucent again
+    if (viewController.isBeingPresented || viewController.isMovingToParentViewController) {
+        viewController.navigationController.navigationBar.translucent = YES;
+        viewController.navigationController.view.backgroundColor = [UIColor whiteColor];
+        [viewController.navigationController.navigationBar setBackgroundImage:nil
+                                                                forBarMetrics:UIBarMetricsDefault];
+    }
+}
+
++ (void)setViewDidAppearWhiteNavigationController:(UIViewController *)viewController
+{
+    [viewController.navigationController.navigationBar setBackgroundImage:nil
+                                                  forBarMetrics:UIBarMetricsDefault];
+    
+    viewController.navigationController.navigationBar.translucent = YES;
+    viewController.navigationController.view.backgroundColor = [UIColor whiteColor];
+    viewController.navigationController.navigationBar.topItem.title = @" ";
+    
+   // viewController.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    viewController.navigationController.navigationBar.shadowImage = nil;
+    
+    [viewController.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+}
+
++ (void)setViewWillAppearClearNavigationController:(UIViewController *)viewController
+{
+    
+    [viewController.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
+    [viewController.navigationController.navigationBar setBackIndicatorImage:
+     [UIImage imageNamed:@"arrow"]];
+    [viewController.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
+     [UIImage imageNamed:@"arrow"]];
+    
+    if (viewController.isBeingPresented || viewController.isMovingToParentViewController) {
+        viewController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        viewController.navigationController.navigationBar.topItem.title = @" ";
+        viewController.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        [viewController.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                      forBarMetrics:UIBarMetricsDefault];
+        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
+    }
+//    viewController.navigationController.navigationBar.translucent = YES;
+//    viewController.navigationController.view.backgroundColor = [UIColor clearColor];
+//    [viewController.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+}
+
++ (void)setViewDidAppearClearNavigationController:(UIViewController *)viewController
+{
+    if (!viewController.isBeingPresented || !viewController.isMovingToParentViewController) {
+        viewController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        viewController.navigationController.navigationBar.topItem.title = @" ";
+        viewController.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        [viewController.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                                forBarMetrics:UIBarMetricsDefault];
+        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
+    }
+}
+
 @end

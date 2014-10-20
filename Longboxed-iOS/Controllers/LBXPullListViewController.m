@@ -135,17 +135,7 @@ CGFloat cellWidth;
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
     
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
-    [self.navigationController.navigationBar setBackIndicatorImage:
-     [UIImage imageNamed:@"arrow"]];
-    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
-     [UIImage imageNamed:@"arrow"]];
-    
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
-    
-    // Special attribute set for title text color
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -162,15 +152,9 @@ CGFloat cellWidth;
     
     [self refresh];
     
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    self.navigationController.navigationBar.shadowImage = nil;
+    [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     self.navigationController.navigationBar.topItem.title = @"Pull List";
     
-    [self.navigationController.navigationBar setBackgroundImage:nil
-                                                  forBarMetrics:UIBarMetricsDefault];
-    
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor whiteColor];
     
     ///////
     // Search Bar

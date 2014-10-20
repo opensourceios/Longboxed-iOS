@@ -46,4 +46,9 @@
 
 + (void)copyImageToPasteboard:(UIImage *)image;
 
++ (void)setViewWillAppearWhiteNavigationController:(UIViewController *)viewController;
++ (void)setViewDidAppearWhiteNavigationController:(UIViewController *)viewController;
++ (void)setViewWillAppearClearNavigationController:(UIViewController *)viewController;
++ (void)setViewDidAppearClearNavigationController:(UIViewController *)viewController;
+
 @end

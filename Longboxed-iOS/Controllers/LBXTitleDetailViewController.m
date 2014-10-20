@@ -85,19 +85,9 @@ int page;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.topItem.title = @" ";
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
-    [self.navigationController.navigationBar setBackIndicatorImage:
-     [UIImage imageNamed:@"arrow"]];
-    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
-     [UIImage imageNamed:@"arrow"]];
-    self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
 
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                  forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    [LBXControllerServices setViewWillAppearClearNavigationController:self];
+    self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
 
     [self setNavBarAlpha:@0];
 
@@ -113,9 +103,9 @@ int page;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [LBXControllerServices setViewDidAppearClearNavigationController:self];
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXTitle:\n%@\ndid appear", _detailTitle]];
     self.navigationController.navigationBar.topItem.title = _detailTitle.name;
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     if (self.tableView.contentOffset.y > 0) {
         // Set the title alpha properly when returning from the issue view
         [self setNavBarAlpha:@(1 - self.overView.alpha)];
@@ -130,7 +120,6 @@ int page;
     [super viewWillDisappear:animated];
     [self setNavBarAlpha:@1];
     self.navigationController.navigationBar.topItem.title = @" ";
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
 - (void)setDetailView

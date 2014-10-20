@@ -104,6 +104,7 @@
     NSIndexPath *tableSelection = [self.browseTableView indexPathForSelectedRow];
     [self.browseTableView deselectRowAtIndexPath:tableSelection animated:YES];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
+    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
 }
 
 - (void)viewWillLayoutSubviews
@@ -152,18 +153,9 @@
     
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
     
-    self.navigationController.navigationBar.topItem.title = @" ";
-    
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    self.navigationController.navigationBar.shadowImage = nil;
+    [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
     
-    [self.navigationController.navigationBar setBackgroundImage:nil
-                                                  forBarMetrics:UIBarMetricsDefault];
-    
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor whiteColor];
-
     _client = [LBXClient new];
     
     [self getCoreDataLatestBundle];

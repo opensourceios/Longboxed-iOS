@@ -9,6 +9,7 @@
 #import "LBXPublisherTableViewController.h"
 #import "LBXPublisherListTableViewCell.h"
 #import "LBXPublisherDetailViewController.h"
+#import "LBXControllerServices.h"
 #import "LBXPublisher.h"
 #import "LBXClient.h"
 
@@ -64,16 +65,7 @@ BOOL endOfPublishers;
     
     self.tableView.rowHeight = PUBLISHER_LIST_TABLE_HEIGHT;
     
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
-    [self.navigationController.navigationBar setBackIndicatorImage:
-     [UIImage imageNamed:@"arrow"]];
-    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
-     [UIImage imageNamed:@"arrow"]];
-    
-    // Make the nav par translucent again
-    [self.navigationController.navigationBar setBackgroundImage:nil
-                                                  forBarMetrics:UIBarMetricsDefault];
+    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
@@ -85,17 +77,7 @@ BOOL endOfPublishers;
 {
     [super viewDidAppear:animated];
     
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    self.navigationController.navigationBar.shadowImage = nil;
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
-    
-    self.navigationController.navigationBar.topItem.title = @" ";
-    
-    [self.navigationController.navigationBar setBackgroundImage:nil
-                                                  forBarMetrics:UIBarMetricsDefault];
-    
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor whiteColor];
+    [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     
     [self refreshViewWithPage:@1];
 }

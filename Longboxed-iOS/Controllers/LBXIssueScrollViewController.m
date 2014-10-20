@@ -8,6 +8,7 @@
 
 #import "LBXIssueScrollViewController.h"
 #import "LBXIssueDetailViewController.h"
+#import "LBXControllerServices.h"
 #import "LBXClient.h"
 #import "LBXMessageBar.h"
 
@@ -69,12 +70,13 @@ CGRect screenRect;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    [LBXControllerServices setViewWillAppearClearNavigationController:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [LBXControllerServices setViewDidAppearClearNavigationController:self];
     // Set up the rest of the issue variants
     [self setupIssueViewsWithIssuesArray:[_issues subarrayWithRange:NSMakeRange(1, _issues.count-1)]];
 }

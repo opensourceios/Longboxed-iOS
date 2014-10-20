@@ -173,16 +173,7 @@ int _page;
 {
     [super viewWillAppear:animated];
     
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
-    [self.navigationController.navigationBar setBackIndicatorImage:
-     [UIImage imageNamed:@"arrow"]];
-    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
-     [UIImage imageNamed:@"arrow"]];
-    
-    // Make the nav par translucent again
-    [self.navigationController.navigationBar setBackgroundImage:nil
-                                                  forBarMetrics:UIBarMetricsDefault];
+    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
     
     // Calendar button
     int calendarSize = 20;
@@ -212,7 +203,7 @@ int _page;
 {
     [super viewDidAppear:animated];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     [self setNavTitle];
     
     if (_segmentedControl == nil && _selectedWednesday) {

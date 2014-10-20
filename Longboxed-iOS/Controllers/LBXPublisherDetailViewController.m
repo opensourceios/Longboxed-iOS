@@ -63,15 +63,9 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 {
     [super viewWillAppear:animated];
     
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
-    [self.navigationController.navigationBar setBackIndicatorImage:
-     [UIImage imageNamed:@"arrow"]];
-    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
-     [UIImage imageNamed:@"arrow"]];
-    self.navigationController.navigationBar.backItem.title = @" ";
-    
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
+    
+    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
     
     // Keep the section header on the top
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -87,28 +81,16 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
-    _client = [LBXClient new];
     
+    [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     self.navigationController.navigationBar.topItem.title = _detailPublisher.name;
     
+    _client = [LBXClient new];
     [self setDetailPublisher];
     [self fetchPublisher];
     
     self.title = _detailPublisher.name;
-    
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    self.navigationController.navigationBar.shadowImage = nil;
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                  forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-
-    
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor whiteColor];
-    
+        
     [self createTitlesArray];
     
     if (!_titlesForPublisherArray.count) {
