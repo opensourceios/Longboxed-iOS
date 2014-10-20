@@ -147,6 +147,7 @@
     UIImage *image = [PaintCodeImages imageOfMagnifyingGlassWithColor:[UIColor whiteColor] width:24];
     [_searchController.searchBar setImage:image forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
+    _searchController.searchBar.userInteractionEnabled = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated
