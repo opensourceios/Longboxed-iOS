@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MGSpotyViewController.h"
 
-@interface LBXPublisherDetailViewController : MGSpotyViewController
+@interface LBXPublisherDetailViewController : UITableViewController
 
 @property (nonatomic, retain) NSNumber *publisherID;
 

@@ -71,8 +71,6 @@
 		E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E156719A987ED002616F5 /* arrow_right@2x.png */; };
 		E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E156A19A98FB0002616F5 /* arrow_right_small.png */; };
 		E57E156D19A98FB0002616F5 /* arrow_right_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E156B19A98FB0002616F5 /* arrow_right_small@2x.png */; };
-		E57E157019A993F4002616F5 /* LBXPublisherDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E57E156F19A993F4002616F5 /* LBXPublisherDetailView.m */; };
-		E57E157219A99427002616F5 /* LBXPublisherDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E57E157119A99427002616F5 /* LBXPublisherDetailView.xib */; };
 		E57E157819A9A55E002616F5 /* loadingCoverTransparent.png in Resources */ = {isa = PBXBuildFile; fileRef = E57E157619A9A55E002616F5 /* loadingCoverTransparent.png */; };
 		E593F53D19D70FDB00D310C6 /* LBXDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E593F53B19D70FDB00D310C6 /* LBXDashboardViewController.m */; };
 		E593F53E19D70FDB00D310C6 /* LBXDashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E593F53C19D70FDB00D310C6 /* LBXDashboardViewController.xib */; };
@@ -240,9 +238,6 @@
 		E57E156719A987ED002616F5 /* arrow_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right@2x.png"; path = "Assets/arrow_right@2x.png"; sourceTree = SOURCE_ROOT; };
 		E57E156A19A98FB0002616F5 /* arrow_right_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow_right_small.png; path = Assets/arrow_right_small.png; sourceTree = SOURCE_ROOT; };
 		E57E156B19A98FB0002616F5 /* arrow_right_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_small@2x.png"; path = "Assets/arrow_right_small@2x.png"; sourceTree = SOURCE_ROOT; };
-		E57E156E19A993F4002616F5 /* LBXPublisherDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherDetailView.h; path = Views/LBXPublisherDetailView.h; sourceTree = "<group>"; };
-		E57E156F19A993F4002616F5 /* LBXPublisherDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherDetailView.m; path = Views/LBXPublisherDetailView.m; sourceTree = "<group>"; };
-		E57E157119A99427002616F5 /* LBXPublisherDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXPublisherDetailView.xib; path = Views/LBXPublisherDetailView.xib; sourceTree = "<group>"; };
 		E57E157619A9A55E002616F5 /* loadingCoverTransparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loadingCoverTransparent.png; path = Assets/loadingCoverTransparent.png; sourceTree = SOURCE_ROOT; };
 		E593F53A19D70FDB00D310C6 /* LBXDashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDashboardViewController.h; path = Controllers/LBXDashboardViewController.h; sourceTree = "<group>"; };
 		E593F53B19D70FDB00D310C6 /* LBXDashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDashboardViewController.m; path = Controllers/LBXDashboardViewController.m; sourceTree = "<group>"; };
@@ -577,9 +572,6 @@
 				E515746419DCD1D00072EE3E /* LBXComicTableViewCell.h */,
 				E515746519DCD1D00072EE3E /* LBXComicTableViewCell.m */,
 				E515746619DCD1D00072EE3E /* LBXComicTableViewCell.xib */,
-				E57E156E19A993F4002616F5 /* LBXPublisherDetailView.h */,
-				E57E156F19A993F4002616F5 /* LBXPublisherDetailView.m */,
-				E57E157119A99427002616F5 /* LBXPublisherDetailView.xib */,
 				E5B6FCBE1998351C0022F4CA /* LBXTitleDetailView.h */,
 				E5B6FCBF1998351C0022F4CA /* LBXTitleDetailView.m */,
 				E5B6FCBC199831CC0022F4CA /* LBXTitleDetailView.xib */,
@@ -936,7 +928,6 @@
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,
 				E57CCAC719CB8C8E0086B39E /* LBXSearchTableViewCell.xib in Resources */,
 				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,
-				E57E157219A99427002616F5 /* LBXPublisherDetailView.xib in Resources */,
 				E5E5A52819BBAE5500471BF8 /* thor-hulk.jpg in Resources */,
 				E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */,
 				E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */,
@@ -1115,7 +1106,6 @@
 				E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */,
 				E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */,
 				E515746F19E4D1F20072EE3E /* LBXBottomTableViewCell.m in Sources */,
-				E57E157019A993F4002616F5 /* LBXPublisherDetailView.m in Sources */,
 				E5AB810B19CE1C550042109B /* LBXEmptyPullListViewController.m in Sources */,
 				E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */,
 				E5E5162E19CA446D005FBD43 /* NSData+Base64.m in Sources */,

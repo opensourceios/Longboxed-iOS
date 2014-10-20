@@ -11,7 +11,6 @@
 #import "LBXMessageBar.h"
 #import "LBXPullListTableViewCell.h"
 #import "LBXPullListTitle.h"
-#import "LBXPublisherDetailView.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXTitle.h"
 #import "LBXControllerServices.h"
@@ -27,14 +26,11 @@
 #import "SVProgressHUD.h"
 
 #import <QuartzCore/QuartzCore.h>
-#import <POP.h>
 
-@interface LBXPublisherDetailViewController () <UIScrollViewDelegate>
+@interface LBXPublisherDetailViewController () <UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, copy) LBXPublisher *detailPublisher;
 @property (nonatomic, copy) LBXClient *client;
-@property (nonatomic, copy) LBXPublisherDetailView *detailView;
-@property (nonatomic, copy) UIImage *publisherImage;
 @property (nonatomic, copy) NSArray *titlesForPublisherArray;
 @property (nonatomic, copy) NSArray *sectionArray;
 @property (nonatomic, strong) UIView *loadingView;
@@ -54,44 +50,28 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
     self.navigationController.navigationBar.topItem.title = @"";
-    
-    _client = [LBXClient new];
-
-    [self setDetailPublisher];
-    [self fetchPublisher];
-    
-    [self setDetailView];
-    [self setOverView:_detailView];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
     _loadingView = [[UIView alloc] initWithFrame:self.view.frame];
-//    _loadingView.backgroundColor = [UIColor whiteColor];
-//    [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
-//    [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
-//    [SVProgressHUD setForegroundColor:[UIColor blackColor]];
-    
-    self.tableView.hidden = YES;
-    [self.view insertSubview:_loadingView aboveSubview:_detailView];
+    _loadingView.backgroundColor = [UIColor whiteColor];
+    [SVProgressHUD setFont:[UIFont SVProgressHUDFont]];
+    [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
+    [SVProgressHUD setForegroundColor:[UIColor blackColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     [self.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
     [self.navigationController.navigationBar setBackIndicatorImage:
      [UIImage imageNamed:@"arrow"]];
     [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
      [UIImage imageNamed:@"arrow"]];
+    
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
-    
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                  forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor clearColor];
     
     // Keep the section header on the top
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -104,28 +84,35 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
 }
 
-- (void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
-    if (self.tableView.contentOffset.y > 0) {
-        // Set the title alpha properly when returning from the issue view
-        [self setNavBarAlpha:@(1 - self.overView.alpha)];
-    }
-    else {
-        [self setNavBarAlpha:@0];
-    }
-    self.title = _detailPublisher.name;
+
+    _client = [LBXClient new];
+    
     self.navigationController.navigationBar.topItem.title = _detailPublisher.name;
+    
+    [self setDetailPublisher];
+    [self fetchPublisher];
+    
+    self.title = _detailPublisher.name;
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.navigationBar.shadowImage = nil;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+
+    
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor whiteColor];
     
     [self createTitlesArray];
     
     if (!_titlesForPublisherArray.count) {
+        self.tableView.hidden = YES;
         [SVProgressHUD show];
     }
     
@@ -137,9 +124,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self setNavBarAlpha:@1];
     self.navigationController.navigationBar.topItem.title = @" ";
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     [SVProgressHUD dismiss];
 }
 
@@ -148,65 +133,20 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     [super viewDidDisappear:animated];
 }
 
-- (void)setDetailView
-{
-    _detailView = [LBXPublisherDetailView new];
-    _detailView.frame = self.overView.frame;
-    _detailView.bounds = self.overView.bounds;
-    _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
-    _detailView.titleLabel.numberOfLines = 0;
-    _detailView.titleLabel.preferredMaxLayoutWidth = 200;
-    
-    [self updateDetailView];
-    
-    [_detailView.latestIssueImageView sizeToFit];
-}
-
-- (void)updateDetailView
-{
-    _detailView.titleLabel.text = _detailPublisher.name;
-    
-    NSString *issuesString;
-    if ([_detailPublisher.titleCount isEqualToNumber:@1]) {
-        issuesString = [NSString stringWithFormat:@"%@ Title", _detailPublisher.titleCount];
-    }
-    else {
-        issuesString = [NSString stringWithFormat:@"%@ Titles", _detailPublisher.titleCount];
-    }
-    
-    NSString *subscribersString;
-    if ([_detailPublisher.issueCount isEqualToNumber:@1]) {
-        subscribersString = [NSString stringWithFormat:@"%@ Issue", _detailPublisher.issueCount];
-    }
-    else {
-        subscribersString = [NSString stringWithFormat:@"%@ Issues", _detailPublisher.issueCount];
-    }
-    
-    _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
-    _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
-    [_detailView.issuesAndSubscribersLabel sizeToFit];
-    
-    [self.view setNeedsDisplay];
-}
-
 - (BOOL)prefersStatusBarHidden {
     return NO;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 
 #pragma mark - Private methods
 
-- (void)setNavBarAlpha:(NSNumber *)alpha
-{
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
-}
-
 - (void)setDetailPublisher
 {
     _detailPublisher = [LBXPublisher MR_findFirstByAttribute:@"publisherID" withValue:_publisherID];
+    
 }
 
 - (void)fetchPublisher
@@ -214,54 +154,8 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     [_client fetchPublisher:_publisherID withCompletion:^(LBXPublisher *publisher, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            
-            CGSize size = CGSizeMake(self.detailView.latestIssueImageView.frame.size.width, self.view.frame.size.width);
-            
-            UIImage *colorImage = [LBXControllerServices generateImageForPublisher:_detailPublisher size:size];
-            
-            __block typeof(self) bself = self;
-            
-            //Configure the view
-            // Background
-            [self.mainImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:publisher.mediumSplash]] placeholderImage:colorImage success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                
-                [bself setCustomBlurredBackgroundImageWithImage:image];
-                
-            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                [bself setCustomBackgroundImageWithImage:colorImage];
-            }];
-            
-            [self updateDetailView];
             [self setDetailPublisher];
             
-            // Main image (publisher's logo)
-            [self.detailView.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:publisher.mediumLogo]] placeholderImage:[UIImage imageNamed:@"clear"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                
-                if (image.size.width > image.size.height * 1.2) {
-                    float percentageSmallerInWidth = bself.detailView.latestIssueImageView.frame.size.width/image.size.width;
-                    float shrunkHeight = image.size.height * percentageSmallerInWidth;
-                    float center = bself.detailView.latestIssueImageView.center.y;
-                    
-                    bself.detailView.latestIssueImageView.frame = CGRectMake(bself.detailView.latestIssueImageView.frame.origin.x, -center +  shrunkHeight - 2, bself.detailView.latestIssueImageView.frame.size.width, bself.detailView.latestIssueImageView.frame.size.height);
-                }
-                
-                [UIView transitionWithView:bself.detailView.latestIssueImageView
-                                  duration:0.5f
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{bself.detailView.latestIssueImageView.image = image;}
-                                completion:NULL];
-                
-                
-            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                
-                UIImage *defaultImage = [UIImage imageByDrawingInitialsOnImage:[UIImage imageWithColor:[UIColor clearColor] rect:bself.detailView.latestIssueImageView.frame] withInitials:publisher.name font:[UIFont detailPublisherInitialsFont]];
-                
-                [UIView transitionWithView:bself.detailView.latestIssueImageView
-                                  duration:0.5f
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{bself.detailView.latestIssueImageView.image = defaultImage;}
-                                completion:NULL];
-            }];
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -304,18 +198,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         [_loadingView removeFromSuperview];
         self.tableView.hidden = NO;
         
-        // First let's remove any existing animations
-        CALayer *layer = self.view.layer;
-        [layer pop_removeAllAnimations];
-        
-        POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
-        anim.fromValue = @(self.view.frame.size.height*2+self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height);
-        anim.toValue = @(0+self.view.frame.size.height/2+self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height);
-        anim.springBounciness = 12.0;
-        anim.springSpeed = 18.0;
-        anim.velocity = @(2000.);
-        
-        [layer pop_addAnimation:anim forKey:@"origin.y"];
         [SVProgressHUD dismiss];   
     }
 }
@@ -439,18 +321,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     
     // Setting the background color of the cell.
     cell.contentView.backgroundColor = [UIColor whiteColor];
-    
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (scrollView.contentOffset.y > 0) {
-        [self setNavBarAlpha:@(1 - self.overView.alpha)];
-    }
-    else {
-        [self setNavBarAlpha:@0];
-    }
-    return [super scrollViewDidScroll:scrollView];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

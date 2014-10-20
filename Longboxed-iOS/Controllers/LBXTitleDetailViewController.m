@@ -97,9 +97,6 @@ int page;
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
-    
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor clearColor];
 
     [self setNavBarAlpha:@0];
 
@@ -341,7 +338,7 @@ int page;
         }
         case 1:
         {
-            LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
+            LBXPublisherDetailViewController *publisherViewController = [LBXPublisherDetailViewController new];
             
             publisherViewController.publisherID = _detailTitle.publisher.publisherID;
             

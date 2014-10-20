@@ -202,8 +202,7 @@ BOOL endOfPublishers;
 {
     LBXPublisher *publisher = [_publishersArray objectAtIndex:indexPath.row];
     
-    LBXPublisherDetailViewController *publisherViewController = [[LBXPublisherDetailViewController alloc] initWithTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/8)];
-    
+    LBXPublisherDetailViewController *publisherViewController = [LBXPublisherDetailViewController new];
     publisherViewController.publisherID = publisher.publisherID;
     
     [self.navigationController pushViewController:publisherViewController animated:YES];
