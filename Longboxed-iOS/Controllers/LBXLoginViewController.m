@@ -83,6 +83,11 @@ UICKeyChainStore *store;
     self.navigationController.navigationBar.topItem.title = @"Settings";
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -91,7 +96,7 @@ UICKeyChainStore *store;
 
 - (void)donePressed
 {
-    [self.navigationController pushViewController:[LBXDashboardViewController new] animated:YES];
+    [self.navigationController pushViewController:self.dashController animated:YES];
 }
 
 - (void)removeCredentials

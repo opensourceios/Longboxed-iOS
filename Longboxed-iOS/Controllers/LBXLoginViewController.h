@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LBXDashboardViewController.h"
 
 @interface LBXLoginViewController : UIViewController
 
 @property (nonatomic, retain) IBOutlet UIButton *onePasswordButton;
+@property (nonatomic, retain) LBXDashboardViewController *dashController; // So it can be pushed back onto the view hierarchy and isn't deallocated
 
 @end

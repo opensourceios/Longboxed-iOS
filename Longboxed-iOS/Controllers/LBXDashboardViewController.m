@@ -104,7 +104,6 @@
     NSIndexPath *tableSelection = [self.browseTableView indexPathForSelectedRow];
     [self.browseTableView deselectRowAtIndexPath:tableSelection animated:YES];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor purpleColor]];
     [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
 }
 
@@ -145,10 +144,9 @@
     _searchController.searchBar.placeholder = @"Search Comics";
     _searchController.searchBar.clipsToBounds = YES;
     _searchController.hidesNavigationBarDuringPresentation = YES;
-    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
     UIImage *image = [PaintCodeImages imageOfMagnifyingGlassWithColor:[UIColor whiteColor] width:24];
     [_searchController.searchBar setImage:image forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-
+    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -157,7 +155,6 @@
     
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
-    
     _client = [LBXClient new];
     
     [self getCoreDataLatestBundle];
@@ -378,7 +375,8 @@
 
 - (void)settingsPressed
 {
-    UIViewController *newVC = [LBXLoginViewController new];;
+    LBXLoginViewController *newVC = [LBXLoginViewController new];
+    newVC.dashController = self; // So it can be pushed back onto the view hierarchy and isn't deallocated
     NSMutableArray *vcs =  [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
     [vcs insertObject:newVC atIndex:[vcs count]-1];
     [self.navigationController setViewControllers:vcs animated:NO];
