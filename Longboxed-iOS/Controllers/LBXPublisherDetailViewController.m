@@ -69,7 +69,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     
     // Keep the section header on the top
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
+    self.tableView.contentInset = UIEdgeInsetsZero;
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     self.tableView.sectionIndexColor = [UIColor lightGrayColor];
