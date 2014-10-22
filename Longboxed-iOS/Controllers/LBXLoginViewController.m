@@ -115,6 +115,7 @@ UICKeyChainStore *store;
             descriptor.baseURL = [LBXEndpoints stagingURL];
         }
         [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
+        RKObjectManager.sharedManager.HTTPClient.allowsInvalidSSLCertificate = YES;
         [UICKeyChainStore setString:[[LBXEndpoints stagingURL] absoluteString] forKey:@"baseURLString"];
         [store synchronize];
         
@@ -127,6 +128,7 @@ UICKeyChainStore *store;
             descriptor.baseURL = [LBXEndpoints productionURL];
         }
         [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints productionURL]]];
+        RKObjectManager.sharedManager.HTTPClient.allowsInvalidSSLCertificate = NO;
         [UICKeyChainStore setString:[[LBXEndpoints productionURL] absoluteString] forKey:@"baseURLString"];
         [store synchronize];
         
