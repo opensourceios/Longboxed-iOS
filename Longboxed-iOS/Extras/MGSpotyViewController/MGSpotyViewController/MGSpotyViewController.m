@@ -142,14 +142,17 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         
         if (!error) {
             if (issueArray.count) {
-                [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:((LBXIssue *)issueArray[0]).coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                    
-                    completion(image);
-                    
-                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                    completion([UIImage imageNamed:@"NotAvailable.jpeg"]);
-
-                }];
+                for (LBXIssue *issue in issueArray) {
+                    if ([issue.isParent isEqualToNumber:@1]) {
+                        [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                            completion(image);
+                            
+                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                            completion([UIImage imageNamed:@"NotAvailable.jpeg"]);
+                        }];
+                        return;
+                    }
+                }
             }
             else completion([UIImage imageNamed:@"NotAvailable.jpeg"]);
         }
