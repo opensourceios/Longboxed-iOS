@@ -184,10 +184,13 @@ UICKeyChainStore *store;
 {
     [self removeCredentials];
     [LBXDatabaseManager flushDatabase];
+    NSLog(@"%@", _usernameField.text);
+    NSLog(@"%@", _passwordField.text);
     [UICKeyChainStore setString:_usernameField.text forKey:@"username"];
     [UICKeyChainStore setString:_passwordField.text forKey:@"password"];
     [store synchronize]; // Write to keychain.
     [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
+        NSLog(@"%ld", (long)response.HTTPRequestOperation.response.statusCode);
         if (response.HTTPRequestOperation.response.statusCode == 200) {
             dispatch_async(dispatch_get_main_queue(),^{
                 [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];

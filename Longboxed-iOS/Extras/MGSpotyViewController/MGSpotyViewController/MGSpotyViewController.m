@@ -187,7 +187,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 
     // Adjustment for images with a height that is less than _mainImageView
     if (image.size.height < _frameRect.size.height) {
-        int verticalAdjustment = _frameRect.size.height + image.size.height;
+        int verticalAdjustment = (self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
         _mainImageView.frame = CGRectMake(0,  -verticalAdjustment, _frameRect.size.width, _frameRect.size.height+verticalAdjustment);
         _mainImageView.clipsToBounds = YES;
         
@@ -224,10 +224,12 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         // Adjustment for images with a height that is less than _mainImageView
         int verticalAdjustment = 0;
         if (_mainImageView.image.size.height < _overView.frame.size.height) {
-            verticalAdjustment = _overView.frame.size.height + _mainImageView.image.size.height;
+            verticalAdjustment = (self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
         }
         
-        [_mainImageView setFrame:CGRectMake(0.0 - diff/2.0, (_frameRect.size.height - self.view.frame.size.width)/2 - verticalAdjustment, _overView.frame.size.width + absoluteY, _overView.frame.size.width + absoluteY + verticalAdjustment)];
+        CGFloat yPos = -(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
+        
+        [_mainImageView setFrame:CGRectMake(0.0 - diff/2.0, yPos, _overView.frame.size.width + absoluteY, _overView.frame.size.width + absoluteY + verticalAdjustment)];
         [_overView setFrame:CGRectMake(0.0, 0.0+absoluteY, _overView.frame.size.width, _overView.frame.size.height)];
         // +18 for the height of the header
         _whiteView.frame = CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 18 + absoluteY, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height);
