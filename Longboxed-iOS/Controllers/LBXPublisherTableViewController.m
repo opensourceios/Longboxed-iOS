@@ -139,9 +139,9 @@ BOOL endOfPublishers;
     LBXPublisher *publisher = [_publishersArray objectAtIndex:indexPath.row];
     cell.titleLabel.text = publisher.name;
     
-    NSString *titleString = ([publisher.titleCount isEqual:@1]) ? ([NSString stringWithFormat:@"%@ Title", publisher.titleCount]) : ([NSString stringWithFormat:@"%@ Titles", publisher.titleCount]);
+    NSString *titleString = ([publisher.titleCount isEqual:@1]) ? ([NSString stringWithFormat:@"%@ TITLE", publisher.titleCount]) : ([NSString stringWithFormat:@"%@ TITLES", publisher.titleCount]);
     
-    NSString *issueString = ([publisher.titleCount isEqual:@1]) ? ([NSString stringWithFormat:@"%@ Issue", publisher.issueCount]) : ([NSString stringWithFormat:@"%@ Issues", publisher.issueCount]);
+    NSString *issueString = ([publisher.titleCount isEqual:@1]) ? ([NSString stringWithFormat:@"%@ ISSUE", publisher.issueCount]) : ([NSString stringWithFormat:@"%@ ISSUES", publisher.issueCount]);
     
     cell.subtitleLabel.text = [NSString stringWithFormat:@"%@  •  %@", titleString, issueString];
     

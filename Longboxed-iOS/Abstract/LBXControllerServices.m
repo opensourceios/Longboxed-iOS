@@ -300,9 +300,20 @@
     NSDictionary *attributes = @{NSFontAttributeName:font, NSParagraphStyleAttributeName: textStyle};
     CGRect bound = [string boundingRectWithSize:CGSizeMake(view.bounds.size.width-30, view.bounds.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
     
-    textView.numberOfLines = 2;
     textView.bounds = bound;
     textView.text = string;
+    CGFloat width = [string sizeWithAttributes: @{NSFontAttributeName:font}].width;
+    textView.numberOfLines = (width > textView.frame.size.width) ? 2 : 1;
+    [textView sizeToFit];
+}
+
++ (void)setNumberOfLinesWithLabel:(UILabel *)label
+                           string:(NSString *)string
+                             font:(UIFont *)font
+{
+    CGFloat width = [string sizeWithAttributes: @{NSFontAttributeName:font}].width;
+    label.numberOfLines = (width > label.frame.size.width) ? 2 : 1;
+    [label sizeToFit];
 }
 
 + (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size

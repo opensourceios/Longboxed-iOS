@@ -21,13 +21,13 @@
 @property (nonatomic, retain) IBOutlet UITableView *browseTableView;
 @property (nonatomic, retain) IBOutlet UIButton *bundleButton;
 @property (nonatomic, retain) IBOutlet UIButton *popularButton;
+@property (nonatomic, retain) IBOutlet UIButton *featuredIssueCoverButton;
+@property (nonatomic, retain) IBOutlet UIButton *featuredIssueTitleButton;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet UIView *separatorView;
 @property (nonatomic, retain) IBOutlet UILabel *thisWeekLabel;
-@property (nonatomic, retain) IBOutlet UILabel *featuredTitleLabel;
 @property (nonatomic, retain) IBOutlet UITextView *featuredTextView;
-@property (nonatomic, retain) IBOutlet UIImageView *featuredImageView;
 @property (nonatomic, retain) IBOutlet UIImageView *featuredBlurredImageView;
 @property (nonatomic, retain) IBOutlet LBXTopTableViewCell *topTableViewCell;
 @property (nonatomic, retain) IBOutlet LBXBottomTableViewCell *bottomTableViewCell;

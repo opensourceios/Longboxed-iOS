@@ -34,6 +34,9 @@
       withString:(NSString *)string
             font:(UIFont *)font
   inBoundsOfView:(UIView *)view;
++ (void)setNumberOfLinesWithLabel:(UILabel *)label
+                           string:(NSString *)string
+                             font:(UIFont *)font;
 + (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size;
 + (NSString *)getHashOfImage:(UIImage *)image;
 + (void)refreshTableView:(UITableView *)tableView withOldSearchResults:(NSArray *)oldResultsArray

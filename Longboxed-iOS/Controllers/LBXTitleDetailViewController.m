@@ -100,6 +100,12 @@ int page;
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [LBXControllerServices setNumberOfLinesWithLabel:_detailView.titleLabel string:_detailTitle.name font:[UIFont titleDetailTitleFont]];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -128,8 +134,6 @@ int page;
     _detailView.frame = self.overView.frame;
     _detailView.bounds = self.overView.bounds;
     _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
-    _detailView.titleLabel.numberOfLines = 2;
-    [_detailView.titleLabel sizeToFit];
     _detailView.publisherButton.titleLabel.font = [UIFont titleDetailPublisherFont];
     
     [self updateDetailView];
@@ -161,6 +165,7 @@ int page;
 
 - (void)updateDetailView
 {
+    [LBXControllerServices setNumberOfLinesWithLabel:_detailView.titleLabel string:_detailTitle.name font:[UIFont titleDetailTitleFont]];
     _detailView.titleLabel.text = _detailTitle.name;
     
     // When loading the title info

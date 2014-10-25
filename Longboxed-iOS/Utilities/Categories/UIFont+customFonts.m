@@ -100,7 +100,7 @@ static const NSString *fontFace = @"AvenirNext";
 
 + (UIFont *)titleDetailTitleFont
 {
-    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:28];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@Condensed-UltraLight", fontFace] size:45];
 }
 
 + (UIFont *)titleDetailPublisherFont
@@ -121,6 +121,12 @@ static const NSString *fontFace = @"AvenirNext";
 + (UIFont *)titleDetailAddToPullListFont
 {
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
+}
+
+// Issue Detail View
++ (UIFont *)issueDetailTitleFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@Condensed-UltraLight", fontFace] size:42];
 }
 
 + (UIFont *)actionSheetTitleFont

@@ -97,6 +97,18 @@ BOOL saveSheetVisible;
     NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:_issue.title.name options:0 range:NSMakeRange(0, [_issue.title.name length]) withTemplate:@""];
     [_titleButton setTitle:[NSString stringWithFormat:@"%@ #%@", modifiedTitleString, _issue.issueNumber] forState:UIControlStateNormal];
     [_titleButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    _titleButton.titleLabel.font = [UIFont issueDetailTitleFont];
+    
+    CGFloat width = [_titleButton.titleLabel.text sizeWithAttributes: @{NSFontAttributeName:[UIFont issueDetailTitleFont]}].width;
+    _titleButton.titleLabel.numberOfLines = (width > [UIScreen mainScreen].bounds.size.width-40) ? 2 : 1;
+    
+    [_titleButton addConstraints:[NSLayoutConstraint
+                                  constraintsWithVisualFormat:@"V:[titleButton(titleButtonHeight)]"
+                                  options:0
+                                  metrics:@{@"titleButtonHeight" : [NSNumber numberWithDouble:_titleButton.frame.size.height * (_titleButton.titleLabel.numberOfLines *0.7)]}
+                                  views:@{@"titleButton" : _titleButton}]];
+    
+    _titleButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     
     _subtitleLabel.text = _issue.subtitle;
     if (_issue.subtitle) {
@@ -162,6 +174,21 @@ BOOL saveSheetVisible;
     [super viewWillAppear:animated];
     
     [LBXControllerServices setViewWillAppearClearNavigationController:self];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    //    [LBXControllerServices setNumberOfLinesWithLabel:_titleButton.titleLabel string:_titleButton.titleLabel.text font:[UIFont fontWithName:@"AvenirNextCondensed-UltraLight" size:42]];
+    //
+
+//    if (_titleButton.titleLabel.numberOfLines == 1) {
+//        [_titleButton removeConstraints:constraints];
+//    }
+//    else {
+////        _titleButton.frame = CGRectMake(_titleButton.frame.origin.x, _titleButton.frame.origin.y, _titleButton.frame.size.width, _titleButton.frame.size.height *2);
+//        [_titleButton addConstraints:constraints];
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

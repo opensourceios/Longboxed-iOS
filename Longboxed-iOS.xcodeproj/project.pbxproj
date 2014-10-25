@@ -86,6 +86,10 @@
 		E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */; };
 		E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810619CE10510042109B /* longboxed_logo.svg */; };
 		E5AB810B19CE1C550042109B /* LBXEmptyPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */; };
+		E5B5F9A419FC0C6200474E60 /* arrow_right_standard.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B5F9A119FC0C6200474E60 /* arrow_right_standard.png */; };
+		E5B5F9A519FC0C6200474E60 /* arrow_right_standard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B5F9A219FC0C6200474E60 /* arrow_right_standard@2x.png */; };
+		E5B5F9A619FC0C6200474E60 /* arrow_right_standard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B5F9A319FC0C6200474E60 /* arrow_right_standard@3x.png */; };
+		E5B5F9AE19FC14A000474E60 /* arrow_right_small_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B5F9AD19FC14A000474E60 /* arrow_right_small_black@3x.png */; };
 		E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5B6FCBC199831CC0022F4CA /* LBXTitleDetailView.xib */; };
 		E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCBF1998351C0022F4CA /* LBXTitleDetailView.m */; };
 		E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCD819983DFC0022F4CA /* UIImage+ImageEffects.m */; };
@@ -259,6 +263,10 @@
 		E5AB810619CE10510042109B /* longboxed_logo.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = longboxed_logo.svg; path = Assets/longboxed_logo.svg; sourceTree = SOURCE_ROOT; };
 		E5AB810819CE1C550042109B /* LBXEmptyPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXEmptyPullListViewController.h; path = Controllers/LBXEmptyPullListViewController.h; sourceTree = "<group>"; };
 		E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXEmptyPullListViewController.m; path = Controllers/LBXEmptyPullListViewController.m; sourceTree = "<group>"; };
+		E5B5F9A119FC0C6200474E60 /* arrow_right_standard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow_right_standard.png; path = Assets/arrow_right_standard.png; sourceTree = SOURCE_ROOT; };
+		E5B5F9A219FC0C6200474E60 /* arrow_right_standard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_standard@2x.png"; path = "Assets/arrow_right_standard@2x.png"; sourceTree = SOURCE_ROOT; };
+		E5B5F9A319FC0C6200474E60 /* arrow_right_standard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_standard@3x.png"; path = "Assets/arrow_right_standard@3x.png"; sourceTree = SOURCE_ROOT; };
+		E5B5F9AD19FC14A000474E60 /* arrow_right_small_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_small_black@3x.png"; path = "Assets/arrow_right_small_black@3x.png"; sourceTree = SOURCE_ROOT; };
 		E5B6FCBC199831CC0022F4CA /* LBXTitleDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXTitleDetailView.xib; path = Views/LBXTitleDetailView.xib; sourceTree = "<group>"; };
 		E5B6FCBE1998351C0022F4CA /* LBXTitleDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleDetailView.h; path = Views/LBXTitleDetailView.h; sourceTree = "<group>"; };
 		E5B6FCBF1998351C0022F4CA /* LBXTitleDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTitleDetailView.m; path = Views/LBXTitleDetailView.m; sourceTree = "<group>"; };
@@ -637,8 +645,12 @@
 		E57D49221960B8E80014A13F /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E5B5F9A119FC0C6200474E60 /* arrow_right_standard.png */,
+				E5B5F9A219FC0C6200474E60 /* arrow_right_standard@2x.png */,
+				E5B5F9A319FC0C6200474E60 /* arrow_right_standard@3x.png */,
 				E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */,
 				E57C6BB819D7C37E002DE4BA /* arrow_right_small_black@2x.png */,
+				E5B5F9AD19FC14A000474E60 /* arrow_right_small_black@3x.png */,
 				E5AB810619CE10510042109B /* longboxed_logo.svg */,
 				E5E5A52619BBAE5500471BF8 /* thor-hulk.jpg */,
 				E5E5A52719BBAE5500471BF8 /* black-spiderman.jpg */,
@@ -905,6 +917,8 @@
 				E51AB57119A405940066FFF6 /* LBXIssueDetailViewController.xib in Resources */,
 				E593F55319D7160C00D310C6 /* LBXTopTableViewCell.xib in Resources */,
 				E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */,
+				E5B5F9A419FC0C6200474E60 /* arrow_right_standard.png in Resources */,
+				E5B5F9AE19FC14A000474E60 /* arrow_right_small_black@3x.png in Resources */,
 				E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */,
 				E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */,
 				E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */,
@@ -920,6 +934,7 @@
 				E553F59F19946393003E1F5C /* clear.png in Resources */,
 				E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */,
 				E57E157819A9A55E002616F5 /* loadingCoverTransparent.png in Resources */,
+				E5B5F9A519FC0C6200474E60 /* arrow_right_standard@2x.png in Resources */,
 				E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */,
 				E515746819DCD1D00072EE3E /* LBXComicTableViewCell.xib in Resources */,
 				E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */,
@@ -931,6 +946,7 @@
 				E5E5A52819BBAE5500471BF8 /* thor-hulk.jpg in Resources */,
 				E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */,
 				E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */,
+				E5B5F9A619FC0C6200474E60 /* arrow_right_standard@3x.png in Resources */,
 				E553F5981993213B003E1F5C /* NotAvailable.jpeg in Resources */,
 				E5F18735196391D2006C4C26 /* longboxed_full.png in Resources */,
 			);

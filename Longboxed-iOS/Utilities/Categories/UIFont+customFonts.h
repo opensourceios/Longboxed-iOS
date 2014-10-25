@@ -29,6 +29,7 @@
 + (UIFont *)titleDetailPublisherFont;
 + (UIFont *)titleDetailTitleFont;
 + (UIFont *)titleDetailAddToPullListFont;
++ (UIFont *)issueDetailTitleFont;
 + (UIFont *)pullListTitleFont;
 + (UIFont *)pullListSubtitleFont;
 + (UIFont *)actionSheetTitleFont;

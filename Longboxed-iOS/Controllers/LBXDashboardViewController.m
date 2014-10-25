@@ -11,6 +11,7 @@
 #import "LBXBottomTableViewCell.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
+#import "LBXTitleDetailViewController.h"
 #import "LBXPublisherTableViewController.h"
 #import "LBXControllerServices.h"
 #import "LBXLoginViewController.h"
@@ -20,6 +21,7 @@
 #import "PaintCodeImages.h"
 #import "LBXClient.h"
 #import "LBXBundle.h"
+#import "LBXLogging.h"
 
 #import "UIFont+customFonts.h"
 #import "UIColor+customColors.h"
@@ -34,6 +36,7 @@
 @interface LBXDashboardViewController () <UISearchControllerDelegate>
 
 @property (nonatomic, strong) LBXClient *client;
+@property (nonatomic, strong) LBXIssue *featuredIssue;
 @property (nonatomic, strong) NSArray *popularIssuesArray;
 @property (nonatomic, strong) NSArray *bundleIssuesArray;
 @property (nonatomic, strong) NSMutableArray *lastFiveBundlesIssuesArray;
@@ -140,7 +143,7 @@
     _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
     _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
     _searchController.searchBar.backgroundColor = [UIColor clearColor];
-    _searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
+    _searchController.searchBar.frame = CGRectMake(8, 0, [UIScreen mainScreen].bounds.size.width - 16, 44);
     _searchController.searchBar.placeholder = @"Search Comics";
     _searchController.searchBar.clipsToBounds = YES;
     _searchController.hidesNavigationBarDuringPresentation = YES;
@@ -189,49 +192,55 @@
     // TODO: Remove this after Tim adds server side hashing
     // Hash the image to make sure the featured issue image is something other than "Not Available"
     BOOL validImage = NO;
-    LBXIssue *issue = popularIssuesArray[0];
     NSString *localHash = [LBXControllerServices getHashOfImage:[UIImage imageNamed:@"NotAvailable.jpeg"]];
     
-    for (LBXIssue *popularIssue in popularIssuesArray) {
+    for (LBXIssue *issue in popularIssuesArray) {
         if (!validImage) {
             // MD5 checksum compare image
-            NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:popularIssue.coverImage]];
+            NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:issue.coverImage]];
             UIImage *image = [UIImage imageWithData:imageData];
             NSString *remoteHash = [LBXControllerServices getHashOfImage:image];
             if (![remoteHash isEqualToString:localHash]) {
                 validImage = YES;
-                issue = popularIssue;
+                _featuredIssue = issue;
             }
         }
     }
     
-    self.featuredTitleLabel.text = issue.completeTitle;
-    self.featuredTextView.text = issue.issueDescription;
+    self.featuredTextView.text = _featuredIssue.issueDescription;
+    self.featuredTextView.textColor = UIColor.whiteColor;
+    _featuredTextView.font = [UIFont featuredIssueDescriptionFont];
+    [self.featuredIssueTitleButton setTitle:[_featuredIssue.title.name uppercaseString] forState:UIControlStateNormal];
+    
+    UIImageView *featuredImageView = [UIImageView new];
+    featuredImageView.frame = _featuredIssueCoverButton.bounds;
     
     __weak __typeof(self) weakSelf = self;
-    [self.featuredImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage singlePixelImageWithColor:[UIColor clearColor]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-    
+    __weak typeof(featuredImageView) weakfeaturedImageView = featuredImageView;
+    [featuredImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_featuredIssue.coverImage]] placeholderImage:[UIImage singlePixelImageWithColor:[UIColor clearColor]] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        
+        weakfeaturedImageView.image = image;
+        
         // Only fade in the image if it was fetched (not from cache)
         if (request) {
-            [weakSelf setFeaturedBlurredImageViewWithImage:image];
-            [UIView transitionWithView:weakSelf.featuredImageView
+            [UIView transitionWithView:weakSelf.featuredIssueCoverButton
                               duration:0.5f
                                options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:^{weakSelf.featuredImageView.image = image;}
+                            animations:^{[weakSelf.featuredIssueCoverButton setBackgroundImage:weakfeaturedImageView.image forState:UIControlStateNormal];}
                             completion:NULL];
+            [weakSelf setFeaturedBlurredImageViewWithImage:weakfeaturedImageView.image];
         }
         else {
-            [weakSelf setFeaturedBlurredImageViewWithImage:image];
-            weakSelf.featuredImageView.image = image;
+            [weakSelf setFeaturedBlurredImageViewWithImage:weakfeaturedImageView.image];
+            [weakSelf.featuredIssueCoverButton setBackgroundImage:weakfeaturedImageView.image forState:UIControlStateNormal];
         }
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
-        UIImage *defaultImage = [UIImage imageByDrawingInitialsOnImage:[UIImage imageWithColor:[UIColor clearColor] rect:weakSelf.featuredImageView.frame] withInitials:issue.title.publisher.name font:[UIFont defaultPublisherInitialsFont]];
+        UIImage *defaultImage = [UIImage imageByDrawingInitialsOnImage:[UIImage imageWithColor:[UIColor clearColor] rect:weakfeaturedImageView.frame] withInitials:weakSelf.featuredIssue.title.publisher.name font:[UIFont defaultPublisherInitialsFont]];
         
         [weakSelf setFeaturedBlurredImageViewWithImage:defaultImage];
-        
-        weakSelf.featuredImageView.image = defaultImage;
+        [weakSelf.featuredIssueCoverButton setBackgroundImage:defaultImage forState:UIControlStateNormal];
     }];
 }
 
@@ -403,7 +412,23 @@
             [self.navigationController pushViewController:controller animated:YES];
             break;
         }
+        case 2:
+        {
+            UIImage *image = [self.featuredIssueCoverButton backgroundImageForState:UIControlStateNormal];
+            
+            LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithMainImage:image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
+            titleViewController.titleID = _featuredIssue.title.titleID;
+            titleViewController.latestIssueImage = image;
+            
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", _featuredIssue.title]];
+            [self.navigationController pushViewController:titleViewController animated:YES];
+            break;
+        }
     }
+}
+
+- (IBAction)onTapDown:(id)sender {
+    
 }
 
 #pragma mark TableView Methods
