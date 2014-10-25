@@ -28,6 +28,16 @@
 {
     [LBXDatabaseManager setupRestKit];
     
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    // Override point for customization after application launch.
+    
+    LBXDashboardViewController *dashboardViewController = [LBXDashboardViewController new];
+    
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
+    dashboardViewController.managedObjectContext = [NSManagedObjectContext MR_defaultContext];
+    
+    [self.window makeKeyAndVisible];
+    
     // Set the font for all UIBarButtonItems
     NSShadow *shadow = [[NSShadow alloc] init];
     shadow.shadowOffset = CGSizeMake(0.0, 1.0);
@@ -40,16 +50,6 @@
        NSFontAttributeName:[UIFont navSubtitleFont]
        }
      forState:UIControlStateNormal];
-    
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    
-    LBXDashboardViewController *dashboardViewController = [LBXDashboardViewController new];
-    
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
-    dashboardViewController.managedObjectContext = [NSManagedObjectContext MR_defaultContext];
-    
-    [self.window makeKeyAndVisible];
     
     // initialize before HockeySDK, so the delegate can access the file logger!
     _fileLogger = [[DDFileLogger alloc] init];

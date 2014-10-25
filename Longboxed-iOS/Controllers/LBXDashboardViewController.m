@@ -123,8 +123,8 @@
     
     _searchBar.hidden = YES;
     
-    _featuredTextView.textColor = [UIColor whiteColor];
-    _featuredTextView.font = [UIFont featuredIssueDescriptionFont];
+    _featuredDescriptionLabel.textColor = [UIColor whiteColor];
+    _featuredDescriptionLabel.font = [UIFont featuredIssueDescriptionFont];
 
     [_bundleButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     [_popularButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -207,9 +207,9 @@
         }
     }
     
-    self.featuredTextView.text = _featuredIssue.issueDescription;
-    self.featuredTextView.textColor = UIColor.whiteColor;
-    _featuredTextView.font = [UIFont featuredIssueDescriptionFont];
+    self.featuredDescriptionLabel.text = _featuredIssue.issueDescription;
+    self.featuredDescriptionLabel.textColor = UIColor.whiteColor;
+    _featuredDescriptionLabel.font = [UIFont featuredIssueDescriptionFont];
     [self.featuredIssueTitleButton setTitle:[_featuredIssue.title.name uppercaseString] forState:UIControlStateNormal];
     
     UIImageView *featuredImageView = [UIImageView new];

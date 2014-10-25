@@ -27,7 +27,7 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet UIView *separatorView;
 @property (nonatomic, retain) IBOutlet UILabel *thisWeekLabel;
-@property (nonatomic, retain) IBOutlet UITextView *featuredTextView;
+@property (nonatomic, retain) IBOutlet UILabel *featuredDescriptionLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *featuredBlurredImageView;
 @property (nonatomic, retain) IBOutlet LBXTopTableViewCell *topTableViewCell;
 @property (nonatomic, retain) IBOutlet LBXBottomTableViewCell *bottomTableViewCell;
