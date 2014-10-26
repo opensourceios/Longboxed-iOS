@@ -353,7 +353,9 @@
                         </constraint>
                         <constraint firstItem="slL-OO-oAz" firstAttribute="height" secondItem="xmk-nS-8Ps" secondAttribute="height" id="fcO-aV-xmd"/>
                         <constraint firstItem="zdW-xx-oVc" firstAttribute="top" secondItem="qDD-QZ-csI" secondAttribute="bottom" constant="24" id="gXz-SX-AGx"/>
-                        <constraint firstItem="XdD-cV-KEh" firstAttribute="trailing" secondItem="DQD-7i-keC" secondAttribute="trailing" id="h2S-Gg-XAc"/>
+                        <constraint firstItem="XdD-cV-KEh" firstAttribute="trailing" secondItem="DQD-7i-keC" secondAttribute="trailing" id="h2S-Gg-XAc">
+                            <variation key="widthClass=compact" constant="-12"/>
+                        </constraint>
                         <constraint firstItem="qDD-QZ-csI" firstAttribute="top" secondItem="eDq-OV-8AS" secondAttribute="bottom" constant="12" id="lPX-Pf-vml"/>
                         <constraint firstAttribute="trailing" secondItem="slL-OO-oAz" secondAttribute="trailing" id="lcv-WG-nND"/>
                         <constraint firstItem="y8v-qX-v5k" firstAttribute="top" secondItem="slL-OO-oAz" secondAttribute="bottom" constant="15" id="mcX-rR-o9i"/>
