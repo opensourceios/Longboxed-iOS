@@ -588,11 +588,6 @@ CGFloat cellWidth;
     }
 }
 
-- (void)refreshSearchTableView
-{
-    [[self.searchBarController searchResultsTableView] reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-}
-
 #pragma mark UISearchBar methods
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText

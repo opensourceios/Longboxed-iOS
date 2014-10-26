@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LBXSearchTableViewController : UITableViewController <UISearchResultsUpdating>
+@interface LBXSearchTableViewController : UITableViewController <UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDelegate, UITableViewDataSource>
 
 @end

@@ -7,6 +7,10 @@
 //
 
 #import "LBXSearchTableViewController.h"
+#import "LBXControllerServices.h"
+#import "LBXPullListTableViewCell.h"
+#import "LBXTitle.h"
+#import "UIFont+customFonts.h"
 #import "LBXClient.h"
 
 @interface LBXSearchTableViewController () 
@@ -20,6 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.tableView.rowHeight = 88;
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -28,40 +34,22 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - UISearchResultsUpdating delegate methods
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    NSLog(@"text changed!");
+
+//    if (searchController.searchBar.text.length) {
+//        [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
+//        NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                  [UIFont searchCancelFont], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+//        [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
+//        [searchController.searchBar setNeedsDisplay];
+//    }
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    #warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 10;
-}
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
 
 
 

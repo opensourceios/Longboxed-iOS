@@ -14,6 +14,7 @@
 #import "LBXTitleDetailViewController.h"
 #import "LBXPublisherTableViewController.h"
 #import "LBXControllerServices.h"
+#import "LBXPullListTableViewCell.h"
 #import "LBXLoginViewController.h"
 #import "LBXWeekViewController.h"
 #import "LBXPullListViewController.h"
@@ -33,14 +34,16 @@
 #import <UICKeyChainStore.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface LBXDashboardViewController () <UISearchControllerDelegate>
+@interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) LBXIssue *featuredIssue;
+@property (nonatomic, strong) LBXSearchTableViewController *searchResultsController;
 @property (nonatomic, strong) NSArray *popularIssuesArray;
 @property (nonatomic, strong) NSArray *bundleIssuesArray;
 @property (nonatomic, strong) NSMutableArray *lastFiveBundlesIssuesArray;
 @property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic) NSArray *searchResultsArray;
 
 @end
 
@@ -86,14 +89,14 @@
         
         self.bottomTableView.tableFooterView = [UIView new];
         
-        LBXSearchTableViewController *searchResultsController = [LBXSearchTableViewController new];
-        _searchController = [[UISearchController alloc]
-                                                initWithSearchResultsController:searchResultsController];
-        _searchController.searchResultsUpdater = searchResultsController;
+        self.searchResultsController = [LBXSearchTableViewController new];
+        _searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchResultsController];
+        _searchController.searchResultsUpdater = self.searchResultsController;
+        self.searchResultsController.tableView.delegate = self;
+        self.searchResultsController.tableView.dataSource = self;
         _searchController.dimsBackgroundDuringPresentation = YES;
         _searchController.delegate = self;
-//        _searchController.searchBar
-        //_searchBar.hidden = YES;
+        _searchController.searchBar.delegate = self;
         self.definesPresentationContext = YES;
         
         [_scrollView addSubview:_searchController.searchBar];
@@ -106,6 +109,10 @@
     [super viewWillAppear:animated];
     NSIndexPath *tableSelection = [self.browseTableView indexPathForSelectedRow];
     [self.browseTableView deselectRowAtIndexPath:tableSelection animated:YES];
+    
+    tableSelection = [self.searchResultsController.tableView indexPathForSelectedRow];
+    [self.searchResultsController.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+    
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
     [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
 }
@@ -146,11 +153,12 @@
     _searchController.searchBar.frame = CGRectMake(8, 0, [UIScreen mainScreen].bounds.size.width - 16, 44);
     _searchController.searchBar.placeholder = @"Search Comics";
     _searchController.searchBar.clipsToBounds = YES;
-    _searchController.hidesNavigationBarDuringPresentation = YES;
+    _searchController.hidesNavigationBarDuringPresentation = NO;
     UIImage *image = [PaintCodeImages imageOfMagnifyingGlassWithColor:[UIColor whiteColor] width:24];
     [_searchController.searchBar setImage:image forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
-    _searchController.searchBar.userInteractionEnabled = NO;
+    
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -364,6 +372,22 @@
     }
 }
 
+- (void)searchLongboxedWithText:(NSString *)searchText {
+    
+    // Search
+    [self.client fetchAutocompleteForTitle:searchText withCompletion:^(NSArray *newSearchResultsArray, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            NSArray *oldSearchresultsArray = self.searchResultsArray;
+            self.searchResultsArray = newSearchResultsArray;
+            [LBXControllerServices refreshTableView:self.searchResultsController.tableView withOldSearchResults:oldSearchresultsArray newResults:newSearchResultsArray animation:UITableViewRowAnimationFade];
+        }
+        else {
+            //[LBXMessageBar displayError:error];
+        }
+    }];
+}
+
 - (void)pushToIssueWithDict:(NSNotification *)notification
 {
     NSDictionary *dict = notification.userInfo;
@@ -427,8 +451,73 @@
     }
 }
 
-- (IBAction)onTapDown:(id)sender {
+#pragma mark UISearchControllerDelegate Methods
+
+- (void)willPresentSearchController:(UISearchController *)searchController
+{
+    // SearchBar cancel button font
+    [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
+    NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor whiteColor], NSForegroundColorAttributeName, nil];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
+    searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
     
+    _searchResultsArray = nil;
+
+}
+
+- (void)didPresentSearchController:(UISearchController *)searchController
+{
+    _searchResultsArray = nil;
+    
+    searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
+//    searchController.searchBar.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, [UIScreen mainScreen].bounds.size.width, 44);
+ 
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController
+{
+//    searchController.searchBar.frame = CGRectMake(8, 0, [UIScreen mainScreen].bounds.size.width-16, 44);
+//    [searchController.searchBar setNeedsDisplay];
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController
+{
+//    searchController.searchBar.frame = CGRectMake(8, 0, [UIScreen mainScreen].bounds.size.width-16, 44);
+//    [searchController.searchBar setNeedsDisplay];
+}
+
+#pragma mark UISearchBarDelegate methods
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    // Delays on making the actor API calls
+    if(searchText.length) {
+        [LBXControllerServices setSearchBar:searchBar withTextColor:[UIColor blackColor]];
+        searchBar.backgroundColor = [UIColor whiteColor];
+        
+        float delay = 0.5;
+        
+        if (searchText.length > 3) {
+            delay = 0.3;
+        }
+        
+        // Clear any previously queued text changes
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+        
+        [self performSelector:@selector(searchLongboxedWithText:)
+                   withObject:searchText
+                   afterDelay:delay];
+    }
+    else {
+        [LBXControllerServices setSearchBar:searchBar withTextColor:[UIColor whiteColor]];
+        _searchResultsArray = nil;
+    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [LBXControllerServices setSearchBar:searchBar withTextColor:[UIColor whiteColor]];
 }
 
 #pragma mark TableView Methods
@@ -440,6 +529,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.browseTableView) return 3;
+    if (tableView == self.searchResultsController.tableView) {
+        if (_searchResultsArray.count == 0) {
+            return 1;
+        }
+        return _searchResultsArray.count;
+    }
     return 1;
 }
 
@@ -463,6 +558,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.browseTableView) return 44;
+    if (tableView == self.searchResultsController.tableView) return 88;
     return tableView.frame.size.height+100;
 }
 
@@ -556,6 +652,30 @@
         
         return cell;
     }
+    else if (tableView == self.searchResultsController.tableView) {
+        static NSString *CellIdentifier = @"PullListCell";
+        
+        LBXPullListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        [tableView setSeparatorInset:UIEdgeInsetsZero];
+        
+        if (cell == nil) {
+            // Custom cell as explained here: https://medium.com/p/9bee5824e722
+            [tableView registerNib:[UINib nibWithNibName:@"LBXPullListTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            // Remove inset of iOS 7 separators.
+            if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+                cell.separatorInset = UIEdgeInsetsZero;
+            }
+            
+            [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+            
+            // Setting the background color of the cell.
+            cell.contentView.backgroundColor = [UIColor whiteColor];
+        }
+        return cell;
+    }
     return nil;
 }
 
@@ -583,6 +703,59 @@
             }
         }
     }
+    if (tableView == self.searchResultsController.tableView)
+    {
+        LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        
+        LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
+        titleViewController.titleID = ((LBXTitle *)[_searchResultsArray objectAtIndex:indexPath.row]).titleID;
+        titleViewController.latestIssueImage = cell.latestIssueImageView.image;
+        
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", _featuredIssue.title]];
+        [self.navigationController pushViewController:titleViewController animated:YES];
+    }
 }
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(LBXPullListTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.searchResultsController.tableView) {
+        if (_searchResultsArray.count == 0) {
+            cell.imageViewSeparatorLabel.hidden = YES;
+            cell.latestIssueImageView.hidden = YES;
+            cell.titleLabel.hidden = YES;
+            cell.subtitleLabel.hidden = YES;
+        }
+        else {
+            LBXTitle *title = [_searchResultsArray objectAtIndex:indexPath.row];
+            [self setTableViewStylesWithCell:cell andTitle:title];
+            
+            [LBXControllerServices setAddToPullListSearchCell:cell withTitle:title darkenImage:NO];
+        }
+    }
+}
+
+- (void)setTableViewStylesWithCell:(LBXPullListTableViewCell *)cell andTitle:(LBXTitle *)title
+{
+    cell.imageViewSeparatorLabel.hidden = NO;
+    cell.latestIssueImageView.hidden = NO;
+    cell.titleLabel.hidden = NO;
+    cell.subtitleLabel.hidden = NO;
+    NSArray *viewsToRemove = [cell.latestIssueImageView subviews];
+    for (UIView *v in viewsToRemove) [v removeFromSuperview];
+    
+    cell.titleLabel.font = [UIFont pullListTitleFont];
+    cell.titleLabel.textColor = [UIColor blackColor];
+    cell.titleLabel.text = title.name;
+    cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    cell.titleLabel.numberOfLines = 2;
+    
+    cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
+    cell.subtitleLabel.textColor = [UIColor grayColor];
+    cell.subtitleLabel.numberOfLines = 2;
+    
+    cell.latestIssueImageView.image = nil;
+}
+
+
 
 @end

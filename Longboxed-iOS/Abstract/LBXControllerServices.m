@@ -12,6 +12,7 @@
 #import "NSDate+DateUtilities.h"
 #import "UIColor+customColors.h"
 #import "SVProgressHUD.h"
+#import "PaintCodeImages.h"
 
 #import <UIImageView+AFNetworking.h>
 #import <CommonCrypto/CommonDigest.h>
@@ -314,6 +315,27 @@
     CGFloat width = [string sizeWithAttributes: @{NSFontAttributeName:font}].width;
     label.numberOfLines = (width > label.frame.size.width) ? 2 : 1;
     [label sizeToFit];
+}
+
++ (void)setSearchBar:(UISearchBar *)searchBar withTextColor:(UIColor *)color
+{
+    // Set the placeholder text and magnifying glass color
+    UIImage *image = [PaintCodeImages imageOfMagnifyingGlassWithColor:color width:24];
+    [searchBar setImage:image forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:color];
+    
+    // Set the cancel button color
+    UIView *view = [searchBar.subviews objectAtIndex:0];
+    for (UIView *subView in view.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            UIButton *cancelButton = (UIButton *)subView;
+            [cancelButton setTitleColor:color forState:UIControlStateNormal];
+            [cancelButton setTitleColor:color forState:UIControlStateHighlighted];
+        }
+    }
+    
+    // SearchBar cursor color
+    searchBar.tintColor = color;
 }
 
 + (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size
