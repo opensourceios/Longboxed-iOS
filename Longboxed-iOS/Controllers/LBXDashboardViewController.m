@@ -150,10 +150,10 @@
     _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
     _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
     _searchController.searchBar.backgroundColor = [UIColor clearColor];
-    _searchController.searchBar.frame = CGRectMake(8, 0, [UIScreen mainScreen].bounds.size.width - 16, 44);
+    _searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
     _searchController.searchBar.placeholder = @"Search Comics";
     _searchController.searchBar.clipsToBounds = YES;
-    _searchController.hidesNavigationBarDuringPresentation = NO;
+    _searchController.hidesNavigationBarDuringPresentation = YES;
     UIImage *image = [PaintCodeImages imageOfMagnifyingGlassWithColor:[UIColor whiteColor] width:24];
     [_searchController.searchBar setImage:image forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
@@ -458,10 +458,23 @@
     // SearchBar cancel button font
     [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
     NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor whiteColor], NSForegroundColorAttributeName, nil];
+                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
     [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
-    searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
     
+    UIView *statusBarView = [UIView new];
+    statusBarView.alpha = 0.0;
+    statusBarView.backgroundColor = [UIColor whiteColor];
+    statusBarView.frame = CGRectMake([UIApplication sharedApplication].statusBarFrame.origin.x, [UIApplication sharedApplication].statusBarFrame.origin.y, [UIApplication sharedApplication].statusBarFrame.size.width, [UIApplication sharedApplication].statusBarFrame.size.height + searchController.searchBar.frame.size.height);
+    [self.view addSubview:statusBarView];
+    [self.searchController.view insertSubview:statusBarView aboveSubview:searchController.searchBar];
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5];
+    [statusBarView setAlpha:1.0];
+    [UIView commitAnimations];
+    
+    searchController.searchBar.barTintColor = [UIColor whiteColor];
+    [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor blackColor]];
     _searchResultsArray = nil;
 
 }
@@ -470,21 +483,22 @@
 {
     _searchResultsArray = nil;
     
-    searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
-//    searchController.searchBar.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, [UIScreen mainScreen].bounds.size.width, 44);
+    searchController.searchBar.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, [UIScreen mainScreen].bounds.size.width, 44);
  
 }
 
 - (void)willDismissSearchController:(UISearchController *)searchController
 {
-//    searchController.searchBar.frame = CGRectMake(8, 0, [UIScreen mainScreen].bounds.size.width-16, 44);
-//    [searchController.searchBar setNeedsDisplay];
+    [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor whiteColor]];
 }
 
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
-//    searchController.searchBar.frame = CGRectMake(8, 0, [UIScreen mainScreen].bounds.size.width-16, 44);
-//    [searchController.searchBar setNeedsDisplay];
+    
+    _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
+    _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
+    _searchController.searchBar.backgroundColor = [UIColor clearColor];
+    _searchController.searchBar.frame = CGRectMake(8, 0, [UIScreen mainScreen].bounds.size.width - 16, 44);
 }
 
 #pragma mark UISearchBarDelegate methods
@@ -510,14 +524,13 @@
                    afterDelay:delay];
     }
     else {
-        [LBXControllerServices setSearchBar:searchBar withTextColor:[UIColor whiteColor]];
         _searchResultsArray = nil;
     }
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [LBXControllerServices setSearchBar:searchBar withTextColor:[UIColor whiteColor]];
+    _searchResultsArray = nil;
 }
 
 #pragma mark TableView Methods
