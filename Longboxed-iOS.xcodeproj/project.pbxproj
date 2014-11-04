@@ -99,6 +99,7 @@
 		E5CCAC5419B53BD30068AD8D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */; };
 		E5CCAC5619B53BE60068AD8D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */; };
 		E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */; };
+		E5CD03171A08609B009C1D37 /* NSMutableArray+Randomize.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CD03161A08609B009C1D37 /* NSMutableArray+Randomize.m */; };
 		E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */; };
 		E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */; };
 		E5E5161619CA4450005FBD43 /* PaintCodeImages.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161519CA4450005FBD43 /* PaintCodeImages.m */; };
@@ -282,6 +283,8 @@
 		E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		E5CCAC5819B53EDB0068AD8D /* LBXLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLogging.h; path = Abstract/LBXLogging.h; sourceTree = "<group>"; };
 		E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLogging.m; path = Abstract/LBXLogging.m; sourceTree = "<group>"; };
+		E5CD03151A08609B009C1D37 /* NSMutableArray+Randomize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Randomize.h"; sourceTree = "<group>"; };
+		E5CD03161A08609B009C1D37 /* NSMutableArray+Randomize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Randomize.m"; sourceTree = "<group>"; };
 		E5D9A87D19A6F46800BC06C1 /* LBXCoreData 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LBXCoreData 2.xcdatamodel"; sourceTree = "<group>"; };
 		E5D9A89619A91EE300BC06C1 /* LBXIssueScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssueScrollViewController.h; path = Controllers/LBXIssueScrollViewController.h; sourceTree = "<group>"; };
 		E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueScrollViewController.m; path = Controllers/LBXIssueScrollViewController.m; sourceTree = "<group>"; };
@@ -809,6 +812,8 @@
 				E535EBAD19DB7B63001B729A /* UIImage+DrawOnImage.m */,
 				E535EBAF19DB7DD7001B729A /* UIImage+CreateImage.h */,
 				E535EBB019DB7DD7001B729A /* UIImage+CreateImage.m */,
+				E5CD03151A08609B009C1D37 /* NSMutableArray+Randomize.h */,
+				E5CD03161A08609B009C1D37 /* NSMutableArray+Randomize.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1125,6 +1130,7 @@
 				E5AB810B19CE1C550042109B /* LBXEmptyPullListViewController.m in Sources */,
 				E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */,
 				E5E5162E19CA446D005FBD43 /* NSData+Base64.m in Sources */,
+				E5CD03171A08609B009C1D37 /* NSMutableArray+Randomize.m in Sources */,
 				E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */,
 				E5E5163419CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m in Sources */,
 				E5E5162D19CA446D005FBD43 /* NSArray+ArrayUtilities.m in Sources */,

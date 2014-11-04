@@ -218,7 +218,7 @@
     self.featuredDescriptionLabel.text = _featuredIssue.issueDescription;
     self.featuredDescriptionLabel.textColor = UIColor.whiteColor;
     _featuredDescriptionLabel.font = [UIFont featuredIssueDescriptionFont];
-    [self.featuredIssueTitleButton setTitle:[_featuredIssue.title.name uppercaseString] forState:UIControlStateNormal];
+    self.featuredIssueTitleLabel.text = [_featuredIssue.title.name uppercaseString];
     
     UIImageView *featuredImageView = [UIImageView new];
     featuredImageView.frame = _featuredIssueCoverButton.bounds;
