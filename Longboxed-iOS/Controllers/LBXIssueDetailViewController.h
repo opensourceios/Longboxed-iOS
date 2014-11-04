@@ -13,6 +13,7 @@
 @interface LBXIssueDetailViewController : UIViewController
 
 @property (nonatomic, retain) LBXIssue *issue;
+@property (nonatomic) IBOutlet UIView *alternativeCoversArrowView;
 
 - (instancetype)initWithMainImage:(UIImage *)image;
 - (instancetype)initWithFrame:(CGRect)frame andIssue:(LBXIssue *)issue;

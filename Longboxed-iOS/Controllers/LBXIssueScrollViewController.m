@@ -12,6 +12,8 @@
 #import "LBXClient.h"
 #import "LBXMessageBar.h"
 
+#import <Shimmer/FBShimmeringView.h>
+
 @interface LBXIssueScrollViewController ()
 
 @property (nonatomic) NSArray *issues;
@@ -88,7 +90,27 @@ CGRect screenRect;
     for (LBXIssue *issue in issuesArray) {
         screenRect.origin.x += screenRect.size.width;
         _titleViewController = [[LBXIssueDetailViewController alloc] initWithFrame:screenRect andIssue:issue];
-    
+        
+        if (screenRect.origin.x < screenRect.size.width) {
+            _titleViewController.alternativeCoversArrowView.hidden = NO;
+            
+            FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:_titleViewController.alternativeCoversArrowView.bounds];
+            [_titleViewController.alternativeCoversArrowView addSubview:shimmeringView];
+            
+            UILabel *loadingLabel = [[UILabel alloc] initWithFrame:_titleViewController.alternativeCoversArrowView.bounds];
+            loadingLabel.textColor = [UIColor whiteColor];
+            loadingLabel.font = [UIFont fontWithName:@"Mishafi" size:32];
+            loadingLabel.text = @"<<<";
+            shimmeringView.contentView = loadingLabel;
+            
+            shimmeringView.shimmeringDirection = FBShimmerDirectionLeft;
+            shimmeringView.shimmeringSpeed = 30;
+            shimmeringView.shimmeringPauseDuration = 1.8;
+            
+            // Start shimmering.
+            shimmeringView.shimmering = YES;
+        }
+        
         // Add to the scroll view
         [self addChildViewController:_titleViewController];
         [_scrollView addSubview:_titleViewController.view];

@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LBXIssueDetailViewController">
             <connections>
+                <outlet property="alternativeCoversArrowView" destination="IvS-38-0Nt" id="YDv-TH-xAV"/>
                 <outlet property="backgroundCoverImageView" destination="aBL-sU-xc6" id="53F-rT-cFy"/>
                 <outlet property="coverImageView" destination="7n5-Ox-uRD" id="Vww-Zb-69B"/>
                 <outlet property="descriptionTextView" destination="17O-L3-uCM" id="vm7-rF-SD9"/>
@@ -74,7 +75,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="glF-i2-g6v">
-                    <rect key="frame" x="16" y="221.5" width="27" height="16.5"/>
+                    <rect key="frame" x="16" y="221" width="27" height="16.5"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -127,6 +128,14 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IvS-38-0Nt">
+                    <rect key="frame" x="248" y="20" width="52" height="47"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="CgV-WR-8ML"/>
+                        <constraint firstAttribute="width" constant="44" id="dfV-98-gx3"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
@@ -150,6 +159,7 @@
                 <constraint firstItem="5yA-nE-jEH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="R9O-uD-5wW"/>
                 <constraint firstItem="1bk-VC-Up9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="VD2-Gr-DSA"/>
                 <constraint firstItem="5PV-kH-d9x" firstAttribute="leading" secondItem="eQX-Y7-8Jt" secondAttribute="leading" id="Wba-k8-NV2"/>
+                <constraint firstItem="IvS-38-0Nt" firstAttribute="bottom" secondItem="cxE-aC-Qgp" secondAttribute="bottom" constant="4" id="XNP-JF-qFy"/>
                 <constraint firstItem="YyP-H0-jez" firstAttribute="leading" secondItem="mdu-7B-UkI" secondAttribute="leading" id="XuO-mZ-u6b"/>
                 <constraint firstAttribute="bottom" secondItem="17O-L3-uCM" secondAttribute="bottom" constant="8" id="ZFS-KE-JSj"/>
                 <constraint firstItem="PBQ-1a-jNl" firstAttribute="top" secondItem="hHz-BK-GzT" secondAttribute="bottom" constant="2" id="ZOd-pW-cfX"/>
@@ -159,6 +169,7 @@
                 <constraint firstItem="hHz-BK-GzT" firstAttribute="leading" secondItem="PBQ-1a-jNl" secondAttribute="leading" id="dQD-KE-vCg"/>
                 <constraint firstItem="17O-L3-uCM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="dYk-Gg-GE6"/>
                 <constraint firstItem="hHz-BK-GzT" firstAttribute="centerY" secondItem="mdu-7B-UkI" secondAttribute="centerY" id="dcX-o7-bSp"/>
+                <constraint firstItem="IvS-38-0Nt" firstAttribute="trailing" secondItem="cxE-aC-Qgp" secondAttribute="trailing" id="eSD-rO-Uxy"/>
                 <constraint firstItem="glF-i2-g6v" firstAttribute="top" secondItem="5yA-nE-jEH" secondAttribute="bottom" constant="2" id="fIw-lL-eQE"/>
                 <constraint firstItem="glF-i2-g6v" firstAttribute="leading" secondItem="5yA-nE-jEH" secondAttribute="leading" id="fkh-wt-MzQ"/>
                 <constraint firstAttribute="trailing" secondItem="17O-L3-uCM" secondAttribute="trailing" constant="4" id="gFO-P3-u2t"/>
@@ -171,6 +182,7 @@
                 <constraint firstItem="1bk-VC-Up9" firstAttribute="top" secondItem="cxE-aC-Qgp" secondAttribute="bottom" constant="16" id="zPF-iX-42A"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+            <point key="canvasLocation" x="511" y="265"/>
         </view>
     </objects>
     <resources>
