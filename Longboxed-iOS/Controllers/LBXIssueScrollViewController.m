@@ -104,8 +104,8 @@ CGRect screenRect;
             shimmeringView.contentView = loadingLabel;
             
             shimmeringView.shimmeringDirection = FBShimmerDirectionLeft;
-            shimmeringView.shimmeringSpeed = 30;
-            shimmeringView.shimmeringPauseDuration = 1.8;
+            shimmeringView.shimmeringSpeed = 25;
+            shimmeringView.shimmeringPauseDuration = 1.5;
             
             // Start shimmering.
             shimmeringView.shimmering = YES;
