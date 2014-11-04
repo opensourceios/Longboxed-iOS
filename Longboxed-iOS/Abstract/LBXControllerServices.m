@@ -397,6 +397,8 @@
             }
         }
         
+        if (newResultsArray == 0) [tableView reloadData]; return;
+        
         // Update the table view
         [tableView beginUpdates];
         [tableView numberOfRowsInSection:newResultsArray.count];
@@ -405,7 +407,7 @@
         returnArray = [[NSArray alloc] initWithArray:newResultsArray];
         [tableView endUpdates];
     }
-    
+
     
     // If rows are added
     else if (newResultsArray.count > oldResultsArray.count && oldResultsArray.count != 0) {
@@ -424,11 +426,14 @@
             }
         }
         
-        // Update the table view
-        [tableView beginUpdates];
-        [tableView insertRowsAtIndexPaths:newIndexes withRowAnimation:animation];
-        returnArray = [[NSArray alloc] initWithArray:newResultsArray];
-        [tableView endUpdates];
+        // http://stackoverflow.com/a/3601170
+        if (newIndexes.count) {
+            // Update the table view
+            [tableView beginUpdates];
+            [tableView insertRowsAtIndexPaths:newIndexes withRowAnimation:animation];
+            returnArray = [[NSArray alloc] initWithArray:newResultsArray];
+            [tableView endUpdates];
+        }
     }
     
     // Rows are just changed
@@ -440,11 +445,14 @@
             }
         }
         
-        // Update the table view
-        [tableView beginUpdates];
-        [tableView reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:animation];
-        returnArray = [[NSArray alloc] initWithArray:newResultsArray];
-        [tableView endUpdates];
+        // http://stackoverflow.com/a/3601170
+        if (diferentIndexes.count) {
+            // Update the table view
+            [tableView beginUpdates];
+            [tableView reloadRowsAtIndexPaths:diferentIndexes withRowAnimation:animation];
+            returnArray = [[NSArray alloc] initWithArray:newResultsArray];
+            [tableView endUpdates];
+        }
     }
     
     // If entire view needs refreshed

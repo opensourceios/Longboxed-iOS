@@ -374,6 +374,8 @@
 
 - (void)searchLongboxedWithText:(NSString *)searchText {
     
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
     // Search
     [self.client fetchAutocompleteForTitle:searchText withCompletion:^(NSArray *newSearchResultsArray, RKObjectRequestOperation *response, NSError *error) {
         
@@ -524,6 +526,10 @@
                    afterDelay:delay];
     }
     else {
+        [LBXControllerServices setSearchBar:searchBar withTextColor:[UIColor whiteColor]];
+        // SearchBar cursor color
+        searchBar.tintColor = [UIColor blackColor];
+        
         _searchResultsArray = nil;
     }
 }
