@@ -205,7 +205,7 @@
     for (LBXIssue *issue in popularIssuesArray) {
         if (!validImage) {
             // MD5 checksum compare image
-            NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:issue.coverImage]];
+            NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:issue.coverImage]];
             UIImage *image = [UIImage imageWithData:imageData];
             NSString *remoteHash = [LBXControllerServices getHashOfImage:image];
             if (![remoteHash isEqualToString:localHash]) {

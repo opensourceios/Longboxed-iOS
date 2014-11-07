@@ -195,6 +195,7 @@ UICKeyChainStore *store;
         NSLog(@"%ld", (long)response.HTTPRequestOperation.response.statusCode);
         if (response.HTTPRequestOperation.response.statusCode == 200) {
             dispatch_async(dispatch_get_main_queue(),^{
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Logged in %@", _usernameField.text]];
                 [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
                 [store synchronize];
                 [LBXMessageBar successfulLogin];
@@ -202,6 +203,7 @@ UICKeyChainStore *store;
             });
         }
         else {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Logged out %@", _usernameField.text]];
             [self removeCredentials];
             [LBXDatabaseManager flushDatabase];
             
