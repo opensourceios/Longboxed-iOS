@@ -380,9 +380,8 @@
     [self.client fetchAutocompleteForTitle:searchText withCompletion:^(NSArray *newSearchResultsArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            NSArray *oldSearchresultsArray = self.searchResultsArray;
             self.searchResultsArray = newSearchResultsArray;
-            [LBXControllerServices refreshTableView:self.searchResultsController.tableView withOldSearchResults:oldSearchresultsArray newResults:newSearchResultsArray animation:UITableViewRowAnimationFade];
+            [self.searchResultsController.tableView reloadData];
         }
         else {
             //[LBXMessageBar displayError:error];

@@ -40,9 +40,6 @@
 + (void)setSearchBar:(UISearchBar *)searchBar withTextColor:(UIColor *)color;
 + (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size;
 + (NSString *)getHashOfImage:(UIImage *)image;
-+ (void)refreshTableView:(UITableView *)tableView withOldSearchResults:(NSArray *)oldResultsArray
-                   newResults:(NSArray *)newResultsArray
-                    animation:(UITableViewRowAnimation)animation;
 
 + (NSArray *)getPublisherTableViewSectionArrayForArray:(NSArray *)array;
 + (NSArray *)getBundleTableViewSectionArrayForArray:(NSArray *)array;
