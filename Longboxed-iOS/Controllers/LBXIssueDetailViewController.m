@@ -11,6 +11,7 @@
 #import "LBXPublisherDetailViewController.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXWeekViewController.h"
+#import "PaintCodeImages.h" 
 #import "LBXClient.h"
 
 #import "UIImageView+LBBlurredImage.h"
@@ -341,7 +342,7 @@ BOOL saveSheetVisible;
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
-        _issueImage = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        _issueImage = [LBXControllerServices getDefaultCoverImage];
         [self setupImages];
         
     }];

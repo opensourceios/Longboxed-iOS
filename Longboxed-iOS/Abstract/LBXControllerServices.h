@@ -14,6 +14,8 @@
 
 @interface LBXControllerServices : NSObject
 
++ (UIImage *)getDefaultCoverImage;
+
 + (NSDate *)getLocalDate;
 + (NSDate *)getThisWednesdayOfDate:(NSDate *)date;
 + (NSDate *)getNextWednesdayOfDate:(NSDate *)date;

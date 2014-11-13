@@ -23,6 +23,11 @@
 
 @implementation LBXControllerServices
 
++ (UIImage *)getDefaultCoverImage
+{
+    return [PaintCodeImages imageOfLongboxedLogoWithColor:[UIColor lightGrayColor] width:100];
+}
+
 + (NSDate *)getLocalDate
 {
     return [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
@@ -130,7 +135,7 @@
         cell.subtitleLabel.text = subtitleString;
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self getDefaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -139,19 +144,19 @@
                             completion:NULL];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+            cell.latestIssueImageView.image = [self getDefaultCoverImage];
         }];
     }
     else if (!title.publisher.name) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+        cell.latestIssueImageView.image = [self getDefaultCoverImage];
     }
     else if (title.latestIssue.title.issueCount == 0) {
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        cell.latestIssueImageView.image = [self getDefaultCoverImage];
         cell.subtitleLabel.text = subtitleString;
     }
     else {
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+        cell.latestIssueImageView.image = [self getDefaultCoverImage];
         cell.subtitleLabel.text = subtitleString;
     }
 }
@@ -167,7 +172,7 @@
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self getDefaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -176,20 +181,20 @@
                             completion:NULL];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+            cell.latestIssueImageView.image = [self getDefaultCoverImage];
         }];
     }
     else if (!title.publisher.name) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+        cell.latestIssueImageView.image = [self getDefaultCoverImage];
     }
     else if (!title.latestIssue) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        cell.latestIssueImageView.image = [self getDefaultCoverImage];
     }
     else {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+        cell.latestIssueImageView.image = [self getDefaultCoverImage];
     }
 }
 
@@ -214,7 +219,7 @@
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self getDefaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -225,21 +230,21 @@
             if (darken) [self darkenCell:cell];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+            cell.latestIssueImageView.image = [self getDefaultCoverImage];
             if (darken) [self darkenCell:cell];
         }];
     }
     else if (!title.publisher.name) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+        cell.latestIssueImageView.image = [self getDefaultCoverImage];
     }
     else if (!title.latestIssue) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        cell.latestIssueImageView.image = [self getDefaultCoverImage];
     }
     else {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"loadingCoverTransparent"];
+        cell.latestIssueImageView.image = [self getDefaultCoverImage];
     }
     if (darken) [self darkenCell:cell];
 }
@@ -274,7 +279,7 @@
     }
     
     // Get the image from the URL and set it
-    [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[self getDefaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         [UIView transitionWithView:cell.imageView
                           duration:0.5f
@@ -283,7 +288,7 @@
                         completion:NULL];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        cell.latestIssueImageView.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        cell.latestIssueImageView.image = [self getDefaultCoverImage];
     }];
 }
 

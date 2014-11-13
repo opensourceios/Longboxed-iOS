@@ -10,6 +10,7 @@
 #import "ActualTableViewCell.h"
 #import "LBXDashboardViewController.h"
 #import "LBXIssue.h"
+#import "LBXControllerServices.h"
 #import "LBXIssueDetailViewController.h"
 
 #import <UIImageView+AFNetworking.h>
@@ -69,7 +70,7 @@
                         completion:NULL];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        weakCell.coverImage.image = [UIImage imageNamed:@"NotAvailable.jpeg"];
+        weakCell.coverImage.image = [LBXControllerServices getDefaultCoverImage];
     }];
     
     [cell.titleName setText:issue.completeTitle];
