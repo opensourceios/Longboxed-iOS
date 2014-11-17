@@ -78,8 +78,10 @@ int page;
                                                  name:@"setTitleDetailForegroundImage"
                                                object:nil];
     
+    UIImage *backgroundImageToBlur = ([UIImagePNGRepresentation(_latestIssueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) ? [UIImage imageNamed:@"black"] : _detailView.latestIssueImageView.image;
+
     // Adjustment for images with a height that is less than _detailView.latestIssueImageView
-    [self setCustomBlurredBackgroundImageWithImage:_detailView.latestIssueImageView.image];
+    [self setCustomBlurredBackgroundImageWithImage:backgroundImageToBlur];
 }
 
 - (void)viewWillAppear:(BOOL)animated

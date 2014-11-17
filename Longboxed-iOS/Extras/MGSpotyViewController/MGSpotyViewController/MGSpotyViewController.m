@@ -46,7 +46,8 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
         [self getLatestIssueImageForTitle:title withCompletion:^(UIImage *image) {
             _foregroundImage = image;
-            _backgroundImage = image;
+            _backgroundImage = ([UIImagePNGRepresentation(image) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) ? [UIImage imageNamed:@"black"] : [image copy];
+        
             //[_mainImageView setImage:_foregroundImage];
             UIImageView *imageView = [UIImageView new];
             __block typeof(imageView) bImageView = imageView;
@@ -149,16 +150,16 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
                             completion(image);
                             
                         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                            completion([UIImage imageNamed:@"NotAvailable.jpeg"]);
+                            completion([LBXControllerServices defaultCoverImage]);
                         }];
                         return;
                     }
                 }
             }
-            else completion([UIImage imageNamed:@"NotAvailable.jpeg"]);
+            else completion([LBXControllerServices defaultCoverImage]);
         }
         else {
-            completion([UIImage imageNamed:@"NotAvailable.jpeg"]);
+            completion([LBXControllerServices defaultCoverImage]);
             //[LBXMessageBar displayError:error];
         }
     }];

@@ -197,18 +197,11 @@
 {
     if (!_popularIssuesArray.count) return;
     
-    // TODO: Remove this after Tim adds server side hashing
-    // Hash the image to make sure the featured issue image is something other than "Not Available"
+    // Feature an issue that has a cover
     BOOL validImage = NO;
-    NSString *localHash = [LBXControllerServices getHashOfImage:[UIImage imageNamed:@"NotAvailable.jpeg"]];
-    
     for (LBXIssue *issue in popularIssuesArray) {
         if (!validImage) {
-            // MD5 checksum compare image
-            NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:issue.coverImage]];
-            UIImage *image = [UIImage imageWithData:imageData];
-            NSString *remoteHash = [LBXControllerServices getHashOfImage:image];
-            if (![remoteHash isEqualToString:localHash]) {
+            if (issue.coverImage) {
                 validImage = YES;
                 _featuredIssue = issue;
             }
