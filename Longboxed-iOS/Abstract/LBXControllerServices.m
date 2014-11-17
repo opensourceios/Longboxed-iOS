@@ -23,9 +23,9 @@
 
 @implementation LBXControllerServices
 
-+ (UIImage *)getDefaultCoverImage
++ (UIImage *)defaultCoverImage
 {
-    return [PaintCodeImages imageOfLongboxedLogoWithColor:[UIColor lightGrayColor] width:100];
+    return [PaintCodeImages imageOfDefaultCoverWithColor:[UIColor LBXVeryLightGrayColor] width:100 height:150];
 }
 
 + (NSDate *)getLocalDate
@@ -135,7 +135,7 @@
         cell.subtitleLabel.text = subtitleString;
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self getDefaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -144,19 +144,19 @@
                             completion:NULL];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.latestIssueImageView.image = [self getDefaultCoverImage];
+            cell.latestIssueImageView.image = [self defaultCoverImage];
         }];
     }
     else if (!title.publisher.name) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
-        cell.latestIssueImageView.image = [self getDefaultCoverImage];
+        cell.latestIssueImageView.image = [self defaultCoverImage];
     }
     else if (title.latestIssue.title.issueCount == 0) {
-        cell.latestIssueImageView.image = [self getDefaultCoverImage];
+        cell.latestIssueImageView.image = [self defaultCoverImage];
         cell.subtitleLabel.text = subtitleString;
     }
     else {
-        cell.latestIssueImageView.image = [self getDefaultCoverImage];
+        cell.latestIssueImageView.image = [self defaultCoverImage];
         cell.subtitleLabel.text = subtitleString;
     }
 }
@@ -172,7 +172,7 @@
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self getDefaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -181,20 +181,20 @@
                             completion:NULL];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.latestIssueImageView.image = [self getDefaultCoverImage];
+            cell.latestIssueImageView.image = [self defaultCoverImage];
         }];
     }
     else if (!title.publisher.name) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
-        cell.latestIssueImageView.image = [self getDefaultCoverImage];
+        cell.latestIssueImageView.image = [self defaultCoverImage];
     }
     else if (!title.latestIssue) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [self getDefaultCoverImage];
+        cell.latestIssueImageView.image = [self defaultCoverImage];
     }
     else {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [self getDefaultCoverImage];
+        cell.latestIssueImageView.image = [self defaultCoverImage];
     }
 }
 
@@ -219,7 +219,7 @@
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self getDefaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -230,21 +230,21 @@
             if (darken) [self darkenCell:cell];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.latestIssueImageView.image = [self getDefaultCoverImage];
+            cell.latestIssueImageView.image = [self defaultCoverImage];
             if (darken) [self darkenCell:cell];
         }];
     }
     else if (!title.publisher.name) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
-        cell.latestIssueImageView.image = [self getDefaultCoverImage];
+        cell.latestIssueImageView.image = [self defaultCoverImage];
     }
     else if (!title.latestIssue) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [self getDefaultCoverImage];
+        cell.latestIssueImageView.image = [self defaultCoverImage];
     }
     else {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [self getDefaultCoverImage];
+        cell.latestIssueImageView.image = [self defaultCoverImage];
     }
     if (darken) [self darkenCell:cell];
 }
@@ -279,7 +279,7 @@
     }
     
     // Get the image from the URL and set it
-    [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[self getDefaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[self defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         [UIView transitionWithView:cell.imageView
                           duration:0.5f
@@ -288,7 +288,7 @@
                         completion:NULL];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        cell.latestIssueImageView.image = [self getDefaultCoverImage];
+        cell.latestIssueImageView.image = [self defaultCoverImage];
     }];
 }
 

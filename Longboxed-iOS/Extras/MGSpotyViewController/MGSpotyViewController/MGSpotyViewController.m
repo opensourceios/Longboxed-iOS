@@ -9,6 +9,7 @@
 #import "MGSpotyViewController.h"
 #import "UIImageView+LBBlurredImage.h"
 #import "LBXTitleDetailView.h"
+#import "LBXControllerServices.h"
 #import "LBXClient.h"
 
 #import <UIImageView+AFNetworking.h>
@@ -144,7 +145,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
             if (issueArray.count) {
                 for (LBXIssue *issue in issueArray) {
                     if ([issue.isParent isEqualToNumber:@1]) {
-                        [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                        [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[LBXControllerServices defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                             completion(image);
                             
                         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {

@@ -335,14 +335,14 @@ BOOL saveSheetVisible;
 {
     UIImageView *imageView = [UIImageView new];
     // Get the image from the URL and set it
-    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_issue.coverImage]] placeholderImage:[UIImage imageNamed:@"loadingCoverTransparent"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_issue.coverImage]] placeholderImage:[LBXControllerServices defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         _issueImage = image;
         [self setupImages];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
-        _issueImage = [LBXControllerServices getDefaultCoverImage];
+        _issueImage = [LBXControllerServices defaultCoverImage];
         [self setupImages];
         
     }];
