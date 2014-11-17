@@ -81,7 +81,7 @@ BOOL saveSheetVisible;
 {
     [super viewDidLoad];
     
-    if (_issueImage == nil) {
+    if (_issueImage == nil || [UIImagePNGRepresentation(_issueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
         _issueImage = [UIImage new];
         [self setupImageViews];
     }
@@ -180,16 +180,6 @@ BOOL saveSheetVisible;
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    //    [LBXControllerServices setNumberOfLinesWithLabel:_titleButton.titleLabel string:_titleButton.titleLabel.text font:[UIFont fontWithName:@"AvenirNextCondensed-UltraLight" size:42]];
-    //
-
-//    if (_titleButton.titleLabel.numberOfLines == 1) {
-//        [_titleButton removeConstraints:constraints];
-//    }
-//    else {
-////        _titleButton.frame = CGRectMake(_titleButton.frame.origin.x, _titleButton.frame.origin.y, _titleButton.frame.size.width, _titleButton.frame.size.height *2);
-//        [_titleButton addConstraints:constraints];
-//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -335,14 +325,14 @@ BOOL saveSheetVisible;
 {
     UIImageView *imageView = [UIImageView new];
     // Get the image from the URL and set it
-    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_issue.coverImage]] placeholderImage:[LBXControllerServices defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_issue.coverImage]] placeholderImage:[UIImage imageNamed:@"black"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         _issueImage = image;
         [self setupImages];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
-        _issueImage = [LBXControllerServices defaultCoverImage];
+        _issueImage = [UIImage imageNamed:@"black"];
         [self setupImages];
         
     }];
