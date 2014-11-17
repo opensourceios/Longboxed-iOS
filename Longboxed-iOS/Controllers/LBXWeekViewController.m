@@ -19,7 +19,6 @@
 
 #import "ESDatePicker.h"
 
-#import "PaintCodeImages.h"
 #import "UIColor+customColors.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "Masonry.h"
@@ -642,7 +641,7 @@ int _page;
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
-        cell.latestIssueImageView.image = [PaintCodeImages imageOfLongboxedLogoWithColor:[UIColor lightGrayColor] width:100];
+        cell.latestIssueImageView.image = [LBXControllerServices defaultCoverImage];
     }];
 
     return cell;
