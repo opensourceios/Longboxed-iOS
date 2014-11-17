@@ -432,9 +432,10 @@
         }
         case 2:
         {
+            // Selecting the featured issue
             UIImage *image = [self.featuredIssueCoverButton backgroundImageForState:UIControlStateNormal];
             
-            LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithMainImage:image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
+            LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_featuredIssue.title andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
             titleViewController.titleID = _featuredIssue.title.titleID;
             titleViewController.latestIssueImage = image;
             
@@ -718,8 +719,9 @@
     {
         LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
         
-        LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithMainImage:cell.latestIssueImageView.image andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
-        titleViewController.titleID = ((LBXTitle *)[_searchResultsArray objectAtIndex:indexPath.row]).titleID;
+        LBXTitle *title = ((LBXTitle *)[_searchResultsArray objectAtIndex:indexPath.row]);
+        LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:title andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
+        titleViewController.titleID = title.titleID;
         titleViewController.latestIssueImage = cell.latestIssueImageView.image;
         
         [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", _featuredIssue.title]];

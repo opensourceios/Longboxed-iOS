@@ -23,21 +23,6 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     CGRect _frameRect;
 }
 
-- (instancetype)initWithMainImage:(UIImage *)image andTopViewFrame:(CGRect)frame
-{
-    if(self = [super init]) {
-        _foregroundImage = [image copy];
-        _backgroundImage = [image copy];
-        _mainImageView = [UIImageView new];
-        [_mainImageView setImage:_foregroundImage];
-        _overView = [UIView new];
-        _tableView = [UITableView new];
-        _frameRect = frame;
-    }
-    
-    return self;
-}
-
 - (instancetype)initWithTitle:(LBXTitle *)title andTopViewFrame:(CGRect)frame
 {
     if(self = [super init]) {
