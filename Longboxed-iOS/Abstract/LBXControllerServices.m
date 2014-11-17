@@ -381,6 +381,7 @@
             ];
 }
 
+// For sorting the titles/issues in the releases view
 + (NSArray *)getPublisherTableViewSectionArrayForArray:(NSArray *)array
 {
     NSMutableArray *publishersArray = [NSMutableArray new];
@@ -398,7 +399,9 @@
         NSMutableDictionary *letterDict = [NSMutableDictionary new];
         NSMutableArray *letterArray = [NSMutableArray new];
         // Loop through every issue in the issues array
-        for (LBXIssue *issue in array) {
+        NSSortDescriptor *descr = [[NSSortDescriptor alloc] initWithKey:@"title.name" ascending:YES];
+        NSArray *sortDescriptors = @[descr];
+        for (LBXIssue *issue in [array sortedArrayUsingDescriptors:sortDescriptors]) {
             // Check if the issue name begins with the current character
             LBXPublisher *publisher = [publishersArray objectAtIndex:i];
             if ([publisher.name isEqualToString:issue.publisher.name]) {
