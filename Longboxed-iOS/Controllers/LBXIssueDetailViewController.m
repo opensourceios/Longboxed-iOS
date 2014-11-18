@@ -85,7 +85,7 @@ BOOL saveSheetVisible;
         _issueImage = [UIImage new];
         [self setupImageViews];
     }
-    [self setupImages];
+    [self setupImagesWithImage:_issueImage];
     
     [_coverImageView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[_coverImageView(==%d)]", (int)self.view.frame.size.height/2]
                                                                             options:0
@@ -325,34 +325,34 @@ BOOL saveSheetVisible;
 {
     UIImageView *imageView = [UIImageView new];
     // Get the image from the URL and set it
-    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_issue.coverImage]] placeholderImage:[UIImage imageNamed:@"black"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_issue.coverImage]] placeholderImage:[LBXControllerServices defaultCoverImageWithWhiteBackground] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         _issueImage = image;
-        [self setupImages];
+        [self setupImagesWithImage:image];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
-        _issueImage = [UIImage imageNamed:@"black"];
-        [self setupImages];
+        _issueImage = [LBXControllerServices defaultCoverImageWithWhiteBackground];
+        [self setupImagesWithImage:[UIImage imageNamed:@"black"]];
         
     }];
 }
 
 
-- (void)setupImages
+- (void)setupImagesWithImage:(UIImage *)image
 {
     _coverImageView.alpha = 0.0;
     _backgroundCoverImageView.alpha = 0.0;
-    [_backgroundCoverImageView setImageToBlur:_issueImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
-    UIImage *blurredImage = _issueImage;
-    [blurredImage applyDarkEffect];
+    [_backgroundCoverImageView setImageToBlur:image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
+    UIImage *darkenedImage = _issueImage;
+    [darkenedImage applyDarkEffect];
     
-    blurredImage = [blurredImage applyBlurWithRadius:0.0
+    darkenedImage = [darkenedImage applyBlurWithRadius:0.0
                                            tintColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3]
                                 saturationDeltaFactor:0.5
                                             maskImage:nil];
     
-    [_coverImageView setImage:blurredImage];
+    [_coverImageView setImage:darkenedImage];
     [_coverImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     [UIView transitionWithView:_backgroundCoverImageView

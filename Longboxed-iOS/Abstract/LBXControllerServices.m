@@ -25,7 +25,13 @@
 
 + (UIImage *)defaultCoverImage
 {
-    return [PaintCodeImages imageOfDefaultCoverWithColor:[UIColor LBXVeryLightGrayColor] width:100 height:150];
+    return [PaintCodeImages imageOfDefaultCoverWithColor:[UIColor LBXVeryLightGrayColor] background:[UIColor clearColor] width:500 height:750];
+}
+
++ (UIImage *)defaultCoverImageWithWhiteBackground
+{
+//    return [PaintCodeImages imageOfDefaultCoverWithColor:[UIColor blackColor] background:[UIColor whiteColor] width:500 height:750];
+    return [UIImage imageNamed:@"lb_nocover"];
 }
 
 + (NSDate *)getLocalDate

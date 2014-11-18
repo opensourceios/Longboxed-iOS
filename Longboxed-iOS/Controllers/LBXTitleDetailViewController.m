@@ -19,6 +19,7 @@
 #import "LBXPublisherDetailViewController.h"
 #import "LBXLogging.h"
 
+#import "PaintCodeImages.h"
 #import "UIFont+customFonts.h"
 #import "NSArray+ArrayUtilities.h"
 #import "JGActionSheet.h"
@@ -78,7 +79,16 @@ int page;
                                                  name:@"setTitleDetailForegroundImage"
                                                object:nil];
     
-    UIImage *backgroundImageToBlur = ([UIImagePNGRepresentation(_latestIssueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) ? [UIImage imageNamed:@"black"] : _detailView.latestIssueImageView.image;
+    UIImage *backgroundImageToBlur = [UIImage new];
+    if ([UIImagePNGRepresentation(_latestIssueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
+        backgroundImageToBlur = [UIImage imageNamed:@"black"];
+        _latestIssueImage = [LBXControllerServices defaultCoverImageWithWhiteBackground];
+        _detailView.latestIssueImageView.image = _latestIssueImage;
+    }
+    else {
+        backgroundImageToBlur = _detailView.latestIssueImageView.image;
+    }
+    
 
     // Adjustment for images with a height that is less than _detailView.latestIssueImageView
     [self setCustomBlurredBackgroundImageWithImage:backgroundImageToBlur];

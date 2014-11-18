@@ -11,6 +11,7 @@
 #import "LBXTitleDetailView.h"
 #import "LBXControllerServices.h"
 #import "LBXClient.h"
+#import "PaintCodeImages.h"
 
 #import <UIImageView+AFNetworking.h>
 
@@ -30,10 +31,15 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         _backgroundImage = [UIImage imageNamed:@"black"];
         [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
         [self getLatestIssueImageForTitle:title withCompletion:^(UIImage *image) {
-            _foregroundImage = image;
-            _backgroundImage = ([UIImagePNGRepresentation(image) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) ? [UIImage imageNamed:@"black"] : [image copy];
+            if ([UIImagePNGRepresentation(image) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
+                _foregroundImage = [LBXControllerServices defaultCoverImageWithWhiteBackground];
+                _backgroundImage = [UIImage imageNamed:@"black"];
+            }
+            else {
+                _foregroundImage = image;
+                _backgroundImage = [image copy];
+            }
         
-            //[_mainImageView setImage:_foregroundImage];
             UIImageView *imageView = [UIImageView new];
             __block typeof(imageView) bImageView = imageView;
             __block typeof(self) bself = self;
