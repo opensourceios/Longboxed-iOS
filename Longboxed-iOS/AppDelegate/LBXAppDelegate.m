@@ -134,19 +134,19 @@
     LBXClient *client = [LBXClient new];
     // Fetch popular issues
     [client fetchPopularIssuesWithCompletion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
-        DDLogInfo(@"Fetched popular titles");
+        [LBXLogging logMessage:@"Fetched popular titles"];
         if (!error) {
             for (LBXIssue *issue in popularIssuesArray) {
                 [client fetchTitle:issue.title.titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {
                     if (error) {
-                        DDLogInfo(@"Failed fetching popular titles");
+                        [LBXLogging logMessage:@"Failed fetching popular titles"];
                         completionHandler(UIBackgroundFetchResultFailed);
                     }
                 }];
             }
         }
         else {
-            DDLogInfo(@"Failed fetching titles");
+            [LBXLogging logMessage:@"Failed fetching titles"];
             completionHandler(UIBackgroundFetchResultFailed);
         }
     }];
@@ -155,11 +155,11 @@
         // Fetch the users bundles
         [client fetchBundleResourcesWithCompletion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {
-                DDLogInfo(@"Fetched users bundles");
+                [LBXLogging logMessage:@"Fetched users bundles"];
                 completionHandler(UIBackgroundFetchResultNewData);
             }
             else {
-                DDLogInfo(@"Failed fetching users bundles");
+                [LBXLogging logMessage:@"Failed fetching users bundles"];
                 completionHandler(UIBackgroundFetchResultFailed);
             }
         }];

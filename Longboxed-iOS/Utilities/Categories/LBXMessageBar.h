@@ -15,5 +15,6 @@
 + (void)successfulLogout;
 + (void)incorrectCredentials;
 + (void)longboxedWebPageError;
++ (void)clearedCache;
 
 @end

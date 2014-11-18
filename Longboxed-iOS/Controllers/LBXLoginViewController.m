@@ -18,12 +18,15 @@
 #import <TWMessageBarManager.h>
 #import <OnePasswordExtension.h>
 #import "RestKit/RestKit.h"
+#import "SVModalWebViewController.h"
 
 #import "UIFont+customFonts.h"
 
 @interface LBXLoginViewController ()
 
 @property (nonatomic, strong) IBOutlet UIButton *loginButton;
+@property (nonatomic, strong) IBOutlet UIButton *forgotPasswordButton;
+@property (nonatomic, strong) IBOutlet UIButton *clearCacheButton;
 @property (nonatomic, strong) IBOutlet UITextField *usernameField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordField;
 @property (nonatomic, strong) IBOutlet UISwitch *developmentServerSwitch;
@@ -58,6 +61,7 @@ UICKeyChainStore *store;
     store = [UICKeyChainStore keyChainStore];
     _usernameField.text = store[@"username"];
     _passwordField.text = store[@"password"];
+    
     [_developmentServerSwitch addTarget:self
                                  action:@selector(stateChanged:)
                        forControlEvents:UIControlEventValueChanged];
@@ -69,6 +73,11 @@ UICKeyChainStore *store;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    // Set the log in button text
+    if ([_passwordField.text isEqualToString:@""]) [self setButtonsForLoggedOut];
+    else [self setButtonsForLoggedIn];
+    
     [_developmentServerSwitch setOn:YES animated:NO];
     RKResponseDescriptor *responseDescriptor = [RKObjectManager sharedManager].responseDescriptors[0];
     if ([[responseDescriptor.baseURL absoluteString] isEqualToString:[[LBXEndpoints productionURL] absoluteString]]) {
@@ -141,29 +150,28 @@ UICKeyChainStore *store;
     UIButton *button = (UIButton *)sender;
     switch ([button tag])
     {
-        // Log in
+        // Log in/out
         case 0:
         {
-            [self login];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            if ([button.titleLabel.text isEqualToString:@"Log Out"]) {
+                [LBXLogging logLogout];
+                [self removeCredentials];
+                [LBXDatabaseManager flushDatabase];
+                [LBXMessageBar successfulLogout];
+                _usernameField.text = @"";
+                _passwordField.text = @"";
+                [_usernameField becomeFirstResponder];
+                [self setButtonsForLoggedOut];
+            }
+            else {
+                [self login];
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
 
             break;
         }
-        // Log out
-        case 1:
-        {
-            [LBXLogging logLogout];
-            [self removeCredentials];
-            [LBXDatabaseManager flushDatabase];
-            [LBXMessageBar successfulLogout];
-            _usernameField.text = @"";
-            _passwordField.text = @"";
-            [_usernameField becomeFirstResponder];
-            
-            break;
-        }
         // 1Password
-        case 2:
+        case 1:
         {
             [[OnePasswordExtension sharedExtension] findLoginForURLString:@"https://www.longboxed.com" forViewController:self sender:sender completion:^(NSDictionary *loginDict, NSError *error) {
                 if (!loginDict) {
@@ -178,7 +186,44 @@ UICKeyChainStore *store;
             }];
             break;
         }
+        // Forgot password
+        case 2:
+        {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Forgot password"]];
+            SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithAddress:@"http://longboxed.com/reset"];
+            webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+            webViewController.barsTintColor = [UIColor blackColor];
+            [self presentViewController:webViewController animated:YES completion:nil];
+            break;
+            
+        }
+        // Cleared cache
+        case 3:
+        {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Clearing cache"]];
+            [LBXMessageBar clearedCache];
+            [LBXDatabaseManager flushDatabase];
+            break;
+        }
     }
+}
+
+- (void)setButtonsForLoggedIn
+{
+    [_loginButton setTitle:@"Log Out" forState:UIControlStateNormal];
+    _onePasswordButton.hidden = YES;
+    _forgotPasswordButton.hidden = YES;
+    _usernameField.userInteractionEnabled = NO;
+    _passwordField.userInteractionEnabled = NO;
+}
+
+- (void)setButtonsForLoggedOut
+{
+    [_loginButton setTitle:@"Log In" forState:UIControlStateNormal];
+    _onePasswordButton.hidden = NO;
+    _forgotPasswordButton.hidden = NO;
+    _usernameField.userInteractionEnabled = YES;
+    _passwordField.userInteractionEnabled = YES;
 }
 
 # pragma mark Private Methods
@@ -200,11 +245,13 @@ UICKeyChainStore *store;
                 [store synchronize];
                 [LBXMessageBar successfulLogin];
                 [LBXLogging logLogin];
+                [self setButtonsForLoggedIn];
             });
         }
         else {
             [LBXLogging logMessage:[NSString stringWithFormat:@"Logged out %@", _usernameField.text]];
             [self removeCredentials];
+            [self setButtonsForLoggedOut];
             [LBXDatabaseManager flushDatabase];
             
             dispatch_async(dispatch_get_main_queue(),^{

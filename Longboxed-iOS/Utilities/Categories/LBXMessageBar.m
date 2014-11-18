@@ -57,4 +57,11 @@
                                                           type:TWMessageBarMessageTypeError];
 }
 
++ (void)clearedCache
+{
+    [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Cache Successfully Cleared"
+                                                   description:@"All data in memory has been removed"
+                                                          type:TWMessageBarMessageTypeInfo];
+}
+
 @end
