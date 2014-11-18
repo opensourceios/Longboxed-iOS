@@ -9,6 +9,7 @@
 #import "LBXDatabaseManager.h"
 #import "LBXAppDelegate.h"
 #import "LBXDashboardViewController.h"
+#import "LBXClient.h"
 #import "LBXLogging.h"
 
 #import "UIFont+customFonts.h"
@@ -20,12 +21,16 @@
 #import "NSLogger.h"
 #import "PSDDFormatter.h"
 
+#import <UICKeyChainStore.h>
 #import <Crashlytics/Crashlytics.h>
 
 @implementation LBXAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Fetch in the background as often as possible
+    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    
     [LBXDatabaseManager setupRestKit];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -120,6 +125,44 @@
         return nil;
     } else {
         return description;
+    }
+}
+
+// Background refresh
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    LBXClient *client = [LBXClient new];
+    // Fetch popular issues
+    [client fetchPopularIssuesWithCompletion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+        DDLogInfo(@"Fetched popular titles");
+        if (!error) {
+            for (LBXIssue *issue in popularIssuesArray) {
+                [client fetchTitle:issue.title.titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {
+                    if (error) {
+                        DDLogInfo(@"Failed fetching popular titles");
+                        completionHandler(UIBackgroundFetchResultFailed);
+                    }
+                }];
+            }
+        }
+        else {
+            DDLogInfo(@"Failed fetching titles");
+            completionHandler(UIBackgroundFetchResultFailed);
+        }
+    }];
+    
+    if ([UICKeyChainStore stringForKey:@"id"]) {
+        // Fetch the users bundles
+        [client fetchBundleResourcesWithCompletion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+            if (!error) {
+                DDLogInfo(@"Fetched users bundles");
+                completionHandler(UIBackgroundFetchResultNewData);
+            }
+            else {
+                DDLogInfo(@"Failed fetching users bundles");
+                completionHandler(UIBackgroundFetchResultFailed);
+            }
+        }];
     }
 }
 
