@@ -310,9 +310,9 @@
     if (coreDataBundleArray.firstObject) {
         bundle = coreDataBundleArray.firstObject;
         
-        NSString *issuesString = @"SUBSCRIBED ISSUES";
+        NSString *issuesString = @"ISSUES IN YOUR BUNDLE";
         if (bundle.issues.count == 1) {
-            issuesString = @"SUBSCRIBED ISSUE";
+            issuesString = @"ISSUE IN YOUR BUNDLE";
         }
         
         NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"completeTitle" ascending:YES];
@@ -325,7 +325,7 @@
         [_bundleButton setNeedsDisplay];
     }
     else {
-        [_bundleButton setTitle:@"0 SUBSCRIBED ISSUES"
+        [_bundleButton setTitle:@"0 ISSUES IN YOUR BUNDLE"
                        forState:UIControlStateNormal];
     }
     
@@ -419,7 +419,7 @@
         {
             [self getCoreDataLastFiveBundles];
             // Pressing the your bundle/issues button
-            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_lastFiveBundlesIssuesArray andTitle:@"Your Issues"];
+            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_lastFiveBundlesIssuesArray andTitle:@"Bundles"];
             [self.navigationController pushViewController:controller animated:YES];
             break;
         }
@@ -540,7 +540,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.browseTableView) return 3;
+    if (tableView == self.browseTableView) return 4;
     if (tableView == self.searchResultsController.tableView) {
         if (_searchResultsArray.count == 0) {
             return 1;
@@ -654,8 +654,12 @@
         [pullListIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
         UIImage *pullListIconImage = [pullListIcon imageWithSize:CGSizeMake(checksize, checksize)];
         
-        NSArray *imageArray = @[comicsImage, calendarIconImage, pullListIconImage];
-        NSArray *textArray = @[@"Comics", @"Releases", @"Your Pull List"];
+        FAKFontAwesome *clockIcon = [FAKFontAwesome archiveIconWithSize:checksize];
+        [clockIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+        UIImage *clockIconImage = [clockIcon imageWithSize:CGSizeMake(checksize, checksize)];
+        
+        NSArray *imageArray = @[comicsImage, calendarIconImage, pullListIconImage, clockIconImage];
+        NSArray *textArray = @[@"Comics", @"Releases", @"Pull List", @"Bundles"];
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [textArray objectAtIndex:indexPath.row];
@@ -710,6 +714,13 @@
             case 2: {
                 LBXPullListViewController *controller = [[LBXPullListViewController alloc] init];
                 controller.title = @"Pull List";
+                [self.navigationController pushViewController:controller animated:YES];
+                break;
+            }
+            case 3: {
+                [self getCoreDataLastFiveBundles];
+                // Pressing the your issues button
+                LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_lastFiveBundlesIssuesArray andTitle:@"Bundles"];
                 [self.navigationController pushViewController:controller animated:YES];
                 break;
             }

@@ -161,7 +161,7 @@ int _page;
     else if (_displayReleasesOfDate) {
         [self setIssuesForWeekArrayWithDate:_selectedWednesday];
     }
-    else if ([_customNavTitle isEqualToString:@"Your Issues"]) {
+    else if ([_customNavTitle isEqualToString:@"Bundles"]) {
         _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
     }
     else {
@@ -319,7 +319,7 @@ int _page;
             }
         }
         _issuesForWeekArray = nextWeekArray;
-        if ([_customNavTitle isEqualToString:@"Your Issues"]) {
+        if ([_customNavTitle isEqualToString:@"Bundles"]) {
             _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
         else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
@@ -341,7 +341,7 @@ int _page;
             }
         }
         _issuesForWeekArray = nextWeekArray;
-        if ([_customNavTitle isEqualToString:@"Your Issues"]) {
+        if ([_customNavTitle isEqualToString:@"Bundles"]) {
             _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
         else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
@@ -354,7 +354,7 @@ int _page;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isParent == 1) AND (releaseDate >= %@) AND (releaseDate <= %@)", [date dateByAddingTimeInterval:-60*60*24*daysToAdd], [date dateByAddingTimeInterval:60*60*24*daysToAdd]];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     _issuesForWeekArray = allIssuesArray;
-    if ([_customNavTitle isEqualToString:@"Your Issues"]) {
+    if ([_customNavTitle isEqualToString:@"Bundles"]) {
         _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
     }
     else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
@@ -366,7 +366,7 @@ int _page;
         if (_selectedWednesday) {
             [self setIssuesForWeekArrayWithDate:_selectedWednesday];
         }
-        if ([_customNavTitle isEqualToString:@"Your Issues"]) {
+        if ([_customNavTitle isEqualToString:@"Bundles"]) {
             _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
         else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
