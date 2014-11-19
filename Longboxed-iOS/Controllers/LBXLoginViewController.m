@@ -215,6 +215,8 @@ UICKeyChainStore *store;
     _forgotPasswordButton.hidden = YES;
     _usernameField.userInteractionEnabled = NO;
     _passwordField.userInteractionEnabled = NO;
+    _usernameField.textColor = [UIColor lightGrayColor];
+    _passwordField.textColor = [UIColor lightGrayColor];
 }
 
 - (void)setButtonsForLoggedOut
@@ -224,6 +226,8 @@ UICKeyChainStore *store;
     _forgotPasswordButton.hidden = NO;
     _usernameField.userInteractionEnabled = YES;
     _passwordField.userInteractionEnabled = YES;
+    _usernameField.textColor = [UIColor blackColor];
+    _passwordField.textColor = [UIColor blackColor];
 }
 
 # pragma mark Private Methods
