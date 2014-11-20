@@ -896,10 +896,10 @@
 				E57D48FB196069F60014A13F /* Set Bundle Identifier and Display Name */,
 				E57D48C0196068E10014A13F /* Frameworks */,
 				E57D48C1196068E10014A13F /* Resources */,
+				E5CD031A1A0C4A36009C1D37 /* Update Build Number */,
 				E57D48BF196068E10014A13F /* Sources */,
 				E515746919E335AF0072EE3E /* Crashlytics */,
 				516CA5D694294377A3226C09 /* Copy Pods Resources */,
-				E5CD031A1A0C4A36009C1D37 /* Update Build Number */,
 			);
 			buildRules = (
 			);
