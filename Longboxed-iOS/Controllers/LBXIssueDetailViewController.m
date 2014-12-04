@@ -88,6 +88,8 @@ BOOL saveSheetVisible;
     [self setupImagesWithImage:_issueImage];
     
     NSError *error = nil;
+    
+    // Remove any HTML junk from text
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
     
     NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:_issue.title.name options:0 range:NSMakeRange(0, [_issue.title.name length]) withTemplate:@""];
@@ -158,6 +160,22 @@ BOOL saveSheetVisible;
     _descriptionTextView.text = modifiedDescriptionString;
     _descriptionTextView.selectable = NO;
     [_descriptionTextView scrollRangeToVisible:NSMakeRange(0, 0)]; // Scroll to the top
+    
+    _descriptionTextView.font = [UIFont issueDetailDescriptionFont];
+    
+    CGFloat height = [_descriptionTextView.text boundingRectWithSize:_descriptionTextView.frame.size
+                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                           attributes:@{NSFontAttributeName:_descriptionTextView.font}
+                                              context:nil].size.height;
+    
+    height = (height < 88) ? 88 : ((height > 88) ? self.view.frame.size.height/4 : height);
+    
+    // Add 16 px because of the text view scroll margins?
+    [_descriptionTextView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[_descriptionTextView(==%d)]", (int)(ceil(height))+16]
+                                                                                 options:0
+                                                                                 metrics:nil
+                                                                                   views:NSDictionaryOfVariableBindings(_descriptionTextView)]];
+    
     
     [_imageButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _imageButton.tag = 0;

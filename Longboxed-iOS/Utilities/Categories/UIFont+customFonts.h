@@ -30,6 +30,7 @@
 + (UIFont *)titleDetailTitleFont;
 + (UIFont *)titleDetailAddToPullListFont;
 + (UIFont *)issueDetailTitleFont;
++ (UIFont *)issueDetailDescriptionFont;
 + (UIFont *)pullListTitleFont;
 + (UIFont *)pullListSubtitleFont;
 + (UIFont *)actionSheetTitleFont;

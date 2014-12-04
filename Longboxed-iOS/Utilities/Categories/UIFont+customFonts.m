@@ -129,6 +129,11 @@ static const NSString *fontFace = @"AvenirNext";
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@Condensed-UltraLight", fontFace] size:42];
 }
 
++ (UIFont *)issueDetailDescriptionFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:12];
+}
+
 + (UIFont *)actionSheetTitleFont
 {
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Medium", fontFace] size:16];
