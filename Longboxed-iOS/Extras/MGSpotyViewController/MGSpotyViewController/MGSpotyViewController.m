@@ -14,6 +14,7 @@
 #import "PaintCodeImages.h"
 
 #import <UIImageView+AFNetworking.h>
+#import "UIFont+customFonts.h"
 
 CGFloat const kMGOffsetEffects = 40.0;
 CGFloat const kMGOffsetBlurEffect = 2.0;
@@ -21,12 +22,17 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 @implementation MGSpotyViewController {
     CGPoint _startContentOffset;
     CGPoint _lastContentOffsetBlurEffect;
-    CGRect _frameRect;
 }
 
-- (instancetype)initWithTitle:(LBXTitle *)title andTopViewFrame:(CGRect)frame
+- (instancetype)initWithTitle:(LBXTitle *)title
 {
     if(self = [super init]) {
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(setFrameAgain)
+                                                     name:@"setFrameAgain"
+                                                   object:nil];
+        
         _foregroundImage = [UIImage imageNamed:@"black"];
         _backgroundImage = [UIImage imageNamed:@"black"];
         [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
@@ -60,35 +66,19 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         _mainImageView = [UIImageView new];
         _overView = [UIView new];
         _tableView = [UITableView new];
-        _frameRect = frame;
     }
     
     return self;
 }
 
-- (instancetype)initWithTopViewFrame:(CGRect)frame
+- (void)setFrameAgain
 {
-    if(self = [super init]) {
-        UIColor *color = [UIColor blackColor];
-        CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-        UIGraphicsBeginImageContext(rect.size);
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        
-        CGContextSetFillColorWithColor(context, [color CGColor]);
-        CGContextFillRect(context, rect);
-        
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        _backgroundImage = image;
-        _foregroundImage = image;
-        _mainImageView = [UIImageView new];
-        [_mainImageView setImage:_foregroundImage];
-        _overView = [UIView new];
-        _tableView = [UITableView new];
-        _frameRect = frame;
-    }
+    [_mainImageView setFrame:_frameRect];
+    if (_backgroundImage) [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
+    [_overView setFrame:_mainImageView.bounds];
+    [_whiteView setFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 18, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height)];
     
-    return self;
+    [self.view setNeedsLayout];
 }
 
 - (void)loadView
@@ -218,10 +208,8 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         CGFloat diff = _startContentOffset.y - scrollView.contentOffset.y;
 
         // Adjustment for images with a height that is less than _mainImageView
-        int verticalAdjustment = 0;
-        if (_mainImageView.image.size.height < _overView.frame.size.height) {
-            verticalAdjustment = (self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
-        }
+        int verticalAdjustment = (self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
+        verticalAdjustment += 9; // Half of the section header height
         
         CGFloat yPos = -(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
         

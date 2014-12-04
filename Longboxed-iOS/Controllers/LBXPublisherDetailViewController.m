@@ -311,7 +311,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     LBXTitle *title = [array objectAtIndex:indexPath.row];
     
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:title andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
+    LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:title];
     
     [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", title]];
     titleViewController.titleID = title.titleID;

@@ -49,6 +49,7 @@ BOOL saveSheetVisible;
 int page;
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     // Calls perferredStatusBarStyle
@@ -67,7 +68,14 @@ int page;
     [self createPullListArray];
     [self createIssuesArray];
     
+    // Dynamically set the detail view size and following table view content offset
     [self setDetailView];
+    [self setFrameRect];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"setFrameAgain"
+     object:self userInfo:nil];
+    _detailView.frame = self.frameRect;
+    _detailView.bounds = self.frameRect;
     [self setOverView:_detailView];
     
     [self fetchTitle];
@@ -78,20 +86,6 @@ int page;
                                              selector:@selector(setForegroundImageView)
                                                  name:@"setTitleDetailForegroundImage"
                                                object:nil];
-    
-    UIImage *backgroundImageToBlur = [UIImage new];
-    if ([UIImagePNGRepresentation(_latestIssueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
-        backgroundImageToBlur = [UIImage imageNamed:@"black"];
-        _latestIssueImage = [LBXControllerServices defaultCoverImageWithWhiteBackground];
-        _detailView.latestIssueImageView.image = _latestIssueImage;
-    }
-    else {
-        backgroundImageToBlur = _detailView.latestIssueImageView.image;
-    }
-    
-
-    // Adjustment for images with a height that is less than _detailView.latestIssueImageView
-    [self setCustomBlurredBackgroundImageWithImage:backgroundImageToBlur];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -110,11 +104,24 @@ int page;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+    
+    UIImage *backgroundImageToBlur = [UIImage new];
+    if ([UIImagePNGRepresentation(_latestIssueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
+        backgroundImageToBlur = [UIImage imageNamed:@"black"];
+        _latestIssueImage = [LBXControllerServices defaultCoverImageWithWhiteBackground];
+        _detailView.latestIssueImageView.image = _latestIssueImage;
+    }
+    else {
+        backgroundImageToBlur = _detailView.latestIssueImageView.image;
+    }
+    // Adjustment for images with a height that is less than _detailView.latestIssueImageView
+    [self setCustomBlurredBackgroundImageWithImage:backgroundImageToBlur];
 }
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    
     [LBXControllerServices setNumberOfLinesWithLabel:_detailView.titleLabel string:_detailTitle.name font:[UIFont titleDetailTitleFont]];
 }
 
@@ -143,8 +150,6 @@ int page;
 - (void)setDetailView
 {
     _detailView = [LBXTitleDetailView new];
-    _detailView.frame = self.overView.frame;
-    _detailView.bounds = self.overView.bounds;
     _detailView.titleLabel.font = [UIFont titleDetailTitleFont];
     _detailView.publisherButton.titleLabel.font = [UIFont titleDetailPublisherFont];
     
@@ -173,6 +178,23 @@ int page;
     _detailView.latestIssueImageView.contentMode = UIViewContentModeScaleAspectFit;
     [_detailView.latestIssueImageView sizeToFit];
     [_detailView setNeedsLayout];
+}
+
+- (void)setFrameRect
+{
+    CGFloat titleHeight = [_detailTitle.name boundingRectWithSize:_detailView.titleLabel.frame.size
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                          attributes:@{NSFontAttributeName:_detailView.titleLabel.font}
+                                                             context:nil].size.height;
+    
+    CGFloat publisherHeight = [_detailTitle.publisher.name boundingRectWithSize:_detailView.publisherButton.frame.size
+                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                            attributes:@{NSFontAttributeName:_detailView.publisherButton.titleLabel.font}
+                                               context:nil].size.height;
+    
+    CGFloat addToPullListHeight = _detailView.addToPullListButton.frame.size.height;
+    
+    self.frameRect = CGRectMake(0, 0, self.view.frame.size.width, MAX(titleHeight + publisherHeight + addToPullListHeight, _detailView.latestIssueImageView.frame.size.height));
 }
 
 - (void)updateDetailView

@@ -261,7 +261,7 @@ BOOL saveSheetVisible;
         }
         case 3: // Title button
         {
-            LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_issue.title andTopViewFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width * 3/4)];
+            LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_issue.title];
             [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title: %@", _issue.title.description]];
             titleViewController.titleID = _issue.title.titleID;
             titleViewController.latestIssueImage = [UIImage imageNamed:@"black"];

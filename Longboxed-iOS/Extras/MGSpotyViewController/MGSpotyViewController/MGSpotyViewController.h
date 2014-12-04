@@ -14,6 +14,8 @@ extern CGFloat const kMGOffsetBlurEffect;
 
 @interface MGSpotyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, assign) CGRect frameRect;
+
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *overView;
 @property (nonatomic, strong) UIImageView *mainImageView;
@@ -22,8 +24,7 @@ extern CGFloat const kMGOffsetBlurEffect;
 @property (nonatomic) UIImage *foregroundImage;
 @property (nonatomic) UIImage *backgroundImage;
 
-- (instancetype)initWithTopViewFrame:(CGRect)frame;
-- (instancetype)initWithTitle:(LBXTitle *)title andTopViewFrame:(CGRect)frame;
+- (instancetype)initWithTitle:(LBXTitle *)title;
 - (void)setCustomBackgroundImageWithImage:(UIImage *)image;
 - (void)setCustomBlurredBackgroundImageWithImage:(UIImage *)image;
 - (void)setCustomForegroundImageWithImage:(UIImage *)image;
