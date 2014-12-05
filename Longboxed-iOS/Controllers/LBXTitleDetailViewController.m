@@ -51,6 +51,7 @@ int page;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    [LBXControllerServices setupTransparentNavigationBarForViewController:self];
     
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
@@ -91,7 +92,6 @@ int page;
 {
     [super viewWillAppear:animated];
     
-    [LBXControllerServices setupTransparentNavigationBarForViewController:self];
     [LBXControllerServices setViewWillAppearClearNavigationController:self];
     
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
@@ -122,7 +122,7 @@ int page;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-
+    
     [LBXControllerServices setNumberOfLinesWithLabel:_detailView.titleLabel string:_detailTitle.name font:[UIFont titleDetailTitleFont]];
 }
 
@@ -131,6 +131,8 @@ int page;
     [super viewDidAppear:animated];
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXTitle:\n%@\ndid appear", _detailTitle]];
     self.navigationController.navigationBar.topItem.title = _detailTitle.name;
+    
+    [LBXControllerServices setViewDidAppearClearNavigationController:self];
     if (self.tableView.contentOffset.y > 0) {
         // Set the title alpha properly when returning from the issue view
         [self setNavBarAlpha:@(1 - self.overView.alpha)];

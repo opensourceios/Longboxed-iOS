@@ -432,12 +432,9 @@
         }
         case 2:
         {
-            // Selecting the featured issue
-            UIImage *image = [self.featuredIssueCoverButton backgroundImageForState:UIControlStateNormal];
-            
             LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_featuredIssue.title];
             titleViewController.titleID = _featuredIssue.title.titleID;
-            titleViewController.latestIssueImage = image;
+            titleViewController.latestIssueImage = [UIImage imageNamed:@"black"];
             
             [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", _featuredIssue.title]];
             [self.navigationController pushViewController:titleViewController animated:YES];

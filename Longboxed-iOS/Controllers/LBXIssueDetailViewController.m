@@ -46,6 +46,7 @@
 @implementation LBXIssueDetailViewController
 
 BOOL saveSheetVisible;
+BOOL selectedTitle;
 
 - (instancetype)initWithMainImage:(UIImage *)image {
     if(self = [super init]) {
@@ -211,14 +212,17 @@ BOOL saveSheetVisible;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //[LBXControllerServices setViewDidAppearClearNavigationController:self];
+    [LBXControllerServices setViewDidAppearClearNavigationController:self];
+    selectedTitle = NO;
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXIssue\n%@\ndid appear", _issue]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [LBXControllerServices setViewWillDisappearClearNavigationController:self];
+    if (!selectedTitle) {
+        [LBXControllerServices setViewWillDisappearClearNavigationController:self];
+    }
     self.navigationController.navigationBar.topItem.title = @" ";
 }
 
@@ -275,6 +279,7 @@ BOOL saveSheetVisible;
         }
         case 3: // Title button
         {
+            selectedTitle = YES;
             LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_issue.title];
             [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title: %@", _issue.title.description]];
             titleViewController.titleID = _issue.title.titleID;

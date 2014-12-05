@@ -540,6 +540,12 @@
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
++ (void)setViewDidAppearClearNavigationController:(UIViewController *)viewController
+{
+    [viewController.navigationController setNavigationBarHidden:YES animated:YES];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+}
+
 + (void)setViewWillDisappearClearNavigationController:(UIViewController *)viewController
 {
 //    if (!viewController.isBeingPresented || !viewController.isMovingToParentViewController) {
@@ -550,7 +556,17 @@
 //                                                                forBarMetrics:UIBarMetricsDefault];
 //        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
 //    }
-    [viewController.navigationController setNavigationBarHidden:NO animated:YES];
+    BOOL keepNavBarTransparent = NO;
+    UIViewController *previousVC = [viewController.navigationController.viewControllers objectAtIndex:viewController.navigationController.viewControllers.count-1];
+    
+    for (UIView *view in [previousVC.view subviews]) {
+        if ([view isKindOfClass:[UINavigationBar class]]) {
+            keepNavBarTransparent = YES;
+        }
+    }
+    
+    if (keepNavBarTransparent) [viewController.navigationController setNavigationBarHidden:YES animated:YES]; else [viewController.navigationController setNavigationBarHidden:NO animated:YES];
+    
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
@@ -559,7 +575,7 @@
 // http://keighl.com/post/ios7-interactive-pop-gesture-custom-back-button/
 + (void)setupTransparentNavigationBarForViewController:(UIViewController *)viewController
 {
-    UINavigationBar *transparentNavBar = [[UINavigationBar alloc] initWithFrame:viewController.navigationController.navigationBar.frame];
+    UINavigationBar *transparentNavBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, viewController.navigationController.navigationBar.frame.size.width, viewController.navigationController.navigationBar.frame.size.height)];
     [transparentNavBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     transparentNavBar.backIndicatorImage = [UIImage imageNamed:@"arrow"];
     UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:@" "];
