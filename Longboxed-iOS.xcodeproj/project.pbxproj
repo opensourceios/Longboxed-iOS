@@ -65,6 +65,7 @@
 		E55B685C1A1AF5E6008A5CFD /* SVWebViewControllerBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55B684D1A1AF5E6008A5CFD /* SVWebViewControllerBack@2x.png */; };
 		E55B685D1A1AF5E6008A5CFD /* SVWebViewControllerNext.png in Resources */ = {isa = PBXBuildFile; fileRef = E55B684E1A1AF5E6008A5CFD /* SVWebViewControllerNext.png */; };
 		E55B685E1A1AF5E6008A5CFD /* SVWebViewControllerNext@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55B684F1A1AF5E6008A5CFD /* SVWebViewControllerNext@2x.png */; };
+		E55B68611A324A81008A5CFD /* LBXBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E55B68601A324A81008A5CFD /* LBXBackButton.m */; };
 		E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */; };
 		E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB819D7C37E002DE4BA /* arrow_right_small_black@2x.png */; };
 		E57CCAC619CB8C8E0086B39E /* LBXSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E57CCAC419CB8C8E0086B39E /* LBXSearchTableViewCell.m */; };
@@ -172,7 +173,7 @@
 		E515746E19E4D1F20072EE3E /* LBXBottomTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXBottomTableViewCell.xib; path = Controllers/LBXBottomTableViewCell.xib; sourceTree = "<group>"; };
 		E5165E48198E8618001CDECA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E51AB56D19A405940066FFF6 /* LBXIssueDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssueDetailViewController.h; path = Controllers/LBXIssueDetailViewController.h; sourceTree = "<group>"; };
-		E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueDetailViewController.m; path = Controllers/LBXIssueDetailViewController.m; sourceTree = "<group>"; };
+		E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueDetailViewController.m; path = Controllers/LBXIssueDetailViewController.m; sourceTree = "<group>"; wrapsLines = 0; };
 		E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXIssueDetailViewController.xib; path = Controllers/LBXIssueDetailViewController.xib; sourceTree = "<group>"; };
 		E51D00F8196A1A9C005FCF25 /* LBXIssue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssue.h; path = Models/LBXIssue.h; sourceTree = "<group>"; };
 		E51D00F9196A1A9C005FCF25 /* LBXIssue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssue.m; path = Models/LBXIssue.m; sourceTree = "<group>"; };
@@ -235,6 +236,8 @@
 		E55B684D1A1AF5E6008A5CFD /* SVWebViewControllerBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SVWebViewControllerBack@2x.png"; sourceTree = "<group>"; };
 		E55B684E1A1AF5E6008A5CFD /* SVWebViewControllerNext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SVWebViewControllerNext.png; sourceTree = "<group>"; };
 		E55B684F1A1AF5E6008A5CFD /* SVWebViewControllerNext@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SVWebViewControllerNext@2x.png"; sourceTree = "<group>"; };
+		E55B685F1A324A81008A5CFD /* LBXBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXBackButton.h; path = Views/LBXBackButton.h; sourceTree = "<group>"; };
+		E55B68601A324A81008A5CFD /* LBXBackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXBackButton.m; path = Views/LBXBackButton.m; sourceTree = "<group>"; };
 		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
 		E575162219908AD00052D4C4 /* libPods-HockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-HockeySDK.a"; path = "Pods/build/Debug-iphoneos/libPods-HockeySDK.a"; sourceTree = "<group>"; };
@@ -637,6 +640,8 @@
 		E57D48FE1960960A0014A13F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E55B685F1A324A81008A5CFD /* LBXBackButton.h */,
+				E55B68601A324A81008A5CFD /* LBXBackButton.m */,
 				E515746419DCD1D00072EE3E /* LBXComicTableViewCell.h */,
 				E515746519DCD1D00072EE3E /* LBXComicTableViewCell.m */,
 				E515746619DCD1D00072EE3E /* LBXComicTableViewCell.xib */,
@@ -1205,6 +1210,7 @@
 				E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */,
 				E5E5163419CA446D005FBD43 /* UIFontDescriptor+AvenirNext.m in Sources */,
 				E5E5162D19CA446D005FBD43 /* NSArray+ArrayUtilities.m in Sources */,
+				E55B68611A324A81008A5CFD /* LBXBackButton.m in Sources */,
 				E5E5161619CA4450005FBD43 /* PaintCodeImages.m in Sources */,
 				E55B68591A1AF5E6008A5CFD /* SVWebViewControllerActivitySafari.m in Sources */,
 			);

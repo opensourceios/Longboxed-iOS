@@ -55,4 +55,7 @@
 + (void)setViewWillAppearClearNavigationController:(UIViewController *)viewController;
 + (void)setViewDidAppearClearNavigationController:(UIViewController *)viewController;
 
++ (void)setupTransparentNavigationBarForViewController:(UIViewController *)viewController;
++ (IBAction)buttonClicked:(id)sender;
+
 @end

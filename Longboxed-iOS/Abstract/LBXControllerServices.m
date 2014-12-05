@@ -8,6 +8,7 @@
 
 #import "LBXControllerServices.h"
 #import "UIFont+customFonts.h"
+#import "LBXBackButton.h"
 
 #import "NSDate+DateUtilities.h"
 #import "UIColor+customColors.h"
@@ -521,23 +522,22 @@
 + (void)setViewWillAppearClearNavigationController:(UIViewController *)viewController
 {
     
-    [viewController.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
-    [viewController.navigationController.navigationBar setBackIndicatorImage:
-     [UIImage imageNamed:@"arrow"]];
-    [viewController.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
-     [UIImage imageNamed:@"arrow"]];
-    
-    if (viewController.isBeingPresented || viewController.isMovingToParentViewController) {
-        viewController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        viewController.navigationController.navigationBar.topItem.title = @" ";
-        viewController.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-        [viewController.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                      forBarMetrics:UIBarMetricsDefault];
-        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
-    }
-//    viewController.navigationController.navigationBar.translucent = YES;
-//    viewController.navigationController.view.backgroundColor = [UIColor clearColor];
-//    [viewController.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+//    [viewController.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
+//    [viewController.navigationController.navigationBar setBackIndicatorImage:
+//     [UIImage imageNamed:@"arrow"]];
+//    [viewController.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
+//     [UIImage imageNamed:@"arrow"]];
+//    
+//    if (viewController.isBeingPresented || viewController.isMovingToParentViewController) {
+//        viewController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//        viewController.navigationController.navigationBar.topItem.title = @" ";
+//        viewController.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+//        [viewController.navigationController.navigationBar setBackgroundImage:[UIImage new]
+//                                                      forBarMetrics:UIBarMetricsDefault];
+//        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
+//    }
+    [viewController.navigationController setNavigationBarHidden:YES animated:YES];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 + (void)setViewDidAppearClearNavigationController:(UIViewController *)viewController
@@ -550,6 +550,48 @@
                                                                 forBarMetrics:UIBarMetricsDefault];
         viewController.navigationController.navigationBar.shadowImage = [UIImage new];
     }
+}
+
+// Custom transparent navigation bar with back button that pops correctly
+// References: http://stackoverflow.com/questions/19918734/transitioning-between-transparent-navigation-bar-to-translucent
+// http://keighl.com/post/ios7-interactive-pop-gesture-custom-back-button/
++ (void)setupTransparentNavigationBarForViewController:(UIViewController *)viewController
+{
+    UINavigationBar *transparentNavBar = [[UINavigationBar alloc] initWithFrame:viewController.navigationController.navigationBar.frame];
+    [transparentNavBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    transparentNavBar.backIndicatorImage = [UIImage imageNamed:@"arrow"];
+    UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:@" "];
+    LBXBackButton *button = [[LBXBackButton alloc] initWithFrame:CGRectMake(40, 40, -40, 40)];
+    button.parentViewController = viewController;
+    
+    [button setImage:[UIImage imageNamed:@"arrow.png"] forState:UIControlStateNormal];
+    //#pragma GCC diagnostic ignored "-Wundeclared-selector" // Ignore the warning about the following selector method
+    [button addTarget:[LBXControllerServices class] action:@selector(buttonClicked:)
+     forControlEvents:UIControlEventTouchUpInside];
+    button.tintColor = [UIColor whiteColor];
+    
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                       target:nil action:nil];
+    negativeSpacer.width = -16;// it was -6 in iOS 6
+    
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc]
+                                   initWithCustomView:button];
+    [transparentNavBar setShadowImage:[UIImage new]];
+    
+    navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+    navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    
+    [transparentNavBar pushNavigationItem:navigationItem animated:NO];
+    
+    viewController.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    
+    [viewController.view addSubview:transparentNavBar];
+}
+
++ (void)buttonClicked:(id)sender
+{
+    [((LBXBackButton *)sender).parentViewController.navigationController popViewControllerAnimated:YES];
 }
 
 @end

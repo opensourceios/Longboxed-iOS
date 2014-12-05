@@ -81,6 +81,8 @@ BOOL saveSheetVisible;
 {
     [super viewDidLoad];
     
+    [LBXControllerServices setupTransparentNavigationBarForViewController:self];
+    
     if (_issueImage == nil || [UIImagePNGRepresentation(_issueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
         _issueImage = [UIImage new];
         [self setupImageViews];
@@ -198,7 +200,6 @@ BOOL saveSheetVisible;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [LBXControllerServices setViewWillAppearClearNavigationController:self];
 }
 
@@ -210,13 +211,15 @@ BOOL saveSheetVisible;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [LBXControllerServices setViewDidAppearClearNavigationController:self];
+    //[LBXControllerServices setViewDidAppearClearNavigationController:self];
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXIssue\n%@\ndid appear", _issue]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     self.navigationController.navigationBar.topItem.title = @" ";
 }
 
