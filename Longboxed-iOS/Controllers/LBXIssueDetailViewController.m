@@ -112,6 +112,18 @@ BOOL saveSheetVisible;
     if (_issue.subtitle) {
         NSString *modifiedSubtitleString = [regex stringByReplacingMatchesInString:_issue.subtitle options:0 range:NSMakeRange(0, [_issue.subtitle length]) withTemplate:@""];
         _subtitleLabel.text = modifiedSubtitleString;
+        
+        
+        // Set a minimum height constraint for the subtitle
+        CGFloat height = [_subtitleLabel.text boundingRectWithSize:_subtitleLabel.frame.size
+                                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                                        attributes:@{NSFontAttributeName:_subtitleLabel.font}
+                                                           context:nil].size.height;
+        
+        [_subtitleLabel addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[subtitleLabel(==%d)]", (int)(ceil(height))]
+                                                                               options:0
+                                                                               metrics:nil
+                                                                                 views:@{@"subtitleLabel" : _subtitleLabel}]];
     }
     _distributorCodeLabel.text = _issue.diamondID;
     _priceLabel.text = [NSString stringWithFormat:@"$%.02f", [_issue.price floatValue]];
