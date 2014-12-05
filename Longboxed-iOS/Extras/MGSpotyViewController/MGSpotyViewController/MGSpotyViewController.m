@@ -76,7 +76,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     [_mainImageView setFrame:_frameRect];
     if (_backgroundImage) [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
     [_overView setFrame:_mainImageView.bounds];
-    [_whiteView setFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 18, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height)];
+    [_whiteView setFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 18 + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height)];
     
     [self.view setNeedsLayout];
 }
@@ -84,7 +84,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 - (void)loadView
 {
     //Create the view
-    UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].origin.x, [[UIScreen mainScreen] bounds].origin.y + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
     [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     view.backgroundColor = [UIColor whiteColor];
     
@@ -109,7 +109,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     _lastContentOffsetBlurEffect = _startContentOffset;
     
     // +18 for the height of the header
-    _whiteView = [[UIView alloc] initWithFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 18, _overView.bounds.size.width, view.frame.size.height - _overView.frame.size.height)];
+    _whiteView = [[UIView alloc] initWithFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 18 + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, _overView.bounds.size.width, view.frame.size.height - _overView.frame.size.height)];
     [_whiteView setBackgroundColor:[UIColor whiteColor]];
     [view insertSubview:_whiteView belowSubview:_tableView];
     
@@ -216,7 +216,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         [_mainImageView setFrame:CGRectMake(0.0 - diff/2.0, yPos, _overView.frame.size.width + absoluteY, _overView.frame.size.width + absoluteY + verticalAdjustment)];
         [_overView setFrame:CGRectMake(0.0, 0.0+absoluteY, _overView.frame.size.width, _overView.frame.size.height)];
         // +18 for the height of the header
-        _whiteView.frame = CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 18 + absoluteY, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height);
+        _whiteView.frame = CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + 18 + absoluteY + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height);
         
         
         if(scrollView.contentOffset.y < _startContentOffset.y-kMGOffsetEffects) {

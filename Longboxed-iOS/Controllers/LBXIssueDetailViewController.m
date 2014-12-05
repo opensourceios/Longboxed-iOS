@@ -218,8 +218,7 @@ BOOL saveSheetVisible;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    [LBXControllerServices setViewWillDisappearClearNavigationController:self];
     self.navigationController.navigationBar.topItem.title = @" ";
 }
 

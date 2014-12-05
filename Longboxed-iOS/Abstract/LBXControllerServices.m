@@ -540,16 +540,18 @@
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
-+ (void)setViewDidAppearClearNavigationController:(UIViewController *)viewController
++ (void)setViewWillDisappearClearNavigationController:(UIViewController *)viewController
 {
-    if (!viewController.isBeingPresented || !viewController.isMovingToParentViewController) {
-        viewController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        viewController.navigationController.navigationBar.topItem.title = @" ";
-        viewController.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-        [viewController.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                                forBarMetrics:UIBarMetricsDefault];
-        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
-    }
+//    if (!viewController.isBeingPresented || !viewController.isMovingToParentViewController) {
+//        viewController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//        viewController.navigationController.navigationBar.topItem.title = @" ";
+//        viewController.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+//        [viewController.navigationController.navigationBar setBackgroundImage:[UIImage new]
+//                                                                forBarMetrics:UIBarMetricsDefault];
+//        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
+//    }
+    [viewController.navigationController setNavigationBarHidden:NO animated:YES];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 // Custom transparent navigation bar with back button that pops correctly

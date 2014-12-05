@@ -75,7 +75,6 @@ int page;
      postNotificationName:@"setFrameAgain"
      object:self userInfo:nil];
     _detailView.frame = self.frameRect;
-    _detailView.bounds = self.frameRect;
     [self setOverView:_detailView];
     
     [self fetchTitle];
@@ -91,8 +90,10 @@ int page;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
+    [LBXControllerServices setupTransparentNavigationBarForViewController:self];
     [LBXControllerServices setViewWillAppearClearNavigationController:self];
+    
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
 
     [self setNavBarAlpha:@0];
@@ -121,14 +122,13 @@ int page;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    
+
     [LBXControllerServices setNumberOfLinesWithLabel:_detailView.titleLabel string:_detailTitle.name font:[UIFont titleDetailTitleFont]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [LBXControllerServices setViewDidAppearClearNavigationController:self];
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXTitle:\n%@\ndid appear", _detailTitle]];
     self.navigationController.navigationBar.topItem.title = _detailTitle.name;
     if (self.tableView.contentOffset.y > 0) {
@@ -143,6 +143,7 @@ int page;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [LBXControllerServices setViewWillDisappearClearNavigationController:self];
     [self setNavBarAlpha:@1];
     self.navigationController.navigationBar.topItem.title = @" ";
 }
@@ -194,7 +195,7 @@ int page;
     
     CGFloat addToPullListHeight = _detailView.addToPullListButton.frame.size.height;
     
-    self.frameRect = CGRectMake(0, 0, self.view.frame.size.width, MAX(titleHeight + publisherHeight + addToPullListHeight, _detailView.latestIssueImageView.frame.size.height));
+    self.frameRect = CGRectMake(0, self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width, MAX(titleHeight + publisherHeight + addToPullListHeight + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, _detailView.latestIssueImageView.frame.size.height));
 }
 
 - (void)updateDetailView
