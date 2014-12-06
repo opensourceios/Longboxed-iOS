@@ -35,6 +35,7 @@
 @property (nonatomic, copy) LBXTitle *detailTitle;
 @property (nonatomic, copy) LBXClient *client;
 @property (nonatomic, copy) LBXTitleDetailView *detailView;
+@property (nonatomic, copy) UILabel *navTitleView;
 @property (nonatomic, copy) NSArray *pullListArray;
 @property (nonatomic, copy) NSArray *issuesForTitleArray;
 
@@ -86,6 +87,15 @@ int page;
                                              selector:@selector(setForegroundImageView)
                                                  name:@"setTitleDetailForegroundImage"
                                                object:nil];
+    
+    _navTitleView = [UILabel new];
+    _navTitleView.frame = self.navigationController.navigationBar.frame;
+    _navTitleView.text = _detailTitle.name;
+    _navTitleView.textColor = [UIColor whiteColor];
+    _navTitleView.font = [UIFont navTitleFont];
+    _navTitleView.textAlignment = NSTextAlignmentCenter;
+    _navTitleView.alpha = 0.0;
+    [self.view addSubview:_navTitleView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -521,7 +531,7 @@ int page;
 
 - (void)setNavBarAlpha:(NSNumber *)alpha
 {
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:[alpha doubleValue]], NSFontAttributeName : [UIFont navTitleFont]}];
+    _navTitleView.alpha = [alpha doubleValue];
 }
 
 - (void)addTitle:(LBXTitle *)title
