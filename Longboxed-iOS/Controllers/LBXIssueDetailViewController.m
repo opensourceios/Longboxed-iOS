@@ -90,12 +90,7 @@ BOOL selectedTitle;
     }
     [self setupImagesWithImage:_issueImage];
     
-    NSError *error = nil;
-    
-    // Remove any HTML junk from text
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
-    
-    NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:_issue.title.name options:0 range:NSMakeRange(0, [_issue.title.name length]) withTemplate:@""];
+    NSString *modifiedTitleString = [LBXControllerServices regexOutHTMLJunk:_issue.title.name];
     [_titleButton setTitle:[NSString stringWithFormat:@"%@ #%@", modifiedTitleString, _issue.issueNumber] forState:UIControlStateNormal];
     [_titleButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _titleButton.titleLabel.font = [UIFont issueDetailTitleFont];
@@ -113,7 +108,7 @@ BOOL selectedTitle;
     
     _subtitleLabel.text = _issue.subtitle;
     if (_issue.subtitle) {
-        NSString *modifiedSubtitleString = [regex stringByReplacingMatchesInString:_issue.subtitle options:0 range:NSMakeRange(0, [_issue.subtitle length]) withTemplate:@""];
+        NSString *modifiedSubtitleString = [LBXControllerServices regexOutHTMLJunk:_issue.subtitle];
         _subtitleLabel.text = modifiedSubtitleString;
         
         
@@ -171,7 +166,7 @@ BOOL selectedTitle;
     [_releaseDateButton setTitleColor:[UIColor lightGrayColor]
                              forState:UIControlStateHighlighted];
     
-    NSString *modifiedDescriptionString = [regex stringByReplacingMatchesInString:_issue.issueDescription options:0 range:NSMakeRange(0, [_issue.issueDescription length]) withTemplate:@""];
+    NSString *modifiedDescriptionString = [LBXControllerServices regexOutHTMLJunk:_issue.issueDescription];
     _descriptionTextView.text = modifiedDescriptionString;
     _descriptionTextView.selectable = NO;
     [_descriptionTextView scrollRangeToVisible:NSMakeRange(0, 0)]; // Scroll to the top

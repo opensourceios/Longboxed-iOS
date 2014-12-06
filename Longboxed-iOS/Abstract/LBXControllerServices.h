@@ -33,6 +33,8 @@
                          withTitle:(LBXTitle *)title
                        darkenImage:(BOOL)darken;
 + (void)setTitleCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue;
++ (NSString *)regexOutHTMLJunk:(NSString *)string;
+
 + (void)setLabel:(UILabel *)textView
       withString:(NSString *)string
             font:(UIFont *)font

@@ -122,13 +122,13 @@ int page;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    
     [LBXControllerServices setNumberOfLinesWithLabel:_detailView.titleLabel string:_detailTitle.name font:[UIFont titleDetailTitleFont]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXTitle:\n%@\ndid appear", _detailTitle]];
     self.navigationController.navigationBar.topItem.title = _detailTitle.name;
     

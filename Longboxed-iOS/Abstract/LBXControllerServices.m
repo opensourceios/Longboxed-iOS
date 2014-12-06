@@ -262,9 +262,7 @@
 {
     NSString *subtitleString = [NSString stringWithFormat:@"%@", [self localTimeZoneStringWithDate:issue.releaseDate]];
     
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
-    NSString *modifiedTitleString = [regex stringByReplacingMatchesInString:issue.completeTitle options:0 range:NSMakeRange(0, [issue.completeTitle length]) withTemplate:@""];
+    NSString *modifiedTitleString = [self regexOutHTMLJunk:issue.completeTitle];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(issueNumber == %@) AND (title == %@)", issue.issueNumber, issue.title];
     NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
@@ -297,6 +295,15 @@
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         cell.latestIssueImageView.image = [self defaultCoverImage];
     }];
+}
+
++ (NSString *)regexOutHTMLJunk:(NSString *)string
+{
+    // Remove any HTML junk from text
+     NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    return [regex stringByReplacingMatchesInString:string options:0 range:NSMakeRange(0, [string length]) withTemplate:@" "];
 }
 
 + (void)setLabel:(UILabel *)textView

@@ -208,7 +208,7 @@
         }
     }
     
-    self.featuredDescriptionLabel.text = _featuredIssue.issueDescription;
+    self.featuredDescriptionLabel.text = [LBXControllerServices regexOutHTMLJunk:_featuredIssue.issueDescription];
     self.featuredDescriptionLabel.textColor = UIColor.whiteColor;
     _featuredDescriptionLabel.font = [UIFont featuredIssueDescriptionFont];
     self.featuredIssueTitleLabel.text = [_featuredIssue.title.name uppercaseString];
