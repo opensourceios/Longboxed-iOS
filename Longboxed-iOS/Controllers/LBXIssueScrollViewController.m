@@ -48,9 +48,7 @@ CGRect screenRect;
 {
     [super viewDidLoad];
     
-    [LBXControllerServices setupTransparentNavigationBarForViewController:self];
-    
-    CGRect viewFrame = self.view.frame;
+    CGRect viewFrame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
     int navAndStatusHeight = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
     viewFrame.origin.y -= navAndStatusHeight;
     viewFrame.size.height += navAndStatusHeight;
@@ -60,6 +58,14 @@ CGRect screenRect;
     _scrollView.bounces = NO;
     _scrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
     [self.view addSubview:_scrollView];
+    
+    [LBXControllerServices setupTransparentNavigationBarForViewController:self];
+    
+    // Fix so the swipe to go back gesture works with a horizontal scrollview
+    // http://stackoverflow.com/questions/23267929/combine-uipageviewcontroller-swipes-with-ios-7-uinavigationcontroller-back-swipe
+    for (UIGestureRecognizer *gestureRecognizer in _scrollView.gestureRecognizers) {
+        [gestureRecognizer requireGestureRecognizerToFail:self.navigationController.interactivePopGestureRecognizer];
+    }
     
     screenRect = self.view.bounds;
     CGRect bigRect = screenRect;
@@ -89,6 +95,10 @@ CGRect screenRect;
 {
     [super viewWillDisappear:animated];
     [LBXControllerServices setViewWillDisappearClearNavigationController:self];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark Private Methods

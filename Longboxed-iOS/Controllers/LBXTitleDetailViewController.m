@@ -245,9 +245,9 @@ int page;
         
         NSString *timeSinceString = [LBXControllerServices timeSinceLastIssueForTitle:_detailTitle];
         
-        NSString *subtitleString = [NSString stringWithFormat:@"Issue %@ released %@", issue.issueNumber, timeSinceString];
+        NSString *subtitleString = [NSString stringWithFormat:@"Latest issue released %@", timeSinceString];
         if ([timeSinceString hasPrefix:@"in"]) {
-            subtitleString = [NSString stringWithFormat:@"Issue %@ will be released %@", issue.issueNumber, timeSinceString];
+            subtitleString = [NSString stringWithFormat:@"Next issue will be released %@", timeSinceString];
         }
         _detailView.latestIssueLabel.text = subtitleString;
     }

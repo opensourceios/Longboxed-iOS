@@ -82,7 +82,8 @@ BOOL selectedTitle;
 {
     [super viewDidLoad];
     
-    [LBXControllerServices setupTransparentNavigationBarForViewController:self];
+    // Don't do setup if contained in scroll view (has variant issues)
+    if (self.parentViewController) [LBXControllerServices setupTransparentNavigationBarForViewController:self];
     
     if (_issueImage == nil || [UIImagePNGRepresentation(_issueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
         _issueImage = [UIImage new];
