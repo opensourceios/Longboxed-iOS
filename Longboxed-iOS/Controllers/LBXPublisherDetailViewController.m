@@ -67,10 +67,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     
     [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
     
-    // Keep the section header on the top
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.tableView.contentInset = UIEdgeInsetsZero;
-    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     self.tableView.sectionIndexColor = [UIColor lightGrayColor];
     
