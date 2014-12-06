@@ -75,16 +75,15 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 {
     [_mainImageView setFrame:CGRectMake(0, 0, _frameRect.size.width, _frameRect.size.height)];
     if (_backgroundImage) [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
-    [_overView setFrame:_mainImageView.bounds];
-    [_whiteView setFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height)];
-    
+    [_overView setFrame:CGRectMake(_mainImageView.bounds.origin.x, _mainImageView.bounds.origin.y, _mainImageView.frame.size.width, _mainImageView.frame.size.height + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)];
+    [_whiteView setFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height)];
     [self.view setNeedsLayout];
 }
 
 - (void)loadView
 {
     //Create the view
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].origin.x, [[UIScreen mainScreen] bounds].origin.y + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].origin.x, [[UIScreen mainScreen] bounds].origin.y , [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)];
     [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     view.backgroundColor = [UIColor whiteColor];
     
@@ -94,7 +93,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     [view addSubview:_mainImageView];
 
     [_overView setFrame:_mainImageView.bounds];
-    [_overView setBackgroundColor:[UIColor clearColor]];
+    [_overView setBounds:CGRectMake(_mainImageView.bounds.origin.x, _mainImageView.bounds.origin.y, _mainImageView.frame.size.width, _mainImageView.frame.size.height + 100)];
     [view addSubview:_overView];
     
     [_tableView setFrame:view.frame];
@@ -207,7 +206,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 
         // Adjustment for images with a height that is less than _mainImageView
         int verticalAdjustment = (self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
-        verticalAdjustment += 9; // Half of the section header height
+        //verticalAdjustment += 9; // Half of the section header height
         
         CGFloat yPos = -(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
         

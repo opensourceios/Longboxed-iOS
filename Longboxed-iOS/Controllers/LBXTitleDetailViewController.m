@@ -77,6 +77,7 @@ int page;
      postNotificationName:@"setFrameAgain"
      object:self userInfo:nil];
     _detailView.frame = self.frameRect;
+    _detailView.bounds = CGRectMake(self.frameRect.origin.x, self.frameRect.origin.y - self.navigationController.navigationBar.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height, self.frameRect.size.width, self.frameRect.size.height);
     [self setOverView:_detailView];
     
     [self fetchTitle];
