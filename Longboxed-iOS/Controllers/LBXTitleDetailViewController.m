@@ -159,7 +159,6 @@ int page;
 {
     [super viewWillDisappear:animated];
     [LBXControllerServices setViewWillDisappearClearNavigationController:self];
-    [self setNavBarAlpha:@1];
     self.navigationController.navigationBar.topItem.title = @" ";
 }
 

@@ -104,7 +104,6 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     [_tableView setDataSource:self];
     [view insertSubview:_tableView belowSubview:_overView];
     
-    //[_tableView setContentInset:UIEdgeInsetsMake(20.0, 0, 0, 0)];
     _startContentOffset = _tableView.contentOffset;
     _lastContentOffsetBlurEffect = _startContentOffset;
     
@@ -243,14 +242,14 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     }
     if (scrollView.contentOffset.y > _startContentOffset.y + 80) {
         [self.view bringSubviewToFront:_tableView];
-        CGFloat diff =  scrollView.contentOffset.y- _startContentOffset.y-80;
+        CGFloat diff =  scrollView.contentOffset.y - _startContentOffset.y-80;
         CGFloat scale = (kLBBlurredImageDefaultBlurRadius/kMGOffsetEffects) / 55;
         [_overView setAlpha:1.0 - diff*scale];
         
     }
     if (scrollView.contentOffset.y > _startContentOffset.y + 18) {
         [self.view bringSubviewToFront:_tableView];
-        CGFloat diff =  scrollView.contentOffset.y- _startContentOffset.y-18;
+        CGFloat diff =  scrollView.contentOffset.y - _startContentOffset.y-18;
         CGFloat scale = (kLBBlurredImageDefaultBlurRadius/kMGOffsetEffects) / 25;
         for (UIView *subView in _overView.subviews) {
             if ([subView isKindOfClass:[LBXTitleDetailView class]]) {
