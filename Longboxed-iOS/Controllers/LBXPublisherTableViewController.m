@@ -163,8 +163,6 @@ BOOL endOfPublishers;
         }
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        
-        UIImage *defaultImage = [UIImage imageByDrawingInitialsOnImage:[UIImage imageWithColor:[UIColor clearColor] rect:cell.latestIssueImageView.frame] withInitials:publisher.name font:[UIFont defaultPublisherInitialsFont]];
         cell.latestIssueImageView.image = defaultImage;
     }];
     
