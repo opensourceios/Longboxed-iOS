@@ -105,12 +105,17 @@ UICKeyChainStore *store;
 
 - (void)donePressed
 {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"reloadDashboardTableView"
+     object:self];
     [self.navigationController pushViewController:self.dashController animated:YES];
 }
 
 - (void)removeCredentials
 {
-    [UICKeyChainStore removeAllItems];
+    [UICKeyChainStore removeItemForKey:@"username"];
+    [UICKeyChainStore removeItemForKey:@"password"];
+    [UICKeyChainStore removeItemForKey:@"id"];
     [store synchronize]; // Write to keychain.
 }
 
@@ -244,7 +249,6 @@ UICKeyChainStore *store;
         NSLog(@"%ld", (long)response.HTTPRequestOperation.response.statusCode);
         if (response.HTTPRequestOperation.response.statusCode == 200) {
             dispatch_async(dispatch_get_main_queue(),^{
-                [LBXLogging logMessage:[NSString stringWithFormat:@"Logged in %@", _usernameField.text]];
                 [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
                 [store synchronize];
                 [LBXMessageBar successfulLogin];
@@ -253,7 +257,7 @@ UICKeyChainStore *store;
             });
         }
         else {
-            [LBXLogging logMessage:[NSString stringWithFormat:@"Logged out %@", _usernameField.text]];
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Incorrect log in %@", _usernameField.text]];
             [self removeCredentials];
             [self setButtonsForLoggedOut];
             [LBXDatabaseManager flushDatabase];

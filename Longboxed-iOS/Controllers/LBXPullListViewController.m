@@ -27,6 +27,7 @@
 #import "LBXMessageBar.h"
 #import "SVProgressHUD.h"
 
+#import <UICKeyChainStore.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <POP.h>
 
@@ -222,18 +223,28 @@ CGFloat cellWidth;
 
 - (void)setupSearchView
 {
-    // Blur the current screen
-    //[self blurScreen];
-    // Put the search bar in front of the blurred view
-    [self.view bringSubviewToFront:_searchBar];
-    
-    // Show the search bar
-    _searchBar.hidden = NO;
-    _searchBar.translucent = NO;
-    _searchBar.backgroundImage = [UIImage imageNamed:@"longboxed_full"];
-    _searchBar.scopeBarBackgroundImage = [UIImage imageNamed:@"longboxed_full"];
-    [_searchBar becomeFirstResponder];
-    [self.searchDisplayController setActive:YES animated:NO];
+    if ([UICKeyChainStore stringForKey:@"id"]) {
+        // Blur the current screen
+        //[self blurScreen];
+        // Put the search bar in front of the blurred view
+        [self.view bringSubviewToFront:_searchBar];
+        
+        // Show the search bar
+        _searchBar.hidden = NO;
+        _searchBar.translucent = NO;
+        _searchBar.backgroundImage = [UIImage imageNamed:@"longboxed_full"];
+        _searchBar.scopeBarBackgroundImage = [UIImage imageNamed:@"longboxed_full"];
+        [_searchBar becomeFirstResponder];
+        [self.searchDisplayController setActive:YES animated:NO];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not Logged In"
+                                                        message:@"You must be logged into Longboxed account to create a pull list."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
 
 }
 

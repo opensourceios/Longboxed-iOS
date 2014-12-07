@@ -43,11 +43,14 @@
 @property (nonatomic, strong) NSArray *bundleIssuesArray;
 @property (nonatomic, strong) NSMutableArray *lastFiveBundlesIssuesArray;
 @property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, strong) NSArray *tableConstraints;
 @property (nonatomic) NSArray *searchResultsArray;
 
 @end
 
 @implementation LBXDashboardViewController
+
+static double TABLEHEIGHT = 174;
 
 @synthesize topTableView;
 @synthesize bottomTableView;
@@ -81,6 +84,11 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(pushToIssueWithDict:)
                                                      name:@"pushToIssueWithDict"
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(reloadTableView)
+                                                     name:@"reloadDashboardTableView"
                                                    object:nil];
         
         self.browseTableView.contentInset = UIEdgeInsetsMake(-2, 0, -2, 0);
@@ -159,6 +167,23 @@
     [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
     
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
+    
+    [self reloadTableView];
+}
+
+- (void)reloadTableView
+{
+    [_browseTableView removeConstraints:_tableConstraints];
+    double height = TABLEHEIGHT;
+    if (![UICKeyChainStore stringForKey:@"id"]) {
+        height = TABLEHEIGHT/2;
+    }
+    _tableConstraints = [NSLayoutConstraint
+                        constraintsWithVisualFormat:@"V:[browseTableView(tableViewHeight)]"
+                        options:0
+                        metrics:@{@"tableViewHeight" : [NSNumber numberWithDouble:height]}
+                        views:@{@"browseTableView" : _browseTableView}];
+    [_browseTableView addConstraints:_tableConstraints];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -537,7 +562,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.browseTableView) return 4;
+    if (tableView == self.browseTableView && [UICKeyChainStore stringForKey:@"id"]) return 4;
+    if (tableView == self.browseTableView) return 2;
     if (tableView == self.searchResultsController.tableView) {
         if (_searchResultsArray.count == 0) {
             return 1;
