@@ -618,11 +618,14 @@ int _page;
     NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
     
     cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f  •  %@ Variant Covers", issue.issueNumber, [issue.price floatValue], [NSNumber numberWithFloat:initialFind.count-1]].uppercaseString;
+    
+    NSString *issueString = (issue.issueNumber) ? [NSString stringWithFormat:@"Issue %@  •  ", issue.issueNumber] : @"";
+    
     if (initialFind.count == 1) {
-        cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f", issue.issueNumber, [issue.price floatValue]].uppercaseString;
+        cell.subtitleLabel.text = [NSString stringWithFormat:@"%@$%.02f", issueString, [issue.price floatValue]].uppercaseString;
     }
     else if (initialFind.count == 2) {
-        cell.subtitleLabel.text = [NSString stringWithFormat:@"Issue %@  •  $%.02f  •  %@ Variant Cover", issue.issueNumber, [issue.price floatValue], [NSNumber numberWithFloat:initialFind.count-1]].uppercaseString;
+        cell.subtitleLabel.text = [NSString stringWithFormat:@"%@$%.02f  •  %@ Variant Cover", issueString, [issue.price floatValue], [NSNumber numberWithFloat:initialFind.count-1]].uppercaseString;
     }
     
     [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[LBXControllerServices defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
