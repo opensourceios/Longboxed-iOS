@@ -77,6 +77,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     if (_backgroundImage) [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
     [_overView setFrame:CGRectMake(_mainImageView.bounds.origin.x, _mainImageView.bounds.origin.y, _mainImageView.frame.size.width, _mainImageView.frame.size.height + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)];
     [_whiteView setFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height)];
+    
     [self.view setNeedsLayout];
 }
 
@@ -93,19 +94,19 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
     [view addSubview:_mainImageView];
 
     [_overView setFrame:_mainImageView.bounds];
-    [_overView setBounds:CGRectMake(_mainImageView.bounds.origin.x, _mainImageView.bounds.origin.y, _mainImageView.frame.size.width, _mainImageView.frame.size.height + 100)];
+    [_overView setBounds:CGRectMake(_mainImageView.bounds.origin.x, _mainImageView.bounds.origin.y, _mainImageView.frame.size.width, _mainImageView.frame.size.height)];
     [view addSubview:_overView];
     
-    [_tableView setFrame:view.frame];
+    [_tableView setFrame:CGRectMake([[UIScreen mainScreen] bounds].origin.x, self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height - self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)];
+    _startContentOffset = _tableView.contentOffset;
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.navigationController.navigationBar.frame.size.height - 4, 0);
+    
     [_tableView setShowsVerticalScrollIndicator:YES];
     [_tableView setBackgroundColor:[UIColor clearColor]];
     [_tableView setDelegate:self];
     [_tableView setDataSource:self];
     [view insertSubview:_tableView belowSubview:_overView];
-    
-    _startContentOffset = _tableView.contentOffset;
-    _lastContentOffsetBlurEffect = _startContentOffset;
-    
+
     _whiteView = [[UIView alloc] initWithFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, _overView.bounds.size.width, view.frame.size.height - _overView.frame.size.height)];
     [_whiteView setBackgroundColor:[UIColor whiteColor]];
     [view insertSubview:_whiteView belowSubview:_tableView];
@@ -157,15 +158,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 }
 
 - (void)setCustomBlurredBackgroundImageWithImage:(UIImage *)image
-{
-    [UIView transitionWithView:_mainImageView
-                      duration:0.5f
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-                        _mainImageView.image = image;
-                    }
-                    completion:NULL];
-    
+{    
     _backgroundImage = image;
 
     // Adjustment for images with a height that is less than _mainImageView
@@ -200,20 +193,17 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if(scrollView.contentOffset.y <= _startContentOffset.y) {
-        //Image size effects
+        // Image size effects
         CGFloat absoluteY = ABS(scrollView.contentOffset.y);
         CGFloat diff = _startContentOffset.y - scrollView.contentOffset.y;
 
         // Adjustment for images with a height that is less than _mainImageView
-        int verticalAdjustment = (self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
-        //verticalAdjustment += 9; // Half of the section header height
+        CGFloat verticalAdjustment = (self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
         
-        CGFloat yPos = -(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
-        
-        [_mainImageView setFrame:CGRectMake(0.0 - diff/2.0, yPos, _overView.frame.size.width + absoluteY, _overView.frame.size.width + absoluteY + verticalAdjustment)];
+        [_mainImageView setFrame:CGRectMake(0.0 - diff/2.0, 0, _overView.frame.size.width + absoluteY, _overView.frame.size.width + absoluteY + verticalAdjustment)];
         [_overView setFrame:CGRectMake(0.0, 0.0+absoluteY, _overView.frame.size.width, _overView.frame.size.height)];
         // +18 for the height of the header
-        _whiteView.frame = CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + absoluteY + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height);
+        _whiteView.frame = CGRectMake(_overView.frame.origin.x, _overView.frame.size.height + absoluteY, _overView.bounds.size.width, self.view.frame.size.height - _overView.frame.size.height);
         
         
         if(scrollView.contentOffset.y < _startContentOffset.y-kMGOffsetEffects) {
@@ -240,14 +230,14 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         });
     }
     if (scrollView.contentOffset.y > _startContentOffset.y + 80) {
-        [self.view bringSubviewToFront:_tableView];
+        [self.view insertSubview:_tableView aboveSubview:_overView];
         CGFloat diff =  scrollView.contentOffset.y - _startContentOffset.y-80;
         CGFloat scale = (kLBBlurredImageDefaultBlurRadius/kMGOffsetEffects) / 55;
         [_overView setAlpha:1.0 - diff*scale];
         
     }
     if (scrollView.contentOffset.y > _startContentOffset.y + 18) {
-        [self.view bringSubviewToFront:_tableView];
+        [self.view insertSubview:_tableView aboveSubview:_overView];
         CGFloat diff =  scrollView.contentOffset.y - _startContentOffset.y-18;
         CGFloat scale = (kLBBlurredImageDefaultBlurRadius/kMGOffsetEffects) / 25;
         for (UIView *subView in _overView.subviews) {
@@ -267,7 +257,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         }
     }
     else {
-        [self.view bringSubviewToFront:_overView];
+        [self.view insertSubview:_overView aboveSubview:_tableView];
         for (UIView *subView in _overView.subviews) {
             if ([subView isKindOfClass:[LBXTitleDetailView class]]) {
                 for (UIView *subSubView in subView.subviews) {
@@ -292,7 +282,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if(section == 0) {
-        UIView *transparentView = [[UIView alloc] initWithFrame:_overView.bounds];
+        UIView *transparentView = [[UIView alloc] initWithFrame:CGRectMake(_overView.frame.origin.x, _overView.frame.origin.y - (self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height), _overView.frame.size.width, _overView.frame.size.height)];
         [transparentView setBackgroundColor:[UIColor clearColor]];
         return transparentView;
     }
@@ -302,7 +292,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if(section == 0)
-        return _overView.frame.size.height;
+        return _overView.frame.size.height - (self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
     
     return 0.0;
 }

@@ -52,7 +52,6 @@ int page;
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    [LBXControllerServices setupTransparentNavigationBarForViewController:self];
     
     // Calls perferredStatusBarStyle
     [self setNeedsStatusBarAppearanceUpdate];
@@ -97,6 +96,8 @@ int page;
     _navTitleView.textAlignment = NSTextAlignmentCenter;
     _navTitleView.alpha = 0.0;
     [self.view addSubview:_navTitleView];
+    
+    [LBXControllerServices setupTransparentNavigationBarForViewController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -111,7 +112,6 @@ int page;
 
     // Keep the section header on the top
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
@@ -696,6 +696,7 @@ int page;
     else {
         [self setNavBarAlpha:@0];
     }
+    
     return [super scrollViewDidScroll:scrollView];
 }
 
