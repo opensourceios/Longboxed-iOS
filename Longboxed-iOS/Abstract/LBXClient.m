@@ -45,6 +45,7 @@
              credentials:(BOOL)credentials
               completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     if (credentials) {
         // Set the shared manager auth
         [LBXClient setAuth];
@@ -59,6 +60,7 @@
     
     [RKObjectManager.sharedManager getObjectsAtPath:path parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult)
     {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         if (completion) {
             completion(mappingResult, operation, nil);
         }
@@ -77,6 +79,7 @@
               credentials:(BOOL)credentials
                completion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     // Set up the URL route with the parameter suffix
     NSDictionary *endpointDict = [LBXEndpoints endpoints];
     
@@ -95,7 +98,7 @@
     [client postPath:postPath
           parameters:jsonParameters
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                 
+                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                  
                  
@@ -118,6 +121,7 @@
               credentials:(BOOL)credentials
                completion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     // Set up the URL route with the parameter suffix
     NSDictionary *endpointDict = [LBXEndpoints endpoints];
     
@@ -132,7 +136,7 @@
     [client deletePath:deletePath
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                 
+                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                  
                  if (completion) {

@@ -158,7 +158,7 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
 }
 
 - (void)setCustomBlurredBackgroundImageWithImage:(UIImage *)image
-{    
+{
     _backgroundImage = image;
 
     // Adjustment for images with a height that is less than _mainImageView
