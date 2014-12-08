@@ -223,7 +223,7 @@ CGFloat cellWidth;
 
 - (void)setupSearchView
 {
-    if ([UICKeyChainStore stringForKey:@"id"]) {
+    if ([LBXControllerServices isLoggedIn]) {
         // Blur the current screen
         //[self blurScreen];
         // Put the search bar in front of the blurred view

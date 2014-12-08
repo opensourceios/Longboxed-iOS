@@ -16,6 +16,7 @@
 #import "PaintCodeImages.h"
 
 #import <UIImageView+AFNetworking.h>
+#import <UICKeyChainStore.h>
 #import <CommonCrypto/CommonDigest.h>
 
 @interface LBXControllerServices ()
@@ -528,21 +529,6 @@
 
 + (void)setViewWillAppearClearNavigationController:(UIViewController *)viewController
 {
-    
-//    [viewController.navigationController.navigationBar.backItem.backBarButtonItem setImageInsets:UIEdgeInsetsMake(40, 40, -40, 40)];
-//    [viewController.navigationController.navigationBar setBackIndicatorImage:
-//     [UIImage imageNamed:@"arrow"]];
-//    [viewController.navigationController.navigationBar setBackIndicatorTransitionMaskImage:
-//     [UIImage imageNamed:@"arrow"]];
-//    
-//    if (viewController.isBeingPresented || viewController.isMovingToParentViewController) {
-//        viewController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-//        viewController.navigationController.navigationBar.topItem.title = @" ";
-//        viewController.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-//        [viewController.navigationController.navigationBar setBackgroundImage:[UIImage new]
-//                                                      forBarMetrics:UIBarMetricsDefault];
-//        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
-//    }
     [viewController.navigationController setNavigationBarHidden:YES animated:YES];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
@@ -555,14 +541,6 @@
 
 + (void)setViewWillDisappearClearNavigationController:(UIViewController *)viewController
 {
-//    if (!viewController.isBeingPresented || !viewController.isMovingToParentViewController) {
-//        viewController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-//        viewController.navigationController.navigationBar.topItem.title = @" ";
-//        viewController.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-//        [viewController.navigationController.navigationBar setBackgroundImage:[UIImage new]
-//                                                                forBarMetrics:UIBarMetricsDefault];
-//        viewController.navigationController.navigationBar.shadowImage = [UIImage new];
-//    }
     BOOL keepNavBarTransparent = NO;
     UIViewController *previousVC = [viewController.navigationController.viewControllers objectAtIndex:viewController.navigationController.viewControllers.count-1];
     
@@ -591,7 +569,7 @@
     
     [button setImage:[UIImage imageNamed:@"arrow.png"] forState:UIControlStateNormal];
     //#pragma GCC diagnostic ignored "-Wundeclared-selector" // Ignore the warning about the following selector method
-    [button addTarget:[LBXControllerServices class] action:@selector(buttonClicked:)
+    [button addTarget:[LBXControllerServices class] action:@selector(backButtonClicked:)
      forControlEvents:UIControlEventTouchUpInside];
     button.tintColor = [UIColor whiteColor];
     
@@ -614,9 +592,15 @@
     [viewController.view addSubview:transparentNavBar];
 }
 
-+ (void)buttonClicked:(id)sender
++ (void)backButtonClicked:(id)sender
 {
     [((LBXBackButton *)sender).parentViewController.navigationController popViewControllerAnimated:YES];
 }
+
++ (BOOL)isLoggedIn
+{
+    if ([UICKeyChainStore stringForKey:@"id"]) return YES; else return NO;
+}
+
 
 @end

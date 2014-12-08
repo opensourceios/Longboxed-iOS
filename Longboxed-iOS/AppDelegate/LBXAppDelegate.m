@@ -11,6 +11,7 @@
 #import "LBXDashboardViewController.h"
 #import "LBXClient.h"
 #import "LBXLogging.h"
+#import "LBXControllerServices.h"
 
 #import "UIFont+customFonts.h"
 
@@ -21,7 +22,6 @@
 #import "NSLogger.h"
 #import "PSDDFormatter.h"
 
-#import <UICKeyChainStore.h>
 #import <Crashlytics/Crashlytics.h>
 
 @implementation LBXAppDelegate
@@ -151,7 +151,7 @@
         }
     }];
     
-    if ([UICKeyChainStore stringForKey:@"id"]) {
+    if ([LBXControllerServices isLoggedIn]) {
         // Fetch the users bundles
         [client fetchBundleResourcesWithCompletion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {

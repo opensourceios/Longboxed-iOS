@@ -59,6 +59,8 @@
 + (void)setViewWillDisappearClearNavigationController:(UIViewController *)viewController;
 
 + (void)setupTransparentNavigationBarForViewController:(UIViewController *)viewController;
-+ (void)buttonClicked:(id)sender;
++ (void)backButtonClicked:(id)sender;
+
++ (BOOL)isLoggedIn;
 
 @end

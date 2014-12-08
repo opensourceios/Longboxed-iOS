@@ -251,7 +251,6 @@ int page;
     
     _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
     if (_detailTitle.latestIssue != nil) {
-        LBXIssue *issue = [LBXControllerServices closestIssueForTitle:_detailTitle];
         
         NSString *timeSinceString = [LBXControllerServices timeSinceLastIssueForTitle:_detailTitle];
         

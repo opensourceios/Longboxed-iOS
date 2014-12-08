@@ -29,6 +29,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *featuredIssueTitleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *featuredDescriptionLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *featuredBlurredImageView;
+@property (nonatomic, retain) IBOutlet UIView *thisWeekView;
 @property (nonatomic, retain) IBOutlet LBXTopTableViewCell *topTableViewCell;
 @property (nonatomic, retain) IBOutlet LBXBottomTableViewCell *bottomTableViewCell;
 

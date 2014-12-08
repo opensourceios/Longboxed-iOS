@@ -18,6 +18,7 @@
                 <outlet property="searchBar" destination="eDq-OV-8AS" id="efL-1w-gkW"/>
                 <outlet property="separatorView" destination="xaR-0e-m4e" id="15c-k7-JH3"/>
                 <outlet property="thisWeekLabel" destination="8HB-Eq-bhK" id="UsS-Yc-GgS"/>
+                <outlet property="thisWeekView" destination="8PZ-k4-aqN" id="CGb-uF-07F"/>
                 <outlet property="topTableView" destination="slL-OO-oAz" id="bnZ-iS-8NI"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -37,7 +38,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" scrollEnabled="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" sectionIndexMinimumDisplayRowCount="1" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="slL-OO-oAz">
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" scrollEnabled="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" sectionIndexMinimumDisplayRowCount="1" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="slL-OO-oAz" userLabel="Top Table View">
                             <rect key="frame" x="20" y="315" width="320" height="105"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
@@ -65,7 +66,7 @@
                                 <outlet property="delegate" destination="-1" id="KlO-8B-oCW"/>
                             </connections>
                         </tableView>
-                        <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" scrollEnabled="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xmk-nS-8Ps">
+                        <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" scrollEnabled="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xmk-nS-8Ps" userLabel="Bottom Table View">
                             <rect key="frame" x="20" y="459" width="320" height="104.5"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="150" id="KKZ-hR-g2A">
@@ -87,15 +88,12 @@
                                 <outlet property="delegate" destination="-1" id="N7k-q7-ESL"/>
                             </connections>
                         </tableView>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7rd-mt-NSU">
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7rd-mt-NSU" userLabel="Bundle Button">
                             <rect key="frame" x="32" y="291" width="6" height="20"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                             <state key="normal" image="arrow_right_small_black.png">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
-                            <variation key="widthClass=compact" misplaced="YES">
-                                <rect key="frame" x="22" y="480.5" width="8" height="20"/>
-                            </variation>
                         </button>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y8v-qX-v5k">
                             <rect key="frame" x="32" y="435" width="70" height="20"/>
@@ -104,9 +102,6 @@
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
-                            <variation key="widthClass=compact" misplaced="YES">
-                                <rect key="frame" x="22" y="700" width="72" height="20"/>
-                            </variation>
                         </button>
                         <searchBar userInteractionEnabled="NO" contentMode="redraw" ambiguous="YES" misplaced="YES" searchBarStyle="minimal" placeholder="Search Comics" translatesAutoresizingMaskIntoConstraints="NO" id="eDq-OV-8AS">
                             <rect key="frame" x="20" y="64" width="320" height="44"/>
@@ -157,11 +152,19 @@
                             <rect key="frame" x="20" y="152" width="320" height="87"/>
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="87" id="ar3-h2-Pex">
-                                    <variation key="widthClass=compact" constant="174"/>
-                                </constraint>
+                                <constraint firstAttribute="height" constant="174" id="4Ld-SN-UwW"/>
                             </constraints>
                             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="16" maxY="0.0"/>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="4Ld-SN-UwW"/>
+                                </mask>
+                            </variation>
+                            <variation key="widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="4Ld-SN-UwW"/>
+                                </mask>
+                            </variation>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="y2V-CS-zNI"/>
                                 <outlet property="delegate" destination="-1" id="LmA-9E-mrN"/>
@@ -284,6 +287,7 @@
                         <constraint firstItem="8PZ-k4-aqN" firstAttribute="leading" secondItem="8HB-Eq-bhK" secondAttribute="trailing" id="46O-tz-wmu"/>
                         <constraint firstItem="7rd-mt-NSU" firstAttribute="top" secondItem="8HB-Eq-bhK" secondAttribute="bottom" constant="4" id="46e-1W-FAB"/>
                         <constraint firstItem="slL-OO-oAz" firstAttribute="top" secondItem="8PZ-k4-aqN" secondAttribute="bottom" id="4B4-AE-vof"/>
+                        <constraint firstItem="y8v-qX-v5k" firstAttribute="top" secondItem="7rd-mt-NSU" secondAttribute="bottom" priority="750" constant="4" id="9ZC-J8-j5T"/>
                         <constraint firstItem="y8v-qX-v5k" firstAttribute="leading" secondItem="7rd-mt-NSU" secondAttribute="leading" id="9qt-sI-iJJ"/>
                         <constraint firstAttribute="bottom" secondItem="xmk-nS-8Ps" secondAttribute="bottom" constant="4" id="C0r-Ye-6Jw">
                             <variation key="widthClass=compact" constant="24"/>
@@ -307,6 +311,9 @@
                         <constraint firstItem="8HB-Eq-bhK" firstAttribute="leading" secondItem="6gX-gt-tvL" secondAttribute="leading" constant="8" id="OLv-va-L1e">
                             <variation key="widthClass=compact" constant="18"/>
                         </constraint>
+                        <constraint firstItem="xmk-nS-8Ps" firstAttribute="top" secondItem="8PZ-k4-aqN" secondAttribute="bottom" priority="250" constant="4" id="OxR-4L-Xou">
+                            <variation key="widthClass=compact" constant="0.0"/>
+                        </constraint>
                         <constraint firstItem="7rd-mt-NSU" firstAttribute="leading" secondItem="8HB-Eq-bhK" secondAttribute="leading" id="Tb3-HZ-9G1">
                             <variation key="widthClass=compact" constant="4"/>
                         </constraint>
@@ -325,6 +332,7 @@
                             <variation key="widthClass=compact" constant="0.0"/>
                         </constraint>
                         <constraint firstItem="qDD-QZ-csI" firstAttribute="centerY" secondItem="5AD-ht-eW4" secondAttribute="centerY" id="bBv-BH-F0q"/>
+                        <constraint firstItem="y8v-qX-v5k" firstAttribute="top" secondItem="8HB-Eq-bhK" secondAttribute="bottom" priority="250" constant="4" id="bvj-0J-HJI"/>
                         <constraint firstItem="xaR-0e-m4e" firstAttribute="top" secondItem="zdW-xx-oVc" secondAttribute="bottom" constant="8" id="bzc-bw-bew">
                             <variation key="widthClass=compact" constant="0.0"/>
                         </constraint>
@@ -356,6 +364,9 @@
                         <constraint firstItem="qDD-QZ-csI" firstAttribute="bottom" secondItem="XdD-cV-KEh" secondAttribute="bottom" priority="250" id="rhy-l5-FEp"/>
                         <constraint firstItem="cxj-FS-1zF" firstAttribute="top" secondItem="DQD-7i-keC" secondAttribute="bottom" constant="4" id="ryJ-nc-i86">
                             <variation key="widthClass=compact" constant="2"/>
+                        </constraint>
+                        <constraint firstItem="y8v-qX-v5k" firstAttribute="leading" secondItem="8HB-Eq-bhK" secondAttribute="leading" id="saB-BR-7bE">
+                            <variation key="widthClass=compact" constant="4"/>
                         </constraint>
                         <constraint firstItem="8PZ-k4-aqN" firstAttribute="leading" secondItem="6gX-gt-tvL" secondAttribute="leading" id="sao-iA-bVi"/>
                         <constraint firstItem="DQD-7i-keC" firstAttribute="leading" secondItem="cxj-FS-1zF" secondAttribute="leading" id="sjC-wm-QuY"/>
@@ -410,7 +421,11 @@
                             <exclude reference="4B4-AE-vof"/>
                             <exclude reference="fcO-aV-xmd"/>
                             <exclude reference="xDU-O2-BWw"/>
+                            <exclude reference="9ZC-J8-j5T"/>
+                            <exclude reference="bvj-0J-HJI"/>
+                            <exclude reference="saB-BR-7bE"/>
                             <exclude reference="C0r-Ye-6Jw"/>
+                            <exclude reference="OxR-4L-Xou"/>
                             <exclude reference="bzk-NS-zZh"/>
                             <exclude reference="46O-tz-wmu"/>
                             <exclude reference="IEL-TO-0OF"/>
@@ -465,7 +480,13 @@
                             <include reference="4B4-AE-vof"/>
                             <exclude reference="fcO-aV-xmd"/>
                             <include reference="xDU-O2-BWw"/>
+                            <exclude reference="9ZC-J8-j5T"/>
+                            <exclude reference="9qt-sI-iJJ"/>
+                            <include reference="bvj-0J-HJI"/>
+                            <exclude reference="mcX-rR-o9i"/>
+                            <include reference="saB-BR-7bE"/>
                             <include reference="C0r-Ye-6Jw"/>
+                            <include reference="OxR-4L-Xou"/>
                             <include reference="bzk-NS-zZh"/>
                             <exclude reference="46O-tz-wmu"/>
                             <include reference="IEL-TO-0OF"/>

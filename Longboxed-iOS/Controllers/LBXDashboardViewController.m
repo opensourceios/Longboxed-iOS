@@ -33,6 +33,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <UICKeyChainStore.h>
 #import <QuartzCore/QuartzCore.h>
+#import <SVProgressHUD.h>
 
 @interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate>
 
@@ -175,15 +176,82 @@ static double TABLEHEIGHT = 174;
 {
     [_browseTableView removeConstraints:_tableConstraints];
     double height = TABLEHEIGHT;
-    if (![UICKeyChainStore stringForKey:@"id"]) {
-        height = TABLEHEIGHT/2;
+    if (!_bundleButton.superview && !topTableView.superview) {
+        // Show the bundle horizontal table view if logged in
+        [self.view insertSubview:_bundleButton aboveSubview:_popularButton];
+        [self.view insertSubview:topTableView aboveSubview:_popularButton];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_bundleButton
+                                                              attribute:NSLayoutAttributeLeading
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:_thisWeekLabel
+                                                              attribute:NSLayoutAttributeLeading
+                                                             multiplier:1.0
+                                                               constant:4.0]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_bundleButton
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:_thisWeekLabel
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0
+                                                               constant:4.0]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_bundleButton
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:topTableView
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0
+                                                               constant:-4.0]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:topTableView
+                                                              attribute:NSLayoutAttributeLeading
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:bottomTableView
+                                                              attribute:NSLayoutAttributeLeading
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:topTableView
+                                                              attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:bottomTableView
+                                                              attribute:NSLayoutAttributeTrailing
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:topTableView
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:_popularButton
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0
+                                                               constant:-15.0]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:topTableView
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:bottomTableView
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:1.0
+                                                               constant:0.0]];
     }
+    // Hide some stuff if not logged in
+    if (![LBXControllerServices isLoggedIn]) {
+        height = TABLEHEIGHT/2;
+       [_bundleButton removeFromSuperview];
+       [topTableView removeFromSuperview];
+    }
+    // Adjust the menus to hide the pull list/bundle options if not logged in
     _tableConstraints = [NSLayoutConstraint
                         constraintsWithVisualFormat:@"V:[browseTableView(tableViewHeight)]"
                         options:0
                         metrics:@{@"tableViewHeight" : [NSNumber numberWithDouble:height]}
                         views:@{@"browseTableView" : _browseTableView}];
     [_browseTableView addConstraints:_tableConstraints];
+    
+    [self.view setNeedsLayout];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -198,6 +266,10 @@ static double TABLEHEIGHT = 174;
     [self.topTableView reloadData];
     
     [self refresh];
+    
+    if (!_featuredBlurredImageView.image) {
+        [SVProgressHUD showAtPosY:(_featuredBlurredImageView.frame.origin.y + _featuredBlurredImageView.frame.size.height)/2 + self.navigationController.navigationBar.frame.size.height + _searchBar.frame.size.height];
+    }
 }
 
 #pragma mark Private Methods
@@ -220,7 +292,10 @@ static double TABLEHEIGHT = 174;
 
 - (void)setFeaturedIssueWithIssuesArray:(NSArray *)popularIssuesArray
 {
-    if (!_popularIssuesArray.count) return;
+    if (!_popularIssuesArray.count) {
+        [SVProgressHUD dismiss];
+        return;
+    }
     
     // Feature an issue that has a cover
     BOOL validImage = NO;
@@ -236,7 +311,7 @@ static double TABLEHEIGHT = 174;
     self.featuredDescriptionLabel.text = [LBXControllerServices regexOutHTMLJunk:_featuredIssue.issueDescription];
     self.featuredDescriptionLabel.textColor = UIColor.whiteColor;
     _featuredDescriptionLabel.font = [UIFont featuredIssueDescriptionFont];
-    self.featuredIssueTitleLabel.text = [_featuredIssue.title.name uppercaseString];
+    self.featuredIssueTitleLabel.text = _featuredIssue.title.name;
     
     UIImageView *featuredImageView = [UIImageView new];
     featuredImageView.frame = _featuredIssueCoverButton.bounds;
@@ -282,6 +357,8 @@ static double TABLEHEIGHT = 174;
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{self.featuredBlurredImageView.image = blurredImage;}
                     completion:NULL];
+    
+    [SVProgressHUD dismiss];
 }
 
 - (void)getCoreDataPopularIssues
@@ -371,7 +448,7 @@ static double TABLEHEIGHT = 174;
 
 - (void)fetchBundle
 {
-    if ([UICKeyChainStore stringForKey:@"id"]) {
+    if ([LBXControllerServices isLoggedIn]) {
         // Fetch the users bundles
         [self.client fetchBundleResourcesWithCompletion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             
@@ -562,7 +639,7 @@ static double TABLEHEIGHT = 174;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.browseTableView && [UICKeyChainStore stringForKey:@"id"]) return 4;
+    if (tableView == self.browseTableView && [LBXControllerServices isLoggedIn]) return 4;
     if (tableView == self.browseTableView) return 2;
     if (tableView == self.searchResultsController.tableView) {
         if (_searchResultsArray.count == 0) {
