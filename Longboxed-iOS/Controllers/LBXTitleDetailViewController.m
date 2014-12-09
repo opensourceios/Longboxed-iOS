@@ -90,7 +90,7 @@ int page;
                                                object:nil];
     
     _navTitleView = [UILabel new];
-    _navTitleView.frame = self.navigationController.navigationBar.frame;
+    _navTitleView.frame = CGRectMake(self.view.frame.origin.x, self.navigationController.navigationBar.frame.origin.y, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
     _navTitleView.text = _detailTitle.name;
     _navTitleView.textColor = [UIColor whiteColor];
     _navTitleView.font = [UIFont navTitleFont];
