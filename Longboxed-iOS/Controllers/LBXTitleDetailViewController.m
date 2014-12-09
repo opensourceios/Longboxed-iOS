@@ -58,7 +58,6 @@ int page;
     
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
-    self.title = _detailTitle.name;
     
     endOfIssues = NO;
     
@@ -146,7 +145,6 @@ int page;
     [super viewDidAppear:animated];
     
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXTitle:\n%@\ndid appear", _detailTitle]];
-    self.navigationController.navigationBar.topItem.title = _detailTitle.name;
     
     [LBXControllerServices setViewDidAppearClearNavigationController:self];
     if (self.tableView.contentOffset.y > 0) {
