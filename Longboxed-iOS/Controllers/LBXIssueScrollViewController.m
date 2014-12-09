@@ -57,6 +57,7 @@ CGRect screenRect;
     _scrollView.pagingEnabled = YES;
     _scrollView.bounces = NO;
     _scrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+    _scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.navigationController.navigationBar.frame.size.height, 0);
     [self.view addSubview:_scrollView];
     
     [LBXControllerServices setupTransparentNavigationBarForViewController:self];
