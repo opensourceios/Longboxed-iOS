@@ -276,10 +276,14 @@ BOOL selectedTitle;
         case 3: // Title button
         {
             selectedTitle = YES;
+            NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", _issue.title.titleID];
+            NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+            
             LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_issue.title];
             [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title: %@", _issue.title.description]];
             titleViewController.titleID = _issue.title.titleID;
-            titleViewController.latestIssueImage = [UIImage imageNamed:@"black"];
+            titleViewController.latestIssueImage = (issuesArray[0] == _issue) ? _issueImage : [UIImage imageNamed:@"black"];
+            
             [self.navigationController pushViewController:titleViewController animated:YES];
         }
     }

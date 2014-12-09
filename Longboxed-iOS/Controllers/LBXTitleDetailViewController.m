@@ -98,6 +98,19 @@ int page;
     _navTitleView.alpha = 0.0;
     [self.view addSubview:_navTitleView];
     
+    
+    UIImage *backgroundImageToBlur = [UIImage new];
+    if ([UIImagePNGRepresentation(_latestIssueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
+        backgroundImageToBlur = [UIImage imageNamed:@"black"];
+        _latestIssueImage = [LBXControllerServices defaultCoverImageWithWhiteBackground];
+        _detailView.latestIssueImageView.image = _latestIssueImage;
+    }
+    else {
+        backgroundImageToBlur = _detailView.latestIssueImageView.image;
+    }
+    // Adjustment for images with a height that is less than _detailView.latestIssueImageView
+    [self setCustomBlurredBackgroundImageWithImage:backgroundImageToBlur];
+    
     [LBXControllerServices setupTransparentNavigationBarForViewController:self];
 }
 
@@ -117,18 +130,6 @@ int page;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
-    
-    UIImage *backgroundImageToBlur = [UIImage new];
-    if ([UIImagePNGRepresentation(_latestIssueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
-        backgroundImageToBlur = [UIImage imageNamed:@"black"];
-        _latestIssueImage = [LBXControllerServices defaultCoverImageWithWhiteBackground];
-        _detailView.latestIssueImageView.image = _latestIssueImage;
-    }
-    else {
-        backgroundImageToBlur = _detailView.latestIssueImageView.image;
-    }
-    // Adjustment for images with a height that is less than _detailView.latestIssueImageView
-    [self setCustomBlurredBackgroundImageWithImage:backgroundImageToBlur];
     
     // Fix for mainimageview frame getting screwed up when you drill deep and the pop back up to a title view
     [self.mainImageView setFrame:CGRectMake(0, 0, self.overView.frame.size.width, self.overView.frame.size.height + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)];

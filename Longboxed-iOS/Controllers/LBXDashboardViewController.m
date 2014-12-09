@@ -543,11 +543,13 @@ static double TABLEHEIGHT = 174;
         }
         case 2:
         {
-            NSLog(@"%@", _featuredIssue.issueDescription);
-            NSLog(@"%@", _featuredIssue.title.name);
+            // Selecting the featured issue
+            NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", _featuredIssue.title.titleID];
+            NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
+            
             LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_featuredIssue.title];
             titleViewController.titleID = _featuredIssue.title.titleID;
-            titleViewController.latestIssueImage = [UIImage imageNamed:@"black"];
+            titleViewController.latestIssueImage = (issuesArray[0] == _featuredIssue) ? [self.featuredIssueCoverButton backgroundImageForState:UIControlStateNormal] : [UIImage imageNamed:@"black"];
             
             [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", _featuredIssue.title]];
             [self.navigationController pushViewController:titleViewController animated:YES];
