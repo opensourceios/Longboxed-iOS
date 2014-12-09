@@ -11,6 +11,7 @@
 @interface LBXDatabaseManager : NSObject
 
 + (void)flushDatabase;
++ (void)flushBundlesAndPullList;
 + (void)setupRestKit;
 
 @end

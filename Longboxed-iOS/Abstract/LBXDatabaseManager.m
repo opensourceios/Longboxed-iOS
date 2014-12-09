@@ -12,6 +12,8 @@
 
 #import "LBXDatabaseManager.h"
 #import "LBXClient.h"
+#import "LBXBundle.h"
+#import "LBXPullListTitle.h"
 #import "LBXMap.h"
 #import "LBXEndpoints.h"
 #import "LBXDescriptors.h"
@@ -32,7 +34,7 @@
 
 @implementation LBXDatabaseManager
 
-+ (void)flushDatabase{
++ (void)flushDatabase {
     NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
         [managedObjectContext performBlockAndWait:^{
@@ -56,6 +58,21 @@
         // Do stuff once the truncation is complete
     }];
     [operation start];
+}
+
++ (void)flushBundlesAndPullList
+{
+    NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+    for (LBXBundle *bundle in bundleArray) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
+        [LBXBundle MR_deleteAllMatchingPredicate:predicate];
+    }
+    
+    NSArray *pullListArray = [LBXPullListTitle MR_findAllSortedBy:@"titleID" ascending:NO];
+    for (LBXPullListTitle *title in pullListArray) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"titleID == %@", title.titleID];
+        [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
+    }
 }
 
 + (void)setupRestKit {

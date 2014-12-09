@@ -71,6 +71,7 @@ int page;
     
     // Dynamically set the detail view size and following table view content offset
     [self setDetailView];
+    [self setPullListButton];
     [self setFrameRect];
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"setFrameAgain"
@@ -171,10 +172,6 @@ int page;
     
     [self updateDetailView];
     
-    [self setPullListButton];
-    _detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
-    _detailView.addToPullListButton.layer.borderWidth = 1.0f;
-    _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
     _detailView.latestIssueImageView.image = _latestIssueImage;
     _detailView.latestIssueImageView.contentMode = UIViewContentModeScaleAspectFit;
     if (_latestIssueImage.size.height < _detailView.latestIssueImageView.frame.size.height) {
@@ -208,9 +205,11 @@ int page;
                                             attributes:@{NSFontAttributeName:_detailView.publisherButton.titleLabel.font}
                                                context:nil].size.height;
     
-    CGFloat addToPullListHeight = _detailView.addToPullListButton.frame.size.height;
+    CGFloat addToPullListHeight = ([LBXControllerServices isLoggedIn]) ? _detailView.addToPullListButton.frame.size.height : 0.0;
     
-    self.frameRect = CGRectMake(0, self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width, MAX(titleHeight + publisherHeight + addToPullListHeight + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, _detailView.latestIssueImageView.frame.size.height));
+    CGFloat imageHeight = ([LBXControllerServices isLoggedIn]) ? _detailView.latestIssueImageView.frame.size.height : _detailView.latestIssueImageView.frame.size.height - 52;
+    
+    self.frameRect = CGRectMake(0, self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, self.view.frame.size.width, MAX(titleHeight + publisherHeight + addToPullListHeight + self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, imageHeight));
 }
 
 - (void)updateDetailView
@@ -360,6 +359,10 @@ int page;
         _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
         addToPullList = NO;
     }
+    _detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
+    _detailView.addToPullListButton.layer.borderWidth = 1.0f;
+    _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
+    [_detailView.addToPullListButton setNeedsLayout];
 }
 
 - (IBAction)onClick:(id)sender
@@ -454,6 +457,7 @@ int page;
 - (void)createPullListArray
 {
     _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+    [self setPullListButton];
 }
 
 - (void)fetchAllIssuesWithPage:(NSNumber *)page

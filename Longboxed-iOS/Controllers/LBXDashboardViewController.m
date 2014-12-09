@@ -288,6 +288,7 @@ static double TABLEHEIGHT = 174;
 {
     [self fetchBundle];
     [self fetchPopularIssues];
+    [self fetchPullList];
 }
 
 - (void)setFeaturedIssueWithIssuesArray:(NSArray *)popularIssuesArray
@@ -402,6 +403,14 @@ static double TABLEHEIGHT = 174;
         else {
             //[LBXMessageBar displayError:error];
         }
+    }];
+}
+
+- (void)fetchPullList
+{
+    [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        if (!error);
+        else;
     }];
 }
 
@@ -534,6 +543,8 @@ static double TABLEHEIGHT = 174;
         }
         case 2:
         {
+            NSLog(@"%@", _featuredIssue.issueDescription);
+            NSLog(@"%@", _featuredIssue.title.name);
             LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_featuredIssue.title];
             titleViewController.titleID = _featuredIssue.title.titleID;
             titleViewController.latestIssueImage = [UIImage imageNamed:@"black"];

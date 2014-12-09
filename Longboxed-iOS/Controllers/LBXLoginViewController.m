@@ -161,7 +161,7 @@ UICKeyChainStore *store;
             if ([button.titleLabel.text isEqualToString:@"Log Out"]) {
                 [LBXLogging logLogout];
                 [self removeCredentials];
-                [LBXDatabaseManager flushDatabase];
+                [LBXDatabaseManager flushBundlesAndPullList];
                 [LBXMessageBar successfulLogout];
                 _usernameField.text = @"";
                 _passwordField.text = @"";
@@ -239,7 +239,7 @@ UICKeyChainStore *store;
 - (void)login
 {
     [self removeCredentials];
-    [LBXDatabaseManager flushDatabase];
+    [LBXDatabaseManager flushBundlesAndPullList];
     NSLog(@"%@", _usernameField.text);
     NSLog(@"%@", _passwordField.text);
     [UICKeyChainStore setString:_usernameField.text forKey:@"username"];
@@ -260,7 +260,7 @@ UICKeyChainStore *store;
             [LBXLogging logMessage:[NSString stringWithFormat:@"Incorrect log in %@", _usernameField.text]];
             [self removeCredentials];
             [self setButtonsForLoggedOut];
-            [LBXDatabaseManager flushDatabase];
+            [LBXDatabaseManager flushBundlesAndPullList];
             
             dispatch_async(dispatch_get_main_queue(),^{
                 [LBXMessageBar incorrectCredentials];

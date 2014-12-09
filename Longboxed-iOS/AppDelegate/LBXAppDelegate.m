@@ -82,7 +82,7 @@
     [LBXLogging beginLogging];
     
     // Automatically send crash reports
-    [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus: BITCrashManagerStatusAutoSend];
+    [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
     
     [[BITHockeyManager sharedHockeyManager] setDelegate:self];
     [[BITHockeyManager sharedHockeyManager] startManager];
