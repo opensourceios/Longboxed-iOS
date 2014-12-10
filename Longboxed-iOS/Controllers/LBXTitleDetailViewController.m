@@ -88,15 +88,6 @@ int page;
                                                  name:@"setTitleDetailForegroundImage"
                                                object:nil];
     
-    _navTitleView = [UILabel new];
-    _navTitleView.frame = CGRectMake(self.view.frame.origin.x, self.navigationController.navigationBar.frame.origin.y, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
-    _navTitleView.text = _detailTitle.name;
-    _navTitleView.textColor = [UIColor whiteColor];
-    _navTitleView.font = [UIFont navTitleFont];
-    _navTitleView.textAlignment = NSTextAlignmentCenter;
-    _navTitleView.alpha = 0.0;
-    [self.view addSubview:_navTitleView];
-    
     
     UIImage *backgroundImageToBlur = [UIImage new];
     if ([UIImagePNGRepresentation(_latestIssueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
@@ -147,6 +138,16 @@ int page;
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXTitle:\n%@\ndid appear", _detailTitle]];
     
     [LBXControllerServices setViewDidAppearClearNavigationController:self];
+    
+    _navTitleView = [UILabel new];
+    _navTitleView.frame = CGRectMake(self.view.frame.origin.x, self.navigationController.navigationBar.frame.origin.y, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+    _navTitleView.text = _detailTitle.name;
+    _navTitleView.textColor = [UIColor whiteColor];
+    _navTitleView.font = [UIFont navTitleFont];
+    _navTitleView.textAlignment = NSTextAlignmentCenter;
+    _navTitleView.alpha = 0.0;
+    [self.view addSubview:_navTitleView];
+    
     if (self.tableView.contentOffset.y > 0) {
         // Set the title alpha properly when returning from the issue view
         [self setNavBarAlpha:@(1 - self.overView.alpha)];
