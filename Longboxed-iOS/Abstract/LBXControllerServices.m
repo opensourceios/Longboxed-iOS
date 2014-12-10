@@ -7,6 +7,7 @@
 //
 
 #import "LBXControllerServices.h"
+#import "LBXUser.h"
 #import "UIFont+customFonts.h"
 #import "LBXBackButton.h"
 
@@ -355,5 +356,26 @@
     if ([UICKeyChainStore stringForKey:@"id"]) return YES; else return NO;
 }
 
++ (BOOL)isAdmin
+{
+    if ([self isLoggedIn]) {
+        NSArray *users = [LBXUser MR_findAll];
+        if (users.count) {
+            for (LBXUser *user in users) {
+                if ([user.roles containsObject:@"admin"] && [user.userID intValue] == [[UICKeyChainStore stringForKey:@"id"] intValue]) return YES;
+            }
+        };
+    }
+    return NO;
+}
+
++ (void)removeCredentials
+{
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+    [UICKeyChainStore removeItemForKey:@"username"];
+    [UICKeyChainStore removeItemForKey:@"password"];
+    [UICKeyChainStore removeItemForKey:@"id"];
+    [store synchronize]; // Write to keychain.
+}
 
 @end

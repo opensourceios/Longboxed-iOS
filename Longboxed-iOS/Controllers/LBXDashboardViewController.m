@@ -15,7 +15,7 @@
 #import "LBXPublisherTableViewController.h"
 #import "LBXControllerServices.h"
 #import "LBXPullListTableViewCell.h"
-#import "LBXLoginViewController.h"
+#import "LBXSettingsViewController.h"
 #import "LBXWeekViewController.h"
 #import "LBXPullListViewController.h"
 #import "LBXSearchTableViewController.h"
@@ -516,12 +516,16 @@ static double TABLEHEIGHT = 174;
 
 - (void)settingsPressed
 {
-    LBXLoginViewController *newVC = [LBXLoginViewController new];
-    newVC.dashController = self; // So it can be pushed back onto the view hierarchy and isn't deallocated
-    NSMutableArray *vcs =  [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-    [vcs insertObject:newVC atIndex:[vcs count]-1];
-    [self.navigationController setViewControllers:vcs animated:NO];
-    [self.navigationController popViewControllerAnimated:YES];
+    LBXSettingsViewController *newVC = [LBXSettingsViewController new];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:newVC];
+    
+    //now present this navigation controller modally
+    [self presentViewController:navigationController
+                       animated:YES
+                     completion:^{
+                         
+                     }];
 }
 
 - (IBAction)onClick:(id)sender

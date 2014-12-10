@@ -24,6 +24,9 @@
 + (UIFont *)collectionTitleFontRegular;
 + (UIFont *)comicsViewFontUltraLight;
 + (UIFont *)collectionSubtitleFont;
++ (UIFont *)settingsSectionHeaderFont;
++ (UIFont *)settingsSectionFooterFont;
++ (UIFont *)settingsTableViewFont;
 + (UIFont *)titleDetailLatestIssueFont;
 + (UIFont *)titleDetailSubscribersAndIssuesFont;
 + (UIFont *)titleDetailPublisherFont;

@@ -95,9 +95,11 @@
 		E593F55319D7160C00D310C6 /* LBXTopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E593F54F19D7160C00D310C6 /* LBXTopTableViewCell.xib */; };
 		E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5977737198EAC7D0047E261 /* LBXPullListTitle.m */; };
 		E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */; };
+		E5981B5C1A380EF1003E0E40 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5981B5A1A380EF1003E0E40 /* LBXLoginViewController.m */; };
+		E5981B5D1A380EF1003E0E40 /* LBXLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5981B5B1A380EF1003E0E40 /* LBXLoginViewController.xib */; };
 		E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */; };
-		E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXLoginViewController.m */; };
-		E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */; };
+		E5A773DD19624A52002654E7 /* LBXSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXSettingsViewController.m */; };
+		E5A773DE19624A52002654E7 /* LBXSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A773DC19624A52002654E7 /* LBXSettingsViewController.xib */; };
 		E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */; };
 		E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810619CE10510042109B /* longboxed_logo.svg */; };
 		E5AB810B19CE1C550042109B /* LBXEmptyPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */; };
@@ -293,10 +295,13 @@
 		E5977737198EAC7D0047E261 /* LBXPullListTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListTitle.m; path = Models/LBXPullListTitle.m; sourceTree = "<group>"; };
 		E597773D198EADA60047E261 /* LBXCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LBXCoreData.xcdatamodel; sourceTree = "<group>"; };
 		E5981B501A37F1E9003E0E40 /* LBXCoreData 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LBXCoreData 3.xcdatamodel"; sourceTree = "<group>"; };
+		E5981B591A380EF1003E0E40 /* LBXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLoginViewController.h; path = Controllers/LBXLoginViewController.h; sourceTree = "<group>"; };
+		E5981B5A1A380EF1003E0E40 /* LBXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLoginViewController.m; path = Controllers/LBXLoginViewController.m; sourceTree = "<group>"; };
+		E5981B5B1A380EF1003E0E40 /* LBXLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXLoginViewController.xib; path = Controllers/LBXLoginViewController.xib; sourceTree = "<group>"; };
 		E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXWeekTableViewCell.xib; path = Views/LBXWeekTableViewCell.xib; sourceTree = "<group>"; };
-		E5A773DA19624A52002654E7 /* LBXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLoginViewController.h; path = Controllers/LBXLoginViewController.h; sourceTree = "<group>"; };
-		E5A773DB19624A52002654E7 /* LBXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLoginViewController.m; path = Controllers/LBXLoginViewController.m; sourceTree = "<group>"; };
-		E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXLoginViewController.xib; path = Controllers/LBXLoginViewController.xib; sourceTree = "<group>"; };
+		E5A773DA19624A52002654E7 /* LBXSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSettingsViewController.h; path = Controllers/LBXSettingsViewController.h; sourceTree = "<group>"; };
+		E5A773DB19624A52002654E7 /* LBXSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSettingsViewController.m; path = Controllers/LBXSettingsViewController.m; sourceTree = "<group>"; };
+		E5A773DC19624A52002654E7 /* LBXSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXSettingsViewController.xib; path = Controllers/LBXSettingsViewController.xib; sourceTree = "<group>"; };
 		E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXEmptyPullListViewController.xib; path = Controllers/LBXEmptyPullListViewController.xib; sourceTree = "<group>"; };
 		E5AB810619CE10510042109B /* longboxed_logo.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = longboxed_logo.svg; path = Assets/longboxed_logo.svg; sourceTree = SOURCE_ROOT; };
 		E5AB810819CE1C550042109B /* LBXEmptyPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXEmptyPullListViewController.h; path = Controllers/LBXEmptyPullListViewController.h; sourceTree = "<group>"; };
@@ -493,9 +498,7 @@
 				E593F53F19D715CB00D310C6 /* Dashboard */,
 				E5F1871E196378E4006C4C26 /* LBXPullListViewController.h */,
 				E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */,
-				E5A773DA19624A52002654E7 /* LBXLoginViewController.h */,
-				E5A773DB19624A52002654E7 /* LBXLoginViewController.m */,
-				E5A773DC19624A52002654E7 /* LBXLoginViewController.xib */,
+				E5981B551A380EAF003E0E40 /* Settings */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -772,6 +775,19 @@
 			name = Dashboard;
 			sourceTree = "<group>";
 		};
+		E5981B551A380EAF003E0E40 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E5A773DA19624A52002654E7 /* LBXSettingsViewController.h */,
+				E5A773DB19624A52002654E7 /* LBXSettingsViewController.m */,
+				E5A773DC19624A52002654E7 /* LBXSettingsViewController.xib */,
+				E5981B591A380EF1003E0E40 /* LBXLoginViewController.h */,
+				E5981B5A1A380EF1003E0E40 /* LBXLoginViewController.m */,
+				E5981B5B1A380EF1003E0E40 /* LBXLoginViewController.xib */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		E5AB810319CE0DEA0042109B /* Empty Sets */ = {
 			isa = PBXGroup;
 			children = (
@@ -1030,8 +1046,9 @@
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,
 				E57CCAC719CB8C8E0086B39E /* LBXSearchTableViewCell.xib in Resources */,
 				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,
+				E5981B5D1A380EF1003E0E40 /* LBXLoginViewController.xib in Resources */,
 				E55B68581A1AF5E6008A5CFD /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
-				E5A773DE19624A52002654E7 /* LBXLoginViewController.xib in Resources */,
+				E5A773DE19624A52002654E7 /* LBXSettingsViewController.xib in Resources */,
 				E55B68561A1AF5E6008A5CFD /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */,
 				E55B68571A1AF5E6008A5CFD /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
@@ -1186,6 +1203,7 @@
 				E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */,
 				E54F10991991D28900DAD4FE /* LBXPullListTableViewCell.m in Sources */,
 				E57D49121960A2180014A13F /* LBXClient.m in Sources */,
+				E5981B5C1A380EF1003E0E40 /* LBXLoginViewController.m in Sources */,
 				E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */,
 				E593F55219D7160C00D310C6 /* LBXTopTableViewCell.m in Sources */,
 				E593F55019D7160C00D310C6 /* ActualTableViewCell.m in Sources */,
@@ -1212,7 +1230,7 @@
 				E55B68511A1AF5E6008A5CFD /* SVWebViewController.m in Sources */,
 				E5E5163019CA446D005FBD43 /* NSString+URLQuery.m in Sources */,
 				E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */,
-				E5A773DD19624A52002654E7 /* LBXLoginViewController.m in Sources */,
+				E5A773DD19624A52002654E7 /* LBXSettingsViewController.m in Sources */,
 				E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */,
 				E515746F19E4D1F20072EE3E /* LBXBottomTableViewCell.m in Sources */,
 				E55B68551A1AF5E6008A5CFD /* SVWebViewControllerActivityChrome.m in Sources */,

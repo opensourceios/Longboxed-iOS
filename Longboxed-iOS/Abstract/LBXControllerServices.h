@@ -42,5 +42,7 @@
 + (void)backButtonClicked:(id)sender;
 
 + (BOOL)isLoggedIn;
++ (BOOL)isAdmin;
++ (void)removeCredentials;
 
 @end

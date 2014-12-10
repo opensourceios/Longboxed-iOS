@@ -37,6 +37,9 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8PZ-k4-aqN">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <variation key="widthClass=compact" misplaced="YES">
+                                <rect key="frame" x="0.0" y="482" width="400" height="73.5"/>
+                            </variation>
                         </view>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" scrollEnabled="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" sectionIndexMinimumDisplayRowCount="1" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="slL-OO-oAz" userLabel="Top Table View">
                             <rect key="frame" x="20" y="315" width="320" height="105"/>
@@ -55,7 +58,8 @@
                                     <exclude reference="adg-ck-cIb"/>
                                 </mask>
                             </variation>
-                            <variation key="widthClass=compact">
+                            <variation key="widthClass=compact" misplaced="YES">
+                                <rect key="frame" x="0.0" y="555.5" width="400" height="180.5"/>
                                 <mask key="constraints">
                                     <exclude reference="Y7z-9r-wVX"/>
                                     <exclude reference="adg-ck-cIb"/>
@@ -78,7 +82,8 @@
                                     <exclude reference="KKZ-hR-g2A"/>
                                 </mask>
                             </variation>
-                            <variation key="widthClass=compact">
+                            <variation key="widthClass=compact" misplaced="YES">
+                                <rect key="frame" x="0.0" y="782" width="400" height="180"/>
                                 <mask key="constraints">
                                     <include reference="KKZ-hR-g2A"/>
                                 </mask>
@@ -94,6 +99,9 @@
                             <state key="normal" image="arrow_right_small_black.png">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <variation key="widthClass=compact" misplaced="YES">
+                                <rect key="frame" x="22" y="524.5" width="27" height="27"/>
+                            </variation>
                         </button>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y8v-qX-v5k">
                             <rect key="frame" x="32" y="435" width="70" height="20"/>
@@ -102,6 +110,9 @@
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <variation key="widthClass=compact" misplaced="YES">
+                                <rect key="frame" x="22" y="751" width="91" height="27"/>
+                            </variation>
                         </button>
                         <searchBar userInteractionEnabled="NO" contentMode="redraw" ambiguous="YES" misplaced="YES" searchBarStyle="minimal" placeholder="Search Comics" translatesAutoresizingMaskIntoConstraints="NO" id="eDq-OV-8AS">
                             <rect key="frame" x="20" y="64" width="320" height="44"/>

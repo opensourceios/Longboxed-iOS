@@ -252,6 +252,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertNotNil(user.roles);
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Log In endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
             XCTAssertNotNil(user.email, @"Log in JSON is returning %@", user);
             *done = YES;

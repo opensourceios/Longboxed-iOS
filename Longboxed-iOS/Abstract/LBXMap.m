@@ -41,9 +41,9 @@
     [userMapping addAttributeMappingsFromDictionary:@{ @"email"     : @"email",
                                                        @"first_name": @"firstName",
                                                        @"id"        : @"userID",
-                                                       @"last_name" : @"lastName"
+                                                       @"last_name" : @"lastName",
+                                                       @"roles"     : @"roles"
                                                        }];
-    [userMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"roles"]];
     userMapping.identificationAttributes = @[ @"userID" ];
     
     return userMapping;

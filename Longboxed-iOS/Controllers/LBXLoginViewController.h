@@ -2,16 +2,12 @@
 //  LBXLoginViewController.h
 //  Longboxed-iOS
 //
-//  Created by johnrhickey on 6/30/14.
+//  Created by johnrhickey on 12/10/14.
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "LBXDashboardViewController.h"
 
 @interface LBXLoginViewController : UIViewController
-
-@property (nonatomic, retain) IBOutlet UIButton *onePasswordButton;
-@property (nonatomic, retain) LBXDashboardViewController *dashController; // So it can be pushed back onto the view hierarchy and isn't deallocated
 
 @end

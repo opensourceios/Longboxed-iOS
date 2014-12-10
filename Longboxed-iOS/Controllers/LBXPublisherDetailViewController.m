@@ -166,7 +166,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(publisher == %@)", _detailPublisher];
     _titlesForPublisherArray = [LBXTitle MR_findAllSortedBy:@"name" ascending:YES withPredicate:predicate];
-    _sectionArray = [LBXControllerServices getAlphabeticalTableViewSectionArrayForArray:_titlesForPublisherArray];
+    _sectionArray = [NSArray getAlphabeticalTableViewSectionArrayForArray:_titlesForPublisherArray];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
         [self.view setNeedsDisplay];

@@ -15,6 +15,6 @@
 @property (nonatomic, retain) NSString *firstName;
 @property (nonatomic, retain) NSNumber *userID;
 @property (nonatomic, retain) NSString *lastName;
-@property (nonatomic, retain) NSString *roles;
+@property (nonatomic, retain) NSArray *roles;
 
 @end

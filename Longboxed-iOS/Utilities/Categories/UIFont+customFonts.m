@@ -84,7 +84,6 @@ static const NSString *fontFace = @"AvenirNext";
 {
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:18];
 }
-
 + (UIFont *)pullListTitleFont
 {
     // Set to 17, should be 18
@@ -95,6 +94,22 @@ static const NSString *fontFace = @"AvenirNext";
 {
     return [UIFont fontWithDescriptor:[UIFontDescriptor preferredAvenirNextCondensedMediumFontDescriptorWithTextStyle:UIFontTextStyleCaption2] size: 0];
 }
+
++ (UIFont *)settingsSectionHeaderFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
+}
+
++ (UIFont *)settingsSectionFooterFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:12];
+}
+
++ (UIFont *)settingsTableViewFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:16];
+}
+
 
 // Title Detail View
 
