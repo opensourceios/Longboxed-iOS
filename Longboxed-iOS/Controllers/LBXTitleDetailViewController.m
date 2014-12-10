@@ -20,11 +20,13 @@
 #import "LBXLogging.h"
 
 #import "PaintCodeImages.h"
-#import "UIFont+customFonts.h"
-#import "NSArray+ArrayUtilities.h"
 #import "JGActionSheet.h"
 #import "SVProgressHUD.h"
 
+#import "UIFont+customFonts.h"
+#import "NSString+LBXStringUtilities.h"
+#import "UIImage+CreateImage.h"
+#import "NSArray+ArrayUtilities.h"
 #import "UIColor+customColors.h"
 
 #import <JTSImageViewController.h>
@@ -90,9 +92,9 @@ int page;
     
     
     UIImage *backgroundImageToBlur = [UIImage new];
-    if ([UIImagePNGRepresentation(_latestIssueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
+    if ([UIImagePNGRepresentation(_latestIssueImage) isEqual:UIImagePNGRepresentation([UIImage defaultCoverImage])]) {
         backgroundImageToBlur = [UIImage imageNamed:@"black"];
-        _latestIssueImage = [LBXControllerServices defaultCoverImageWithWhiteBackground];
+        _latestIssueImage = [UIImage defaultCoverImageWithWhiteBackground];
         _detailView.latestIssueImageView.image = _latestIssueImage;
     }
     else {
@@ -236,7 +238,7 @@ int page;
             issuesString = [NSString stringWithFormat:@"%@ Issues", _detailTitle.issueCount];
         }
         
-        NSString *subscribersString = [LBXControllerServices getSubtitleStringWithTitle:_detailTitle uppercase:YES];
+        NSString *subscribersString = [NSString getSubtitleStringWithTitle:_detailTitle uppercase:YES];
         
         _detailView.issuesAndSubscribersLabel.text = [NSString stringWithFormat:@"%@  •  %@", [issuesString uppercaseString], [subscribersString uppercaseString]];
         _detailView.issuesAndSubscribersLabel.font = [UIFont titleDetailSubscribersAndIssuesFont];
@@ -251,7 +253,7 @@ int page;
     _detailView.latestIssueLabel.font = [UIFont titleDetailLatestIssueFont];
     if (_detailTitle.latestIssue != nil) {
         
-        NSString *timeSinceString = [LBXControllerServices timeSinceLastIssueForTitle:_detailTitle];
+        NSString *timeSinceString = [NSString timeStringSinceLastIssueForTitle:_detailTitle];
         
         NSString *subtitleString = [NSString stringWithFormat:@"Latest issue released %@", timeSinceString];
         if ([timeSinceString hasPrefix:@"in"]) {

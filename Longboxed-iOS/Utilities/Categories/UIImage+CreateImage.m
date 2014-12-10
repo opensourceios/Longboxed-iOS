@@ -7,6 +7,8 @@
 //
 
 #import "UIImage+CreateImage.h"
+#import "PaintCodeImages.h"
+#import "UIColor+customColors.h"
 
 @implementation UIImage (CreateImage)
 
@@ -35,6 +37,17 @@
     UIGraphicsEndImageContext();
     
     return image;
+}
+
++ (UIImage *)defaultCoverImage
+{
+    return [PaintCodeImages imageOfDefaultCoverWithColor:[UIColor LBXVeryLightGrayColor] background:[UIColor clearColor] width:500 height:750];
+}
+
++ (UIImage *)defaultCoverImageWithWhiteBackground
+{
+    //    return [PaintCodeImages imageOfDefaultCoverWithColor:[UIColor blackColor] background:[UIColor whiteColor] width:500 height:750];
+    return [UIImage imageNamed:@"lb_nocover"];
 }
 
 @end

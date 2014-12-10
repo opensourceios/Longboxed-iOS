@@ -11,13 +11,16 @@
 #import "LBXBackButton.h"
 
 #import "NSDate+DateUtilities.h"
+#import "UIImage+CreateImage.h"
+
+#import "NSString+LBXStringUtilities.h"
+#import "NSString+StringUtilities.h"
 #import "UIColor+customColors.h"
 #import "SVProgressHUD.h"
 #import "PaintCodeImages.h"
 
 #import <UIImageView+AFNetworking.h>
 #import <UICKeyChainStore.h>
-#import <CommonCrypto/CommonDigest.h>
 
 @interface LBXControllerServices ()
 
@@ -25,125 +28,18 @@
 
 @implementation LBXControllerServices
 
-+ (UIImage *)defaultCoverImage
-{
-    return [PaintCodeImages imageOfDefaultCoverWithColor:[UIColor LBXVeryLightGrayColor] background:[UIColor clearColor] width:500 height:750];
-}
-
-+ (UIImage *)defaultCoverImageWithWhiteBackground
-{
-//    return [PaintCodeImages imageOfDefaultCoverWithColor:[UIColor blackColor] background:[UIColor whiteColor] width:500 height:750];
-    return [UIImage imageNamed:@"lb_nocover"];
-}
-
-+ (NSDate *)getLocalDate
-{
-    return [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
-}
-
-+ (NSDate *)getThisWednesdayOfDate:(NSDate *)date
-{
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:date];
-    [componentsDay setWeekday:4];
-    return [calendar dateFromComponents:componentsDay];
-}
-
-+ (NSDate *)getNextWednesdayOfDate:(NSDate *)date
-{
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [NSDateComponents new];
-    [components setWeekOfMonth:1];
-    NSDate *newDate = [calendar dateByAddingComponents:components toDate:[LBXControllerServices getLocalDate] options:0];
-    NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday fromDate:newDate];
-    [componentsDay setWeekday:4];
-    return [calendar dateFromComponents:componentsDay];
-}
-
-
-
-// This is for the pull list view
-+ (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title
-{
-    LBXIssue *issue = [self closestIssueForTitle:title];
-    
-    if (issue != nil) {
-        return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:issue.releaseDate andEndDate:[self getLocalDate]]];
-    }
-    return @"";
-}
-
-// This is for the pull list view
-+ (LBXIssue *)closestIssueForTitle:(LBXTitle *)title
-{
-    if ([title.titleID  isEqual: @586]) {
-        
-    }
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", title.titleID];
-    NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
-    
-    if (issuesArray.count != 0) {
-        
-        LBXIssue *newestIssue = issuesArray[0];
-        
-        if (issuesArray.count > 1) {
-            LBXIssue *secondNewestIssue = issuesArray[1];
-            // Check if the latest issue is next week and the second latest issue is this week
-            
-            // If the second newest issues release date is more recent than 4 days ago
-            if ([secondNewestIssue.releaseDate timeIntervalSinceDate:[self getLocalDate]] > -4*DAY) {
-                return secondNewestIssue;
-            }
-            return newestIssue;
-        }
-        return newestIssue;
-    }
-    return nil;
-}
-
-+ (NSString *)localTimeZoneStringWithDate:(NSDate *)date
-{
-    NSDateFormatter *formatter = [NSDateFormatter new];
-    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-    [formatter setDateStyle:NSDateFormatterLongStyle];
-    
-    NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
-    [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    [numFormatter setMinimumFractionDigits:2];
-    return [formatter stringFromDate:date];
-}
-
-+ (NSString *)getSubtitleStringWithTitle:(LBXTitle *)title uppercase:(BOOL)uppercase
-{
-    NSString *subtitleString = [NSString new];
-    switch ([title.subscribers integerValue]) {
-        case 1: {
-            subtitleString = [NSString stringWithFormat:@"%@ Subscriber", title.subscribers];
-            break;
-        }
-        default: {
-            subtitleString = [NSString stringWithFormat:@"%@ Subscribers", title.subscribers];
-            break;
-        }
-    }
-    if (uppercase) {
-        return subtitleString.uppercaseString;
-    }
-    return subtitleString;
-}
-
 // This is for the publisher list
 + (void)setPublisherCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title
 {
     cell.titleLabel.text = title.name;
     
-    NSString *subtitleString = [self getSubtitleStringWithTitle:title uppercase:YES];
+    NSString *subtitleString = [NSString getSubtitleStringWithTitle:title uppercase:YES];
     
     if (title.latestIssue != nil) {
         cell.subtitleLabel.text = subtitleString;
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -152,19 +48,19 @@
                             completion:NULL];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.latestIssueImageView.image = [self defaultCoverImage];
+            cell.latestIssueImageView.image = [UIImage defaultCoverImage];
         }];
     }
     else if (!title.publisher.name) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
-        cell.latestIssueImageView.image = [self defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }
     else if (title.latestIssue.title.issueCount == 0) {
-        cell.latestIssueImageView.image = [self defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
         cell.subtitleLabel.text = subtitleString;
     }
     else {
-        cell.latestIssueImageView.image = [self defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
         cell.subtitleLabel.text = subtitleString;
     }
 }
@@ -175,12 +71,12 @@
 {
     cell.titleLabel.text = title.name;
     if (title.latestIssue) {
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [LBXControllerServices timeSinceLastIssueForTitle:title]];
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [NSString timeStringSinceLastIssueForTitle:title]];
         
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -189,20 +85,20 @@
                             completion:NULL];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.latestIssueImageView.image = [self defaultCoverImage];
+            cell.latestIssueImageView.image = [UIImage defaultCoverImage];
         }];
     }
     else if (!title.publisher.name) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
-        cell.latestIssueImageView.image = [self defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }
     else if (!title.latestIssue) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [self defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }
     else {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [self defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }
 }
 
@@ -222,12 +118,12 @@
 {
     cell.titleLabel.text = title.name;
     if (title.latestIssue) {
-        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [LBXControllerServices getSubtitleStringWithTitle:title uppercase:YES]];
+        NSString *subtitleString = [NSString stringWithFormat:@"%@  •  %@", title.latestIssue.publisher.name, [NSString getSubtitleStringWithTitle:title uppercase:YES]];
         
         cell.subtitleLabel.text = [subtitleString uppercaseString];
         
         // Get the image from the URL and set it
-        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[self defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:title.latestIssue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             
             [UIView transitionWithView:cell.imageView
                               duration:0.5f
@@ -238,21 +134,21 @@
             if (darken) [self darkenCell:cell];
             
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            cell.latestIssueImageView.image = [self defaultCoverImage];
+            cell.latestIssueImageView.image = [UIImage defaultCoverImage];
             if (darken) [self darkenCell:cell];
         }];
     }
     else if (!title.publisher.name) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"Loading..."] uppercaseString];
-        cell.latestIssueImageView.image = [self defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }
     else if (!title.latestIssue) {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [self defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }
     else {
         cell.subtitleLabel.text = [[NSString stringWithFormat:@"%@", title.publisher.name] uppercaseString];
-        cell.latestIssueImageView.image = [self defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }
     if (darken) [self darkenCell:cell];
 }
@@ -261,9 +157,9 @@
 // This is for the title view
 + (void)setTitleCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue
 {
-    NSString *subtitleString = [NSString stringWithFormat:@"%@", [self localTimeZoneStringWithDate:issue.releaseDate]];
+    NSString *subtitleString = [NSString stringWithFormat:@"%@", [NSString localTimeZoneStringWithDate:issue.releaseDate]];
     
-    NSString *modifiedTitleString = [self regexOutHTMLJunk:issue.completeTitle];
+    NSString *modifiedTitleString = [NSString regexOutHTMLJunk:issue.completeTitle];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(issueNumber == %@) AND (title == %@)", issue.issueNumber, issue.title];
     NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
@@ -285,7 +181,7 @@
     }
     
     // Get the image from the URL and set it
-    [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[self defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         [UIView transitionWithView:cell.imageView
                           duration:0.5f
@@ -294,17 +190,8 @@
                         completion:NULL];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        cell.latestIssueImageView.image = [self defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }];
-}
-
-+ (NSString *)regexOutHTMLJunk:(NSString *)string
-{
-    // Remove any HTML junk from text
-     NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
-    
-    return [regex stringByReplacingMatchesInString:string options:0 range:NSMakeRange(0, [string length]) withTemplate:@" "];
 }
 
 + (void)setLabel:(UILabel *)textView
@@ -346,140 +233,6 @@
     
     // SearchBar cursor color
     searchBar.tintColor = color;
-}
-
-+ (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size
-{
-    // Set the background color to the gradient
-    UIColor *primaryColor;
-    if (publisher.primaryColor) {
-        primaryColor = [UIColor colorWithHex:publisher.primaryColor];
-    }
-    else {
-        primaryColor = [UIColor lightGrayColor];
-    }
-    
-    UIColor *secondaryColor;
-    if (publisher.secondaryColor) {
-        secondaryColor = [UIColor colorWithHex:publisher.secondaryColor];
-    }
-    else {
-        secondaryColor = [UIColor lightGrayColor];
-    }
-    
-    UIGraphicsBeginImageContext(size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-    size_t gradientNumberOfLocations = 2;
-    CGFloat gradientLocations[2] = { 0.0, 1.0 };
-    CGFloat gradientComponents[8] = {CGColorGetComponents(primaryColor.CGColor)[0], CGColorGetComponents(primaryColor.CGColor)[1], CGColorGetComponents(primaryColor.CGColor)[2], 1.0,     // Start color
-        CGColorGetComponents(secondaryColor.CGColor)[0], CGColorGetComponents(secondaryColor.CGColor)[1], CGColorGetComponents(secondaryColor.CGColor)[2], 1.0, };  // End color
-    CGGradientRef gradient = CGGradientCreateWithColorComponents (colorspace, gradientComponents, gradientLocations, gradientNumberOfLocations);
-    CGContextDrawLinearGradient(context, gradient, CGPointMake(0, 0), CGPointMake(0, size.height), 0);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
-
-+ (NSString *)getHashOfImage:(UIImage *)image
-{
-    unsigned char result[CC_MD5_DIGEST_LENGTH];
-    NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
-    CC_MD5([imageData bytes], (uint)[imageData length], result);
-    return [NSString stringWithFormat:
-            @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
-            result[0], result[1], result[2], result[3],
-            result[4], result[5], result[6], result[7],
-            result[8], result[9], result[10], result[11],
-            result[12], result[13], result[14], result[15]
-            ];
-}
-
-// For sorting the titles/issues in the releases view
-+ (NSArray *)getPublisherTableViewSectionArrayForArray:(NSArray *)array
-{
-    NSMutableArray *publishersArray = [NSMutableArray new];
-    for (LBXIssue *issue in array) {
-        if (![publishersArray containsObject:issue.publisher]) {
-            [publishersArray addObject:issue.publisher];
-        }
-        
-    }
-    
-    NSMutableArray *content = [NSMutableArray new];
-    
-    // Loop through every publisher
-    for (int i = 0; i < [publishersArray count]; i++ ) {
-        NSMutableDictionary *letterDict = [NSMutableDictionary new];
-        NSMutableArray *letterArray = [NSMutableArray new];
-        // Loop through every issue in the issues array
-        NSSortDescriptor *descr = [[NSSortDescriptor alloc] initWithKey:@"title.name" ascending:YES];
-        NSArray *sortDescriptors = @[descr];
-        for (LBXIssue *issue in [array sortedArrayUsingDescriptors:sortDescriptors]) {
-            // Check if the issue name begins with the current character
-            LBXPublisher *publisher = [publishersArray objectAtIndex:i];
-            if ([publisher.name isEqualToString:issue.publisher.name]) {
-                // If it does, append it to an array of all the titles
-                // for that letter
-                [letterArray addObject:issue];
-            }
-        }
-        // Add the letter as the key and the title array as the value
-        // and then make it a part of the larger content array
-        if (letterArray.count) {
-            LBXPublisher *publisher = [publishersArray objectAtIndex:i];
-            [letterDict setValue:letterArray forKey:[NSString stringWithFormat:@"%@", publisher.name]];
-            [content addObject:letterDict];
-        }
-    }
-    return content;
-}
-
-+ (NSArray *)getBundleTableViewSectionArrayForArray:(NSArray *)array
-{
-    NSMutableArray *keyedBundleArray = [NSMutableArray new];
-    for (NSArray *weekBundleArray in array) {
-        if (weekBundleArray.count) {
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"MMM dd, yyyy"];
-            NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:weekBundleArray, [formatter stringFromDate:[self getThisWednesdayOfDate:((LBXIssue *)weekBundleArray[0]).releaseDate]], nil];
-            [keyedBundleArray addObject:dict];
-        }
-    }
-    return keyedBundleArray;
-}
-
-+ (NSArray *)getAlphabeticalTableViewSectionArrayForArray:(NSArray *)array
-{
-    static NSString *letters = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ#";
-    
-    NSMutableArray *content = [NSMutableArray new];
-    
-    // Loop through every letter of the alphabet
-    for (int i = 0; i < [letters length]; i++ ) {
-        NSMutableDictionary *letterDict = [NSMutableDictionary new];
-        NSMutableArray *letterArray = [NSMutableArray new];
-        // Loop through every title in the publisher array
-        for (LBXTitle *title in array) {
-            // Check if the title name begins with the current character
-            if (toupper([letters characterAtIndex:i]) == toupper([title.name characterAtIndex:0])) {
-                // If it does, append it to an array of all the titles
-                // for that letter
-                [letterArray addObject:title];
-            }
-            if ([letters characterAtIndex:i] == '#' && isdigit([title.name characterAtIndex:0])) {
-                [letterArray addObject:title];
-            }
-        }
-        // Add the letter as the key and the title array as the value
-        // and then make it a part of the larger content array
-        if (letterArray.count) {
-            [letterDict setValue:letterArray forKey:[NSString stringWithFormat:@"%c", [letters characterAtIndex:i]]];
-            [content addObject:letterDict];
-        }
-    }
-    return content;
 }
 
 + (void)copyImageToPasteboard:(UIImage *)image

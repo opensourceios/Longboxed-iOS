@@ -29,6 +29,8 @@
 #import "UIImage+CreateImage.h"
 #import "UIImage+DrawOnImage.h"
 #import "UIImage+ImageEffects.h"
+#import "NSString+StringUtilities.h"
+#import "NSDate+DateUtilities.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <UICKeyChainStore.h>
@@ -309,7 +311,7 @@ static double TABLEHEIGHT = 174;
         }
     }
     
-    self.featuredDescriptionLabel.text = [LBXControllerServices regexOutHTMLJunk:_featuredIssue.issueDescription];
+    self.featuredDescriptionLabel.text = [NSString regexOutHTMLJunk:_featuredIssue.issueDescription];
     self.featuredDescriptionLabel.textColor = UIColor.whiteColor;
     _featuredDescriptionLabel.font = [UIFont featuredIssueDescriptionFont];
     self.featuredIssueTitleLabel.text = _featuredIssue.title.name;
@@ -364,7 +366,7 @@ static double TABLEHEIGHT = 174;
 
 - (void)getCoreDataPopularIssues
 {
-    NSDate *currentDate = [LBXControllerServices getLocalDate];
+    NSDate *currentDate = [NSDate getLocalDate];
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [currentDate dateByAddingTimeInterval:- 3*DAY], [currentDate dateByAddingTimeInterval:4*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
     

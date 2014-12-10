@@ -9,17 +9,19 @@
 #import "LBXWeekViewController.h"
 #import "LBXWeekTableViewCell.h"
 #import "LBXClient.h"
-#import "UIFont+customFonts.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXLogging.h"
-#import "NSDate+DateUtilities.h"
-#import "UIFont+customFonts.h"
 #import "LBXControllerServices.h"
-
 #import "ESDatePicker.h"
 
+#import "UIFont+customFonts.h"
+#import "NSDate+DateUtilities.h"
+#import "UIFont+customFonts.h"
+#import "NSArray+ArrayUtilities.h"
 #import "UIColor+customColors.h"
+#import "UIImage+CreateImage.h"
+
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "Masonry.h"
 
@@ -162,10 +164,10 @@ int _page;
         [self setIssuesForWeekArrayWithDate:_selectedWednesday];
     }
     else if ([_customNavTitle isEqualToString:@"Bundles"]) {
-        _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
+        _sectionArray = [NSArray getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
     }
     else {
-        _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
+        _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
     }
 }
 
@@ -254,15 +256,15 @@ int _page;
     }
     // Specific Date
     else if (_displayReleasesOfDate && _selectedWednesday) {
-        self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:[LBXControllerServices getThisWednesdayOfDate:_selectedWednesday]]];
+        self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:[NSDate getThisWednesdayOfDate:_selectedWednesday]]];
     }
     // This Week
     else if (_segmentedControl.selectedSegmentIndex == 0 && _displayReleasesOfDate) {
-        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[LBXControllerServices getThisWednesdayOfDate:[LBXControllerServices getLocalDate]]];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getThisWednesdayOfDate:[NSDate getLocalDate]]];
     }
     // Next Week
     else if (_segmentedControl.selectedSegmentIndex == 1 && _displayReleasesOfDate) {
-        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[LBXControllerServices getNextWednesdayOfDate:[LBXControllerServices getLocalDate]]];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]]];
     }
 }
 
@@ -275,7 +277,7 @@ int _page;
     [formatter setDateFormat:@"MMM dd, yyyy"];
     
     if (selectedSegment == 0) {
-        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[LBXControllerServices getThisWednesdayOfDate:[LBXControllerServices getLocalDate]]];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getThisWednesdayOfDate:[NSDate getLocalDate]]];
         _issuesForWeekArray = nil;
         [self setIssuesForWeekArrayWithThisWeekIssues];
         [self.tableView reloadData];
@@ -284,7 +286,7 @@ int _page;
     
     }
     else if (selectedSegment == 1) {
-        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[LBXControllerServices getNextWednesdayOfDate:[LBXControllerServices getLocalDate]]];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]]];
         _issuesForWeekArray = nil;
         [self setIssuesForWeekArrayWithNextWeekIssues];
         [self.tableView reloadData];
@@ -309,7 +311,7 @@ int _page;
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(isParent == 1)"];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
-        NSDate *localDateTime = [LBXControllerServices getLocalDate];
+        NSDate *localDateTime = [NSDate getLocalDate];
         NSMutableArray *nextWeekArray = [NSMutableArray new];
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is this week
@@ -320,9 +322,9 @@ int _page;
         }
         _issuesForWeekArray = nextWeekArray;
         if ([_customNavTitle isEqualToString:@"Bundles"]) {
-            _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
+            _sectionArray = [NSArray getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
-        else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
+        else _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
     }
 }
 
@@ -331,7 +333,7 @@ int _page;
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(isParent == 1)"];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
-        NSDate *localDateTime = [LBXControllerServices getLocalDate];
+        NSDate *localDateTime = [NSDate getLocalDate];
         NSMutableArray *nextWeekArray = [NSMutableArray new];
         for (LBXIssue *issue in allIssuesArray) {
             // Check if the issue is next week
@@ -342,9 +344,9 @@ int _page;
         }
         _issuesForWeekArray = nextWeekArray;
         if ([_customNavTitle isEqualToString:@"Bundles"]) {
-            _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
+            _sectionArray = [NSArray getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
-        else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
+        else _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
     }
 }
 
@@ -355,9 +357,9 @@ int _page;
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     _issuesForWeekArray = allIssuesArray;
     if ([_customNavTitle isEqualToString:@"Bundles"]) {
-        _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
+        _sectionArray = [NSArray getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
     }
-    else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
+    else _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
 }
 
 - (void)completeRefresh
@@ -367,9 +369,9 @@ int _page;
             [self setIssuesForWeekArrayWithDate:_selectedWednesday];
         }
         if ([_customNavTitle isEqualToString:@"Bundles"]) {
-            _sectionArray = [LBXControllerServices getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
+            _sectionArray = [NSArray getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
-        else _sectionArray = [LBXControllerServices getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
+        else _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
     }
     else if (_segmentedControl.selectedSegmentIndex == 0) {
         [self setIssuesForWeekArrayWithThisWeekIssues];
@@ -439,7 +441,7 @@ int _page;
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *dateString = [dateFormatter stringFromDate:[LBXControllerServices getThisWednesdayOfDate:date]    ];
+    NSString *dateString = [dateFormatter stringFromDate:[NSDate getThisWednesdayOfDate:date]    ];
     
     // Fetch this weeks comics
     [self.client fetchIssuesCollectionWithDate:[dateFormatter dateFromString:dateString] page:page completion:^(NSArray *issuesForDateArray, RKObjectRequestOperation *response, NSError *error) {
@@ -502,7 +504,7 @@ int _page;
 - (void)datePicker:(ESDatePicker *)datePicker dateSelected:(NSDate *)date
 {
     _issuesForWeekArray = nil;
-    _selectedWednesday = [LBXControllerServices getThisWednesdayOfDate:date];
+    _selectedWednesday = [NSDate getThisWednesdayOfDate:date];
     
     [_segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
     [self setNavTitle];
@@ -510,14 +512,14 @@ int _page;
     [self refreshControlAction];
     
     // Check if the issue is this week
-    if ([_selectedWednesday timeIntervalSinceDate:[LBXControllerServices getLocalDate]] > -3*DAY &&
-        [_selectedWednesday timeIntervalSinceDate:[LBXControllerServices getLocalDate]] <= 4*DAY) {
+    if ([_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] > -3*DAY &&
+        [_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] <= 4*DAY) {
         _segmentedControl.selectedSegmentIndex = 0;
     }
     
     // Check if the issue is next week
-    else if ([_selectedWednesday timeIntervalSinceDate:[LBXControllerServices getLocalDate]] > 5*DAY &&
-        [_selectedWednesday timeIntervalSinceDate:[LBXControllerServices getLocalDate]] <= 12*DAY) {
+    else if ([_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] > 5*DAY &&
+        [_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] <= 12*DAY) {
         _segmentedControl.selectedSegmentIndex = 1;
     }
     else {
@@ -628,7 +630,7 @@ int _page;
         cell.subtitleLabel.text = [NSString stringWithFormat:@"%@$%.02f  •  %@ Variant Cover", issueString, [issue.price floatValue], [NSNumber numberWithFloat:initialFind.count-1]].uppercaseString;
     }
     
-    [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[LBXControllerServices defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [cell.latestIssueImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         // Only fade in the image if it was fetched (not from cache)
         if (request) {
@@ -644,7 +646,7 @@ int _page;
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
-        cell.latestIssueImageView.image = [LBXControllerServices defaultCoverImage];
+        cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }];
 
     return cell;

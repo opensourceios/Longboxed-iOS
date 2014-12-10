@@ -15,8 +15,11 @@
 #import "LBXClient.h"
 
 #import "UIImageView+LBBlurredImage.h"
+#import "NSString+StringUtilities.h"
+#import "UIImage+CreateImage.h"
 #import "UIFont+customFonts.h"
 #import "UIImage+ImageEffects.h"
+
 #import "JGActionSheet.h"
 #import "LBXLogging.h"
 #import "SVProgressHUD.h"
@@ -85,13 +88,13 @@ BOOL selectedTitle;
     // Don't do setup if contained in scroll view (has variant issues)
     if (self.parentViewController) [LBXControllerServices setupTransparentNavigationBarForViewController:self];
     
-    if (_issueImage == nil || [UIImagePNGRepresentation(_issueImage) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
+    if (_issueImage == nil || [UIImagePNGRepresentation(_issueImage) isEqual:UIImagePNGRepresentation([UIImage defaultCoverImage])]) {
         _issueImage = [UIImage new];
         [self setupImageViews];
     }
     [self setupImagesWithImage:_issueImage];
     
-    NSString *modifiedTitleString = [LBXControllerServices regexOutHTMLJunk:_issue.title.name];
+    NSString *modifiedTitleString = [NSString regexOutHTMLJunk:_issue.title.name];
     [_titleButton setTitle:[NSString stringWithFormat:@"%@ #%@", modifiedTitleString, _issue.issueNumber] forState:UIControlStateNormal];
     [_titleButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _titleButton.titleLabel.font = [UIFont issueDetailTitleFont];
@@ -109,7 +112,7 @@ BOOL selectedTitle;
     
     _subtitleLabel.text = _issue.subtitle;
     if (_issue.subtitle) {
-        NSString *modifiedSubtitleString = [LBXControllerServices regexOutHTMLJunk:_issue.subtitle];
+        NSString *modifiedSubtitleString = [NSString regexOutHTMLJunk:_issue.subtitle];
         _subtitleLabel.text = modifiedSubtitleString;
         
         
@@ -128,7 +131,7 @@ BOOL selectedTitle;
     _priceLabel.text = [NSString stringWithFormat:@"$%.02f", [_issue.price floatValue]];
     [_publisherButton setTitle:_issue.publisher.name
                       forState:UIControlStateNormal];
-    [_releaseDateButton setTitle:[LBXControllerServices localTimeZoneStringWithDate:_issue.releaseDate]
+    [_releaseDateButton setTitle:[NSString localTimeZoneStringWithDate:_issue.releaseDate]
                         forState:UIControlStateNormal];
     
     [_publisherButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -167,7 +170,7 @@ BOOL selectedTitle;
     [_releaseDateButton setTitleColor:[UIColor lightGrayColor]
                              forState:UIControlStateHighlighted];
     
-    NSString *modifiedDescriptionString = [LBXControllerServices regexOutHTMLJunk:_issue.issueDescription];
+    NSString *modifiedDescriptionString = [NSString regexOutHTMLJunk:_issue.issueDescription];
     _descriptionTextView.text = modifiedDescriptionString;
     _descriptionTextView.selectable = NO;
     [_descriptionTextView scrollRangeToVisible:NSMakeRange(0, 0)]; // Scroll to the top
@@ -357,14 +360,14 @@ BOOL selectedTitle;
 {
     UIImageView *imageView = [UIImageView new];
     // Get the image from the URL and set it
-    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_issue.coverImage]] placeholderImage:[LBXControllerServices defaultCoverImageWithWhiteBackground] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_issue.coverImage]] placeholderImage:[UIImage defaultCoverImageWithWhiteBackground] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         _issueImage = image;
         [self setupImagesWithImage:image];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
-        _issueImage = [LBXControllerServices defaultCoverImageWithWhiteBackground];
+        _issueImage = [UIImage defaultCoverImageWithWhiteBackground];
         [self setupImagesWithImage:[UIImage imageNamed:@"black"]];
         
     }];

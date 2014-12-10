@@ -11,5 +11,8 @@
 @interface NSDate (DateUtilities)
 
 + (NSString *)fuzzyTimeBetweenStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate;
++ (NSDate *)getLocalDate;
++ (NSDate *)getThisWednesdayOfDate:(NSDate *)date;
++ (NSDate *)getNextWednesdayOfDate:(NSDate *)date;
 
 @end

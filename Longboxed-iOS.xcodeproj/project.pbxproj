@@ -101,6 +101,8 @@
 		E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */; };
 		E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810619CE10510042109B /* longboxed_logo.svg */; };
 		E5AB810B19CE1C550042109B /* LBXEmptyPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */; };
+		E5B2ED391A37D1C80053786F /* NSString+LBXStringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B2ED381A37D1C80053786F /* NSString+LBXStringUtilities.m */; };
+		E5B2ED3C1A37D1D80053786F /* NSString+StringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B2ED3B1A37D1D80053786F /* NSString+StringUtilities.m */; };
 		E5B5F9A419FC0C6200474E60 /* arrow_right_standard.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B5F9A119FC0C6200474E60 /* arrow_right_standard.png */; };
 		E5B5F9A519FC0C6200474E60 /* arrow_right_standard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B5F9A219FC0C6200474E60 /* arrow_right_standard@2x.png */; };
 		E5B5F9A619FC0C6200474E60 /* arrow_right_standard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B5F9A319FC0C6200474E60 /* arrow_right_standard@3x.png */; };
@@ -298,6 +300,10 @@
 		E5AB810619CE10510042109B /* longboxed_logo.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = longboxed_logo.svg; path = Assets/longboxed_logo.svg; sourceTree = SOURCE_ROOT; };
 		E5AB810819CE1C550042109B /* LBXEmptyPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXEmptyPullListViewController.h; path = Controllers/LBXEmptyPullListViewController.h; sourceTree = "<group>"; };
 		E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXEmptyPullListViewController.m; path = Controllers/LBXEmptyPullListViewController.m; sourceTree = "<group>"; };
+		E5B2ED371A37D1C80053786F /* NSString+LBXStringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LBXStringUtilities.h"; sourceTree = "<group>"; };
+		E5B2ED381A37D1C80053786F /* NSString+LBXStringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LBXStringUtilities.m"; sourceTree = "<group>"; };
+		E5B2ED3A1A37D1D80053786F /* NSString+StringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringUtilities.h"; sourceTree = "<group>"; };
+		E5B2ED3B1A37D1D80053786F /* NSString+StringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringUtilities.m"; sourceTree = "<group>"; };
 		E5B5F9A119FC0C6200474E60 /* arrow_right_standard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow_right_standard.png; path = Assets/arrow_right_standard.png; sourceTree = SOURCE_ROOT; };
 		E5B5F9A219FC0C6200474E60 /* arrow_right_standard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_standard@2x.png"; path = "Assets/arrow_right_standard@2x.png"; sourceTree = SOURCE_ROOT; };
 		E5B5F9A319FC0C6200474E60 /* arrow_right_standard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_standard@3x.png"; path = "Assets/arrow_right_standard@3x.png"; sourceTree = SOURCE_ROOT; };
@@ -874,6 +880,10 @@
 				E535EBB019DB7DD7001B729A /* UIImage+CreateImage.m */,
 				E5CD03151A08609B009C1D37 /* NSMutableArray+Randomize.h */,
 				E5CD03161A08609B009C1D37 /* NSMutableArray+Randomize.m */,
+				E5B2ED371A37D1C80053786F /* NSString+LBXStringUtilities.h */,
+				E5B2ED381A37D1C80053786F /* NSString+LBXStringUtilities.m */,
+				E5B2ED3A1A37D1D80053786F /* NSString+StringUtilities.h */,
+				E5B2ED3B1A37D1D80053786F /* NSString+StringUtilities.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1149,6 +1159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5B2ED391A37D1C80053786F /* NSString+LBXStringUtilities.m in Sources */,
 				E54A6AF9196B9E8B0094979A /* LBXBundle.m in Sources */,
 				E5E5162F19CA446D005FBD43 /* NSDate+DateUtilities.m in Sources */,
 				E55B68501A1AF5E6008A5CFD /* SVModalWebViewController.m in Sources */,
@@ -1179,6 +1190,7 @@
 				E593F55019D7160C00D310C6 /* ActualTableViewCell.m in Sources */,
 				E535EBB119DB7DD7001B729A /* UIImage+CreateImage.m in Sources */,
 				E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */,
+				E5B2ED3C1A37D1D80053786F /* NSString+StringUtilities.m in Sources */,
 				E515746719DCD1D00072EE3E /* LBXComicTableViewCell.m in Sources */,
 				E5E5162C19CA446D005FBD43 /* LBXMessageBar.m in Sources */,
 				E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */,

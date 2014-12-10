@@ -13,6 +13,8 @@
 #import "LBXClient.h"
 #import "PaintCodeImages.h"
 
+#import "UIImage+CreateImage.h"
+
 #import <UIImageView+AFNetworking.h>
 #import "UIFont+customFonts.h"
 
@@ -37,8 +39,8 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         _backgroundImage = [UIImage imageNamed:@"black"];
         [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
         [self getLatestIssueImageForTitle:title withCompletion:^(UIImage *image) {
-            if ([UIImagePNGRepresentation(image) isEqual:UIImagePNGRepresentation([LBXControllerServices defaultCoverImage])]) {
-                _foregroundImage = [LBXControllerServices defaultCoverImageWithWhiteBackground];
+            if ([UIImagePNGRepresentation(image) isEqual:UIImagePNGRepresentation([UIImage defaultCoverImage])]) {
+                _foregroundImage = [UIImage defaultCoverImageWithWhiteBackground];
                 _backgroundImage = [UIImage imageNamed:@"black"];
             }
             else {
@@ -125,20 +127,20 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
             if (issueArray.count) {
                 for (LBXIssue *issue in issueArray) {
                     if ([issue.isParent isEqualToNumber:@1]) {
-                        [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[LBXControllerServices defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                        [imageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                             completion(image);
                             
                         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                            completion([LBXControllerServices defaultCoverImage]);
+                            completion([UIImage defaultCoverImage]);
                         }];
                         return;
                     }
                 }
             }
-            else completion([LBXControllerServices defaultCoverImage]);
+            else completion([UIImage defaultCoverImage]);
         }
         else {
-            completion([LBXControllerServices defaultCoverImage]);
+            completion([UIImage defaultCoverImage]);
             //[LBXMessageBar displayError:error];
         }
     }];

@@ -11,5 +11,8 @@
 @interface NSArray (ArrayUtilities)
 
 + (NSArray *)sortedArray:(NSArray *)array basedOffObjectProperty:(NSString *)property;
++ (NSArray *)getPublisherTableViewSectionArrayForArray:(NSArray *)array;
++ (NSArray *)getBundleTableViewSectionArrayForArray:(NSArray *)array;
++ (NSArray *)getAlphabeticalTableViewSectionArrayForArray:(NSArray *)array;
 
 @end

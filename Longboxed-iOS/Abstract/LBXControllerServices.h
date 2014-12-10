@@ -14,26 +14,12 @@
 
 @interface LBXControllerServices : NSObject
 
-+ (UIImage *)defaultCoverImage;
-+ (UIImage *)defaultCoverImageWithWhiteBackground;
-
-+ (NSDate *)getLocalDate;
-+ (NSDate *)getThisWednesdayOfDate:(NSDate *)date;
-+ (NSDate *)getNextWednesdayOfDate:(NSDate *)date;
-
-+ (NSString *)timeSinceLastIssueForTitle:(LBXTitle *)title;
-+ (LBXIssue *)closestIssueForTitle:(LBXTitle *)title;
-+ (NSString *)localTimeZoneStringWithDate:(NSDate *)date;
-
-
-+ (NSString *)getSubtitleStringWithTitle:(LBXTitle *)title uppercase:(BOOL)uppercase;
 + (void)setPublisherCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
 + (void)setPullListCell:(LBXPullListTableViewCell *)cell withTitle:(LBXTitle *)title;
 + (void)setAddToPullListSearchCell:(LBXPullListTableViewCell *)cell
                          withTitle:(LBXTitle *)title
                        darkenImage:(BOOL)darken;
 + (void)setTitleCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue;
-+ (NSString *)regexOutHTMLJunk:(NSString *)string;
 
 + (void)setLabel:(UILabel *)textView
       withString:(NSString *)string
@@ -43,12 +29,6 @@
                            string:(NSString *)string
                              font:(UIFont *)font;
 + (void)setSearchBar:(UISearchBar *)searchBar withTextColor:(UIColor *)color;
-+ (UIImage *)generateImageForPublisher:(LBXPublisher *)publisher size:(CGSize)size;
-+ (NSString *)getHashOfImage:(UIImage *)image;
-
-+ (NSArray *)getPublisherTableViewSectionArrayForArray:(NSArray *)array;
-+ (NSArray *)getBundleTableViewSectionArrayForArray:(NSArray *)array;
-+ (NSArray *)getAlphabeticalTableViewSectionArrayForArray:(NSArray *)array;
 
 + (void)copyImageToPasteboard:(UIImage *)image;
 

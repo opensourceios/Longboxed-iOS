@@ -13,6 +13,8 @@
 #import "LBXControllerServices.h"
 #import "LBXIssueDetailViewController.h"
 
+#import "UIImage+CreateImage.h" 
+
 #import <UIImageView+AFNetworking.h>
 
 @implementation LBXTopTableViewCell
@@ -61,7 +63,7 @@
     LBXIssue *issue = [contentArray objectAtIndex:indexPath.row];
     
     __weak typeof(cell) weakCell = cell;
-    [cell.coverImage setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[LBXControllerServices defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [cell.coverImage setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
         [UIView transitionWithView:weakCell.imageView
                           duration:0.5f
@@ -70,7 +72,7 @@
                         completion:NULL];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        weakCell.coverImage.image = [LBXControllerServices defaultCoverImage];
+        weakCell.coverImage.image = [UIImage defaultCoverImage];
     }];
     
     [cell.titleName setText:issue.completeTitle];
