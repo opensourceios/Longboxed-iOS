@@ -220,7 +220,7 @@ UICKeyChainStore *store;
 {
     switch (section) {
         case 1:
-            return @"Longboxed will never interrupt you for ratings.";
+            return @" ";
             break;
         case 2:
             if (resetCacheToZero) return @"Less than 0.5 MB";
@@ -265,6 +265,7 @@ UICKeyChainStore *store;
     }
     
     cell.accessoryView = nil; // Sets any views that previously had UISwitches back to normal
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [textArray objectAtIndex:indexPath.row];
     cell.detailTextLabel.text = @"";
@@ -273,6 +274,7 @@ UICKeyChainStore *store;
     if (indexPath.section == 0) {
         if (indexPath.row == 1 && [LBXControllerServices isLoggedIn]) {
             cell.accessoryView = _developmentServerSwitch;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         else if (indexPath.row == 0 && [LBXControllerServices isLoggedIn]) {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -329,7 +331,7 @@ UICKeyChainStore *store;
                 [alertController addAction:logout];
                 [self presentViewController:alertController animated:YES completion:nil];
             }
-            else if (indexPath.row == 1) {
+            else if (indexPath.row == 1 && ![LBXControllerServices isLoggedIn]) {
                 LBXLoginViewController *loginViewController = [LBXLoginViewController new];
                 [self.navigationController pushViewController:loginViewController animated:YES];
             }
@@ -348,7 +350,7 @@ UICKeyChainStore *store;
                 resetCacheToZero = YES;
                 [self.settingsTableView reloadData];
             }
-            
+            break;
         default:
             break;
     }
