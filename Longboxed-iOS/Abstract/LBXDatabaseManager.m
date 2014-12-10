@@ -35,6 +35,7 @@
 @implementation LBXDatabaseManager
 
 + (void)flushDatabase {
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
     NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *managedObjectContext = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
         [managedObjectContext performBlockAndWait:^{

@@ -44,5 +44,6 @@
 + (BOOL)isLoggedIn;
 + (BOOL)isAdmin;
 + (void)removeCredentials;
++ (NSString *)diskUsage;
 
 @end

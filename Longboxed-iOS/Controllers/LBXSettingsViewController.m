@@ -32,6 +32,7 @@
 
 @implementation LBXSettingsViewController
 
+bool resetCacheToZero;
 UICKeyChainStore *store;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -39,6 +40,7 @@ UICKeyChainStore *store;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        resetCacheToZero = NO;
         store = [UICKeyChainStore keyChainStore];
         _client = [[LBXClient alloc] init];
     }
@@ -85,6 +87,7 @@ UICKeyChainStore *store;
     }
     [self.navigationItem setHidesBackButton:YES animated:YES];
     [self.view setNeedsLayout];
+    NSLog(@"%@", [LBXControllerServices diskUsage]);
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -208,7 +211,7 @@ UICKeyChainStore *store;
             return @"Storage";
             break;
         default:
-            return nil;
+            return @" ";
             break;
     }
 }
@@ -218,6 +221,10 @@ UICKeyChainStore *store;
     switch (section) {
         case 1:
             return @"Longboxed will never interrupt you for ratings.";
+            break;
+        case 2:
+            if (resetCacheToZero) return @"Less than 0.5 MB";
+            else return [NSString stringWithFormat:@"%@ used", [LBXControllerServices diskUsage]];
             break;
         default:
             return @" ";
@@ -250,7 +257,7 @@ UICKeyChainStore *store;
             textArray = @[@"Send Feedback", @"Please Rate Longboxed"];
             break;
         case 2:
-            textArray = @[@"Data Cache"];
+            textArray = @[@"Clear Image & Data Cache"];
             break;
         default:
             textArray = @[@"About"];
@@ -274,6 +281,14 @@ UICKeyChainStore *store;
 
     }
     
+    // Storage Section
+    if (indexPath.section == 2) {
+        if (indexPath.row == 0) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    }
+    
+    cell.detailTextLabel.font = [UIFont settingsTableViewFont];
     cell.textLabel.font = [UIFont settingsTableViewFont];
     
     return cell;
@@ -326,10 +341,12 @@ UICKeyChainStore *store;
                 [LBXMessageBar clearedCache];
                 [LBXDatabaseManager flushDatabase];
                 if ([LBXControllerServices isLoggedIn]) {
-                    [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error){}];
+                    [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
+                    }];
                 }
                 [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
-                
+                resetCacheToZero = YES;
+                [self.settingsTableView reloadData];
             }
             
         default:
