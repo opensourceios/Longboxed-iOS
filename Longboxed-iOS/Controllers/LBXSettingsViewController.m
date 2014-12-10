@@ -39,6 +39,7 @@ UICKeyChainStore *store;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        store = [UICKeyChainStore keyChainStore];
         _client = [[LBXClient alloc] init];
     }
     return self;
@@ -51,6 +52,7 @@ UICKeyChainStore *store;
     self.navigationController.navigationBar.topItem.title = @"Settings";
     
     _developmentServerSwitch = [UISwitch new];
+    [_developmentServerSwitch setOnTintColor:[UIColor blackColor]];
     
     [_developmentServerSwitch addTarget:self
                                  action:@selector(stateChanged:)
@@ -69,8 +71,8 @@ UICKeyChainStore *store;
 {
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     
-    [self.settingsTableView reloadData];
     _developmentServerSwitch.hidden = ([LBXControllerServices isAdmin]) ? NO : YES;
+    [self.settingsTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -173,7 +175,7 @@ UICKeyChainStore *store;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -184,8 +186,11 @@ UICKeyChainStore *store;
             if ([LBXControllerServices isAdmin]) return 2;
             else return 1;
             break;
-        default:
+        case 1:
             return 2;
+            break;
+        default:
+            return 1;
             break;
     }
 }
@@ -199,8 +204,11 @@ UICKeyChainStore *store;
         case 1:
             return @"Feedback";
             break;
+        case 2:
+            return @"Storage";
+            break;
         default:
-            return @" ";
+            return nil;
             break;
     }
 }
@@ -225,7 +233,7 @@ UICKeyChainStore *store;
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc]
-                initWithStyle:UITableViewCellStyleDefault
+                initWithStyle:UITableViewCellStyleValue1
                 reuseIdentifier:CellIdentifier];
     }
     
@@ -242,16 +250,17 @@ UICKeyChainStore *store;
             textArray = @[@"Send Feedback", @"Please Rate Longboxed"];
             break;
         case 2:
-            textArray = @[@"Data Cache", @"About"];
+            textArray = @[@"Data Cache"];
             break;
         default:
-            textArray = @[@" "];
+            textArray = @[@"About"];
             break;
     }
     
     cell.accessoryView = nil; // Sets any views that previously had UISwitches back to normal
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [textArray objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = @"";
     
     // Account Section
     if (indexPath.section == 0) {
@@ -259,8 +268,8 @@ UICKeyChainStore *store;
             cell.accessoryView = _developmentServerSwitch;
         }
         else if (indexPath.row == 0 && [LBXControllerServices isLoggedIn]) {
-            
             cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.detailTextLabel.text = [store stringForKey:@"username"];
         }
 
     }
@@ -276,12 +285,34 @@ UICKeyChainStore *store;
     switch (indexPath.section) {
         case 0:
             if (indexPath.row == 0 && [LBXControllerServices isLoggedIn]) {
-                [LBXLogging logLogout];
-                [LBXControllerServices removeCredentials];
-                [LBXDatabaseManager flushBundlesAndPullList];
-                [LBXMessageBar successfulLogout];
-                [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
-                [self.settingsTableView reloadData];
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                UIAlertAction* logout = [UIAlertAction
+                                     actionWithTitle:@"Log Out"
+                                     style:UIAlertActionStyleDestructive
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         [LBXLogging logLogout];
+                                         [LBXControllerServices removeCredentials];
+                                         [LBXDatabaseManager flushBundlesAndPullList];
+                                         [LBXMessageBar successfulLogout];
+                                         [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
+                                         [self.settingsTableView reloadData];
+                                         [alertController dismissViewControllerAnimated:YES completion:nil];
+                                         
+                                     }];
+                UIAlertAction* cancel = [UIAlertAction
+                                         actionWithTitle:@"Cancel"
+                                         style:UIAlertActionStyleCancel
+                                         handler:^(UIAlertAction * action)
+                                         {
+                                             [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
+                                             [alertController dismissViewControllerAnimated:YES completion:nil];
+                                             
+                                         }];
+                
+                [alertController addAction:cancel];
+                [alertController addAction:logout];
+                [self presentViewController:alertController animated:YES completion:nil];
             }
             else if (indexPath.row == 1) {
                 LBXLoginViewController *loginViewController = [LBXLoginViewController new];
@@ -294,6 +325,9 @@ UICKeyChainStore *store;
                 [LBXLogging logMessage:[NSString stringWithFormat:@"Clearing cache"]];
                 [LBXMessageBar clearedCache];
                 [LBXDatabaseManager flushDatabase];
+                if ([LBXControllerServices isLoggedIn]) {
+                    [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error){}];
+                }
                 [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
                 
             }

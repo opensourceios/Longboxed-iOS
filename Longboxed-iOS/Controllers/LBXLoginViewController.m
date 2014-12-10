@@ -39,6 +39,7 @@ UICKeyChainStore *store;
     // Do any additional setup after loading the view from its nib.
     
     // Custom initialization
+    store = [UICKeyChainStore keyChainStore];
     _client = [[LBXClient alloc] init];
     
     // Only show the 1Password button if the app is installed
@@ -121,7 +122,6 @@ UICKeyChainStore *store;
             }
             else {
                 [self login];
-                [self dismissViewControllerAnimated:YES completion:nil];
             }
             
             break;
