@@ -95,7 +95,6 @@ UICKeyChainStore *store;
             [UICKeyChainStore setString:_usernameField.text forKey:@"username"];
             [UICKeyChainStore setString:_passwordField.text forKey:@"password"];
             [self login];
-
         }
         else {
             [LBXLogging logMessage:[NSString stringWithFormat:@"Error signing up user %@", _usernameField.text]];
@@ -111,7 +110,6 @@ UICKeyChainStore *store;
             [alert show];
             
             dispatch_async(dispatch_get_main_queue(),^{
-                [LBXMessageBar incorrectCredentials];
                 _passwordField.text = @"";
                 [_usernameField becomeFirstResponder];
             });
@@ -127,19 +125,17 @@ UICKeyChainStore *store;
             dispatch_async(dispatch_get_main_queue(),^{
                 [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
                 [store synchronize];
-                [LBXMessageBar successfulLogin];
+                [LBXMessageBar displaySuccessWithTitle:@"Registration Successful" andSubtitle:@"Successfully created account"];
                 [LBXLogging logLogin];
                 [self.navigationController popViewControllerAnimated:YES];
             });
         }
         else {
-            [LBXLogging logMessage:[NSString stringWithFormat:@"Unsuccessful dev toggle log in %@", [store stringForKey:@"username"]]];
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Unsuccessful log in for %@", _usernameField.text]];
             [LBXControllerServices removeCredentials];
             [LBXDatabaseManager flushBundlesAndPullList];
             
-            dispatch_async(dispatch_get_main_queue(),^{
-                [LBXMessageBar incorrectCredentials];
-            });
+            [LBXMessageBar displayErrorWithTitle:@"Registration Error" andSubtitle:@"Unable to create account"];
         }
     }];
 }

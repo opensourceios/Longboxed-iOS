@@ -9,6 +9,8 @@
 #import "LBXSettingsViewController.h"
 #import "LBXDashboardViewController.h"
 #import "LBXLoginViewController.h"
+#import "LBXDeleteAccountViewController.h"
+#import "LBXSignupViewController.h"
 #import "LBXDatabaseManager.h"
 #import "LBXControllerServices.h"
 #import "LBXClient.h"
@@ -51,7 +53,12 @@ UICKeyChainStore *store;
 {
     [super viewDidLoad];
     
-    self.navigationController.navigationBar.topItem.title = @"Settings";
+    UILabel *label = [UILabel new];
+    label.text = @"Settings";
+    label.font = [UIFont navTitleFont];
+    [label sizeToFit];
+    
+    self.navigationItem.titleView = label;
     
     _developmentServerSwitch = [UISwitch new];
     [_developmentServerSwitch setOnTintColor:[UIColor blackColor]];
@@ -67,6 +74,7 @@ UICKeyChainStore *store;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
 }
 
 - (void)viewWillLayoutSubviews
@@ -79,15 +87,14 @@ UICKeyChainStore *store;
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    self.navigationController.navigationBar.backItem.hidesBackButton = YES;
+    self.navigationController.navigationBar.topItem.title = @"Settings";
+    [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     [_developmentServerSwitch setOn:YES animated:NO];
     RKResponseDescriptor *responseDescriptor = [RKObjectManager sharedManager].responseDescriptors[0];
     if ([[responseDescriptor.baseURL absoluteString] isEqualToString:[[LBXEndpoints productionURL] absoluteString]]) {
         [_developmentServerSwitch setOn:NO animated:NO];
     }
     [self.navigationItem setHidesBackButton:YES animated:YES];
-    [self.view setNeedsLayout];
-    NSLog(@"%@", [LBXControllerServices diskUsage]);
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -192,6 +199,10 @@ UICKeyChainStore *store;
         case 1:
             return 2;
             break;
+        case 3:
+            if ([LBXControllerServices isLoggedIn]) return 2;
+            else return 1;
+            break;
         default:
             return 1;
             break;
@@ -244,7 +255,7 @@ UICKeyChainStore *store;
                 reuseIdentifier:CellIdentifier];
     }
     
-    NSString *logInString = ([LBXControllerServices isLoggedIn]) ? @"Log Out" : @"Sign Up";
+    NSString *logInString = ([LBXControllerServices isLoggedIn]) ? @"Email" : @"Sign Up";
     NSString *devServerOrLogInString = ([LBXControllerServices isLoggedIn]) ? @"Use Development Server" : @"Log In";
     
     
@@ -259,8 +270,8 @@ UICKeyChainStore *store;
         case 2:
             textArray = @[@"Clear Image & Data Cache"];
             break;
-        default:
-            textArray = @[@"About"];
+        case 3:
+            textArray = ([LBXControllerServices isLoggedIn]) ? @[@"About", @"Delete Account And All Data"] : @[@"About"];
             break;
     }
     
@@ -290,6 +301,10 @@ UICKeyChainStore *store;
         }
     }
     
+    if (indexPath.section == 3 && indexPath.row == 1) {
+        cell.textLabel.textColor = [UIColor redColor];
+    }
+    
     cell.detailTextLabel.font = [UIFont settingsTableViewFont];
     cell.textLabel.font = [UIFont settingsTableViewFont];
     
@@ -301,35 +316,43 @@ UICKeyChainStore *store;
 {
     switch (indexPath.section) {
         case 0:
-            if (indexPath.row == 0 && [LBXControllerServices isLoggedIn]) {
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-                UIAlertAction* logout = [UIAlertAction
-                                     actionWithTitle:@"Log Out"
-                                     style:UIAlertActionStyleDestructive
-                                     handler:^(UIAlertAction * action)
-                                     {
-                                         [LBXLogging logLogout];
-                                         [LBXControllerServices removeCredentials];
-                                         [LBXDatabaseManager flushBundlesAndPullList];
-                                         [LBXMessageBar successfulLogout];
-                                         [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
-                                         [self.settingsTableView reloadData];
-                                         [alertController dismissViewControllerAnimated:YES completion:nil];
-                                         
-                                     }];
-                UIAlertAction* cancel = [UIAlertAction
-                                         actionWithTitle:@"Cancel"
-                                         style:UIAlertActionStyleCancel
+            if (indexPath.row == 0) {
+                // User is logged in - show email and stuff
+                if ([LBXControllerServices isLoggedIn]) {
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                    UIAlertAction* logout = [UIAlertAction
+                                         actionWithTitle:@"Log Out"
+                                         style:UIAlertActionStyleDestructive
                                          handler:^(UIAlertAction * action)
                                          {
+                                             [LBXLogging logLogout];
+                                             [LBXControllerServices removeCredentials];
+                                             [LBXDatabaseManager flushBundlesAndPullList];
+                                             [LBXMessageBar successfulLogout];
                                              [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
+                                             [self.settingsTableView reloadData];
                                              [alertController dismissViewControllerAnimated:YES completion:nil];
                                              
                                          }];
-                
-                [alertController addAction:cancel];
-                [alertController addAction:logout];
-                [self presentViewController:alertController animated:YES completion:nil];
+                    UIAlertAction* cancel = [UIAlertAction
+                                             actionWithTitle:@"Cancel"
+                                             style:UIAlertActionStyleCancel
+                                             handler:^(UIAlertAction * action)
+                                             {
+                                                 [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
+                                                 [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                 
+                                             }];
+                    
+                    [alertController addAction:cancel];
+                    [alertController addAction:logout];
+                    [self presentViewController:alertController animated:YES completion:nil];
+                }
+                // User is not logged in - show sign up
+                else {
+                    LBXSignupViewController *signupViewController = [LBXSignupViewController new];
+                    [self.navigationController pushViewController:signupViewController animated:YES];
+                }
             }
             else if (indexPath.row == 1 && ![LBXControllerServices isLoggedIn]) {
                 LBXLoginViewController *loginViewController = [LBXLoginViewController new];
@@ -349,6 +372,13 @@ UICKeyChainStore *store;
                 [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
                 resetCacheToZero = YES;
                 [self.settingsTableView reloadData];
+            }
+            break;
+        case 3:
+            // Delete Account
+            if (indexPath.row == 1) {
+                LBXDeleteAccountViewController *deleteViewController = [LBXDeleteAccountViewController new];
+                [self.navigationController pushViewController:deleteViewController animated:YES];
             }
             break;
         default:

@@ -29,6 +29,21 @@
     }
 }
 
++ (void)displayErrorWithTitle:(NSString *)title andSubtitle:(NSString *)subtitle
+{
+    [[TWMessageBarManager sharedInstance] showMessageWithTitle:title
+                                                   description:subtitle
+                                                          type:TWMessageBarMessageTypeError];
+}
+
++ (void)displaySuccessWithTitle:(NSString *)title andSubtitle:(NSString *)subtitle
+{
+    [[TWMessageBarManager sharedInstance] showMessageWithTitle:title
+                                                   description:subtitle
+                                                          type:TWMessageBarMessageTypeSuccess];
+}
+
+
 + (void)successfulLogin
 {
       [[TWMessageBarManager sharedInstance] showMessageWithTitle:@"Log In Successful"

@@ -11,6 +11,8 @@
 @interface LBXMessageBar : NSObject
 
 + (void)displayError:(NSError *)error;
++ (void)displayErrorWithTitle:(NSString *)title andSubtitle:(NSString *)subtitle;
++ (void)displaySuccessWithTitle:(NSString *)title andSubtitle:(NSString *)subtitle;
 + (void)successfulLogin;
 + (void)successfulLogout;
 + (void)incorrectCredentials;

@@ -45,6 +45,10 @@
 		E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6B04196BA7CF0094979A /* LBXDescriptors.m */; };
 		E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54F10951991D21B00DAD4FE /* LBXPullListTableViewCell.xib */; };
 		E54F10991991D28900DAD4FE /* LBXPullListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E54F10981991D28900DAD4FE /* LBXPullListTableViewCell.m */; };
+		E55042BB1A3916FF008905ED /* LBXSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E55042B91A3916FF008905ED /* LBXSignupViewController.m */; };
+		E55042BC1A3916FF008905ED /* LBXSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55042BA1A3916FF008905ED /* LBXSignupViewController.xib */; };
+		E55042C01A3935E5008905ED /* LBXDeleteAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E55042BE1A3935E5008905ED /* LBXDeleteAccountViewController.m */; };
+		E55042C11A3935E5008905ED /* LBXDeleteAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55042BF1A3935E5008905ED /* LBXDeleteAccountViewController.xib */; };
 		E553F59F19946393003E1F5C /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = E553F59E19946393003E1F5C /* clear.png */; };
 		E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */; };
 		E55497A519AAE284004501FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E55497A419AAE284004501FF /* SystemConfiguration.framework */; };
@@ -214,6 +218,12 @@
 		E54F10951991D21B00DAD4FE /* LBXPullListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXPullListTableViewCell.xib; path = Views/LBXPullListTableViewCell.xib; sourceTree = "<group>"; };
 		E54F10971991D28900DAD4FE /* LBXPullListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListTableViewCell.h; path = Views/LBXPullListTableViewCell.h; sourceTree = "<group>"; };
 		E54F10981991D28900DAD4FE /* LBXPullListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListTableViewCell.m; path = Views/LBXPullListTableViewCell.m; sourceTree = "<group>"; };
+		E55042B81A3916FF008905ED /* LBXSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSignupViewController.h; path = Controllers/LBXSignupViewController.h; sourceTree = "<group>"; };
+		E55042B91A3916FF008905ED /* LBXSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSignupViewController.m; path = Controllers/LBXSignupViewController.m; sourceTree = "<group>"; };
+		E55042BA1A3916FF008905ED /* LBXSignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXSignupViewController.xib; path = Controllers/LBXSignupViewController.xib; sourceTree = "<group>"; };
+		E55042BD1A3935E5008905ED /* LBXDeleteAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDeleteAccountViewController.h; path = Controllers/LBXDeleteAccountViewController.h; sourceTree = "<group>"; };
+		E55042BE1A3935E5008905ED /* LBXDeleteAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDeleteAccountViewController.m; path = Controllers/LBXDeleteAccountViewController.m; sourceTree = "<group>"; };
+		E55042BF1A3935E5008905ED /* LBXDeleteAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXDeleteAccountViewController.xib; path = Controllers/LBXDeleteAccountViewController.xib; sourceTree = "<group>"; };
 		E553F59E19946393003E1F5C /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clear.png; path = Assets/clear.png; sourceTree = SOURCE_ROOT; };
 		E553F5A01994691A003E1F5C /* LBXDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDatabaseManager.h; path = Abstract/LBXDatabaseManager.h; sourceTree = "<group>"; };
 		E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDatabaseManager.m; path = Abstract/LBXDatabaseManager.m; sourceTree = "<group>"; };
@@ -784,6 +794,12 @@
 				E5981B591A380EF1003E0E40 /* LBXLoginViewController.h */,
 				E5981B5A1A380EF1003E0E40 /* LBXLoginViewController.m */,
 				E5981B5B1A380EF1003E0E40 /* LBXLoginViewController.xib */,
+				E55042B81A3916FF008905ED /* LBXSignupViewController.h */,
+				E55042B91A3916FF008905ED /* LBXSignupViewController.m */,
+				E55042BA1A3916FF008905ED /* LBXSignupViewController.xib */,
+				E55042BD1A3935E5008905ED /* LBXDeleteAccountViewController.h */,
+				E55042BE1A3935E5008905ED /* LBXDeleteAccountViewController.m */,
+				E55042BF1A3935E5008905ED /* LBXDeleteAccountViewController.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1044,6 +1060,8 @@
 				E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */,
 				E57E156D19A98FB0002616F5 /* arrow_right_small@2x.png in Resources */,
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,
+				E55042C11A3935E5008905ED /* LBXDeleteAccountViewController.xib in Resources */,
+				E55042BC1A3916FF008905ED /* LBXSignupViewController.xib in Resources */,
 				E57CCAC719CB8C8E0086B39E /* LBXSearchTableViewCell.xib in Resources */,
 				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,
 				E5981B5D1A380EF1003E0E40 /* LBXLoginViewController.xib in Resources */,
@@ -1196,6 +1214,7 @@
 				E50183E019F45F4C00DA3CAB /* ESDatePicker.m in Sources */,
 				E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */,
 				E5068A5C19B534AC0021CEE8 /* PSDDFormatter.m in Sources */,
+				E55042C01A3935E5008905ED /* LBXDeleteAccountViewController.m in Sources */,
 				E50183E119F45F4C00DA3CAB /* ESObjectPool.m in Sources */,
 				E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */,
 				E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */,
@@ -1236,6 +1255,7 @@
 				E55B68551A1AF5E6008A5CFD /* SVWebViewControllerActivityChrome.m in Sources */,
 				E5AB810B19CE1C550042109B /* LBXEmptyPullListViewController.m in Sources */,
 				E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */,
+				E55042BB1A3916FF008905ED /* LBXSignupViewController.m in Sources */,
 				E5E5162E19CA446D005FBD43 /* NSData+Base64.m in Sources */,
 				E5CD03171A08609B009C1D37 /* NSMutableArray+Randomize.m in Sources */,
 				E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */,
