@@ -100,16 +100,12 @@
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-                 
-                 
                  if (completion) {
                      completion(jsonFromData, operation, nil);
                  }
                  
-             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                 if (completion) {
-                     completion(nil, operation, error);
-                 }
+             } failure:^( AFHTTPRequestOperation *operation, NSError *error) {
+                 completion(nil, operation, error);
              }];
 
 }
@@ -324,6 +320,12 @@
     NSDictionary *parameters = @{@"email" : email, @"password" : password, @"password_confirm" : passwordConfirm};
     
     [self POSTWithRouteName:@"Register" queryParameters:nil jsonParameters:parameters credentials:NO completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+        if (error) {
+            NSString *errorJSONString = error.userInfo[@"NSLocalizedRecoverySuggestion"];
+            NSData *data = [errorJSONString dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            resultDict = jsonDict[@"errors"];
+        }
         completion(resultDict, response, error);
     }];
 }

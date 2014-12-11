@@ -218,27 +218,16 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 {
     [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client registerWithEmail:@"johnrhickey+signup@gmail.com" password:@"test1234" passwordConfirm:@"test1234" withCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
+        [self.client registerWithEmail:@"johnrhickey+testSignup@gmail.com" password:@"test1234" passwordConfirm:@"test1234" withCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
+            if (response.response.statusCode != 200) {
+                NSLog(@"%@", response);
+            }
             if (error) {
-                NSString *errorJSONString = error.userInfo[@"NSLocalizedRecoverySuggestion"];
-                NSData *data = [errorJSONString dataUsingEncoding:NSUTF8StringEncoding];
-                NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-                NSDictionary *errors = jsonDict[@"errors"];
-                for (NSString *error in [errors allKeys]) {
-                    if ([error isEqualToString:@"email"]) {
-                        NSLog(@"%@", errors[error]);
-                        *done = YES;
-                    }
-                    else if ([error isEqualToString:@"password"]) {
-                        NSLog(@"%@", errors[error]);
-                        *done = YES;
-                    }
-                    else if ([error isEqualToString:@"password_confirm"]) {
-                        NSLog(@"%@", errors[error]);
-                        *done = YES;
-                    }
+                for (NSString *error in [responseDict allKeys]) {
+                    XCTFail(@"%@", responseDict[error]);
+                    *done = YES;
                 }
-                NSLog(@"%@", errors);
+
             }
             else {
                 XCTAssertEqual(response.response.statusCode, 200, @"Sign up endpoint is returning a status code %ldd", (long)response.response.statusCode);
