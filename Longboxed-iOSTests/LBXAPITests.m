@@ -289,7 +289,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     });
 }
 
-- (void)testAddandRemovePullListTitleEndpoint
+- (void)testAddandRemovePullListTitleEndpoints
 {
     NSNumber *titleNum = @6;
 

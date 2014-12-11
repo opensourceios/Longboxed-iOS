@@ -15,13 +15,14 @@
 #import "LBXMessageBar.h"
 #import "SVModalWebViewController.h"
 
+#import "UIFont+customFonts.h"
+
 #import <UICKeyChainStore.h>
 #import <TWMessageBarManager.h>
 #import <OnePasswordExtension.h>
 
 @interface LBXLoginViewController ()
 
-@property (nonatomic, retain) IBOutlet UIButton *onePasswordButton;
 @property (nonatomic, strong) IBOutlet UIButton *loginButton;
 @property (nonatomic, strong) IBOutlet UIButton *forgotPasswordButton;
 @property (nonatomic, strong) IBOutlet UITextField *usernameField;
@@ -42,9 +43,6 @@ UICKeyChainStore *store;
     store = [UICKeyChainStore keyChainStore];
     _client = [[LBXClient alloc] init];
     
-    // Only show the 1Password button if the app is installed
-    [self.onePasswordButton setHidden:![[OnePasswordExtension sharedExtension] isAppExtensionAvailable]];
-    
     // Do any additional setup after loading the view from its nib.
     store = [UICKeyChainStore keyChainStore];
     _usernameField.text = store[@"username"];
@@ -53,6 +51,16 @@ UICKeyChainStore *store;
     // Set the log in button text
     if ([_passwordField.text isEqualToString:@""]) [self setButtonsForLoggedOut];
     else [self setButtonsForLoggedIn];
+    
+    [_loginButton setTitle:@"     LOG IN     " forState:UIControlStateNormal];
+    _loginButton.layer.borderWidth = 1.0f;
+    _loginButton.layer.cornerRadius = 6.0f;
+    
+    if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
+        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"1Password" style:UIBarButtonItemStylePlain target:self action:@selector(buttonPressed:)];
+        anotherButton.tag = 1;
+        self.navigationItem.rightBarButtonItem = anotherButton;
+    }
 
 }
 
@@ -60,6 +68,13 @@ UICKeyChainStore *store;
 {
     [super viewWillAppear:animated];
     [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [[UITextField appearanceWhenContainedIn:[self class], nil] setFont:[UIFont settingsTableViewFont]];
+    [[UITextField appearance] setTintColor:[UIColor blackColor]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -86,6 +101,7 @@ UICKeyChainStore *store;
                 [LBXMessageBar successfulLogin];
                 [LBXLogging logLogin];
                 [self setButtonsForLoggedIn];
+                [self.navigationController popViewControllerAnimated:YES];
             });
         }
         else {
@@ -159,8 +175,7 @@ UICKeyChainStore *store;
 
 - (void)setButtonsForLoggedIn
 {
-    [_loginButton setTitle:@"Log Out" forState:UIControlStateNormal];
-    _onePasswordButton.hidden = YES;
+    _loginButton.hidden = YES;
     _forgotPasswordButton.hidden = YES;
     _usernameField.userInteractionEnabled = NO;
     _passwordField.userInteractionEnabled = NO;
@@ -170,8 +185,6 @@ UICKeyChainStore *store;
 
 - (void)setButtonsForLoggedOut
 {
-    [_loginButton setTitle:@"Log In" forState:UIControlStateNormal];
-    _onePasswordButton.hidden = NO;
     _forgotPasswordButton.hidden = NO;
     _usernameField.userInteractionEnabled = YES;
     _passwordField.userInteractionEnabled = YES;

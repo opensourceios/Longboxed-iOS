@@ -39,11 +39,14 @@
 
 + (NSString *)regexOutHTMLJunk:(NSString *)string
 {
-    // Remove any HTML junk from text
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
-    
-    return [regex stringByReplacingMatchesInString:string options:0 range:NSMakeRange(0, [string length]) withTemplate:@" "];
+    if (string.length) {
+        // Remove any HTML junk from text
+        NSError *error = nil;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"&#?[a-zA-Z0-9z]+;" options:NSRegularExpressionCaseInsensitive error:&error];
+        
+        return [regex stringByReplacingMatchesInString:string options:0 range:NSMakeRange(0, [string length]) withTemplate:@" "];
+    }
+    return string;
 }
 
 @end

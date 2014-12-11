@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LBXSignupViewController">
+            <connections>
+                <outlet property="passwordField" destination="j2M-PT-n14" id="iXy-2Y-MLb"/>
+                <outlet property="signupButton" destination="sL7-1F-9LU" id="IvQ-0C-xt0"/>
+                <outlet property="usernameField" destination="L7E-0t-stq" id="wYe-NL-3fj"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sL7-1F-9LU">
+                    <rect key="frame" x="153" y="175" width="43" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Ve1-Vc-tN1"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                    <state key="normal" title="CREATE FREE ACCOUNT">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Ve1-Vc-tN1"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="Ve1-Vc-tN1"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="buttonPressed:" destination="-1" eventType="touchUpInside" id="oA3-qn-z7B"/>
+                    </connections>
+                </button>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="your@email.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L7E-0t-stq">
+                    <rect key="frame" x="23" y="39" width="304" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Set a Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUQ-SY-Pxb">
+                    <rect key="frame" x="23" y="93.5" width="73" height="23.5"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j2M-PT-n14">
+                    <rect key="frame" x="23" y="121" width="304" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Y4-35-MIl">
+                    <rect key="frame" x="23" y="11.5" width="43" height="23.5"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="3Y4-35-MIl" firstAttribute="leading" secondItem="L7E-0t-stq" secondAttribute="leading" id="0L0-dz-3Ml"/>
+                <constraint firstItem="j2M-PT-n14" firstAttribute="top" secondItem="qUQ-SY-Pxb" secondAttribute="bottom" constant="4" id="4uS-Ym-tko"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="leading" secondItem="j2M-PT-n14" secondAttribute="leading" id="6cu-RW-mTV"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="leading" secondItem="qUQ-SY-Pxb" secondAttribute="leading" id="Dw4-S2-hWf"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="trailing" secondItem="j2M-PT-n14" secondAttribute="trailing" id="EOR-Hs-oQj"/>
+                <constraint firstAttribute="centerX" secondItem="sL7-1F-9LU" secondAttribute="centerX" id="GEZ-k0-7AU"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="48" id="I2u-z9-zSS"/>
+                <constraint firstItem="qUQ-SY-Pxb" firstAttribute="top" secondItem="L7E-0t-stq" secondAttribute="bottom" constant="24" id="I5g-wn-oLj"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="leading" secondItem="3Y4-35-MIl" secondAttribute="leading" id="KzK-X2-FWY"/>
+                <constraint firstItem="qUQ-SY-Pxb" firstAttribute="leading" secondItem="j2M-PT-n14" secondAttribute="leading" id="Moc-Z5-hr3"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="trailing" secondItem="j2M-PT-n14" secondAttribute="trailing" id="X2Z-Eg-UMp"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="top" secondItem="3Y4-35-MIl" secondAttribute="bottom" constant="4" id="YYY-Bi-Xkg"/>
+                <constraint firstItem="j2M-PT-n14" firstAttribute="top" secondItem="qUQ-SY-Pxb" secondAttribute="bottom" constant="4" id="ZXy-rR-WRx"/>
+                <constraint firstItem="sL7-1F-9LU" firstAttribute="top" secondItem="j2M-PT-n14" secondAttribute="bottom" constant="24" id="aAy-ZE-1EQ"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="top" secondItem="3Y4-35-MIl" secondAttribute="bottom" constant="4" id="bi0-uA-bl1"/>
+                <constraint firstAttribute="trailing" secondItem="L7E-0t-stq" secondAttribute="trailing" constant="48" id="cTc-fS-qSj"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="trailing" secondItem="qUQ-SY-Pxb" secondAttribute="trailing" id="fpJ-Q5-a4i"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="trailing" secondItem="3Y4-35-MIl" secondAttribute="trailing" id="kPq-iM-ZJy"/>
+                <constraint firstItem="L7E-0t-stq" firstAttribute="leading" secondItem="j2M-PT-n14" secondAttribute="leading" id="okW-Wf-IfJ"/>
+                <constraint firstItem="sL7-1F-9LU" firstAttribute="top" secondItem="j2M-PT-n14" secondAttribute="bottom" constant="24" id="wv4-8C-GFT"/>
+                <constraint firstItem="qUQ-SY-Pxb" firstAttribute="top" secondItem="L7E-0t-stq" secondAttribute="bottom" constant="24" id="xkB-Oc-Tto"/>
+                <constraint firstItem="3Y4-35-MIl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="96" id="zcT-md-JIW"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="zcT-md-JIW"/>
+                    <exclude reference="Dw4-S2-hWf"/>
+                    <exclude reference="I2u-z9-zSS"/>
+                    <exclude reference="KzK-X2-FWY"/>
+                    <exclude reference="X2Z-Eg-UMp"/>
+                    <exclude reference="YYY-Bi-Xkg"/>
+                    <exclude reference="cTc-fS-qSj"/>
+                    <exclude reference="fpJ-Q5-a4i"/>
+                    <exclude reference="kPq-iM-ZJy"/>
+                    <exclude reference="okW-Wf-IfJ"/>
+                    <exclude reference="xkB-Oc-Tto"/>
+                    <exclude reference="ZXy-rR-WRx"/>
+                    <exclude reference="GEZ-k0-7AU"/>
+                    <exclude reference="wv4-8C-GFT"/>
+                </mask>
+            </variation>
+            <variation key="widthClass=compact">
+                <mask key="constraints">
+                    <include reference="zcT-md-JIW"/>
+                    <include reference="Dw4-S2-hWf"/>
+                    <include reference="I2u-z9-zSS"/>
+                    <include reference="KzK-X2-FWY"/>
+                    <include reference="X2Z-Eg-UMp"/>
+                    <include reference="YYY-Bi-Xkg"/>
+                    <include reference="cTc-fS-qSj"/>
+                    <include reference="fpJ-Q5-a4i"/>
+                    <include reference="kPq-iM-ZJy"/>
+                    <include reference="okW-Wf-IfJ"/>
+                    <include reference="xkB-Oc-Tto"/>
+                    <include reference="ZXy-rR-WRx"/>
+                    <include reference="GEZ-k0-7AU"/>
+                    <include reference="wv4-8C-GFT"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>
