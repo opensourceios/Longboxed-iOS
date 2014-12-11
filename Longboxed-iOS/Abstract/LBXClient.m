@@ -127,8 +127,12 @@
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
     [client setAuthorizationHeaderWithUsername:store[@"username"] password:store[@"password"]];
     
-    NSString *deletePath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
-                                               withDictionary:parameters] stringByReplacingOccurrencesOfString:@":userID" withString:store[@"id"]];
+    NSString *deletePath = endpointDict[routeName];
+    if (parameters) {
+        deletePath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
+                                           withDictionary:parameters] stringByReplacingOccurrencesOfString:@":userID"
+                                                                                                withString:store[@"id"]];
+    }
     [client deletePath:deletePath
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -326,6 +330,14 @@
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             resultDict = jsonDict[@"errors"];
         }
+        completion(resultDict, response, error);
+    }];
+}
+
+- (void)deleteAccountWithCompletion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion {
+    
+    [self DELETEWithRouteName:@"Delete Account" queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+        
         completion(resultDict, response, error);
     }];
 }

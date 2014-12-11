@@ -49,6 +49,7 @@ NSString *versionAPI = @"v1";
             @"Publisher"                          : [NSString stringWithFormat:@"/api/%@/publishers/:publisherID", versionAPI],
             @"Titles for Publisher"               : [NSString stringWithFormat:@"/api/%@/publishers/:publisherID/titles/", versionAPI],
             @"Register"                           : [NSString stringWithFormat:@"/api/%@/users/register", versionAPI],
+            @"Delete Account"                     : [NSString stringWithFormat:@"/api/%@/users/delete", versionAPI],
             @"Login"                              : [NSString stringWithFormat:@"/api/%@/users/login", versionAPI],
             @"User Pull List"                     : [NSString stringWithFormat:@"/api/%@/users/:userID/pull_list/", versionAPI],
             @"Add Title to Pull List"             : [NSString stringWithFormat:@"/api/%@/users/:userID/pull_list/", versionAPI],

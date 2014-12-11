@@ -213,26 +213,53 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 }
 
 // Users
-
-- (void)testSignUpEndpoint
+- (void)testSignUpAndDeleteEndpoints
 {
+    NSString *testUsername = @"johnrhickey+testSignup@gmail.com";
+    NSString *testPassword = @"test1234";
+    
     [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
     hxRunInMainLoop(^(BOOL *done) {
-        [self.client registerWithEmail:@"johnrhickey+testSignup@gmail.com" password:@"test1234" passwordConfirm:@"test1234" withCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
-            if (response.response.statusCode != 200) {
-                NSLog(@"%@", response);
-            }
+        [self.client registerWithEmail:testUsername password:testPassword passwordConfirm:testPassword withCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
             if (error) {
                 for (NSString *error in [responseDict allKeys]) {
                     XCTFail(@"%@", responseDict[error]);
-                    *done = YES;
+                     *done = YES;
                 }
 
             }
             else {
                 XCTAssertEqual(response.response.statusCode, 200, @"Sign up endpoint is returning a status code %ldd", (long)response.response.statusCode);
+                
+                
+                store = [UICKeyChainStore keyChainStore];
+                [UICKeyChainStore setString:testUsername forKey:@"username"];
+                [UICKeyChainStore setString:testPassword forKey:@"password"];
+                [store synchronize]; // Write to keychain.
+                
+                // Delete Stuff
+                [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
+                [self.client deleteAccountWithCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
+                    
+                    // Set the keychain user credentials back
+                    store = [UICKeyChainStore keyChainStore];
+                    [UICKeyChainStore setString:@"johnrhickey+test@gmail.com" forKey:@"username"];
+                    [UICKeyChainStore setString:@"test1234" forKey:@"password"];
+                    
+                    [store synchronize]; // Write to keychain.
+                    
+                    if (error) {
+                        for (NSString *error in [responseDict allKeys]) {
+                            XCTFail(@"%@", responseDict[error]);
+                        }
+                        
+                    }
+                    else {
+                        XCTAssertEqual(response.response.statusCode, 200, @"Delete endpoint is returning a status code %ldd", (long)response.response.statusCode);
+                    }
+                    *done = YES;
+                }];
             }
-            *done = YES;
         }];
     });
 }
