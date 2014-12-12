@@ -14,7 +14,6 @@
 #import "LBXDatabaseManager.h"
 #import "LBXControllerServices.h"
 #import "LBXClient.h"
-#import "LBXMessageBar.h"
 #import "LBXEndpoints.h"
 #import "LBXLogging.h"
 #import "LBXUser.h"
@@ -23,6 +22,7 @@
 
 #import "UIFont+customFonts.h"
 #import <UICKeyChainStore.h>
+#import <SVProgressHUD.h>
 
 @interface LBXSettingsViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -151,13 +151,14 @@ UICKeyChainStore *store;
 
 - (void)login
 {
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     [LBXDatabaseManager flushBundlesAndPullList];
     [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
         if (response.HTTPRequestOperation.response.statusCode == 200) {
             dispatch_async(dispatch_get_main_queue(),^{
                 [LBXLogging logMessage:[NSString stringWithFormat:@"Successful dev toggle log in %@", [store stringForKey:@"username"]]];
                 [store synchronize];
-                [LBXMessageBar successfulLogin];
+                [SVProgressHUD showSuccessWithStatus:@"Logged In!"];
                 [LBXLogging logLogin];
             });
         }
@@ -167,7 +168,7 @@ UICKeyChainStore *store;
             [LBXDatabaseManager flushBundlesAndPullList];
             
             dispatch_async(dispatch_get_main_queue(),^{
-                [LBXMessageBar incorrectCredentials];
+                [SVProgressHUD showErrorWithStatus:@"Unsuccessful Log In"];
             });
         }
         [self.settingsTableView reloadData];
@@ -328,7 +329,7 @@ UICKeyChainStore *store;
                                              [LBXLogging logLogout];
                                              [LBXControllerServices removeCredentials];
                                              [LBXDatabaseManager flushBundlesAndPullList];
-                                             [LBXMessageBar successfulLogout];
+                                             [SVProgressHUD showSuccessWithStatus:@"Logged Out"];
                                              [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
                                              [self.settingsTableView reloadData];
                                              [alertController dismissViewControllerAnimated:YES completion:nil];
@@ -363,7 +364,7 @@ UICKeyChainStore *store;
             // Cleared cache
             if (indexPath.row == 0) {
                 [LBXLogging logMessage:[NSString stringWithFormat:@"Clearing cache"]];
-                [LBXMessageBar clearedCache];
+                [SVProgressHUD showSuccessWithStatus:@"Cache Cleared"];
                 [LBXDatabaseManager flushDatabase];
                 if ([LBXControllerServices isLoggedIn]) {
                     [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {

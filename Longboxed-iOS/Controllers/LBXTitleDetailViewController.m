@@ -31,6 +31,7 @@
 
 #import <JTSImageViewController.h>
 #import <QuartzCore/QuartzCore.h>
+#import <AYVibrantButton.h>
 
 @interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate, JGActionSheetDelegate>
 
@@ -40,6 +41,7 @@
 @property (nonatomic, copy) UILabel *navTitleView;
 @property (nonatomic, copy) NSArray *pullListArray;
 @property (nonatomic, copy) NSArray *issuesForTitleArray;
+@property (nonatomic, copy) AYVibrantButton *addAndRemoveFromPullListButton;
 
 @end
 
@@ -131,6 +133,28 @@ int page;
 {
     [super viewWillLayoutSubviews];
     [LBXControllerServices setNumberOfLinesWithLabel:_detailView.titleLabel string:_detailTitle.name font:[UIFont titleDetailTitleFont]];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    _addAndRemoveFromPullListButton = [[AYVibrantButton alloc] initWithFrame:_detailView.addToPullListButton.frame style:AYVibrantButtonStyleInvert];
+    _addAndRemoveFromPullListButton.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    _addAndRemoveFromPullListButton.backgroundColor = [UIColor blackColor];
+    _addAndRemoveFromPullListButton.cornerRadius = 19.0f;
+    _addAndRemoveFromPullListButton.font = _detailView.addToPullListButton.titleLabel.font;
+    [_addAndRemoveFromPullListButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+    _addAndRemoveFromPullListButton.tag = 0;
+    
+    // Only add the button once (this method gets called multiple times)
+    BOOL needsAdded = YES;
+    for (UIView *view in self.view.subviews) {
+        if ([view isKindOfClass:[AYVibrantButton class]]) needsAdded = NO;
+    }
+    if (needsAdded) {
+        [self.detailView addSubview:_addAndRemoveFromPullListButton];
+        [self setPullListButton];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -348,23 +372,27 @@ int page;
 
 - (void)setPullListButton
 {
-    _detailView.addToPullListButton.tag = 0;
-    [_detailView.addToPullListButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+    _addAndRemoveFromPullListButton.tag = 0;
+    [_addAndRemoveFromPullListButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
     if (title) {
+        [_addAndRemoveFromPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
         [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
-        _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+        _addAndRemoveFromPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
         addToPullList = YES;
     }
     else {
+        [_addAndRemoveFromPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
         [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
-        _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+        _addAndRemoveFromPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
         addToPullList = NO;
     }
     _detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
-    _detailView.addToPullListButton.layer.borderWidth = 1.0f;
-    _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
     [_detailView.addToPullListButton setNeedsLayout];
+    _addAndRemoveFromPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
+    _addAndRemoveFromPullListButton.layer.borderWidth = 1.0f;
+    _addAndRemoveFromPullListButton.layer.cornerRadius = 19.0f;
+    [_addAndRemoveFromPullListButton setNeedsLayout];
 }
 
 - (IBAction)onClick:(id)sender
@@ -376,11 +404,13 @@ int page;
             if (addToPullList == YES) {
                 [self deleteTitle:_detailTitle];
                 addToPullList = NO;
+                 [_addAndRemoveFromPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
                  [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
             }
             else if (addToPullList == NO) {
                 addToPullList = YES;
                 [self addTitle:_detailTitle];
+                [_addAndRemoveFromPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
                 [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
             }
             break;

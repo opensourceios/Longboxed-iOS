@@ -7,7 +7,6 @@
 //
 
 #import "LBXSignupViewController.h"
-#import "LBXMessageBar.h"
 #import "LBXDatabaseManager.h"
 #import "LBXLogging.h"
 #import "LBXControllerServices.h"
@@ -18,6 +17,7 @@
 #import <UICKeyChainStore.h>
 #import <OnePasswordExtension.h>
 #import <AYVibrantButton.h>
+#import <SVProgressHUD.h>
 
 @interface LBXSignupViewController ()
 
@@ -152,6 +152,8 @@ UICKeyChainStore *store;
         return;
     }
     
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    
     [LBXControllerServices removeCredentials];
     [self.client registerWithEmail:_usernameField.text password:_passwordField.text passwordConfirm:_passwordField.text withCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
@@ -163,10 +165,12 @@ UICKeyChainStore *store;
             [LBXLogging logMessage:[NSString stringWithFormat:@"Error signing up user %@", _usernameField.text]];
             [LBXControllerServices removeCredentials];
             [LBXDatabaseManager flushBundlesAndPullList];
+            [SVProgressHUD dismiss];
             
             NSString *errorMessage = [NSString new];
+            NSLog(@"%@", responseDict[@"email"]);
             for (NSString *errorKey in responseDict.allKeys) {
-                if (((NSArray *)responseDict[errorKey]).count) errorMessage = responseDict[errorKey];
+                if (((NSArray *)responseDict[errorKey]).count) errorMessage = responseDict[errorKey][0];
             }
         
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Signing Up" message:[NSString stringWithFormat:@"%@", errorMessage] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -188,7 +192,7 @@ UICKeyChainStore *store;
             dispatch_async(dispatch_get_main_queue(),^{
                 [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
                 [store synchronize];
-                [LBXMessageBar displaySuccessWithTitle:@"Registration Successful" andSubtitle:@"Successfully created account"];
+                [SVProgressHUD showSuccessWithStatus:@"Registration Successful!"];
                 [LBXLogging logLogin];
                 [self.navigationController popViewControllerAnimated:YES];
             });
@@ -197,8 +201,7 @@ UICKeyChainStore *store;
             [LBXLogging logMessage:[NSString stringWithFormat:@"Unsuccessful log in for %@", _usernameField.text]];
             [LBXControllerServices removeCredentials];
             [LBXDatabaseManager flushBundlesAndPullList];
-            
-            [LBXMessageBar displayErrorWithTitle:@"Registration Error" andSubtitle:@"Unable to create account"];
+            [SVProgressHUD showSuccessWithStatus:@"Registration Error"];
         }
     }];
 }

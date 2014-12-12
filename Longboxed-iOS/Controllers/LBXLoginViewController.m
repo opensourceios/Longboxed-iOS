@@ -12,15 +12,14 @@
 #import "LBXClient.h"
 #import "LBXUser.h"
 #import "LBXLogging.h"
-#import "LBXMessageBar.h"
 #import "SVModalWebViewController.h"
 
 #import "UIFont+customFonts.h"
 
 #import <UICKeyChainStore.h>
-#import <TWMessageBarManager.h>
 #import <OnePasswordExtension.h>
 #import <AYVibrantButton.h>
+#import <SVProgressHUD.h>
 
 @interface LBXLoginViewController ()
 
@@ -124,10 +123,10 @@ UICKeyChainStore *store;
             dispatch_async(dispatch_get_main_queue(),^{
                 [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
                 [store synchronize];
-                [LBXMessageBar successfulLogin];
                 [LBXLogging logLogin];
                 [self setButtonsForLoggedIn];
                 [self.navigationController popViewControllerAnimated:YES];
+                [SVProgressHUD showSuccessWithStatus:@"Logged In!"];
             });
         }
         else {
@@ -137,7 +136,7 @@ UICKeyChainStore *store;
             [LBXDatabaseManager flushBundlesAndPullList];
             
             dispatch_async(dispatch_get_main_queue(),^{
-                [LBXMessageBar incorrectCredentials];
+                [SVProgressHUD showErrorWithStatus:@"Incorrect Credentials"];
                 _passwordField.text = @"";
                 [_usernameField becomeFirstResponder];
             });
@@ -153,6 +152,7 @@ UICKeyChainStore *store;
         // Log in
         case 0:
         {
+            [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
             [self login];
             break;
         }

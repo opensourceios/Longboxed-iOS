@@ -8,7 +8,6 @@
 
 #import "LBXDeleteAccountViewController.h"
 #import "LBXControllerServices.h"
-#import "LBXMessageBar.h"
 #import "LBXLogging.h"
 #import "LBXDatabaseManager.h"
 #import "LBXClient.h"
@@ -16,6 +15,7 @@
 #import "UIFont+customFonts.h"  
 
 #import <UICKeyChainStore.h>
+#import <SVProgressHUD.h>
 
 @interface LBXDeleteAccountViewController ()
 
@@ -89,11 +89,12 @@ UICKeyChainStore *store;
         _passwordField.text = @"";
         return;
     }
-
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     [self.client deleteAccountWithCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
             [LBXLogging logMessage:[NSString stringWithFormat:@"Deleted account for %@", [store stringForKey:@"id"]]];
-            [LBXMessageBar displaySuccessWithTitle:@"Accounted Deleted" andSubtitle:[NSString stringWithFormat:@"Successfully deleted account for %@", [store stringForKey:@"username"]]];
+            [SVProgressHUD showSuccessWithStatus:@"Account Deleted"];
             [LBXControllerServices removeCredentials];
             [LBXDatabaseManager flushBundlesAndPullList];
             [self.navigationController popViewControllerAnimated:YES];
@@ -104,7 +105,7 @@ UICKeyChainStore *store;
             
             NSString *errorMessage = [NSString new];
             for (NSString *errorKey in responseDict.allKeys) {
-                if (((NSArray *)responseDict[errorKey]).count) errorMessage = responseDict[errorKey];
+                if (((NSArray *)responseDict[errorKey]).count) errorMessage = responseDict[errorKey][0];
             }
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Deleting Account" message:[NSString stringWithFormat:@"%@", errorMessage] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
