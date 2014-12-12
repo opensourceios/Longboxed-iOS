@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 #import "LBXClient.h"
-#import "LBXMessageBar.h"
 #import "LBXPullListTableViewCell.h"
 #import "LBXPullListTitle.h"
 #import "LBXTitle.h"

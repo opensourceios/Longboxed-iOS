@@ -10,7 +10,6 @@
 #import "LBXIssueDetailViewController.h"
 #import "LBXControllerServices.h"
 #import "LBXClient.h"
-#import "LBXMessageBar.h"
 
 #import <Shimmer/FBShimmeringView.h>
 

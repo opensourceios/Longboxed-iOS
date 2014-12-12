@@ -24,7 +24,6 @@
 #import "UIColor+customColors.h"
 #import "UIFont+customFonts.h"
 #import "UIImage+ImageEffects.h"
-#import "LBXMessageBar.h"
 #import "SVProgressHUD.h"
 
 #import <UICKeyChainStore.h>

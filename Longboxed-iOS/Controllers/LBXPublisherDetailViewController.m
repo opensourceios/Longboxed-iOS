@@ -8,7 +8,6 @@
 
 #import "LBXPublisherDetailViewController.h"
 #import "LBXClient.h"
-#import "LBXMessageBar.h"
 #import "LBXPullListTableViewCell.h"
 #import "LBXPullListTitle.h"
 #import "LBXTitleDetailViewController.h"
