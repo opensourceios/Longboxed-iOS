@@ -75,13 +75,12 @@ UICKeyChainStore *store;
 {
     [super viewWillAppear:animated];
     [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
+    _developmentServerSwitch.hidden = ([LBXControllerServices isAdmin]) ? NO : YES;
 }
 
 - (void)viewWillLayoutSubviews
 {
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
-    
-    _developmentServerSwitch.hidden = ([LBXControllerServices isAdmin]) ? NO : YES;
     [self.settingsTableView reloadData];
 }
 
@@ -363,16 +362,19 @@ UICKeyChainStore *store;
         case 2:
             // Cleared cache
             if (indexPath.row == 0) {
+                [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
                 [LBXLogging logMessage:[NSString stringWithFormat:@"Clearing cache"]];
-                [SVProgressHUD showSuccessWithStatus:@"Cache Cleared"];
                 [LBXDatabaseManager flushDatabase];
                 if ([LBXControllerServices isLoggedIn]) {
                     [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                           [SVProgressHUD showSuccessWithStatus:@"Cache Cleared"];
+                            [self.settingsTableView reloadData];
+                        });
                     }];
                 }
                 [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
                 resetCacheToZero = YES;
-                [self.settingsTableView reloadData];
             }
             break;
         case 3:

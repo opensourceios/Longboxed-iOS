@@ -138,7 +138,7 @@ UICKeyChainStore *store;
             dispatch_async(dispatch_get_main_queue(),^{
                 [SVProgressHUD showErrorWithStatus:@"Incorrect Credentials"];
                 _passwordField.text = @"";
-                [_usernameField becomeFirstResponder];
+                [_passwordField becomeFirstResponder];
             });
         }
     }];
