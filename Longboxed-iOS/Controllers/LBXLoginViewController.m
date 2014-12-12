@@ -57,8 +57,16 @@ UICKeyChainStore *store;
     _loginButton.layer.cornerRadius = 6.0f;
     
     if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
-        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"1Password" style:UIBarButtonItemStylePlain target:self action:@selector(buttonPressed:)];
-        anotherButton.tag = 1;
+        UIImage *image = [UIImage imageNamed:@"onepassword-button"];
+        CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
+        //init a normal UIButton using that image
+        UIButton* button = [[UIButton alloc] initWithFrame:frame];
+        [button setBackgroundImage:image forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchDown];
+        
+        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+        
+        button.tag = 1;
         self.navigationItem.rightBarButtonItem = anotherButton;
     }
 

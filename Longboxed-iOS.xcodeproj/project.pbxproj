@@ -508,7 +508,6 @@
 				E593F53F19D715CB00D310C6 /* Dashboard */,
 				E5F1871E196378E4006C4C26 /* LBXPullListViewController.h */,
 				E5F1871F196378E4006C4C26 /* LBXPullListViewController.m */,
-				E5981B551A380EAF003E0E40 /* Settings */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -693,6 +692,7 @@
 				E5D9A89A19A96E9600BC06C1 /* Title */,
 				E5D9A89B19A96F9A00BC06C1 /* Publisher */,
 				E5D9A89919A96E9000BC06C1 /* Issue */,
+				E5981B551A380EAF003E0E40 /* Settings */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";

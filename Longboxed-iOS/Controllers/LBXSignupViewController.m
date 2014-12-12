@@ -16,6 +16,7 @@
 #import "UIFont+customFonts.h"
 
 #import <UICKeyChainStore.h>
+#import <OnePasswordExtension.h>
 
 @interface LBXSignupViewController ()
 
@@ -39,6 +40,20 @@ UICKeyChainStore *store;
     [_signupButton setTitle:@"     CREATE FREE ACCOUNT     " forState:UIControlStateNormal];
     _signupButton.layer.borderWidth = 1.0f;
     _signupButton.layer.cornerRadius = 6.0f;
+    
+    if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
+        UIImage *image = [UIImage imageNamed:@"onepassword-button"];
+        CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
+        //init a normal UIButton using that image
+        UIButton* button = [[UIButton alloc] initWithFrame:frame];
+        [button setBackgroundImage:image forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(saveLoginTo1Password:) forControlEvents:UIControlEventTouchDown];
+        
+        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+        
+        button.tag = 1;
+        self.navigationItem.rightBarButtonItem = anotherButton;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -70,6 +85,38 @@ UICKeyChainStore *store;
             [self signup];
             break;
     }
+}
+
+- (IBAction)saveLoginTo1Password:(id)sender {
+    NSDictionary *newLoginDetails = @{
+                                      AppExtensionTitleKey: @"Longboxed",
+                                      AppExtensionUsernameKey: _usernameField.text ? : @"",
+                                      AppExtensionPasswordKey: _passwordField.text ? : @"",
+                                      AppExtensionNotesKey: @"Saved with the Longboxed iOS app",
+                                      };
+    
+    // Password generation options are optional, but are very handy in case you have strict rules about password lengths
+    NSDictionary *passwordGenerationOptions = @{
+                                                AppExtensionGeneratedPasswordMinLengthKey: @(6),
+                                                AppExtensionGeneratedPasswordMaxLengthKey: @(50),
+                                                };
+    
+    __weak typeof (self) miniMe = self;
+    
+    [[OnePasswordExtension sharedExtension] storeLoginForURLString:@"https://www.overcast.fm" loginDetails:newLoginDetails passwordGenerationOptions:passwordGenerationOptions forViewController:self sender:sender completion:^(NSDictionary *loginDict, NSError *error) {
+        
+        if (!loginDict) {
+            if (error.code != AppExtensionErrorCodeCancelledByUser) {
+                NSLog(@"Failed to use 1Password App Extension to save a new Login: %@", error);
+            }
+            return;
+        }
+        
+        __strong typeof(self) strongMe = miniMe;
+        
+        _usernameField.text = loginDict[AppExtensionUsernameKey] ? : @"";
+        _passwordField.text = loginDict[AppExtensionPasswordKey] ? : @"";
+    }];
 }
 
 # pragma mark Private Methods
