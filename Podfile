@@ -27,6 +27,6 @@ pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImag
 # Customized
 # pod 'MGSpotyViewController' (Has LBX dependencies so must remain in project)
 # pod 'ESDatePicker' (Had issues when trying to fork, keeping in project for now)
-pod 'SVProgressHUD', :git => 'https://github.com/jayhickey/SVProgressHUD.git', :tag => '1.0.3'
+pod 'SVProgressHUD', :git => 'https://github.com/jayhickey/SVProgressHUD.git', :branch => 'master'
 pod 'JGActionSheet', :git => 'https://github.com/jayhickey/JGActionSheet.git', :branch => 'master'
 pod 'NBUKit', :git => 'https://github.com/jayhickey/iOS-NBUKit.git', :branch => 'master'

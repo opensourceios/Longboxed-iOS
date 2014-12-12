@@ -126,7 +126,6 @@
 		E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */; };
 		E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */; };
 		E5E5161619CA4450005FBD43 /* PaintCodeImages.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161519CA4450005FBD43 /* PaintCodeImages.m */; };
-		E5E5162C19CA446D005FBD43 /* LBXMessageBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161919CA446D005FBD43 /* LBXMessageBar.m */; };
 		E5E5162D19CA446D005FBD43 /* NSArray+ArrayUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161B19CA446D005FBD43 /* NSArray+ArrayUtilities.m */; };
 		E5E5162E19CA446D005FBD43 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161D19CA446D005FBD43 /* NSData+Base64.m */; };
 		E5E5162F19CA446D005FBD43 /* NSDate+DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161F19CA446D005FBD43 /* NSDate+DateUtilities.m */; };
@@ -348,8 +347,6 @@
 		E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherDetailViewController.m; path = Controllers/LBXPublisherDetailViewController.m; sourceTree = "<group>"; };
 		E5E5161419CA4450005FBD43 /* PaintCodeImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintCodeImages.h; sourceTree = "<group>"; };
 		E5E5161519CA4450005FBD43 /* PaintCodeImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintCodeImages.m; sourceTree = "<group>"; };
-		E5E5161819CA446D005FBD43 /* LBXMessageBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXMessageBar.h; sourceTree = "<group>"; };
-		E5E5161919CA446D005FBD43 /* LBXMessageBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXMessageBar.m; sourceTree = "<group>"; };
 		E5E5161A19CA446D005FBD43 /* NSArray+ArrayUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+ArrayUtilities.h"; sourceTree = "<group>"; };
 		E5E5161B19CA446D005FBD43 /* NSArray+ArrayUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+ArrayUtilities.m"; sourceTree = "<group>"; };
 		E5E5161C19CA446D005FBD43 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
@@ -889,8 +886,6 @@
 		E5E5161719CA446D005FBD43 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				E5E5161819CA446D005FBD43 /* LBXMessageBar.h */,
-				E5E5161919CA446D005FBD43 /* LBXMessageBar.m */,
 				E5E5161A19CA446D005FBD43 /* NSArray+ArrayUtilities.h */,
 				E5E5161B19CA446D005FBD43 /* NSArray+ArrayUtilities.m */,
 				E5E5161C19CA446D005FBD43 /* NSData+Base64.h */,
@@ -1230,7 +1225,6 @@
 				E57D494319610C970014A13F /* LBXAppDelegate.m in Sources */,
 				E5B2ED3C1A37D1D80053786F /* NSString+StringUtilities.m in Sources */,
 				E515746719DCD1D00072EE3E /* LBXComicTableViewCell.m in Sources */,
-				E5E5162C19CA446D005FBD43 /* LBXMessageBar.m in Sources */,
 				E5B6FCDF19983DFC0022F4CA /* UIImage+ImageEffects.m in Sources */,
 				E51D0100196A2004005FCF25 /* LBXTitle.m in Sources */,
 				E535EBA619DB6444001B729A /* LBXPublisherTableViewController.m in Sources */,
