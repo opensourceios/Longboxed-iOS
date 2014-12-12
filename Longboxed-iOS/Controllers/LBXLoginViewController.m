@@ -20,6 +20,7 @@
 #import <UICKeyChainStore.h>
 #import <TWMessageBarManager.h>
 #import <OnePasswordExtension.h>
+#import <AYVibrantButton.h>
 
 @interface LBXLoginViewController ()
 
@@ -52,9 +53,7 @@ UICKeyChainStore *store;
     if ([_passwordField.text isEqualToString:@""]) [self setButtonsForLoggedOut];
     else [self setButtonsForLoggedIn];
     
-    [_loginButton setTitle:@"     LOG IN     " forState:UIControlStateNormal];
-    _loginButton.layer.borderWidth = 1.0f;
-    _loginButton.layer.cornerRadius = 6.0f;
+    [_loginButton setTitle:@"                         " forState:UIControlStateNormal];
     
     if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
         UIImage *image = [UIImage imageNamed:@"onepassword-button"];
@@ -69,7 +68,6 @@ UICKeyChainStore *store;
         button.tag = 1;
         self.navigationItem.rightBarButtonItem = anotherButton;
     }
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -85,10 +83,30 @@ UICKeyChainStore *store;
     [[UITextField appearance] setTintColor:[UIColor blackColor]];
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    AYVibrantButton *invertButton = [[AYVibrantButton alloc] initWithFrame:_loginButton.frame style:AYVibrantButtonStyleInvert];
+    invertButton.vibrancyEffect = nil;
+    invertButton.backgroundColor = [UIColor blackColor];
+    invertButton.text = @"LOG IN";
+    invertButton.font = _loginButton.titleLabel.font;
+    [invertButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    invertButton.tag = 0;
+    
+    // Only add the button once (this method gets called multiple times)
+    BOOL needsAdded = YES;
+    for (UIView *view in self.view.subviews) {
+        if ([view isKindOfClass:[AYVibrantButton class]]) needsAdded = NO;
+    }
+    if (needsAdded) [self.view addSubview:invertButton];
+    
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (![LBXControllerServices isLoggedIn]) [_usernameField becomeFirstResponder];
+    //if (![LBXControllerServices isLoggedIn]) [_usernameField becomeFirstResponder];
     self.navigationController.navigationBar.topItem.title = @"Log In";
 }
 
@@ -132,23 +150,10 @@ UICKeyChainStore *store;
     UIButton *button = (UIButton *)sender;
     switch ([button tag])
     {
-        // Log in/out
+        // Log in
         case 0:
         {
-            if ([button.titleLabel.text isEqualToString:@"Log Out"]) {
-                [LBXLogging logLogout];
-                [LBXControllerServices removeCredentials];
-                [LBXDatabaseManager flushBundlesAndPullList];
-                [LBXMessageBar successfulLogout];
-                _usernameField.text = @"";
-                _passwordField.text = @"";
-                [_usernameField becomeFirstResponder];
-                [self setButtonsForLoggedOut];
-            }
-            else {
-                [self login];
-            }
-            
+            [self login];
             break;
         }
         // 1Password

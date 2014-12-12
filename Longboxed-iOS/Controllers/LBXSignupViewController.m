@@ -17,6 +17,7 @@
 
 #import <UICKeyChainStore.h>
 #import <OnePasswordExtension.h>
+#import <AYVibrantButton.h>
 
 @interface LBXSignupViewController ()
 
@@ -37,7 +38,7 @@ UICKeyChainStore *store;
     store = [UICKeyChainStore keyChainStore];
     _client = [[LBXClient alloc] init];
     
-    [_signupButton setTitle:@"     CREATE FREE ACCOUNT     " forState:UIControlStateNormal];
+    [_signupButton setTitle:@"                                                           " forState:UIControlStateNormal];
     _signupButton.layer.borderWidth = 1.0f;
     _signupButton.layer.cornerRadius = 6.0f;
     
@@ -67,6 +68,25 @@ UICKeyChainStore *store;
     [super viewWillLayoutSubviews];
     [[UITextField appearanceWhenContainedIn:[self class], nil] setFont:[UIFont settingsTableViewFont]];
     [[UITextField appearance] setTintColor:[UIColor blackColor]];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    AYVibrantButton *invertButton = [[AYVibrantButton alloc] initWithFrame:_signupButton.frame style:AYVibrantButtonStyleInvert];
+    invertButton.vibrancyEffect = nil;
+    invertButton.backgroundColor = [UIColor blackColor];
+    invertButton.text = @"CREATE FREE ACCOUNT";
+    invertButton.font = _signupButton.titleLabel.font;
+    [invertButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    invertButton.tag = 0;
+    
+    // Only add the button once (this method gets called multiple times)
+    BOOL needsAdded = YES;
+    for (UIView *view in self.view.subviews) {
+        if ([view isKindOfClass:[AYVibrantButton class]]) needsAdded = NO;
+    }
+    if (needsAdded) [self.view addSubview:invertButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -101,8 +121,6 @@ UICKeyChainStore *store;
                                                 AppExtensionGeneratedPasswordMaxLengthKey: @(50),
                                                 };
     
-    __weak typeof (self) miniMe = self;
-    
     [[OnePasswordExtension sharedExtension] storeLoginForURLString:@"https://www.longboxed.com" loginDetails:newLoginDetails passwordGenerationOptions:passwordGenerationOptions forViewController:self sender:sender completion:^(NSDictionary *loginDict, NSError *error) {
         
         if (!loginDict) {
@@ -111,8 +129,6 @@ UICKeyChainStore *store;
             }
             return;
         }
-        
-        __strong typeof(self) strongMe = miniMe;
         
         _usernameField.text = loginDict[AppExtensionUsernameKey] ? : @"";
         _passwordField.text = loginDict[AppExtensionPasswordKey] ? : @"";
