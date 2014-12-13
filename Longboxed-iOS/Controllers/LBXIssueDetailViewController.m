@@ -311,7 +311,7 @@ BOOL selectedTitle;
                         case 0:
                         {
                             UIImageWriteToSavedPhotosAlbum(_issueImage, nil, nil, nil);
-                            [SVProgressHUD showSuccessWithStatus:@"Saved to photos" maskType:SVProgressHUDMaskTypeBlack];
+                            [SVProgressHUD showSuccessWithStatus:@"Saved to Photos" maskType:SVProgressHUDMaskTypeBlack];
                             break;
                         }
                         case 1:

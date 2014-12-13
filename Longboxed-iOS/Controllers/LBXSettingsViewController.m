@@ -331,16 +331,19 @@ UICKeyChainStore *store;
                     JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
                     
                     [sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
-                        switch (indexPath.row) {
+                        switch (indexPath.section) {
+                            case 0:
+                                switch (indexPath.row) {
+                                    case 0:
+                                        [LBXLogging logLogout];
+                                        [LBXControllerServices removeCredentials];
+                                        [LBXDatabaseManager flushBundlesAndPullList];
+                                        [SVProgressHUD showSuccessWithStatus:@"Logged Out"];
+                                        [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
+                                        [self.settingsTableView reloadData];
+                                        break;
+                                }
                             case 1:
-                                [LBXLogging logLogout];
-                                [LBXControllerServices removeCredentials];
-                                [LBXDatabaseManager flushBundlesAndPullList];
-                                [SVProgressHUD showSuccessWithStatus:@"Logged Out"];
-                                [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
-                                [self.settingsTableView reloadData];
-                                break;
-                            case 2:
                                 [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
                                 break;
                         }
