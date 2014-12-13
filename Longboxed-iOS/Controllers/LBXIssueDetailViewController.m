@@ -28,7 +28,7 @@
 #import <JTSImageViewController.h>
 #import <UIImageView+AFNetworking.h>
 
-@interface LBXIssueDetailViewController () <JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate, JGActionSheetDelegate>
+@interface LBXIssueDetailViewController () <JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate>
 
 @property (nonatomic) IBOutlet UIImageView *backgroundCoverImageView;
 @property (nonatomic) IBOutlet UITextView *descriptionTextView;
@@ -303,9 +303,29 @@ BOOL selectedTitle;
         NSArray *sections = @[section1, cancelSection];
         
         JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
-        sheet.delegate = self;
         
         [sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+            switch (indexPath.section) {
+                case 0:
+                    switch (indexPath.row) {
+                        case 0:
+                        {
+                            UIImageWriteToSavedPhotosAlbum(_issueImage, nil, nil, nil);
+                            [SVProgressHUD showSuccessWithStatus:@"Saved to photos" maskType:SVProgressHUDMaskTypeBlack];
+                            break;
+                        }
+                        case 1:
+                        {
+                            [LBXControllerServices copyImageToPasteboard:_issueImage];
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
             [sheet dismissAnimated:YES];
             saveSheetVisible = NO;
         }];
@@ -326,33 +346,6 @@ BOOL selectedTitle;
 - (void)imageViewerDidDismiss:(JTSImageViewController *)imageViewer
 {
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-}
-
-#pragma mark JGActionSheetDelegate methods
-
-- (void)actionSheet:(JGActionSheet *)actionSheet pressedButtonAtIndexPath:(NSIndexPath *)indexPath
-{
-    switch (indexPath.section) {
-        case 0:
-            switch (indexPath.row) {
-                case 0:
-                {
-                    UIImageWriteToSavedPhotosAlbum(_issueImage, nil, nil, nil);
-                    [SVProgressHUD showSuccessWithStatus:@"Saved to photos" maskType:SVProgressHUDMaskTypeBlack];
-                    break;
-                }
-                case 1:
-                {
-                    [LBXControllerServices copyImageToPasteboard:_issueImage];
-                    break;
-                }
-                default:
-                    break;
-            }
-            break;
-        default:
-            break;
-    }
 }
 
 #pragma mark Private Methods
