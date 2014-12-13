@@ -39,8 +39,6 @@ UICKeyChainStore *store;
     _client = [[LBXClient alloc] init];
     
     [_signupButton setTitle:@"                                                           " forState:UIControlStateNormal];
-    _signupButton.layer.borderWidth = 1.0f;
-    _signupButton.layer.cornerRadius = 6.0f;
     
     if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
         UIImage *image = [UIImage imageNamed:@"onepassword-button"];
