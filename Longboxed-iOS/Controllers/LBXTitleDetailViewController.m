@@ -321,6 +321,7 @@ int page;
                 case 0:
                 {
                     UIImageWriteToSavedPhotosAlbum(_detailView.latestIssueImageView.image, nil, nil, nil);
+                    [SVProgressHUD showSuccessWithStatus:@"Saved to photos" maskType:SVProgressHUDMaskTypeBlack];
                     break;
                 }
                 case 1:

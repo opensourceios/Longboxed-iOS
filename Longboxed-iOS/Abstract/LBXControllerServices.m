@@ -240,10 +240,7 @@
 {
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     [pasteboard setImage:image];
-    [SVProgressHUD setBackgroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setWidth:100 andHeight:100];
-    [SVProgressHUD showSuccessWithStatus:@"Copied!"];
-    [SVProgressHUD setWidth:400 andHeight:400];
+    [SVProgressHUD showSuccessWithStatus:@"Copied" maskType:SVProgressHUDMaskTypeBlack];
 }
 
 + (void)setViewWillAppearWhiteNavigationController:(UIViewController *)viewController

@@ -105,7 +105,7 @@ UICKeyChainStore *store;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //if (![LBXControllerServices isLoggedIn]) [_usernameField becomeFirstResponder];
+    if (![LBXControllerServices isLoggedIn]) [_usernameField becomeFirstResponder];
     self.navigationController.navigationBar.topItem.title = @"Log In";
 }
 
