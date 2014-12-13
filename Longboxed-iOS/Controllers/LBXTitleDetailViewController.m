@@ -30,7 +30,6 @@
 
 #import <JTSImageViewController.h>
 #import <QuartzCore/QuartzCore.h>
-#import <AYVibrantButton.h>
 
 @interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate, JGActionSheetDelegate>
 
@@ -40,7 +39,6 @@
 @property (nonatomic, copy) UILabel *navTitleView;
 @property (nonatomic, copy) NSArray *pullListArray;
 @property (nonatomic, copy) NSArray *issuesForTitleArray;
-@property (nonatomic, copy) AYVibrantButton *addAndRemoveFromPullListButton;
 
 @end
 
@@ -114,9 +112,9 @@ int page;
     [LBXControllerServices setViewWillAppearClearNavigationController:self];
     
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
-
+    
     [self setNavBarAlpha:@0];
-
+    
     // Keep the section header on the top
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
@@ -132,28 +130,6 @@ int page;
 {
     [super viewWillLayoutSubviews];
     [LBXControllerServices setNumberOfLinesWithLabel:_detailView.titleLabel string:_detailTitle.name font:[UIFont titleDetailTitleFont]];
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    _addAndRemoveFromPullListButton = [[AYVibrantButton alloc] initWithFrame:_detailView.addToPullListButton.frame style:AYVibrantButtonStyleInvert];
-    _addAndRemoveFromPullListButton.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-    _addAndRemoveFromPullListButton.backgroundColor = [UIColor blackColor];
-    _addAndRemoveFromPullListButton.cornerRadius = 19.0f;
-    _addAndRemoveFromPullListButton.font = _detailView.addToPullListButton.titleLabel.font;
-    [_addAndRemoveFromPullListButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
-    _addAndRemoveFromPullListButton.tag = 0;
-    
-    // Only add the button once (this method gets called multiple times)
-    BOOL needsAdded = YES;
-    for (UIView *view in self.view.subviews) {
-        if ([view isKindOfClass:[AYVibrantButton class]]) needsAdded = NO;
-    }
-    if (needsAdded) {
-        [self.detailView addSubview:_addAndRemoveFromPullListButton];
-        [self setPullListButton];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -221,14 +197,14 @@ int page;
 - (void)setFrameRect
 {
     CGFloat titleHeight = [_detailTitle.name boundingRectWithSize:_detailView.titleLabel.frame.size
-                                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                                          attributes:@{NSFontAttributeName:_detailView.titleLabel.font}
-                                                             context:nil].size.height;
+                                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                                       attributes:@{NSFontAttributeName:_detailView.titleLabel.font}
+                                                          context:nil].size.height;
     
     CGFloat publisherHeight = [_detailTitle.publisher.name boundingRectWithSize:_detailView.publisherButton.frame.size
-                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                            attributes:@{NSFontAttributeName:_detailView.publisherButton.titleLabel.font}
-                                               context:nil].size.height;
+                                                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                                                     attributes:@{NSFontAttributeName:_detailView.publisherButton.titleLabel.font}
+                                                                        context:nil].size.height;
     
     CGFloat addToPullListHeight = ([LBXControllerServices isLoggedIn]) ? _detailView.addToPullListButton.frame.size.height : 0.0;
     
@@ -371,27 +347,23 @@ int page;
 
 - (void)setPullListButton
 {
-    _addAndRemoveFromPullListButton.tag = 0;
-    [_addAndRemoveFromPullListButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+    _detailView.addToPullListButton.tag = 0;
+    [_detailView.addToPullListButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
     if (title) {
-        [_addAndRemoveFromPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
         [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
-        _addAndRemoveFromPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+        _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
         addToPullList = YES;
     }
     else {
-        [_addAndRemoveFromPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
         [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
-        _addAndRemoveFromPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+        _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
         addToPullList = NO;
     }
     _detailView.addToPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
+    _detailView.addToPullListButton.layer.borderWidth = 1.0f;
+    _detailView.addToPullListButton.layer.cornerRadius = 19.0f;
     [_detailView.addToPullListButton setNeedsLayout];
-    _addAndRemoveFromPullListButton.titleLabel.font = [UIFont titleDetailAddToPullListFont];
-    _addAndRemoveFromPullListButton.layer.borderWidth = 1.0f;
-    _addAndRemoveFromPullListButton.layer.cornerRadius = 19.0f;
-    [_addAndRemoveFromPullListButton setNeedsLayout];
 }
 
 - (IBAction)onClick:(id)sender
@@ -403,13 +375,11 @@ int page;
             if (addToPullList == YES) {
                 [self deleteTitle:_detailTitle];
                 addToPullList = NO;
-                 [_addAndRemoveFromPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
-                 [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
+                [_detailView.addToPullListButton setTitle:@"     ADD TO PULL LIST     " forState:UIControlStateNormal];
             }
             else if (addToPullList == NO) {
                 addToPullList = YES;
                 [self addTitle:_detailTitle];
-                [_addAndRemoveFromPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
                 [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
             }
             break;
@@ -558,7 +528,7 @@ int page;
     // Combine the two
     NSArray *sortDescriptors = @[sortByIssueReleaseDate, sortByIssueNumber, sortByIssueID];
     
-
+    
     _issuesForTitleArray = [mutableArray sortedArrayUsingDescriptors:sortDescriptors];
     
 }
@@ -699,14 +669,14 @@ int page;
     if (_issuesForTitleArray.count <= indexPath.row) {
         return;
     }
-
+    
     LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
     
     cell.titleLabel.font = [UIFont pullListTitleFont];
     cell.titleLabel.text = issue.completeTitle;
     cell.titleLabel.numberOfLines = 2;
     cell.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-
+    
     cell.subtitleLabel.font = [UIFont pullListSubtitleFont];
     cell.subtitleLabel.textColor = [UIColor grayColor];
     cell.subtitleLabel.numberOfLines = 2;
@@ -742,7 +712,7 @@ int page;
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
-
+    
     LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
     [LBXLogging logMessage:[NSString stringWithFormat:@"Selected issue %@", issue]];
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
