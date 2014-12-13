@@ -53,6 +53,13 @@ UICKeyChainStore *store;
         button.tag = 1;
         self.navigationItem.rightBarButtonItem = anotherButton;
     }
+    
+    // Add the ability to dismiss the keyboard
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -92,6 +99,11 @@ UICKeyChainStore *store;
     [super viewDidAppear:animated];
     [_usernameField becomeFirstResponder];
     self.navigationController.navigationBar.topItem.title = @"Sign Up";
+}
+
+- (void)dismissKeyboard {
+    [_usernameField resignFirstResponder];
+    [_passwordField resignFirstResponder];
 }
 
 - (IBAction)buttonPressed:(id)sender

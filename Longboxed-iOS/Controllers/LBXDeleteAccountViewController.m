@@ -37,6 +37,13 @@ UICKeyChainStore *store;
     _client = [[LBXClient alloc] init];
     
     [_deleteAccountButton setTitle:@"                                                                           " forState:UIControlStateNormal];
+    
+    // Add the ability to dismiss the keyboard
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -75,6 +82,10 @@ UICKeyChainStore *store;
     [super viewDidAppear:animated];
     [_passwordField becomeFirstResponder];
     self.navigationController.navigationBar.topItem.title = @"Delete Account";
+}
+
+- (void)dismissKeyboard {
+    [_passwordField resignFirstResponder];
 }
 
 - (IBAction)buttonPressed:(id)sender

@@ -67,6 +67,13 @@ UICKeyChainStore *store;
         button.tag = 1;
         self.navigationItem.rightBarButtonItem = anotherButton;
     }
+    
+    // Add the ability to dismiss the keyboard
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -110,6 +117,12 @@ UICKeyChainStore *store;
 }
 
 # pragma mark Private Methods
+
+- (void)dismissKeyboard {
+    [_usernameField resignFirstResponder];
+    [_passwordField resignFirstResponder];
+}
+
 
 - (void)login
 {
