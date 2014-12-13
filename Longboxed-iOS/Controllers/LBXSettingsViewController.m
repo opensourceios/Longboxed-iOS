@@ -69,24 +69,7 @@ UICKeyChainStore *store;
     
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
     self.navigationItem.rightBarButtonItem = actionButton;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
-    _developmentServerSwitch.hidden = ([LBXControllerServices isAdmin]) ? NO : YES;
-}
-
-- (void)viewWillLayoutSubviews
-{
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
-    [self.settingsTableView reloadData];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    self.navigationController.navigationBar.topItem.title = @"Settings";
+    
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     [_developmentServerSwitch setOn:YES animated:NO];
     RKResponseDescriptor *responseDescriptor = [RKObjectManager sharedManager].responseDescriptors[0];
@@ -94,6 +77,26 @@ UICKeyChainStore *store;
         [_developmentServerSwitch setOn:NO animated:NO];
     }
     [self.navigationItem setHidesBackButton:YES animated:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
+    NSIndexPath *tableSelection = [self.settingsTableView indexPathForSelectedRow];
+    [self.settingsTableView deselectRowAtIndexPath:tableSelection animated:YES];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
+    _developmentServerSwitch.hidden = ([LBXControllerServices isAdmin]) ? NO : YES;
+    [self.settingsTableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    self.navigationController.navigationBar.topItem.title = @"Settings";
 }
 
 - (void)viewDidDisappear:(BOOL)animated
