@@ -16,6 +16,7 @@
 
 #import <UICKeyChainStore.h>
 #import <SVProgressHUD.h>
+#import <AYVibrantButton.h>
 
 @interface LBXDeleteAccountViewController ()
 
@@ -35,9 +36,7 @@ UICKeyChainStore *store;
     store = [UICKeyChainStore keyChainStore];
     _client = [[LBXClient alloc] init];
     
-    [_deleteAccountButton setTitle:@"     DELETE ACCOUNT AND ALL DATA     " forState:UIControlStateNormal];
-    _deleteAccountButton.layer.borderWidth = 1.0f;
-    _deleteAccountButton.layer.cornerRadius = 6.0f;
+    [_deleteAccountButton setTitle:@"                                                                           " forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -51,6 +50,24 @@ UICKeyChainStore *store;
     [super viewWillLayoutSubviews];
     [[UITextField appearanceWhenContainedIn:[self class], nil] setFont:[UIFont settingsTableViewFont]];
     [[UITextField appearance] setTintColor:[UIColor blackColor]];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    AYVibrantButton *invertButton = [[AYVibrantButton alloc] initWithFrame:_deleteAccountButton.frame style:AYVibrantButtonStyleInvert];
+    invertButton.vibrancyEffect = nil;
+    invertButton.backgroundColor = [UIColor blackColor];
+    invertButton.text = @"DELETE ACCOUNT AND ALL DATA";
+    invertButton.font = _deleteAccountButton.titleLabel.font;
+    [invertButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    invertButton.tag = 0;
+    
+    // Only add the button once (this method gets called multiple times)
+    BOOL needsAdded = YES;
+    for (UIView *view in self.view.subviews) {
+        if ([view isKindOfClass:[AYVibrantButton class]]) needsAdded = NO;
+    }
+    if (needsAdded) [self.view addSubview:invertButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated
