@@ -23,6 +23,7 @@
 #import "UIFont+customFonts.h"
 #import <UICKeyChainStore.h>
 #import <SVProgressHUD.h>
+#import <JGActionSheet.h>
 
 @interface LBXSettingsViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -322,34 +323,32 @@ UICKeyChainStore *store;
             if (indexPath.row == 0) {
                 // User is logged in - show email and stuff
                 if ([LBXControllerServices isLoggedIn]) {
-                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-                    UIAlertAction* logout = [UIAlertAction
-                                         actionWithTitle:@"Log Out"
-                                         style:UIAlertActionStyleDestructive
-                                         handler:^(UIAlertAction * action)
-                                         {
-                                             [LBXLogging logLogout];
-                                             [LBXControllerServices removeCredentials];
-                                             [LBXDatabaseManager flushBundlesAndPullList];
-                                             [SVProgressHUD showSuccessWithStatus:@"Logged Out"];
-                                             [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
-                                             [self.settingsTableView reloadData];
-                                             [alertController dismissViewControllerAnimated:YES completion:nil];
-                                             
-                                         }];
-                    UIAlertAction* cancel = [UIAlertAction
-                                             actionWithTitle:@"Cancel"
-                                             style:UIAlertActionStyleCancel
-                                             handler:^(UIAlertAction * action)
-                                             {
-                                                 [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
-                                                 [alertController dismissViewControllerAnimated:YES completion:nil];
-                                                 
-                                             }];
+                    JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Log Out"] buttonStyle:JGActionSheetButtonStyleRed];
+                    JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel];
                     
-                    [alertController addAction:cancel];
-                    [alertController addAction:logout];
-                    [self presentViewController:alertController animated:YES completion:nil];
+                    NSArray *sections = @[section1, cancelSection];
+                    
+                    JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
+                    
+                    [sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+                        switch (indexPath.row) {
+                            case 1:
+                                [LBXLogging logLogout];
+                                [LBXControllerServices removeCredentials];
+                                [LBXDatabaseManager flushBundlesAndPullList];
+                                [SVProgressHUD showSuccessWithStatus:@"Logged Out"];
+                                [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
+                                [self.settingsTableView reloadData];
+                                break;
+                            case 2:
+                                [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
+                                break;
+                        }
+                        [sheet dismissAnimated:YES];
+                    }];
+                    
+                    [sheet showInView:self.view animated:YES];
+                    
                 }
                 // User is not logged in - show sign up
                 else {
@@ -391,5 +390,6 @@ UICKeyChainStore *store;
             break;
     }
 }
+
 
 @end
