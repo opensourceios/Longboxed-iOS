@@ -49,4 +49,26 @@
     return string;
 }
 
++ (NSString *)diskUsage
+{
+    NSUInteger diskUsage = [NSURLCache sharedURLCache].currentDiskUsage;
+    // Less than 0.5 MB/ 500 Kb
+    if (diskUsage < 500000) {
+        return @"Less than 0.5 MB";
+    }
+    return [NSString stringWithFormat:@"%0.2f MB", diskUsage/1000000.0];
+}
+
++ (NSString *)appVersion
+{
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    return [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+}
+
++ (NSString *)appBuildNumber
+{
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+   return [infoDictionary objectForKey:@"CFBundleVersion"];
+}
+
 @end

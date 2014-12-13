@@ -5,6 +5,8 @@
 //  Created by johnrhickey on 6/30/14.
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
+#import <MessageUI/MessageUI.h>
+#import <sys/utsname.h>
 
 #import "LBXSettingsViewController.h"
 #import "LBXDashboardViewController.h"
@@ -18,14 +20,15 @@
 #import "LBXLogging.h"
 #import "LBXUser.h"
 
-#import "RestKit/RestKit.h"
-
 #import "UIFont+customFonts.h"
+#import "NSString+StringUtilities.h"
+
+#import "RestKit/RestKit.h"
 #import <UICKeyChainStore.h>
 #import <SVProgressHUD.h>
 #import <JGActionSheet.h>
 
-@interface LBXSettingsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface LBXSettingsViewController () <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) UISwitch *developmentServerSwitch;
 @property (nonatomic, strong) IBOutlet UITableView* settingsTableView;
@@ -178,6 +181,29 @@ UICKeyChainStore *store;
     }];
 }
 
+- (void)sendEmail
+{
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+        [composeViewController setMailComposeDelegate:self];
+        [composeViewController setToRecipients:@[@"contact@longboxed.com"]];
+        [composeViewController setSubject:@"Longboxed for iOS"];
+        
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        NSString *msgBody = [NSString stringWithFormat:@"\n\n\n------\nDevice: %@\niOS: %@\nVersion: %@ (%@)", [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding], [[UIDevice currentDevice] systemVersion], [NSString appVersion], [NSString appBuildNumber]];
+        [composeViewController setMessageBody:msgBody isHTML:NO];
+        [self presentViewController:composeViewController animated:YES completion:nil];
+    }
+    else {
+        [SVProgressHUD showErrorWithStatus:@"Email not configured. contact@longboxed.com" maskType:SVProgressHUDMaskTypeBlack];
+    }
+}
+
+-(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 # pragma mark UITableView Methods
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
@@ -239,7 +265,7 @@ UICKeyChainStore *store;
             break;
         case 2:
             if (resetCacheToZero) return @"Less than 0.5 MB";
-            else return [NSString stringWithFormat:@"%@ used", [LBXControllerServices diskUsage]];
+            else return [NSString stringWithFormat:@"%@ used", [NSString diskUsage]];
             break;
         default:
             return @" ";
@@ -362,6 +388,12 @@ UICKeyChainStore *store;
             else if (indexPath.row == 1 && ![LBXControllerServices isLoggedIn]) {
                 LBXLoginViewController *loginViewController = [LBXLoginViewController new];
                 [self.navigationController pushViewController:loginViewController animated:YES];
+            }
+            break;
+        // Send feedback email
+        case 1:
+            if (indexPath.row == 0) {
+                [self sendEmail];
             }
             break;
         case 2:
