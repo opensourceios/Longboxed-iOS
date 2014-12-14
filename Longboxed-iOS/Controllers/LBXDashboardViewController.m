@@ -110,6 +110,7 @@ static double TABLEHEIGHT = 174;
         _searchController.searchBar.delegate = self;
         self.definesPresentationContext = YES;
         
+        _scrollView.delegate = self;
         [_scrollView addSubview:_searchController.searchBar];
     }
     return self;
@@ -270,14 +271,15 @@ static double TABLEHEIGHT = 174;
     [self refresh];
     
     if (!_featuredBlurredImageView.image) {
-        [SVProgressHUD showAtPosY:(_featuredBlurredImageView.frame.origin.y + _featuredBlurredImageView.frame.size.height)/2 + self.navigationController.navigationBar.frame.size.height + _searchBar.frame.size.height];
+        [SVProgressHUD showWithSubview:_featuredBlurredImageView];
+        _featuredDescriptionLabel.hidden = YES;
+        _featuredIssueTitleLabel.hidden = YES;
     }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [SVProgressHUD dismiss];
 }
 
 #pragma mark Private Methods
@@ -302,7 +304,11 @@ static double TABLEHEIGHT = 174;
 - (void)setFeaturedIssueWithIssuesArray:(NSArray *)popularIssuesArray
 {
     if (!_popularIssuesArray.count) {
-        [SVProgressHUD dismiss];
+        for (UIView *view in _featuredBlurredImageView.subviews) {
+            if ([view isKindOfClass:[SVProgressHUD class]]) {
+                [view removeFromSuperview];
+            }
+        }
         // TODO: Display empty view for featured issue
         return;
     }
@@ -351,6 +357,15 @@ static double TABLEHEIGHT = 174;
 
 -(void)setFeaturedBlurredImageViewWithImage:(UIImage *)image
 {
+    _featuredDescriptionLabel.hidden = NO;
+    _featuredIssueTitleLabel.hidden = NO;
+    
+    for (UIView *view in _featuredBlurredImageView.subviews) {
+        if ([view isKindOfClass:[SVProgressHUD class]]) {
+            [view removeFromSuperview];
+        }
+    }
+    
     UIImage *blurredImage = [image applyBlurWithRadius:20
                                              tintColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1]
                                  saturationDeltaFactor:1
@@ -361,8 +376,6 @@ static double TABLEHEIGHT = 174;
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{self.featuredBlurredImageView.image = blurredImage;}
                     completion:NULL];
-    
-    [SVProgressHUD dismiss];
 }
 
 - (void)getCoreDataPopularIssues
@@ -899,7 +912,6 @@ static double TABLEHEIGHT = 174;
     
     cell.latestIssueImageView.image = nil;
 }
-
 
 
 @end
