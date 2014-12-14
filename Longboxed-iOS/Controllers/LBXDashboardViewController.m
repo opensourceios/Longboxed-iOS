@@ -274,6 +274,12 @@ static double TABLEHEIGHT = 174;
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+}
+
 #pragma mark Private Methods
 
 - (void)setArrowsForButton:(UIButton *)button
@@ -297,6 +303,7 @@ static double TABLEHEIGHT = 174;
 {
     if (!_popularIssuesArray.count) {
         [SVProgressHUD dismiss];
+        // TODO: Display empty view for featured issue
         return;
     }
     
@@ -326,18 +333,12 @@ static double TABLEHEIGHT = 174;
         weakfeaturedImageView.image = image;
         
         // Only fade in the image if it was fetched (not from cache)
-        if (request) {
-            [UIView transitionWithView:weakSelf.featuredIssueCoverButton
-                              duration:0.5f
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:^{[weakSelf.featuredIssueCoverButton setBackgroundImage:weakfeaturedImageView.image forState:UIControlStateNormal];}
-                            completion:NULL];
-            [weakSelf setFeaturedBlurredImageViewWithImage:weakfeaturedImageView.image];
-        }
-        else {
-            [weakSelf setFeaturedBlurredImageViewWithImage:weakfeaturedImageView.image];
-            [weakSelf.featuredIssueCoverButton setBackgroundImage:weakfeaturedImageView.image forState:UIControlStateNormal];
-        }
+        [UIView transitionWithView:weakSelf.featuredIssueCoverButton
+                          duration:0.5f
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{[weakSelf.featuredIssueCoverButton setBackgroundImage:weakfeaturedImageView.image forState:UIControlStateNormal];}
+                        completion:NULL];
+        [weakSelf setFeaturedBlurredImageViewWithImage:weakfeaturedImageView.image];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
@@ -379,8 +380,6 @@ static double TABLEHEIGHT = 174;
     
     _popularIssuesArray = sortedArray;
     
-    [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.bottomTableView reloadData];
     });
@@ -398,11 +397,13 @@ static double TABLEHEIGHT = 174;
                     count++;
                     if (popularIssuesArray.count == count) {
                         [self getCoreDataPopularIssues];
+                        [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
                     }
                 }];
             }
         }
         else {
+            [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
             //[LBXMessageBar displayError:error];
         }
     }];
