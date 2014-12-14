@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 #import "UIFontDescriptor+AvenirNext.h"
 
-@implementation UIFont (customFonts)
+@implementation UIFont (LBXCustomFonts)
 
 static const NSString *fontFace = @"AvenirNext";
 

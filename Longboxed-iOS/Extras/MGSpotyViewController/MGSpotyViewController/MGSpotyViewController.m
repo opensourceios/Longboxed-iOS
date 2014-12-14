@@ -13,10 +13,10 @@
 #import "LBXClient.h"
 #import "PaintCodeImages.h"
 
-#import "UIImage+CreateImage.h"
+#import "UIImage+LBXCreateImage.h"
 
 #import <UIImageView+AFNetworking.h>
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 
 CGFloat const kMGOffsetEffects = 40.0;
 CGFloat const kMGOffsetBlurEffect = 2.0;

@@ -20,7 +20,7 @@
 #import "NSString+URLQuery.h"
 #import "NSString+RKAdditions.h"
 #import "NSDictionary+RKAdditions.h"
-#import "NSArray+ArrayUtilities.h"
+#import "NSArray+LBXArrayUtilities.h"
 
 @interface LBXClient()
 

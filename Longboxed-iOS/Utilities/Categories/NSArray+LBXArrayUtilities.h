@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSArray (ArrayUtilities)
+@interface NSArray (LBXArrayUtilities)
 
 + (NSArray *)sortedArray:(NSArray *)array basedOffObjectProperty:(NSString *)property;
 + (NSArray *)getPublisherTableViewSectionArrayForArray:(NSArray *)array;

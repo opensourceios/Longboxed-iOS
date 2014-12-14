@@ -16,8 +16,8 @@
 
 #import "UIImageView+LBBlurredImage.h"
 #import "NSString+StringUtilities.h"
-#import "UIImage+CreateImage.h"
-#import "UIFont+customFonts.h"
+#import "UIImage+LBXCreateImage.h"
+#import "UIFont+LBXCustomFonts.h"
 #import "UIImage+ImageEffects.h"
 
 #import "JGActionSheet.h"

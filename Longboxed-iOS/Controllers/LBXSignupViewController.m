@@ -12,7 +12,7 @@
 #import "LBXControllerServices.h"
 #import "LBXClient.h"
 
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 
 #import <UICKeyChainStore.h>
 #import <OnePasswordExtension.h>

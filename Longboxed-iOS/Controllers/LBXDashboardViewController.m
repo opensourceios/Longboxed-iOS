@@ -24,9 +24,9 @@
 #import "LBXBundle.h"
 #import "LBXLogging.h"
 
-#import "UIFont+customFonts.h"
-#import "UIColor+customColors.h"
-#import "UIImage+CreateImage.h"
+#import "UIFont+LBXCustomFonts.h"
+#import "UIColor+LBXCustomColors.h"
+#import "UIImage+LBXCreateImage.h"
 #import "UIImage+DrawOnImage.h"
 #import "UIImage+ImageEffects.h"
 #import "NSString+StringUtilities.h"
@@ -36,6 +36,7 @@
 #import <UICKeyChainStore.h>
 #import <QuartzCore/QuartzCore.h>
 #import <SVProgressHUD.h>
+#import <UIImage+CreateImage.h>
 
 @interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate>
 

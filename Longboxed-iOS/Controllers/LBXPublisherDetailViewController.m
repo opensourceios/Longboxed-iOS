@@ -17,11 +17,11 @@
 #import "LBXIssueScrollViewController.h"
 #import "LBXLogging.h"
 
-#import "UIFont+customFonts.h"
-#import "NSArray+ArrayUtilities.h"
-#import "UIColor+customColors.h"
+#import "UIFont+LBXCustomFonts.h"
+#import "NSArray+LBXArrayUtilities.h"
+#import "UIColor+LBXCustomColors.h"
 #import "UIImage+DrawOnImage.h"
-#import "UIImage+CreateImage.h"
+#import "UIImage+LBXCreateImage.h"
 #import "SVProgressHUD.h"
 
 #import <QuartzCore/QuartzCore.h>

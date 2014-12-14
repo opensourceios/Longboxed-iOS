@@ -10,7 +10,7 @@
 #import "LBXControllerServices.h"
 #import "LBXPullListTableViewCell.h"
 #import "LBXTitle.h"
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 #import "LBXClient.h"
 
 @interface LBXSearchTableViewController () 

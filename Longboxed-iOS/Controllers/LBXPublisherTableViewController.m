@@ -13,11 +13,12 @@
 #import "LBXPublisher.h"
 #import "LBXClient.h"
 
-#import "UIFont+customFonts.h"
-#import "UIImage+CreateImage.h"
+#import "UIFont+LBXCustomFonts.h"
+#import "UIImage+LBXCreateImage.h"
 #import "UIImage+DrawOnImage.h"
 
 #import <UIImageView+AFNetworking.h>
+#import <UIImage+CreateImage.h>
 
 @interface LBXPublisherTableViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource>
 

@@ -13,7 +13,7 @@
 #import "LBXLogging.h"
 #import "LBXControllerServices.h"
 
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 
 // Logging
 #import "DDLog.h"

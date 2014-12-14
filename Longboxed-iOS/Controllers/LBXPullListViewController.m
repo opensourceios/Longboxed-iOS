@@ -19,10 +19,10 @@
 #import "PaintCodeImages.h"
 
 // Categories
-#import "NSArray+ArrayUtilities.h"
+#import "NSArray+LBXArrayUtilities.h"
 #import "NSDate+DateUtilities.h"
-#import "UIColor+customColors.h"
-#import "UIFont+customFonts.h"
+#import "UIColor+LBXCustomColors.h"
+#import "UIFont+LBXCustomFonts.h"
 #import "UIImage+ImageEffects.h"
 #import "SVProgressHUD.h"
 

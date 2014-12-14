@@ -15,12 +15,12 @@
 #import "LBXControllerServices.h"
 #import "ESDatePicker.h"
 
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 #import "NSDate+DateUtilities.h"
-#import "UIFont+customFonts.h"
-#import "NSArray+ArrayUtilities.h"
-#import "UIColor+customColors.h"
-#import "UIImage+CreateImage.h"
+#import "UIFont+LBXCustomFonts.h"
+#import "NSArray+LBXArrayUtilities.h"
+#import "UIColor+LBXCustomColors.h"
+#import "UIImage+LBXCreateImage.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <SVProgressHUD.h>

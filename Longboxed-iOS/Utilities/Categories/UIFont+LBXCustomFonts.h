@@ -1,5 +1,5 @@
 //
-//  UIFont+customFonts.h
+//  UIFont+LBXCustomFonts.h
 //  Longboxed-iOS
 //
 //  Created by johnrhickey on 8/4/14.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIFont (customFonts)
+@interface UIFont (LBXCustomFonts)
 
 + (UIFont *)menuFont;
 + (UIFont *)navTitleFont;

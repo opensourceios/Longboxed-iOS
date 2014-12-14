@@ -8,15 +8,15 @@
 
 #import "LBXControllerServices.h"
 #import "LBXUser.h"
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 #import "LBXBackButton.h"
 
 #import "NSDate+DateUtilities.h"
-#import "UIImage+CreateImage.h"
+#import "UIImage+LBXCreateImage.h"
 
 #import "NSString+LBXStringUtilities.h"
 #import "NSString+StringUtilities.h"
-#import "UIColor+customColors.h"
+#import "UIColor+LBXCustomColors.h"
 #import "SVProgressHUD.h"
 #import "PaintCodeImages.h"
 
@@ -221,7 +221,10 @@
                              font:(UIFont *)font
 {
     CGFloat width = [string sizeWithAttributes: @{NSFontAttributeName:font}].width;
+    CGFloat height = [string sizeWithAttributes: @{NSFontAttributeName:font}].height;
     label.numberOfLines = (width > label.frame.size.width) ? 2 : 1;
+    label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, label.frame.size.width, label.numberOfLines * 2);
+    NSLog(@"%f %f %f %f %ld", label.frame.origin.x, label.frame.origin.y, label.frame.size.width, label.frame.size.height, (long)label.numberOfLines);
     [label sizeToFit];
 }
 

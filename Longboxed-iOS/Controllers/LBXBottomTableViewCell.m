@@ -12,7 +12,7 @@
 #import "LBXControllerServices.h"
 #import "LBXIssue.h"
 
-#import "UIImage+CreateImage.h"
+#import "UIImage+LBXCreateImage.h"
 
 #import <UIImageView+AFNetworking.h>
 

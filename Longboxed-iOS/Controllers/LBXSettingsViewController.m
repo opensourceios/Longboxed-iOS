@@ -20,7 +20,7 @@
 #import "LBXLogging.h"
 #import "LBXUser.h"
 
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 #import "NSString+StringUtilities.h"
 
 #import "RestKit/RestKit.h"

@@ -11,8 +11,6 @@
 
 @interface UIImage (CreateImage)
 
-+ (UIImage *)singlePixelImageWithColor:(UIColor *)color;
-+ (UIImage *)imageWithColor:(UIColor *)color rect:(CGRect)rect;
 + (UIImage *)defaultCoverImage;
 + (UIImage *)defaultCoverImageWithWhiteBackground;
 

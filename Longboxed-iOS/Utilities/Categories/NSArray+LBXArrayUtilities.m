@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
-#import "NSArray+ArrayUtilities.h"
+#import "NSArray+LBXArrayUtilities.h"
 #import "NSDate+DateUtilities.h"
 #import "LBXIssue.h"
 #import "LBXTitle.h"
 
-@implementation NSArray (ArrayUtilities)
+@implementation NSArray (LBXArrayUtilities)
 
 + (NSArray *)sortedArray:(NSArray *)array basedOffObjectProperty:(NSString *)property
 {

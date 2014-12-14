@@ -14,7 +14,7 @@
 #import "LBXLogging.h"
 #import "SVModalWebViewController.h"
 
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 
 #import <UICKeyChainStore.h>
 #import <OnePasswordExtension.h>

@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
-#import "UIColor+customColors.h"
+#import "UIColor+LBXCustomColors.h"
 
-@implementation UIColor (customColors)
+@implementation UIColor (LBXCustomColors)
 
 + (UIColor *)LBXGreenColor {
     return [UIColor colorWithRed:92/255.0 green:184/255.0 blue:92/255.0 alpha:1.0];

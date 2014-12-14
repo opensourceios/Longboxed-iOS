@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIColor (customColors)
+@interface UIColor (LBXCustomColors)
 
 + (UIColor *)LBXGreenColor;
 + (UIColor *)LBXGrayColor;

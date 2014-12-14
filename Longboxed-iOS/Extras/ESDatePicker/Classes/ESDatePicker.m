@@ -38,7 +38,7 @@
 #import <Masonry.h>
 #import "ESObjectPool.h"
 
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 
 #if !__has_feature(objc_arc)
 #define __weak__block __block

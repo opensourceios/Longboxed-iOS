@@ -22,11 +22,11 @@
 #import "JGActionSheet.h"
 #import "SVProgressHUD.h"
 
-#import "UIFont+customFonts.h"
+#import "UIFont+LBXCustomFonts.h"
 #import "NSString+LBXStringUtilities.h"
-#import "UIImage+CreateImage.h"
-#import "NSArray+ArrayUtilities.h"
-#import "UIColor+customColors.h"
+#import "UIImage+LBXCreateImage.h"
+#import "NSArray+LBXArrayUtilities.h"
+#import "UIColor+LBXCustomColors.h"
 
 #import <JTSImageViewController.h>
 #import <QuartzCore/QuartzCore.h>
@@ -215,8 +215,8 @@ int page;
 
 - (void)updateDetailView
 {
-    [LBXControllerServices setNumberOfLinesWithLabel:_detailView.titleLabel string:_detailTitle.name font:[UIFont titleDetailTitleFont]];
     _detailView.titleLabel.text = _detailTitle.name;
+    [LBXControllerServices setNumberOfLinesWithLabel:_detailView.titleLabel string:_detailTitle.name font:[UIFont titleDetailTitleFont]];
     
     // When loading the title info
     if (_detailTitle.publisher.name == nil) {

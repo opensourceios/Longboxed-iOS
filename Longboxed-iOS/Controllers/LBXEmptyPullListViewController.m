@@ -10,7 +10,7 @@
 #import "PaintCodeImages.h"
 #import "SDiPhoneVersion.h"
 
-#import "UIColor+customColors.h"
+#import "UIColor+LBXCustomColors.h"
 
 @interface LBXEmptyPullListViewController ()
 
