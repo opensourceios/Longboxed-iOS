@@ -23,6 +23,7 @@
 #import "UIImage+CreateImage.h"
 
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import <SVProgressHUD.h>
 #import "Masonry.h"
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
@@ -41,6 +42,7 @@
 @property (nonatomic, strong) UINavigationController *calendarNavController;
 @property (nonatomic, strong) ESDatePicker *calendarView;
 @property (nonatomic, strong) NSDate *selectedWednesday;
+@property (nonatomic, strong) UIView *maskLoadingView;
 
 @end
 
@@ -51,12 +53,14 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 CGFloat cellWidth;
 BOOL _segmentedShowBool;
 BOOL _displayReleasesOfDate;
+BOOL _showedCalendar;
 int _page;
 
 - (id)init
 {
     _segmentedShowBool = YES;
     _displayReleasesOfDate = YES;
+    _showedCalendar = NO;
     _issuesForWeekArray = [NSArray new];
     self = [super init];
     
@@ -73,6 +77,7 @@ int _page;
         _selectedWednesday = date;
         _segmentedControl.selectedSegmentIndex = 999;
         _displayReleasesOfDate = YES;
+        _showedCalendar = NO;
         _segmentedShowBool = segmentedShowBool;
         _issuesForWeekArray = [NSArray new];
     }
@@ -84,6 +89,7 @@ int _page;
         _selectedWednesday = nil;
         _segmentedControl.selectedSegmentIndex = 999;
         _segmentedShowBool = NO;
+        _showedCalendar = NO;
         _displayReleasesOfDate = NO;
         _issuesForWeekArray = issues;
         _customNavTitle = title;
@@ -108,7 +114,6 @@ int _page;
     _tableView.tableFooterView = [UIView new];
 
     [self.view addSubview:_tableView];
-    
     
     if (_segmentedShowBool) {
         
@@ -142,10 +147,12 @@ int _page;
         _tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
         
     }
-
     
     _tableView.scrollIndicatorInsets = _tableView.contentInset;
-    
+   
+    _maskLoadingView = [[UIView alloc] initWithFrame:_tableView.frame];
+    _maskLoadingView.backgroundColor = [UIColor whiteColor];
+
     // Add refresh
     if (_displayReleasesOfDate) {
         self.refreshControl = [UIRefreshControl new];
@@ -199,6 +206,11 @@ int _page;
     
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+    
+    if (_showedCalendar) {
+        [SVProgressHUD show];
+        [self.view addSubview:_maskLoadingView];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -208,14 +220,14 @@ int _page;
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     [self setNavTitle];
     
-    if (_segmentedControl == nil && _selectedWednesday) {
+    if ((_segmentedControl.selectedSegmentIndex == -1 || _segmentedControl == nil) && _selectedWednesday) {
         [self fetchDate:_selectedWednesday withPage:@1];
     }
-    else if (_segmentedControl.selectedSegmentIndex == 0) {
+    else if (_segmentedControl.selectedSegmentIndex == 0 && !_showedCalendar) {
         [self refreshControlAction];
         [self fetchThisWeekWithPage:@1];
     }
-    else if (_segmentedControl.selectedSegmentIndex == 1) {
+    else if (_segmentedControl.selectedSegmentIndex == 1 && !_showedCalendar) {
         [self refreshControlAction];
         [self fetchNextWeekWithPage:@1];
     }
@@ -232,6 +244,8 @@ int _page;
 {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.topItem.title = @" ";
+    [SVProgressHUD dismiss];
+    [_maskLoadingView removeFromSuperview];
 }
 
 
@@ -303,6 +317,9 @@ int _page;
     }
     else if (_segmentedControl.selectedSegmentIndex == 1) {
         [self fetchNextWeekWithPage:@1];
+    }
+    else if (_segmentedControl.selectedSegmentIndex == -1) {
+        [self fetchDate:_selectedWednesday withPage:@1];
     }
 }
 
@@ -383,6 +400,10 @@ int _page;
         [self setIssuesForWeekArrayWithDate:_selectedWednesday];
     }
     
+    if (!_sectionArray.count) {
+        // TODO: Display empty view for week
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
         [self.refreshControl endRefreshing];
@@ -449,11 +470,18 @@ int _page;
         if (!error) {
             if (!issuesForDateArray.count) {
                 [self completeRefresh];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Scroll to top
+                    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+                    if (_showedCalendar) {
+                        [SVProgressHUD dismiss];
+                        [_maskLoadingView removeFromSuperview];
+                    }
+                });
             }
             else {
                 _page += 1;
                 [self fetchDate:date withPage:[NSNumber numberWithInt:_page]];
-                [self completeRefresh];
             }
         }
         else {
@@ -467,6 +495,8 @@ int _page;
 
 - (void)showCalendar
 {
+    [SVProgressHUD dismiss];
+    [_maskLoadingView removeFromSuperview];
     // Set the start date of the calendar to Feb 1, 2014
     NSDateComponents *comps = [NSDateComponents new];
     [comps setDay:1];
@@ -497,6 +527,7 @@ int _page;
     
     _calendarNavController.navigationBar.translucent = NO;
     viewController.view = _calendarView;
+    _showedCalendar = YES;
     //_calendarNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:_calendarNavController animated:YES completion:nil];
 }
@@ -506,25 +537,25 @@ int _page;
     _issuesForWeekArray = nil;
     _selectedWednesday = [NSDate getThisWednesdayOfDate:date];
     
-    [_segmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
     [self setNavTitle];
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self refreshControlAction];
     
     // Check if the issue is this week
     if ([_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] > -3*DAY &&
         [_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] <= 4*DAY) {
+        [self refreshControlAction];
         _segmentedControl.selectedSegmentIndex = 0;
     }
     
     // Check if the issue is next week
     else if ([_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] > 5*DAY &&
         [_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] <= 12*DAY) {
+        [self refreshControlAction];
         _segmentedControl.selectedSegmentIndex = 1;
     }
     else {
         [self fetchDate:_selectedWednesday withPage:@1];
-        _segmentedControl = nil;
+        _segmentedControl.selectedSegmentIndex = -1;
     }
 }
 
@@ -532,6 +563,9 @@ int _page;
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     [self setNavTitle];
+    [SVProgressHUD dismiss];
+    [_maskLoadingView removeFromSuperview];
+    _showedCalendar = NO;
     
 }
 
@@ -676,6 +710,9 @@ int _page;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Reset the showed calendar bool
+    _showedCalendar = NO;
+    
     // Disselect and return immediately if selecting an empty cell
     // i.e., one below the last issue
     if (_issuesForWeekArray.count < indexPath.row+1) {
