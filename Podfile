@@ -8,6 +8,7 @@ inhibit_all_warnings!
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
+pod 'JRHUtilities'
 pod 'HockeySDK'
 pod 'UICKeyChainStore'
 pod 'pop'
@@ -31,5 +32,3 @@ pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImag
 pod 'SVProgressHUD', :git => 'https://github.com/jayhickey/SVProgressHUD.git', :branch => 'master'
 pod 'JGActionSheet', :git => 'https://github.com/jayhickey/JGActionSheet.git', :branch => 'master'
 pod 'NBUKit', :git => 'https://github.com/jayhickey/iOS-NBUKit.git', :branch => 'master'
-
-pod 'JRHUtilities', :git => 'https://github.com/jayhickey/JRHUtilities.git'
