@@ -221,10 +221,8 @@
                              font:(UIFont *)font
 {
     CGFloat width = [string sizeWithAttributes: @{NSFontAttributeName:font}].width;
-    CGFloat height = [string sizeWithAttributes: @{NSFontAttributeName:font}].height;
     label.numberOfLines = (width > label.frame.size.width) ? 2 : 1;
     label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, label.frame.size.width, label.numberOfLines * 2);
-    NSLog(@"%f %f %f %f %ld", label.frame.origin.x, label.frame.origin.y, label.frame.size.width, label.frame.size.height, (long)label.numberOfLines);
     [label sizeToFit];
 }
 
