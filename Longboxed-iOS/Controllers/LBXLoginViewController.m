@@ -206,14 +206,13 @@ UICKeyChainStore *store;
             forgotViewController.navigationItem.titleView = label;
             forgotViewController.navigationItem.rightBarButtonItem = actionButton;
             
-            NSURLRequest *request = [[NSURLRequest alloc] initWithURL: [NSURL URLWithString: @"http://longboxed.com/reset"] cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
+            NSURLRequest *request = [[NSURLRequest alloc] initWithURL: [NSURL URLWithString:@"http://longboxed.com/reset-ios"] cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
             [webView loadRequest: request];
             
             //now present this navigation controller modally
             [self presentViewController:navigationController
                                animated:YES
                              completion:^{
-                                 
                              }];
             break;
             
