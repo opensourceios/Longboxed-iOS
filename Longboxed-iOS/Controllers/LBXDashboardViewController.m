@@ -49,12 +49,14 @@
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSArray *tableConstraints;
 @property (nonatomic) NSArray *searchResultsArray;
+@property (nonatomic) UIColor *searchBackgroundColor;
 
 @end
 
 @implementation LBXDashboardViewController
 
 static double TABLEHEIGHT = 174;
+BOOL _selectedSearchResult;
 
 @synthesize topTableView;
 @synthesize bottomTableView;
@@ -100,19 +102,12 @@ static double TABLEHEIGHT = 174;
         [self.topTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
         
         self.bottomTableView.tableFooterView = [UIView new];
-        
-        self.searchResultsController = [LBXSearchTableViewController new];
-        _searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchResultsController];
-        _searchController.searchResultsUpdater = self.searchResultsController;
-        self.searchResultsController.tableView.delegate = self;
-        self.searchResultsController.tableView.dataSource = self;
-        _searchController.dimsBackgroundDuringPresentation = YES;
-        _searchController.delegate = self;
-        _searchController.searchBar.delegate = self;
-        self.definesPresentationContext = YES;
+    
+        [self setupSearchController];
         
         _scrollView.delegate = self;
         [_scrollView addSubview:_searchController.searchBar];
+        
     }
     return self;
 }
@@ -125,9 +120,12 @@ static double TABLEHEIGHT = 174;
     
     tableSelection = [self.searchResultsController.tableView indexPathForSelectedRow];
     [self.searchResultsController.tableView deselectRowAtIndexPath:tableSelection animated:YES];
+    if (_selectedSearchResult) {
+        [self.navigationController setNavigationBarHidden:YES animated:NO];
+    }
+    else [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
     
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
-    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
 }
 
 - (void)viewWillLayoutSubviews
@@ -160,20 +158,32 @@ static double TABLEHEIGHT = 174;
     bottomBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
     [_separatorView.layer addSublayer:bottomBorder];
     
+    [self reloadTableView];
+}
+
+- (void)setupSearchController
+{
+    self.searchResultsController = [LBXSearchTableViewController new];
+    _searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchResultsController];
+    _searchController.searchResultsUpdater = self.searchResultsController;
+    self.searchResultsController.tableView.delegate = self;
+    self.searchResultsController.tableView.dataSource = self;
+    _searchController.dimsBackgroundDuringPresentation = YES;
+    _searchController.delegate = self;
+    _searchController.searchBar.delegate = self;
+    self.definesPresentationContext = YES;
     _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
     _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
     _searchController.searchBar.backgroundColor = [UIColor clearColor];
-    _searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
     _searchController.searchBar.placeholder = @"Search Comics";
     _searchController.searchBar.clipsToBounds = YES;
-    _searchController.hidesNavigationBarDuringPresentation = YES;
+    _searchController.hidesNavigationBarDuringPresentation = NO;
     UIImage *image = [PaintCodeImages imageOfMagnifyingGlassWithColor:[UIColor whiteColor] width:24];
     [_searchController.searchBar setImage:image forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    _searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
+    _searchBackgroundColor = [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].backgroundColor;
     [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
-    
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
-    
-    [self reloadTableView];
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor blackColor]];
 }
 
 - (void)reloadTableView
@@ -261,6 +271,8 @@ static double TABLEHEIGHT = 174;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    _selectedSearchResult = NO;
     
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
@@ -594,15 +606,18 @@ static double TABLEHEIGHT = 174;
     statusBarView.backgroundColor = [UIColor whiteColor];
     statusBarView.frame = CGRectMake([UIApplication sharedApplication].statusBarFrame.origin.x, [UIApplication sharedApplication].statusBarFrame.origin.y, [UIApplication sharedApplication].statusBarFrame.size.width, [UIApplication sharedApplication].statusBarFrame.size.height + searchController.searchBar.frame.size.height);
     [self.view addSubview:statusBarView];
-    [self.searchController.view insertSubview:statusBarView aboveSubview:searchController.searchBar];
+    [searchController.view insertSubview:statusBarView aboveSubview:searchController.searchBar];
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.5];
     [statusBarView setAlpha:1.0];
     [UIView commitAnimations];
     
-    searchController.searchBar.barTintColor = [UIColor whiteColor];
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:[UIColor LBXVeryLightGrayColor]];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
     [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor blackColor]];
+    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor lightGrayColor]];
     _searchResultsArray = nil;
 
 }
@@ -610,23 +625,30 @@ static double TABLEHEIGHT = 174;
 - (void)didPresentSearchController:(UISearchController *)searchController
 {
     _searchResultsArray = nil;
+    searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, _searchBar.frame.size.height);
+    self.searchResultsController.tableView.contentInset = UIEdgeInsetsMake(_searchBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0, 0, 0);
     
-    searchController.searchBar.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, [UIScreen mainScreen].bounds.size.width, 44);
- 
+    // Hair line below the search bar
+    UIView *onePxView = [[UIView alloc] initWithFrame:CGRectMake(0, _searchBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height + 0.5f, [UIScreen mainScreen].bounds.size.width, 0.5f)];
+    onePxView.backgroundColor = [UIColor lightGrayColor];
+    [self.searchController.view addSubview:onePxView];
+    
+    self.searchResultsController.tableView.scrollIndicatorInsets = self.searchResultsController.tableView.contentInset;
 }
 
 - (void)willDismissSearchController:(UISearchController *)searchController
 {
-    [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor whiteColor]];
+    _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
+    _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
+    _searchController.searchBar.backgroundColor = [UIColor clearColor];
+    
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:_searchBackgroundColor];
 }
 
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
-    
-    _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
-    _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
-    _searchController.searchBar.backgroundColor = [UIColor clearColor];
-    _searchController.searchBar.frame = CGRectMake(8, 0, [UIScreen mainScreen].bounds.size.width - 16, 44);
+    [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor whiteColor]];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 #pragma mark UISearchBarDelegate methods
@@ -635,8 +657,7 @@ static double TABLEHEIGHT = 174;
 {
     // Delays on making the actor API calls
     if(searchText.length) {
-        [LBXControllerServices setSearchBar:searchBar withTextColor:[UIColor blackColor]];
-        searchBar.backgroundColor = [UIColor whiteColor];
+        _searchResultsArray = nil;
         
         float delay = 0.5;
         
@@ -652,10 +673,6 @@ static double TABLEHEIGHT = 174;
                    afterDelay:delay];
     }
     else {
-        [LBXControllerServices setSearchBar:searchBar withTextColor:[UIColor whiteColor]];
-        // SearchBar cursor color
-        searchBar.tintColor = [UIColor blackColor];
-        
         _searchResultsArray = nil;
     }
 }
@@ -761,7 +778,6 @@ static double TABLEHEIGHT = 174;
         }
         
         cell = self.bottomTableViewCell;
-        cell.selectedBackgroundView.backgroundColor = [UIColor orangeColor];
         return cell;
     }
     else if (tableView == self.browseTableView) {
@@ -862,6 +878,7 @@ static double TABLEHEIGHT = 174;
     }
     if (tableView == self.searchResultsController.tableView)
     {
+        _selectedSearchResult = YES;
         LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
         
         LBXTitle *title = ((LBXTitle *)[_searchResultsArray objectAtIndex:indexPath.row]);
@@ -882,8 +899,10 @@ static double TABLEHEIGHT = 174;
             cell.latestIssueImageView.hidden = YES;
             cell.titleLabel.hidden = YES;
             cell.subtitleLabel.hidden = YES;
+            cell.userInteractionEnabled = NO;
         }
         else {
+            cell.userInteractionEnabled = YES;
             LBXTitle *title = [_searchResultsArray objectAtIndex:indexPath.row];
             [self setTableViewStylesWithCell:cell andTitle:title];
             
