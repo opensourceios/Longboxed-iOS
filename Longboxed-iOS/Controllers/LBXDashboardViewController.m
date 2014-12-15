@@ -641,13 +641,12 @@ BOOL _selectedSearchResult;
     _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
     _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
     _searchController.searchBar.backgroundColor = [UIColor clearColor];
-    
+    [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor whiteColor]];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:_searchBackgroundColor];
 }
 
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
-    [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor whiteColor]];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
