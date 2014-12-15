@@ -12,7 +12,6 @@
 #import "LBXClient.h"
 #import "LBXUser.h"
 #import "LBXLogging.h"
-#import "SVModalWebViewController.h"
 
 #import "UIFont+LBXCustomFonts.h"
 
@@ -189,10 +188,33 @@ UICKeyChainStore *store;
         case 2:
         {
             [LBXLogging logMessage:[NSString stringWithFormat:@"Forgot password"]];
-            SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithAddress:@"http://longboxed.com/reset"];
-            webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
-            webViewController.barsTintColor = [UIColor blackColor];
-            [self presentViewController:webViewController animated:YES completion:nil];
+            
+            UIViewController *forgotViewController = [UIViewController new];
+            UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+            UIView *view = [[UIView alloc] initWithFrame:self.view.frame];
+            view.backgroundColor = [UIColor whiteColor];
+            forgotViewController.view = view;
+            [view addSubview:webView];
+            UINavigationController *navigationController =
+            [[UINavigationController alloc] initWithRootViewController:forgotViewController];
+            
+            UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
+            UILabel *label = [UILabel new];
+            label.text = @"Reset Password";
+            label.font = [UIFont navTitleFont];
+            [label sizeToFit];
+            forgotViewController.navigationItem.titleView = label;
+            forgotViewController.navigationItem.rightBarButtonItem = actionButton;
+            
+            NSURLRequest *request = [[NSURLRequest alloc] initWithURL: [NSURL URLWithString: @"http://longboxed.com/reset"] cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
+            [webView loadRequest: request];
+            
+            //now present this navigation controller modally
+            [self presentViewController:navigationController
+                               animated:YES
+                             completion:^{
+                                 
+                             }];
             break;
             
         }
@@ -216,6 +238,11 @@ UICKeyChainStore *store;
     _passwordField.userInteractionEnabled = YES;
     _usernameField.textColor = [UIColor blackColor];
     _passwordField.textColor = [UIColor blackColor];
+}
+
+- (void)donePressed
+{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
