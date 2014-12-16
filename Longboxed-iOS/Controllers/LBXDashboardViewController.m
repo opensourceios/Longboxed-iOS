@@ -287,6 +287,7 @@ BOOL _selectedSearchResult;
         [SVProgressHUD showWithSubview:_featuredBlurredImageView];
         _featuredDescriptionLabel.hidden = YES;
         _featuredIssueTitleLabel.hidden = YES;
+        _largeFeaturedIssueButton.userInteractionEnabled = NO;
     }
 }
 
@@ -320,6 +321,7 @@ BOOL _selectedSearchResult;
         for (UIView *view in _featuredBlurredImageView.subviews) {
             if ([view isKindOfClass:[SVProgressHUD class]]) {
                 [view removeFromSuperview];
+                _largeFeaturedIssueButton.userInteractionEnabled = YES;
             }
         }
         // TODO: Display empty view for featured issue
@@ -376,6 +378,7 @@ BOOL _selectedSearchResult;
     for (UIView *view in _featuredBlurredImageView.subviews) {
         if ([view isKindOfClass:[SVProgressHUD class]]) {
             [view removeFromSuperview];
+            _largeFeaturedIssueButton.userInteractionEnabled = YES;
         }
     }
     

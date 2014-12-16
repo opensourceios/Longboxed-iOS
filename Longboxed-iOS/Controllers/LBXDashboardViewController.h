@@ -22,6 +22,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *bundleButton;
 @property (nonatomic, retain) IBOutlet UIButton *popularButton;
 @property (nonatomic, retain) IBOutlet UIButton *featuredIssueCoverButton;
+@property (nonatomic, retain) IBOutlet UIButton *largeFeaturedIssueButton;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet UIView *separatorView;

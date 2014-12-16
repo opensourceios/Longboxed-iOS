@@ -13,6 +13,7 @@
                 <outlet property="featuredDescriptionLabel" destination="XdD-cV-KEh" id="15d-SY-obz"/>
                 <outlet property="featuredIssueCoverButton" destination="qDD-QZ-csI" id="mvn-Uc-1Ip"/>
                 <outlet property="featuredIssueTitleLabel" destination="cxj-FS-1zF" id="MSQ-yA-TUw"/>
+                <outlet property="largeFeaturedIssueButton" destination="cya-yk-Njn" id="pJD-Ws-M2n"/>
                 <outlet property="popularButton" destination="y8v-qX-v5k" id="rBz-0N-upJ"/>
                 <outlet property="scrollView" destination="6gX-gt-tvL" id="xpU-dn-ndg"/>
                 <outlet property="searchBar" destination="eDq-OV-8AS" id="efL-1w-gkW"/>
