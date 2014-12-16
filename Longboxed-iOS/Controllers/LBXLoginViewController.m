@@ -190,7 +190,7 @@ UICKeyChainStore *store;
             [LBXLogging logMessage:[NSString stringWithFormat:@"Forgot password"]];
             
             UIViewController *forgotViewController = [UIViewController new];
-            UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+            WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame];
             UIView *view = [[UIView alloc] initWithFrame:self.view.frame];
             view.backgroundColor = [UIColor whiteColor];
             forgotViewController.view = view;

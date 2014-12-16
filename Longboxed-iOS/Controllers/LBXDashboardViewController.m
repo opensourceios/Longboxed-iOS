@@ -617,7 +617,7 @@ BOOL _selectedSearchResult;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor blackColor]];
-    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor lightGrayColor]];
+    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor grayColor]];
     _searchResultsArray = nil;
 
 }
