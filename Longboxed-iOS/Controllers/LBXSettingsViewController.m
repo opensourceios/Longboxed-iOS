@@ -410,9 +410,13 @@ UICKeyChainStore *store;
                         });
                     }];
                 }
-                else [SVProgressHUD showSuccessWithStatus:@"Cache Cleared"];
+                else {
+                    [SVProgressHUD showSuccessWithStatus:@"Cache Cleared"];
+                    [self.settingsTableView reloadData];
+                }
                 [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
                 resetCacheToZero = YES;
+                
             }
             break;
         case 3:
