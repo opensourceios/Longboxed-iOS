@@ -5,7 +5,6 @@
 //  Created by johnrhickey on 6/29/14.
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
-
 #import "LBXDatabaseManager.h"
 #import "LBXAppDelegate.h"
 #import "LBXDashboardViewController.h"
@@ -23,6 +22,13 @@
 #import "PSDDFormatter.h"
 
 #import <Crashlytics/Crashlytics.h>
+#import <CrashReporter/CrashReporter.h>
+
+@interface LBXAppDelegate ()
+
+@property (nonatomic) LBXDashboardViewController *dashboardViewController;
+
+@end
 
 @implementation LBXAppDelegate
 
@@ -36,12 +42,23 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    LBXDashboardViewController *dashboardViewController = [LBXDashboardViewController new];
+    _dashboardViewController = [LBXDashboardViewController new];
     
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
-    dashboardViewController.managedObjectContext = [NSManagedObjectContext MR_defaultContext];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:_dashboardViewController];
+    _dashboardViewController.managedObjectContext = [NSManagedObjectContext MR_defaultContext];
     
     [self.window makeKeyAndVisible];
+    
+    PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
+    NSError *error;
+    
+    // Check if we previously crashed
+    if ([crashReporter hasPendingCrashReport])
+        [LBXControllerServices showCrashAlertWithDelegate:_dashboardViewController];
+    
+    // Enable the Crash Reporter
+    if (![crashReporter enableCrashReporterAndReturnError: &error])
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Warning: Could not enable crash reporter: %@", error]];
     
     // Set the font for all UIBarButtonItems
     NSShadow *shadow = [[NSShadow alloc] init];
@@ -127,6 +144,8 @@
         return description;
     }
 }
+
+#pragma mark - Background Refreshing
 
 // Background refresh
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler

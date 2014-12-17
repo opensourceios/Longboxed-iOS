@@ -46,5 +46,7 @@
 + (void)removeCredentials;
 
 + (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
++ (void)showCrashAlertWithDelegate:(id)delegate;
++ (void)sendEmailWithMessageBody:(NSString *)messageBody delegate:(id)delegate;
 
 @end

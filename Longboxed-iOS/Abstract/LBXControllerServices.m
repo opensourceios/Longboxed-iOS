@@ -5,6 +5,8 @@
 //  Created by johnrhickey on 8/10/14.
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
+#import <MessageUI/MessageUI.h>
+#import <sys/utsname.h>
 
 #import "LBXControllerServices.h"
 #import "LBXUser.h"
@@ -388,6 +390,50 @@
     alert.buttonFont = [UIFont alertViewButtonFont];
     alert.transitionStyle = SIAlertViewTransitionStyleDropDown;
     [alert show];
+}
+
+// NOTE: the delegate view controller being passed must conform to  <MFMailComposeViewControllerDelegate> and implement the below method to dismiss the mail view controller:
+// - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+//      [_dashboardViewController dismissViewControllerAnimated:YES completion:nil];
+// }
++ (void)showCrashAlertWithDelegate:(id)delegate {
+    SIAlertView *alert = [[SIAlertView alloc] initWithTitle:@"Oh No! Longboxed Crashed!" andMessage:@"It looks like Longboxed crashed last time. We're very sorry. Would you mind sending a quick email to help us fix the issue?"];
+    [alert addButtonWithTitle:@"No Thanks"
+                         type:SIAlertViewButtonTypeDefault
+                      handler:nil];
+    [alert addButtonWithTitle:@"Sure!"
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alert) {
+                              NSString *feedbackString = @"<b>Steps to reproduce the problem:</b><br><br><br><br><br><br><br><b>Additional info that might help us fix the issue:</b>";
+                              [self sendEmailWithMessageBody:[NSString stringWithFormat:@"%@%@", feedbackString, [NSString feedbackEmailTemplate]] delegate:delegate];
+                          }];
+    alert.titleFont = [UIFont alertViewTitleFont];
+    alert.messageFont = [UIFont alertViewMessageFontForCrash];
+    alert.buttonFont = [UIFont alertViewButtonFont];
+    alert.transitionStyle = SIAlertViewTransitionStyleDropDown;
+    [alert show];
+}
+
+// NOTE: the delegate view controller being passed must conform to  <MFMailComposeViewControllerDelegate> and implement the below method to dismiss the mail view controller:
+// - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+//      [_dashboardViewController dismissViewControllerAnimated:YES completion:nil];
+// }
++ (void)sendEmailWithMessageBody:(NSString *)messageBody delegate:(id)delegate
+{
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+        [composeViewController setMailComposeDelegate:delegate];
+        [composeViewController setToRecipients:@[@"contact@longboxed.com"]];
+        [composeViewController setSubject:@"Longboxed for iOS"];
+        
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        [composeViewController setMessageBody:messageBody isHTML:YES];
+        [delegate presentViewController:composeViewController animated:YES completion:nil];
+    }
+    else {
+        [SVProgressHUD showErrorWithStatus:@"Your iOS email is not configured. contact@longboxed.com" maskType:SVProgressHUDMaskTypeBlack];
+    }
 }
 
 @end

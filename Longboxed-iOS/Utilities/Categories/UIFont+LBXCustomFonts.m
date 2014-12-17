@@ -123,6 +123,11 @@ static const NSString *fontFace = @"AvenirNext";
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:16];
 }
 
++ (UIFont *)alertViewMessageFontForCrash
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
+}
+
 + (UIFont *)alertViewButtonFont
 {
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:18];

@@ -183,21 +183,7 @@ UICKeyChainStore *store;
 
 - (void)sendEmail
 {
-    if ([MFMailComposeViewController canSendMail]) {
-        MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
-        [composeViewController setMailComposeDelegate:self];
-        [composeViewController setToRecipients:@[@"contact@longboxed.com"]];
-        [composeViewController setSubject:@"Longboxed for iOS"];
-        
-        struct utsname systemInfo;
-        uname(&systemInfo);
-        NSString *msgBody = [NSString feedbackEmailTemplate];
-        [composeViewController setMessageBody:msgBody isHTML:YES];
-        [self presentViewController:composeViewController animated:YES completion:nil];
-    }
-    else {
-        [SVProgressHUD showErrorWithStatus:@"Email not configured. contact@longboxed.com" maskType:SVProgressHUDMaskTypeBlack];
-    }
+    [LBXControllerServices sendEmailWithMessageBody:[NSString feedbackEmailTemplate] delegate:self];
 }
 
 -(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {

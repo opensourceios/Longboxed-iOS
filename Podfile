@@ -8,6 +8,7 @@ inhibit_all_warnings!
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
+pod 'PLCrashReporter'
 pod 'JRHUtilities', :head
 pod 'SIAlertView'
 pod 'HockeySDK'

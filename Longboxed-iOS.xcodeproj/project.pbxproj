@@ -12,6 +12,7 @@
 		E50183DF19F45F4C00DA3CAB /* ESDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183D619F45F4C00DA3CAB /* ESDateHelper.m */; };
 		E50183E019F45F4C00DA3CAB /* ESDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183DA19F45F4C00DA3CAB /* ESDatePicker.m */; };
 		E50183E119F45F4C00DA3CAB /* ESObjectPool.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183DE19F45F4C00DA3CAB /* ESObjectPool.m */; };
+		E50506AD1A41484D00C86291 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E50506AC1A41484D00C86291 /* CrashReporter.framework */; };
 		E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5519B534AC0021CEE8 /* ColorLog.m */; };
 		E5068A5C19B534AC0021CEE8 /* PSDDFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5919B534AC0021CEE8 /* PSDDFormatter.m */; };
 		E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5F19B53A5B0021CEE8 /* DDNSLoggerLogger.m */; };
@@ -138,6 +139,8 @@
 		E50183DA19F45F4C00DA3CAB /* ESDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESDatePicker.m; sourceTree = "<group>"; };
 		E50183DD19F45F4C00DA3CAB /* ESObjectPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESObjectPool.h; sourceTree = "<group>"; };
 		E50183DE19F45F4C00DA3CAB /* ESObjectPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESObjectPool.m; sourceTree = "<group>"; };
+		E50506AA1A41482B00C86291 /* libPods-PLCrashReporter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-PLCrashReporter.a"; path = "Pods/build/Debug-iphoneos/libPods-PLCrashReporter.a"; sourceTree = "<group>"; };
+		E50506AC1A41484D00C86291 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
 		E5068A5419B534AC0021CEE8 /* ColorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorLog.h; sourceTree = "<group>"; };
 		E5068A5519B534AC0021CEE8 /* ColorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorLog.m; sourceTree = "<group>"; };
 		E5068A5819B534AC0021CEE8 /* PSDDFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSDDFormatter.h; sourceTree = "<group>"; };
@@ -316,6 +319,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E50506AD1A41484D00C86291 /* CrashReporter.framework in Frameworks */,
 				E5CCAC5619B53BE60068AD8D /* OpenGLES.framework in Frameworks */,
 				E515746B19E335E90072EE3E /* Crashlytics.framework in Frameworks */,
 				E5CCAC5419B53BD30068AD8D /* QuartzCore.framework in Frameworks */,
@@ -494,6 +498,8 @@
 		E57D48C5196068E10014A13F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E50506AC1A41484D00C86291 /* CrashReporter.framework */,
+				E50506AA1A41482B00C86291 /* libPods-PLCrashReporter.a */,
 				E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */,
 				E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */,
 				E55497A419AAE284004501FF /* SystemConfiguration.framework */,
@@ -1260,6 +1266,10 @@
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1281,6 +1291,10 @@
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1397,8 +1411,13 @@
 				);
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1482,6 +1501,10 @@
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1567,6 +1590,10 @@
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";

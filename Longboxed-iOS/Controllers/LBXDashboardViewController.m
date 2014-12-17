@@ -5,6 +5,7 @@
 //  Created by johnrhickey on 9/27/14.
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
+#import <MessageUI/MessageUI.h>
 
 #import "LBXDashboardViewController.h"
 #import "LBXTopTableViewCell.h"
@@ -38,7 +39,7 @@
 #import <SVProgressHUD.h>
 #import <UIImage+CreateImage.h>
 
-@interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate>
+@interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) LBXIssue *featuredIssue;
@@ -294,6 +295,11 @@ BOOL _selectedSearchResult;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+}
+
+// Required in order for MFMailComposeViewController to be dismissed (for app crash report alert)
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark Private Methods
