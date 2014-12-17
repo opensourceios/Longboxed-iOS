@@ -191,8 +191,8 @@ UICKeyChainStore *store;
         
         struct utsname systemInfo;
         uname(&systemInfo);
-        NSString *msgBody = [NSString stringWithFormat:@"\n\n\n------\nDevice: %@\niOS: %@\nVersion: %@ (%@)", [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding], [[UIDevice currentDevice] systemVersion], [NSString appVersion], [NSString appBuildNumber]];
-        [composeViewController setMessageBody:msgBody isHTML:NO];
+        NSString *msgBody = [NSString feedbackEmailTemplate];
+        [composeViewController setMessageBody:msgBody isHTML:YES];
         [self presentViewController:composeViewController animated:YES completion:nil];
     }
     else {

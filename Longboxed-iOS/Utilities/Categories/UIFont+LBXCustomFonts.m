@@ -111,6 +111,24 @@ static const NSString *fontFace = @"AvenirNext";
 }
 
 
+// Alert View
+
++ (UIFont *)alertViewTitleFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Medium", fontFace] size:22];
+}
+
++ (UIFont *)alertViewMessageFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:16];
+}
+
++ (UIFont *)alertViewButtonFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:18];
+}
+
+
 // Title Detail View
 
 + (UIFont *)titleDetailTitleFont

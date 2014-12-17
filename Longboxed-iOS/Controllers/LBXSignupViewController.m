@@ -150,15 +150,12 @@ UICKeyChainStore *store;
 - (void)signup
 {
     if (![_usernameField.text length]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email Required" message:@"Please enter an email address." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        alert.tintColor = [UIColor blackColor];
-        [alert show];
+        [LBXControllerServices showAlertWithTitle:@"Email Required" andMessage:@"Please enter an email address."];
         return;
     }
+    
     else if (![_passwordField.text length]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Required" message:@"Please enter a Password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        alert.tintColor = [UIColor blackColor];
-        [alert show];
+        [LBXControllerServices showAlertWithTitle:@"Password Required" andMessage:@"Please enter a Password."];
         return;
     }
     
@@ -182,10 +179,9 @@ UICKeyChainStore *store;
             for (NSString *errorKey in responseDict.allKeys) {
                 if (((NSArray *)responseDict[errorKey]).count) errorMessage = responseDict[errorKey][0];
             }
-        
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Signing Up" message:[NSString stringWithFormat:@"%@", errorMessage] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
             
+            [LBXControllerServices showAlertWithTitle:@"Error Signing Up" andMessage:[NSString stringWithFormat:@"%@", errorMessage]];
+
             dispatch_async(dispatch_get_main_queue(),^{
                 _passwordField.text = @"";
                 [_usernameField becomeFirstResponder];

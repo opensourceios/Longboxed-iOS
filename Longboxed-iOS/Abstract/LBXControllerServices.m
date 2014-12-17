@@ -22,6 +22,7 @@
 
 #import <UIImageView+AFNetworking.h>
 #import <UICKeyChainStore.h>
+#import "SIAlertView.h"
 
 @interface LBXControllerServices ()
 
@@ -374,6 +375,19 @@
     [UICKeyChainStore removeItemForKey:@"password"];
     [UICKeyChainStore removeItemForKey:@"id"];
     [store synchronize]; // Write to keychain.
+}
+
++ (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message
+{
+    SIAlertView *alert = [[SIAlertView alloc] initWithTitle:title andMessage:message];
+    [alert addButtonWithTitle:@"OK"
+                         type:SIAlertViewButtonTypeCancel
+                      handler:nil];
+    alert.titleFont = [UIFont alertViewTitleFont];
+    alert.messageFont = [UIFont alertViewMessageFont];
+    alert.buttonFont = [UIFont alertViewButtonFont];
+    alert.transitionStyle = SIAlertViewTransitionStyleDropDown;
+    [alert show];
 }
 
 @end

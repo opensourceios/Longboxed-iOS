@@ -42,5 +42,8 @@
 + (UIFont *)defaultPublisherInitialsFont;
 + (UIFont *)detailPublisherInitialsFont;
 + (UIFont *)featuredIssueDescriptionFont;
++ (UIFont *)alertViewTitleFont;
++ (UIFont *)alertViewMessageFont;
++ (UIFont *)alertViewButtonFont;
 
 @end

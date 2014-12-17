@@ -45,4 +45,6 @@
 + (BOOL)isAdmin;
 + (void)removeCredentials;
 
++ (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
+
 @end

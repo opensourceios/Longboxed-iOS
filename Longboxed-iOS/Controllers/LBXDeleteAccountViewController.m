@@ -17,6 +17,7 @@
 #import <UICKeyChainStore.h>
 #import <SVProgressHUD.h>
 #import <AYVibrantButton.h>
+#import "SIAlertView.h"
 
 @interface LBXDeleteAccountViewController ()
 
@@ -104,16 +105,12 @@ UICKeyChainStore *store;
 - (void)deleteAccount
 {
     if (![_passwordField.text length]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Required" message:@"Enter your password to confirm and delete your account." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        alert.tintColor = [UIColor blackColor];
-        [alert show];
+        [LBXControllerServices showAlertWithTitle:@"Password Required" andMessage:@"Enter your password to confirm and delete your account."];
         return;
     }
     
     if (![_passwordField.text isEqualToString:[store stringForKey:@"password"]]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wrong Password" message:@"Sorry, that's the wrong password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        alert.tintColor = [UIColor blackColor];
-        [alert show];
+        [LBXControllerServices showAlertWithTitle:@"Wrong Password" andMessage:@"Sorry, that's the wrong password."];
         _passwordField.text = @"";
         return;
     }
@@ -136,8 +133,7 @@ UICKeyChainStore *store;
                 if (((NSArray *)responseDict[errorKey]).count) errorMessage = responseDict[errorKey][0];
             }
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Deleting Account" message:[NSString stringWithFormat:@"%@", errorMessage] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
+            [LBXControllerServices showAlertWithTitle:@"Error Deleting Account" andMessage:[NSString stringWithFormat:@"%@", errorMessage]];
             
             dispatch_async(dispatch_get_main_queue(),^{
                 _passwordField.text = @"";

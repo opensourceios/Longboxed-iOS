@@ -237,14 +237,8 @@ CGFloat cellWidth;
         [self.searchDisplayController setActive:YES animated:NO];
     }
     else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not Logged In"
-                                                        message:@"You must be logged into Longboxed account to create a pull list."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
+        [LBXControllerServices showAlertWithTitle:@"Not Logged In" andMessage:@"You must be logged into Longboxed account to create a pull list."];
     }
-
 }
 
 - (void)searchLongboxedWithText:(NSString *)searchText {
@@ -540,12 +534,7 @@ CGFloat cellWidth;
         
         // Do nothing if the title is already in the pull list
         if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Already Added"
-                                                            message:@"This title is already in your pull list."
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
+            [LBXControllerServices showAlertWithTitle:@"Already Added" andMessage:@"This title is already in your pull list."];
             return;
         }
         
