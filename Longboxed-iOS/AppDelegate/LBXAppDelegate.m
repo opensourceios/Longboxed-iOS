@@ -87,12 +87,6 @@
     
     [LBXLogging beginLogging];
     
-    // Automatically send crash reports
-    [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
-    
-    [[BITHockeyManager sharedHockeyManager] setDelegate:self];
-    [[BITHockeyManager sharedHockeyManager] startManager];
-    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
     PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
     NSError *error;
@@ -104,6 +98,13 @@
     // Enable the Crash Reporter
     if (![crashReporter enableCrashReporterAndReturnError: &error])
         [LBXLogging logMessage:[NSString stringWithFormat:@"Warning: Could not enable crash reporter: %@", error]];
+    
+    // Automatically send crash reports
+    [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
+    
+    [[BITHockeyManager sharedHockeyManager] setDelegate:self];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
     return YES;
 }
