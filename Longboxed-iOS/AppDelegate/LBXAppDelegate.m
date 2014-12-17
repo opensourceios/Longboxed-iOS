@@ -49,17 +49,6 @@
     
     [self.window makeKeyAndVisible];
     
-    PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
-    NSError *error;
-    
-    // Check if we previously crashed
-    if ([crashReporter hasPendingCrashReport])
-        [LBXControllerServices showCrashAlertWithDelegate:_dashboardViewController];
-    
-    // Enable the Crash Reporter
-    if (![crashReporter enableCrashReporterAndReturnError: &error])
-        [LBXLogging logMessage:[NSString stringWithFormat:@"Warning: Could not enable crash reporter: %@", error]];
-    
     // Set the font for all UIBarButtonItems
     NSShadow *shadow = [[NSShadow alloc] init];
     shadow.shadowOffset = CGSizeMake(0.0, 1.0);
@@ -104,6 +93,17 @@
     [[BITHockeyManager sharedHockeyManager] setDelegate:self];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+    
+    PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
+    NSError *error;
+    
+    // Check if we previously crashed
+    if ([crashReporter hasPendingCrashReport])
+        [LBXControllerServices showCrashAlertWithDelegate:_dashboardViewController];
+    
+    // Enable the Crash Reporter
+    if (![crashReporter enableCrashReporterAndReturnError: &error])
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Warning: Could not enable crash reporter: %@", error]];
     
     return YES;
 }
