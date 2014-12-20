@@ -436,4 +436,25 @@
     }
 }
 
++ (void)setupSearchController:(UISearchController *)searchController withSearchResultsController:(LBXSearchTableViewController *)searchResultsController andDelegate:(id)delegate
+{
+    searchController.searchResultsUpdater = searchResultsController;
+    searchResultsController.tableView.delegate = delegate;
+    searchResultsController.tableView.dataSource = delegate;
+    searchController.dimsBackgroundDuringPresentation = YES;
+    searchController.delegate = delegate;
+    searchController.searchBar.delegate = delegate;
+    ((UIViewController *)delegate).definesPresentationContext = YES;
+    searchController.searchBar.barStyle = UISearchBarStyleMinimal;
+    searchController.searchBar.backgroundImage = [[UIImage alloc] init];
+    searchController.searchBar.backgroundColor = [UIColor clearColor];
+    searchController.searchBar.placeholder = @"Search Comics";
+    searchController.hidesNavigationBarDuringPresentation = NO;
+    UIImage *image = [PaintCodeImages imageOfMagnifyingGlassWithColor:[UIColor whiteColor] width:24];
+    [searchController.searchBar setImage:image forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
+    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor blackColor]];
+}
+
 @end

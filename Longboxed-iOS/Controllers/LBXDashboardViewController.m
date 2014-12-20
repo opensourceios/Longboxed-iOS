@@ -103,8 +103,11 @@ BOOL _selectedSearchResult;
         [self.topTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
         
         self.bottomTableView.tableFooterView = [UIView new];
-    
-        [self setupSearchController];
+        
+        _searchResultsController = [LBXSearchTableViewController new];
+        _searchController = [[UISearchController alloc] initWithSearchResultsController:_searchResultsController];
+        _searchBackgroundColor = [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].backgroundColor;
+        [LBXControllerServices setupSearchController:_searchController withSearchResultsController:self.searchResultsController andDelegate:self];
         
         _scrollView.delegate = self;
         [_scrollView addSubview:_searchController.searchBar];
@@ -160,31 +163,6 @@ BOOL _selectedSearchResult;
     [_separatorView.layer addSublayer:bottomBorder];
     
     [self reloadTableView];
-}
-
-- (void)setupSearchController
-{
-    self.searchResultsController = [LBXSearchTableViewController new];
-    _searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchResultsController];
-    _searchController.searchResultsUpdater = self.searchResultsController;
-    self.searchResultsController.tableView.delegate = self;
-    self.searchResultsController.tableView.dataSource = self;
-    _searchController.dimsBackgroundDuringPresentation = YES;
-    _searchController.delegate = self;
-    _searchController.searchBar.delegate = self;
-    self.definesPresentationContext = YES;
-    _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
-    _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
-    _searchController.searchBar.backgroundColor = [UIColor clearColor];
-    _searchController.searchBar.placeholder = @"Search Comics";
-    _searchController.searchBar.clipsToBounds = YES;
-    _searchController.hidesNavigationBarDuringPresentation = NO;
-    UIImage *image = [PaintCodeImages imageOfMagnifyingGlassWithColor:[UIColor whiteColor] width:24];
-    [_searchController.searchBar setImage:image forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-    _searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
-    _searchBackgroundColor = [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].backgroundColor;
-    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor blackColor]];
 }
 
 - (void)reloadTableView

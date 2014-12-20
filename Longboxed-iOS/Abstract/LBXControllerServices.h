@@ -11,6 +11,7 @@
 #import "LBXPullListTableViewCell.h"
 
 #import <Foundation/Foundation.h>
+#import "LBXSearchTableViewController.h"
 
 @interface LBXControllerServices : NSObject
 
@@ -48,5 +49,7 @@
 + (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
 + (void)showCrashAlertWithDelegate:(id)delegate;
 + (void)sendEmailWithMessageBody:(NSString *)messageBody delegate:(id)delegate;
+
++ (void)setupSearchController:(UISearchController *)searchController withSearchResultsController:(LBXSearchTableViewController *)searchResultsController andDelegate:(id)delegate;
 
 @end
