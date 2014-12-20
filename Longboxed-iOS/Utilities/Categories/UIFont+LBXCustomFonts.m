@@ -40,7 +40,7 @@ static const NSString *fontFace = @"AvenirNext";
 
 + (UIFont *)searchCancelFont
 {
-    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:16];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:17];
 }
 
 + (UIFont *)searchPlaceholderFont
