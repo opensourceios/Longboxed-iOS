@@ -208,7 +208,7 @@ int _page;
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
     
     if (_showedCalendar) {
-        [SVProgressHUD show];
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
         [self.view addSubview:_maskLoadingView];
     }
 }

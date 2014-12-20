@@ -2,6 +2,15 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Longboxed-iOS/Views/LBXTipJarTableViewCell.h">
+   </FileRef>
+   <FileRef
+      location = "group:Longboxed-iOS/Views/LBXTipJarTableViewCell.m">
+   </FileRef>
+   <FileRef
+      location = "group:Longboxed-iOS/Views/LBXTipJarTableViewCell.xib">
+   </FileRef>
+   <FileRef
       location = "group:Longboxed-iOS.xcodeproj">
    </FileRef>
    <FileRef

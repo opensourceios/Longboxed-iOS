@@ -1,14 +1,14 @@
 //
-//  LBXSearchTableViewCell.m
-//  Longboxed-iOS
+//  LBXTipJarTableViewCell.m
+//  
 //
-//  Created by johnrhickey on 9/18/14.
-//  Copyright (c) 2014 Longboxed. All rights reserved.
+//  Created by johnrhickey on 12/17/14.
+//
 //
 
-#import "LBXSearchTableViewCell.h"
+#import "LBXTipJarTableViewCell.h"
 
-@implementation LBXSearchTableViewCell
+@implementation LBXTipJarTableViewCell
 
 - (void)awakeFromNib {
     // Initialization code

@@ -27,6 +27,8 @@
 #import <UICKeyChainStore.h>
 #import <SVProgressHUD.h>
 #import <JGActionSheet.h>
+#import "LBXTipJarTableViewCell.h"
+#import "LBXPullListTableViewCell.h"
 
 @interface LBXSettingsViewController () <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
@@ -95,7 +97,14 @@ UICKeyChainStore *store;
 {
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     _developmentServerSwitch.hidden = ([LBXControllerServices isAdmin]) ? NO : YES;
-    [self.settingsTableView reloadData];
+    if (!self.isBeingDismissed) {
+        [self.settingsTableView reloadData];
+    }
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -122,6 +131,22 @@ UICKeyChainStore *store;
      postNotificationName:@"reloadDashboardTableView"
      object:self];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)sendTip:(id)sender
+{
+    UIButton *button = (UIButton *)sender;
+    switch ([button tag]) {
+        case 0:
+            [LBXControllerServices showAlertWithTitle:@"Small Tip" andMessage:@"This is a small tip"];
+            break;
+        case 1:
+            [LBXControllerServices showAlertWithTitle:@"Medium Tip" andMessage:@"This is a medium tip"];
+            break;
+        case 2:
+            [LBXControllerServices showAlertWithTitle:@"Big Tip" andMessage:@"This is a big tip"];
+            break;
+    }
 }
 
 // Development Server UISwitch
@@ -175,6 +200,11 @@ UICKeyChainStore *store;
             
             dispatch_async(dispatch_get_main_queue(),^{
                 [SVProgressHUD showErrorWithStatus:@"Unsuccessful Log In"];
+                [_developmentServerSwitch setOn:NO animated:NO];
+                [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints productionURL]]];
+                RKObjectManager.sharedManager.HTTPClient.allowsInvalidSSLCertificate = NO;
+                [UICKeyChainStore setString:[[LBXEndpoints productionURL] absoluteString] forKey:@"baseURLString"];
+                [store synchronize];
             });
         }
         [self.settingsTableView reloadData];
@@ -201,7 +231,7 @@ UICKeyChainStore *store;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -215,7 +245,7 @@ UICKeyChainStore *store;
         case 1:
             return 2;
             break;
-        case 3:
+        case 4:
             if ([LBXControllerServices isLoggedIn]) return 2;
             else return 1;
             break;
@@ -235,6 +265,9 @@ UICKeyChainStore *store;
             return @"Feedback";
             break;
         case 2:
+            return @"Tip Jar";
+            break;
+        case 3:
             return @"Storage";
             break;
         default:
@@ -249,8 +282,8 @@ UICKeyChainStore *store;
         case 1:
             return @" ";
             break;
-        case 2:
-            if (resetCacheToZero) return @"Less than 0.5 MB";
+        case 3:
+            if (resetCacheToZero) return @"Less than 0.5 MB used";
             else return [NSString stringWithFormat:@"%@ used", [NSString diskUsage]];
             break;
         default:
@@ -261,19 +294,43 @@ UICKeyChainStore *store;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView
-                             dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]
-                initWithStyle:UITableViewCellStyleValue1
-                reuseIdentifier:CellIdentifier];
+    if (indexPath.section == 2) {
+        static NSString *CellIdentifier = @"TipJarTableViewCell";
+        
+        LBXTipJarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil) {
+            // Custom cell as explained here: https://medium.com/p/9bee5824e722
+            [tableView registerNib:[UINib nibWithNibName:@"LBXTipJarTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell.smallTipButton addTarget:self action:@selector(sendTip:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.mediumTipButton addTarget:self action:@selector(sendTip:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.largeTipButton addTarget:self action:@selector(sendTip:) forControlEvents:UIControlEventTouchUpInside];
+        return cell;
+        
     }
-    
+    else {
+        static NSString *CellIdentifier = @"Cell";
+        UITableViewCell *cell = [tableView
+                                 dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc]
+                    initWithStyle:UITableViewCellStyleValue1
+                    reuseIdentifier:CellIdentifier];
+        }
+        return [self setCellViews:cell atIndexPath:indexPath];
+    }
+}
+
+- (UITableViewCell *)setCellViews:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 2) {
+        return cell;
+    }
     NSString *logInString = ([LBXControllerServices isLoggedIn]) ? @"Email" : @"Sign Up";
     NSString *devServerOrLogInString = ([LBXControllerServices isLoggedIn]) ? @"Use Development Server" : @"Log In";
-    
     
     NSArray *textArray = [NSArray new];
     switch (indexPath.section) {
@@ -283,10 +340,10 @@ UICKeyChainStore *store;
         case 1:
             textArray = @[@"Send Feedback", @"Please Rate Longboxed"];
             break;
-        case 2:
+        case 3:
             textArray = @[@"Clear Image & Data Cache"];
             break;
-        case 3:
+        case 4:
             textArray = ([LBXControllerServices isLoggedIn]) ? @[@"About", @"Delete Account And All Data"] : @[@"About"];
             break;
     }
@@ -296,6 +353,7 @@ UICKeyChainStore *store;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [textArray objectAtIndex:indexPath.row];
     cell.detailTextLabel.text = @"";
+    cell.textLabel.textColor = [UIColor blackColor];
     
     // Account Section
     if (indexPath.section == 0) {
@@ -307,17 +365,17 @@ UICKeyChainStore *store;
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.detailTextLabel.text = [store stringForKey:@"username"];
         }
-
+        
     }
     
     // Storage Section
-    if (indexPath.section == 2) {
+    if (indexPath.section == 3) {
         if (indexPath.row == 0) {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
     }
     
-    if (indexPath.section == 3 && indexPath.row == 1) {
+    if (indexPath.section == 4 && indexPath.row == 1 && [cell.textLabel.text isEqualToString:@"Delete Account And All Data"]) {
         cell.textLabel.textColor = [UIColor redColor];
     }
     
@@ -325,7 +383,6 @@ UICKeyChainStore *store;
     cell.textLabel.font = [UIFont settingsTableViewFont];
     
     return cell;
-
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -382,7 +439,7 @@ UICKeyChainStore *store;
                 [self sendEmail];
             }
             break;
-        case 2:
+        case 3:
             // Cleared cache
             if (indexPath.row == 0) {
                 [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
@@ -392,20 +449,28 @@ UICKeyChainStore *store;
                     [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
                         dispatch_async(dispatch_get_main_queue(), ^{
                            [SVProgressHUD showSuccessWithStatus:@"Cache Cleared"];
-                            [self.settingsTableView reloadData];
+                            //[self.settingsTableView reloadData];
+                            [tableView footerViewForSection:indexPath.section].textLabel.text = @"Less than 0.5 MB used";
+                            [tableView footerViewForSection:indexPath.section].textLabel.numberOfLines = 1;
+                            [[tableView footerViewForSection:indexPath.section].textLabel sizeToFit];
+                            [[tableView footerViewForSection:indexPath.section].textLabel updateConstraintsIfNeeded];
                         });
                     }];
                 }
                 else {
                     [SVProgressHUD showSuccessWithStatus:@"Cache Cleared"];
-                    [self.settingsTableView reloadData];
+                    //[self.settingsTableView reloadData];
+                    [tableView footerViewForSection:indexPath.section].textLabel.text = @"Less than 0.5 MB used";
+                    [tableView footerViewForSection:indexPath.section].textLabel.numberOfLines = 1;
+                    [[tableView footerViewForSection:indexPath.section].textLabel sizeToFit];
+                    [[tableView footerViewForSection:indexPath.section].textLabel updateConstraintsIfNeeded];
                 }
                 [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
                 resetCacheToZero = YES;
                 
             }
             break;
-        case 3:
+        case 4:
             // Delete Account
             if (indexPath.row == 1) {
                 LBXDeleteAccountViewController *deleteViewController = [LBXDeleteAccountViewController new];

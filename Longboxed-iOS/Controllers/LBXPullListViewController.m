@@ -11,7 +11,6 @@
 #import "LBXPullListTitle.h"
 #import "LBXBundle.h"
 #import "LBXPullListViewController.h"
-#import "LBXSearchTableViewCell.h"
 #import "LBXTitleDetailViewController.h"
 #import "LBXControllerServices.h"
 #import "LBXEmptyPullListViewController.h"
@@ -147,7 +146,7 @@ CGFloat cellWidth;
     if (!_pullListArray.count) {
         self.tableView.hidden = YES;
         [self.view insertSubview:_loadingView aboveSubview:self.tableView];
-        [SVProgressHUD show];
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     }
     
     [self refresh];

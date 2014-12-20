@@ -25,6 +25,8 @@
 		E515746F19E4D1F20072EE3E /* LBXBottomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E515746D19E4D1F20072EE3E /* LBXBottomTableViewCell.m */; };
 		E515747019E4D1F20072EE3E /* LBXBottomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E515746E19E4D1F20072EE3E /* LBXBottomTableViewCell.xib */; };
 		E5165E49198E8618001CDECA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5165E48198E8618001CDECA /* CoreData.framework */; };
+		E517240A1A4239F1005553BD /* LBXTipJarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E51724081A4239F1005553BD /* LBXTipJarTableViewCell.m */; };
+		E517240B1A4239F1005553BD /* LBXTipJarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E51724091A4239F1005553BD /* LBXTipJarTableViewCell.xib */; };
 		E51AB57019A405940066FFF6 /* LBXIssueDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */; };
 		E51AB57119A405940066FFF6 /* LBXIssueDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */; };
 		E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */ = {isa = PBXBuildFile; fileRef = E51D00F9196A1A9C005FCF25 /* LBXIssue.m */; };
@@ -56,8 +58,6 @@
 		E55B68611A324A81008A5CFD /* LBXBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E55B68601A324A81008A5CFD /* LBXBackButton.m */; };
 		E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */; };
 		E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB819D7C37E002DE4BA /* arrow_right_small_black@2x.png */; };
-		E57CCAC619CB8C8E0086B39E /* LBXSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E57CCAC419CB8C8E0086B39E /* LBXSearchTableViewCell.m */; };
-		E57CCAC719CB8C8E0086B39E /* LBXSearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E57CCAC519CB8C8E0086B39E /* LBXSearchTableViewCell.xib */; };
 		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
 		E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C8196068E10014A13F /* CoreGraphics.framework */; };
 		E57D48CB196068E10014A13F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48CA196068E10014A13F /* UIKit.framework */; };
@@ -159,6 +159,9 @@
 		E515746D19E4D1F20072EE3E /* LBXBottomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXBottomTableViewCell.m; path = Controllers/LBXBottomTableViewCell.m; sourceTree = "<group>"; };
 		E515746E19E4D1F20072EE3E /* LBXBottomTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXBottomTableViewCell.xib; path = Controllers/LBXBottomTableViewCell.xib; sourceTree = "<group>"; };
 		E5165E48198E8618001CDECA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		E51724071A4239F1005553BD /* LBXTipJarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTipJarTableViewCell.h; path = Views/LBXTipJarTableViewCell.h; sourceTree = "<group>"; };
+		E51724081A4239F1005553BD /* LBXTipJarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTipJarTableViewCell.m; path = Views/LBXTipJarTableViewCell.m; sourceTree = "<group>"; };
+		E51724091A4239F1005553BD /* LBXTipJarTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXTipJarTableViewCell.xib; path = Views/LBXTipJarTableViewCell.xib; sourceTree = "<group>"; };
 		E51AB56D19A405940066FFF6 /* LBXIssueDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssueDetailViewController.h; path = Controllers/LBXIssueDetailViewController.h; sourceTree = "<group>"; };
 		E51AB56E19A405940066FFF6 /* LBXIssueDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueDetailViewController.m; path = Controllers/LBXIssueDetailViewController.m; sourceTree = "<group>"; wrapsLines = 0; };
 		E51AB56F19A405940066FFF6 /* LBXIssueDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXIssueDetailViewController.xib; path = Controllers/LBXIssueDetailViewController.xib; sourceTree = "<group>"; };
@@ -222,9 +225,6 @@
 		E575162C19908AD00052D4C4 /* libPods-UICKeyChainStore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-UICKeyChainStore.a"; path = "Pods/build/Debug-iphoneos/libPods-UICKeyChainStore.a"; sourceTree = "<group>"; };
 		E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow_right_small_black.png; path = Assets/arrow_right_small_black.png; sourceTree = SOURCE_ROOT; };
 		E57C6BB819D7C37E002DE4BA /* arrow_right_small_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_small_black@2x.png"; path = "Assets/arrow_right_small_black@2x.png"; sourceTree = SOURCE_ROOT; };
-		E57CCAC319CB8C8E0086B39E /* LBXSearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSearchTableViewCell.h; path = Views/LBXSearchTableViewCell.h; sourceTree = "<group>"; };
-		E57CCAC419CB8C8E0086B39E /* LBXSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSearchTableViewCell.m; path = Views/LBXSearchTableViewCell.m; sourceTree = "<group>"; };
-		E57CCAC519CB8C8E0086B39E /* LBXSearchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXSearchTableViewCell.xib; path = Views/LBXSearchTableViewCell.xib; sourceTree = "<group>"; };
 		E57D48C3196068E10014A13F /* Longboxed-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Longboxed-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E57D48C6196068E10014A13F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E57D48C8196068E10014A13F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -592,9 +592,9 @@
 				E535EBA719DB74A5001B729A /* LBXPublisherListTableViewCell.h */,
 				E535EBA819DB74A5001B729A /* LBXPublisherListTableViewCell.m */,
 				E535EBA919DB74A5001B729A /* LBXPublisherListTableViewCell.xib */,
-				E57CCAC319CB8C8E0086B39E /* LBXSearchTableViewCell.h */,
-				E57CCAC419CB8C8E0086B39E /* LBXSearchTableViewCell.m */,
-				E57CCAC519CB8C8E0086B39E /* LBXSearchTableViewCell.xib */,
+				E51724071A4239F1005553BD /* LBXTipJarTableViewCell.h */,
+				E51724081A4239F1005553BD /* LBXTipJarTableViewCell.m */,
+				E51724091A4239F1005553BD /* LBXTipJarTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -952,10 +952,10 @@
 				E5B6FCBD199831CC0022F4CA /* LBXTitleDetailView.xib in Resources */,
 				E55042C11A3935E5008905ED /* LBXDeleteAccountViewController.xib in Resources */,
 				E55042BC1A3916FF008905ED /* LBXSignupViewController.xib in Resources */,
-				E57CCAC719CB8C8E0086B39E /* LBXSearchTableViewCell.xib in Resources */,
 				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,
 				E5981B5D1A380EF1003E0E40 /* LBXLoginViewController.xib in Resources */,
 				E5A773DE19624A52002654E7 /* LBXSettingsViewController.xib in Resources */,
+				E517240B1A4239F1005553BD /* LBXTipJarTableViewCell.xib in Resources */,
 				E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */,
 				E5B5F9A619FC0C6200474E60 /* arrow_right_standard@3x.png in Resources */,
 				E5F18735196391D2006C4C26 /* longboxed_full.png in Resources */,
@@ -1090,7 +1090,6 @@
 				E5F18720196378E4006C4C26 /* LBXPullListViewController.m in Sources */,
 				E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */,
 				E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */,
-				E57CCAC619CB8C8E0086B39E /* LBXSearchTableViewCell.m in Sources */,
 				E5E5163219CA446D005FBD43 /* UIColor+LBXCustomColors.m in Sources */,
 				E51AB57019A405940066FFF6 /* LBXIssueDetailViewController.m in Sources */,
 				E50183E019F45F4C00DA3CAB /* ESDatePicker.m in Sources */,
@@ -1120,6 +1119,7 @@
 				E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */,
 				E593F53D19D70FDB00D310C6 /* LBXDashboardViewController.m in Sources */,
 				E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */,
+				E517240A1A4239F1005553BD /* LBXTipJarTableViewCell.m in Sources */,
 				E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */,
 				E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */,
 				E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */,
