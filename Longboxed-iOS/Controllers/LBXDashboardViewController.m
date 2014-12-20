@@ -295,6 +295,7 @@ BOOL _selectedSearchResult;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
 }
 
 // Required in order for MFMailComposeViewController to be dismissed (for app crash report alert)
@@ -326,8 +327,9 @@ BOOL _selectedSearchResult;
     if (!_popularIssuesArray.count) {
         for (UIView *view in _featuredBlurredImageView.subviews) {
             if ([view isKindOfClass:[SVProgressHUD class]]) {
+                [SVProgressHUD dismiss];
                 [view removeFromSuperview];
-                _largeFeaturedIssueButton.userInteractionEnabled = YES;
+                _largeFeaturedIssueButton.userInteractionEnabled = NO;
             }
         }
         // TODO: Display empty view for featured issue
@@ -383,6 +385,7 @@ BOOL _selectedSearchResult;
     
     for (UIView *view in _featuredBlurredImageView.subviews) {
         if ([view isKindOfClass:[SVProgressHUD class]]) {
+            [SVProgressHUD dismiss];
             [view removeFromSuperview];
             _largeFeaturedIssueButton.userInteractionEnabled = YES;
         }
@@ -403,7 +406,9 @@ BOOL _selectedSearchResult;
 - (void)getCoreDataPopularIssues
 {
     NSDate *currentDate = [NSDate getLocalDate];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [currentDate dateByAddingTimeInterval:- 3*DAY], [currentDate dateByAddingTimeInterval:4*DAY], @1];
+    
+    // TODO: Change this when Tim updates the scheduler
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
     
     NSSortDescriptor *boolDescr = [[NSSortDescriptor alloc] initWithKey:@"title.subscribers" ascending:NO];
