@@ -141,7 +141,7 @@ int page;
     [LBXControllerServices setViewDidAppearClearNavigationController:self];
     
     _navTitleView = [UILabel new];
-    _navTitleView.frame = CGRectMake(self.view.frame.origin.x, self.navigationController.navigationBar.frame.origin.y, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+    _navTitleView.frame = CGRectMake(self.view.frame.origin.x, [UIScreen mainScreen].bounds.origin.y + [UIApplication sharedApplication].statusBarFrame.size.height, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
     _navTitleView.text = _detailTitle.name;
     _navTitleView.textColor = [UIColor whiteColor];
     _navTitleView.font = [UIFont navTitleFont];
