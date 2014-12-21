@@ -50,7 +50,6 @@
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSArray *tableConstraints;
 @property (nonatomic) NSArray *searchResultsArray;
-@property (nonatomic) UIColor *searchBackgroundColor;
 
 @end
 
@@ -106,7 +105,6 @@ BOOL _selectedSearchResult;
         
         _searchResultsController = [LBXSearchTableViewController new];
         _searchController = [[UISearchController alloc] initWithSearchResultsController:_searchResultsController];
-        _searchBackgroundColor = [UITextField appearanceWhenContainedIn:[UISearchBar class], nil].backgroundColor;
         [LBXControllerServices setupSearchController:_searchController withSearchResultsController:self.searchResultsController andDelegate:self];
         
         _scrollView.delegate = self;
@@ -634,7 +632,7 @@ BOOL _selectedSearchResult;
     _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
     _searchController.searchBar.backgroundColor = [UIColor clearColor];
     [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor whiteColor]];
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:_searchBackgroundColor];
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:nil];
 }
 
 - (void)didDismissSearchController:(UISearchController *)searchController
@@ -670,6 +668,7 @@ BOOL _selectedSearchResult;
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
+    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
     _searchResultsArray = nil;
 }
 
