@@ -128,6 +128,7 @@ BOOL _selectedSearchResult;
     else [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
     
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
+    [LBXControllerServices setSearchBar:_searchController.searchBar withTextColor:[UIColor whiteColor]];
 }
 
 - (void)viewWillLayoutSubviews
