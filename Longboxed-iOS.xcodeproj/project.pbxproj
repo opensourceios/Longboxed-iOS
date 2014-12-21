@@ -86,6 +86,7 @@
 		E5981B5C1A380EF1003E0E40 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5981B5A1A380EF1003E0E40 /* LBXLoginViewController.m */; };
 		E5981B5D1A380EF1003E0E40 /* LBXLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5981B5B1A380EF1003E0E40 /* LBXLoginViewController.xib */; };
 		E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */; };
+		E5A73D711A4655BD0021CCC8 /* longboxed_full@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A73D701A4655BD0021CCC8 /* longboxed_full@3x.png */; };
 		E5A773DD19624A52002654E7 /* LBXSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXSettingsViewController.m */; };
 		E5A773DE19624A52002654E7 /* LBXSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A773DC19624A52002654E7 /* LBXSettingsViewController.xib */; };
 		E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */; };
@@ -264,6 +265,7 @@
 		E5981B5A1A380EF1003E0E40 /* LBXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLoginViewController.m; path = Controllers/LBXLoginViewController.m; sourceTree = "<group>"; };
 		E5981B5B1A380EF1003E0E40 /* LBXLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXLoginViewController.xib; path = Controllers/LBXLoginViewController.xib; sourceTree = "<group>"; };
 		E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXWeekTableViewCell.xib; path = Views/LBXWeekTableViewCell.xib; sourceTree = "<group>"; };
+		E5A73D701A4655BD0021CCC8 /* longboxed_full@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "longboxed_full@3x.png"; path = "Assets/longboxed_full@3x.png"; sourceTree = SOURCE_ROOT; };
 		E5A773DA19624A52002654E7 /* LBXSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSettingsViewController.h; path = Controllers/LBXSettingsViewController.h; sourceTree = "<group>"; };
 		E5A773DB19624A52002654E7 /* LBXSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSettingsViewController.m; path = Controllers/LBXSettingsViewController.m; sourceTree = "<group>"; };
 		E5A773DC19624A52002654E7 /* LBXSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXSettingsViewController.xib; path = Controllers/LBXSettingsViewController.xib; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 				E553F59E19946393003E1F5C /* clear.png */,
 				E5F18733196391D2006C4C26 /* longboxed_full.png */,
 				E5F18734196391D2006C4C26 /* longboxed_full@2x.png */,
+				E5A73D701A4655BD0021CCC8 /* longboxed_full@3x.png */,
 				E57D49231960B8F40014A13F /* black.png */,
 			);
 			name = Assets;
@@ -933,6 +936,7 @@
 				E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */,
 				E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */,
 				E593F55119D7160C00D310C6 /* ActualTableViewCell.xib in Resources */,
+				E5A73D711A4655BD0021CCC8 /* longboxed_full@3x.png in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
 				E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */,
 				E515747019E4D1F20072EE3E /* LBXBottomTableViewCell.xib in Resources */,

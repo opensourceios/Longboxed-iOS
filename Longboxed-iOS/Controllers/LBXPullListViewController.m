@@ -29,7 +29,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <POP.h>
 
-@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
+@interface LBXPullListViewController () <UISearchBarDelegate, UISearchControllerDelegate, UITableViewDelegate>
 
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) NSArray *searchResultsArray;
@@ -38,8 +38,8 @@
 @property (nonatomic, strong) NSMutableArray *pullListArray;
 @property (nonatomic, strong) UIImageView *blurImageView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, strong) UISearchDisplayController *searchBarController;
+@property (nonatomic, strong) LBXSearchTableViewController *searchResultsController;
+@property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) LBXPullListTitle *selectedTitle;
 @property (nonatomic, strong) UIView *loadingView;
@@ -50,7 +50,6 @@
 @implementation LBXPullListViewController
 
 static const NSUInteger PULL_LIST_TABLE_HEIGHT = 88;
-static const NSUInteger SEARCH_TABLE_HEIGHT = 88;
 
 CGFloat cellWidth;
 
@@ -93,21 +92,12 @@ CGFloat cellWidth;
              forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl]; // So that the swipe cells aren't blocked
     
-    _searchBar = [UISearchBar new];
-    _searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar
-                                                             contentsController:self];
-    _searchBarController.delegate = self;
-    _searchBarController.searchResultsDataSource = self;
-    _searchBarController.searchResultsDelegate = self;
+    _searchResultsController = [LBXSearchTableViewController new];
+    _searchController = [[UISearchController alloc] initWithSearchResultsController:_searchResultsController];
+    [LBXControllerServices setupSearchController:_searchController withSearchResultsController:self.searchResultsController andDelegate:self];
     
-    [self.view addSubview:_searchBar];
-    _searchBar.delegate = self;
-    _searchBar.hidden = YES;
-    _searchBar.placeholder = @"Add Title to Pull List";
-
-    _searchBar.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, _searchBar.frame.size.height);
-    
-    self.searchDisplayController.searchResultsTableView.rowHeight = SEARCH_TABLE_HEIGHT;
+    [self.view addSubview:_searchController.searchBar];
+    _searchController.searchBar.hidden = YES;
     
     // Reload the pull list when using the back button on the title view
     _client = [LBXClient new];
@@ -134,6 +124,8 @@ CGFloat cellWidth;
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
     
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
+    [LBXControllerServices setSearchBar:_searchController.searchBar withTextColor:[UIColor whiteColor]];
     [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
 }
 
@@ -153,50 +145,6 @@ CGFloat cellWidth;
     
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     self.navigationController.navigationBar.topItem.title = @"Pull List";
-    
-    
-    ///////
-    // Search Bar
-    ///////
-    
-    // SearchBar cancel button font
-    [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
-    NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
-    
-    // SearchBar placeholder text font
-    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
-    // SearchBar text field input font
-    for (UIView *subviews in _searchBar.subviews) {
-        for (UIView *subview in subviews.subviews) {
-            if ([subview isKindOfClass:[UITextField class]]) {
-                UITextField *searchField = (UITextField *)subview;
-                searchField.font = [UIFont searchPlaceholderFont];
-                searchField.textColor = [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] textColor];
-            }
-        }
-    }
-    
-
-    
-    // Set the search bar background color
-    self.searchDisplayController.searchBar.barTintColor = [UIColor whiteColor];
-    
-    // Set the search bar text field background color
-    for (UIView *subView in _searchBar.subviews) {
-        for(id field in subView.subviews){
-            if ([field isKindOfClass:[UITextField class]]) {
-                UITextField *textField = (UITextField *)field;
-                [textField setBackgroundColor:[UIColor colorWithHex:@"#CCCCCC"]];
-            }
-        }
-    }
-    
-    // SearchBar cursor color
-    self.searchDisplayController.searchBar.tintColor = [UIColor blackColor];
-    
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -222,18 +170,8 @@ CGFloat cellWidth;
 - (void)setupSearchView
 {
     if ([LBXControllerServices isLoggedIn]) {
-        // Blur the current screen
-        //[self blurScreen];
-        // Put the search bar in front of the blurred view
-        [self.view bringSubviewToFront:_searchBar];
-        
-        // Show the search bar
-        _searchBar.hidden = NO;
-        _searchBar.translucent = NO;
-        _searchBar.backgroundImage = [UIImage imageNamed:@"longboxed_full"];
-        _searchBar.scopeBarBackgroundImage = [UIImage imageNamed:@"longboxed_full"];
-        [_searchBar becomeFirstResponder];
-        [self.searchDisplayController setActive:YES animated:NO];
+        _searchController.searchBar.hidden = NO;
+        [_searchController.searchBar becomeFirstResponder];
     }
     else {
         [LBXControllerServices showAlertWithTitle:@"Not Logged In" andMessage:@"You must be logged into Longboxed account to create a pull list."];
@@ -268,7 +206,7 @@ CGFloat cellWidth;
                 }
             }
             self.searchResultsArray = newSearchResultsArray;
-            [[self.searchBarController searchResultsTableView] reloadData];
+            [self.searchResultsController.tableView reloadData];
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -420,7 +358,7 @@ CGFloat cellWidth;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
+    if (tableView == self.searchResultsController.tableView) {
         // Return the number of rows in the section.
         if (_searchResultsArray.count == 0) {
             return 1;
@@ -435,8 +373,8 @@ CGFloat cellWidth;
 // Change the Height of the Cell [Default is 44]:
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        return SEARCH_TABLE_HEIGHT;
+    if (tableView == self.searchResultsController.tableView) {
+        return self.searchResultsController.tableView.rowHeight;
     }
     
     else {
@@ -474,7 +412,7 @@ CGFloat cellWidth;
 {
     // Configure the cell...
     LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
-    if (tableView != self.searchDisplayController.searchResultsTableView) {
+    if (tableView != self.searchResultsController.tableView) {
 
         [self setTableViewStylesWithCell:cell andTitle:title];
         [LBXControllerServices setPullListCell:cell withTitle:title];
@@ -529,7 +467,7 @@ CGFloat cellWidth;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     _indexPath = indexPath;
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
+    if (tableView == self.searchResultsController.tableView) {
         
         // Do nothing if the title is already in the pull list
         if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
@@ -538,7 +476,13 @@ CGFloat cellWidth;
         }
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self.searchDisplayController setActive:NO animated:NO];
+        [self.searchResultsController dismissViewControllerAnimated:YES completion:nil];
+        _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
+        _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
+        _searchController.searchBar.backgroundColor = [UIColor clearColor];
+        [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:nil];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+        _searchController.searchBar.hidden = YES;
 
         LBXTitle *selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
         _selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
@@ -559,7 +503,7 @@ CGFloat cellWidth;
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
+    if (tableView == self.searchResultsController.tableView) {
         return NO;
     }
     else {
@@ -586,7 +530,69 @@ CGFloat cellWidth;
     }
 }
 
-#pragma mark UISearchBar methods
+#pragma mark UISearchControllerDelegate Methods
+
+- (void)willPresentSearchController:(UISearchController *)searchController
+{
+    // SearchBar cancel button font
+    [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
+    NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
+    
+    UIView *statusBarView = [UIView new];
+    statusBarView.alpha = 0.0;
+    statusBarView.backgroundColor = [UIColor whiteColor];
+    statusBarView.frame = CGRectMake([UIApplication sharedApplication].statusBarFrame.origin.x, [UIApplication sharedApplication].statusBarFrame.origin.y, [UIApplication sharedApplication].statusBarFrame.size.width, [UIApplication sharedApplication].statusBarFrame.size.height + searchController.searchBar.frame.size.height);
+    [self.view addSubview:statusBarView];
+    [searchController.view insertSubview:statusBarView aboveSubview:searchController.searchBar];
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5];
+    [statusBarView setAlpha:1.0];
+    [UIView commitAnimations];
+    
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:[UIColor LBXVeryLightGrayColor]];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+    [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor blackColor]];
+    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor grayColor]];
+    _searchResultsArray = nil;
+    
+}
+
+- (void)didPresentSearchController:(UISearchController *)searchController
+{
+    _searchResultsArray = nil;
+    searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, _searchController.searchBar.frame.size.height);
+    self.searchResultsController.tableView.contentInset = UIEdgeInsetsMake(_searchController.searchBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0, 0, 0);
+    
+    // Hair line below the search bar
+    UIView *onePxView = [[UIView alloc] initWithFrame:CGRectMake(0, _searchController.searchBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height + 0.5f, [UIScreen mainScreen].bounds.size.width, 0.5f)];
+    onePxView.backgroundColor = [UIColor lightGrayColor];
+    [self.searchController.view addSubview:onePxView];
+    
+    self.searchResultsController.tableView.scrollIndicatorInsets = self.searchResultsController.tableView.contentInset;
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController
+{
+    _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
+    _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
+    _searchController.searchBar.backgroundColor = [UIColor clearColor];
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:nil];
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController
+{
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    _searchController.searchBar.hidden = YES;
+    _searchResultsArray = nil;
+    _alreadyExistingTitles = nil;
+}
+
+
+#pragma mark UISearchBarDelegate methods
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
@@ -609,36 +615,37 @@ CGFloat cellWidth;
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [self endSearch];
-}
-
-#pragma mark UISearchDisplayController methods
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
-{
-    // If you scroll down in the search table view, this puts it back to the top next time you search
-    [self.searchDisplayController.searchResultsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
-
-}
-
-- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
-{
     _searchResultsArray = nil;
     _alreadyExistingTitles = nil;
 }
-
-- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
-{
-    [self endSearch];
-}
-
-- (void)endSearch
-{
-    // Hide the search bar when searching is completed
-    [self.searchDisplayController setActive:NO animated:NO];
-    _searchBar.hidden = YES;
-    [_blurImageView removeFromSuperview];
-}
+//
+//#pragma mark UISearchDisplayController methods
+//
+//- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
+//{
+//    // If you scroll down in the search table view, this puts it back to the top next time you search
+//    [self.searchDisplayController.searchResultsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+//
+//}
+//
+//- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
+//{
+//    _searchResultsArray = nil;
+//    _alreadyExistingTitles = nil;
+//}
+//
+//- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+//{
+//    [self endSearch];
+//}
+//
+//- (void)endSearch
+//{
+//    // Hide the search bar when searching is completed
+//    [self.searchDisplayController setActive:NO animated:NO];
+//    _searchBar.hidden = YES;
+//    [_blurImageView removeFromSuperview];
+//}
 
 
 @end
