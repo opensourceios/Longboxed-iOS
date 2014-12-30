@@ -387,12 +387,12 @@ BOOL _selectedSearchResult;
     // TODO: Change this when Tim updates the scheduler
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
-    
+
     NSSortDescriptor *boolDescr = [[NSSortDescriptor alloc] initWithKey:@"title.subscribers" ascending:NO];
     NSArray *sortDescriptors = @[boolDescr];
     NSArray *sortedArray = [NSArray new];
-    if (allIssuesArray.count >= 10) {
-        sortedArray = [[allIssuesArray subarrayWithRange:NSMakeRange(0, 10)] sortedArrayUsingDescriptors:sortDescriptors];
+    if (allIssuesArray.count >= 1) {
+        sortedArray = [[allIssuesArray subarrayWithRange:NSMakeRange(0, allIssuesArray.count)] sortedArrayUsingDescriptors:sortDescriptors];
     }
     
     _popularIssuesArray = sortedArray;
@@ -765,7 +765,7 @@ BOOL _selectedSearchResult;
              object:self];
         }
         else {
-            [self getCoreDataPopularIssues];
+            //[self getCoreDataPopularIssues];
         }
         
         cell = self.bottomTableViewCell;
