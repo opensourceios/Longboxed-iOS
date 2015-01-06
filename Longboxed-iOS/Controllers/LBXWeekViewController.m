@@ -185,6 +185,7 @@ int _page;
     [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
     
     // Calendar button
+    // TODO: Move this out of viewWillAppear for performance reasons
     int calendarSize = 20;
     FAKFontAwesome *calendarIcon = [FAKFontAwesome calendarIconWithSize:calendarSize];
     [calendarIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
