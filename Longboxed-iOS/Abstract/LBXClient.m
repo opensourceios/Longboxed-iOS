@@ -40,7 +40,7 @@
 }
 
 - (void)GETWithRouteName:(NSString *)routeName
-        objectDictParams:(NSString *)objectDictParams
+        HTTPHeaderParams:(NSString *)HTTPHeaderParams
          queryParameters:(NSDictionary *)parameters
              credentials:(BOOL)credentials
               completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion
@@ -54,8 +54,8 @@
     NSDictionary *endpointDict = [LBXEndpoints endpoints];
     
     NSString *path = endpointDict[routeName];
-    if (objectDictParams) {
-        path = [endpointDict[routeName] interpolateWithObject:objectDictParams];
+    if (HTTPHeaderParams) {
+        path = [endpointDict[routeName] interpolateWithObject:HTTPHeaderParams];
     }
     
     [RKObjectManager.sharedManager getObjectsAtPath:path parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult)
@@ -74,8 +74,8 @@
 // Using AFNetworking for the POST and DELETE requests
 // instead of over-abstracting things with RESTKIT
 - (void)POSTWithRouteName:(NSString *)routeName
-          queryParameters:(NSDictionary *)queryParameters
-           jsonParameters:(NSDictionary *)jsonParameters
+         HTTPHeaderParams:(NSDictionary *)HTTPHeaderParams
+           queryParameters:(NSDictionary *)parameters
               credentials:(BOOL)credentials
                completion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion
 {
@@ -92,11 +92,11 @@
         UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
         [client setAuthorizationHeaderWithUsername:store[@"username"] password:store[@"password"]];
         postPath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
-                                                   withDictionary:queryParameters] stringByReplacingOccurrencesOfString:@":userID" withString:store[@"id"]];
+                                                   withDictionary:HTTPHeaderParams] stringByReplacingOccurrencesOfString:@":userID" withString:store[@"id"]];
     }
  
     [client postPath:postPath
-          parameters:jsonParameters
+          parameters:parameters
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
@@ -113,9 +113,10 @@
 // Using AFNetworking for the POST and DELETE requests
 // instead of over-abstracting things with RESTKIT
 - (void)DELETEWithRouteName:(NSString *)routeName
-          queryParameters:(NSDictionary *)parameters
-              credentials:(BOOL)credentials
-               completion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion
+           HTTPHeaderParams:(NSDictionary *)HTTPHeaderParams
+            queryParameters:(NSDictionary *)parameters
+                credentials:(BOOL)credentials
+                 completion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     // Set up the URL route with the parameter suffix
@@ -128,13 +129,13 @@
     [client setAuthorizationHeaderWithUsername:store[@"username"] password:store[@"password"]];
     
     NSString *deletePath = endpointDict[routeName];
-    if (parameters) {
+    if (HTTPHeaderParams) {
         deletePath = [[NSString addQueryStringToUrlString:endpointDict[routeName]
-                                           withDictionary:parameters] stringByReplacingOccurrencesOfString:@":userID"
+                                           withDictionary:HTTPHeaderParams] stringByReplacingOccurrencesOfString:@":userID"
                                                                                                 withString:store[@"id"]];
     }
     [client deletePath:deletePath
-          parameters:nil
+          parameters:parameters
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
@@ -173,7 +174,7 @@
     [formatter setDateFormat:@"yyyy-MM-dd"];
     // For debugging
     NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date], @"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
-    [self GETWithRouteName:@"Issues Collection" objectDictParams:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Issues Collection" HTTPHeaderParams:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
@@ -184,7 +185,7 @@
     if (![page isEqualToNumber:@1]) {
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     }
-    [self GETWithRouteName:@"Issues Collection for Current Week" objectDictParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Issues Collection for Current Week" HTTPHeaderParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         completion(mappingResult.array, response, error);
     }];
@@ -196,7 +197,7 @@
     if (![page isEqualToNumber:@1]) {
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     }
-    [self GETWithRouteName:@"Issues Collection for Next Week" objectDictParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Issues Collection for Next Week" HTTPHeaderParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         completion(mappingResult.array, response, error);
     }];
@@ -208,20 +209,20 @@
                         @"issueID", issueID,
                         nil];
     
-    [self GETWithRouteName:@"Issue" objectDictParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Issue" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.firstObject, response, error);
     }];
 }
 
 - (void)fetchPopularIssuesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    [self GETWithRouteName:@"Popular Issues for Current Week" objectDictParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Popular Issues for Current Week" HTTPHeaderParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
 
 // Titles
 - (void)fetchTitleCollectionWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    [self GETWithRouteName:@"Titles Collection" objectDictParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Titles Collection" HTTPHeaderParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
@@ -232,14 +233,14 @@
                         @"titleID", titleID,
                         nil];
     
-    [self GETWithRouteName:@"Title" objectDictParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Title" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.firstObject, response, error);
     }];
 }
 
 - (void)fetchIssuesForTitle:(NSNumber*)titleID page:(NSNumber *)page withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
+    NSString *headerParams = [NSDictionary dictionaryWithKeysAndObjects:
                         @"titleID", titleID,
                         nil];
     
@@ -248,14 +249,14 @@
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     }
     
-    [self GETWithRouteName:@"Issues for Title" objectDictParams:params queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Issues for Title" HTTPHeaderParams:headerParams queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
 
 - (void)fetchIssuesForTitle:(NSNumber*)titleID page:(NSNumber *)page count:(NSNumber *)count withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
+    NSString *headerParams = [NSDictionary dictionaryWithKeysAndObjects:
                         @"titleID", titleID,
                         nil];
     
@@ -265,14 +266,14 @@
                              @"count" : [NSString stringWithFormat:@"%d", [count intValue]]};
     }
     
-    [self GETWithRouteName:@"Issues for Title" objectDictParams:params queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Issues for Title" HTTPHeaderParams:headerParams queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
 
 - (void)fetchAutocompleteForTitle:(NSString*)title withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
-    [self GETWithRouteName:@"Autocomplete for Title" objectDictParams:nil queryParameters:@{@"query": title} credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Autocomplete for Title" HTTPHeaderParams:nil queryParameters:@{@"query": title} credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
@@ -285,7 +286,7 @@
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     }
     
-    [self GETWithRouteName:@"Publisher Collection" objectDictParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Publisher Collection" HTTPHeaderParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
@@ -296,7 +297,7 @@
                         @"publisherID", publisherID,
                         nil];
     
-    [self GETWithRouteName:@"Publisher" objectDictParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Publisher" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.firstObject, response, error);
     }];
 }
@@ -312,7 +313,7 @@
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     }
     
-    [self GETWithRouteName:@"Titles for Publisher" objectDictParams:params queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Titles for Publisher" HTTPHeaderParams:params queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
@@ -323,7 +324,7 @@
     
     NSDictionary *parameters = @{@"email" : email, @"password" : password, @"password_confirm" : passwordConfirm};
     
-    [self POSTWithRouteName:@"Register" queryParameters:nil jsonParameters:parameters credentials:NO completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+    [self POSTWithRouteName:@"Register" HTTPHeaderParams:nil queryParameters:parameters credentials:NO completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         if (error) {
             NSString *errorJSONString = error.userInfo[@"NSLocalizedRecoverySuggestion"];
             NSData *data = [errorJSONString dataUsingEncoding:NSUTF8StringEncoding];
@@ -336,7 +337,7 @@
 
 - (void)deleteAccountWithCompletion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion {
     
-    [self DELETEWithRouteName:@"Delete Account" queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+    [self DELETEWithRouteName:@"Delete Account" HTTPHeaderParams:nil queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         
         completion(resultDict, response, error);
     }];
@@ -344,7 +345,7 @@
 
 
 - (void)fetchLogInWithCompletion:(void (^)(LBXUser*, RKObjectRequestOperation*, NSError*))completion {
-    [self GETWithRouteName:@"Login" objectDictParams:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Login" HTTPHeaderParams:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         // Store the user ID
         LBXUser *user = mappingResult.firstObject;
@@ -360,15 +361,15 @@
 - (void)fetchPullListWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSString *params;
+    NSString *headerParams;
     if (store[@"id"]) {
-        params = [NSDictionary dictionaryWithKeysAndObjects:
+        headerParams = [NSDictionary dictionaryWithKeysAndObjects:
                             @"userID", store[@"id"],
                             nil];
         
     }
     
-    [self GETWithRouteName:@"User Pull List" objectDictParams:params queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"User Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         completion(mappingResult.array, response, error);
     }];
@@ -376,9 +377,9 @@
 
 - (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
 
-    NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
+    NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
     
-    [self POSTWithRouteName:@"Add Title to Pull List" queryParameters:parameters jsonParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+    [self POSTWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         
         NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
         completion(pullListArray, response, error);
@@ -387,13 +388,13 @@
 
 - (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
     
-    NSDictionary *parameters = @{@"title_id" : [titleID stringValue]};
+    NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
     
     // Remove the title from Core Data
     __block NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", titleID];
     [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
     
-    [self DELETEWithRouteName:@"Add Title to Pull List" queryParameters:parameters credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+    [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         
         // Remove the title from the latest bundle
         NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
@@ -411,15 +412,15 @@
 - (void)fetchBundleResourcesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSString *params;
+    NSString *headerParams;
     if (store[@"id"]) {
-        params = [NSDictionary dictionaryWithKeysAndObjects:
+        headerParams = [NSDictionary dictionaryWithKeysAndObjects:
                   @"userID", store[@"id"],
                   nil];
         
     }
     
-    [self GETWithRouteName:@"Bundle Resources for User" objectDictParams:params queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
@@ -427,15 +428,15 @@
 - (void)fetchLatestBundleWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSString *params;
+    NSString *headerParams;
     if (store[@"id"]) {
-        params = [NSDictionary dictionaryWithKeysAndObjects:
+        headerParams = [NSDictionary dictionaryWithKeysAndObjects:
                   @"userID", store[@"id"],
                   nil];
         
     }
     
-    [self GETWithRouteName:@"Latest Bundle" objectDictParams:params queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    [self GETWithRouteName:@"Latest Bundle" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
     }];
 }
