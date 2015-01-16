@@ -456,6 +456,10 @@ BOOL _selectedSearchResult;
             issuesString = @"ISSUE IN YOUR BUNDLE";
         }
         
+        if ([UICKeyChainStore stringForKey:@"dropboxRoot"] && bundle.issues.count == 0) {
+            [self showEmptyBundleView];
+        }
+        
         NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"completeTitle" ascending:YES];
         NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
         _bundleIssuesArray = [[bundle.issues allObjects] sortedArrayUsingDescriptors:descriptors];
@@ -468,7 +472,6 @@ BOOL _selectedSearchResult;
     else {
         [_bundleButton setTitle:@"0 ISSUES IN YOUR BUNDLE"
                        forState:UIControlStateNormal];
-        [self showEmptyBundleView];
     }
     
 }
@@ -595,6 +598,7 @@ BOOL _selectedSearchResult;
 
 - (void)showEmptyBundleView
 {
+    
     _emptyImageView = [UIImageView new];
     _emptyImageView.frame = self.topTableView.frame;
     [self.topTableView.superview addSubview:_emptyImageView];

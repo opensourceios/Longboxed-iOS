@@ -16,6 +16,7 @@
 @property (nonatomic) DBRestClient *restClient;
 
 @property (nonatomic, strong) IBOutlet UIImageView *aboutImageView;
+@property (nonatomic, retain) IBOutlet UILabel *instructionsLabel;
 
 @end
 
@@ -66,6 +67,7 @@
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath {
     [SVProgressHUD dismiss];
+    _instructionsLabel.hidden = YES;
     _aboutImageView.image = [UIImage imageWithContentsOfFile:destPath];
 }
 
