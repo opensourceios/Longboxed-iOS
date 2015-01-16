@@ -55,6 +55,14 @@
 		E555D38F196359D1003B97C0 /* LBXAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E555D38E196359D1003B97C0 /* LBXAPITests.m */; };
 		E55B68161A1AE3C0008A5CFD /* lb_nocover.png in Resources */ = {isa = PBXBuildFile; fileRef = E55B68151A1AE3C0008A5CFD /* lb_nocover.png */; };
 		E55B68611A324A81008A5CFD /* LBXBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E55B68601A324A81008A5CFD /* LBXBackButton.m */; };
+		E5702B701A689ACE007B672D /* LBXDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5702B6E1A689ACE007B672D /* LBXDropboxViewController.m */; };
+		E5702B711A689ACE007B672D /* LBXDropboxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5702B6F1A689ACE007B672D /* LBXDropboxViewController.xib */; };
+		E5702B751A68A042007B672D /* LBXAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5702B731A68A042007B672D /* LBXAboutViewController.m */; };
+		E5702B761A68A042007B672D /* LBXAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5702B741A68A042007B672D /* LBXAboutViewController.xib */; };
+		E5702B7C1A68ABBF007B672D /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5702B7B1A68ABBF007B672D /* DropboxSDK.framework */; };
+		E5702B801A68AD1B007B672D /* LBXOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5702B7E1A68AD1B007B672D /* LBXOnboardingViewController.m */; };
+		E5702B811A68AD1B007B672D /* LBXOnboardingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5702B7F1A68AD1B007B672D /* LBXOnboardingViewController.xib */; };
+		E5702B831A68C033007B672D /* keys.txt in Resources */ = {isa = PBXBuildFile; fileRef = E5702B821A68C033007B672D /* keys.txt */; };
 		E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */; };
 		E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB819D7C37E002DE4BA /* arrow_right_small_black@2x.png */; };
 		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
@@ -104,6 +112,7 @@
 		E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDA19983DFC0022F4CA /* UIImageView+LBBlurredImage.m */; };
 		E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */; };
 		E5B6FCE51998497A0022F4CA /* LBXControllerServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B6FCE41998497A0022F4CA /* LBXControllerServices.m */; };
+		E5C973501A68831D00A4DAB8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5C9734F1A68831D00A4DAB8 /* Security.framework */; };
 		E5CCAC5419B53BD30068AD8D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */; };
 		E5CCAC5619B53BE60068AD8D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */; };
 		E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */; };
@@ -211,6 +220,17 @@
 		E55B68151A1AE3C0008A5CFD /* lb_nocover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lb_nocover.png; path = Assets/lb_nocover.png; sourceTree = SOURCE_ROOT; };
 		E55B685F1A324A81008A5CFD /* LBXBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXBackButton.h; path = Views/LBXBackButton.h; sourceTree = "<group>"; };
 		E55B68601A324A81008A5CFD /* LBXBackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXBackButton.m; path = Views/LBXBackButton.m; sourceTree = "<group>"; };
+		E5702B6D1A689ACE007B672D /* LBXDropboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDropboxViewController.h; path = Controllers/LBXDropboxViewController.h; sourceTree = "<group>"; };
+		E5702B6E1A689ACE007B672D /* LBXDropboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDropboxViewController.m; path = Controllers/LBXDropboxViewController.m; sourceTree = "<group>"; };
+		E5702B6F1A689ACE007B672D /* LBXDropboxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXDropboxViewController.xib; path = Controllers/LBXDropboxViewController.xib; sourceTree = "<group>"; };
+		E5702B721A68A042007B672D /* LBXAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXAboutViewController.h; path = Controllers/LBXAboutViewController.h; sourceTree = "<group>"; };
+		E5702B731A68A042007B672D /* LBXAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXAboutViewController.m; path = Controllers/LBXAboutViewController.m; sourceTree = "<group>"; };
+		E5702B741A68A042007B672D /* LBXAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXAboutViewController.xib; path = Controllers/LBXAboutViewController.xib; sourceTree = "<group>"; };
+		E5702B7B1A68ABBF007B672D /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		E5702B7D1A68AD1B007B672D /* LBXOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXOnboardingViewController.h; path = Controllers/LBXOnboardingViewController.h; sourceTree = "<group>"; };
+		E5702B7E1A68AD1B007B672D /* LBXOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXOnboardingViewController.m; path = Controllers/LBXOnboardingViewController.m; sourceTree = "<group>"; };
+		E5702B7F1A68AD1B007B672D /* LBXOnboardingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXOnboardingViewController.xib; path = Controllers/LBXOnboardingViewController.xib; sourceTree = "<group>"; };
+		E5702B821A68C033007B672D /* keys.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = keys.txt; sourceTree = "<group>"; };
 		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
 		E575162219908AD00052D4C4 /* libPods-HockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-HockeySDK.a"; path = "Pods/build/Debug-iphoneos/libPods-HockeySDK.a"; sourceTree = "<group>"; };
@@ -295,6 +315,7 @@
 		E5B6FCDC19983DFC0022F4CA /* MGSpotyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSpotyViewController.m; sourceTree = "<group>"; };
 		E5B6FCE31998497A0022F4CA /* LBXControllerServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXControllerServices.h; path = Abstract/LBXControllerServices.h; sourceTree = "<group>"; };
 		E5B6FCE41998497A0022F4CA /* LBXControllerServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXControllerServices.m; path = Abstract/LBXControllerServices.m; sourceTree = "<group>"; };
+		E5C9734F1A68831D00A4DAB8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		E5CCAC5819B53EDB0068AD8D /* LBXLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLogging.h; path = Abstract/LBXLogging.h; sourceTree = "<group>"; };
@@ -324,6 +345,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5702B7C1A68ABBF007B672D /* DropboxSDK.framework in Frameworks */,
+				E5C973501A68831D00A4DAB8 /* Security.framework in Frameworks */,
 				E50506AD1A41484D00C86291 /* CrashReporter.framework in Frameworks */,
 				E5CCAC5619B53BE60068AD8D /* OpenGLES.framework in Frameworks */,
 				E515746B19E335E90072EE3E /* Crashlytics.framework in Frameworks */,
@@ -482,6 +505,7 @@
 		E57D48BA196068E10014A13F = {
 			isa = PBXGroup;
 			children = (
+				E5702B7B1A68ABBF007B672D /* DropboxSDK.framework */,
 				E57D48CC196068E10014A13F /* Longboxed-iOS */,
 				E57D48E5196068E10014A13F /* Longboxed-iOSTests */,
 				E57D48C5196068E10014A13F /* Frameworks */,
@@ -503,6 +527,7 @@
 		E57D48C5196068E10014A13F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E5C9734F1A68831D00A4DAB8 /* Security.framework */,
 				E50506AC1A41484D00C86291 /* CrashReporter.framework */,
 				E50506AA1A41482B00C86291 /* libPods-PLCrashReporter.a */,
 				E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */,
@@ -550,6 +575,7 @@
 		E57D48CD196068E10014A13F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E5702B821A68C033007B672D /* keys.txt */,
 				E57D49221960B8E80014A13F /* Assets */,
 				E57D48CE196068E10014A13F /* Longboxed-iOS-Info.plist */,
 				E57D48CF196068E10014A13F /* InfoPlist.strings */,
@@ -712,6 +738,12 @@
 				E5A773DA19624A52002654E7 /* LBXSettingsViewController.h */,
 				E5A773DB19624A52002654E7 /* LBXSettingsViewController.m */,
 				E5A773DC19624A52002654E7 /* LBXSettingsViewController.xib */,
+				E5702B7D1A68AD1B007B672D /* LBXOnboardingViewController.h */,
+				E5702B7E1A68AD1B007B672D /* LBXOnboardingViewController.m */,
+				E5702B7F1A68AD1B007B672D /* LBXOnboardingViewController.xib */,
+				E5702B6D1A689ACE007B672D /* LBXDropboxViewController.h */,
+				E5702B6E1A689ACE007B672D /* LBXDropboxViewController.m */,
+				E5702B6F1A689ACE007B672D /* LBXDropboxViewController.xib */,
 				E5981B591A380EF1003E0E40 /* LBXLoginViewController.h */,
 				E5981B5A1A380EF1003E0E40 /* LBXLoginViewController.m */,
 				E5981B5B1A380EF1003E0E40 /* LBXLoginViewController.xib */,
@@ -724,6 +756,9 @@
 				E58634331A526DD500427C2E /* LBXTipJarTableViewCell.h */,
 				E58634341A526DD500427C2E /* LBXTipJarTableViewCell.m */,
 				E58634351A526DD500427C2E /* LBXTipJarTableViewCell.xib */,
+				E5702B721A68A042007B672D /* LBXAboutViewController.h */,
+				E5702B731A68A042007B672D /* LBXAboutViewController.m */,
+				E5702B741A68A042007B672D /* LBXAboutViewController.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -941,10 +976,12 @@
 				E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */,
 				E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */,
 				E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */,
+				E5702B831A68C033007B672D /* keys.txt in Resources */,
 				E593F55119D7160C00D310C6 /* ActualTableViewCell.xib in Resources */,
 				E5A73D711A4655BD0021CCC8 /* longboxed_full@3x.png in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
 				E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */,
+				E5702B761A68A042007B672D /* LBXAboutViewController.xib in Resources */,
 				E515747019E4D1F20072EE3E /* LBXBottomTableViewCell.xib in Resources */,
 				E57E156819A987ED002616F5 /* arrow_right.png in Resources */,
 				E57D49241960B8F40014A13F /* black.png in Resources */,
@@ -954,7 +991,9 @@
 				E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */,
 				E55B68161A1AE3C0008A5CFD /* lb_nocover.png in Resources */,
 				E5B5F9A519FC0C6200474E60 /* arrow_right_standard@2x.png in Resources */,
+				E5702B811A68AD1B007B672D /* LBXOnboardingViewController.xib in Resources */,
 				E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */,
+				E5702B711A689ACE007B672D /* LBXDropboxViewController.xib in Resources */,
 				E515746819DCD1D00072EE3E /* LBXComicTableViewCell.xib in Resources */,
 				E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */,
 				E57E156C19A98FB0002616F5 /* arrow_right_small.png in Resources */,
@@ -1108,6 +1147,7 @@
 				E55042C01A3935E5008905ED /* LBXDeleteAccountViewController.m in Sources */,
 				E50183E119F45F4C00DA3CAB /* ESObjectPool.m in Sources */,
 				E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */,
+				E5702B751A68A042007B672D /* LBXAboutViewController.m in Sources */,
 				E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */,
 				E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */,
 				E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */,
@@ -1131,7 +1171,9 @@
 				E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */,
 				E517240A1A4239F1005553BD /* LBXTipJarTableViewCell.m in Sources */,
 				E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */,
+				E5702B801A68AD1B007B672D /* LBXOnboardingViewController.m in Sources */,
 				E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */,
+				E5702B701A689ACE007B672D /* LBXDropboxViewController.m in Sources */,
 				E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */,
 				E515746319DCC4360072EE3E /* LBXSearchTableViewController.m in Sources */,
 				E5AD0FF61A3E4FED0031171E /* UIImage+LBXCreateImage.m in Sources */,
@@ -1224,6 +1266,80 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-1PasswordExtension\"",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AYVibrantButton\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-FontAwesomeKit\"",
+					"-l\"Pods-HockeySDK\"",
+					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
+					"-l\"Pods-JGActionSheet\"",
+					"-l\"Pods-JRHUtilities\"",
+					"-l\"Pods-JTSImageViewController\"",
+					"-l\"Pods-Lockbox\"",
+					"-l\"Pods-MCSwipeTableViewCell\"",
+					"-l\"Pods-MagicalRecord\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-MotionOrientation@PTEz\"",
+					"-l\"Pods-NBUCore\"",
+					"-l\"Pods-NBUKit\"",
+					"-l\"Pods-NSLogger\"",
+					"-l\"Pods-PLCrashReporter\"",
+					"-l\"Pods-RKValueTransformers\"",
+					"-l\"Pods-RestKit\"",
+					"-l\"Pods-SDiPhoneVersion\"",
+					"-l\"Pods-SIAlertView\"",
+					"-l\"Pods-SOCKit\"",
+					"-l\"Pods-SVProgressHUD\"",
+					"-l\"Pods-Shimmer\"",
+					"-l\"Pods-TransitionKit\"",
+					"-l\"Pods-UAProgressView\"",
+					"-l\"Pods-UICKeyChainStore\"",
+					"-l\"Pods-pop\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CrashReporter\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+					"-ObjC",
+					"-all_load",
+					"-weak_library",
+					"/usr/lib/libstdc++.dylib",
+				);
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1257,6 +1373,80 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-1PasswordExtension\"",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AYVibrantButton\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-FontAwesomeKit\"",
+					"-l\"Pods-HockeySDK\"",
+					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
+					"-l\"Pods-JGActionSheet\"",
+					"-l\"Pods-JRHUtilities\"",
+					"-l\"Pods-JTSImageViewController\"",
+					"-l\"Pods-Lockbox\"",
+					"-l\"Pods-MCSwipeTableViewCell\"",
+					"-l\"Pods-MagicalRecord\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-MotionOrientation@PTEz\"",
+					"-l\"Pods-NBUCore\"",
+					"-l\"Pods-NBUKit\"",
+					"-l\"Pods-NSLogger\"",
+					"-l\"Pods-PLCrashReporter\"",
+					"-l\"Pods-RKValueTransformers\"",
+					"-l\"Pods-RestKit\"",
+					"-l\"Pods-SDiPhoneVersion\"",
+					"-l\"Pods-SIAlertView\"",
+					"-l\"Pods-SOCKit\"",
+					"-l\"Pods-SVProgressHUD\"",
+					"-l\"Pods-Shimmer\"",
+					"-l\"Pods-TransitionKit\"",
+					"-l\"Pods-UAProgressView\"",
+					"-l\"Pods-UICKeyChainStore\"",
+					"-l\"Pods-pop\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CrashReporter\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+					"-ObjC",
+					"-all_load",
+					"-weak_library",
+					"/usr/lib/libstdc++.dylib",
+				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1384,6 +1574,80 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-1PasswordExtension\"",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AYVibrantButton\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-FontAwesomeKit\"",
+					"-l\"Pods-HockeySDK\"",
+					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
+					"-l\"Pods-JGActionSheet\"",
+					"-l\"Pods-JRHUtilities\"",
+					"-l\"Pods-JTSImageViewController\"",
+					"-l\"Pods-Lockbox\"",
+					"-l\"Pods-MCSwipeTableViewCell\"",
+					"-l\"Pods-MagicalRecord\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-MotionOrientation@PTEz\"",
+					"-l\"Pods-NBUCore\"",
+					"-l\"Pods-NBUKit\"",
+					"-l\"Pods-NSLogger\"",
+					"-l\"Pods-PLCrashReporter\"",
+					"-l\"Pods-RKValueTransformers\"",
+					"-l\"Pods-RestKit\"",
+					"-l\"Pods-SDiPhoneVersion\"",
+					"-l\"Pods-SIAlertView\"",
+					"-l\"Pods-SOCKit\"",
+					"-l\"Pods-SVProgressHUD\"",
+					"-l\"Pods-Shimmer\"",
+					"-l\"Pods-TransitionKit\"",
+					"-l\"Pods-UAProgressView\"",
+					"-l\"Pods-UICKeyChainStore\"",
+					"-l\"Pods-pop\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CrashReporter\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+					"-ObjC",
+					"-all_load",
+					"-weak_library",
+					"/usr/lib/libstdc++.dylib",
+				);
 				SDKROOT = iphoneos;
 			};
 			name = Alpha;
@@ -1481,6 +1745,80 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-1PasswordExtension\"",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AYVibrantButton\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-FontAwesomeKit\"",
+					"-l\"Pods-HockeySDK\"",
+					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
+					"-l\"Pods-JGActionSheet\"",
+					"-l\"Pods-JRHUtilities\"",
+					"-l\"Pods-JTSImageViewController\"",
+					"-l\"Pods-Lockbox\"",
+					"-l\"Pods-MCSwipeTableViewCell\"",
+					"-l\"Pods-MagicalRecord\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-MotionOrientation@PTEz\"",
+					"-l\"Pods-NBUCore\"",
+					"-l\"Pods-NBUKit\"",
+					"-l\"Pods-NSLogger\"",
+					"-l\"Pods-PLCrashReporter\"",
+					"-l\"Pods-RKValueTransformers\"",
+					"-l\"Pods-RestKit\"",
+					"-l\"Pods-SDiPhoneVersion\"",
+					"-l\"Pods-SIAlertView\"",
+					"-l\"Pods-SOCKit\"",
+					"-l\"Pods-SVProgressHUD\"",
+					"-l\"Pods-Shimmer\"",
+					"-l\"Pods-TransitionKit\"",
+					"-l\"Pods-UAProgressView\"",
+					"-l\"Pods-UICKeyChainStore\"",
+					"-l\"Pods-pop\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CrashReporter\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+					"-ObjC",
+					"-all_load",
+					"-weak_library",
+					"/usr/lib/libstdc++.dylib",
+				);
 				SDKROOT = iphoneos;
 			};
 			name = Beta;
@@ -1566,6 +1904,80 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-1PasswordExtension\"",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AYVibrantButton\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-FontAwesomeKit\"",
+					"-l\"Pods-HockeySDK\"",
+					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
+					"-l\"Pods-JGActionSheet\"",
+					"-l\"Pods-JRHUtilities\"",
+					"-l\"Pods-JTSImageViewController\"",
+					"-l\"Pods-Lockbox\"",
+					"-l\"Pods-MCSwipeTableViewCell\"",
+					"-l\"Pods-MagicalRecord\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-MotionOrientation@PTEz\"",
+					"-l\"Pods-NBUCore\"",
+					"-l\"Pods-NBUKit\"",
+					"-l\"Pods-NSLogger\"",
+					"-l\"Pods-PLCrashReporter\"",
+					"-l\"Pods-RKValueTransformers\"",
+					"-l\"Pods-RestKit\"",
+					"-l\"Pods-SDiPhoneVersion\"",
+					"-l\"Pods-SIAlertView\"",
+					"-l\"Pods-SOCKit\"",
+					"-l\"Pods-SVProgressHUD\"",
+					"-l\"Pods-Shimmer\"",
+					"-l\"Pods-TransitionKit\"",
+					"-l\"Pods-UAProgressView\"",
+					"-l\"Pods-UICKeyChainStore\"",
+					"-l\"Pods-pop\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CrashReporter\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+					"-ObjC",
+					"-all_load",
+					"-weak_library",
+					"/usr/lib/libstdc++.dylib",
+				);
 				SDKROOT = iphoneos;
 			};
 			name = Staging;
