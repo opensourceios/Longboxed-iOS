@@ -29,6 +29,9 @@
 #import <JGActionSheet.h>
 #import "LBXTipJarTableViewCell.h"
 #import "LBXPullListTableViewCell.h"
+#import "LBXDropboxViewController.h"
+#import "LBXAboutViewController.h"
+#import "LBXOnboardingViewController.h"
 
 @interface LBXSettingsViewController () <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
@@ -235,11 +238,11 @@ UICKeyChainStore *store;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0 && [LBXControllerServices isAdmin]) return 2;
     switch (section) {
         case 0:
             if (![LBXControllerServices isLoggedIn]) return 2;
-            if ([LBXControllerServices isAdmin]) return 2;
+            // TODO: Remove dropbox
+            if ([LBXControllerServices isAdmin]) return 4;
             else return 1;
             break;
         case 1:
@@ -331,11 +334,12 @@ UICKeyChainStore *store;
     }
     NSString *logInString = ([LBXControllerServices isLoggedIn]) ? @"Email" : @"Sign Up";
     NSString *devServerOrLogInString = ([LBXControllerServices isLoggedIn]) ? @"Use Development Server" : @"Log In";
-    
+    NSString *dropboxString = ([UICKeyChainStore stringForKey:@"dropboxRoot"]) ? [NSString stringWithFormat:@"Dropbox Path: %@", [UICKeyChainStore stringForKey:@"dropboxRoot"]] : @"Dropbox";
     NSArray *textArray = [NSArray new];
     switch (indexPath.section) {
         case 0:
-            textArray = @[logInString, devServerOrLogInString];
+            // TODO: Remove dropbox
+            textArray = @[logInString, devServerOrLogInString, dropboxString, @"Show Onboarding"];
             break;
         case 1:
             textArray = @[@"Send Feedback", @"Please Rate Longboxed"];
@@ -364,6 +368,11 @@ UICKeyChainStore *store;
         else if (indexPath.row == 0 && [LBXControllerServices isLoggedIn]) {
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.detailTextLabel.text = [store stringForKey:@"username"];
+        }
+        else if (indexPath.row == 2) {
+            UIInputView *inputView = [UIInputView new];
+            inputView.frame = cell.frame;
+            [cell addSubview:inputView];
         }
         
     }
@@ -432,6 +441,15 @@ UICKeyChainStore *store;
                 LBXLoginViewController *loginViewController = [LBXLoginViewController new];
                 [self.navigationController pushViewController:loginViewController animated:YES];
             }
+            // TODO: Remove dropbox
+            else if (indexPath.row == 2) {
+                LBXDropboxViewController *dropboxViewController = [LBXDropboxViewController new];
+                [self.navigationController pushViewController:dropboxViewController animated:YES];
+            }
+            else if (indexPath.row == 3) {
+                LBXOnboardingViewController *onboardingController = [LBXOnboardingViewController new];
+                [self.navigationController pushViewController:onboardingController animated:YES];
+            }
             break;
         // Send feedback email
         case 1:
@@ -471,8 +489,12 @@ UICKeyChainStore *store;
             }
             break;
         case 4:
+            if (indexPath.row == 0 && [LBXControllerServices isAdmin]) {
+                LBXAboutViewController *aboutController = [LBXAboutViewController new];
+                [self.navigationController pushViewController:aboutController animated:YES];
+            }
             // Delete Account
-            if (indexPath.row == 1) {
+            else if (indexPath.row == 1) {
                 LBXDeleteAccountViewController *deleteViewController = [LBXDeleteAccountViewController new];
                 [self.navigationController pushViewController:deleteViewController animated:YES];
             }

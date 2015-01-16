@@ -26,7 +26,7 @@
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <state key="normal">
                             <attributedString key="attributedTitle">
-                                <fragment content="Generous Tip of $1.99">
+                                <fragment content="Massive Tip of $1.99">
                                     <attributes>
                                         <font key="NSFont" size="14" name="AvenirNext-DemiBold"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
@@ -40,7 +40,7 @@
                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <state key="normal">
                             <attributedString key="attributedTitle">
-                                <fragment content="Generous Tip of $2.99">
+                                <fragment content="Amazing Tip of $2.99">
                                     <attributes>
                                         <font key="NSFont" size="14" name="AvenirNext-DemiBold"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
@@ -49,8 +49,8 @@
                             </attributedString>
                         </state>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="168-aS-lMH">
-                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="168-aS-lMH">
+                        <rect key="frame" x="0.0" y="0.0" width="145" height="31"/>
                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <state key="normal">
                             <attributedString key="attributedTitle">
