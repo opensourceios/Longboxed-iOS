@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LBXAboutViewController">
             <connections>
                 <outlet property="aboutImageView" destination="8tH-mx-Nta" id="Xmc-jl-8pE"/>
+                <outlet property="instructionsLabel" destination="Xd0-Pc-i3Q" id="byf-KF-zVo"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -18,34 +19,54 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8tH-mx-Nta">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The about view image must be titled &quot;about.png&quot;." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xd0-Pc-i3Q">
+                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="widthClass=compact" misplaced="YES">
+                        <rect key="frame" x="27" y="289" width="981" height="21"/>
+                    </variation>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="Xd0-Pc-i3Q" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="3P4-rg-8oo"/>
                 <constraint firstItem="8tH-mx-Nta" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="3no-ts-iFk"/>
+                <constraint firstAttribute="trailing" secondItem="Xd0-Pc-i3Q" secondAttribute="trailing" constant="12" id="PAl-6v-sqq"/>
                 <constraint firstAttribute="bottom" secondItem="8tH-mx-Nta" secondAttribute="bottom" id="RiE-cT-IfD"/>
+                <constraint firstAttribute="centerY" secondItem="Xd0-Pc-i3Q" secondAttribute="centerY" id="WPf-MX-Seh"/>
                 <constraint firstAttribute="trailing" secondItem="8tH-mx-Nta" secondAttribute="trailing" id="c0z-NY-dYe"/>
                 <constraint firstItem="8tH-mx-Nta" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="jRS-pX-hpr"/>
             </constraints>
             <variation key="default">
                 <mask key="subviews">
                     <exclude reference="8tH-mx-Nta"/>
+                    <exclude reference="Xd0-Pc-i3Q"/>
                 </mask>
                 <mask key="constraints">
                     <exclude reference="3no-ts-iFk"/>
                     <exclude reference="RiE-cT-IfD"/>
                     <exclude reference="c0z-NY-dYe"/>
                     <exclude reference="jRS-pX-hpr"/>
+                    <exclude reference="3P4-rg-8oo"/>
+                    <exclude reference="PAl-6v-sqq"/>
+                    <exclude reference="WPf-MX-Seh"/>
                 </mask>
             </variation>
             <variation key="widthClass=compact">
                 <mask key="subviews">
                     <include reference="8tH-mx-Nta"/>
+                    <include reference="Xd0-Pc-i3Q"/>
                 </mask>
                 <mask key="constraints">
                     <include reference="3no-ts-iFk"/>
                     <include reference="RiE-cT-IfD"/>
                     <include reference="c0z-NY-dYe"/>
                     <include reference="jRS-pX-hpr"/>
+                    <include reference="3P4-rg-8oo"/>
+                    <include reference="PAl-6v-sqq"/>
+                    <include reference="WPf-MX-Seh"/>
                 </mask>
             </variation>
         </view>

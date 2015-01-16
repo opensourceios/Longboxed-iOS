@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LBXOnboardingViewController">
             <connections>
+                <outlet property="instructionsLabel" destination="pLK-6R-rBy" id="p7V-DD-dv0"/>
                 <outlet property="scrollView" destination="AsB-oZ-ffn" id="gDh-tH-D0I"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -17,6 +18,62 @@
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AsB-oZ-ffn">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pLK-6R-rBy">
+                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="300" id="TaN-Ej-uKE"/>
+                            </constraints>
+                            <string key="text">Any number of files can be used for onboarding. Filenames must include the word "onboarding" and have a number (1, 2, 3, etc).
+</string>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="TaN-Ej-uKE"/>
+                                </mask>
+                            </variation>
+                            <variation key="widthClass=compact" misplaced="YES">
+                                <rect key="frame" x="12" y="279" width="445" height="41"/>
+                                <mask key="constraints">
+                                    <include reference="TaN-Ej-uKE"/>
+                                </mask>
+                            </variation>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="pLK-6R-rBy" secondAttribute="trailing" constant="12" id="2aQ-6y-JXH"/>
+                        <constraint firstAttribute="centerY" secondItem="pLK-6R-rBy" secondAttribute="centerY" id="ABt-nf-Pef"/>
+                        <constraint firstItem="pLK-6R-rBy" firstAttribute="leading" secondItem="AsB-oZ-ffn" secondAttribute="leading" constant="12" id="aiA-QO-TsN"/>
+                        <constraint firstAttribute="centerX" secondItem="pLK-6R-rBy" secondAttribute="centerX" id="kgb-ok-MCH"/>
+                        <constraint firstAttribute="centerX" secondItem="pLK-6R-rBy" secondAttribute="centerX" id="qj4-KB-shN"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="pLK-6R-rBy"/>
+                        </mask>
+                        <mask key="constraints">
+                            <exclude reference="2aQ-6y-JXH"/>
+                            <exclude reference="ABt-nf-Pef"/>
+                            <exclude reference="aiA-QO-TsN"/>
+                            <exclude reference="kgb-ok-MCH"/>
+                            <exclude reference="qj4-KB-shN"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact" ambiguous="YES">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
+                        <mask key="subviews">
+                            <include reference="pLK-6R-rBy"/>
+                        </mask>
+                        <mask key="constraints">
+                            <exclude reference="2aQ-6y-JXH"/>
+                            <include reference="ABt-nf-Pef"/>
+                            <exclude reference="aiA-QO-TsN"/>
+                            <include reference="kgb-ok-MCH"/>
+                            <exclude reference="qj4-KB-shN"/>
+                        </mask>
+                    </variation>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

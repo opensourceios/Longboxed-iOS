@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic) DBRestClient *restClient;
+@property (nonatomic, retain) IBOutlet UILabel *instructionsLabel;
 
 @end
 
@@ -61,9 +62,10 @@ int imageCount = 0;
 }
 
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath {
-    NSString *fileName = [[destPath lastPathComponent] stringByDeletingPathExtension];
+    _instructionsLabel.hidden = YES;
     
     // Get the number from the file name
+    NSString *fileName = [[destPath lastPathComponent] stringByDeletingPathExtension];
     NSError *error = nil;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([0-9]+)" options:NSRegularExpressionCaseInsensitive error:&error];
     NSTextCheckingResult* result = [regex firstMatchInString:fileName options:0 range:NSMakeRange(0, [fileName length])];
