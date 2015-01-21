@@ -213,6 +213,14 @@ BOOL selectedTitle;
     [super viewDidAppear:animated];
     [LBXControllerServices setViewDidAppearClearNavigationController:self];
     selectedTitle = NO;
+    if (!_issue.price || !_issue.diamondID || !_issue.coverImage) {
+        LBXClient *client = [LBXClient new];
+        [client fetchIssue:_issue.issueID withCompletion:^(LBXIssue *issue, RKObjectRequestOperation *response, NSError *error) {
+            _issue = issue;
+            [self viewDidLoad];
+        }];
+    }
+    
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXIssue\n%@\ndid appear", _issue]];
 }
 
