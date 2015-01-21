@@ -394,7 +394,6 @@ BOOL _selectedSearchResult;
 {
     NSDate *currentDate = [NSDate getLocalDate];
     
-    // TODO: Change this when Tim updates the scheduler
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
 
