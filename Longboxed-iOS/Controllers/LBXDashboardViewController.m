@@ -129,10 +129,12 @@ BOOL _selectedSearchResult;
     if (_selectedSearchResult) {
         [self.navigationController setNavigationBarHidden:YES animated:NO];
     }
-    else [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
+    else {
+        [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
+        [LBXControllerServices setSearchBar:_searchController.searchBar withTextColor:[UIColor whiteColor]];
+    }
     
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
-    [LBXControllerServices setSearchBar:_searchController.searchBar withTextColor:[UIColor whiteColor]];
 }
 
 - (void)viewWillLayoutSubviews
