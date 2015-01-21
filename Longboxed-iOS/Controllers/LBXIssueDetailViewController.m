@@ -218,6 +218,7 @@ BOOL selectedTitle;
         [client fetchIssue:_issue.issueID withCompletion:^(LBXIssue *issue, RKObjectRequestOperation *response, NSError *error) {
             _issue = issue;
             [self viewDidLoad];
+            [self setupImageViews];
         }];
     }
     

@@ -728,7 +728,7 @@ int _page;
     if (issue.alternates.count) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
         NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
-        LBXIssueScrollViewController *scrollViewController = [[LBXIssueScrollViewController alloc] initWithIssues:issuesArray andImage:cell.latestIssueImageView.image];
+        LBXIssueScrollViewController *scrollViewController = [[LBXIssueScrollViewController alloc] initWithIssues:issuesArray andImage:dict[@"image"]];
         [self.navigationController pushViewController:scrollViewController animated:YES];
     }
     else {
@@ -736,7 +736,6 @@ int _page;
         titleViewController.issue = issue;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
-    
 }
 
 

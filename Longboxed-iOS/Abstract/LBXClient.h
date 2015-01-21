@@ -14,6 +14,7 @@
 #import "LBXIssue.h"
 #import "LBXPublisher.h"
 #import "LBXUser.h"
+#import "LBXBundle.h"
 
 @interface LBXClient : NSObject
 
@@ -46,7 +47,7 @@
 - (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion;
 - (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion;
 - (void)fetchBundleResourcesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
-- (void)fetchLatestBundleWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
+- (void)fetchLatestBundleWithCompletion:(void (^)(LBXBundle*, RKObjectRequestOperation*, NSError*))completion;
 
 
 

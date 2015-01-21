@@ -12,6 +12,7 @@
 #import "LBXClient.h"
 #import "LBXIssue.h"
 #import "LBXEndpoints.h"
+#import "LBXBundle.h"
 #import <JRHUtilities/NSDate+DateUtilities.h>
 
 @interface LBXAPITests : XCTestCase
@@ -404,9 +405,9 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
-            [self.client fetchLatestBundleWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+            [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
                 XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
-                XCTAssertNotEqual(pullListArray.count, 0, @"Bundle resources JSON is returning nil");
+                XCTAssertNotEqual(bundle.issues.count, 0, @"Bundle resources JSON is returning nil");
                 *done = YES;
             }];
         }];
