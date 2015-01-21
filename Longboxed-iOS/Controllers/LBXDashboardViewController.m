@@ -528,24 +528,9 @@ BOOL _selectedSearchResult;
     NSDictionary *dict = notification.userInfo;
     LBXIssue *issue = dict[@"issue"];
     // Set up the scroll view controller containment if there are alternate issues
-    NSMutableArray *issuesArray = [NSMutableArray arrayWithArray:@[issue]];
     if (issue.alternates.count) {
-        for (NSDictionary *alternateIssueDict in issue.alternates) {
-            LBXIssue *foundIssue = [LBXIssue MR_findFirstByAttribute:@"completeTitle" withValue:alternateIssueDict[@"complete_title"]];
-            if (!foundIssue) {
-                LBXIssue *alternateIssue = [LBXIssue MR_createEntity];
-                alternateIssue.completeTitle = alternateIssueDict[@"complete_title"];
-                alternateIssue.issueID = alternateIssueDict[@"id"];
-                alternateIssue.isParent = alternateIssueDict[@"is_parent"];
-                alternateIssue.title = issue.title;
-                alternateIssue.issueNumber = issue.issueNumber;
-                alternateIssue.publisher = issue.publisher;
-                alternateIssue.releaseDate = issue.releaseDate;
-                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-                [issuesArray addObject:alternateIssue];
-            }
-            else [issuesArray addObject:foundIssue];
-        }
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
+        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
         LBXIssueScrollViewController *scrollViewController = [[LBXIssueScrollViewController alloc] initWithIssues:issuesArray andImage:dict[@"image"]];
         [self.navigationController pushViewController:scrollViewController animated:YES];
     }

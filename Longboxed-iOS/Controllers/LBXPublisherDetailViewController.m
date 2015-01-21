@@ -13,8 +13,6 @@
 #import "LBXTitleDetailViewController.h"
 #import "LBXTitle.h"
 #import "LBXControllerServices.h"
-#import "LBXIssueDetailViewController.h"
-#import "LBXIssueScrollViewController.h"
 #import "LBXLogging.h"
 
 #import "UIFont+LBXCustomFonts.h"

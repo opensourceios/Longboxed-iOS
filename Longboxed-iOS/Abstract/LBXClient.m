@@ -175,6 +175,13 @@
     // For debugging
     NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date], @"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     [self GETWithRouteName:@"Issues Collection" HTTPHeaderParams:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXIssue *issue in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:issue];
+            }
+        }
+        
         completion(mappingResult.array, response, error);
     }];
 }
@@ -186,6 +193,12 @@
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     }
     [self GETWithRouteName:@"Issues Collection for Current Week" HTTPHeaderParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXIssue *issue in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:issue];
+            }
+        }
         
         completion(mappingResult.array, response, error);
     }];
@@ -199,6 +212,12 @@
     }
     [self GETWithRouteName:@"Issues Collection for Next Week" HTTPHeaderParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
+        if (!error) {
+            for (LBXIssue *issue in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:issue];
+            }
+        }
+        
         completion(mappingResult.array, response, error);
     }];
 }
@@ -210,12 +229,22 @@
                         nil];
     
     [self GETWithRouteName:@"Issue" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) [self saveAlternateIssuesWithIssue:mappingResult.firstObject];
+        
         completion(mappingResult.firstObject, response, error);
     }];
 }
 
 - (void)fetchPopularIssuesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     [self GETWithRouteName:@"Popular Issues for Current Week" HTTPHeaderParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXIssue *issue in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:issue];
+            }
+        }
+        
         completion(mappingResult.array, response, error);
     }];
 }
@@ -250,6 +279,13 @@
     }
     
     [self GETWithRouteName:@"Issues for Title" HTTPHeaderParams:headerParams queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXIssue *issue in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:issue];
+            }
+        }
+        
         completion(mappingResult.array, response, error);
     }];
 }
@@ -267,6 +303,13 @@
     }
     
     [self GETWithRouteName:@"Issues for Title" HTTPHeaderParams:headerParams queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXIssue *issue in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:issue];
+            }
+        }
+        
         completion(mappingResult.array, response, error);
     }];
 }
@@ -422,11 +465,20 @@
     }
     
     [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXBundle *bundle in mappingResult.array) {
+                for (LBXIssue *issue in bundle.issues) {
+                    [self saveAlternateIssuesWithIssue:issue];
+                }
+            }
+        }
+        
         completion(mappingResult.array, response, error);
     }];
 }
 
-- (void)fetchLatestBundleWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+- (void)fetchLatestBundleWithCompletion:(void (^)(LBXBundle*, RKObjectRequestOperation*, NSError*))completion {
 
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
     NSString *headerParams;
@@ -439,7 +491,15 @@
     
     [self GETWithRouteName:@"Latest Bundle" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
-        completion(mappingResult.array, response, error);
+        LBXBundle *bundle = ((LBXBundle *)mappingResult.array[0]) ? ((LBXBundle *)mappingResult.array[0]) : nil;
+        
+        if (!error) {
+            for (LBXIssue *issue in bundle.issues) {
+                [self saveAlternateIssuesWithIssue:issue];
+            }
+        }
+        
+        completion(bundle, response, error);
     }];
 }
 
@@ -463,6 +523,27 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(kNetworkIndicatorCount > 0)];
     });
+}
+
+#pragma mark Private Methods
+
+- (void)saveAlternateIssuesWithIssue:(LBXIssue *)issue {
+    // Save all the alternate issues
+    for (NSDictionary *alternateIssueDict in issue.alternates) {
+        // Create the alternate issue in the datastore if it's not there already
+        LBXIssue *foundIssue = [LBXIssue MR_findFirstByAttribute:@"completeTitle" withValue:alternateIssueDict[@"complete_title"]];
+        if (!foundIssue) {
+            LBXIssue *alternateIssue = [LBXIssue MR_createEntity];
+            alternateIssue.completeTitle = alternateIssueDict[@"complete_title"];
+            alternateIssue.issueID = alternateIssueDict[@"id"];
+            alternateIssue.isParent = alternateIssueDict[@"is_parent"];
+            alternateIssue.title = issue.title;
+            alternateIssue.issueNumber = issue.issueNumber;
+            alternateIssue.publisher = issue.publisher;
+            alternateIssue.releaseDate = issue.releaseDate;
+            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        }
+    }
 }
 
 @end
