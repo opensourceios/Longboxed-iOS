@@ -401,10 +401,11 @@ BOOL _selectedSearchResult;
     NSArray *sortDescriptors = @[boolDescr];
     NSArray *sortedArray = [NSArray new];
     if (allIssuesArray.count >= 1) {
-        sortedArray = [[allIssuesArray subarrayWithRange:NSMakeRange(0, allIssuesArray.count)] sortedArrayUsingDescriptors:sortDescriptors];
+        sortedArray = [[allIssuesArray subarrayWithRange:NSMakeRange(0, 10)] sortedArrayUsingDescriptors:sortDescriptors];
     }
     
     _popularIssuesArray = sortedArray;
+    NSLog(@"%lu", (unsigned long)_popularIssuesArray.count);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.bottomTableView reloadData];
@@ -417,18 +418,14 @@ BOOL _selectedSearchResult;
     [self.client fetchPopularIssuesWithCompletion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            __block int count = 0;
-            for (LBXIssue *issue in popularIssuesArray) {
-                [self.client fetchTitle:issue.title.titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {
-                    count++;
-                    if (popularIssuesArray.count == count) {
-                        [self getCoreDataPopularIssues];
-                        [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
-                    }
-                }];
-            }
+            _popularIssuesArray = popularIssuesArray;
+            [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.bottomTableView reloadData];
+            });
         }
         else {
+            [self getCoreDataPopularIssues];
             [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
             //[LBXMessageBar displayError:error];
         }
@@ -530,11 +527,22 @@ BOOL _selectedSearchResult;
 {
     NSDictionary *dict = notification.userInfo;
     LBXIssue *issue = dict[@"issue"];
-    
     // Set up the scroll view controller containment if there are alternate issues
+    NSMutableArray *issuesArray = [NSMutableArray arrayWithArray:@[issue]];
     if (issue.alternates.count) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
-        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
+        for (NSDictionary *alternateIssueDict in issue.alternates) {
+            [LBXIssue MR_findFirstByAttribute:@"completeTitle" withValue:alternateIssueDict[@"complete_title"]];
+            LBXIssue *alternateIssue = [LBXIssue MR_createEntity];
+            alternateIssue.completeTitle = alternateIssueDict[@"complete_title"];
+            alternateIssue.issueID = alternateIssueDict[@"id"];
+            alternateIssue.isParent = alternateIssueDict[@"is_parent"];
+            alternateIssue.title = issue.title;
+            alternateIssue.issueNumber = issue.issueNumber;
+            alternateIssue.publisher = issue.publisher;
+            alternateIssue.releaseDate = issue.releaseDate;
+            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+            [issuesArray addObject:alternateIssue];
+        }
         LBXIssueScrollViewController *scrollViewController = [[LBXIssueScrollViewController alloc] initWithIssues:issuesArray andImage:dict[@"image"]];
         [self.navigationController pushViewController:scrollViewController animated:YES];
     }

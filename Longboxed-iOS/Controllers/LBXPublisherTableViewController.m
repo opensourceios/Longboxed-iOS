@@ -89,6 +89,7 @@ BOOL endOfPublishers;
 {
     // Get the latest issue in the database
     _publishersArray = [LBXPublisher MR_findAllSortedBy:@"name" ascending:YES];
+    [self.tableView reloadData];
 }
 
 - (void)refreshViewWithPage:(NSNumber *)page
@@ -101,7 +102,7 @@ BOOL endOfPublishers;
                 endOfPublishers = YES;
             }
             
-            [self setPublisherArrayWithPublishers];
+            _publishersArray = publisherArray;
             
             tableViewRows = _publishersArray.count;
             

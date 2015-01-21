@@ -294,6 +294,8 @@ int _page;
     if (selectedSegment == 0) {
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getThisWednesdayOfDate:[NSDate getLocalDate]]];
         _issuesForWeekArray = nil;
+        _sectionArray = nil;
+        [self.tableView reloadData];
         [self setIssuesForWeekArrayWithThisWeekIssues];
         [self.tableView reloadData];
         [self refreshControlAction];
@@ -303,6 +305,8 @@ int _page;
     else if (selectedSegment == 1) {
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]]];
         _issuesForWeekArray = nil;
+        _sectionArray = nil;
+        [self.tableView reloadData];
         [self setIssuesForWeekArrayWithNextWeekIssues];
         [self.tableView reloadData];
         [self refreshControlAction];
@@ -326,45 +330,33 @@ int _page;
 
 - (void)setIssuesForWeekArrayWithThisWeekIssues
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(isParent == 1)"];
+    NSDate *currentDate = [NSDate getLocalDate];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
-        NSDate *localDateTime = [NSDate getLocalDate];
-        NSMutableArray *nextWeekArray = [NSMutableArray new];
-        for (LBXIssue *issue in allIssuesArray) {
-            // Check if the issue is this week
-            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > -3*DAY &&
-                [issue.releaseDate timeIntervalSinceDate:localDateTime] <= 4*DAY && issue.releaseDate) {
-                [nextWeekArray addObject:issue];
-            }
-        }
-        _issuesForWeekArray = nextWeekArray;
+        _issuesForWeekArray = allIssuesArray;
         if ([_customNavTitle isEqualToString:@"Bundles"]) {
             _sectionArray = [NSArray getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
         else _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
+        
+        if (_sectionArray == nil) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     }
 }
 
 - (void)setIssuesForWeekArrayWithNextWeekIssues
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(isParent == 1)"];
+    NSDate *currentDate = [NSDate getLocalDate];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (isParent == %@)", [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
-        NSDate *localDateTime = [NSDate getLocalDate];
-        NSMutableArray *nextWeekArray = [NSMutableArray new];
-        for (LBXIssue *issue in allIssuesArray) {
-            // Check if the issue is next week
-            if ([issue.releaseDate timeIntervalSinceDate:localDateTime] > 5*DAY &&
-                [issue.releaseDate timeIntervalSinceDate:localDateTime] <= 12*DAY && issue.releaseDate) {
-                [nextWeekArray addObject:issue];
-            }
-        }
-        _issuesForWeekArray = nextWeekArray;
+        _issuesForWeekArray = allIssuesArray;
         if ([_customNavTitle isEqualToString:@"Bundles"]) {
             _sectionArray = [NSArray getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
         else _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
+        
+        if (_sectionArray == nil) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     }
 }
 
@@ -413,33 +405,35 @@ int _page;
 
 - (void)fetchThisWeekWithPage:(NSNumber *)page
 {
-        // Fetch this weeks comics
-        [self.client fetchThisWeeksComicsWithPage:page completion:^(NSArray *thisWeekArray, RKObjectRequestOperation *response, NSError *error) {
-            
-            if (!error) {
-                if (!thisWeekArray.count) {
-                    [self completeRefresh];
-                }
-                else {
-                    _page += 1;
-                    [self fetchThisWeekWithPage:[NSNumber numberWithInt:_page]];
-                    [self completeRefresh];
-                }
+    if (![self.tableView numberOfRowsInSection:1]) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
+    // Fetch this weeks comics
+    [self.client fetchThisWeeksComicsWithPage:page completion:^(NSArray *thisWeekArray, RKObjectRequestOperation *response, NSError *error) {
+        [SVProgressHUD dismiss];
+        if (!error) {
+            if (!thisWeekArray.count) {
+                [self completeRefresh];
             }
             else {
-                //[LBXMessageBar displayError:error];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.refreshControl endRefreshing];
-                });
+                _page += 1;
+                [self fetchThisWeekWithPage:[NSNumber numberWithInt:_page]];
+                [self completeRefresh];
             }
-        }];
+        }
+        else {
+            //[LBXMessageBar displayError:error];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.refreshControl endRefreshing];
+            });
+        }
+    }];
 }
 
 - (void)fetchNextWeekWithPage:(NSNumber *)page
 {
+    if (![self.tableView numberOfRowsInSection:1]) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     // Fetch this weeks comics
     [self.client fetchNextWeeksComicsWithPage:page completion:^(NSArray *nextWeekArray, RKObjectRequestOperation *response, NSError *error) {
-        
+        [SVProgressHUD dismiss];
         if (!error) {
             if (!nextWeekArray.count) {
                 [self completeRefresh];
@@ -461,6 +455,7 @@ int _page;
 
 - (void)fetchDate:(NSDate *)date withPage:(NSNumber *)page
 {
+    if (![self.tableView numberOfRowsInSection:1]) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *dateString = [dateFormatter stringFromDate:[NSDate getThisWednesdayOfDate:date]    ];
@@ -476,6 +471,7 @@ int _page;
                     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
                     if (_showedCalendar) {
                         [SVProgressHUD dismiss];
+                        _showedCalendar = NO;
                         [_maskLoadingView removeFromSuperview];
                     }
                 });
@@ -488,6 +484,7 @@ int _page;
         else {
             //[LBXMessageBar displayError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
                 [self.refreshControl endRefreshing];
             });
         }

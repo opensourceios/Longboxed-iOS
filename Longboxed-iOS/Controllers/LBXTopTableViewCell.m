@@ -11,7 +11,6 @@
 #import "LBXDashboardViewController.h"
 #import "LBXIssue.h"
 #import "LBXControllerServices.h"
-#import "LBXIssueDetailViewController.h"
 
 #import "UIImage+LBXCreateImage.h" 
 
