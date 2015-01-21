@@ -396,12 +396,14 @@
     
     [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         
-        // Remove the title from the latest bundle
-        NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
-        if (bundleArray.count) {
-            LBXBundle *bundle = bundleArray[0];
-            predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
-            [LBXBundle MR_deleteAllMatchingPredicate:predicate];
+        if (!error) {
+            // Remove the title from the latest bundle
+            NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+            if (bundleArray.count) {
+                LBXBundle *bundle = bundleArray[0];
+                predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
+                [LBXBundle MR_deleteAllMatchingPredicate:predicate];
+            }
         }
         
         NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
@@ -417,7 +419,6 @@
         headerParams = [NSDictionary dictionaryWithKeysAndObjects:
                   @"userID", store[@"id"],
                   nil];
-        
     }
     
     [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
@@ -437,6 +438,7 @@
     }
     
     [self GETWithRouteName:@"Latest Bundle" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
         completion(mappingResult.array, response, error);
     }];
 }
