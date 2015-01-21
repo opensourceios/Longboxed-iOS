@@ -476,15 +476,20 @@ int page;
             
             // Fetch all the alternate titles too
             for (LBXIssue *issue in pullListArray) {
-                for (NSDictionary *dict in issue.alternates) {
-                    LBXClient *client = [LBXClient new];
-                    [client fetchIssue:dict[@"id"] withCompletion:^(LBXIssue *issue, RKObjectRequestOperation *response, NSError *error) {
-                        if (!error) {
-                        }
-                        else {
-                            //[LBXMessageBar displayError:error];
-                        }
-                    }];
+                for (NSDictionary *alternateIssueDict in issue.alternates) {
+                    // Create the alternate issue in the datastore if it's not there already
+                    LBXIssue *foundIssue = [LBXIssue MR_findFirstByAttribute:@"completeTitle" withValue:alternateIssueDict[@"complete_title"]];
+                    if (!foundIssue) {
+                        LBXIssue *alternateIssue = [LBXIssue MR_createEntity];
+                        alternateIssue.completeTitle = alternateIssueDict[@"complete_title"];
+                        alternateIssue.issueID = alternateIssueDict[@"id"];
+                        alternateIssue.isParent = alternateIssueDict[@"is_parent"];
+                        alternateIssue.title = issue.title;
+                        alternateIssue.issueNumber = issue.issueNumber;
+                        alternateIssue.publisher = issue.publisher;
+                        alternateIssue.releaseDate = issue.releaseDate;
+                        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                    }
                 }
             }
             
@@ -506,14 +511,14 @@ int page;
     // Not all parents are actually the parents (sometimes a variant is a parent due to API bug)
     // so correct this by getting the issue with the shortest title
     // TODO: Get Tim to fix this
-    NSMutableArray *correctedArray = [NSMutableArray new];
-    for (LBXIssue *issue in initialFind) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
-        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
-        [correctedArray addObject:issuesArray[0]];
-    }
+//    NSMutableArray *correctedArray = [NSMutableArray new];
+//    for (LBXIssue *issue in initialFind) {
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
+//        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
+//        [correctedArray addObject:issuesArray[0]];
+//    }
     
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:correctedArray];
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:initialFind];
     
     NSSortDescriptor *sortByIssueID = [NSSortDescriptor sortDescriptorWithKey:@"issueID" ascending:NO];
     NSSortDescriptor *sortByIssueNumber = [NSSortDescriptor sortDescriptorWithKey:@"issueNumber" ascending:NO];
@@ -712,9 +717,24 @@ int page;
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
     // Set up the scroll view controller containment if there are alternate issues
+    NSMutableArray *issuesArray = [NSMutableArray arrayWithArray:@[issue]];
     if (issue.alternates.count) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
-        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
+        for (NSDictionary *alternateIssueDict in issue.alternates) {
+            LBXIssue *foundIssue = [LBXIssue MR_findFirstByAttribute:@"completeTitle" withValue:alternateIssueDict[@"complete_title"]];
+            if (!foundIssue) {
+                LBXIssue *alternateIssue = [LBXIssue MR_createEntity];
+                alternateIssue.completeTitle = alternateIssueDict[@"complete_title"];
+                alternateIssue.issueID = alternateIssueDict[@"id"];
+                alternateIssue.isParent = alternateIssueDict[@"is_parent"];
+                alternateIssue.title = issue.title;
+                alternateIssue.issueNumber = issue.issueNumber;
+                alternateIssue.publisher = issue.publisher;
+                alternateIssue.releaseDate = issue.releaseDate;
+                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                [issuesArray addObject:alternateIssue];
+            }
+            else [issuesArray addObject:foundIssue];
+        }
         LBXIssueScrollViewController *scrollViewController = [[LBXIssueScrollViewController alloc] initWithIssues:issuesArray andImage:cell.latestIssueImageView.image];
         [self.navigationController pushViewController:scrollViewController animated:YES];
     }
