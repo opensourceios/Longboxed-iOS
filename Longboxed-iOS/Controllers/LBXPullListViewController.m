@@ -113,7 +113,7 @@ CGFloat cellWidth;
     [self.view addSubview:_searchBar];
     _searchBar.delegate = self;
     _searchBar.hidden = YES;
-    _searchBar.placeholder = @"Add Title to Pull List";
+    _searchBar.placeholder = @"Add Comics";
     
     _searchBar.frame = CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, _searchBar.frame.size.height);
     
