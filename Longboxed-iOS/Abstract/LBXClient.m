@@ -252,6 +252,13 @@
 // Titles
 - (void)fetchTitleCollectionWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     [self GETWithRouteName:@"Titles Collection" HTTPHeaderParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXTitle *title in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:title.latestIssue];
+            }
+        }
+        
         completion(mappingResult.array, response, error);
     }];
 }
@@ -263,6 +270,11 @@
                         nil];
     
     [self GETWithRouteName:@"Title" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            [self saveAlternateIssuesWithIssue:((LBXTitle *)mappingResult.firstObject).latestIssue];
+        }
+        
         completion(mappingResult.firstObject, response, error);
     }];
 }
@@ -317,6 +329,13 @@
 - (void)fetchAutocompleteForTitle:(NSString*)title withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
     [self GETWithRouteName:@"Autocomplete for Title" HTTPHeaderParams:nil queryParameters:@{@"query": title} credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXTitle *title in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:title.latestIssue];
+            }
+        }
+        
         completion(mappingResult.array, response, error);
     }];
 }
@@ -357,6 +376,12 @@
     }
     
     [self GETWithRouteName:@"Titles for Publisher" HTTPHeaderParams:params queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXTitle *title in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:title.latestIssue];
+            }
+        }
         completion(mappingResult.array, response, error);
     }];
 }
@@ -413,6 +438,12 @@
     }
     
     [self GETWithRouteName:@"User Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXTitle *title in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:title.latestIssue];
+            }
+        }
         
         completion(mappingResult.array, response, error);
     }];
@@ -533,6 +564,7 @@
         // Create the alternate issue in the datastore if it's not there already
         LBXIssue *foundIssue = [LBXIssue MR_findFirstByAttribute:@"completeTitle" withValue:alternateIssueDict[@"complete_title"]];
         if (!foundIssue) {
+            NSLog(@"Saving alternates for %@ #%@", issue.title.name, issue.issueNumber);
             LBXIssue *alternateIssue = [LBXIssue MR_createEntity];
             alternateIssue.completeTitle = alternateIssueDict[@"complete_title"];
             alternateIssue.issueID = alternateIssueDict[@"id"];
