@@ -164,7 +164,6 @@ UICKeyChainStore *store;
         [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
         RKObjectManager.sharedManager.HTTPClient.allowsInvalidSSLCertificate = YES;
         [UICKeyChainStore setString:[[LBXEndpoints stagingURL] absoluteString] forKey:@"baseURLString"];
-        [store synchronize];
         
         [self login];
     }
@@ -177,7 +176,6 @@ UICKeyChainStore *store;
         [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints productionURL]]];
         RKObjectManager.sharedManager.HTTPClient.allowsInvalidSSLCertificate = NO;
         [UICKeyChainStore setString:[[LBXEndpoints productionURL] absoluteString] forKey:@"baseURLString"];
-        [store synchronize];
         
         [self login];
     }
@@ -191,7 +189,6 @@ UICKeyChainStore *store;
         if (response.HTTPRequestOperation.response.statusCode == 200) {
             dispatch_async(dispatch_get_main_queue(),^{
                 [LBXLogging logMessage:[NSString stringWithFormat:@"Successful dev toggle log in %@", [store stringForKey:@"username"]]];
-                [store synchronize];
                 [SVProgressHUD showSuccessWithStatus:@"Logged In!"];
                 [LBXLogging logLogin];
             });
@@ -207,7 +204,6 @@ UICKeyChainStore *store;
                 [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints productionURL]]];
                 RKObjectManager.sharedManager.HTTPClient.allowsInvalidSSLCertificate = NO;
                 [UICKeyChainStore setString:[[LBXEndpoints productionURL] absoluteString] forKey:@"baseURLString"];
-                [store synchronize];
             });
         }
         [self.settingsTableView reloadData];

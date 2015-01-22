@@ -197,7 +197,6 @@ UICKeyChainStore *store;
         if (response.HTTPRequestOperation.response.statusCode == 200) {
             dispatch_async(dispatch_get_main_queue(),^{
                 [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
-                [store synchronize];
                 [SVProgressHUD showSuccessWithStatus:@"Registration Successful!"];
                 [LBXLogging logLogin];
                 [self.navigationController popViewControllerAnimated:YES];

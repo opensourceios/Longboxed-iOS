@@ -31,7 +31,6 @@
     NSString *buttonString = ([UICKeyChainStore stringForKey:@"dropboxRoot"]) ? [UICKeyChainStore stringForKey:@"dropboxRoot"] : nil;
     
     if (buttonString) [UICKeyChainStore setString:buttonString forKey:@"dropboxRoot"];
-    [[UICKeyChainStore keyChainStore] synchronize]; // Write to keychain.
     
     _dropboxPathField.text = buttonString;
     
@@ -47,7 +46,6 @@
 
 - (void)storePath {
     [UICKeyChainStore setString:_dropboxPathField.text forKey:@"dropboxRoot"];
-    [[UICKeyChainStore keyChainStore] synchronize]; // Write to keychain.
 }
 
 - (void)didReceiveMemoryWarning {

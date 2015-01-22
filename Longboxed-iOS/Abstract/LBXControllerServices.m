@@ -372,11 +372,9 @@
 
 + (void)removeCredentials
 {
-    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
     [UICKeyChainStore removeItemForKey:@"username"];
     [UICKeyChainStore removeItemForKey:@"password"];
     [UICKeyChainStore removeItemForKey:@"id"];
-    [store synchronize]; // Write to keychain.
 }
 
 + (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message
@@ -456,5 +454,6 @@
     [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor blackColor]];
 }
+
 
 @end

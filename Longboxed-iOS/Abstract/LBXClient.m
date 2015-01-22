@@ -18,9 +18,9 @@
 
 #import "NSData+Base64.h"
 #import "NSString+URLQuery.h"
-#import "NSString+RKAdditions.h"
-#import "NSDictionary+RKAdditions.h"
 #import "NSArray+LBXArrayUtilities.h"
+
+#import <JRHUtilities/NSDictionary+DictionaryUtilities.h>
 
 @interface LBXClient()
 
@@ -55,7 +55,9 @@
     
     NSString *path = endpointDict[routeName];
     if (HTTPHeaderParams) {
-        path = [endpointDict[routeName] interpolateWithObject:HTTPHeaderParams];
+        NSCAssert(HTTPHeaderParams != NULL, @"Object provided is invalid; cannot create a path from a NULL object");
+        RKPathMatcher *matcher = [RKPathMatcher pathMatcherWithPattern:endpointDict[routeName]];
+        path = [matcher pathFromObject:HTTPHeaderParams addingEscapes:YES interpolatedParameters:nil];
     }
     
     [RKObjectManager.sharedManager getObjectsAtPath:path parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult)
@@ -417,10 +419,7 @@
         
         // Store the user ID
         LBXUser *user = mappingResult.firstObject;
-        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        
         [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
-        [store synchronize];
 
         completion(mappingResult.firstObject, response, error);
     }];
