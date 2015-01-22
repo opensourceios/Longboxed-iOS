@@ -564,7 +564,6 @@
         // Create the alternate issue in the datastore if it's not there already
         LBXIssue *foundIssue = [LBXIssue MR_findFirstByAttribute:@"completeTitle" withValue:alternateIssueDict[@"complete_title"]];
         if (!foundIssue) {
-            NSLog(@"Saving alternates for %@ #%@", issue.title.name, issue.issueNumber);
             LBXIssue *alternateIssue = [LBXIssue MR_createEntity];
             alternateIssue.completeTitle = alternateIssueDict[@"complete_title"];
             alternateIssue.issueID = alternateIssueDict[@"id"];

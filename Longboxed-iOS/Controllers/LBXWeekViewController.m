@@ -711,13 +711,6 @@ int _page;
     // Reset the showed calendar bool
     _showedCalendar = NO;
     
-    // Disselect and return immediately if selecting an empty cell
-    // i.e., one below the last issue
-    if (_issuesForWeekArray.count < indexPath.row+1) {
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
-    }
-    
     NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section];
     NSArray *array = [dict objectForKey:dict.allKeys[0]];
     LBXIssue *issue = [array objectAtIndex:indexPath.row];

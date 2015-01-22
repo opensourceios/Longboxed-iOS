@@ -29,7 +29,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <POP.h>
 
-@interface LBXPullListViewController () <UISearchBarDelegate, UISearchControllerDelegate, UITableViewDelegate>
+@interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
 
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) NSArray *searchResultsArray;
@@ -38,8 +38,13 @@
 @property (nonatomic, strong) NSMutableArray *pullListArray;
 @property (nonatomic, strong) UIImageView *blurImageView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) LBXSearchTableViewController *searchResultsController;
-@property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, strong) UISearchBar *searchBar;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+@property (nonatomic, strong) UISearchDisplayController *searchBarController;
+#pragma clang diagnostic pop
+
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) LBXPullListTitle *selectedTitle;
 @property (nonatomic, strong) UIView *loadingView;
@@ -50,6 +55,7 @@
 @implementation LBXPullListViewController
 
 static const NSUInteger PULL_LIST_TABLE_HEIGHT = 88;
+static const NSUInteger SEARCH_TABLE_HEIGHT = 88;
 
 CGFloat cellWidth;
 
@@ -89,19 +95,36 @@ CGFloat cellWidth;
     // Add refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refresh)
-             forControlEvents:UIControlEventValueChanged];
+                  forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl]; // So that the swipe cells aren't blocked
     
-    _searchResultsController = [LBXSearchTableViewController new];
-    _searchController = [[UISearchController alloc] initWithSearchResultsController:_searchResultsController];
-    [LBXControllerServices setupSearchController:_searchController withSearchResultsController:self.searchResultsController andDelegate:self];
+    _searchBar = [UISearchBar new];
     
-    [self.view addSubview:_searchController.searchBar];
-    _searchController.searchBar.hidden = YES;
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    _searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar
+                                                             contentsController:self];
+    #pragma clang diagnostic pop
+    
+    _searchBarController.delegate = self;
+    _searchBarController.searchResultsDataSource = self;
+    _searchBarController.searchResultsDelegate = self;
+    
+    [self.view addSubview:_searchBar];
+    _searchBar.delegate = self;
+    _searchBar.hidden = YES;
+    _searchBar.placeholder = @"Add Title to Pull List";
+    
+    _searchBar.frame = CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, _searchBar.frame.size.height);
+    
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    self.searchDisplayController.searchResultsTableView.rowHeight = SEARCH_TABLE_HEIGHT;
+    #pragma clang diagnostic pop
     
     // Reload the pull list when using the back button on the title view
     _client = [LBXClient new];
-
+    
     [self fillPullListArray];
     if (_pullListArray.count == 0) {
         [self refresh];
@@ -124,8 +147,6 @@ CGFloat cellWidth;
     NSIndexPath *tableSelection = [self.tableView indexPathForSelectedRow];
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
     
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
-    [LBXControllerServices setSearchBar:_searchController.searchBar withTextColor:[UIColor whiteColor]];
     [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
 }
 
@@ -145,6 +166,56 @@ CGFloat cellWidth;
     
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     self.navigationController.navigationBar.topItem.title = @"Pull List";
+    
+    
+    ///////
+    // Search Bar
+    ///////
+    
+    // SearchBar cancel button font
+    [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
+    NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
+    
+    // SearchBar placeholder text font
+    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont searchPlaceholderFont]];
+    // SearchBar text field input font
+    for (UIView *subviews in _searchBar.subviews) {
+        for (UIView *subview in subviews.subviews) {
+            if ([subview isKindOfClass:[UITextField class]]) {
+                UITextField *searchField = (UITextField *)subview;
+                searchField.font = [UIFont searchPlaceholderFont];
+                searchField.textColor = [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] textColor];
+            }
+        }
+    }
+    
+    
+    
+    // Set the search bar background color
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    self.searchDisplayController.searchBar.barTintColor = [UIColor whiteColor];
+    #pragma clang diagnostic pop
+    
+    // Set the search bar text field background color
+    for (UIView *subView in _searchBar.subviews) {
+        for(id field in subView.subviews){
+            if ([field isKindOfClass:[UITextField class]]) {
+                UITextField *textField = (UITextField *)field;
+                [textField setBackgroundColor:[UIColor LBXVeryLightGrayColor]];
+            }
+        }
+    }
+    
+    // SearchBar cursor color
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    self.searchDisplayController.searchBar.tintColor = [UIColor blackColor];
+    #pragma clang diagnostic pop
+    
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -170,8 +241,23 @@ CGFloat cellWidth;
 - (void)setupSearchView
 {
     if ([LBXControllerServices isLoggedIn]) {
-        _searchController.searchBar.hidden = NO;
-        [_searchController.searchBar becomeFirstResponder];
+        // Blur the current screen
+        //[self blurScreen];
+        // Put the search bar in front of the blurred view
+        [self.view bringSubviewToFront:_searchBar];
+        
+        // Show the search bar
+        _searchBar.hidden = NO;
+        _searchBar.translucent = NO;
+        _searchBar.backgroundImage = [UIImage imageNamed:@"longboxed_full"];
+        _searchBar.scopeBarBackgroundImage = [UIImage imageNamed:@"longboxed_full"];
+        
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [self.searchDisplayController setActive:YES animated:YES];
+        #pragma clang diagnostic pop
+        
+        [_searchBar becomeFirstResponder];
     }
     else {
         [LBXControllerServices showAlertWithTitle:@"Not Logged In" andMessage:@"You must be logged into Longboxed account to create a pull list."];
@@ -199,14 +285,14 @@ CGFloat cellWidth;
                     }
                 }
                 if (match) {
-                   [_alreadyExistingTitles addObject:[NSNumber numberWithBool:YES]];
+                    [_alreadyExistingTitles addObject:[NSNumber numberWithBool:YES]];
                 }
                 else {
                     [_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
                 }
             }
             self.searchResultsArray = newSearchResultsArray;
-            [self.searchResultsController.tableView reloadData];
+            [[self.searchBarController searchResultsTableView] reloadData];
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -322,9 +408,9 @@ CGFloat cellWidth;
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.tableView reloadData];
-//        });
+        //        dispatch_async(dispatch_get_main_queue(), ^{
+        //            [self.tableView reloadData];
+        //        });
     }];
     
     [self fillPullListArray];
@@ -356,9 +442,12 @@ CGFloat cellWidth;
 
 #pragma mark UITableView methods
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == self.searchResultsController.tableView) {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
         // Return the number of rows in the section.
         if (_searchResultsArray.count == 0) {
             return 1;
@@ -373,8 +462,8 @@ CGFloat cellWidth;
 // Change the Height of the Cell [Default is 44]:
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    if (tableView == self.searchResultsController.tableView) {
-        return self.searchResultsController.tableView.rowHeight;
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return SEARCH_TABLE_HEIGHT;
     }
     
     else {
@@ -394,7 +483,7 @@ CGFloat cellWidth;
         // Custom cell as explained here: https://medium.com/p/9bee5824e722
         [tableView registerNib:[UINib nibWithNibName:@"LBXPullListTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
+        
         // Remove inset of iOS 7 separators.
         if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
             cell.separatorInset = UIEdgeInsetsZero;
@@ -412,8 +501,8 @@ CGFloat cellWidth;
 {
     // Configure the cell...
     LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
-    if (tableView != self.searchResultsController.tableView) {
-
+    if (tableView != self.searchDisplayController.searchResultsTableView) {
+        
         [self setTableViewStylesWithCell:cell andTitle:title];
         [LBXControllerServices setPullListCell:cell withTitle:title];
     }
@@ -433,10 +522,10 @@ CGFloat cellWidth;
             [LBXControllerServices setAddToPullListSearchCell:cell withTitle:title darkenImage:YES];
             cell.titleLabel.textColor = [UIColor lightGrayColor];
             cell.subtitleLabel.textColor = [UIColor lightGrayColor];
-        
+            
         }
         else {
-
+            
             [LBXControllerServices setAddToPullListSearchCell:cell withTitle:title darkenImage:NO];
         }
     }
@@ -450,7 +539,7 @@ CGFloat cellWidth;
     cell.subtitleLabel.hidden = NO;
     NSArray *viewsToRemove = [cell.latestIssueImageView subviews];
     for (UIView *v in viewsToRemove) [v removeFromSuperview];
-
+    
     cell.titleLabel.font = [UIFont pullListTitleFont];
     cell.titleLabel.textColor = [UIColor blackColor];
     cell.titleLabel.text = title.name;
@@ -467,7 +556,7 @@ CGFloat cellWidth;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     _indexPath = indexPath;
-    if (tableView == self.searchResultsController.tableView) {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
         
         // Do nothing if the title is already in the pull list
         if ([[_alreadyExistingTitles objectAtIndex:indexPath.row] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
@@ -476,14 +565,8 @@ CGFloat cellWidth;
         }
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self.searchResultsController dismissViewControllerAnimated:YES completion:nil];
-        _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
-        _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
-        _searchController.searchBar.backgroundColor = [UIColor clearColor];
-        [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:nil];
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
-        _searchController.searchBar.hidden = YES;
-
+        [self.searchDisplayController setActive:NO animated:YES];
+        
         LBXTitle *selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
         _selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
         
@@ -503,7 +586,7 @@ CGFloat cellWidth;
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.searchResultsController.tableView) {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
         return NO;
     }
     else {
@@ -511,6 +594,7 @@ CGFloat cellWidth;
         return YES;
     }
 }
+#pragma clang diagnostic pop
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -524,75 +608,13 @@ CGFloat cellWidth;
         //add code here for when you hit delete
         
         [self deleteTitle:[_pullListArray objectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row]];
-            [tableView beginUpdates];
-            [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
-            [tableView endUpdates];
+        [tableView beginUpdates];
+        [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
+        [tableView endUpdates];
     }
 }
 
-#pragma mark UISearchControllerDelegate Methods
-
-- (void)willPresentSearchController:(UISearchController *)searchController
-{
-    // SearchBar cancel button font
-    [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
-    NSDictionary *fontDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [UIFont searchCancelFont], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:fontDict forState:UIControlStateNormal];
-    
-    UIView *statusBarView = [UIView new];
-    statusBarView.alpha = 0.0;
-    statusBarView.backgroundColor = [UIColor whiteColor];
-    statusBarView.frame = CGRectMake([UIApplication sharedApplication].statusBarFrame.origin.x, [UIApplication sharedApplication].statusBarFrame.origin.y, [UIApplication sharedApplication].statusBarFrame.size.width, [UIApplication sharedApplication].statusBarFrame.size.height + searchController.searchBar.frame.size.height);
-    [self.view addSubview:statusBarView];
-    [searchController.view insertSubview:statusBarView aboveSubview:searchController.searchBar];
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5];
-    [statusBarView setAlpha:1.0];
-    [UIView commitAnimations];
-    
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:[UIColor LBXVeryLightGrayColor]];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
-    [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor blackColor]];
-    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor grayColor]];
-    _searchResultsArray = nil;
-    
-}
-
-- (void)didPresentSearchController:(UISearchController *)searchController
-{
-    _searchResultsArray = nil;
-    searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, _searchController.searchBar.frame.size.height);
-    self.searchResultsController.tableView.contentInset = UIEdgeInsetsMake(_searchController.searchBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0, 0, 0);
-    
-    // Hair line below the search bar
-    UIView *onePxView = [[UIView alloc] initWithFrame:CGRectMake(0, _searchController.searchBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height + 0.5f, [UIScreen mainScreen].bounds.size.width, 0.5f)];
-    onePxView.backgroundColor = [UIColor lightGrayColor];
-    [self.searchController.view addSubview:onePxView];
-    
-    self.searchResultsController.tableView.scrollIndicatorInsets = self.searchResultsController.tableView.contentInset;
-}
-
-- (void)willDismissSearchController:(UISearchController *)searchController
-{
-    _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
-    _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
-    _searchController.searchBar.backgroundColor = [UIColor clearColor];
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:nil];
-}
-
-- (void)didDismissSearchController:(UISearchController *)searchController
-{
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    _searchController.searchBar.hidden = YES;
-    _searchResultsArray = nil;
-    _alreadyExistingTitles = nil;
-}
-
-
-#pragma mark UISearchBarDelegate methods
+#pragma mark UISearchBar methods
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
@@ -615,37 +637,40 @@ CGFloat cellWidth;
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
+    [self endSearch];
+}
+
+#pragma mark UISearchDisplayController methods
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
+{
+    // If you scroll down in the search table view, this puts it back to the top next time you search
+    [self.searchDisplayController.searchResultsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    
+}
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
+{
     _searchResultsArray = nil;
     _alreadyExistingTitles = nil;
 }
-//
-//#pragma mark UISearchDisplayController methods
-//
-//- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
-//{
-//    // If you scroll down in the search table view, this puts it back to the top next time you search
-//    [self.searchDisplayController.searchResultsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
-//
-//}
-//
-//- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
-//{
-//    _searchResultsArray = nil;
-//    _alreadyExistingTitles = nil;
-//}
-//
-//- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
-//{
-//    [self endSearch];
-//}
-//
-//- (void)endSearch
-//{
-//    // Hide the search bar when searching is completed
-//    [self.searchDisplayController setActive:NO animated:NO];
-//    _searchBar.hidden = YES;
-//    [_blurImageView removeFromSuperview];
-//}
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+{
+    [self endSearch];
+}
+
+- (void)endSearch
+{
+    // Hide the search bar when searching is completed
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [self.searchDisplayController setActive:NO animated:YES];
+    #pragma clang diagnostic pop
+    
+    _searchBar.hidden = YES;
+    [_blurImageView removeFromSuperview];
+}
 
 
 @end
