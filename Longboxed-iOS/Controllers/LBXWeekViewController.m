@@ -154,12 +154,11 @@ int _page;
     _maskLoadingView.backgroundColor = [UIColor whiteColor];
 
     // Add refresh
-    if (_displayReleasesOfDate) {
-        self.refreshControl = [UIRefreshControl new];
-        [self.refreshControl addTarget:self action:@selector(refreshControlAction)
-                  forControlEvents:UIControlEventValueChanged];
-        [self.tableView addSubview:self.refreshControl];
-    }
+    self.refreshControl = [UIRefreshControl new];
+    [self.refreshControl addTarget:self action:@selector(refreshControlAction)
+              forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
+
     
     
     // If not initialized with initWithDate
