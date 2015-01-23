@@ -24,6 +24,7 @@
 
 @property (nonatomic) LBXClient *client;
 @property (nonatomic) NSArray *publishersArray;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -45,6 +46,12 @@ BOOL endOfPublishers;
     [label sizeToFit];
     
     self.navigationItem.titleView = label;
+    
+    // Add refresh
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refresh)
+                  forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl]; // So that the swipe cells aren't blocked
     
     self.tableView = [UITableView new];
     self.tableView.frame = self.view.frame;
@@ -80,10 +87,15 @@ BOOL endOfPublishers;
     
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     
-    [self refreshViewWithPage:@1];
+    [self refresh];
 }
 
 #pragma mark Private methods
+
+- (void)refresh
+{
+    [self refreshViewWithPage:@1];
+}
 
 - (void)setPublisherArrayWithPublishers
 {
@@ -96,7 +108,7 @@ BOOL endOfPublishers;
 {
     // Fetch this weeks comics
     [self.client fetchPublishersWithPage:page completion:^(NSArray *publisherArray, RKObjectRequestOperation *response, NSError *error) {
-        
+        [self.refreshControl endRefreshing];
         if (!error) {
             if (publisherArray.count == 0) {
                 endOfPublishers = YES;

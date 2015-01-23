@@ -30,6 +30,7 @@
 @property (nonatomic, copy) LBXClient *client;
 @property (nonatomic, copy) NSArray *titlesForPublisherArray;
 @property (nonatomic, copy) NSArray *sectionArray;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UIView *loadingView;
 
 @end
@@ -48,6 +49,12 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     self.navigationItem.rightBarButtonItem = actionButton;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    // Add refresh
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refresh)
+                  forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
     
     _loadingView = [[UIView alloc] initWithFrame:self.view.frame];
     _loadingView.backgroundColor = [UIColor whiteColor];
@@ -91,7 +98,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     }
     
-    [self fetchAllTitlesWithPage:@1];
+    [self refresh];
     
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXPublisher\n%@\ndid appear", _detailPublisher]];
 }
@@ -116,6 +123,11 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 }
 
 #pragma mark - Private methods
+
+- (void)refresh
+{
+    [self fetchAllTitlesWithPage:@1];
+}
 
 - (void)setDetailPublisher
 {
@@ -145,6 +157,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         if (!error) {
             if (titleArray.count == 0 || [_detailPublisher.titleCount intValue] == _titlesForPublisherArray.count) {
                 self.tableView.tableFooterView = nil;
+                [self.refreshControl endRefreshing];
                 [self createTitlesArray];
             }
             else {
@@ -154,6 +167,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
             }
         }
         else {
+            [self.refreshControl endRefreshing];
             //[LBXMessageBar displayError:error];
         }
     }];
