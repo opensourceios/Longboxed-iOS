@@ -545,6 +545,8 @@ int page;
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
+            [self deleteTitle:title];
+            [[NSManagedObjectContext MR_defaultContext] deleteObject:title];
             _pullListArray = pullListArray;
         }
         else {

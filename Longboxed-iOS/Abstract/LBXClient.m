@@ -439,6 +439,16 @@
     [self GETWithRouteName:@"User Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            // Delete any items that may have been removed from
+            // the pull list
+            NSArray *objects = [LBXPullListTitle MR_findAll];
+            for (NSManagedObject *managedObject in objects) {
+                if (![mappingResult.array containsObject:managedObject]) {
+                    NSLog(@"Deleting %@", ((LBXPullListTitle *)managedObject).name);;
+                    [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
+                }
+            }
+            
             for (LBXTitle *title in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:title.latestIssue];
             }
@@ -498,8 +508,11 @@
         
         if (!error) {
             for (LBXBundle *bundle in mappingResult.array) {
-                for (LBXIssue *issue in bundle.issues) {
-                    [self saveAlternateIssuesWithIssue:issue];
+                if (bundle.bundleID) { // Weird bug where sometimes returned array bundles have null id's
+                    for (LBXIssue *issue in bundle.issues) {
+                        LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:issue.title.titleID];
+                        if (title) [self saveAlternateIssuesWithIssue:issue];
+                    }
                 }
             }
         }

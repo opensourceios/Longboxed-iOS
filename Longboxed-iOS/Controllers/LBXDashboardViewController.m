@@ -407,7 +407,6 @@ BOOL _selectedSearchResult;
     }
     
     _popularIssuesArray = sortedArray;
-    NSLog(@"%lu", (unsigned long)_popularIssuesArray.count);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.bottomTableView reloadData];
@@ -444,11 +443,10 @@ BOOL _selectedSearchResult;
 
 - (void)getCoreDataLatestBundle
 {
-    NSArray *coreDataBundleArray = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
-    LBXBundle *bundle;
-    if (coreDataBundleArray.firstObject) {
-        bundle = coreDataBundleArray.firstObject;
-        
+    NSDate *currentDate = [NSDate getLocalDate];
+     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate]];
+    LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
+    if (bundle) {
         NSString *issuesString = @"ISSUES IN YOUR BUNDLE";
         if (bundle.issues.count == 1) {
             issuesString = @"ISSUE IN YOUR BUNDLE";
@@ -494,10 +492,9 @@ BOOL _selectedSearchResult;
         [self.client fetchBundleResourcesWithCompletion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
-                // Get the bundles from Core Data
-                [self getCoreDataLatestBundle];
-            
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    // Get the bundles from Core Data
+                    [self getCoreDataLatestBundle];
                     [self.topTableView reloadData];
                 });
             }

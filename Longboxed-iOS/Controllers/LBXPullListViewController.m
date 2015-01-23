@@ -123,7 +123,7 @@ CGFloat cellWidth;
     #pragma clang diagnostic pop
     
     // Reload the pull list when using the back button on the title view
-    _client = [LBXClient new];
+    self.client = [LBXClient new];
     
     [self fillPullListArray];
     if (_pullListArray.count == 0) {
@@ -155,6 +155,13 @@ CGFloat cellWidth;
     [super viewDidAppear:animated];
     
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor blackColor]];
+    
+    // Check for changes to the pull list
+    NSArray *previousArray = _pullListArray;
+    [self fillPullListArray];
+    if (previousArray != _pullListArray) {
+        [self.tableView reloadData];
+    }
     
     if (!_pullListArray.count) {
         self.tableView.hidden = YES;
@@ -276,7 +283,6 @@ CGFloat cellWidth;
             for (LBXPullListTitle *searchTitle in newSearchResultsArray) {
                 BOOL match = NO;
                 for (LBXPullListTitle *pullListTitle in _pullListArray) {
-                    NSLog(@"Comparing %@ and %@", searchTitle.name, pullListTitle.name);
                     if (![searchTitle.name isEqualToString:pullListTitle.name]) {
                         //[_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
                     }
@@ -326,15 +332,6 @@ CGFloat cellWidth;
     // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         if (!error) {
-            // Delete any items that may have been removed from
-            // the pull list
-            NSArray *objects = [LBXPullListTitle MR_findAll];
-            for (NSManagedObject *managedObject in objects) {
-                if (![pullListArray containsObject:managedObject]) {
-                    [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
-                }
-            }
-            
             [self fillPullListArray];
         }
         else {
@@ -404,6 +401,7 @@ CGFloat cellWidth;
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         [self.refreshControl endRefreshing];
         if (!error) {
+            [[NSManagedObjectContext MR_defaultContext] deleteObject:title];
         }
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
@@ -606,8 +604,8 @@ CGFloat cellWidth;
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         _indexPath = indexPath;
         //add code here for when you hit delete
-        
-        [self deleteTitle:[_pullListArray objectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row]];
+        LBXTitle *titleToDelete = [_pullListArray objectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row];
+        [self deleteTitle:titleToDelete];
         [tableView beginUpdates];
         [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
         [tableView endUpdates];
