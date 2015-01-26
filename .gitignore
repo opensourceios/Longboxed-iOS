@@ -19,6 +19,7 @@ DerivedData
 .DS_Store
 Crashlytics.framework
 CrashReporter.framework
+Longboxed-iOS/keys.txt
 
 # CocoaPods
 #
