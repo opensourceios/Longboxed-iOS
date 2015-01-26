@@ -544,10 +544,11 @@ int page;
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
-            [[NSManagedObjectContext MR_defaultContext] deleteObject:title];
-            _pullListArray = pullListArray;
-            [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {}];
-            [self createPullListArray];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _pullListArray = pullListArray;
+                [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {}];
+                [self createPullListArray];
+            });
         }
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];

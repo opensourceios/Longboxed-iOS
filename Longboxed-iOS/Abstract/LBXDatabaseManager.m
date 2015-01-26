@@ -75,6 +75,7 @@
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"titleID == %@", title.titleID];
         [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
     }
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }
 
 + (void)setupRestKit {

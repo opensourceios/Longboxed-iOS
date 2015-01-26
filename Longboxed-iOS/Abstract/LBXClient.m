@@ -25,6 +25,7 @@
 @interface LBXClient()
 
 @property (nonatomic) NSURLSession *session;
+@property (nonatomic) NSNumber *titleIDBeingAdded;
 
 @end
 
@@ -443,8 +444,8 @@
             // the pull list
             NSArray *objects = [LBXPullListTitle MR_findAll];
             for (NSManagedObject *managedObject in objects) {
-                if (![mappingResult.array containsObject:managedObject]) {
-                    NSLog(@"Deleting %@", ((LBXPullListTitle *)managedObject).name);;
+                if (![mappingResult.array containsObject:managedObject] && (_titleIDBeingAdded != ((LBXPullListTitle *)managedObject).titleID)) {
+                    NSLog(@"Deleting %@", ((LBXPullListTitle *)managedObject).name);
                     [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
                 }
             }
@@ -459,12 +460,14 @@
 }
 
 - (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
-
+    
+    _titleIDBeingAdded = titleID;
     NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
     
     [self POSTWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         
         NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
+        _titleIDBeingAdded = nil;
         completion(pullListArray, response, error);
     }];
 }
@@ -473,25 +476,34 @@
     
     NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
     
-    // Remove the title from Core Data
+    // Remove the title from Core Data first
     __block NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", titleID];
-    [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
-    
-    [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
-        
-        if (!error) {
-            // Remove the title from the latest bundle
-            NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
-            if (bundleArray.count) {
-                LBXBundle *bundle = bundleArray[0];
-                predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
-                [LBXBundle MR_deleteAllMatchingPredicate:predicate];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
+    });
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+        [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+            
+            if (!error) {
+                // Remove the title from the latest bundle
+                NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+                if (bundleArray.count) {
+                    LBXBundle *bundle = bundleArray[0];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [LBXBundle MR_deleteAllMatchingPredicate:predicate];
+                        });
+                        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                    });
+                }
             }
-        }
-        
-        NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
-        completion(pullListArray, response, error);
+            NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
+            completion(pullListArray, response, error);
+        }];
     }];
+    
+
 }
 
 - (void)fetchBundleResourcesWithPage:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
@@ -519,6 +531,11 @@
                         if (title) [self saveAlternateIssuesWithIssue:issue];
                     }
                 }
+                else {
+                    [self fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
+                        completion(mappingResult.array, response, error);
+                    }];
+                }
             }
         }
         
@@ -534,20 +551,26 @@
         headerParams = [NSDictionary dictionaryWithKeysAndObjects:
                   @"userID", store[@"id"],
                   nil];
-        
     }
     
     [self GETWithRouteName:@"Latest Bundle" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
-        LBXBundle *bundle = ((LBXBundle *)mappingResult.array[0]) ? ((LBXBundle *)mappingResult.array[0]) : nil;
-        
+        LBXBundle *bundle = (((LBXBundle *)mappingResult.array[0]).bundleID) ? ((LBXBundle *)mappingResult.array[0]) : nil;
         if (!error) {
-            for (LBXIssue *issue in bundle.issues) {
-                [self saveAlternateIssuesWithIssue:issue];
+            if (bundle.bundleID) { // Weird bug where sometimes returned bundles have null id's
+                for (LBXIssue *issue in bundle.issues) {
+                    [self saveAlternateIssuesWithIssue:issue];
+                }
+                completion(bundle, response, error);
+            }
+            else {
+                [self fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
+                    completion(bundle, response, error);
+                }];
             }
         }
+        else completion(bundle, response, error);
         
-        completion(bundle, response, error);
     }];
 }
 

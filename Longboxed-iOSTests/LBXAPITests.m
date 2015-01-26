@@ -46,8 +46,6 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     [UICKeyChainStore setString:@"johnrhickey+test@gmail.com" forKey:@"username"];
     [UICKeyChainStore setString:@"test1234" forKey:@"password"];
     [UICKeyChainStore setString:[[LBXEndpoints stagingURL] absoluteString] forKey:@"baseURLString"];
-    
-    [store synchronize]; // Write to keychain.
 }
 
 - (void)tearDown
@@ -58,7 +56,6 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     [UICKeyChainStore removeItemForKey:@"password"];
     [UICKeyChainStore removeItemForKey:@"id"];
     [UICKeyChainStore removeItemForKey:@"baseURLString"];
-    [store synchronize]; // Write to keychain.
 }
 
 // Tests the accuracy of the date calculations
@@ -294,7 +291,6 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
                 store = [UICKeyChainStore keyChainStore];
                 [UICKeyChainStore setString:testUsername forKey:@"username"];
                 [UICKeyChainStore setString:testPassword forKey:@"password"];
-                [store synchronize]; // Write to keychain.
                 
                 // Delete Stuff
                 [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
@@ -304,8 +300,6 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
                     store = [UICKeyChainStore keyChainStore];
                     [UICKeyChainStore setString:@"johnrhickey+test@gmail.com" forKey:@"username"];
                     [UICKeyChainStore setString:@"test1234" forKey:@"password"];
-                    
-                    [store synchronize]; // Write to keychain.
                     
                     if (error) {
                         for (NSString *error in [responseDict allKeys]) {

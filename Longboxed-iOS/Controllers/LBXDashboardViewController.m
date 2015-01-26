@@ -262,7 +262,6 @@ BOOL _selectedSearchResult;
     _client = [LBXClient new];
     
     [self getCoreDataLatestBundle];
-    [self.topTableView reloadData];
     
     [self refresh];
     
@@ -443,7 +442,7 @@ BOOL _selectedSearchResult;
 - (void)getCoreDataLatestBundle
 {
     NSDate *currentDate = [NSDate getLocalDate];
-     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate]];
     LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
     if (bundle) {
         NSString *issuesString = @"ISSUES IN YOUR BUNDLE";
@@ -467,21 +466,20 @@ BOOL _selectedSearchResult;
     else {
         [_bundleButton setTitle:@"0 ISSUES IN YOUR BUNDLE"
                        forState:UIControlStateNormal];
+        [self.topTableView reloadData];
     }
-    
 }
 
 - (void)fetchBundle
 {
     if ([LBXControllerServices isLoggedIn]) {
         // Fetch the users bundles
-        [self.client fetchBundleResourcesWithPage:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     // Get the bundles from Core Data
                     [self getCoreDataLatestBundle];
-                    [self.topTableView reloadData];
                 });
             }
             else {
@@ -756,9 +754,6 @@ BOOL _selectedSearchResult;
             [[NSNotificationCenter defaultCenter]
              postNotificationName:@"reloadTopTableView"
              object:self];
-        }
-        else {
-            [self getCoreDataLatestBundle];
         }
         
         cell = self.topTableViewCell;
