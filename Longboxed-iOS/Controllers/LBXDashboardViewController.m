@@ -707,9 +707,6 @@ BOOL _selectedSearchResult;
     if (tableView == self.browseTableView && [LBXControllerServices isLoggedIn]) return 4;
     if (tableView == self.browseTableView) return 2;
     if (tableView == self.searchResultsController.tableView) {
-        if (_searchResultsArray.count == 0) {
-            return 1;
-        }
         return _searchResultsArray.count;
     }
     return 1;

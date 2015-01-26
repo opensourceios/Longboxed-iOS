@@ -402,6 +402,8 @@ CGFloat cellWidth;
         [self.refreshControl endRefreshing];
         if (!error) {
             [[NSManagedObjectContext MR_defaultContext] deleteObject:title];
+            [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {}];
+            [self fillPullListArray];
         }
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
@@ -410,8 +412,6 @@ CGFloat cellWidth;
         //            [self.tableView reloadData];
         //        });
     }];
-    
-    [self fillPullListArray];
 }
 
 // Captures the current screen and blurs it
@@ -447,9 +447,6 @@ CGFloat cellWidth;
 {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         // Return the number of rows in the section.
-        if (_searchResultsArray.count == 0) {
-            return 1;
-        }
         return [_searchResultsArray count];
     }
     else {

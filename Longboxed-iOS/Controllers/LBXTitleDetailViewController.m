@@ -544,17 +544,15 @@ int page;
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
-            [self deleteTitle:title];
             [[NSManagedObjectContext MR_defaultContext] deleteObject:title];
             _pullListArray = pullListArray;
+            [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {}];
+            [self createPullListArray];
         }
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
     }];
-    
-    [self.client fetchBundleResourcesWithPage:@1 completion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {}];
-    [self createPullListArray];
 }
 
 #pragma mark - Setter overrides
