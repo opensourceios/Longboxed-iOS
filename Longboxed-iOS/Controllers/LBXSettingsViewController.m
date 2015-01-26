@@ -199,6 +199,8 @@ UICKeyChainStore *store;
             [LBXDatabaseManager flushBundlesAndPullList];
             
             dispatch_async(dispatch_get_main_queue(),^{
+                [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+                [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
                 [SVProgressHUD showErrorWithStatus:@"Unsuccessful Log In"];
                 [_developmentServerSwitch setOn:NO animated:NO];
                 [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints productionURL]]];

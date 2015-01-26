@@ -431,6 +431,8 @@ CGFloat cellWidth;
             [bself fillPullListArray];
         }
         else {
+            [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+            [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to add %@\n%@", title.name, error.localizedDescription]];
         }
         [bself.tableView reloadData];
@@ -449,6 +451,8 @@ CGFloat cellWidth;
             });
         }
         else {
+            [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+            [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
         //        dispatch_async(dispatch_get_main_queue(), ^{

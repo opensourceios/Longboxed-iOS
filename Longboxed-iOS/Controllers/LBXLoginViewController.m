@@ -146,6 +146,8 @@ UICKeyChainStore *store;
             [LBXDatabaseManager flushBundlesAndPullList];
             
             dispatch_async(dispatch_get_main_queue(),^{
+                [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+                [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
                 [SVProgressHUD showErrorWithStatus:@"Incorrect Credentials"];
                 _passwordField.text = @"";
                 [_passwordField becomeFirstResponder];

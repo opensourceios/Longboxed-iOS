@@ -534,6 +534,8 @@ int page;
         if (!error) {
         }
         else {
+            [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+            [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to add %@\n%@", title.name, error.localizedDescription]];
         }
     }];
@@ -551,6 +553,8 @@ int page;
             });
         }
         else {
+            [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+            [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
     }];

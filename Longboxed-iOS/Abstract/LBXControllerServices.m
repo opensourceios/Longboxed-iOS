@@ -430,6 +430,8 @@
         [delegate presentViewController:composeViewController animated:YES completion:nil];
     }
     else {
+        [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+        [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
         [SVProgressHUD showErrorWithStatus:@"Your iOS email is not configured. contact@longboxed.com" maskType:SVProgressHUDMaskTypeBlack];
     }
 }

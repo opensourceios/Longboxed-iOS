@@ -91,6 +91,8 @@
 
 - (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
     [SVProgressHUD dismiss];
+    [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+    [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
     [SVProgressHUD showErrorWithStatus:@"Unable to load directory contents"];
 }
 
