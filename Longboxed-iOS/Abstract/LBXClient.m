@@ -494,7 +494,7 @@
     }];
 }
 
-- (void)fetchBundleResourcesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+- (void)fetchBundleResourcesWithPage:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
     NSString *headerParams;
@@ -504,7 +504,12 @@
                   nil];
     }
     
-    [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+    NSDictionary *objectDictParams;
+    if (![page isEqualToNumber:@1]) {
+        objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
+    }
+    
+    [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:objectDictParams credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
             for (LBXBundle *bundle in mappingResult.array) {

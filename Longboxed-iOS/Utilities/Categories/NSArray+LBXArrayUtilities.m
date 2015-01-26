@@ -10,6 +10,7 @@
 #import "NSDate+DateUtilities.h"
 #import "LBXIssue.h"
 #import "LBXTitle.h"
+#import "LBXBundle.h"
 
 @implementation NSArray (LBXArrayUtilities)
 
@@ -65,11 +66,12 @@
 + (NSArray *)getBundleTableViewSectionArrayForArray:(NSArray *)array
 {
     NSMutableArray *keyedBundleArray = [NSMutableArray new];
-    for (NSArray *weekBundleArray in array) {
-        if (weekBundleArray.count) {
+    for (LBXBundle *bundle in array) {
+        if (bundle.issues.count) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"MMM dd, yyyy"];
-            NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:weekBundleArray, [formatter stringFromDate:[NSDate getThisWednesdayOfDate:((LBXIssue *)weekBundleArray[0]).releaseDate]], nil];
+            NSDate *date = [NSDate getThisWednesdayOfDate:bundle.releaseDate];
+            NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[bundle.issues allObjects], [formatter stringFromDate:date], nil];
             [keyedBundleArray addObject:dict];
         }
     }

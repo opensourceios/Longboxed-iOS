@@ -47,7 +47,6 @@
 @property (nonatomic, strong) LBXSearchTableViewController *searchResultsController;
 @property (nonatomic, strong) NSArray *popularIssuesArray;
 @property (nonatomic, strong) NSArray *bundleIssuesArray;
-@property (nonatomic, strong) NSMutableArray *lastFiveBundlesIssuesArray;
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSArray *tableConstraints;
 @property (nonatomic) NSArray *searchResultsArray;
@@ -472,24 +471,11 @@ BOOL _selectedSearchResult;
     
 }
 
-- (void)getCoreDataLastFiveBundles
-{
-    _lastFiveBundlesIssuesArray = [NSMutableArray new];
-    NSArray *coreDataBundleArray = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
-    if (coreDataBundleArray.firstObject) {
-        for (LBXBundle *bundle in coreDataBundleArray) {
-            NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"completeTitle" ascending:YES];
-            NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
-            [_lastFiveBundlesIssuesArray addObject:[[bundle.issues allObjects] sortedArrayUsingDescriptors:descriptors]];
-        }
-    }
-}
-
 - (void)fetchBundle
 {
     if ([LBXControllerServices isLoggedIn]) {
         // Fetch the users bundles
-        [self.client fetchBundleResourcesWithCompletion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchBundleResourcesWithPage:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -560,9 +546,8 @@ BOOL _selectedSearchResult;
     switch ([button tag]) {
         case 0: // Add title to pull list
         {
-            [self getCoreDataLastFiveBundles];
             // Pressing the your bundle/issues button
-            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_lastFiveBundlesIssuesArray andTitle:@"Bundles"];
+            LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:[LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO] andTitle:@"Bundles"];
             [self.navigationController pushViewController:controller animated:YES];
             break;
         }
@@ -897,9 +882,8 @@ BOOL _selectedSearchResult;
                 break;
             }
             case 3: {
-                [self getCoreDataLastFiveBundles];
                 // Pressing the your issues button
-                LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:_lastFiveBundlesIssuesArray andTitle:@"Bundles"];
+                LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:[LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO] andTitle:@"Bundles"];
                 [self.navigationController pushViewController:controller animated:YES];
                 break;
             }

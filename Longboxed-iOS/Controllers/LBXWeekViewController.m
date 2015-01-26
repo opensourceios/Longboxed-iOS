@@ -55,6 +55,7 @@ BOOL _segmentedShowBool;
 BOOL _displayReleasesOfDate;
 BOOL _showedCalendar;
 int _page;
+BOOL _endOfIssues;
 
 - (id)init
 {
@@ -104,6 +105,7 @@ int _page;
     _client = [LBXClient new];
     
     _page = 1;
+    _endOfIssues = NO;
     
     _tableView = [UITableView new];
     _tableView.frame = self.view.frame;
@@ -220,7 +222,10 @@ int _page;
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     [self setNavTitle];
     
-    if ((_segmentedControl.selectedSegmentIndex == -1 || _segmentedControl == nil) && _selectedWednesday) {
+    if ([_customNavTitle isEqualToString:@"Bundles"]) {
+        [self fetchBundleWithPage:@1];
+    }
+    else if ((_segmentedControl.selectedSegmentIndex == -1 || _segmentedControl == nil) && _selectedWednesday) {
         [self fetchDate:_selectedWednesday withPage:@1];
     }
     else if (_segmentedControl.selectedSegmentIndex == 0 && !_showedCalendar) {
@@ -378,6 +383,7 @@ int _page;
             [self setIssuesForWeekArrayWithDate:_selectedWednesday];
         }
         if ([_customNavTitle isEqualToString:@"Bundles"]) {
+            _issuesForWeekArray = [LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO];
             _sectionArray = [NSArray getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
         else _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
@@ -488,6 +494,37 @@ int _page;
             });
         }
     }];
+}
+
+- (void)fetchBundleWithPage:(NSNumber *)page
+{
+    if ([LBXControllerServices isLoggedIn]) {
+        if ([page intValue] > 1 && !_endOfIssues) {
+            // Add a footer loading spinner
+            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [spinner startAnimating];
+            spinner.frame = CGRectMake(0, 0, 320, 44);
+            self.tableView.tableFooterView = spinner;
+        }
+        // Fetch the users bundles
+        [self.client fetchBundleResourcesWithPage:page completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+            if (!error) {
+                NSLog(@"Count for page %@ is %lu", page, (unsigned long)bundleArray.count);
+                [self.refreshControl endRefreshing];
+                if (!bundleArray.count) {
+                    NSLog(@"Setting end of issues");
+                    self.tableView.tableFooterView = nil;
+                    _endOfIssues = YES;
+                }
+                else {
+                    [self completeRefresh];
+                }
+            }
+            else {
+                //[LBXMessageBar displayError:error];
+            }
+        }];
+    }
 }
 
 - (void)showCalendar
@@ -679,6 +716,11 @@ int _page;
         
         cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }];
+    
+    if((tableView.contentOffset.y > (tableView.contentSize.height - tableView.frame.size.height)) && [_customNavTitle isEqualToString:@"Bundles"] && !_endOfIssues) {
+        _page += 1;
+        [self fetchBundleWithPage:[NSNumber numberWithInt:_page]];
+    }
 
     return cell;
 }

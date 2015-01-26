@@ -209,7 +209,7 @@
     
     if ([LBXControllerServices isLoggedIn]) {
         // Fetch the users bundles
-        [client fetchBundleResourcesWithCompletion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+        [client fetchBundleResourcesWithPage:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {
                 [LBXLogging logMessage:@"Fetched users bundles"];
                 completionHandler(UIBackgroundFetchResultNewData);

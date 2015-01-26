@@ -392,7 +392,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
-            [self.client fetchBundleResourcesWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+            [self.client fetchBundleResourcesWithPage:@1 completion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
                 XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
                 XCTAssertNotEqual(pullListArray.count, 0, @"Bundle resources JSON is returning nil");
                 *done = YES;

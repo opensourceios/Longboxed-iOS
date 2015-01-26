@@ -494,10 +494,10 @@
 		E56DBFBE19B942330012FB4D /* Comics */ = {
 			isa = PBXGroup;
 			children = (
-				E535EBA419DB6444001B729A /* LBXPublisherTableViewController.h */,
-				E535EBA519DB6444001B729A /* LBXPublisherTableViewController.m */,
 				E53EEC7E19BE8DC70066F712 /* LBXWeekViewController.h */,
 				E53EEC7F19BE8DC70066F712 /* LBXWeekViewController.m */,
+				E535EBA419DB6444001B729A /* LBXPublisherTableViewController.h */,
+				E535EBA519DB6444001B729A /* LBXPublisherTableViewController.m */,
 			);
 			name = Comics;
 			sourceTree = "<group>";

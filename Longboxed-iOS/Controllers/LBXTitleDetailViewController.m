@@ -467,7 +467,6 @@ int page;
     
     // Fetch pull list titles
     [_client fetchIssuesForTitle:_titleID page:page withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        
         if (!error) {
             if (pullListArray.count == 0) {
                 endOfIssues = YES;
@@ -554,7 +553,7 @@ int page;
         }
     }];
     
-    [self.client fetchBundleResourcesWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {}];
+    [self.client fetchBundleResourcesWithPage:@1 completion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {}];
     [self createPullListArray];
 }
 
