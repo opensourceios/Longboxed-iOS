@@ -395,15 +395,16 @@ CGFloat cellWidth;
     }];
 }
 
-- (void)deleteTitle:(LBXTitle *)title
+- (void)deleteTitle:(LBXPullListTitle *)title
 {
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         [self.refreshControl endRefreshing];
         if (!error) {
-            [[NSManagedObjectContext MR_defaultContext] deleteObject:title];
-            [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {}];
-            [self fillPullListArray];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {}];
+                [self fillPullListArray];
+            });
         }
         else {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
@@ -601,7 +602,8 @@ CGFloat cellWidth;
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         _indexPath = indexPath;
         //add code here for when you hit delete
-        LBXTitle *titleToDelete = [_pullListArray objectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row];
+        LBXPullListTitle *titleToDelete = [_pullListArray objectAtIndex:[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]].row];
+        [_pullListArray removeObject:titleToDelete];
         [self deleteTitle:titleToDelete];
         [tableView beginUpdates];
         [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:[self.tableView cellForRowAtIndexPath:_indexPath]]] withRowAnimation:UITableViewRowAnimationLeft];
