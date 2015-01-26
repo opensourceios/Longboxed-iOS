@@ -19,6 +19,7 @@
 
 #import <UIImageView+AFNetworking.h>
 #import <UIImage+CreateImage.h>
+#import <Doppelganger.h>
 
 @interface LBXPublisherTableViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -100,8 +101,17 @@ BOOL endOfPublishers;
 - (void)setPublisherArrayWithPublishers
 {
     // Get the latest issue in the database
+    NSArray *previousPublishersArray = _publishersArray;
     _publishersArray = [LBXPublisher MR_findAllSortedBy:@"name" ascending:YES];
-    [self.tableView reloadData];
+    if (previousPublishersArray) {
+        NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_publishersArray
+                                                    previousArray:previousPublishersArray];
+        [self.tableView wml_applyBatchChanges:diffs
+                                    inSection:0
+                             withRowAnimation:UITableViewRowAnimationRight];
+        [self.tableView reloadData];
+    }
+    else [self.tableView reloadData];
 }
 
 - (void)refreshViewWithPage:(NSNumber *)page
@@ -114,12 +124,21 @@ BOOL endOfPublishers;
                 endOfPublishers = YES;
             }
             
+            NSArray *previousPublishersArray = _publishersArray;
             _publishersArray = publisherArray;
             
             tableViewRows = _publishersArray.count;
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
+                if (previousPublishersArray) {
+                    NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_publishersArray
+                                                                previousArray:previousPublishersArray];
+                    [self.tableView wml_applyBatchChanges:diffs
+                                                inSection:0
+                                         withRowAnimation:UITableViewRowAnimationRight];
+                    [self.tableView reloadData];
+                }
+                else [self.tableView reloadData];
             });
         }
         else {

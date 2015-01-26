@@ -28,6 +28,7 @@
 #import <UICKeyChainStore.h>
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <POP.h>
+#import <Doppelganger.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate>
 
@@ -160,7 +161,11 @@ CGFloat cellWidth;
     NSArray *previousArray = _pullListArray;
     [self fillPullListArray];
     if (previousArray != _pullListArray) {
-        [self.tableView reloadData];
+        NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_pullListArray
+                                                    previousArray:previousArray];
+        [self.tableView wml_applyBatchChanges:diffs
+                                    inSection:0
+                             withRowAnimation:UITableViewRowAnimationRight];
     }
     
     if (!_pullListArray.count) {
@@ -316,7 +321,14 @@ CGFloat cellWidth;
     NSArray *oldArray = _pullListArray;
     [self fillPullListArray];
     self.searchResultsArray = _pullListArray;
-    [self.tableView reloadData];
+    if (oldArray != _pullListArray) {
+        NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_pullListArray
+                                                    previousArray:oldArray];
+        [self.tableView wml_applyBatchChanges:diffs
+                                    inSection:0
+                             withRowAnimation:UITableViewRowAnimationRight];
+    }
+    else [self.tableView reloadData];
     
     if (_pullListArray.count == 0) {
         self.tableView.contentOffset = CGPointMake(0, -self.refreshControl.frame.size.height);
@@ -326,7 +338,14 @@ CGFloat cellWidth;
     if (oldArray.count < _pullListArray.count) [self fillPullListArray];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
+        if (oldArray != _pullListArray) {
+            NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_pullListArray
+                                                        previousArray:oldArray];
+            [self.tableView wml_applyBatchChanges:diffs
+                                        inSection:0
+                                 withRowAnimation:UITableViewRowAnimationRight];
+        }
+        else [self.tableView reloadData];
     });
     
     // Fetch pull list titles
@@ -381,8 +400,20 @@ CGFloat cellWidth;
     pullListTitle.issueCount = title.issueCount;
     pullListTitle.latestIssue = title.latestIssue;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    
+    NSArray *previousPullListArray = _pullListArray;
     [self fillPullListArray];
-    [self.tableView reloadData];
+    
+    if (previousPullListArray) {
+        NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_pullListArray
+                                                    previousArray:previousPullListArray];
+        [self.tableView wml_applyBatchChanges:diffs
+                                    inSection:0
+                             withRowAnimation:UITableViewRowAnimationRight];
+    }
+    else {
+        [self.tableView reloadData];
+    }
     __block typeof(self) bself = self;
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {

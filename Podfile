@@ -26,6 +26,7 @@ pod 'NSLogger', '~> 1.5'
 pod 'Shimmer', :git => 'https://github.com/facebook/Shimmer.git', :branch => 'master'
 pod 'MagicalRecord' , :git => 'https://github.com/magicalpanda/MagicalRecord.git', :branch => 'develop'
 pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImageViewController.git', :branch => 'dev'
+pod 'Doppelganger'
 
 # Customized
 # pod 'MGSpotyViewController' (Has LBX dependencies so must remain in project)
