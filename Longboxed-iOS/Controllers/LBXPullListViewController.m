@@ -337,6 +337,7 @@ CGFloat cellWidth;
         [self.refreshControl beginRefreshing];
     }
     
+    oldArray = _pullListArray;
     if (oldArray.count < _pullListArray.count) [self fillPullListArray];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -352,6 +353,7 @@ CGFloat cellWidth;
     
     // Fetch pull list titles
     [self.client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
+        NSArray *prevArray = _pullListArray;
         if (!error) {
             [self fillPullListArray];
         }
@@ -360,7 +362,14 @@ CGFloat cellWidth;
             
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
+            if (oldArray != _pullListArray) {
+                NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_pullListArray
+                                                            previousArray:prevArray];
+                [self.tableView wml_applyBatchChanges:diffs
+                                            inSection:0
+                                     withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            else [self.tableView reloadData];
             [self.refreshControl endRefreshing];
             if (self.tableView.hidden) {
                 [_loadingView removeFromSuperview];
