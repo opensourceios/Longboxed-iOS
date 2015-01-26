@@ -135,7 +135,7 @@ BOOL endOfPublishers;
                                                                 previousArray:previousPublishersArray];
                     [self.tableView wml_applyBatchChanges:diffs
                                                 inSection:0
-                                         withRowAnimation:UITableViewRowAnimationRight];
+                                         withRowAnimation:UITableViewRowAnimationAutomatic];
                     [self.tableView reloadData];
                 }
                 else [self.tableView reloadData];

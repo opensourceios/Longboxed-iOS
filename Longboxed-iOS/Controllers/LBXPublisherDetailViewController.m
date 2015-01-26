@@ -107,6 +107,8 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 {
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
+    [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+    [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

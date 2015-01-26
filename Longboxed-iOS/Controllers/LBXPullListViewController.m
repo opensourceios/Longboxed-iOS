@@ -165,7 +165,7 @@ CGFloat cellWidth;
                                                     previousArray:previousArray];
         [self.tableView wml_applyBatchChanges:diffs
                                     inSection:0
-                             withRowAnimation:UITableViewRowAnimationRight];
+                             withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     
     if (!_pullListArray.count) {
@@ -241,6 +241,8 @@ CGFloat cellWidth;
     [super viewDidDisappear:animated];
     [self.refreshControl endRefreshing];
     [SVProgressHUD dismiss];
+    [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+    [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
 }
 
 - (void)viewWillLayoutSubviews
@@ -326,7 +328,7 @@ CGFloat cellWidth;
                                                     previousArray:oldArray];
         [self.tableView wml_applyBatchChanges:diffs
                                     inSection:0
-                             withRowAnimation:UITableViewRowAnimationRight];
+                             withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else [self.tableView reloadData];
     
@@ -343,7 +345,7 @@ CGFloat cellWidth;
                                                         previousArray:oldArray];
             [self.tableView wml_applyBatchChanges:diffs
                                         inSection:0
-                                 withRowAnimation:UITableViewRowAnimationRight];
+                                 withRowAnimation:UITableViewRowAnimationAutomatic];
         }
         else [self.tableView reloadData];
     });
@@ -409,7 +411,7 @@ CGFloat cellWidth;
                                                     previousArray:previousPullListArray];
         [self.tableView wml_applyBatchChanges:diffs
                                     inSection:0
-                             withRowAnimation:UITableViewRowAnimationRight];
+                             withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else {
         [self.tableView reloadData];
