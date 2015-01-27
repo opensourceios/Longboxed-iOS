@@ -39,6 +39,7 @@
 #import <SVProgressHUD.h>
 #import <UIImage+CreateImage.h>
 #import <DropboxSDK/DropboxSDK.h>
+#import <Doppelganger.h>
 
 @interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate, DBRestClientDelegate>
 
@@ -497,8 +498,18 @@ BOOL _selectedSearchResult;
     [self.client fetchAutocompleteForTitle:searchText withCompletion:^(NSArray *newSearchResultsArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            NSArray *previousResultsArray = self.searchResultsArray;
             self.searchResultsArray = newSearchResultsArray;
-            [self.searchResultsController.tableView reloadData];
+            if (newSearchResultsArray.count && previousResultsArray.count) {
+                NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:newSearchResultsArray
+                                                            previousArray:previousResultsArray];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.searchResultsController.tableView wml_applyBatchChanges:diffs
+                                                                        inSection:0
+                                                                 withRowAnimation:UITableViewRowAnimationAutomatic];
+                });
+            }
+            else [self.searchResultsController.tableView reloadData];
         }
         else {
             //[LBXMessageBar displayError:error];
@@ -668,8 +679,6 @@ BOOL _selectedSearchResult;
 {
     // Delays on making the actor API calls
     if(searchText.length) {
-        _searchResultsArray = nil;
-        
         float delay = 0.5;
         
         if (searchText.length > 3) {

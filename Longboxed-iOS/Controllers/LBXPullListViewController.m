@@ -304,8 +304,18 @@ CGFloat cellWidth;
                     [_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
                 }
             }
+            NSArray *previousResultsArray = self.searchResultsArray;
             self.searchResultsArray = newSearchResultsArray;
-            [[self.searchBarController searchResultsTableView] reloadData];
+            if (newSearchResultsArray.count && previousResultsArray.count) {
+                NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:newSearchResultsArray
+                                                            previousArray:previousResultsArray];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.searchBarController.searchResultsTableView wml_applyBatchChanges:diffs
+                                                                        inSection:0
+                                                                 withRowAnimation:UITableViewRowAnimationAutomatic];
+                });
+            }
+            else [self.searchBarController.searchResultsTableView reloadData];
         }
         else {
             //[LBXMessageBar displayError:error];

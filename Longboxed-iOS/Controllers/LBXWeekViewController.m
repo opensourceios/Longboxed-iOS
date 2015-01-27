@@ -320,7 +320,12 @@ BOOL _endOfIssues;
 
 - (void)refreshControlAction
 {
-    if (_segmentedControl == nil) return;
+    if (_segmentedControl == nil && [_customNavTitle isEqualToString:@"Bundles"]) {
+        [self fetchBundleWithPage:@1];
+    }
+    else if (_segmentedControl == nil && _selectedWednesday) {
+        [self fetchDate:_selectedWednesday withPage:@1];
+    }
     else if (_segmentedControl.selectedSegmentIndex == 0) {
         [self fetchThisWeekWithPage:@1];
     }
@@ -509,7 +514,6 @@ BOOL _endOfIssues;
         // Fetch the users bundles
         [self.client fetchBundleResourcesWithPage:page completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {
-                NSLog(@"Count for page %@ is %lu", page, (unsigned long)bundleArray.count);
                 [self.refreshControl endRefreshing];
                 if (!bundleArray.count) {
                     NSLog(@"Setting end of issues");
