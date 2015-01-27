@@ -19,6 +19,7 @@
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) UIImage *issueImage;
 @property (nonatomic) LBXIssueDetailViewController *titleViewController;
+@property (nonatomic) LBXIssueDetailViewController *parentTitleViewController;
 
 @end
 
@@ -110,7 +111,8 @@ CGRect screenRect;
         _titleViewController = [[LBXIssueDetailViewController alloc] initWithFrame:screenRect andIssue:issue];
         
         if (screenRect.origin.x < screenRect.size.width) {
-            _titleViewController.alternativeCoversArrowView.hidden = NO;
+            _parentTitleViewController = _titleViewController;
+            _titleViewController.alternativeCoversArrowView.alpha = 0.0; // Hide until all variant issues are loaded
             
             FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:_titleViewController.alternativeCoversArrowView.bounds];
             [_titleViewController.alternativeCoversArrowView addSubview:shimmeringView];
@@ -123,7 +125,7 @@ CGRect screenRect;
             
             shimmeringView.shimmeringDirection = FBShimmerDirectionLeft;
             shimmeringView.shimmeringSpeed = 25;
-            shimmeringView.shimmeringPauseDuration = 1.5;
+            shimmeringView.shimmeringPauseDuration = 1.0;
             
             // Start shimmering.
             shimmeringView.shimmering = YES;
@@ -133,6 +135,15 @@ CGRect screenRect;
         [self addChildViewController:_titleViewController];
         [_scrollView addSubview:_titleViewController.view];
         [_titleViewController didMoveToParentViewController:self];
+        
+        if (issuesArray.count == (NSMakeRange(1, _issues.count-1)).length && (issuesArray.lastObject == issue)) {
+            [UIView transitionWithView:_parentTitleViewController.alternativeCoversArrowView
+                              duration:0.5f
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{_parentTitleViewController.alternativeCoversArrowView.alpha = 1.0;}
+                            completion:NULL];
+            
+        }
     }
 }
 
