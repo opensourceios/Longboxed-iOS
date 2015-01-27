@@ -213,7 +213,7 @@ BOOL selectedTitle;
     [super viewDidAppear:animated];
     [LBXControllerServices setViewDidAppearClearNavigationController:self];
     selectedTitle = NO;
-    if (!_issue.price || !_issue.diamondID || !_issue.coverImage) {
+    if (!_issue.diamondID) {
         LBXClient *client = [LBXClient new];
         [client fetchIssue:_issue.issueID withCompletion:^(LBXIssue *issue, RKObjectRequestOperation *response, NSError *error) {
             _issue = issue;
@@ -288,13 +288,11 @@ BOOL selectedTitle;
         case 3: // Title button
         {
             selectedTitle = YES;
-            NSPredicate *predicate = [NSPredicate predicateWithFormat: @"title.titleID == %@", _issue.title.titleID];
-            NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
             
             LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_issue.title];
             [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title: %@", _issue.title.description]];
             titleViewController.titleID = _issue.title.titleID;
-            titleViewController.latestIssueImage = (issuesArray[0] == _issue) ? _issueImage : [UIImage imageNamed:@"black"];
+            titleViewController.latestIssueImage = (_issue.coverImage) ? _issueImage : [UIImage imageNamed:@"black"];
             
             [self.navigationController pushViewController:titleViewController animated:YES];
         }
@@ -380,8 +378,11 @@ BOOL selectedTitle;
 - (void)setupImagesWithImage:(UIImage *)image
 {
     _coverImageView.alpha = 0.0;
-    _backgroundCoverImageView.alpha = 0.0;
-    [_backgroundCoverImageView setImageToBlur:image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
+    
+    if (![UIImagePNGRepresentation(image) isEqual:UIImagePNGRepresentation([UIImage defaultCoverImage])]) {
+        _backgroundCoverImageView.alpha = 0.0;
+        [_backgroundCoverImageView setImageToBlur:image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
+    }
     UIImage *darkenedImage = _issueImage;
     [darkenedImage applyDarkEffect];
     

@@ -35,8 +35,8 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
                                                      name:@"setFrameAgain"
                                                    object:nil];
         
-        _foregroundImage = [UIImage imageNamed:@"clear"];
-        _backgroundImage = [UIImage imageNamed:@"clear"];
+        _foregroundImage = [UIImage imageNamed:@"black"];
+        _backgroundImage = [UIImage imageNamed:@"black"];
         [_mainImageView setImageToBlur:_backgroundImage blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:nil];
         [self getLatestIssueImageForTitle:title withCompletion:^(UIImage *image) {
             if ([UIImagePNGRepresentation(image) isEqual:UIImagePNGRepresentation([UIImage defaultCoverImage])]) {
