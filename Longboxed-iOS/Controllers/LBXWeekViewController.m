@@ -210,7 +210,7 @@ BOOL _endOfIssues;
     [self.tableView deselectRowAtIndexPath:tableSelection animated:YES];
     
     if (_showedCalendar) {
-        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+        [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
         [self.view addSubview:_maskLoadingView];
     }
 }
@@ -348,8 +348,9 @@ BOOL _endOfIssues;
             _sectionArray = [NSArray getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
         else _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
-        
-        if (_sectionArray == nil) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
+    }
+    else {
+        [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     }
 }
 
@@ -364,8 +365,9 @@ BOOL _endOfIssues;
             _sectionArray = [NSArray getBundleTableViewSectionArrayForArray:_issuesForWeekArray];
         }
         else _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
-        
-        if (_sectionArray == nil) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
+    }
+    else {
+        [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     }
 }
 
@@ -410,6 +412,7 @@ BOOL _endOfIssues;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
         [self.refreshControl endRefreshing];
+        [SVProgressHUD dismiss];
     });
 }
 
