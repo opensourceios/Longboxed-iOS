@@ -263,10 +263,15 @@ BOOL _selectedSearchResult;
     _client = [LBXClient new];
     
     [self getCoreDataLatestBundle];
+    [self getCoreDataPopularIssues];
     
     [self refresh];
     
-    if (!_featuredBlurredImageView.image) {
+    NSDate *currentDate = [NSDate getLocalDate];
+    if (_popularIssuesArray.count && ((LBXIssue *)_popularIssuesArray[0]).releaseDate > [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] && ((LBXIssue *)_popularIssuesArray[0]).releaseDate < [NSDate getNextWednesdayOfDate:currentDate] && ((LBXIssue *)_popularIssuesArray[0]).title.subscribers.intValue > 0) {
+        [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
+    }
+    else if (!_featuredBlurredImageView.image) {
         [SVProgressHUD showWithSubview:_featuredBlurredImageView];
         _featuredDescriptionLabel.hidden = YES;
         _featuredIssueTitleLabel.hidden = YES;
@@ -331,6 +336,7 @@ BOOL _selectedSearchResult;
             if (issue.coverImage) {
                 validImage = YES;
                 _featuredIssue = issue;
+                
             }
         }
     }
@@ -397,7 +403,7 @@ BOOL _selectedSearchResult;
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
-
+    
     NSSortDescriptor *boolDescr = [[NSSortDescriptor alloc] initWithKey:@"title.subscribers" ascending:NO];
     NSArray *sortDescriptors = @[boolDescr];
     NSArray *sortedArray = [NSArray new];
@@ -420,6 +426,10 @@ BOOL _selectedSearchResult;
         if (!error) {
             _popularIssuesArray = popularIssuesArray;
             [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
+            if (popularIssuesArray.count) {
+                // Fetch the most popular issue's title object so we have a subscriber count for core data fetching on subsequent loads
+                [self.client fetchTitle:((LBXIssue *)popularIssuesArray[0]).title.titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {}];
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.bottomTableView reloadData];
             });
@@ -787,9 +797,6 @@ BOOL _selectedSearchResult;
             [[NSNotificationCenter defaultCenter]
              postNotificationName:@"reloadBottomTableView"
              object:self];
-        }
-        else {
-            //[self getCoreDataPopularIssues];
         }
         
         cell = self.bottomTableViewCell;
