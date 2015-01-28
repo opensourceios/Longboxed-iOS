@@ -209,13 +209,13 @@
     
     if ([LBXControllerServices isLoggedIn]) {
         // Fetch the users bundles
-        [client fetchBundleResourcesWithPage:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+        [client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {
-                [LBXLogging logMessage:@"Fetched users bundles"];
+                [LBXLogging logMessage:@"Fetched users latest bundle"];
                 completionHandler(UIBackgroundFetchResultNewData);
             }
             else {
-                [LBXLogging logMessage:@"Failed fetching users bundles"];
+                [LBXLogging logMessage:@"Failed fetching users latest bundle"];
                 completionHandler(UIBackgroundFetchResultFailed);
             }
         }];
