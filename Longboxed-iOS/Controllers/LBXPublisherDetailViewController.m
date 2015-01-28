@@ -95,7 +95,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     
     if (!_titlesForPublisherArray.count) {
         self.tableView.hidden = YES;
-        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+        [SVProgressHUD show];
     }
     
     [self refresh];
