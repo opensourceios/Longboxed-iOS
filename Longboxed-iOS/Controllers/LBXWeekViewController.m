@@ -177,16 +177,10 @@ BOOL _endOfIssues;
     else {
         _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
     }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     
-    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
+    [self fetchIssues];
     
     // Calendar button
-    // TODO: Move this out of viewWillAppear for performance reasons
     int calendarSize = 20;
     FAKFontAwesome *calendarIcon = [FAKFontAwesome calendarIconWithSize:calendarSize];
     [calendarIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
@@ -203,6 +197,13 @@ BOOL _endOfIssues;
         UIBarButtonItem *calendarButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
         self.navigationItem.rightBarButtonItem = calendarButton;
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
 
     self.tableView.rowHeight = ISSUE_TABLE_HEIGHT;
     
@@ -222,19 +223,8 @@ BOOL _endOfIssues;
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     [self setNavTitle];
     
-    if ([_customNavTitle isEqualToString:@"Bundles"]) {
-        [self fetchBundleWithPage:@1];
-    }
-    else if ((_segmentedControl.selectedSegmentIndex == -1 || _segmentedControl == nil) && _selectedWednesday) {
-        [self fetchDate:_selectedWednesday withPage:@1];
-    }
-    else if (_segmentedControl.selectedSegmentIndex == 0 && !_showedCalendar) {
-        [self refreshControlAction];
-        [self fetchThisWeekWithPage:@1];
-    }
-    else if (_segmentedControl.selectedSegmentIndex == 1 && !_showedCalendar) {
-        [self refreshControlAction];
-        [self fetchNextWeekWithPage:@1];
+    if (_showedCalendar) {
+        [self fetchIssues];
     }
 }
 
@@ -255,6 +245,23 @@ BOOL _endOfIssues;
 
 
 #pragma mark Private Methods
+
+- (void)fetchIssues {
+    if ([_customNavTitle isEqualToString:@"Bundles"]) {
+        [self fetchBundleWithPage:@1];
+    }
+    else if ((_segmentedControl.selectedSegmentIndex == -1 || _segmentedControl == nil) && _selectedWednesday) {
+        [self fetchDate:_selectedWednesday withPage:@1];
+    }
+    else if (_segmentedControl.selectedSegmentIndex == 0 && !_showedCalendar) {
+        [self refreshControlAction];
+        [self fetchThisWeekWithPage:@1];
+    }
+    else if (_segmentedControl.selectedSegmentIndex == 1 && !_showedCalendar) {
+        [self refreshControlAction];
+        [self fetchNextWeekWithPage:@1];
+    }
+}
 
 - (UIBarPosition)positionForBar:(id)bar {
     return UIBarPositionTopAttached;
