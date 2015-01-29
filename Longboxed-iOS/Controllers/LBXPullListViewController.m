@@ -317,9 +317,6 @@ CGFloat cellWidth;
             }
             else [self.searchBarController.searchResultsTableView reloadData];
         }
-        else {
-            //[LBXMessageBar displayError:error];
-        }
     }];
 }
 
@@ -366,10 +363,6 @@ CGFloat cellWidth;
         NSArray *prevArray = _pullListArray;
         if (!error) {
             [self fillPullListArray];
-        }
-        else {
-            //[LBXMessageBar displayError:error];
-            
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             if (oldArray != _pullListArray) {

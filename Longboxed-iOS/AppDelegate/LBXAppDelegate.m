@@ -11,6 +11,7 @@
 #import "LBXClient.h"
 #import "LBXLogging.h"
 #import "LBXControllerServices.h"
+#import "UIColor+LBXCustomColors.h"
 
 #import "UIFont+LBXCustomFonts.h"
 
@@ -24,6 +25,9 @@
 #import <Crashlytics/Crashlytics.h>
 #import <CrashReporter/CrashReporter.h>
 #import <DropboxSDK/DropboxSDK.h>
+#import <CRToast.h>
+#import "FAKFontAwesome.h"
+
 
 @interface LBXAppDelegate ()
 
@@ -268,20 +272,39 @@
     });
 }
 
-- (void)setAPIErrorMessageVisible:(BOOL)setVisible {
-    static NSUInteger kNetworkIndicatorCount = 0;
+- (void)setAPIErrorMessageVisible:(BOOL)setVisible withError:(NSError *)error {
+    UINavigationController *navController = [UINavigationController new];
     
-    if (setVisible) {
-        kNetworkIndicatorCount++;
-    }
-    else {
-        kNetworkIndicatorCount--;
-    }
+    int errorsize = navController.navigationBar.frame.size.height;
+    FAKFontAwesome *errorIcon = [FAKFontAwesome exclamationCircleIconWithSize:errorsize];
+    [errorIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    UIImage *errorImage = [errorIcon imageWithSize:CGSizeMake(errorsize, errorsize)];
     
-    // Display the indicator as long as our static counter is > 0.
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(kNetworkIndicatorCount > 0)];
-    });
+    CRToastInteractionResponder *responder = [CRToastInteractionResponder interactionResponderWithInteractionType:CRToastInteractionTypeAll automaticallyDismiss:YES block:^(CRToastInteractionType interactionType) {}];
+    
+    NSString *localizedErrorString = error.userInfo[@"NSLocalizedDescription"];
+    
+    NSString *errorMessage = (localizedErrorString) ? [localizedErrorString stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[localizedErrorString substringToIndex:1] uppercaseString]] : @"Unable to connect to Longboxed servers.";
+    NSDictionary *options = @{
+                              kCRToastTextKey : [NSString stringWithFormat:@"Error: %@", errorMessage],
+                              kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
+                              kCRToastFontKey           : [UIFont errorMessageFont],
+                              kCRToastBackgroundColorKey : [UIColor LBXRedColor],
+                              kCRToastTimeIntervalKey   : @3.0f,
+                              kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
+                              kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
+                              kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionTop),
+                              kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionBottom),
+                              kCRToastNotificationTypeKey: @(CRToastTypeNavigationBar),
+                              kCRToastInteractionRespondersKey: @[responder],
+                              kCRToastImageKey : errorImage
+                              };
+
+    
+    [CRToastManager showNotificationWithOptions:options
+                                completionBlock:^{
+                                    NSLog(@"Completed");
+                                }];
 }
 
 @end

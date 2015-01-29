@@ -141,7 +141,6 @@ CGFloat const kMGOffsetBlurEffect = 2.0;
         }
         else {
             completion([UIImage defaultCoverImage]);
-            //[LBXMessageBar displayError:error];
         }
     }];
 }

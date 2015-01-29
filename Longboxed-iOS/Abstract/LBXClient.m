@@ -22,6 +22,7 @@
 #import "LBXAppDelegate.h"
 
 #import <JRHUtilities/NSDictionary+DictionaryUtilities.h>
+#import "LBXControllerServices.h"
 
 @interface LBXClient()
 
@@ -57,7 +58,6 @@
     
     NSString *path = endpointDict[routeName];
     if (HTTPHeaderParams) {
-        NSCAssert(HTTPHeaderParams != NULL, @"Object provided is invalid; cannot create a path from a NULL object");
         RKPathMatcher *matcher = [RKPathMatcher pathMatcherWithPattern:endpointDict[routeName]];
         path = [matcher pathFromObject:HTTPHeaderParams addingEscapes:YES interpolatedParameters:nil];
     }
@@ -70,6 +70,10 @@
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         if (completion) {
+            NSLog(@"%@", routeName);
+            NSLog(@"%@", HTTPHeaderParams);
+            NSLog(@"%@", parameters);
+            [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setAPIErrorMessageVisible:YES withError:error];
             completion(nil, operation, error);
         }
     }];
@@ -109,6 +113,7 @@
                  }
                  
              } failure:^( AFHTTPRequestOperation *operation, NSError *error) {
+                 [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setAPIErrorMessageVisible:YES withError:error];
                  completion(nil, operation, error);
              }];
 
@@ -149,6 +154,7 @@
                  }
                  
              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setAPIErrorMessageVisible:YES withError:error];
                  if (completion) {
                      completion(nil, operation, error);
                  }
@@ -409,10 +415,13 @@
 
 - (void)deleteAccountWithCompletion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion {
     
-    [self DELETEWithRouteName:@"Delete Account" HTTPHeaderParams:nil queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
-        
-        completion(resultDict, response, error);
-    }];
+    if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
+    else {
+        [self DELETEWithRouteName:@"Delete Account" HTTPHeaderParams:nil queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+            
+            completion(resultDict, response, error);
+        }];
+    }
 }
 
 
@@ -428,151 +437,163 @@
 }
 
 - (void)fetchPullListWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
-    
-    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSString *headerParams;
-    if (store[@"id"]) {
-        headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                            @"userID", store[@"id"],
-                            nil];
+    if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
+    else {
+        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+        NSString *headerParams;
+        if (store[@"id"]) {
+            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
+                                @"userID", store[@"id"],
+                                nil];
+            
+        }
         
-    }
-    
-    [self GETWithRouteName:@"User Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-        
-        if (!error) {
-            // Delete any items that may have been removed from
-            // the pull list
-            NSArray *objects = [LBXPullListTitle MR_findAll];
-            for (NSManagedObject *managedObject in objects) {
-                if (![mappingResult.array containsObject:managedObject] && (_titleIDBeingAdded != ((LBXPullListTitle *)managedObject).titleID)) {
-                    NSLog(@"Deleting %@", ((LBXPullListTitle *)managedObject).name);
-                    [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
+        [self GETWithRouteName:@"User Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+            
+            if (!error) {
+                // Delete any items that may have been removed from
+                // the pull list
+                NSArray *objects = [LBXPullListTitle MR_findAll];
+                for (NSManagedObject *managedObject in objects) {
+                    if (![mappingResult.array containsObject:managedObject] && (_titleIDBeingAdded != ((LBXPullListTitle *)managedObject).titleID)) {
+                        NSLog(@"Deleting %@", ((LBXPullListTitle *)managedObject).name);
+                        [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
+                    }
+                }
+                
+                for (LBXTitle *title in mappingResult.array) {
+                    [self saveAlternateIssuesWithIssue:title.latestIssue];
                 }
             }
             
-            for (LBXTitle *title in mappingResult.array) {
-                [self saveAlternateIssuesWithIssue:title.latestIssue];
-            }
-        }
-        
-        completion(mappingResult.array, response, error);
-    }];
+            completion(mappingResult.array, response, error);
+        }];
+    }
 }
 
 - (void)addTitleToPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
     
-    _titleIDBeingAdded = titleID;
-    NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
-    
-    [self POSTWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+    if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
+    else {
+        _titleIDBeingAdded = titleID;
+        NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
         
-        NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
-        _titleIDBeingAdded = nil;
-        completion(pullListArray, response, error);
-    }];
+        [self POSTWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+            
+            NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
+            _titleIDBeingAdded = nil;
+            completion(pullListArray, response, error);
+        }];
+    }
 }
 
 - (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
-    
-    NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
-    
-    // Remove the title from Core Data first
-    __block NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", titleID];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
-    });
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
-        [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
-            
-            if (!error) {
-                // Remove the title from the latest bundle
-                NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
-                if (bundleArray.count) {
-                    LBXBundle *bundle = bundleArray[0];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
+    if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
+    else {
+        NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
+        
+        // Remove the title from Core Data first
+        __block NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", titleID];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
+        });
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+            [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+                
+                if (!error) {
+                    // Remove the title from the latest bundle
+                    NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
+                    if (bundleArray.count) {
+                        LBXBundle *bundle = bundleArray[0];
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [LBXBundle MR_deleteAllMatchingPredicate:predicate];
+                            predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [LBXBundle MR_deleteAllMatchingPredicate:predicate];
+                            });
+                            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                         });
-                        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-                    });
+                    }
                 }
-            }
-            NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
-            completion(pullListArray, response, error);
+                NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
+                completion(pullListArray, response, error);
+            }];
         }];
-    }];
-    
+    }
 
 }
 
 - (void)fetchBundleResourcesWithPage:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
-    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSString *headerParams;
-    if (store[@"id"]) {
-        headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                  @"userID", store[@"id"],
-                  nil];
-    }
-    
-    NSDictionary *objectDictParams;
-    if (![page isEqualToNumber:@1]) {
-        objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
-    }
-    
-    [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:objectDictParams credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-        
-        if (!error) {
-            for (LBXBundle *bundle in mappingResult.array) {
-                if (bundle.bundleID) { // Weird bug where sometimes returned array bundles have null id's
-                    for (LBXIssue *issue in bundle.issues) {
-                        LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:issue.title.titleID];
-                        if (title) [self saveAlternateIssuesWithIssue:issue];
-                    }
-                }
-                else {
-                    [self fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
-                        completion(mappingResult.array, response, error);
-                    }];
-                }
-            }
+    if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
+    else {
+        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+        NSString *headerParams;
+        if (store[@"id"]) {
+            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
+                      @"userID", store[@"id"],
+                      nil];
         }
         
-        completion(mappingResult.array, response, error);
-    }];
+        NSDictionary *objectDictParams;
+        if (![page isEqualToNumber:@1]) {
+            objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
+        }
+        
+        [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:objectDictParams credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+            
+            if (!error) {
+                for (LBXBundle *bundle in mappingResult.array) {
+                    if (bundle.bundleID) { // Weird bug where sometimes returned array bundles have null id's
+                        for (LBXIssue *issue in bundle.issues) {
+                            LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:issue.title.titleID];
+                            if (title) [self saveAlternateIssuesWithIssue:issue];
+                        }
+                    }
+                    else {
+                        [self fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
+                            completion(mappingResult.array, response, error);
+                        }];
+                    }
+                }
+            }
+            
+            completion(mappingResult.array, response, error);
+        }];
+    }
 }
 
 - (void)fetchLatestBundleWithCompletion:(void (^)(LBXBundle*, RKObjectRequestOperation*, NSError*))completion {
 
-    UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-    NSString *headerParams;
-    if (store[@"id"]) {
-        headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                  @"userID", store[@"id"],
-                  nil];
-    }
-    
-    [self GETWithRouteName:@"Latest Bundle" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-        
-        LBXBundle *bundle = (((LBXBundle *)mappingResult.array[0]).bundleID) ? ((LBXBundle *)mappingResult.array[0]) : nil;
-        if (!error) {
-            if (bundle.bundleID) { // Weird bug where sometimes returned bundles have null id's
-                for (LBXIssue *issue in bundle.issues) {
-                    [self saveAlternateIssuesWithIssue:issue];
-                }
-                completion(bundle, response, error);
-            }
-            else {
-                [self fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
-                    completion(bundle, response, error);
-                }];
-            }
+    if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
+    else {
+        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+        NSString *headerParams;
+        if (store[@"id"]) {
+            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
+                      @"userID", store[@"id"],
+                      nil];
         }
-        else completion(bundle, response, error);
         
-    }];
+        [self GETWithRouteName:@"Latest Bundle" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+            
+            LBXBundle *bundle = (((LBXBundle *)mappingResult.array[0]).bundleID) ? ((LBXBundle *)mappingResult.array[0]) : nil;
+            if (!error) {
+                if (bundle.bundleID) { // Weird bug where sometimes returned bundles have null id's
+                    for (LBXIssue *issue in bundle.issues) {
+                        [self saveAlternateIssuesWithIssue:issue];
+                    }
+                    completion(bundle, response, error);
+                }
+                else {
+                    [self fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
+                        completion(bundle, response, error);
+                    }];
+                }
+            }
+            else completion(bundle, response, error);
+            
+        }];
+    }
 }
 
 #pragma mark Private Methods

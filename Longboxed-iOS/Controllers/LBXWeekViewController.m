@@ -342,7 +342,7 @@ BOOL _endOfIssues;
 - (void)setIssuesForWeekArrayWithThisWeekIssues
 {
     NSDate *currentDate = [NSDate getLocalDate];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate], @1];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
         _issuesForWeekArray = allIssuesArray;
@@ -359,7 +359,7 @@ BOOL _endOfIssues;
 - (void)setIssuesForWeekArrayWithNextWeekIssues
 {
     NSDate *currentDate = [NSDate getLocalDate];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (isParent == %@)", [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:6*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
         _issuesForWeekArray = allIssuesArray;
@@ -435,7 +435,6 @@ BOOL _endOfIssues;
             }
         }
         else {
-            //[LBXMessageBar displayError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.refreshControl endRefreshing];
             });
@@ -460,7 +459,6 @@ BOOL _endOfIssues;
             }
         }
         else {
-            //[LBXMessageBar displayError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.refreshControl endRefreshing];
             });
@@ -497,7 +495,6 @@ BOOL _endOfIssues;
             }
         }
         else {
-            //[LBXMessageBar displayError:error];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
                 [self.refreshControl endRefreshing];
@@ -528,9 +525,6 @@ BOOL _endOfIssues;
                 else {
                     [self completeRefresh];
                 }
-            }
-            else {
-                //[LBXMessageBar displayError:error];
             }
         }];
     }
@@ -585,7 +579,7 @@ BOOL _endOfIssues;
     
     // Check if the issue is this week
     if (_selectedWednesday > [[NSDate getThisWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:-1*DAY] &&
-        _selectedWednesday < [NSDate getNextWednesdayOfDate:[NSDate getLocalDate]]) {
+        _selectedWednesday < [[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:-1*DAY]) {
         [self fetchDate:_selectedWednesday withPage:@1];
         _segmentedControl.selectedSegmentIndex = 0;
     }

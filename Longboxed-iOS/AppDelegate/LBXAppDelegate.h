@@ -18,5 +18,6 @@
 
 - (NSString *) getLogFilesContentWithMaxSize:(NSInteger)maxSize;
 - (void)setNetworkActivityIndicatorVisible:(BOOL)setVisible;
+- (void)setAPIErrorMessageVisible:(BOOL)setVisible withError:(NSError *)error;
 
 @end

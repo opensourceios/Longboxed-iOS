@@ -133,6 +133,12 @@ static const NSString *fontFace = @"AvenirNext";
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:18];
 }
 
+// Error message
+
++ (UIFont *)errorMessageFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Medium", fontFace] size:14];
+}
 
 // Title Detail View
 

@@ -46,5 +46,6 @@
 + (UIFont *)alertViewMessageFont;
 + (UIFont *)alertViewButtonFont;
 + (UIFont *)alertViewMessageFontForCrash;
++ (UIFont *)errorMessageFont;
 
 @end

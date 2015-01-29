@@ -145,7 +145,6 @@ BOOL endOfPublishers;
             [self setPublisherArrayWithPublishers];
             
             tableViewRows = _publishersArray.count;
-            //[LBXMessageBar displayError:error];
         }
     }];
 }

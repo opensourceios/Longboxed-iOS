@@ -427,9 +427,6 @@ int page;
         if (!error) {
             [self createPullListArray];
         }
-        else {
-            //[LBXMessageBar displayError:error];
-        }
         [self.view setNeedsDisplay];
     }];
 }
@@ -441,9 +438,6 @@ int page;
         if (!error) {
             _detailTitle = title;
             [self updateDetailView];
-        }
-        else {
-            //[LBXMessageBar displayError:error];
         }
         [self.view setNeedsDisplay];
     }];
@@ -476,9 +470,6 @@ int page;
             [self createIssuesArray];
             [self.tableView reloadData];
             [self.view setNeedsDisplay];
-        }
-        else {
-            //[LBXMessageBar displayError:error];
         }
     }];
 }

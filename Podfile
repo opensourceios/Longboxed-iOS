@@ -19,7 +19,6 @@ pod 'Masonry'
 pod 'SDiPhoneVersion'
 pod '1PasswordExtension'
 pod 'AYVibrantButton'
-pod 'UAProgressView'
 pod 'FontAwesomeKit', '~> 2.1.0'
 pod 'CocoaLumberjack', '~> 1.9'
 pod 'NSLogger', '~> 1.5'
@@ -27,6 +26,7 @@ pod 'Shimmer', :git => 'https://github.com/facebook/Shimmer.git', :branch => 'ma
 pod 'MagicalRecord' , :git => 'https://github.com/magicalpanda/MagicalRecord.git', :branch => 'develop'
 pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImageViewController.git', :branch => 'dev'
 pod 'Doppelganger'
+pod 'CRToast'
 
 # Customized
 # pod 'MGSpotyViewController' (Has LBX dependencies so must remain in project)

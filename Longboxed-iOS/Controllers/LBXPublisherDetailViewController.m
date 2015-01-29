@@ -145,9 +145,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
             [self setDetailPublisher];
             
         }
-        else {
-            //[LBXMessageBar displayError:error];
-        }
         [self.view setNeedsDisplay];
     }];
 }
@@ -170,7 +167,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         }
         else {
             [self.refreshControl endRefreshing];
-            //[LBXMessageBar displayError:error];
         }
     }];
 }

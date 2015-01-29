@@ -270,7 +270,10 @@ BOOL _selectedSearchResult;
     
     // Stuff that determines whether or not to fetch the featured issue
     NSDate *currentDate = [NSDate getLocalDate];
-    if (_popularIssuesArray.count && ((LBXIssue *)_popularIssuesArray[0]).releaseDate > [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] && ((LBXIssue *)_popularIssuesArray[0]).releaseDate < [NSDate getNextWednesdayOfDate:currentDate] && ((LBXIssue *)_popularIssuesArray[0]).title.subscribers.intValue > 0) {
+    if (_popularIssuesArray.count &&
+        ((LBXIssue *)_popularIssuesArray[0]).releaseDate > [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
+        ((LBXIssue *)_popularIssuesArray[0]).releaseDate < [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
+        ((LBXIssue *)_popularIssuesArray[0]).title.subscribers.intValue > 0) {
         [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
     }
     else if (!_featuredBlurredImageView.image) {
@@ -403,7 +406,7 @@ BOOL _selectedSearchResult;
 {
     NSDate *currentDate = [NSDate getLocalDate];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate], @1];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
     
     NSSortDescriptor *boolDescr = [[NSSortDescriptor alloc] initWithKey:@"title.subscribers" ascending:NO];
@@ -439,7 +442,6 @@ BOOL _selectedSearchResult;
         else {
             [self getCoreDataPopularIssues];
             [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
-            //[LBXMessageBar displayError:error];
         }
     }];
 }
@@ -455,7 +457,7 @@ BOOL _selectedSearchResult;
 - (void)getCoreDataLatestBundle
 {
     NSDate *currentDate = [NSDate getLocalDate];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [NSDate getNextWednesdayOfDate:currentDate]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
     LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
     if (bundle) {
         NSString *issuesString = @"ISSUES IN YOUR BUNDLE";
@@ -495,9 +497,6 @@ BOOL _selectedSearchResult;
                     [self getCoreDataLatestBundle];
                 });
             }
-            else {
-                //[LBXMessageBar displayError:error];
-            }
         }];
     }
 }
@@ -522,9 +521,6 @@ BOOL _selectedSearchResult;
                 });
             }
             else [self.searchResultsController.tableView reloadData];
-        }
-        else {
-            //[LBXMessageBar displayError:error];
         }
     }];
 }
