@@ -478,7 +478,7 @@ BOOL _endOfIssues;
     if (![self.tableView numberOfRowsInSection:1]) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *dateString = [dateFormatter stringFromDate:[NSDate getThisWednesdayOfDate:date]    ];
+    NSString *dateString = [dateFormatter stringFromDate:[NSDate getThisWednesdayOfDate:date]];
     
     // Fetch this weeks comics
     [self.client fetchIssuesCollectionWithDate:[dateFormatter dateFromString:dateString] page:page completion:^(NSArray *issuesForDateArray, RKObjectRequestOperation *response, NSError *error) {
@@ -589,16 +589,16 @@ BOOL _endOfIssues;
     [self dismissViewControllerAnimated:YES completion:nil];
     
     // Check if the issue is this week
-    if ([_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] > -3*DAY &&
-        [_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] <= 4*DAY) {
-        [self refreshControlAction];
+    if (_selectedWednesday > [[NSDate getThisWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:-1*DAY] &&
+        _selectedWednesday < [NSDate getNextWednesdayOfDate:[NSDate getLocalDate]]) {
+        [self fetchDate:_selectedWednesday withPage:@1];
         _segmentedControl.selectedSegmentIndex = 0;
     }
     
     // Check if the issue is next week
-    else if ([_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] > 5*DAY &&
-        [_selectedWednesday timeIntervalSinceDate:[NSDate getLocalDate]] <= 12*DAY) {
-        [self refreshControlAction];
+    else if (_selectedWednesday > [[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:-1*DAY] &&
+             _selectedWednesday < [[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:6*DAY]) {
+        [self fetchDate:_selectedWednesday withPage:@1];
         _segmentedControl.selectedSegmentIndex = 1;
     }
     else {
