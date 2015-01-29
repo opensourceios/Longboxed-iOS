@@ -19,6 +19,7 @@
 #import "NSData+Base64.h"
 #import "NSString+URLQuery.h"
 #import "NSArray+LBXArrayUtilities.h"
+#import "LBXAppDelegate.h"
 
 #import <JRHUtilities/NSDictionary+DictionaryUtilities.h>
 
@@ -46,7 +47,7 @@
              credentials:(BOOL)credentials
               completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion
 {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:YES];
     if (credentials) {
         // Set the shared manager auth
         [LBXClient setAuth];
@@ -63,7 +64,7 @@
     
     [RKObjectManager.sharedManager getObjectsAtPath:path parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult)
     {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
         if (completion) {
             completion(mappingResult, operation, nil);
         }
@@ -82,7 +83,7 @@
               credentials:(BOOL)credentials
                completion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion
 {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:YES];
     // Set up the URL route with the parameter suffix
     NSDictionary *endpointDict = [LBXEndpoints endpoints];
     
@@ -101,7 +102,7 @@
     [client postPath:postPath
           parameters:parameters
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                 [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                  if (completion) {
                      completion(jsonFromData, operation, nil);
@@ -121,7 +122,7 @@
                 credentials:(BOOL)credentials
                  completion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion
 {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:YES];
     // Set up the URL route with the parameter suffix
     NSDictionary *endpointDict = [LBXEndpoints endpoints];
     
@@ -140,7 +141,7 @@
     [client deletePath:deletePath
           parameters:parameters
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                 [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                  
                  if (completion) {
@@ -572,28 +573,6 @@
         else completion(bundle, response, error);
         
     }];
-}
-
-// http://oleb.net/blog/2009/09/managing-the-network-activity-indicator/
-+ (void)setNetworkActivityIndicatorVisible:(BOOL)setVisible {
-    static NSUInteger kNetworkIndicatorCount = 0;
-    
-    if (setVisible) {
-        kNetworkIndicatorCount++;
-    }
-    else {
-        kNetworkIndicatorCount--;
-    }
-    
-    // The assertion helps to find programmer errors in activity indicator management.
-    // Since a negative NumberOfCallsToSetVisible is not a fatal error,
-    // it should probably be removed from production code.
-    NSAssert(kNetworkIndicatorCount >= 0, @"Network Activity Indicator was asked to hide more often than shown");
-    
-    // Display the indicator as long as our static counter is > 0.
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(kNetworkIndicatorCount > 0)];
-    });
 }
 
 #pragma mark Private Methods

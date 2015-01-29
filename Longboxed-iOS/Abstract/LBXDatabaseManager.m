@@ -147,7 +147,7 @@
     // Register for changes in network availability
     [manager.HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (status == AFNetworkReachabilityStatusNotReachable) {
-            [LBXControllerServices showAlertWithTitle:@"No network connection" andMessage:[NSString stringWithFormat:@"You must be connected to the internet to use this app."]];
+            [LBXControllerServices showAlertWithTitle:@"No network connection" andMessage:[NSString stringWithFormat:@"You must be connected to the internet to use Longboxed."]];
         }
     }];
     

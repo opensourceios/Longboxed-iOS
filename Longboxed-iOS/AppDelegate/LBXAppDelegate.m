@@ -250,4 +250,38 @@
     [MagicalRecord cleanUp];
 }
 
+
+// http://oleb.net/blog/2009/09/managing-the-network-activity-indicator/
+- (void)setNetworkActivityIndicatorVisible:(BOOL)setVisible {
+    static NSUInteger kNetworkIndicatorCount = 0;
+    
+    if (setVisible) {
+        kNetworkIndicatorCount++;
+    }
+    else {
+        kNetworkIndicatorCount--;
+    }
+    
+    // Display the indicator as long as our static counter is > 0.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(kNetworkIndicatorCount > 0)];
+    });
+}
+
+- (void)setAPIErrorMessageVisible:(BOOL)setVisible {
+    static NSUInteger kNetworkIndicatorCount = 0;
+    
+    if (setVisible) {
+        kNetworkIndicatorCount++;
+    }
+    else {
+        kNetworkIndicatorCount--;
+    }
+    
+    // Display the indicator as long as our static counter is > 0.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(kNetworkIndicatorCount > 0)];
+    });
+}
+
 @end

@@ -17,4 +17,6 @@
 @property (nonatomic) DDFileLogger *fileLogger;
 
 - (NSString *) getLogFilesContentWithMaxSize:(NSInteger)maxSize;
+- (void)setNetworkActivityIndicatorVisible:(BOOL)setVisible;
+
 @end

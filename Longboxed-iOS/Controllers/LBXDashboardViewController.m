@@ -265,8 +265,10 @@ BOOL _selectedSearchResult;
     [self getCoreDataLatestBundle];
     [self getCoreDataPopularIssues];
     
-    [self refresh];
+    if (_popularIssuesArray.count && _bundleIssuesArray.count) [self fetchBundle];
+    else [self refresh];
     
+    // Stuff that determines whether or not to fetch the featured issue
     NSDate *currentDate = [NSDate getLocalDate];
     if (_popularIssuesArray.count && ((LBXIssue *)_popularIssuesArray[0]).releaseDate > [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] && ((LBXIssue *)_popularIssuesArray[0]).releaseDate < [NSDate getNextWednesdayOfDate:currentDate] && ((LBXIssue *)_popularIssuesArray[0]).title.subscribers.intValue > 0) {
         [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
