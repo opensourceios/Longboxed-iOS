@@ -238,7 +238,6 @@ BOOL _endOfIssues;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.topItem.title = @" ";
     [SVProgressHUD dismiss];
     [_maskLoadingView removeFromSuperview];
 }

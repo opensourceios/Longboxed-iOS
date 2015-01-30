@@ -233,7 +233,6 @@ CGFloat cellWidth;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.topItem.title = @" ";
 }
 
 - (void)viewDidDisappear:(BOOL)animated
