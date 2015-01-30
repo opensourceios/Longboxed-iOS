@@ -309,6 +309,7 @@ BOOL _endOfIssues;
         [self.tableView reloadData];
         [self setIssuesForWeekArrayWithThisWeekIssues];
         [self.tableView reloadData];
+        [self refreshControlAction];
     }
     else if (selectedSegment == 1) {
         self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]]];
@@ -317,6 +318,7 @@ BOOL _endOfIssues;
         [self.tableView reloadData];
         [self setIssuesForWeekArrayWithNextWeekIssues];
         [self.tableView reloadData];
+        [self refreshControlAction];
     }
 }
 
