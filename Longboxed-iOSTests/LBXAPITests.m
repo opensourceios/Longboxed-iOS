@@ -291,6 +291,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
                 store = [UICKeyChainStore keyChainStore];
                 [UICKeyChainStore setString:testUsername forKey:@"username"];
                 [UICKeyChainStore setString:testPassword forKey:@"password"];
+                [UICKeyChainStore setString:@"1" forKey:@"id"];
                 
                 // Delete Stuff
                 [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
@@ -300,12 +301,12 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
                     store = [UICKeyChainStore keyChainStore];
                     [UICKeyChainStore setString:@"johnrhickey+test@gmail.com" forKey:@"username"];
                     [UICKeyChainStore setString:@"test1234" forKey:@"password"];
+                    [UICKeyChainStore setString:@"NO" forKey:@"isLoggedIn"];
                     
                     if (error) {
                         for (NSString *error in [responseDict allKeys]) {
                             XCTFail(@"%@", responseDict[error]);
                         }
-                        
                     }
                     else {
                         XCTAssertEqual(response.response.statusCode, 200, @"Delete endpoint is returning a status code %ldd", (long)response.response.statusCode);

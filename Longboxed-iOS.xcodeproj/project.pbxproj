@@ -118,6 +118,7 @@
 		E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */; };
 		E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */; };
 		E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */; };
+		E5E22C1D1A7C4D8C004ACE42 /* longboxed_about.png in Resources */ = {isa = PBXBuildFile; fileRef = E5E22C1C1A7C4D8C004ACE42 /* longboxed_about.png */; };
 		E5E5161619CA4450005FBD43 /* PaintCodeImages.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161519CA4450005FBD43 /* PaintCodeImages.m */; };
 		E5E5162D19CA446D005FBD43 /* NSArray+LBXArrayUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161B19CA446D005FBD43 /* NSArray+LBXArrayUtilities.m */; };
 		E5E5163219CA446D005FBD43 /* UIColor+LBXCustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162519CA446D005FBD43 /* UIColor+LBXCustomColors.m */; };
@@ -325,6 +326,7 @@
 		E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueScrollViewController.m; path = Controllers/LBXIssueScrollViewController.m; sourceTree = "<group>"; };
 		E5D9A89C19A96FBB00BC06C1 /* LBXPublisherDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherDetailViewController.h; path = Controllers/LBXPublisherDetailViewController.h; sourceTree = "<group>"; };
 		E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherDetailViewController.m; path = Controllers/LBXPublisherDetailViewController.m; sourceTree = "<group>"; };
+		E5E22C1C1A7C4D8C004ACE42 /* longboxed_about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = longboxed_about.png; path = Assets/longboxed_about.png; sourceTree = SOURCE_ROOT; };
 		E5E5161419CA4450005FBD43 /* PaintCodeImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintCodeImages.h; sourceTree = "<group>"; };
 		E5E5161519CA4450005FBD43 /* PaintCodeImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintCodeImages.m; sourceTree = "<group>"; };
 		E5E5161A19CA446D005FBD43 /* NSArray+LBXArrayUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+LBXArrayUtilities.h"; sourceTree = "<group>"; };
@@ -677,6 +679,7 @@
 		E57D49221960B8E80014A13F /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E5E22C1C1A7C4D8C004ACE42 /* longboxed_about.png */,
 				E55B68151A1AE3C0008A5CFD /* lb_nocover.png */,
 				E5B5F9A119FC0C6200474E60 /* arrow_right_standard.png */,
 				E5B5F9A219FC0C6200474E60 /* arrow_right_standard@2x.png */,
@@ -980,6 +983,7 @@
 				E593F55119D7160C00D310C6 /* ActualTableViewCell.xib in Resources */,
 				E5A73D711A4655BD0021CCC8 /* longboxed_full@3x.png in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
+				E5E22C1D1A7C4D8C004ACE42 /* longboxed_about.png in Resources */,
 				E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */,
 				E5702B761A68A042007B672D /* LBXAboutViewController.xib in Resources */,
 				E515747019E4D1F20072EE3E /* LBXBottomTableViewCell.xib in Resources */,

@@ -487,9 +487,9 @@ UICKeyChainStore *store;
             }
             break;
         case 4:
-            if (indexPath.row == 0 && [LBXControllerServices isAdmin]) {
+            if (indexPath.row == 0) {
                 LBXAboutViewController *aboutController = [LBXAboutViewController new];
-                [self.navigationController pushViewController:aboutController animated:YES];
+                [self.navigationController pushViewController:aboutController animated:YES];   
             }
             // Delete Account
             else if (indexPath.row == 1) {

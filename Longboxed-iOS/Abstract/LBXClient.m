@@ -70,9 +70,6 @@
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         if (completion) {
-            NSLog(@"%@", routeName);
-            NSLog(@"%@", HTTPHeaderParams);
-            NSLog(@"%@", parameters);
             [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setAPIErrorMessageVisible:YES withError:error];
             completion(nil, operation, error);
         }

@@ -175,7 +175,6 @@ UICKeyChainStore *store;
             [SVProgressHUD dismiss];
             
             NSString *errorMessage = [NSString new];
-            NSLog(@"%@", responseDict[@"email"]);
             for (NSString *errorKey in responseDict.allKeys) {
                 if (((NSArray *)responseDict[errorKey]).count) errorMessage = responseDict[errorKey][0];
             }
