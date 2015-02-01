@@ -12,6 +12,10 @@
 #import "LBXDashboardViewController.h"
 #import "LBXLoginViewController.h"
 #import "LBXDeleteAccountViewController.h"
+#import "LBXTipJarTableViewCell.h"
+#import "LBXPullListTableViewCell.h"
+#import "LBXDropboxViewController.h"
+#import "LBXAboutTableViewController.h"
 #import "LBXSignupViewController.h"
 #import "LBXDatabaseManager.h"
 #import "LBXControllerServices.h"
@@ -19,6 +23,7 @@
 #import "LBXEndpoints.h"
 #import "LBXLogging.h"
 #import "LBXUser.h"
+#import "LBXAppDelegate.h"
 
 #import "UIFont+LBXCustomFonts.h"
 #import "NSString+StringUtilities.h"
@@ -27,11 +32,7 @@
 #import <UICKeyChainStore.h>
 #import <SVProgressHUD.h>
 #import <JGActionSheet.h>
-#import "LBXTipJarTableViewCell.h"
-#import "LBXPullListTableViewCell.h"
-#import "LBXDropboxViewController.h"
-#import "LBXOnboardingViewController.h"
-#import "LBXAboutTableViewController.h"
+#import <OnboardingContentViewController.h>
 
 @interface LBXSettingsViewController () <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
@@ -240,15 +241,15 @@ UICKeyChainStore *store;
         case 0:
             if (![LBXControllerServices isLoggedIn]) return 2;
             // TODO: Remove dropbox
-            if ([LBXControllerServices isAdmin]) return 4;
+            if ([LBXControllerServices isAdmin]) return 3;
             else return 1;
             break;
         case 1:
             return 2;
             break;
         case 4:
-            if ([LBXControllerServices isLoggedIn]) return 2;
-            else return 1;
+            if ([LBXControllerServices isLoggedIn]) return 3;
+            else return 2;
             break;
         default:
             return 1;
@@ -337,7 +338,7 @@ UICKeyChainStore *store;
     switch (indexPath.section) {
         case 0:
             // TODO: Remove dropbox
-            textArray = @[logInString, devServerOrLogInString, dropboxString, @"Show Onboarding"];
+            textArray = @[logInString, devServerOrLogInString, dropboxString];
             break;
         case 1:
             textArray = @[@"Send Feedback", @"Please Rate Longboxed"];
@@ -346,7 +347,7 @@ UICKeyChainStore *store;
             textArray = @[@"Clear Image & Data Cache"];
             break;
         case 4:
-            textArray = ([LBXControllerServices isLoggedIn]) ? @[@"About", @"Delete Account And All Data"] : @[@"About"];
+            textArray = ([LBXControllerServices isLoggedIn]) ? @[@"About", @"Show Tutorial", @"Delete Account And All Data"] : @[@"About", @"Show Tutorial"];
             break;
     }
     
@@ -444,10 +445,6 @@ UICKeyChainStore *store;
                 LBXDropboxViewController *dropboxViewController = [LBXDropboxViewController new];
                 [self.navigationController pushViewController:dropboxViewController animated:YES];
             }
-            else if (indexPath.row == 3) {
-                LBXOnboardingViewController *onboardingController = [LBXOnboardingViewController new];
-                [self.navigationController pushViewController:onboardingController animated:YES];
-            }
             break;
         // Send feedback email
         case 1:
@@ -491,8 +488,12 @@ UICKeyChainStore *store;
                 LBXAboutTableViewController *aboutController = [LBXAboutTableViewController new];
                 [self.navigationController pushViewController:aboutController animated:YES];   
             }
-            // Delete Account
             else if (indexPath.row == 1) {
+                OnboardingViewController *onboardingVC = [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] generateOnboardingVC];
+                [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] externallySetRootViewController:onboardingVC];
+            }
+            // Delete Account
+            else if (indexPath.row == 2) {
                 LBXDeleteAccountViewController *deleteViewController = [LBXDeleteAccountViewController new];
                 [self.navigationController pushViewController:deleteViewController animated:YES];
             }

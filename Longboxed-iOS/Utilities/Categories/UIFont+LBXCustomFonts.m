@@ -208,4 +208,9 @@ static const NSString *fontFace = @"AvenirNext";
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-UltraLight", fontFace] size:80];
 }
 
++ (UIFont *)onboardingSkipButtonFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:18];
+}
+
 @end

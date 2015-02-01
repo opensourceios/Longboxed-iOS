@@ -177,7 +177,7 @@
     // Creators
     if (indexPath.section == 1) {
         titleString = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
-        urlString = (indexPath.row == 0) ? @"http://twitter.com/jayhickey" : @"http://twitter.com/timbueno";
+        urlString = (indexPath.row == 0) ? @"http://jayhickey.com" : @"http://twitter.com/timbueno";
     }
     // Special Thanks
     else if (indexPath.section == 2) {

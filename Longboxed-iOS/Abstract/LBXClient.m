@@ -70,7 +70,7 @@
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         if (completion) {
-            [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setAPIErrorMessageVisible:YES withError:error];
+            [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setAPIErrorMessageVisible:NO withError:error];
             completion(nil, operation, error);
         }
     }];
@@ -104,12 +104,14 @@
           parameters:parameters
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
+                 [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
                  NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                  if (completion) {
                      completion(jsonFromData, operation, nil);
                  }
                  
              } failure:^( AFHTTPRequestOperation *operation, NSError *error) {
+                 [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
                  [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setAPIErrorMessageVisible:YES withError:error];
                  completion(nil, operation, error);
              }];
@@ -151,6 +153,7 @@
                  }
                  
              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
                  [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setAPIErrorMessageVisible:YES withError:error];
                  if (completion) {
                      completion(nil, operation, error);

@@ -18,6 +18,7 @@
 		E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5F19B53A5B0021CEE8 /* DDNSLoggerLogger.m */; };
 		E507A6F61A7D953900E29DBE /* OpenSource.json in Resources */ = {isa = PBXBuildFile; fileRef = E507A6F51A7D953900E29DBE /* OpenSource.json */; };
 		E507A6F91A7DA0E600E29DBE /* LBXAboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E507A6F81A7DA0E600E29DBE /* LBXAboutTableViewController.m */; };
+		E507A70C1A7DDAAD00E29DBE /* OnboardMovie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E507A70B1A7DDAAD00E29DBE /* OnboardMovie.mp4 */; };
 		E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = E50C2A391998605500AD5FC6 /* arrow.png */; };
 		E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E50C2A3A1998605500AD5FC6 /* arrow@2x.png */; };
 		E515746319DCC4360072EE3E /* LBXSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E515746219DCC4360072EE3E /* LBXSearchTableViewController.m */; };
@@ -60,8 +61,6 @@
 		E5702B701A689ACE007B672D /* LBXDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5702B6E1A689ACE007B672D /* LBXDropboxViewController.m */; };
 		E5702B711A689ACE007B672D /* LBXDropboxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5702B6F1A689ACE007B672D /* LBXDropboxViewController.xib */; };
 		E5702B7C1A68ABBF007B672D /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5702B7B1A68ABBF007B672D /* DropboxSDK.framework */; };
-		E5702B801A68AD1B007B672D /* LBXOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5702B7E1A68AD1B007B672D /* LBXOnboardingViewController.m */; };
-		E5702B811A68AD1B007B672D /* LBXOnboardingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5702B7F1A68AD1B007B672D /* LBXOnboardingViewController.xib */; };
 		E5702B831A68C033007B672D /* keys.txt in Resources */ = {isa = PBXBuildFile; fileRef = E5702B821A68C033007B672D /* keys.txt */; };
 		E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */; };
 		E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB819D7C37E002DE4BA /* arrow_right_small_black@2x.png */; };
@@ -99,7 +98,6 @@
 		E5A773DD19624A52002654E7 /* LBXSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXSettingsViewController.m */; };
 		E5A773DE19624A52002654E7 /* LBXSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A773DC19624A52002654E7 /* LBXSettingsViewController.xib */; };
 		E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */; };
-		E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */ = {isa = PBXBuildFile; fileRef = E5AB810619CE10510042109B /* longboxed_logo.svg */; };
 		E5AB810B19CE1C550042109B /* LBXEmptyPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */; };
 		E5AD0FF61A3E4FED0031171E /* UIImage+LBXCreateImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AD0FF51A3E4FED0031171E /* UIImage+LBXCreateImage.m */; };
 		E5B2ED391A37D1C80053786F /* NSString+LBXStringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B2ED381A37D1C80053786F /* NSString+LBXStringUtilities.m */; };
@@ -119,7 +117,6 @@
 		E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */; };
 		E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */; };
 		E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */; };
-		E5E22C1D1A7C4D8C004ACE42 /* longboxed_about.png in Resources */ = {isa = PBXBuildFile; fileRef = E5E22C1C1A7C4D8C004ACE42 /* longboxed_about.png */; };
 		E5E5161619CA4450005FBD43 /* PaintCodeImages.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161519CA4450005FBD43 /* PaintCodeImages.m */; };
 		E5E5162D19CA446D005FBD43 /* NSArray+LBXArrayUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161B19CA446D005FBD43 /* NSArray+LBXArrayUtilities.m */; };
 		E5E5163219CA446D005FBD43 /* UIColor+LBXCustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162519CA446D005FBD43 /* UIColor+LBXCustomColors.m */; };
@@ -162,6 +159,7 @@
 		E507A6F51A7D953900E29DBE /* OpenSource.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OpenSource.json; path = Extras/OpenSource.json; sourceTree = "<group>"; };
 		E507A6F71A7DA0E600E29DBE /* LBXAboutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXAboutTableViewController.h; path = Controllers/LBXAboutTableViewController.h; sourceTree = "<group>"; };
 		E507A6F81A7DA0E600E29DBE /* LBXAboutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXAboutTableViewController.m; path = Controllers/LBXAboutTableViewController.m; sourceTree = "<group>"; };
+		E507A70B1A7DDAAD00E29DBE /* OnboardMovie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = OnboardMovie.mp4; path = Assets/OnboardMovie.mp4; sourceTree = SOURCE_ROOT; };
 		E50C2A391998605500AD5FC6 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow.png; path = Assets/arrow.png; sourceTree = SOURCE_ROOT; };
 		E50C2A3A1998605500AD5FC6 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow@2x.png"; path = "Assets/arrow@2x.png"; sourceTree = SOURCE_ROOT; };
 		E515746119DCC4360072EE3E /* LBXSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSearchTableViewController.h; path = Controllers/LBXSearchTableViewController.h; sourceTree = "<group>"; };
@@ -229,9 +227,6 @@
 		E5702B6E1A689ACE007B672D /* LBXDropboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDropboxViewController.m; path = Controllers/LBXDropboxViewController.m; sourceTree = "<group>"; };
 		E5702B6F1A689ACE007B672D /* LBXDropboxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXDropboxViewController.xib; path = Controllers/LBXDropboxViewController.xib; sourceTree = "<group>"; };
 		E5702B7B1A68ABBF007B672D /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
-		E5702B7D1A68AD1B007B672D /* LBXOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXOnboardingViewController.h; path = Controllers/LBXOnboardingViewController.h; sourceTree = "<group>"; };
-		E5702B7E1A68AD1B007B672D /* LBXOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXOnboardingViewController.m; path = Controllers/LBXOnboardingViewController.m; sourceTree = "<group>"; };
-		E5702B7F1A68AD1B007B672D /* LBXOnboardingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXOnboardingViewController.xib; path = Controllers/LBXOnboardingViewController.xib; sourceTree = "<group>"; };
 		E5702B821A68C033007B672D /* keys.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = keys.txt; sourceTree = "<group>"; };
 		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
@@ -296,7 +291,6 @@
 		E5A773DB19624A52002654E7 /* LBXSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSettingsViewController.m; path = Controllers/LBXSettingsViewController.m; sourceTree = "<group>"; };
 		E5A773DC19624A52002654E7 /* LBXSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXSettingsViewController.xib; path = Controllers/LBXSettingsViewController.xib; sourceTree = "<group>"; };
 		E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXEmptyPullListViewController.xib; path = Controllers/LBXEmptyPullListViewController.xib; sourceTree = "<group>"; };
-		E5AB810619CE10510042109B /* longboxed_logo.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = longboxed_logo.svg; path = Assets/longboxed_logo.svg; sourceTree = SOURCE_ROOT; };
 		E5AB810819CE1C550042109B /* LBXEmptyPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXEmptyPullListViewController.h; path = Controllers/LBXEmptyPullListViewController.h; sourceTree = "<group>"; };
 		E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXEmptyPullListViewController.m; path = Controllers/LBXEmptyPullListViewController.m; sourceTree = "<group>"; };
 		E5AD0FF41A3E4FED0031171E /* UIImage+LBXCreateImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+LBXCreateImage.h"; sourceTree = "<group>"; };
@@ -328,7 +322,6 @@
 		E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueScrollViewController.m; path = Controllers/LBXIssueScrollViewController.m; sourceTree = "<group>"; };
 		E5D9A89C19A96FBB00BC06C1 /* LBXPublisherDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPublisherDetailViewController.h; path = Controllers/LBXPublisherDetailViewController.h; sourceTree = "<group>"; };
 		E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPublisherDetailViewController.m; path = Controllers/LBXPublisherDetailViewController.m; sourceTree = "<group>"; };
-		E5E22C1C1A7C4D8C004ACE42 /* longboxed_about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = longboxed_about.png; path = Assets/longboxed_about.png; sourceTree = SOURCE_ROOT; };
 		E5E5161419CA4450005FBD43 /* PaintCodeImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintCodeImages.h; sourceTree = "<group>"; };
 		E5E5161519CA4450005FBD43 /* PaintCodeImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintCodeImages.m; sourceTree = "<group>"; };
 		E5E5161A19CA446D005FBD43 /* NSArray+LBXArrayUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+LBXArrayUtilities.h"; sourceTree = "<group>"; };
@@ -681,7 +674,7 @@
 		E57D49221960B8E80014A13F /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				E5E22C1C1A7C4D8C004ACE42 /* longboxed_about.png */,
+				E507A70B1A7DDAAD00E29DBE /* OnboardMovie.mp4 */,
 				E55B68151A1AE3C0008A5CFD /* lb_nocover.png */,
 				E5B5F9A119FC0C6200474E60 /* arrow_right_standard.png */,
 				E5B5F9A219FC0C6200474E60 /* arrow_right_standard@2x.png */,
@@ -689,7 +682,6 @@
 				E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */,
 				E57C6BB819D7C37E002DE4BA /* arrow_right_small_black@2x.png */,
 				E5B5F9AD19FC14A000474E60 /* arrow_right_small_black@3x.png */,
-				E5AB810619CE10510042109B /* longboxed_logo.svg */,
 				E57E156A19A98FB0002616F5 /* arrow_right_small.png */,
 				E57E156B19A98FB0002616F5 /* arrow_right_small@2x.png */,
 				E57E156619A987ED002616F5 /* arrow_right.png */,
@@ -745,9 +737,6 @@
 				E5A773DA19624A52002654E7 /* LBXSettingsViewController.h */,
 				E5A773DB19624A52002654E7 /* LBXSettingsViewController.m */,
 				E5A773DC19624A52002654E7 /* LBXSettingsViewController.xib */,
-				E5702B7D1A68AD1B007B672D /* LBXOnboardingViewController.h */,
-				E5702B7E1A68AD1B007B672D /* LBXOnboardingViewController.m */,
-				E5702B7F1A68AD1B007B672D /* LBXOnboardingViewController.xib */,
 				E5702B6D1A689ACE007B672D /* LBXDropboxViewController.h */,
 				E5702B6E1A689ACE007B672D /* LBXDropboxViewController.m */,
 				E5702B6F1A689ACE007B672D /* LBXDropboxViewController.xib */,
@@ -980,14 +969,12 @@
 				E5B5F9A419FC0C6200474E60 /* arrow_right_standard.png in Resources */,
 				E5B5F9AE19FC14A000474E60 /* arrow_right_small_black@3x.png in Resources */,
 				E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */,
-				E5AB810719CE10510042109B /* longboxed_logo.svg in Resources */,
 				E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */,
 				E5702B831A68C033007B672D /* keys.txt in Resources */,
 				E593F55119D7160C00D310C6 /* ActualTableViewCell.xib in Resources */,
 				E5A73D711A4655BD0021CCC8 /* longboxed_full@3x.png in Resources */,
 				E507A6F61A7D953900E29DBE /* OpenSource.json in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
-				E5E22C1D1A7C4D8C004ACE42 /* longboxed_about.png in Resources */,
 				E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */,
 				E515747019E4D1F20072EE3E /* LBXBottomTableViewCell.xib in Resources */,
 				E57E156819A987ED002616F5 /* arrow_right.png in Resources */,
@@ -996,9 +983,9 @@
 				E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */,
 				E553F59F19946393003E1F5C /* clear.png in Resources */,
 				E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */,
+				E507A70C1A7DDAAD00E29DBE /* OnboardMovie.mp4 in Resources */,
 				E55B68161A1AE3C0008A5CFD /* lb_nocover.png in Resources */,
 				E5B5F9A519FC0C6200474E60 /* arrow_right_standard@2x.png in Resources */,
-				E5702B811A68AD1B007B672D /* LBXOnboardingViewController.xib in Resources */,
 				E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */,
 				E5702B711A689ACE007B672D /* LBXDropboxViewController.xib in Resources */,
 				E515746819DCD1D00072EE3E /* LBXComicTableViewCell.xib in Resources */,
@@ -1179,7 +1166,6 @@
 				E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */,
 				E517240A1A4239F1005553BD /* LBXTipJarTableViewCell.m in Sources */,
 				E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */,
-				E5702B801A68AD1B007B672D /* LBXOnboardingViewController.m in Sources */,
 				E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */,
 				E5702B701A689ACE007B672D /* LBXDropboxViewController.m in Sources */,
 				E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */,

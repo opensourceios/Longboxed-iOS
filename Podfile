@@ -26,6 +26,7 @@ pod 'MagicalRecord' , :git => 'https://github.com/magicalpanda/MagicalRecord.git
 pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImageViewController.git', :branch => 'dev'
 pod 'Doppelganger'
 pod 'TSMessages'
+pod 'Onboard', :git => 'https://github.com/jayhickey/Onboard.git'
 
 # Customized
 # pod 'MGSpotyViewController' (Has LBX dependencies so must remain in project)

@@ -10,6 +10,7 @@
 #import <DDFileLogger.h>
 
 #import <HockeySDK.h>
+#import "OnboardingViewController.h"
 
 @interface LBXAppDelegate : UIResponder <UIApplicationDelegate, BITHockeyManagerDelegate>
 
@@ -19,5 +20,7 @@
 - (NSString *) getLogFilesContentWithMaxSize:(NSInteger)maxSize;
 - (void)setNetworkActivityIndicatorVisible:(BOOL)setVisible;
 - (void)setAPIErrorMessageVisible:(BOOL)setVisible withError:(NSError *)error;
+- (OnboardingViewController *)generateOnboardingVC;
+- (void)externallySetRootViewController:(id)viewController;
 
 @end
