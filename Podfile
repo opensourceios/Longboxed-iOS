@@ -17,7 +17,6 @@ pod 'RestKit', '~> 0.23.3'
 pod 'Masonry'
 pod 'SDiPhoneVersion'
 pod '1PasswordExtension'
-pod 'AYVibrantButton'
 pod 'FontAwesomeKit', '~> 2.1.0'
 pod 'CocoaLumberjack', '~> 1.9'
 pod 'NSLogger', '~> 1.5'
@@ -26,9 +25,10 @@ pod 'MagicalRecord' , :git => 'https://github.com/magicalpanda/MagicalRecord.git
 pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImageViewController.git', :branch => 'dev'
 pod 'Doppelganger'
 pod 'TSMessages'
-pod 'Onboard', :git => 'https://github.com/jayhickey/Onboard.git'
+pod 'Onboard', :git => 'https://github.com/jayhickey/Onboard.git', :branch => 'master'
 
 # Customized
+# pod 'AYVibrantButton' (Part of Onboard)
 # pod 'MGSpotyViewController' (Has LBX dependencies so must remain in project)
 # pod 'ESDatePicker' (Had issues when trying to fork, keeping in project for now)
 pod 'SVProgressHUD', :git => 'https://github.com/jayhickey/SVProgressHUD.git', :branch => 'master'

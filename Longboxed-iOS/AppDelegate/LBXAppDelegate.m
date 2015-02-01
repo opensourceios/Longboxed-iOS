@@ -29,6 +29,8 @@
 #import "FAKFontAwesome.h"
 #import "TSMessage.h"
 #import "OnboardingContentViewController.h"
+#import "LBXLoginViewController.h"
+#import "LBXSignupViewController.h"
 
 static NSString * const kUserHasOnboardedKey = @"user_has_onboarded";
 
@@ -83,6 +85,20 @@ static NSString * const kUserHasOnboardedKey = @"user_has_onboarded";
     }
     
     [self.window makeKeyAndVisible];
+    
+    
+    // Set the font for all UIBarButtonItems
+    NSShadow *shadow = [[NSShadow alloc] init];
+    shadow.shadowOffset = CGSizeMake(0.0, 1.0);
+    shadow.shadowColor = [UIColor whiteColor];
+    
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil]
+     setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor blackColor],
+       NSShadowAttributeName:shadow,
+       NSFontAttributeName:[UIFont navSubtitleFont]
+       }
+     forState:UIControlStateNormal];
     
     // initialize before HockeySDK, so the delegate can access the file logger!
     _fileLogger = [[DDFileLogger alloc] init];
@@ -153,20 +169,6 @@ static NSString * const kUserHasOnboardedKey = @"user_has_onboarded";
     }
     
     _dashboardViewController.managedObjectContext = [NSManagedObjectContext MR_defaultContext];
-    
-    // Set the font for all UIBarButtonItems
-    NSShadow *shadow = [[NSShadow alloc] init];
-    shadow.shadowOffset = CGSizeMake(0.0, 1.0);
-    shadow.shadowColor = [UIColor whiteColor];
-    
-    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil]
-     setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:[UIColor blackColor],
-       NSShadowAttributeName:shadow,
-       NSFontAttributeName:[UIFont navSubtitleFont]
-       }
-     forState:UIControlStateNormal];
-    
 }
 
 - (void)handleOnboardingCompletion {
@@ -337,48 +339,53 @@ static NSString * const kUserHasOnboardedKey = @"user_has_onboarded";
 
 #pragma mark OnBoarding
 
-- (OnboardingViewController *)generateFirstDemoVC {
-    OnboardingContentViewController *firstPage = [OnboardingContentViewController contentWithTitle:@"What A Beautiful Photo" body:@"This city background image is so beautiful." image:[UIImage imageNamed:@"blue"] buttonText:@"Enable Location Services" action:^{
-        [[[UIAlertView alloc] initWithTitle:nil message:@"Here you can prompt users for various application permissions, providing them useful information about why you'd like those permissions to enhance their experience, increasing your chances they will grant those permissions." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }];
-    
-    OnboardingContentViewController *secondPage = [OnboardingContentViewController contentWithTitle:@"I'm so sorry" body:@"I can't get over the nice blurry background photo." image:[UIImage imageNamed:@"red"] buttonText:@"Connect With Facebook" action:^{
-        [[[UIAlertView alloc] initWithTitle:nil message:@"Prompt users to do other cool things on startup. As you can see, hitting the action button on the prior page brought you automatically to the next page. Cool, huh?" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }];
-    secondPage.movesToNextViewController = YES;
-    
-    OnboardingContentViewController *thirdPage = [OnboardingContentViewController contentWithTitle:@"Seriously Though" body:@"Kudos to the photographer." image:[UIImage imageNamed:@"yellow"] buttonText:@"Get Started" action:^{
-        [self handleOnboardingCompletion];
-    }];
-    
-    OnboardingViewController *onboardingVC = [OnboardingViewController onboardWithBackgroundImage:[UIImage imageNamed:@"street"] contents:@[firstPage, secondPage, thirdPage]];
-    onboardingVC.shouldFadeTransitions = YES;
-    onboardingVC.fadePageControlOnLastPage = YES;
-    
-    // If you want to allow skipping the onboarding process, enable skipping and set a block to be executed
-    // when the user hits the skip button.
-    onboardingVC.allowSkipping = YES;
-    onboardingVC.skipHandler = ^{
-        [self handleOnboardingCompletion];
-    };
-    
-    return onboardingVC;
-}
+//- (OnboardingViewController *)generateFirstDemoVC {
+//    OnboardingContentViewController *firstPage = [OnboardingContentViewController contentWithTitle:@"What A Beautiful Photo" body:@"This city background image is so beautiful." image:[UIImage imageNamed:@"blue"] buttonText:@"Enable Location Services" action:^{
+//        [[[UIAlertView alloc] initWithTitle:nil message:@"Here you can prompt users for various application permissions, providing them useful information about why you'd like those permissions to enhance their experience, increasing your chances they will grant those permissions." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//    }];
+//    
+//    OnboardingContentViewController *secondPage = [OnboardingContentViewController contentWithTitle:@"I'm so sorry" body:@"I can't get over the nice blurry background photo." image:[UIImage imageNamed:@"red"] buttonText:@"Connect With Facebook" action:^{
+//        [[[UIAlertView alloc] initWithTitle:nil message:@"Prompt users to do other cool things on startup. As you can see, hitting the action button on the prior page brought you automatically to the next page. Cool, huh?" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//    }];
+//    secondPage.movesToNextViewController = YES;
+//    
+//    OnboardingContentViewController *thirdPage = [OnboardingContentViewController contentWithTitle:@"Seriously Though" body:@"Kudos to the photographer." image:[UIImage imageNamed:@"yellow"] buttonText:@"Get Started" action:^{
+//        [self handleOnboardingCompletion];
+//    }];
+//    
+//    OnboardingViewController *onboardingVC = [OnboardingViewController onboardWithBackgroundImage:[UIImage imageNamed:@"street"] contents:@[firstPage, secondPage, thirdPage]];
+//    onboardingVC.shouldFadeTransitions = YES;
+//    onboardingVC.fadePageControlOnLastPage = YES;
+//    
+//    // If you want to allow skipping the onboarding process, enable skipping and set a block to be executed
+//    // when the user hits the skip button.
+//    onboardingVC.allowSkipping = YES;
+//    onboardingVC.skipHandler = ^{
+//        [self handleOnboardingCompletion];
+//    };
+//    
+//    return onboardingVC;
+//}
 
 - (OnboardingViewController *)generateOnboardingVC {
     OnboardingContentViewController *firstPage = [[OnboardingContentViewController alloc] initWithTitle:@"Welcome to Longboxed" body:@"Never miss an issue again." image:nil buttonText:@"How it works" action:^{
             [((OnboardingViewController *)self.window.rootViewController) moveNextPage];
         }];
-//    firstPage.topPadding = -15;
-//    firstPage.underTitlePadding = 160;
+    [LBXLogging logMessage:[NSString stringWithFormat:@"%f", self.window.frame.size.height]];
+    firstPage.iconHeight = self.window.frame.size.height/4 - 100;
 //    firstPage.titleTextColor = [UIColor colorWithRed:239/255.0 green:88/255.0 blue:35/255.0 alpha:1.0];
-    firstPage.titleFontName = @"AvenirNext-Ultralight";
+    firstPage.titleFontName = @"AvenirNext-UltraLight";
+    firstPage.titleFontSize = 42;
 //    firstPage.bodyTextColor = [UIColor colorWithRed:239/255.0 green:88/255.0 blue:35/255.0 alpha:1.0];
     firstPage.bodyFontName = @"AvenirNext-Regular";
     firstPage.bodyFontSize = 18;
     
     firstPage.buttonFontName = @"AvenirNext-Regular";
     firstPage.buttonFontSize = 22;
+    
+    if (![LBXControllerServices isLoggedIn]) {
+        firstPage.bottomPadding = 44;
+    }
     
     
     
@@ -415,10 +422,27 @@ static NSString * const kUserHasOnboardedKey = @"user_has_onboarded";
     onboardingVC.shouldMaskBackground = YES;
     onboardingVC.pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
     onboardingVC.pageControl.pageIndicatorTintColor = [UIColor LBXGrayColor];
-    
     onboardingVC.allowSkipping = YES;
-    onboardingVC.fontName = @"AvenirNext-Regular";
     onboardingVC.skipButton.titleLabel.font = [UIFont onboardingSkipButtonFont];
+    if (![LBXControllerServices isLoggedIn]) {
+        onboardingVC.loginButtonFont = [UIFont fontWithName:@"AvenirNext-Regular" size:16];
+        onboardingVC.signupButtonFont = [UIFont fontWithName:@"AvenirNext-Regular" size:16];
+        onboardingVC.underPagingPadding = 48;
+    }
+    else {
+        onboardingVC.hideSignupAndLoginButtons = YES;
+    }
+    
+    onboardingVC.signupHandler = ^{
+        LBXSignupViewController *signupController = [LBXSignupViewController new];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:signupController];
+        [self.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
+    };
+    onboardingVC.loginHandler = ^{
+        LBXLoginViewController *loginController = [LBXLoginViewController new];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginController];
+        [self.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
+    };
     onboardingVC.skipHandler = ^{
         [self handleOnboardingCompletion];
     };

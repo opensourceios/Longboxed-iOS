@@ -20,7 +20,9 @@
 - (NSString *) getLogFilesContentWithMaxSize:(NSInteger)maxSize;
 - (void)setNetworkActivityIndicatorVisible:(BOOL)setVisible;
 - (void)setAPIErrorMessageVisible:(BOOL)setVisible withError:(NSError *)error;
+
 - (OnboardingViewController *)generateOnboardingVC;
 - (void)externallySetRootViewController:(id)viewController;
+- (void)handleOnboardingCompletion;
 
 @end

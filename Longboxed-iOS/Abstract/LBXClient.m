@@ -463,7 +463,6 @@
                 NSArray *objects = [LBXPullListTitle MR_findAll];
                 for (NSManagedObject *managedObject in objects) {
                     if (![mappingResult.array containsObject:managedObject] && (_titleIDBeingAdded != ((LBXPullListTitle *)managedObject).titleID)) {
-                        NSLog(@"Deleting %@", ((LBXPullListTitle *)managedObject).name);
                         [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
                     }
                 }

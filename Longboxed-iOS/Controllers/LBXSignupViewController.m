@@ -18,6 +18,7 @@
 #import <OnePasswordExtension.h>
 #import <AYVibrantButton.h>
 #import <SVProgressHUD.h>
+#import "LBXAppDelegate.h"
 
 @interface LBXSignupViewController ()
 
@@ -39,21 +40,7 @@ UICKeyChainStore *store;
     _client = [[LBXClient alloc] init];
     
     [_signupButton setTitle:@"                                                           " forState:UIControlStateNormal];
-    
-    if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
-        UIImage *image = [UIImage imageNamed:@"onepassword-button"];
-        CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
-        //init a normal UIButton using that image
-        UIButton* button = [[UIButton alloc] initWithFrame:frame];
-        [button setBackgroundImage:image forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(saveLoginTo1Password:) forControlEvents:UIControlEventTouchDown];
-        
-        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-        
-        button.tag = 1;
-        self.navigationItem.rightBarButtonItem = anotherButton;
-    }
-    
+
     // Add the ability to dismiss the keyboard
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
@@ -71,6 +58,7 @@ UICKeyChainStore *store;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
     [[UITextField appearanceWhenContainedIn:[self class], nil] setFont:[UIFont settingsTableViewFont]];
     [[UITextField appearance] setTintColor:[UIColor blackColor]];
 }
@@ -92,6 +80,26 @@ UICKeyChainStore *store;
         if ([view isKindOfClass:[AYVibrantButton class]]) needsAdded = NO;
     }
     if (needsAdded) [self.view addSubview:invertButton];
+    
+    if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable] && self.navigationController.navigationBar.backItem.title) {
+        UIImage *image = [UIImage imageNamed:@"onepassword-button"];
+        CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
+        //init a normal UIButton using that image
+        UIButton* button = [[UIButton alloc] initWithFrame:frame];
+        [button setBackgroundImage:image forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(saveLoginTo1Password:) forControlEvents:UIControlEventTouchDown];
+        
+        UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+        
+        button.tag = 1;
+        self.navigationItem.rightBarButtonItem = anotherButton;
+    }
+    
+    // Add cancel button if presented modally (no back button title)
+    if (!self.navigationController.navigationBar.backItem.title) {
+        UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(donePressed)];
+        self.navigationItem.rightBarButtonItem = actionButton;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -198,7 +206,12 @@ UICKeyChainStore *store;
                 [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
                 [SVProgressHUD showSuccessWithStatus:@"Registration Successful!"];
                 [LBXLogging logLogin];
-                [self.navigationController popViewControllerAnimated:YES];
+                
+                // Dismiss if presented modally (no back button title)
+                if (!self.navigationController.navigationBar.backItem.title) {
+                     [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] handleOnboardingCompletion];
+                }
+                else [self.navigationController popViewControllerAnimated:YES];
             });
         }
         else {
@@ -208,6 +221,11 @@ UICKeyChainStore *store;
             [SVProgressHUD showSuccessWithStatus:@"Registration Error"];
         }
     }];
+}
+
+- (void)donePressed
+{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

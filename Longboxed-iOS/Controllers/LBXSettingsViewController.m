@@ -383,7 +383,7 @@ UICKeyChainStore *store;
         }
     }
     
-    if (indexPath.section == 4 && indexPath.row == 1 && [cell.textLabel.text isEqualToString:@"Delete Account And All Data"]) {
+    if (indexPath.section == 4 && indexPath.row == 2 && [cell.textLabel.text isEqualToString:@"Delete Account And All Data"]) {
         cell.textLabel.textColor = [UIColor redColor];
     }
     
