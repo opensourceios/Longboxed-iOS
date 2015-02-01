@@ -208,6 +208,10 @@
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
             }
+            if (mappingResult.array.count) {
+                NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:((LBXIssue *)mappingResult.array[0]).releaseDate];
+                [UICKeyChainStore setData:dateData forKey:@"ThisWeekDate"];
+            }
         }
         
         completion(mappingResult.array, response, error);
@@ -227,7 +231,6 @@
                 [self saveAlternateIssuesWithIssue:issue];
             }
         }
-        
         completion(mappingResult.array, response, error);
     }];
 }
@@ -252,6 +255,10 @@
         if (!error) {
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
+            }
+            if (mappingResult.array.count) {
+                NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:((LBXIssue *)mappingResult.array[0]).releaseDate];
+                [UICKeyChainStore setData:dateData forKey:@"PopularDate"];
             }
         }
         
@@ -555,6 +562,10 @@
                         }];
                     }
                 }
+                if (mappingResult.array.count) {
+                    NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:((LBXBundle *)mappingResult.array[0]).releaseDate];
+                    [UICKeyChainStore setData:dateData forKey:@"BundleDate"];
+                }
             }
             
             completion(mappingResult.array, response, error);
@@ -579,6 +590,10 @@
             LBXBundle *bundle = (((LBXBundle *)mappingResult.array[0]).bundleID) ? ((LBXBundle *)mappingResult.array[0]) : nil;
             if (!error) {
                 if (bundle.bundleID) { // Weird bug where sometimes returned bundles have null id's
+                    if (mappingResult.array.count) {
+                        NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:((LBXBundle *)mappingResult.array[0]).releaseDate];
+                        [UICKeyChainStore setData:dateData forKey:@"BundleDate"];
+                    }
                     for (LBXIssue *issue in bundle.issues) {
                         [self saveAlternateIssuesWithIssue:issue];
                     }

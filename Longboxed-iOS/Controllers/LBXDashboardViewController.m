@@ -270,6 +270,9 @@ BOOL _selectedSearchResult;
     
     // Stuff that determines whether or not to fetch the featured issue
     NSDate *currentDate = [NSDate getLocalDate];
+    
+    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"PopularDate"]];
+    if (restoredDate) currentDate = restoredDate;
     if (_popularIssuesArray.count &&
         ((LBXIssue *)_popularIssuesArray[0]).releaseDate > [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
         ((LBXIssue *)_popularIssuesArray[0]).releaseDate < [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
@@ -406,6 +409,9 @@ BOOL _selectedSearchResult;
 {
     NSDate *currentDate = [NSDate getLocalDate];
     
+    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"PopularDate"]];
+    if (restoredDate) currentDate = restoredDate;
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
     
@@ -457,6 +463,10 @@ BOOL _selectedSearchResult;
 - (void)getCoreDataLatestBundle
 {
     NSDate *currentDate = [NSDate getLocalDate];
+    
+    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"BundleDate"]];
+    if (restoredDate) currentDate = restoredDate;
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
     LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
     if (bundle) {

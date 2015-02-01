@@ -25,6 +25,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <SVProgressHUD.h>
 #import "Masonry.h"
+#import "UICKeyChainStore.h"
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
                                      ESDatePickerDelegate>
@@ -343,6 +344,9 @@ BOOL _endOfIssues;
 - (void)setIssuesForWeekArrayWithThisWeekIssues
 {
     NSDate *currentDate = [NSDate getLocalDate];
+    
+    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"ThisWeekDate"]];
+    if (restoredDate) currentDate = restoredDate;
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
@@ -360,6 +364,9 @@ BOOL _endOfIssues;
 - (void)setIssuesForWeekArrayWithNextWeekIssues
 {
     NSDate *currentDate = [NSDate getLocalDate];
+    
+    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"ThisWeekDate"]];
+    if (restoredDate) currentDate = restoredDate;
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:6*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
@@ -579,15 +586,19 @@ BOOL _endOfIssues;
     [self dismissViewControllerAnimated:YES completion:nil];
     
     // Check if the issue is this week
-    if (_selectedWednesday > [[NSDate getThisWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:-1*DAY] &&
-        _selectedWednesday < [[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:-1*DAY]) {
+    NSDate *currentDate = [NSDate getLocalDate];
+    
+    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"ThisWeekDate"]];
+    if (restoredDate) currentDate = restoredDate;
+    if (_selectedWednesday > [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
+        _selectedWednesday < [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]) {
         [self fetchDate:_selectedWednesday withPage:@1];
         _segmentedControl.selectedSegmentIndex = 0;
     }
     
     // Check if the issue is next week
-    else if (_selectedWednesday > [[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:-1*DAY] &&
-             _selectedWednesday < [[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:6*DAY]) {
+    else if (_selectedWednesday > [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
+             _selectedWednesday < [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:6*DAY]) {
         [self fetchDate:_selectedWednesday withPage:@1];
         _segmentedControl.selectedSegmentIndex = 1;
     }
