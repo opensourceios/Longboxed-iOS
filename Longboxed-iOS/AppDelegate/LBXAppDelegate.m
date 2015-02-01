@@ -25,8 +25,8 @@
 #import <Crashlytics/Crashlytics.h>
 #import <CrashReporter/CrashReporter.h>
 #import <DropboxSDK/DropboxSDK.h>
-#import <CRToast.h>
 #import "FAKFontAwesome.h"
+#import "TSMessage.h"
 
 
 @interface LBXAppDelegate ()
@@ -273,38 +273,22 @@
 }
 
 - (void)setAPIErrorMessageVisible:(BOOL)setVisible withError:(NSError *)error {
-    UINavigationController *navController = [UINavigationController new];
-    
-    int errorsize = navController.navigationBar.frame.size.height;
-    FAKFontAwesome *errorIcon = [FAKFontAwesome exclamationCircleIconWithSize:errorsize];
-    [errorIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    UIImage *errorImage = [errorIcon imageWithSize:CGSizeMake(errorsize, errorsize)];
-    
-    CRToastInteractionResponder *responder = [CRToastInteractionResponder interactionResponderWithInteractionType:CRToastInteractionTypeAll automaticallyDismiss:YES block:^(CRToastInteractionType interactionType) {}];
-    
     NSString *localizedErrorString = error.userInfo[@"NSLocalizedDescription"];
-    
     NSString *errorMessage = (localizedErrorString) ? [localizedErrorString stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[localizedErrorString substringToIndex:1] uppercaseString]] : @"Unable to connect to Longboxed servers.";
-    NSDictionary *options = @{
-                              kCRToastTextKey : [NSString stringWithFormat:@"Error: %@", errorMessage],
-                              kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
-                              kCRToastFontKey           : [UIFont errorMessageFont],
-                              kCRToastBackgroundColorKey : [UIColor LBXRedColor],
-                              kCRToastTimeIntervalKey   : @3.0f,
-                              kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
-                              kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
-                              kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionTop),
-                              kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionBottom),
-                              kCRToastNotificationTypeKey: @(CRToastTypeNavigationBar),
-                              kCRToastInteractionRespondersKey: @[responder],
-                              kCRToastImageKey : errorImage
-                              };
 
+    [TSMessage addCustomDesignFromFileWithName:@"LBXErrorDesign.json"];
     
-    [CRToastManager showNotificationWithOptions:options
-                                completionBlock:^{
-                                    NSLog(@"Completed");
-                                }];
+    [TSMessage showNotificationInViewController:self.window.rootViewController
+                                          title:@"Error"
+                                       subtitle:errorMessage
+                                          image:nil
+                                           type:TSMessageNotificationTypeError
+                                       duration:3.0f
+                                       callback:nil
+                                    buttonTitle:nil 
+                                 buttonCallback:nil
+                                     atPosition:TSMessageNotificationPositionNavBarOverlay
+                           canBeDismissedByUser:YES];
 }
 
 @end

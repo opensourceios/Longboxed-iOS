@@ -552,9 +552,7 @@ BOOL _selectedSearchResult;
     //now present this navigation controller modally
     [self presentViewController:navigationController
                        animated:YES
-                     completion:^{
-                         
-                     }];
+                     completion:^{}];
 }
 
 - (IBAction)onClick:(id)sender

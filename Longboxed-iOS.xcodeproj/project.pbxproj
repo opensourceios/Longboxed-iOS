@@ -16,6 +16,8 @@
 		E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5519B534AC0021CEE8 /* ColorLog.m */; };
 		E5068A5C19B534AC0021CEE8 /* PSDDFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5919B534AC0021CEE8 /* PSDDFormatter.m */; };
 		E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5F19B53A5B0021CEE8 /* DDNSLoggerLogger.m */; };
+		E507A6F61A7D953900E29DBE /* OpenSource.json in Resources */ = {isa = PBXBuildFile; fileRef = E507A6F51A7D953900E29DBE /* OpenSource.json */; };
+		E507A6F91A7DA0E600E29DBE /* LBXAboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E507A6F81A7DA0E600E29DBE /* LBXAboutTableViewController.m */; };
 		E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = E50C2A391998605500AD5FC6 /* arrow.png */; };
 		E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E50C2A3A1998605500AD5FC6 /* arrow@2x.png */; };
 		E515746319DCC4360072EE3E /* LBXSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E515746219DCC4360072EE3E /* LBXSearchTableViewController.m */; };
@@ -57,8 +59,6 @@
 		E55B68611A324A81008A5CFD /* LBXBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E55B68601A324A81008A5CFD /* LBXBackButton.m */; };
 		E5702B701A689ACE007B672D /* LBXDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5702B6E1A689ACE007B672D /* LBXDropboxViewController.m */; };
 		E5702B711A689ACE007B672D /* LBXDropboxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5702B6F1A689ACE007B672D /* LBXDropboxViewController.xib */; };
-		E5702B751A68A042007B672D /* LBXAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5702B731A68A042007B672D /* LBXAboutViewController.m */; };
-		E5702B761A68A042007B672D /* LBXAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5702B741A68A042007B672D /* LBXAboutViewController.xib */; };
 		E5702B7C1A68ABBF007B672D /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5702B7B1A68ABBF007B672D /* DropboxSDK.framework */; };
 		E5702B801A68AD1B007B672D /* LBXOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5702B7E1A68AD1B007B672D /* LBXOnboardingViewController.m */; };
 		E5702B811A68AD1B007B672D /* LBXOnboardingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5702B7F1A68AD1B007B672D /* LBXOnboardingViewController.xib */; };
@@ -93,6 +93,7 @@
 		E597773E198EADA60047E261 /* LBXCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E597773C198EADA60047E261 /* LBXCoreData.xcdatamodeld */; };
 		E5981B5C1A380EF1003E0E40 /* LBXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5981B5A1A380EF1003E0E40 /* LBXLoginViewController.m */; };
 		E5981B5D1A380EF1003E0E40 /* LBXLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5981B5B1A380EF1003E0E40 /* LBXLoginViewController.xib */; };
+		E5A433E31A7D8426006C67F2 /* LBXErrorDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = E5A433E21A7D8426006C67F2 /* LBXErrorDesign.json */; };
 		E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */; };
 		E5A73D711A4655BD0021CCC8 /* longboxed_full@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A73D701A4655BD0021CCC8 /* longboxed_full@3x.png */; };
 		E5A773DD19624A52002654E7 /* LBXSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A773DB19624A52002654E7 /* LBXSettingsViewController.m */; };
@@ -158,6 +159,9 @@
 		E5068A5919B534AC0021CEE8 /* PSDDFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSDDFormatter.m; sourceTree = "<group>"; };
 		E5068A5E19B53A5B0021CEE8 /* DDNSLoggerLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNSLoggerLogger.h; sourceTree = "<group>"; };
 		E5068A5F19B53A5B0021CEE8 /* DDNSLoggerLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDNSLoggerLogger.m; sourceTree = "<group>"; };
+		E507A6F51A7D953900E29DBE /* OpenSource.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OpenSource.json; path = Extras/OpenSource.json; sourceTree = "<group>"; };
+		E507A6F71A7DA0E600E29DBE /* LBXAboutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXAboutTableViewController.h; path = Controllers/LBXAboutTableViewController.h; sourceTree = "<group>"; };
+		E507A6F81A7DA0E600E29DBE /* LBXAboutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXAboutTableViewController.m; path = Controllers/LBXAboutTableViewController.m; sourceTree = "<group>"; };
 		E50C2A391998605500AD5FC6 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow.png; path = Assets/arrow.png; sourceTree = SOURCE_ROOT; };
 		E50C2A3A1998605500AD5FC6 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow@2x.png"; path = "Assets/arrow@2x.png"; sourceTree = SOURCE_ROOT; };
 		E515746119DCC4360072EE3E /* LBXSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSearchTableViewController.h; path = Controllers/LBXSearchTableViewController.h; sourceTree = "<group>"; };
@@ -224,9 +228,6 @@
 		E5702B6D1A689ACE007B672D /* LBXDropboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDropboxViewController.h; path = Controllers/LBXDropboxViewController.h; sourceTree = "<group>"; };
 		E5702B6E1A689ACE007B672D /* LBXDropboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDropboxViewController.m; path = Controllers/LBXDropboxViewController.m; sourceTree = "<group>"; };
 		E5702B6F1A689ACE007B672D /* LBXDropboxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXDropboxViewController.xib; path = Controllers/LBXDropboxViewController.xib; sourceTree = "<group>"; };
-		E5702B721A68A042007B672D /* LBXAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXAboutViewController.h; path = Controllers/LBXAboutViewController.h; sourceTree = "<group>"; };
-		E5702B731A68A042007B672D /* LBXAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXAboutViewController.m; path = Controllers/LBXAboutViewController.m; sourceTree = "<group>"; };
-		E5702B741A68A042007B672D /* LBXAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXAboutViewController.xib; path = Controllers/LBXAboutViewController.xib; sourceTree = "<group>"; };
 		E5702B7B1A68ABBF007B672D /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		E5702B7D1A68AD1B007B672D /* LBXOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXOnboardingViewController.h; path = Controllers/LBXOnboardingViewController.h; sourceTree = "<group>"; };
 		E5702B7E1A68AD1B007B672D /* LBXOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXOnboardingViewController.m; path = Controllers/LBXOnboardingViewController.m; sourceTree = "<group>"; };
@@ -288,6 +289,7 @@
 		E5981B591A380EF1003E0E40 /* LBXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXLoginViewController.h; path = Controllers/LBXLoginViewController.h; sourceTree = "<group>"; };
 		E5981B5A1A380EF1003E0E40 /* LBXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLoginViewController.m; path = Controllers/LBXLoginViewController.m; sourceTree = "<group>"; };
 		E5981B5B1A380EF1003E0E40 /* LBXLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXLoginViewController.xib; path = Controllers/LBXLoginViewController.xib; sourceTree = "<group>"; };
+		E5A433E21A7D8426006C67F2 /* LBXErrorDesign.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = LBXErrorDesign.json; path = Extras/LBXErrorDesign.json; sourceTree = "<group>"; };
 		E5A5969119C284DF00968C22 /* LBXWeekTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXWeekTableViewCell.xib; path = Views/LBXWeekTableViewCell.xib; sourceTree = "<group>"; };
 		E5A73D701A4655BD0021CCC8 /* longboxed_full@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "longboxed_full@3x.png"; path = "Assets/longboxed_full@3x.png"; sourceTree = SOURCE_ROOT; };
 		E5A773DA19624A52002654E7 /* LBXSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSettingsViewController.h; path = Controllers/LBXSettingsViewController.h; sourceTree = "<group>"; };
@@ -706,6 +708,8 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				E507A6F51A7D953900E29DBE /* OpenSource.json */,
+				E5A433E21A7D8426006C67F2 /* LBXErrorDesign.json */,
 				E50183D319F45F4C00DA3CAB /* ESDateHelper */,
 				E50183D719F45F4C00DA3CAB /* ESDatePicker */,
 				E50183DB19F45F4C00DA3CAB /* ESObjectPool */,
@@ -759,9 +763,8 @@
 				E58634331A526DD500427C2E /* LBXTipJarTableViewCell.h */,
 				E58634341A526DD500427C2E /* LBXTipJarTableViewCell.m */,
 				E58634351A526DD500427C2E /* LBXTipJarTableViewCell.xib */,
-				E5702B721A68A042007B672D /* LBXAboutViewController.h */,
-				E5702B731A68A042007B672D /* LBXAboutViewController.m */,
-				E5702B741A68A042007B672D /* LBXAboutViewController.xib */,
+				E507A6F71A7DA0E600E29DBE /* LBXAboutTableViewController.h */,
+				E507A6F81A7DA0E600E29DBE /* LBXAboutTableViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -982,10 +985,10 @@
 				E5702B831A68C033007B672D /* keys.txt in Resources */,
 				E593F55119D7160C00D310C6 /* ActualTableViewCell.xib in Resources */,
 				E5A73D711A4655BD0021CCC8 /* longboxed_full@3x.png in Resources */,
+				E507A6F61A7D953900E29DBE /* OpenSource.json in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
 				E5E22C1D1A7C4D8C004ACE42 /* longboxed_about.png in Resources */,
 				E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */,
-				E5702B761A68A042007B672D /* LBXAboutViewController.xib in Resources */,
 				E515747019E4D1F20072EE3E /* LBXBottomTableViewCell.xib in Resources */,
 				E57E156819A987ED002616F5 /* arrow_right.png in Resources */,
 				E57D49241960B8F40014A13F /* black.png in Resources */,
@@ -1006,6 +1009,7 @@
 				E55042C11A3935E5008905ED /* LBXDeleteAccountViewController.xib in Resources */,
 				E55042BC1A3916FF008905ED /* LBXSignupViewController.xib in Resources */,
 				E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */,
+				E5A433E31A7D8426006C67F2 /* LBXErrorDesign.json in Resources */,
 				E5981B5D1A380EF1003E0E40 /* LBXLoginViewController.xib in Resources */,
 				E5A773DE19624A52002654E7 /* LBXSettingsViewController.xib in Resources */,
 				E58634371A526DD500427C2E /* LBXTipJarTableViewCell.xib in Resources */,
@@ -1151,7 +1155,6 @@
 				E55042C01A3935E5008905ED /* LBXDeleteAccountViewController.m in Sources */,
 				E50183E119F45F4C00DA3CAB /* ESObjectPool.m in Sources */,
 				E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */,
-				E5702B751A68A042007B672D /* LBXAboutViewController.m in Sources */,
 				E53EEC8019BE8DC70066F712 /* LBXWeekViewController.m in Sources */,
 				E54A6B05196BA7CF0094979A /* LBXDescriptors.m in Sources */,
 				E5B6FCE019983DFC0022F4CA /* UIImageView+LBBlurredImage.m in Sources */,
@@ -1172,6 +1175,7 @@
 				E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */,
 				E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */,
 				E593F53D19D70FDB00D310C6 /* LBXDashboardViewController.m in Sources */,
+				E507A6F91A7DA0E600E29DBE /* LBXAboutTableViewController.m in Sources */,
 				E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */,
 				E517240A1A4239F1005553BD /* LBXTipJarTableViewCell.m in Sources */,
 				E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */,

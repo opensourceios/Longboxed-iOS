@@ -30,8 +30,8 @@
 #import "LBXTipJarTableViewCell.h"
 #import "LBXPullListTableViewCell.h"
 #import "LBXDropboxViewController.h"
-#import "LBXAboutViewController.h"
 #import "LBXOnboardingViewController.h"
+#import "LBXAboutTableViewController.h"
 
 @interface LBXSettingsViewController () <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
@@ -488,7 +488,7 @@ UICKeyChainStore *store;
             break;
         case 4:
             if (indexPath.row == 0) {
-                LBXAboutViewController *aboutController = [LBXAboutViewController new];
+                LBXAboutTableViewController *aboutController = [LBXAboutTableViewController new];
                 [self.navigationController pushViewController:aboutController animated:YES];   
             }
             // Delete Account

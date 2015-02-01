@@ -14,7 +14,6 @@ pod 'HockeySDK'
 pod 'UICKeyChainStore'
 pod 'pop'
 pod 'RestKit', '~> 0.23.3'
-pod 'MCSwipeTableViewCell'
 pod 'Masonry'
 pod 'SDiPhoneVersion'
 pod '1PasswordExtension'
@@ -26,8 +25,7 @@ pod 'Shimmer', :git => 'https://github.com/facebook/Shimmer.git', :branch => 'ma
 pod 'MagicalRecord' , :git => 'https://github.com/magicalpanda/MagicalRecord.git', :branch => 'develop'
 pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImageViewController.git', :branch => 'dev'
 pod 'Doppelganger'
-pod 'CRToast'
-pod 'TTTAttributedLabel'
+pod 'TSMessages'
 
 # Customized
 # pod 'MGSpotyViewController' (Has LBX dependencies so must remain in project)

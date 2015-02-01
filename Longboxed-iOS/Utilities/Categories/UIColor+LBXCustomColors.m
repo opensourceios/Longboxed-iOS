@@ -19,7 +19,7 @@
 }
 
 + (UIColor *)LBXRedColor {
-    return [UIColor colorWithRed:255/255.0 green:45/255.0 blue:85/255.0 alpha:1.0];
+    return [UIColor colorWithRed:251/255.0 green:59/255.0 blue:65/255.0 alpha:1.0];
 }
 
 + (UIColor *)LBXGrayNavigationBarColor {
