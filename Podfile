@@ -25,7 +25,6 @@ pod 'MagicalRecord' , :git => 'https://github.com/magicalpanda/MagicalRecord.git
 pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImageViewController.git', :branch => 'dev'
 pod 'Doppelganger'
 pod 'TSMessages'
-pod 'Onboard', :git => 'https://github.com/jayhickey/Onboard.git', :branch => 'master'
 
 # Customized
 # pod 'AYVibrantButton' (Part of Onboard)
@@ -33,3 +32,4 @@ pod 'Onboard', :git => 'https://github.com/jayhickey/Onboard.git', :branch => 'm
 # pod 'ESDatePicker' (Had issues when trying to fork, keeping in project for now)
 pod 'SVProgressHUD', :git => 'https://github.com/jayhickey/SVProgressHUD.git', :branch => 'master'
 pod 'JGActionSheet', :git => 'https://github.com/jayhickey/JGActionSheet.git', :branch => 'master'
+pod 'Onboard', :git => 'https://github.com/jayhickey/Onboard.git', :branch => 'master'
