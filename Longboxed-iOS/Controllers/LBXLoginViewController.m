@@ -94,7 +94,7 @@ UICKeyChainStore *store;
     }
     if (needsAdded) [self.view addSubview:invertButton];
     
-    if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable] && self.navigationController.navigationBar.backItem.title) {
+    if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
         UIImage *image = [UIImage imageNamed:@"onepassword-button"];
         CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
         //init a normal UIButton using that image
@@ -111,7 +111,7 @@ UICKeyChainStore *store;
     // Add cancel button if presented modally (no back button title)
     if (!self.navigationController.navigationBar.backItem.title) {
         UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(donePressed)];
-        self.navigationItem.rightBarButtonItem = actionButton;
+        self.navigationItem.leftBarButtonItem = actionButton;
     }
     
 }
