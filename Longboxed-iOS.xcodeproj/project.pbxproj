@@ -1090,6 +1090,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Crashlytics.framework/run 16ebe072876d720b57b612526b0b6f214e2c3cf5 9633d56ec698339d3da804ff7d9c0e99f815ee891164ce80a712b9f8ff21aac7";
+			showEnvVarsInLog = 0;
 		};
 		E57D48FB196069F60014A13F /* Set Bundle Identifier and Display Name */ = {
 			isa = PBXShellScriptBuildPhase;

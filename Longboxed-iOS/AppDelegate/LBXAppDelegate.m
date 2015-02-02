@@ -115,7 +115,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     // Alpha Version
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"4064359702d9b0088c5ccb88d7d897b5"];
     
-    // add Xcode console logger if not running in the App Store
+    // Add Xcode console logger if not running in the App Store
     if (![[BITHockeyManager sharedHockeyManager] isAppStoreEnvironment]) {
         PSDDFormatter *psLogger = [[PSDDFormatter alloc] init];
         [[DDTTYLogger sharedInstance] setLogFormatter:psLogger];
@@ -174,7 +174,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 
 - (void)handleOnboardingCompletion {
     // Set that we have completed onboarding so we only do it once.
-    //[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserHasOnboardedKey];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserHasOnboardedKey];
     
     // animate the transition to the main application
     [self setupNormalRootViewControllerAnimated:YES];
@@ -185,7 +185,6 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
   sourceApplication:(NSString *)source annotation:(id)annotation {
     if ([[DBSession sharedSession] handleOpenURL:url]) {
         if ([[DBSession sharedSession] isLinked]) {
-            NSLog(@"App linked successfully!");
             // At this point you can start making API calls
         }
         return YES;
@@ -355,7 +354,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     [bookIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     UIImage *bookImage = [bookIcon imageWithSize:CGSizeMake(iconSize, iconSize)];
     
-    OnboardingContentViewController *secondPage = [[OnboardingContentViewController alloc] initWithTitle:@"All Your Favorites" body:@"Browse or search for thousands of comics. All titles are cataloged and tracked." image:bookImage buttonText:nil action:nil];
+    OnboardingContentViewController *secondPage = [[OnboardingContentViewController alloc] initWithTitle:@"Explore Comics" body:@"Browse or search for thousands of comics. All titles are cataloged and tracked." image:bookImage buttonText:nil action:nil];
 
     secondPage.topPadding = 90;
     secondPage.iconHeight = self.window.frame.size.height/7;
@@ -372,7 +371,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     [listIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     UIImage *listImage = [listIcon imageWithSize:CGSizeMake(iconSize, iconSize)];
     
-    OnboardingContentViewController *thirdPage = [[OnboardingContentViewController alloc] initWithTitle:@"Create A Pull List" body:@"Add your favoite comics to the pull list to keep track of what issues are coming up." image:listImage buttonText:nil action:nil];
+    OnboardingContentViewController *thirdPage = [[OnboardingContentViewController alloc] initWithTitle:@"Create A Pull List" body:@"Add your favoite comics to the pull list to keep track of upcoming issues." image:listImage buttonText:nil action:nil];
     
     thirdPage.topPadding = 90;
     thirdPage.iconHeight = self.window.frame.size.height/7;
@@ -389,7 +388,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     [bundleIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     UIImage *bundleImage = [bundleIcon imageWithSize:CGSizeMake(iconSize, iconSize)];
     
-    OnboardingContentViewController *fourthPage = [[OnboardingContentViewController alloc] initWithTitle:@"Check Your Bundles" body:@"Weekly bundles are created from the comics in your pull list. Check your bundles to see what to read!" image:bundleImage buttonText:nil action:nil];
+    OnboardingContentViewController *fourthPage = [[OnboardingContentViewController alloc] initWithTitle:@"Check Your Bundles" body:@"Weekly bundles are created from the comics in your pull list. Check them to see what to read!" image:bundleImage buttonText:nil action:nil];
     
     fourthPage.topPadding = 90;
     fourthPage.iconHeight = self.window.frame.size.height/7;
