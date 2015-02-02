@@ -86,13 +86,12 @@ static const NSString *fontFace = @"AvenirNext";
 }
 + (UIFont *)pullListTitleFont
 {
-    // Set to 17, should be 18
-    return [UIFont fontWithDescriptor:[UIFontDescriptor preferredAvenirNextMediumFontDescriptorWithTextStyle:UIFontTextStyleHeadline] size: 0];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Medium", fontFace] size:17];
 }
 
 + (UIFont *)pullListSubtitleFont
 {
-    return [UIFont fontWithDescriptor:[UIFontDescriptor preferredAvenirNextCondensedMediumFontDescriptorWithTextStyle:UIFontTextStyleCaption2] size: 0];
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@Condensed-Medium", fontFace] size:11];
 }
 
 + (UIFont *)settingsSectionHeaderFont

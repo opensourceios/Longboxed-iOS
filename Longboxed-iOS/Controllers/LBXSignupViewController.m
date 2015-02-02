@@ -11,6 +11,7 @@
 #import "LBXLogging.h"
 #import "LBXControllerServices.h"
 #import "LBXClient.h"
+#import "LBXAppDelegate.h"
 
 #import "UIFont+LBXCustomFonts.h"
 
@@ -18,14 +19,15 @@
 #import <OnePasswordExtension.h>
 #import <AYVibrantButton.h>
 #import <SVProgressHUD.h>
-#import "LBXAppDelegate.h"
+#import <BSKeyboardControls.h>
 
-@interface LBXSignupViewController ()
+@interface LBXSignupViewController () <BSKeyboardControlsDelegate, UITextFieldDelegate, UITextViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UIButton *signupButton;
 @property (nonatomic, strong) IBOutlet UITextField *usernameField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordField;
 @property (nonatomic) LBXClient *client;
+@property (nonatomic, strong) BSKeyboardControls *keyboardControls;
 
 @end
 
@@ -47,6 +49,14 @@ UICKeyChainStore *store;
                                    action:@selector(dismissKeyboard)];
     
     [self.view addGestureRecognizer:tap];
+    
+    // Setup the textfields for BSKeyboardControls
+    NSArray *fields = @[self.usernameField, self.passwordField];
+    [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
+    self.keyboardControls.barTintColor = [UIColor blackColor];
+    [self.keyboardControls setDelegate:self];
+    self.usernameField.delegate = self;
+    self.passwordField.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -153,6 +163,18 @@ UICKeyChainStore *store;
     }];
 }
 
+# pragma mark BSKeyboardControls Delegate Methods
+
+- (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
+{
+    [keyboardControls.activeField resignFirstResponder];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self.keyboardControls setActiveField:textField];
+}
+
 # pragma mark Private Methods
 
 - (void)signup
@@ -209,7 +231,8 @@ UICKeyChainStore *store;
                 
                 // Dismiss if presented modally (no back button title)
                 if (!self.navigationController.navigationBar.backItem.title) {
-                     [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] handleOnboardingCompletion];
+                    [self.view endEditing:YES];
+                    [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] handleOnboardingCompletion];
                 }
                 else [self.navigationController popViewControllerAnimated:YES];
             });

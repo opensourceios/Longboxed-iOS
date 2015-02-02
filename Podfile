@@ -25,6 +25,7 @@ pod 'MagicalRecord' , :git => 'https://github.com/magicalpanda/MagicalRecord.git
 pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImageViewController.git', :branch => 'dev'
 pod 'Doppelganger'
 pod 'TSMessages'
+pod 'BSKeyboardControls', '~> 2.2'
 
 # Customized
 # pod 'AYVibrantButton' (Part of Onboard)
