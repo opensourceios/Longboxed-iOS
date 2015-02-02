@@ -347,7 +347,7 @@ UICKeyChainStore *store;
             textArray = @[@"Clear Image & Data Cache"];
             break;
         case 4:
-            textArray = ([LBXControllerServices isLoggedIn]) ? @[@"About", @"Show Tutorial", @"Delete Account And All Data"] : @[@"About", @"Show Tutorial"];
+            textArray = ([LBXControllerServices isLoggedIn]) ? @[@"Show Tutorial", @"About", @"Delete Account And All Data"] : @[@"Show Tutorial", @"About"];
             break;
     }
     
@@ -485,12 +485,12 @@ UICKeyChainStore *store;
             break;
         case 4:
             if (indexPath.row == 0) {
-                LBXAboutTableViewController *aboutController = [LBXAboutTableViewController new];
-                [self.navigationController pushViewController:aboutController animated:YES];   
-            }
-            else if (indexPath.row == 1) {
                 OnboardingViewController *onboardingVC = [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] generateOnboardingVC];
                 [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] externallySetRootViewController:onboardingVC];
+            }
+            else if (indexPath.row == 1) {
+                LBXAboutTableViewController *aboutController = [LBXAboutTableViewController new];
+                [self.navigationController pushViewController:aboutController animated:YES];   
             }
             // Delete Account
             else if (indexPath.row == 2) {
