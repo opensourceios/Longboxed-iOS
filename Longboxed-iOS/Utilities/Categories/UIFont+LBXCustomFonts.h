@@ -44,9 +44,14 @@
 + (UIFont *)featuredIssueDescriptionFont;
 + (UIFont *)alertViewTitleFont;
 + (UIFont *)alertViewMessageFont;
++ (UIFont *)alertViewMessageFontSmall;
 + (UIFont *)alertViewButtonFont;
 + (UIFont *)alertViewMessageFontForCrash;
 + (UIFont *)errorMessageFont;
 + (UIFont *)onboardingSkipButtonFont;
++ (UIFont *)onboardingTitleFont;
++ (UIFont *)onboardingBodyFont;
++ (UIFont *)onboardingButtonFont;
++ (UIFont *)onboardingLoginAndSignupButtonFont;
 
 @end

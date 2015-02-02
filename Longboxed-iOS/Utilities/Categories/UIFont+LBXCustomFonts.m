@@ -123,6 +123,12 @@ static const NSString *fontFace = @"AvenirNext";
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:16];
 }
 
++ (UIFont *)alertViewMessageFontSmall
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
+}
+
+
 + (UIFont *)alertViewMessageFontForCrash
 {
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:14];
@@ -211,6 +217,26 @@ static const NSString *fontFace = @"AvenirNext";
 + (UIFont *)onboardingSkipButtonFont
 {
     return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:18];
+}
+
++ (UIFont *)onboardingTitleFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-UltraLight", fontFace] size:42];
+}
+
++ (UIFont *)onboardingBodyFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:18];
+}
+
++ (UIFont *)onboardingButtonFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:22];
+}
+
++ (UIFont *)onboardingLoginAndSignupButtonFont
+{
+    return [UIFont fontWithName:[NSString stringWithFormat:@"%@-Regular", fontFace] size:16];
 }
 
 @end

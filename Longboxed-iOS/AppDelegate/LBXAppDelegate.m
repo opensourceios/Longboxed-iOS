@@ -31,6 +31,7 @@
 #import "OnboardingContentViewController.h"
 #import "LBXLoginViewController.h"
 #import "LBXSignupViewController.h"
+#import "SIAlertView.h"
 
 static NSString * const kUserHasOnboardedKey = @"user_has_onboarded";
 
@@ -172,9 +173,7 @@ static NSString * const kUserHasOnboardedKey = @"user_has_onboarded";
 }
 
 - (void)handleOnboardingCompletion {
-    // set that we have completed onboarding so we only do it once... for demo
-    // purposes we don't want to have to set this every time so I'll just leave
-    // this here...
+    // Set that we have completed onboarding so we only do it once.
     //[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserHasOnboardedKey];
     
     // animate the transition to the main application
@@ -371,62 +370,90 @@ static NSString * const kUserHasOnboardedKey = @"user_has_onboarded";
     OnboardingContentViewController *firstPage = [[OnboardingContentViewController alloc] initWithTitle:@"Welcome to Longboxed" body:@"Never miss an issue again." image:nil buttonText:@"How it works" action:^{
             [((OnboardingViewController *)self.window.rootViewController) moveNextPage];
         }];
-    [LBXLogging logMessage:[NSString stringWithFormat:@"%f", self.window.frame.size.height]];
     firstPage.iconHeight = self.window.frame.size.height/4 - 100;
-//    firstPage.titleTextColor = [UIColor colorWithRed:239/255.0 green:88/255.0 blue:35/255.0 alpha:1.0];
-    firstPage.titleFontName = @"AvenirNext-UltraLight";
-    firstPage.titleFontSize = 42;
-//    firstPage.bodyTextColor = [UIColor colorWithRed:239/255.0 green:88/255.0 blue:35/255.0 alpha:1.0];
-    firstPage.bodyFontName = @"AvenirNext-Regular";
-    firstPage.bodyFontSize = 18;
+    firstPage.titleFontName = [UIFont onboardingTitleFont].fontName;
+    firstPage.titleFontSize = [UIFont onboardingTitleFont].pointSize;
+    firstPage.bodyFontName = [UIFont onboardingBodyFont].fontName;
+    firstPage.bodyFontSize = [UIFont onboardingBodyFont].pointSize;
+    firstPage.buttonFontName = [UIFont onboardingButtonFont].fontName;
+    firstPage.buttonFontSize = [UIFont onboardingButtonFont].pointSize;
     
-    firstPage.buttonFontName = @"AvenirNext-Regular";
-    firstPage.buttonFontSize = 22;
+    int bookSize = 1000;
+    FAKFontAwesome *bookIcon = [FAKFontAwesome bookIconWithSize:bookSize];
+    [bookIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    UIImage *bookImage = [bookIcon imageWithSize:CGSizeMake(bookSize, bookSize)];
     
+    OnboardingContentViewController *secondPage = [[OnboardingContentViewController alloc] initWithTitle:@"All Your Favorites" body:@"Browse or search for thousands of comics. All titles are cataloged and tracked." image:bookImage buttonText:nil action:nil];
+
+    secondPage.topPadding = 90;
+    secondPage.iconHeight = self.window.frame.size.height/7;
+    secondPage.iconWidth = self.window.frame.size.height/7;
+    
+    secondPage.titleFontName = [UIFont onboardingTitleFont].fontName;
+    secondPage.titleFontSize = [UIFont onboardingTitleFont].pointSize;
+    secondPage.bodyFontName = [UIFont onboardingBodyFont].fontName;
+    secondPage.bodyFontSize = [UIFont onboardingBodyFont].pointSize;
+    secondPage.buttonFontName = [UIFont onboardingButtonFont].fontName;
+    secondPage.buttonFontSize = [UIFont onboardingButtonFont].pointSize;
+    
+    int listSize = 1000;
+    FAKFontAwesome *listIcon = [FAKFontAwesome listIconWithSize:listSize];
+    [listIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    UIImage *listImage = [listIcon imageWithSize:CGSizeMake(listSize, listSize)];
+    
+    OnboardingContentViewController *thirdPage = [[OnboardingContentViewController alloc] initWithTitle:@"Create A Pull List" body:@"Add your favoite comics to the pull list to keep track of what issues are coming up." image:listImage buttonText:nil action:nil];
+    
+    thirdPage.topPadding = 90;
+    thirdPage.iconHeight = self.window.frame.size.height/7;
+    thirdPage.iconWidth = self.window.frame.size.height/7;
+    
+    thirdPage.titleFontName = [UIFont onboardingTitleFont].fontName;
+    thirdPage.titleFontSize = [UIFont onboardingTitleFont].pointSize;
+    thirdPage.bodyFontName = [UIFont onboardingBodyFont].fontName;
+    thirdPage.bodyFontSize = [UIFont onboardingBodyFont].pointSize;
+    thirdPage.buttonFontName = [UIFont onboardingButtonFont].fontName;
+    thirdPage.buttonFontSize = [UIFont onboardingButtonFont].pointSize;
+    
+    int bundleSize = 1000;
+    FAKFontAwesome *bundleIcon = [FAKFontAwesome archiveIconWithSize:bundleSize];
+    [bundleIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    UIImage *bundleImage = [bundleIcon imageWithSize:CGSizeMake(bundleSize, bundleSize)];
+    
+    OnboardingContentViewController *fourthPage = [[OnboardingContentViewController alloc] initWithTitle:@"Check Your Bundles" body:@"Weekly bundles are created from the comics in your pull list. Check your bundles to see what to read!" image:bundleImage buttonText:nil action:nil];
+    
+    fourthPage.topPadding = 90;
+    fourthPage.iconHeight = self.window.frame.size.height/7;
+    fourthPage.iconWidth = self.window.frame.size.height/7;
+    
+    fourthPage.titleFontName = [UIFont onboardingTitleFont].fontName;
+    fourthPage.titleFontSize = [UIFont onboardingTitleFont].pointSize;
+    fourthPage.bodyFontName = [UIFont onboardingBodyFont].fontName;
+    fourthPage.bodyFontSize = [UIFont onboardingBodyFont].pointSize;
+    fourthPage.buttonFontName = [UIFont onboardingButtonFont].fontName;
+    fourthPage.buttonFontSize = [UIFont onboardingButtonFont].pointSize;
+
     if (![LBXControllerServices isLoggedIn]) {
         firstPage.bottomPadding = 44;
+        secondPage.bottomPadding = firstPage.bottomPadding;
+        thirdPage.bottomPadding = firstPage.bottomPadding;
+        fourthPage.bottomPadding = firstPage.bottomPadding;
     }
     
     
-    
-    OnboardingContentViewController *secondPage = [[OnboardingContentViewController alloc] initWithTitle:@"Every Second" body:@"600 million tons of protons are converted into helium atoms." image:[PaintCodeImages imageOfLongboxedLogoWithColor:[UIColor whiteColor] width:firstPage.iconHeight] buttonText:nil action:nil];
-    secondPage.titleFontName = @"SFOuterLimitsUpright";
-    secondPage.underTitlePadding = 170;
-    secondPage.topPadding = 0;
-    secondPage.titleTextColor = [UIColor colorWithRed:251/255.0 green:176/255.0 blue:59/255.0 alpha:1.0];
-    secondPage.bodyTextColor = [UIColor colorWithRed:251/255.0 green:176/255.0 blue:59/255.0 alpha:1.0];
-    secondPage.bodyFontName = @"NasalizationRg-Regular";
-    secondPage.bodyFontSize = 18;
-    
-    OnboardingContentViewController *thirdPage = [[OnboardingContentViewController alloc] initWithTitle:@"We're All Star Stuff" body:@"Our very bodies consist of the same chemical elements found in the most distant nebulae, and our activities are guided by the same universal rules." image:nil buttonText:@"Explore the universe" action:^{
-        [self handleOnboardingCompletion];
-    }];
-    thirdPage.topPadding = 10;
-    thirdPage.underTitlePadding = 160;
-    thirdPage.bottomPadding = -10;
-    thirdPage.titleFontName = @"SFOuterLimitsUpright";
-    thirdPage.titleTextColor = [UIColor colorWithRed:58/255.0 green:105/255.0 blue:136/255.0 alpha:1.0];
-    thirdPage.bodyTextColor = [UIColor colorWithRed:58/255.0 green:105/255.0 blue:136/255.0 alpha:1.0];
-    thirdPage.buttonTextColor = [UIColor colorWithRed:239/255.0 green:88/255.0 blue:35/255.0 alpha:1.0];
-    thirdPage.bodyFontName = @"NasalizationRg-Regular";
-    thirdPage.bodyFontSize = 15;
-    thirdPage.buttonFontName = @"SpaceAge";
-    thirdPage.buttonFontSize = 17;
-
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *moviePath = [bundle pathForResource:@"OnboardMovie" ofType:@"mp4"];
     NSURL *movieURL = [NSURL fileURLWithPath:moviePath];
     
-    OnboardingViewController *onboardingVC = [[OnboardingViewController alloc] initWithBackgroundVideoURL:movieURL contents:@[firstPage, secondPage, thirdPage]];
+    OnboardingViewController *onboardingVC = [[OnboardingViewController alloc] initWithBackgroundVideoURL:movieURL contents:@[firstPage, secondPage, thirdPage, fourthPage]];
     onboardingVC.shouldFadeTransitions = YES;
     onboardingVC.shouldMaskBackground = YES;
     onboardingVC.pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
-    onboardingVC.pageControl.pageIndicatorTintColor = [UIColor LBXGrayColor];
+    onboardingVC.pageControl.pageIndicatorTintColor = [UIColor grayColor];
     onboardingVC.allowSkipping = YES;
     onboardingVC.skipButton.titleLabel.font = [UIFont onboardingSkipButtonFont];
     if (![LBXControllerServices isLoggedIn]) {
-        onboardingVC.loginButtonFont = [UIFont fontWithName:@"AvenirNext-Regular" size:16];
-        onboardingVC.signupButtonFont = [UIFont fontWithName:@"AvenirNext-Regular" size:16];
+        onboardingVC.loginButtonFont = [UIFont onboardingLoginAndSignupButtonFont];
+        onboardingVC.signupButtonFont = [UIFont onboardingLoginAndSignupButtonFont];
         onboardingVC.underPagingPadding = 48;
     }
     else {
@@ -444,7 +471,38 @@ static NSString * const kUserHasOnboardedKey = @"user_has_onboarded";
         [self.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
     };
     onboardingVC.skipHandler = ^{
-        [self handleOnboardingCompletion];
+        if (![LBXControllerServices isLoggedIn]) {
+            SIAlertView *alert = [[SIAlertView alloc] initWithTitle:@"Continue Without An Account?" andMessage:@"Accounts are required to create a Pull List and track comics."];
+            [alert addButtonWithTitle:@"Sign Up"
+                                 type:SIAlertViewButtonTypeCancel
+                              handler:^(SIAlertView *alert) {
+                                  LBXSignupViewController *signupController = [LBXSignupViewController new];
+                                  UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:signupController];
+                                  [self.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
+                              }];
+            [alert addButtonWithTitle:@"Continue"
+                                     type:SIAlertViewButtonTypeDefault
+                                  handler:^(SIAlertView *alert) {
+                                      [self handleOnboardingCompletion];
+                                      SIAlertView *alert2 = [[SIAlertView alloc] initWithTitle:@"Enjoy Longboxed!" andMessage:@"If you change your mind, just tap the gear in the top left corner to sign up for an account."];
+                                      [alert2 addButtonWithTitle:@"OK"
+                                                           type:SIAlertViewButtonTypeCancel
+                                                        handler:nil];
+                                      alert2.titleFont = [UIFont alertViewTitleFont];
+                                      alert2.messageFont = [UIFont alertViewMessageFont];
+                                      alert2.buttonFont = [UIFont alertViewButtonFont];
+                                      alert2.transitionStyle = SIAlertViewTransitionStyleDropDown;
+                                      [alert2 show];
+                                  }];
+            alert.titleFont = [UIFont alertViewTitleFont];
+            alert.messageFont = [UIFont alertViewMessageFontSmall];
+            alert.buttonFont = [UIFont alertViewButtonFont];
+            alert.transitionStyle = SIAlertViewTransitionStyleDropDown;
+            [alert show];
+        }
+        else {
+            [self handleOnboardingCompletion];
+        }
     };
     
     return onboardingVC;
