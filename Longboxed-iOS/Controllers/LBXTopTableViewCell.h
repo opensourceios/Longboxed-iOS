@@ -11,11 +11,10 @@
 @interface LBXTopTableViewCell : UITableViewCell <UITableViewDataSource, UITableViewDelegate> {
     
     UITableView *horizontalTableView;
-    
-    NSArray *contentArray;
 }
 @property (nonatomic, retain) IBOutlet UITableView *horizontalTableView;
 @property (nonatomic, retain) NSArray *contentArray;
+@property (nonatomic, retain) NSArray *previousContentArray;
 
 - (NSString *) reuseIdentifier;
 

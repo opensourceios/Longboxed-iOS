@@ -15,10 +15,10 @@
 #import "UIImage+LBXCreateImage.h" 
 
 #import <UIImageView+AFNetworking.h>
+#import <Doppelganger.h>
 
 @implementation LBXTopTableViewCell
 @synthesize horizontalTableView;
-@synthesize contentArray;
 
 - (void)awakeFromNib {
     // Initialization code
@@ -33,7 +33,21 @@
 
 - (void)reloadTableView
 {
-    [self.horizontalTableView reloadData];
+    if (_contentArray.count && _previousContentArray.count) {
+        NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_contentArray
+                                                    previousArray:_previousContentArray];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.horizontalTableView wml_applyBatchChanges:diffs
+                                                  inSection:0
+                                           withRowAnimation:UITableViewRowAnimationFade];
+        });
+    }
+    else [self.horizontalTableView reloadData];
+}
+
+- (void)setContentArray:(NSArray *)newContentArray {
+    _previousContentArray = _contentArray;
+    _contentArray = newContentArray;
 }
 
 - (NSString *) reuseIdentifier {
@@ -45,7 +59,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return contentArray.count;
+    return _contentArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -59,7 +73,7 @@
             cell = (ActualTableViewCell *)oneObject;
     }
     
-    LBXIssue *issue = [contentArray objectAtIndex:indexPath.row];
+    LBXIssue *issue = [_contentArray objectAtIndex:indexPath.row];
     
     __weak typeof(cell) weakCell = cell;
     [cell.coverImage setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
@@ -86,7 +100,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    LBXIssue *issue = [contentArray objectAtIndex:indexPath.row];
+    LBXIssue *issue = [_contentArray objectAtIndex:indexPath.row];
     ActualTableViewCell *cell = (ActualTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     NSDictionary *dict = @{@"issue" : issue,
                            @"image" : cell.coverImage.image};
