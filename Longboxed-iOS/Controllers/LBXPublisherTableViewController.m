@@ -20,6 +20,7 @@
 #import <UIImageView+AFNetworking.h>
 #import <UIImage+CreateImage.h>
 #import "LBXLogging.h"
+#import "SVProgressHUD.h"
 
 @interface LBXPublisherTableViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
 
@@ -91,7 +92,21 @@ BOOL endOfPublishers;
     
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     
+    // There are at least 9 publishers
+    if (_fetchedResultsController.fetchedObjects.count < 9) {
+        self.tableView.hidden = YES;
+        [SVProgressHUD show];
+    }
+    
     [self refresh];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+    [SVProgressHUD setForegroundColor: [UIColor blackColor]];
+    [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
 }
 
 #pragma mark Private methods
@@ -109,6 +124,9 @@ BOOL endOfPublishers;
         if (!error) {
             if (publisherArray.count == 0) {
                 endOfPublishers = YES;
+                self.tableView.hidden = NO;
+                
+                [SVProgressHUD dismiss];
             }
             else {
                 int value = [page intValue];
