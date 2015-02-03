@@ -31,14 +31,13 @@
 #import <JTSImageViewController.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate>
+@interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate, NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, copy) LBXTitle *detailTitle;
 @property (nonatomic, copy) LBXClient *client;
 @property (nonatomic, copy) LBXTitleDetailView *detailView;
 @property (nonatomic, copy) UILabel *navTitleView;
-@property (nonatomic, copy) NSArray *pullListArray;
-@property (nonatomic, copy) NSArray *issuesForTitleArray;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -65,9 +64,6 @@ int page;
     _client = [LBXClient new];
     
     page = 1;
-    
-    [self createPullListArray];
-    [self createIssuesArray];
     
     // Dynamically set the detail view size and following table view content offset
     [self setDetailView];
@@ -103,6 +99,14 @@ int page;
     [self setCustomBlurredBackgroundImageWithImage:backgroundImageToBlur];
     
     [LBXControllerServices setupTransparentNavigationBarForViewController:self];
+    
+    // Check for changes to the pull list
+    // Delete cache first, if a cache is used
+    NSError *error;
+    if (![[self fetchedResultsController] performFetch:&error]) {
+        // Update to handle the error appropriately.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -260,7 +264,7 @@ int page;
         }
         _detailView.latestIssueLabel.text = subtitleString;
     }
-    else if (!_issuesForTitleArray.count) {
+    else if (!_fetchedResultsController.fetchedObjects.count) {
         _detailView.latestIssueLabel.text = @"No issues released";
     }
     else {
@@ -425,7 +429,7 @@ int page;
     [_client fetchPullListWithCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
-            [self createPullListArray];
+            [self setPullListButton];
         }
         [self.view setNeedsDisplay];
     }];
@@ -443,12 +447,6 @@ int page;
     }];
 }
 
-- (void)createPullListArray
-{
-    _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
-    [self setPullListButton];
-}
-
 - (void)fetchAllIssuesWithPage:(NSNumber *)page
 {
     if ([page intValue] > 1 && !endOfIssues) {
@@ -461,46 +459,11 @@ int page;
     
     // Fetch pull list titles
     [_client fetchIssuesForTitle:_titleID page:page withCompletion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-        if (!error) {
-            if (pullListArray.count == 0) {
-                endOfIssues = YES;
-                self.tableView.tableFooterView = nil;
-            }
-            
-            [self createIssuesArray];
-            [self.tableView reloadData];
-            [self.view setNeedsDisplay];
+        if (!error && pullListArray.count == 0) {
+            endOfIssues = YES;
+            self.tableView.tableFooterView = nil;
         }
     }];
-}
-
-- (void)createIssuesArray
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (isParent == 1)", _detailTitle];
-    NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
-    
-    // Not all parents are actually the parents (sometimes a variant is a parent due to API bug)
-    // so correct this by getting the issue with the shortest title
-    // TODO: Get Tim to fix this
-    NSMutableArray *correctedArray = [NSMutableArray new];
-    for (LBXIssue *issue in initialFind) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (issueNumber == %@)", issue.title, issue.issueNumber];
-        NSArray *issuesArray = [LBXIssue MR_findAllSortedBy:@"completeTitle" ascending:YES withPredicate:predicate];
-        [correctedArray addObject:issuesArray[0]];
-    }
-    
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithArray:initialFind];
-    
-    NSSortDescriptor *sortByIssueID = [NSSortDescriptor sortDescriptorWithKey:@"issueID" ascending:NO];
-    NSSortDescriptor *sortByIssueNumber = [NSSortDescriptor sortDescriptorWithKey:@"issueNumber" ascending:NO];
-    NSSortDescriptor *sortByIssueReleaseDate = [NSSortDescriptor sortDescriptorWithKey:@"releaseDate" ascending:NO];
-    
-    // Combine the two
-    NSArray *sortDescriptors = @[sortByIssueReleaseDate, sortByIssueNumber, sortByIssueID];
-    
-    
-    _issuesForTitleArray = [mutableArray sortedArrayUsingDescriptors:sortDescriptors];
-    
 }
 
 - (void)setNavBarAlpha:(NSNumber *)alpha
@@ -520,15 +483,8 @@ int page;
     pullListTitle.issueCount = title.issueCount;
     pullListTitle.latestIssue = title.latestIssue;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-    [self createPullListArray];
+    [self setPullListButton];
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
-        if (!error) {
-        }
-        else {
-            [SVProgressHUD setForegroundColor: [UIColor blackColor]];
-            [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
-            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to add %@\n%@", title.name, error.localizedDescription]];
-        }
     }];
 }
 
@@ -538,15 +494,9 @@ int page;
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                _pullListArray = pullListArray;
                 [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {}];
-                [self createPullListArray];
+                [self setPullListButton];
             });
-        }
-        else {
-            [SVProgressHUD setForegroundColor: [UIColor blackColor]];
-            [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
-            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Unable to delete %@\n%@", title.name, error.localizedDescription]];
         }
     }];
 }
@@ -606,11 +556,8 @@ int page;
     if (section != 1) {
         return 0;
     }
-    if (!_issuesForTitleArray.count) {
-        return 0;
-    }
     
-    return _issuesForTitleArray.count;
+    return _fetchedResultsController.fetchedObjects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -630,22 +577,24 @@ int page;
         
     }
     
-    if ([indexPath row] == _issuesForTitleArray.count - 1 && !endOfIssues) {
+    if ([indexPath row] == _fetchedResultsController.fetchedObjects.count - 1 && !endOfIssues) {
         page += 1;
         [self fetchAllIssuesWithPage:[NSNumber numberWithInt:page]];
     }
     
+    [self configureCell:cell atIndexPath:indexPath];
+    
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(LBXPullListTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)configureCell:(LBXPullListTableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath {
+
     // Configure the cell...
-    if (_issuesForTitleArray.count <= indexPath.row) {
+    if (_fetchedResultsController.fetchedObjects.count <= indexPath.row) {
         return;
     }
     
-    LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
+    LBXIssue *issue = [_fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
     
     cell.titleLabel.font = [UIFont pullListTitleFont];
     cell.titleLabel.text = issue.completeTitle;
@@ -683,12 +632,12 @@ int page;
 {
     // Disselect and return immediately if selecting an empty cell
     // i.e., one below the last issue
-    if (_issuesForTitleArray.count < indexPath.row+1) {
+    if (_fetchedResultsController.fetchedObjects.count < indexPath.row+1) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
     
-    LBXIssue *issue = [_issuesForTitleArray objectAtIndex:indexPath.row];
+    LBXIssue *issue = [_fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
     [LBXLogging logMessage:[NSString stringWithFormat:@"Selected issue %@", issue]];
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
@@ -705,6 +654,78 @@ int page;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
     
+}
+
+#pragma mark NSFetchedResultsController Methods
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(title == %@) AND (isParent == 1)", _detailTitle];
+    _fetchedResultsController = [LBXIssue MR_fetchAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate groupBy:nil delegate:self];
+    
+    return _fetchedResultsController;
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+    [self.tableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    
+    // Section 0 is not used for MGSpotyViewController
+    newIndexPath = [NSIndexPath indexPathForRow:newIndexPath.row inSection:1];
+    indexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:1];
+    UITableView *tableView = self.tableView;
+        switch(type) {
+                
+            case NSFetchedResultsChangeInsert:
+                [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+                break;
+                
+            case NSFetchedResultsChangeDelete:
+                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                break;
+                
+            case NSFetchedResultsChangeUpdate:
+                [self configureCell:(LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+                break;
+                
+            case NSFetchedResultsChangeMove:
+                [tableView deleteRowsAtIndexPaths:[NSArray
+                                                   arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [tableView insertRowsAtIndexPaths:[NSArray
+                                                   arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+                break;
+        }
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+    
+    // Section 0 is not used for MGSpotyViewController
+    sectionIndex = 1;
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case NSFetchedResultsChangeMove:
+            break;
+        case NSFetchedResultsChangeUpdate:
+            break;
+    }
+}
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+    [self.tableView endUpdates];
 }
 
 @end
