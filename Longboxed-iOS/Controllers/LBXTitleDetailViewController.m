@@ -100,12 +100,11 @@ int page;
     
     [LBXControllerServices setupTransparentNavigationBarForViewController:self];
     
-    // Check for changes to the pull list
     // Delete cache first, if a cache is used
     NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Unresolved error %@, %@", error, [error userInfo]]];
     }
 }
 
