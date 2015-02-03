@@ -64,7 +64,6 @@ BOOL endOfPublishers;
     
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     
-    // Delete cache first, if a cache is used
     NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
