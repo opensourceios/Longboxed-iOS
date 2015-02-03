@@ -94,7 +94,7 @@ BOOL endOfPublishers;
     // There are at least 9 publishers
     if (_fetchedResultsController.fetchedObjects.count < 9) {
         self.tableView.hidden = YES;
-        [SVProgressHUD show];
+        [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     }
     
     [self refresh];

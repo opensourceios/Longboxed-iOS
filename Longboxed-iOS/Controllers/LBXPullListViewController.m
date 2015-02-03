@@ -171,7 +171,7 @@ CGFloat cellWidth;
     if (!_pullListArray.count) {
         self.tableView.hidden = YES;
         [self.view insertSubview:_loadingView aboveSubview:self.tableView];
-        [SVProgressHUD show];
+        [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     }
     
     [self refresh];
