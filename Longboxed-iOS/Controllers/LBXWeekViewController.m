@@ -742,10 +742,10 @@ BOOL _endOfIssues;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(LBXWeekTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Configure the cell...
-    if (_issuesForWeekArray.count <= indexPath.row) {
-        return;
-    }
+//    // Configure the cell...
+//    if (_issuesForWeekArray.count <= indexPath.row) {
+//        return;
+//    }
     
     cell.titleLabel.font = [UIFont pullListTitleFont];
     cell.titleLabel.numberOfLines = 2;
