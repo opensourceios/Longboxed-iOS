@@ -258,7 +258,7 @@ int page;
         NSString *timeSinceString = [NSString timeStringSinceLastIssueForTitle:_detailTitle];
         
         NSString *subtitleString = [NSString stringWithFormat:@"Latest issue released %@", timeSinceString];
-        if ([timeSinceString hasPrefix:@"in"]) {
+        if ([timeSinceString hasPrefix:@"in"] || [timeSinceString containsString:@"tomorrow"]) {
             subtitleString = [NSString stringWithFormat:@"Next issue will be released %@", timeSinceString];
         }
         _detailView.latestIssueLabel.text = subtitleString;
