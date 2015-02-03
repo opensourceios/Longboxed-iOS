@@ -361,9 +361,7 @@
 - (void)fetchPublishersWithPage:(NSNumber *)page completion:(void (^)(NSArray *, RKObjectRequestOperation*, NSError*))completion {
     
     NSDictionary *objectDictParams;
-    if (![page isEqualToNumber:@1]) {
-        objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
-    }
+    objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     
     [self GETWithRouteName:@"Publisher Collection" HTTPHeaderParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         completion(mappingResult.array, response, error);
