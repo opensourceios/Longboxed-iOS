@@ -441,7 +441,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     };
     onboardingVC.skipHandler = ^{
         if (![LBXControllerServices isLoggedIn]) {
-            SIAlertView *alert = [[SIAlertView alloc] initWithTitle:@"Continue Without An Account?" andMessage:@"In order to create a pull list and track comics, an account is required."];
+            SIAlertView *alert = [[SIAlertView alloc] initWithTitle:@"Continue Without An Account?" andMessage:@"An account is required to create a pull list and track comics."];
             [alert addButtonWithTitle:@"Sign Up"
                                  type:SIAlertViewButtonTypeCancel
                               handler:^(SIAlertView *alert) {
@@ -453,7 +453,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
                                      type:SIAlertViewButtonTypeDefault
                                   handler:^(SIAlertView *alert) {
                                       [self handleOnboardingCompletion];
-                                      SIAlertView *alert2 = [[SIAlertView alloc] initWithTitle:@"Enjoy Longboxed!" andMessage:@"If you change your mind about an account, just tap the gear in the top left corner to sign up for an account."];
+                                      SIAlertView *alert2 = [[SIAlertView alloc] initWithTitle:@"Enjoy Longboxed!" andMessage:@"If you change your mind, tap the gear in the top left to sign up for an account."];
                                       [alert2 addButtonWithTitle:@"OK"
                                                            type:SIAlertViewButtonTypeCancel
                                                         handler:nil];
