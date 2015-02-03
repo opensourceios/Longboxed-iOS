@@ -19,13 +19,13 @@
 
 #import <UIImageView+AFNetworking.h>
 #import <UIImage+CreateImage.h>
-#import <Doppelganger.h>
+#import "LBXLogging.h"
 
-@interface LBXPublisherTableViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface LBXPublisherTableViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
 
 @property (nonatomic) LBXClient *client;
-@property (nonatomic) NSArray *publishersArray;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -33,7 +33,6 @@
 
 static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
 
-NSInteger tableViewRows;
 BOOL endOfPublishers;
 
 - (void)viewDidLoad {
@@ -64,8 +63,12 @@ BOOL endOfPublishers;
     
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     
-    [self setPublisherArrayWithPublishers];
-    // Do any additional setup after loading the view.
+    // Delete cache first, if a cache is used
+    NSError *error;
+    if (![[self fetchedResultsController] performFetch:&error]) {
+        // Update to handle the error appropriately.
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Unresolved error %@, %@", error, [error userInfo]]];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -98,22 +101,6 @@ BOOL endOfPublishers;
     [self refreshViewWithPage:@1];
 }
 
-- (void)setPublisherArrayWithPublishers
-{
-    // Get the latest issue in the database
-    NSArray *previousPublishersArray = _publishersArray;
-    _publishersArray = [LBXPublisher MR_findAllSortedBy:@"name" ascending:YES];
-    if (previousPublishersArray) {
-        NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_publishersArray
-                                                    previousArray:previousPublishersArray];
-        [self.tableView wml_applyBatchChanges:diffs
-                                    inSection:0
-                             withRowAnimation:UITableViewRowAnimationRight];
-        [self.tableView reloadData];
-    }
-    else [self.tableView reloadData];
-}
-
 - (void)refreshViewWithPage:(NSNumber *)page
 {
     // Fetch this weeks comics
@@ -123,28 +110,10 @@ BOOL endOfPublishers;
             if (publisherArray.count == 0) {
                 endOfPublishers = YES;
             }
-            
-            NSArray *previousPublishersArray = _publishersArray;
-            _publishersArray = publisherArray;
-            
-            tableViewRows = _publishersArray.count;
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (previousPublishersArray) {
-                    NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_publishersArray
-                                                                previousArray:previousPublishersArray];
-                    [self.tableView wml_applyBatchChanges:diffs
-                                                inSection:0
-                                         withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self.tableView reloadData];
-                }
-                else [self.tableView reloadData];
-            });
-        }
-        else {
-            [self setPublisherArrayWithPublishers];
-            
-            tableViewRows = _publishersArray.count;
+            else {
+                int value = [page intValue];
+                [self refreshViewWithPage:[NSNumber numberWithInt:value + 1]];
+            }
         }
     }];
 }
@@ -152,10 +121,10 @@ BOOL endOfPublishers;
 #pragma mark UITableView methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _publishersArray.count;
+    return _fetchedResultsController.fetchedObjects.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (LBXPublisherListTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"PublisherListTableViewCell";
     
     LBXPublisherListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -167,8 +136,15 @@ BOOL endOfPublishers;
     }
     
     cell.titleLabel.font = [UIFont pullListTitleFont];
+
+    [self configureCell:cell atIndexPath:indexPath];
     
-    LBXPublisher *publisher = [_publishersArray objectAtIndex:indexPath.row];
+    return cell;
+}
+
+- (void)configureCell:(LBXPublisherListTableViewCell *)cell atIndexPath:(NSIndexPath*)indexPath {
+    
+    LBXPublisher *publisher = [_fetchedResultsController objectAtIndexPath:indexPath];
     cell.titleLabel.text = publisher.name;
     
     NSString *titleString = ([publisher.titleCount isEqual:@1]) ? ([NSString stringWithFormat:@"%@ TITLE", publisher.titleCount]) : ([NSString stringWithFormat:@"%@ TITLES", publisher.titleCount]);
@@ -201,7 +177,6 @@ BOOL endOfPublishers;
     cell.latestIssueImageView.contentMode = UIViewContentModeScaleAspectFit;
     cell.latestIssueImageView.clipsToBounds = YES;
     
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(LBXPublisherListTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -223,12 +198,78 @@ BOOL endOfPublishers;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    LBXPublisher *publisher = [_publishersArray objectAtIndex:indexPath.row];
+    LBXPublisher *publisher = [_fetchedResultsController objectAtIndexPath:indexPath];
     
     LBXPublisherDetailViewController *publisherViewController = [LBXPublisherDetailViewController new];
     publisherViewController.publisherID = publisher.publisherID;
     
     [self.navigationController pushViewController:publisherViewController animated:YES];
+}
+
+#pragma mark NSFetchedResultsController Methods
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    _fetchedResultsController = [LBXPublisher MR_fetchAllSortedBy:@"name" ascending:YES withPredicate:nil groupBy:nil delegate:self];
+    
+    return _fetchedResultsController;
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+    [self.tableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    
+    UITableView *tableView = self.tableView;
+    switch(type) {
+            
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self configureCell:(LBXPublisherListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray
+                                               arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray
+                                               arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+    
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case NSFetchedResultsChangeMove:
+            break;
+        case NSFetchedResultsChangeUpdate:
+            break;
+    }
+}
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+    [self.tableView endUpdates];
 }
 
 @end
