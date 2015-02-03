@@ -418,7 +418,7 @@ BOOL _selectedSearchResult;
     NSSortDescriptor *boolDescr = [[NSSortDescriptor alloc] initWithKey:@"title.subscribers" ascending:NO];
     NSArray *sortDescriptors = @[boolDescr];
     NSArray *sortedArray = [NSArray new];
-    if (allIssuesArray.count >= 1) {
+    if (allIssuesArray.count >= 10) {
         sortedArray = [[allIssuesArray subarrayWithRange:NSMakeRange(0, 10)] sortedArrayUsingDescriptors:sortDescriptors];
     }
     
