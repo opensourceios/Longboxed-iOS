@@ -33,4 +33,4 @@ pod 'BSKeyboardControls', '~> 2.2'
 # pod 'ESDatePicker' (Had issues when trying to fork, keeping in project for now)
 pod 'SVProgressHUD', :git => 'https://github.com/jayhickey/SVProgressHUD.git', :branch => 'master'
 pod 'JGActionSheet', :git => 'https://github.com/jayhickey/JGActionSheet.git', :branch => 'master'
-pod 'Onboard', :git => 'https://github.com/jayhickey/Onboard.git', :branch => 'master'
+pod 'Onboard', :git => 'https://github.com/jayhickey/Onboard.git', :tag => '2.1.3'
