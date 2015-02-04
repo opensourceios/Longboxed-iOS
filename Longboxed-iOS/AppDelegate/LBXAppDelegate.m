@@ -313,7 +313,9 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     firstPage.topPadding = [[UIScreen mainScreen] bounds].size.height/3;
     firstPage.iconWidth = [[UIScreen mainScreen] bounds].size.width * 0.8;
     firstPage.iconHeight = firstPage.iconWidth/8.5;
+    firstPage.topPadding = firstPage.topPadding+([[UIScreen mainScreen] bounds].size.height/11);
     firstPage.underIconPadding = -100;
+    firstPage.underTitlePadding = 0 - 1/([[UIScreen mainScreen] bounds].size.width/100);
     
     firstPage.titleFontName = [UIFont onboardingTitleFont].fontName;
     firstPage.titleFontSize = [UIFont onboardingTitleFont].pointSize;
