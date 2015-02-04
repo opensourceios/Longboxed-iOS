@@ -190,24 +190,25 @@
         urlString = _openSourceDict[_openSourceKeys[indexPath.row]];
     }
     
-    
-    UIViewController *vc = [UIViewController new];
-    WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame];
-    UIView *view = [[UIView alloc] initWithFrame:self.view.frame];
-    view.backgroundColor = [UIColor whiteColor];
-    vc.view = view;
-    [view addSubview:webView];
-    vc.title = titleString;
-    
-    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showShareSheet)];
-    
-    vc.navigationItem.rightBarButtonItem = actionButton;
-    
-    _selectedURL = [NSURL URLWithString:urlString];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_selectedURL cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
-    [webView loadRequest: request];
+    if (indexPath.section != 0) {
+        UIViewController *vc = [UIViewController new];
+        WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame];
+        UIView *view = [[UIView alloc] initWithFrame:self.view.frame];
+        view.backgroundColor = [UIColor whiteColor];
+        vc.view = view;
+        [view addSubview:webView];
+        vc.title = titleString;
+        
+        UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showShareSheet)];
+        
+        vc.navigationItem.rightBarButtonItem = actionButton;
+        
+        _selectedURL = [NSURL URLWithString:urlString];
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_selectedURL cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
+        [webView loadRequest: request];
 
-    [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)showShareSheet {
