@@ -239,7 +239,6 @@ UICKeyChainStore *store;
     switch (section) {
         case 0:
             if (![LBXControllerServices isLoggedIn]) return 2;
-            // TODO: Remove dropbox
             if ([LBXControllerServices isAdmin]) return 2;
             else return 1;
             break;
@@ -335,7 +334,6 @@ UICKeyChainStore *store;
     NSArray *textArray = [NSArray new];
     switch (indexPath.section) {
         case 0:
-            // TODO: Remove dropbox
             textArray = @[logInString, devServerOrLogInString];
             break;
         case 1:
