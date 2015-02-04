@@ -100,7 +100,6 @@ int page;
     
     [LBXControllerServices setupTransparentNavigationBarForViewController:self];
     
-    // Delete cache first, if a cache is used
     NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
