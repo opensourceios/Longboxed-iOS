@@ -319,7 +319,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     [bookIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     UIImage *bookImage = [bookIcon imageWithSize:CGSizeMake(iconSize, iconSize)];
     
-    OnboardingContentViewController *secondPage = [[OnboardingContentViewController alloc] initWithTitle:@"Explore Comics" body:@"Browse or search for thousands of comics. All titles are cataloged and tracked." image:bookImage buttonText:nil action:nil];
+    OnboardingContentViewController *secondPage = [[OnboardingContentViewController alloc] initWithTitle:@"Explore Comics" body:@"Browse thousands of titles. Every issue is cataloged and tracked." image:bookImage buttonText:nil action:nil];
 
     secondPage.topPadding = 90;
     secondPage.iconHeight = self.window.frame.size.height/7;
