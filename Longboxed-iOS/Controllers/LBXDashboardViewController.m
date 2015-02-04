@@ -38,10 +38,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import <SVProgressHUD.h>
 #import <UIImage+CreateImage.h>
-#import <DropboxSDK/DropboxSDK.h>
 #import <Doppelganger.h>
 
-@interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate, DBRestClientDelegate>
+@interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) LBXIssue *featuredIssue;
@@ -51,7 +50,6 @@
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSArray *tableConstraints;
 @property (nonatomic) NSArray *searchResultsArray;
-@property (nonatomic) DBRestClient *restClient;
 @property (nonatomic) UIImageView *emptyImageView;
 
 @end
@@ -285,12 +283,6 @@ BOOL _selectedSearchResult;
         _featuredIssueTitleLabel.hidden = YES;
         _largeFeaturedIssueButton.userInteractionEnabled = NO;
     }
-    
-    self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-    self.restClient.delegate = self;
-    if ([UICKeyChainStore stringForKey:@"dropboxRoot"]) {
-        [self.restClient loadMetadata:[UICKeyChainStore stringForKey:@"dropboxRoot"]];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -470,7 +462,7 @@ BOOL _selectedSearchResult;
             issuesString = @"ISSUE IN YOUR BUNDLE";
         }
         
-        if ([UICKeyChainStore stringForKey:@"dropboxRoot"] && bundle.issues.count == 0) {
+        if (bundle.issues.count == 0) {
             [self showEmptyBundleView];
         }
         
@@ -597,32 +589,11 @@ BOOL _selectedSearchResult;
 
 - (void)showEmptyBundleView
 {
-    
     _emptyImageView = [UIImageView new];
     _emptyImageView.frame = self.topTableView.frame;
+    _emptyImageView.image = [UIImage imageNamed:@"longboxed_full@3x"];
     [self.topTableView.superview addSubview:_emptyImageView];
     self.topTableView.hidden = YES;
-}
-
-#pragma mark Dropbox Methods
-
-- (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
-    if (metadata.isDirectory) {
-        for (DBMetadata *file in metadata.contents) {
-            if ([file.filename isEqualToString:@"emptyBundle.png"]) {
-                [self.restClient loadFile:file.path intoPath:[NSTemporaryDirectory() stringByAppendingPathComponent:file.filename]];
-            }
-        }
-    }
-}
-
-- (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
-    NSLog(@"Error loading metadata: %@", error);
-}
-
-- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath {
-    _emptyImageView.image = [UIImage imageWithContentsOfFile:destPath];
-    _emptyImageView.contentMode = UIViewContentModeScaleAspectFit;
 }
 
 #pragma mark UISearchControllerDelegate Methods

@@ -25,7 +25,6 @@
 
 #import <Crashlytics/Crashlytics.h>
 #import <CrashReporter/CrashReporter.h>
-#import <DropboxSDK/DropboxSDK.h>
 #import "FAKFontAwesome.h"
 #import "TSMessage.h"
 #import "OnboardingContentViewController.h"
@@ -46,27 +45,6 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // TODO: Remove dropbox stuff
-    NSString *APIKeyPath = [[NSBundle mainBundle] pathForResource:@"keys.txt" ofType:@""];
-    
-    NSString *APIKeyValueDirty = [NSString stringWithContentsOfFile:APIKeyPath
-                                                           encoding:NSUTF8StringEncoding
-                                                              error:NULL];
-    
-    // Strip whitespace to clean the API key stdin
-    NSString *APIKeyValues = [APIKeyValueDirty stringByTrimmingCharactersInSet:
-                              [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSArray *APIKeyArray = [APIKeyValues componentsSeparatedByString:@"\n"];
-    NSString* appKey = APIKeyArray[0];
-    NSString* appSecret = APIKeyArray[1];
-    NSString *root = kDBRootDropbox;
-    
-    DBSession *dbSession = [[DBSession alloc]
-                            initWithAppKey:appKey
-                            appSecret:appSecret
-                            root:root]; // either kDBRootAppFolder or kDBRootDropbox
-    [DBSession setSharedSession:dbSession];
-    
     // Fetch in the background as often as possible
     [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     
@@ -178,19 +156,6 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     
     // animate the transition to the main application
     [self setupNormalRootViewControllerAnimated:YES];
-}
-
-// TODO: Remove dropbox stuff
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
-  sourceApplication:(NSString *)source annotation:(id)annotation {
-    if ([[DBSession sharedSession] handleOpenURL:url]) {
-        if ([[DBSession sharedSession] isLinked]) {
-            // At this point you can start making API calls
-        }
-        return YES;
-    }
-    // Add whatever other url handling code your app requires here
-    return NO;
 }
 
 // get the log content with a maximum byte size

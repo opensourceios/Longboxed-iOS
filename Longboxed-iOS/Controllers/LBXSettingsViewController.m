@@ -14,7 +14,6 @@
 #import "LBXDeleteAccountViewController.h"
 #import "LBXTipJarTableViewCell.h"
 #import "LBXPullListTableViewCell.h"
-#import "LBXDropboxViewController.h"
 #import "LBXAboutTableViewController.h"
 #import "LBXSignupViewController.h"
 #import "LBXDatabaseManager.h"
@@ -241,7 +240,7 @@ UICKeyChainStore *store;
         case 0:
             if (![LBXControllerServices isLoggedIn]) return 2;
             // TODO: Remove dropbox
-            if ([LBXControllerServices isAdmin]) return 3;
+            if ([LBXControllerServices isAdmin]) return 2;
             else return 1;
             break;
         case 1:
@@ -333,12 +332,11 @@ UICKeyChainStore *store;
     }
     NSString *logInString = ([LBXControllerServices isLoggedIn]) ? @"Email" : @"Sign Up";
     NSString *devServerOrLogInString = ([LBXControllerServices isLoggedIn]) ? @"Use Development Server" : @"Log In";
-    NSString *dropboxString = ([UICKeyChainStore stringForKey:@"dropboxRoot"]) ? [NSString stringWithFormat:@"Dropbox Path: %@", [UICKeyChainStore stringForKey:@"dropboxRoot"]] : @"Dropbox";
     NSArray *textArray = [NSArray new];
     switch (indexPath.section) {
         case 0:
             // TODO: Remove dropbox
-            textArray = @[logInString, devServerOrLogInString, dropboxString];
+            textArray = @[logInString, devServerOrLogInString];
             break;
         case 1:
             textArray = @[@"Send Feedback", @"Please Rate Longboxed"];
@@ -368,12 +366,6 @@ UICKeyChainStore *store;
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.detailTextLabel.text = [store stringForKey:@"username"];
         }
-        else if (indexPath.row == 2) {
-            UIInputView *inputView = [UIInputView new];
-            inputView.frame = cell.frame;
-            [cell addSubview:inputView];
-        }
-        
     }
     
     // Storage Section
@@ -439,11 +431,6 @@ UICKeyChainStore *store;
             else if (indexPath.row == 1 && ![LBXControllerServices isLoggedIn]) {
                 LBXLoginViewController *loginViewController = [LBXLoginViewController new];
                 [self.navigationController pushViewController:loginViewController animated:YES];
-            }
-            // TODO: Remove dropbox
-            else if (indexPath.row == 2) {
-                LBXDropboxViewController *dropboxViewController = [LBXDropboxViewController new];
-                [self.navigationController pushViewController:dropboxViewController animated:YES];
             }
             break;
         // Send feedback email
