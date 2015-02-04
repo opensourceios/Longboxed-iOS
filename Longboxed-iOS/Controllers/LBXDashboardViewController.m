@@ -263,7 +263,10 @@ BOOL _selectedSearchResult;
     [self getCoreDataLatestBundle];
     [self getCoreDataPopularIssues];
     
-    if (_popularIssuesArray.count && _bundleIssuesArray.count) [self fetchBundle];
+    if (_popularIssuesArray.count && _bundleIssuesArray.count) {
+        [self fetchBundle];
+        [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
+    }
     else [self refresh];
     
     // Stuff that determines whether or not to fetch the featured issue
