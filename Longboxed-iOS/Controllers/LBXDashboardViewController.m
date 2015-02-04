@@ -344,7 +344,6 @@ BOOL _selectedSearchResult;
             if (issue.coverImage) {
                 validImage = YES;
                 _featuredIssue = issue;
-                
             }
         }
     }
@@ -437,10 +436,6 @@ BOOL _selectedSearchResult;
         if (!error) {
             _popularIssuesArray = popularIssuesArray;
             [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
-            if (popularIssuesArray.count) {
-                // Fetch the most popular issue's title object so we have a subscriber count for core data fetching on subsequent loads
-                [self.client fetchTitle:((LBXIssue *)popularIssuesArray[0]).title.titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {}];
-            }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.bottomTableView reloadData];
             });
