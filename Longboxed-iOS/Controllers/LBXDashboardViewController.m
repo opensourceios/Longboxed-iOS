@@ -798,11 +798,11 @@ BOOL _selectedSearchResult;
         [pullListIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
         UIImage *pullListIconImage = [pullListIcon imageWithSize:CGSizeMake(checksize, checksize)];
         
-        FAKFontAwesome *clockIcon = [FAKFontAwesome archiveIconWithSize:checksize];
-        [clockIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
-        UIImage *clockIconImage = [clockIcon imageWithSize:CGSizeMake(checksize, checksize)];
+        FAKFontAwesome *longboxedIcon = [FAKFontAwesome archiveIconWithSize:checksize];
+        [longboxedIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+        UIImage *longboxedImage = [longboxedIcon imageWithSize:CGSizeMake(checksize, checksize)];
         
-        NSArray *imageArray = @[comicsImage, calendarIconImage, pullListIconImage, clockIconImage];
+        NSArray *imageArray = @[comicsImage, calendarIconImage, pullListIconImage, longboxedImage];
         NSArray *textArray = @[@"Comics", @"Releases", @"Pull List", @"Bundles"];
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

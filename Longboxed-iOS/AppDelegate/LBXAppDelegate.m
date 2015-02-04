@@ -303,10 +303,17 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 #pragma mark OnBoarding
 
 - (OnboardingViewController *)generateOnboardingVC {
-    OnboardingContentViewController *firstPage = [[OnboardingContentViewController alloc] initWithTitle:@"Welcome to Longboxed" body:@"Never miss an issue again." image:nil buttonText:@"How it works" action:^{
+    int iconSize = 1000;
+    UIImage *logoImage = [PaintCodeImages imageOfLongboxedTextWithLogoTextColor:[UIColor whiteColor] logoWidth:self.window.rootViewController.view.frame.size.width * 0.9];
+    
+    OnboardingContentViewController *firstPage = [[OnboardingContentViewController alloc] initWithTitle:@"Welcome to\n" body:@"Never miss an issue again." image:logoImage buttonText:@"How it works" action:^{
             [((OnboardingViewController *)self.window.rootViewController) moveNextPage];
         }];
-    firstPage.iconHeight = self.window.frame.size.height/4 - 100;
+    firstPage.topPadding = self.window.frame.size.height/3;
+    firstPage.iconWidth = self.window.frame.size.width * 0.8;
+    firstPage.iconHeight = firstPage.iconWidth/8.5;
+    firstPage.underIconPadding = -100;
+    
     firstPage.titleFontName = [UIFont onboardingTitleFont].fontName;
     firstPage.titleFontSize = [UIFont onboardingTitleFont].pointSize;
     firstPage.bodyFontName = [UIFont onboardingBodyFont].fontName;
@@ -314,7 +321,6 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     firstPage.buttonFontName = [UIFont onboardingButtonFont].fontName;
     firstPage.buttonFontSize = [UIFont onboardingButtonFont].pointSize;
     
-    int iconSize = 1000;
     FAKFontAwesome *bookIcon = [FAKFontAwesome bookIconWithSize:iconSize];
     [bookIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     UIImage *bookImage = [bookIcon imageWithSize:CGSizeMake(iconSize, iconSize)];
@@ -336,7 +342,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     [listIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     UIImage *listImage = [listIcon imageWithSize:CGSizeMake(iconSize, iconSize)];
     
-    OnboardingContentViewController *thirdPage = [[OnboardingContentViewController alloc] initWithTitle:@"Create A Pull List" body:@"Add your favoite comics to the pull list to keep track of upcoming issues." image:listImage buttonText:nil action:nil];
+    OnboardingContentViewController *thirdPage = [[OnboardingContentViewController alloc] initWithTitle:@"Create A Pull List" body:@"Add favorite titles to your pull list to keep track of upcoming issues." image:listImage buttonText:nil action:nil];
     
     thirdPage.topPadding = 90;
     thirdPage.iconHeight = self.window.frame.size.height/7;
@@ -351,9 +357,9 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     
     FAKFontAwesome *bundleIcon = [FAKFontAwesome archiveIconWithSize:iconSize];
     [bundleIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    UIImage *bundleImage = [bundleIcon imageWithSize:CGSizeMake(iconSize, iconSize)];
+    UIImage *bundleImage = [PaintCodeImages imageOfLongboxedLogoWithColor:[UIColor whiteColor] width:iconSize];
     
-    OnboardingContentViewController *fourthPage = [[OnboardingContentViewController alloc] initWithTitle:@"Check Your Bundles" body:@"Weekly bundles are created from the comics in your pull list. Check them to see what to read!" image:bundleImage buttonText:nil action:nil];
+    OnboardingContentViewController *fourthPage = [[OnboardingContentViewController alloc] initWithTitle:@"Check Your Bundles" body:@"Bundles are like a shopping list for your local comic shop. You'll never miss an issue." image:bundleImage buttonText:nil action:nil];
     
     fourthPage.topPadding = 90;
     fourthPage.iconHeight = self.window.frame.size.height/7;
