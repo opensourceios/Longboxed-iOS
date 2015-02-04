@@ -304,13 +304,14 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 
 - (OnboardingViewController *)generateOnboardingVC {
     int iconSize = 1000;
-    UIImage *logoImage = [PaintCodeImages imageOfLongboxedTextWithLogoTextColor:[UIColor whiteColor] logoWidth:self.window.rootViewController.view.frame.size.width * 0.9];
+
+    UIImage *logoImage = [PaintCodeImages imageOfLongboxedTextWithLogoTextColor:[UIColor whiteColor] logoWidth:[[UIScreen mainScreen] bounds].size.width * 0.9];
     
     OnboardingContentViewController *firstPage = [[OnboardingContentViewController alloc] initWithTitle:@"Welcome to\n" body:@"Never miss an issue again." image:logoImage buttonText:@"How it works" action:^{
             [((OnboardingViewController *)self.window.rootViewController) moveNextPage];
         }];
-    firstPage.topPadding = self.window.frame.size.height/3;
-    firstPage.iconWidth = self.window.frame.size.width * 0.8;
+    firstPage.topPadding = [[UIScreen mainScreen] bounds].size.height/3;
+    firstPage.iconWidth = [[UIScreen mainScreen] bounds].size.width * 0.8;
     firstPage.iconHeight = firstPage.iconWidth/8.5;
     firstPage.underIconPadding = -100;
     
