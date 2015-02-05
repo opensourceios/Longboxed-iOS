@@ -18,14 +18,59 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Load the open source credits json file
+    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Quotes.json"];
+    NSArray *quotesArray = [NSArray new];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        quotesArray = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path]
+                                                          options:kNilOptions
+                                                            error:nil][@"quotes"];
+    }
+    
+    NSUInteger randomIndex = arc4random() % [quotesArray count];
+    
     // Do any additional setup after loading the view from its nib.
     _imageView.image = [PaintCodeImages imageOfLongboxedLogoWithColor:[UIColor LBXVeryLightGrayColor] width:_imageView.frame.size.width];
-    _messageLabel.textColor = [UIColor colorWithHex:@"#E0E1E2"];
+    _quoteLabel.textColor = [UIColor colorWithHex:@"#E0E1E2"];
+    _authorLabel.textColor = [UIColor colorWithHex:@"#E0E1E2"];
+    _quoteLabel.text = quotesArray[randomIndex][@"quote"];
+    
+    UIFont *authorFont = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0];
+    NSDictionary *authorDict = [NSDictionary dictionaryWithObject:authorFont forKey:NSFontAttributeName];
+    NSMutableAttributedString *aAttrString = [[NSMutableAttributedString alloc] initWithString:quotesArray[randomIndex][@"author"] attributes:authorDict];
+    
+    
+    NSString *inIssueString = [NSString stringWithFormat:@" in %@", quotesArray[randomIndex][@"issue"]];
+    UIFont *issueFont = [UIFont fontWithName:@"AvenirNext-Italic" size:16.0];
+    NSDictionary *issueDict = [NSDictionary dictionaryWithObject:issueFont forKey:NSFontAttributeName];
+    NSMutableAttributedString *vAttrString = [[NSMutableAttributedString alloc]initWithString: inIssueString attributes:issueDict];
+//    [vAttrString addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:(NSMakeRange(0, inIssueString.length))];
+    
+    [aAttrString appendAttributedString:vAttrString];
+    
+    _authorLabel.attributedText = aAttrString;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidLayoutSubviews
+{
+    // If there is a segmented control (Releases view), hide the "nothing here yet text"
+    for (UIView *view in self.view.superview.superview.subviews) {
+        if ([view isKindOfClass:[UIView class]]) {
+            for (UIView *subview in view.subviews) {
+                // Just for iPhone 4
+                if ([subview isKindOfClass:[UISegmentedControl class]] && [UIApplication sharedApplication].keyWindow.frame.size.height < 567) {
+                    _nothingHereYetLabel.text = @"";
+                    _nothingHereYetLabel.hidden = YES;
+                }
+            }
+        }
+    }
 }
 
 /*

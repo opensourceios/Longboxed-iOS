@@ -10,7 +10,9 @@
 
 @interface LBXEmptyViewController : UIViewController
 
-@property (nonatomic, strong) IBOutlet UILabel *messageLabel;
+@property (nonatomic, strong) IBOutlet UILabel *nothingHereYetLabel;
+@property (nonatomic, strong) IBOutlet UILabel *quoteLabel;
+@property (nonatomic, strong) IBOutlet UILabel *authorLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
 
 @end

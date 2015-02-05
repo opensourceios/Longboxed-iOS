@@ -59,6 +59,7 @@
 		E55B68161A1AE3C0008A5CFD /* lb_nocover.png in Resources */ = {isa = PBXBuildFile; fileRef = E55B68151A1AE3C0008A5CFD /* lb_nocover.png */; };
 		E55B68611A324A81008A5CFD /* LBXBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E55B68601A324A81008A5CFD /* LBXBackButton.m */; };
 		E56C6FC31A81F56D0035DA0E /* LBXSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E56C6FC21A81F56D0035DA0E /* LBXSettingsViewController.xib */; };
+		E56C6FC51A83033C0035DA0E /* Quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = E56C6FC41A83033C0035DA0E /* Quotes.json */; };
 		E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */; };
 		E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB819D7C37E002DE4BA /* arrow_right_small_black@2x.png */; };
 		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
@@ -222,6 +223,7 @@
 		E55B685F1A324A81008A5CFD /* LBXBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXBackButton.h; path = Views/LBXBackButton.h; sourceTree = "<group>"; };
 		E55B68601A324A81008A5CFD /* LBXBackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXBackButton.m; path = Views/LBXBackButton.m; sourceTree = "<group>"; };
 		E56C6FC21A81F56D0035DA0E /* LBXSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LBXSettingsViewController.xib; sourceTree = "<group>"; };
+		E56C6FC41A83033C0035DA0E /* Quotes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Quotes.json; path = Extras/Quotes.json; sourceTree = "<group>"; };
 		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
 		E575162219908AD00052D4C4 /* libPods-HockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-HockeySDK.a"; path = "Pods/build/Debug-iphoneos/libPods-HockeySDK.a"; sourceTree = "<group>"; };
@@ -693,6 +695,7 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				E56C6FC41A83033C0035DA0E /* Quotes.json */,
 				E507A6F51A7D953900E29DBE /* OpenSource.json */,
 				E5A433E21A7D8426006C67F2 /* LBXErrorDesign.json */,
 				E50183D319F45F4C00DA3CAB /* ESDateHelper */,
@@ -994,6 +997,7 @@
 				E58634371A526DD500427C2E /* LBXTipJarTableViewCell.xib in Resources */,
 				E54F10961991D21B00DAD4FE /* LBXPullListTableViewCell.xib in Resources */,
 				E5B5F9A619FC0C6200474E60 /* arrow_right_standard@3x.png in Resources */,
+				E56C6FC51A83033C0035DA0E /* Quotes.json in Resources */,
 				E5F18735196391D2006C4C26 /* longboxed_full.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
