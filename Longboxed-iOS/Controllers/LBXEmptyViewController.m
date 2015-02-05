@@ -38,14 +38,13 @@
     
     UIFont *authorFont = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0];
     NSDictionary *authorDict = [NSDictionary dictionaryWithObject:authorFont forKey:NSFontAttributeName];
-    NSMutableAttributedString *aAttrString = [[NSMutableAttributedString alloc] initWithString:quotesArray[randomIndex][@"author"] attributes:authorDict];
+    NSMutableAttributedString *aAttrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@, ", quotesArray[randomIndex][@"author"]] attributes:authorDict];
     
     
-    NSString *inIssueString = [NSString stringWithFormat:@" in %@", quotesArray[randomIndex][@"issue"]];
+    NSString *inIssueString = quotesArray[randomIndex][@"issue"];
     UIFont *issueFont = [UIFont fontWithName:@"AvenirNext-Italic" size:16.0];
     NSDictionary *issueDict = [NSDictionary dictionaryWithObject:issueFont forKey:NSFontAttributeName];
     NSMutableAttributedString *vAttrString = [[NSMutableAttributedString alloc]initWithString: inIssueString attributes:issueDict];
-//    [vAttrString addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:(NSMakeRange(0, inIssueString.length))];
     
     [aAttrString appendAttributedString:vAttrString];
     
