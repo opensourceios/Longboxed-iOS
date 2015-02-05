@@ -577,8 +577,6 @@ BOOL _endOfIssues;
     
     viewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelCalendar:)];
     
-    viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain target:self action:@selector(goToToday:)];
-    
     viewController.title = @"Select Week";
     
     _calendarNavController.navigationBar.translucent = NO;
@@ -627,12 +625,6 @@ BOOL _endOfIssues;
     [_maskLoadingView removeFromSuperview];
     _showedCalendar = NO;
     
-}
-
-- (IBAction)goToToday:(id)sender
-{
-    [_calendarView setSelectedDate:nil];
-    [_calendarView scrollToDate:[NSDate date] animated:YES];
 }
 
 #pragma mark - Table view data source
