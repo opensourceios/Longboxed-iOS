@@ -362,7 +362,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     [bundleIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     UIImage *bundleImage = [PaintCodeImages imageOfLongboxedLogoWithColor:[UIColor whiteColor] width:iconSize];
     
-    OnboardingContentViewController *fourthPage = [[OnboardingContentViewController alloc] initWithTitle:@"Check Your Bundles" body:@"Bundles are like a shopping lists for your local comic shop. You'll never miss an issue." image:bundleImage buttonText:nil action:nil];
+    OnboardingContentViewController *fourthPage = [[OnboardingContentViewController alloc] initWithTitle:@"Check Your Bundles" body:@"Bundles are like shopping lists for your local comic shop. You'll never miss an issue." image:bundleImage buttonText:nil action:nil];
     
     fourthPage.topPadding = 90;
     fourthPage.iconHeight = self.window.frame.size.height/7;
