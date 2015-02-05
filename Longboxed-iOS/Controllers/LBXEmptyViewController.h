@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LBXEmptyBundleViewController : UIViewController
+@interface LBXEmptyViewController : UIViewController
 
 @property (nonatomic, strong) IBOutlet UILabel *messageLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;

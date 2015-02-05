@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 Longboxed. All rights reserved.
 //
 
-#import "LBXEmptyBundleViewController.h"
+#import "LBXEmptyViewController.h"
 #import "PaintCodeImages.h"
 #import "UIColor+LBXCustomColors.h"
 
-@interface LBXEmptyBundleViewController ()
+@interface LBXEmptyViewController ()
 
 @end
 
-@implementation LBXEmptyBundleViewController
+@implementation LBXEmptyViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

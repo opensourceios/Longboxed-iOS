@@ -97,8 +97,8 @@
 		E5AB810B19CE1C550042109B /* LBXEmptyPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */; };
 		E5AD0FF61A3E4FED0031171E /* UIImage+LBXCreateImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AD0FF51A3E4FED0031171E /* UIImage+LBXCreateImage.m */; };
 		E5B2ED391A37D1C80053786F /* NSString+LBXStringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B2ED381A37D1C80053786F /* NSString+LBXStringUtilities.m */; };
-		E5B5B7031A81C30C008FF6B8 /* LBXEmptyBundleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B5B7011A81C30C008FF6B8 /* LBXEmptyBundleViewController.m */; };
-		E5B5B7041A81C30C008FF6B8 /* LBXEmptyBundleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5B5B7021A81C30C008FF6B8 /* LBXEmptyBundleViewController.xib */; };
+		E5B5B7031A81C30C008FF6B8 /* LBXEmptyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B5B7011A81C30C008FF6B8 /* LBXEmptyViewController.m */; };
+		E5B5B7041A81C30C008FF6B8 /* LBXEmptyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5B5B7021A81C30C008FF6B8 /* LBXEmptyViewController.xib */; };
 		E5B5F9A419FC0C6200474E60 /* arrow_right_standard.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B5F9A119FC0C6200474E60 /* arrow_right_standard.png */; };
 		E5B5F9A519FC0C6200474E60 /* arrow_right_standard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B5F9A219FC0C6200474E60 /* arrow_right_standard@2x.png */; };
 		E5B5F9A619FC0C6200474E60 /* arrow_right_standard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B5F9A319FC0C6200474E60 /* arrow_right_standard@3x.png */; };
@@ -290,9 +290,9 @@
 		E5AD0FF51A3E4FED0031171E /* UIImage+LBXCreateImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+LBXCreateImage.m"; sourceTree = "<group>"; };
 		E5B2ED371A37D1C80053786F /* NSString+LBXStringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LBXStringUtilities.h"; sourceTree = "<group>"; };
 		E5B2ED381A37D1C80053786F /* NSString+LBXStringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LBXStringUtilities.m"; sourceTree = "<group>"; };
-		E5B5B7001A81C30C008FF6B8 /* LBXEmptyBundleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXEmptyBundleViewController.h; path = Controllers/LBXEmptyBundleViewController.h; sourceTree = "<group>"; };
-		E5B5B7011A81C30C008FF6B8 /* LBXEmptyBundleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXEmptyBundleViewController.m; path = Controllers/LBXEmptyBundleViewController.m; sourceTree = "<group>"; };
-		E5B5B7021A81C30C008FF6B8 /* LBXEmptyBundleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXEmptyBundleViewController.xib; path = Controllers/LBXEmptyBundleViewController.xib; sourceTree = "<group>"; };
+		E5B5B7001A81C30C008FF6B8 /* LBXEmptyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXEmptyViewController.h; path = Controllers/LBXEmptyViewController.h; sourceTree = "<group>"; };
+		E5B5B7011A81C30C008FF6B8 /* LBXEmptyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXEmptyViewController.m; path = Controllers/LBXEmptyViewController.m; sourceTree = "<group>"; };
+		E5B5B7021A81C30C008FF6B8 /* LBXEmptyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXEmptyViewController.xib; path = Controllers/LBXEmptyViewController.xib; sourceTree = "<group>"; };
 		E5B5F9A119FC0C6200474E60 /* arrow_right_standard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow_right_standard.png; path = Assets/arrow_right_standard.png; sourceTree = SOURCE_ROOT; };
 		E5B5F9A219FC0C6200474E60 /* arrow_right_standard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_standard@2x.png"; path = "Assets/arrow_right_standard@2x.png"; sourceTree = SOURCE_ROOT; };
 		E5B5F9A319FC0C6200474E60 /* arrow_right_standard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow_right_standard@3x.png"; path = "Assets/arrow_right_standard@3x.png"; sourceTree = SOURCE_ROOT; };
@@ -754,9 +754,9 @@
 				E5AB810819CE1C550042109B /* LBXEmptyPullListViewController.h */,
 				E5AB810919CE1C550042109B /* LBXEmptyPullListViewController.m */,
 				E5AB810419CE0F6A0042109B /* LBXEmptyPullListViewController.xib */,
-				E5B5B7001A81C30C008FF6B8 /* LBXEmptyBundleViewController.h */,
-				E5B5B7011A81C30C008FF6B8 /* LBXEmptyBundleViewController.m */,
-				E5B5B7021A81C30C008FF6B8 /* LBXEmptyBundleViewController.xib */,
+				E5B5B7001A81C30C008FF6B8 /* LBXEmptyViewController.h */,
+				E5B5B7011A81C30C008FF6B8 /* LBXEmptyViewController.m */,
+				E5B5B7021A81C30C008FF6B8 /* LBXEmptyViewController.xib */,
 			);
 			name = "Empty Sets";
 			sourceTree = "<group>";
@@ -970,7 +970,7 @@
 				E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */,
 				E515747019E4D1F20072EE3E /* LBXBottomTableViewCell.xib in Resources */,
 				E57E156819A987ED002616F5 /* arrow_right.png in Resources */,
-				E5B5B7041A81C30C008FF6B8 /* LBXEmptyBundleViewController.xib in Resources */,
+				E5B5B7041A81C30C008FF6B8 /* LBXEmptyViewController.xib in Resources */,
 				E57D49241960B8F40014A13F /* black.png in Resources */,
 				E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */,
 				E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */,
@@ -1162,7 +1162,7 @@
 				E51F72C51998219B00F643EF /* LBXTitleDetailViewController.m in Sources */,
 				E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */,
 				E515746319DCC4360072EE3E /* LBXSearchTableViewController.m in Sources */,
-				E5B5B7031A81C30C008FF6B8 /* LBXEmptyBundleViewController.m in Sources */,
+				E5B5B7031A81C30C008FF6B8 /* LBXEmptyViewController.m in Sources */,
 				E5AD0FF61A3E4FED0031171E /* UIImage+LBXCreateImage.m in Sources */,
 				E5B6FCE119983DFC0022F4CA /* MGSpotyViewController.m in Sources */,
 				E51D00FD196A1FF2005FCF25 /* LBXPublisher.m in Sources */,

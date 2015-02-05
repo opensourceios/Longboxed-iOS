@@ -26,7 +26,7 @@
 #import <SVProgressHUD.h>
 #import "Masonry.h"
 #import "UICKeyChainStore.h"
-#import "LBXEmptyBundleViewController.h"
+#import "LBXEmptyViewController.h"
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
                                      ESDatePickerDelegate>
@@ -544,7 +544,7 @@ BOOL _endOfIssues;
 }
 
 - (void)showEmptyView {
-    LBXEmptyBundleViewController *controller = [LBXEmptyBundleViewController new];
+    LBXEmptyViewController *controller = [LBXEmptyViewController new];
     controller.view.frame = self.tableView.frame;
     self.tableView.backgroundView = controller.view;
 }

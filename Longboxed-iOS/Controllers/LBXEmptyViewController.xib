@@ -5,7 +5,7 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LBXEmptyBundleViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LBXEmptyViewController">
             <connections>
                 <outlet property="imageView" destination="yQu-z2-Q9R" id="GG0-OD-ri3"/>
                 <outlet property="messageLabel" destination="I1l-rv-Zrh" id="9Xi-fX-Go5"/>
@@ -67,15 +67,15 @@
                             <exclude reference="yQu-z2-Q9R"/>
                         </mask>
                         <mask key="constraints">
-                            <exclude reference="VWT-B1-9ck"/>
-                            <exclude reference="aKI-jj-aT5"/>
-                            <exclude reference="crq-lr-e0w"/>
-                            <exclude reference="hZV-cu-7BO"/>
                             <exclude reference="85n-6P-KzA"/>
                             <exclude reference="Yff-5X-R5i"/>
                             <exclude reference="fgs-Uk-Ync"/>
                             <exclude reference="ik6-eo-r2C"/>
                             <exclude reference="l2J-WI-1rq"/>
+                            <exclude reference="VWT-B1-9ck"/>
+                            <exclude reference="aKI-jj-aT5"/>
+                            <exclude reference="crq-lr-e0w"/>
+                            <exclude reference="hZV-cu-7BO"/>
                         </mask>
                     </variation>
                     <variation key="widthClass=compact" misplaced="YES">
@@ -85,15 +85,15 @@
                             <include reference="yQu-z2-Q9R"/>
                         </mask>
                         <mask key="constraints">
-                            <include reference="VWT-B1-9ck"/>
-                            <include reference="aKI-jj-aT5"/>
-                            <include reference="crq-lr-e0w"/>
-                            <include reference="hZV-cu-7BO"/>
                             <include reference="85n-6P-KzA"/>
                             <include reference="Yff-5X-R5i"/>
                             <include reference="fgs-Uk-Ync"/>
                             <include reference="ik6-eo-r2C"/>
                             <include reference="l2J-WI-1rq"/>
+                            <include reference="VWT-B1-9ck"/>
+                            <include reference="aKI-jj-aT5"/>
+                            <include reference="crq-lr-e0w"/>
+                            <include reference="hZV-cu-7BO"/>
                         </mask>
                     </variation>
                 </view>
