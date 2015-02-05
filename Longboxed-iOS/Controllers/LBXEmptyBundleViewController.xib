@@ -2,10 +2,13 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LBXEmptyBundleViewController">
             <connections>
+                <outlet property="imageView" destination="yQu-z2-Q9R" id="GG0-OD-ri3"/>
+                <outlet property="messageLabel" destination="I1l-rv-Zrh" id="9Xi-fX-Go5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -14,24 +17,120 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yQu-z2-Q9R">
-                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                    <variation key="widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="-14" y="-21" width="400" height="600"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DIS-Qg-yE4">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No bundles. Add titles to your pull list so Longboxed can create bundles for you." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1l-rv-Zrh">
+                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
+                            <color key="textColor" white="0.81643775200000002" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yQu-z2-Q9R">
+                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="yQu-z2-Q9R" secondAttribute="height" multiplier="1:1" id="abQ-UA-BMQ"/>
+                                <constraint firstAttribute="height" constant="120" id="j9n-gB-Pct"/>
+                                <constraint firstAttribute="width" constant="120" id="kXs-Sq-PJL"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="abQ-UA-BMQ"/>
+                                    <exclude reference="j9n-gB-Pct"/>
+                                    <exclude reference="kXs-Sq-PJL"/>
+                                </mask>
+                            </variation>
+                            <variation key="widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="abQ-UA-BMQ"/>
+                                    <exclude reference="j9n-gB-Pct"/>
+                                    <exclude reference="kXs-Sq-PJL"/>
+                                </mask>
+                            </variation>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="I1l-rv-Zrh" firstAttribute="top" secondItem="yQu-z2-Q9R" secondAttribute="bottom" constant="8" id="85n-6P-KzA"/>
+                        <constraint firstItem="yQu-z2-Q9R" firstAttribute="leading" secondItem="DIS-Qg-yE4" secondAttribute="leading" id="VWT-B1-9ck"/>
+                        <constraint firstAttribute="bottom" secondItem="I1l-rv-Zrh" secondAttribute="bottom" id="Yff-5X-R5i"/>
+                        <constraint firstAttribute="centerX" secondItem="yQu-z2-Q9R" secondAttribute="centerX" id="aKI-jj-aT5"/>
+                        <constraint firstItem="yQu-z2-Q9R" firstAttribute="top" secondItem="DIS-Qg-yE4" secondAttribute="top" id="crq-lr-e0w"/>
+                        <constraint firstItem="I1l-rv-Zrh" firstAttribute="leading" secondItem="DIS-Qg-yE4" secondAttribute="leading" id="fgs-Uk-Ync"/>
+                        <constraint firstAttribute="trailing" secondItem="yQu-z2-Q9R" secondAttribute="trailing" id="hZV-cu-7BO"/>
+                        <constraint firstAttribute="centerX" secondItem="I1l-rv-Zrh" secondAttribute="centerX" id="ik6-eo-r2C"/>
+                        <constraint firstAttribute="trailing" secondItem="I1l-rv-Zrh" secondAttribute="trailing" id="l2J-WI-1rq"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="I1l-rv-Zrh"/>
+                            <exclude reference="yQu-z2-Q9R"/>
+                        </mask>
+                        <mask key="constraints">
+                            <exclude reference="VWT-B1-9ck"/>
+                            <exclude reference="aKI-jj-aT5"/>
+                            <exclude reference="crq-lr-e0w"/>
+                            <exclude reference="hZV-cu-7BO"/>
+                            <exclude reference="85n-6P-KzA"/>
+                            <exclude reference="Yff-5X-R5i"/>
+                            <exclude reference="fgs-Uk-Ync"/>
+                            <exclude reference="ik6-eo-r2C"/>
+                            <exclude reference="l2J-WI-1rq"/>
+                        </mask>
                     </variation>
-                </imageView>
+                    <variation key="widthClass=compact" misplaced="YES">
+                        <rect key="frame" x="88" y="149" width="224" height="302"/>
+                        <mask key="subviews">
+                            <include reference="I1l-rv-Zrh"/>
+                            <include reference="yQu-z2-Q9R"/>
+                        </mask>
+                        <mask key="constraints">
+                            <include reference="VWT-B1-9ck"/>
+                            <include reference="aKI-jj-aT5"/>
+                            <include reference="crq-lr-e0w"/>
+                            <include reference="hZV-cu-7BO"/>
+                            <include reference="85n-6P-KzA"/>
+                            <include reference="Yff-5X-R5i"/>
+                            <include reference="fgs-Uk-Ync"/>
+                            <include reference="ik6-eo-r2C"/>
+                            <include reference="l2J-WI-1rq"/>
+                        </mask>
+                    </variation>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="DIS-Qg-yE4" secondAttribute="trailing" constant="88" id="ci2-xT-t4Q"/>
+                <constraint firstItem="DIS-Qg-yE4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="88" id="lJu-Ir-BeQ"/>
+                <constraint firstItem="DIS-Qg-yE4" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="88" id="lVv-he-05s"/>
+                <constraint firstAttribute="bottom" secondItem="DIS-Qg-yE4" secondAttribute="bottom" constant="88" id="pud-en-OXg"/>
+                <constraint firstAttribute="centerY" secondItem="DIS-Qg-yE4" secondAttribute="centerY" id="qDn-94-dNb"/>
+            </constraints>
             <variation key="default">
                 <mask key="subviews">
-                    <exclude reference="yQu-z2-Q9R"/>
+                    <exclude reference="DIS-Qg-yE4"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="ci2-xT-t4Q"/>
+                    <exclude reference="lJu-Ir-BeQ"/>
+                    <exclude reference="lVv-he-05s"/>
+                    <exclude reference="pud-en-OXg"/>
+                    <exclude reference="qDn-94-dNb"/>
                 </mask>
             </variation>
             <variation key="widthClass=compact">
                 <mask key="subviews">
-                    <include reference="yQu-z2-Q9R"/>
+                    <include reference="DIS-Qg-yE4"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="ci2-xT-t4Q"/>
+                    <include reference="lJu-Ir-BeQ"/>
+                    <exclude reference="lVv-he-05s"/>
+                    <exclude reference="pud-en-OXg"/>
+                    <include reference="qDn-94-dNb"/>
                 </mask>
             </variation>
+            <point key="canvasLocation" x="107" y="314"/>
         </view>
     </objects>
 </document>

@@ -7,6 +7,8 @@
 //
 
 #import "LBXEmptyBundleViewController.h"
+#import "PaintCodeImages.h"
+#import "UIColor+LBXCustomColors.h"
 
 @interface LBXEmptyBundleViewController ()
 
@@ -17,6 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    _imageView.image = [PaintCodeImages imageOfLongboxedLogoWithColor:[UIColor LBXVeryLightGrayColor] width:_imageView.frame.size.width];
+    _messageLabel.textColor = [UIColor colorWithHex:@"#E0E1E2"];
 }
 
 - (void)didReceiveMemoryWarning {

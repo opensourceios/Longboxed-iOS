@@ -26,6 +26,7 @@
 #import <SVProgressHUD.h>
 #import "Masonry.h"
 #import "UICKeyChainStore.h"
+#import "LBXEmptyBundleViewController.h"
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
                                      ESDatePickerDelegate>
@@ -161,8 +162,6 @@ BOOL _endOfIssues;
     [self.refreshControl addTarget:self action:@selector(refreshControlAction)
               forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
-
-    
     
     // If not initialized with initWithDate
     if (!_selectedWednesday && _displayReleasesOfDate) {
@@ -226,6 +225,10 @@ BOOL _endOfIssues;
     
     if (_showedCalendar) {
         [self fetchIssues];
+    }
+    
+    if (!_sectionArray.count && [_customNavTitle isEqualToString:@"Bundles"]) {
+        [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     }
 }
 
@@ -344,11 +347,11 @@ BOOL _endOfIssues;
 - (void)setIssuesForWeekArrayWithThisWeekIssues
 {
     NSDate *currentDate = [NSDate getLocalDate];
-    
     NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"ThisWeekDate"]];
     if (restoredDate) currentDate = restoredDate;
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
+    
     if (allIssuesArray.count > 1) {
         _issuesForWeekArray = allIssuesArray;
         if ([_customNavTitle isEqualToString:@"Bundles"]) {
@@ -416,7 +419,7 @@ BOOL _endOfIssues;
     }
     
     if (!_sectionArray.count) {
-        // TODO: Display empty view for week
+        [self showEmptyView];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -431,7 +434,6 @@ BOOL _endOfIssues;
     if (![self.tableView numberOfRowsInSection:1]) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     // Fetch this weeks comics
     [self.client fetchThisWeeksComicsWithPage:page completion:^(NSArray *thisWeekArray, RKObjectRequestOperation *response, NSError *error) {
-        [SVProgressHUD dismiss];
         if (!error) {
             if (!thisWeekArray.count) {
                 [self completeRefresh];
@@ -443,6 +445,7 @@ BOOL _endOfIssues;
             }
         }
         else {
+            [SVProgressHUD dismiss];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.refreshControl endRefreshing];
             });
@@ -455,7 +458,6 @@ BOOL _endOfIssues;
     if (![self.tableView numberOfRowsInSection:1]) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
     // Fetch this weeks comics
     [self.client fetchNextWeeksComicsWithPage:page completion:^(NSArray *nextWeekArray, RKObjectRequestOperation *response, NSError *error) {
-        [SVProgressHUD dismiss];
         if (!error) {
             if (!nextWeekArray.count) {
                 [self completeRefresh];
@@ -467,6 +469,7 @@ BOOL _endOfIssues;
             }
         }
         else {
+            [SVProgressHUD dismiss];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.refreshControl endRefreshing];
             });
@@ -526,16 +529,24 @@ BOOL _endOfIssues;
             if (!error) {
                 [self.refreshControl endRefreshing];
                 if (!bundleArray.count) {
-                    NSLog(@"Setting end of issues");
-                    self.tableView.tableFooterView = nil;
+                    // At the end of the paging through bundles
+                    self.tableView.tableFooterView = [UIView new];
                     _endOfIssues = YES;
+                    [SVProgressHUD dismiss];
                 }
                 else {
+                    // Finished fetching this page
                     [self completeRefresh];
                 }
             }
         }];
     }
+}
+
+- (void)showEmptyView {
+    LBXEmptyBundleViewController *controller = [LBXEmptyBundleViewController new];
+    controller.view.frame = self.tableView.frame;
+    self.tableView.backgroundView = controller.view;
 }
 
 - (void)showCalendar
