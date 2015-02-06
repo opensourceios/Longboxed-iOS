@@ -13,7 +13,7 @@
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXTitleDetailViewController.h"
-#import "LBXPublisherTableViewController.h"
+#import "LBXPublisherViewController.h"
 #import "LBXControllerServices.h"
 #import "LBXPullListTableViewCell.h"
 #import "LBXSettingsViewController.h"
@@ -172,8 +172,11 @@ BOOL _selectedSearchResult;
 {
     [_browseTableView removeConstraints:_tableConstraints];
     double height = TABLEHEIGHT;
-    if (!_bundleButton.superview && !topTableView.superview) {
+    if (!_bundleButton.superview && !topTableView.superview && _bundleIssuesArray.count) {
         // Show the bundle horizontal table view if logged in
+        
+        _bundleButton.alpha = 1.0;
+        topTableView.alpha = 1.0;
         [self.view insertSubview:_bundleButton aboveSubview:_popularButton];
         [self.view insertSubview:topTableView aboveSubview:_popularButton];
         
@@ -238,6 +241,18 @@ BOOL _selectedSearchResult;
         height = TABLEHEIGHT/2;
        [_bundleButton removeFromSuperview];
        [topTableView removeFromSuperview];
+    }
+    if (!_bundleIssuesArray.count) {
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             _bundleButton.alpha = 0.0;
+                             topTableView.alpha = 0.0;
+                         }
+                         completion:^(BOOL finished){
+                             [_bundleButton removeFromSuperview];
+                             [topTableView removeFromSuperview];
+                         }];
+
     }
     // Adjust the menus to hide the pull list/bundle options if not logged in
     _tableConstraints = [NSLayoutConstraint
@@ -466,7 +481,7 @@ BOOL _selectedSearchResult;
         }
         
         if (bundle.issues.count == 0) {
-            [self showEmptyBundleView];
+            [self reloadTableView];
         }
         
         NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"completeTitle" ascending:YES];
@@ -483,6 +498,7 @@ BOOL _selectedSearchResult;
                        forState:UIControlStateNormal];
         [self.topTableView reloadData];
     }
+    [self reloadTableView];
 }
 
 - (void)fetchBundle
@@ -588,15 +604,6 @@ BOOL _selectedSearchResult;
             break;
         }
     }
-}
-
-- (void)showEmptyBundleView
-{
-    _emptyImageView = [UIImageView new];
-    _emptyImageView.frame = self.topTableView.frame;
-    _emptyImageView.image = [UIImage imageNamed:@"longboxed_full@3x"];
-    [self.topTableView.superview addSubview:_emptyImageView];
-    self.topTableView.hidden = YES;
 }
 
 #pragma mark UISearchControllerDelegate Methods
@@ -849,7 +856,7 @@ BOOL _selectedSearchResult;
         //    LBXPublisherCollectionViewController *controller = [LBXPublisherCollectionViewController new];
         switch (indexPath.row) {
             case 0: {
-                LBXPublisherTableViewController *controller = [LBXPublisherTableViewController new];
+                LBXPublisherViewController *controller = [LBXPublisherViewController new];
                 [self.navigationController pushViewController:controller animated:YES];
                 break;
             }
