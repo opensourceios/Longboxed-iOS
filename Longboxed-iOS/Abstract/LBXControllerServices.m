@@ -163,7 +163,7 @@
 {
     NSString *subtitleString = [NSString stringWithFormat:@"%@", [NSString localTimeZoneStringWithDate:issue.releaseDate]];
     
-    NSString *modifiedTitleString = [NSString regexOutHTMLJunk:issue.completeTitle];
+    NSString *modifiedTitleString = [NSString fixHTMLAttributes:issue.completeTitle];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(issueNumber == %@) AND (title == %@)", issue.issueNumber, issue.title];
     NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];

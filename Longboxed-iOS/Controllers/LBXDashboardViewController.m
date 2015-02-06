@@ -343,7 +343,7 @@ BOOL _selectedSearchResult;
         }
     }
     
-    self.featuredDescriptionLabel.text = [NSString regexOutHTMLJunk:_featuredIssue.issueDescription];
+    self.featuredDescriptionLabel.text = [NSString fixHTMLAttributes:_featuredIssue.issueDescription];
     self.featuredDescriptionLabel.textColor = UIColor.whiteColor;
     _featuredDescriptionLabel.font = [UIFont featuredIssueDescriptionFont];
     self.featuredIssueTitleLabel.text = _featuredIssue.title.name;

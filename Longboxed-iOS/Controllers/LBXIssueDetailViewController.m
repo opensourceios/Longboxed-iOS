@@ -94,7 +94,7 @@ BOOL selectedTitle;
     }
     [self setupImagesWithImage:_issueImage];
     
-    NSString *modifiedTitleString = [NSString regexOutHTMLJunk:_issue.title.name];
+    NSString *modifiedTitleString = [NSString fixHTMLAttributes:_issue.title.name];
     [_titleButton setTitle:[NSString stringWithFormat:@"%@ #%@", modifiedTitleString, _issue.issueNumber] forState:UIControlStateNormal];
     [_titleButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _titleButton.titleLabel.font = [UIFont issueDetailTitleFont];
@@ -112,7 +112,7 @@ BOOL selectedTitle;
     
     _subtitleLabel.text = _issue.subtitle;
     if (_issue.subtitle) {
-        NSString *modifiedSubtitleString = [NSString regexOutHTMLJunk:_issue.subtitle];
+        NSString *modifiedSubtitleString = [NSString fixHTMLAttributes:_issue.subtitle];
         _subtitleLabel.text = modifiedSubtitleString;
         
         
@@ -170,7 +170,10 @@ BOOL selectedTitle;
     [_releaseDateButton setTitleColor:[UIColor lightGrayColor]
                              forState:UIControlStateHighlighted];
     
-    NSString *modifiedDescriptionString = [NSString regexOutHTMLJunk:_issue.issueDescription];
+    NSString *modifiedDescriptionString = [[NSAttributedString alloc] initWithData:[_issue.issueDescription dataUsingEncoding:NSUTF8StringEncoding]
+                                                                           options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: [NSNumber numberWithInt:NSUTF8StringEncoding]}
+                                                                documentAttributes:nil
+                                                                             error:nil].string;
     _descriptionTextView.text = modifiedDescriptionString;
     _descriptionTextView.selectable = NO;
     [_descriptionTextView scrollRangeToVisible:NSMakeRange(0, 0)]; // Scroll to the top
