@@ -33,6 +33,8 @@
 #import <JGActionSheet.h>
 #import <OnboardingContentViewController.h>
 
+#import <Crashlytics/Crashlytics.h>
+
 @interface LBXSettingsViewController () <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) UISwitch *developmentServerSwitch;
@@ -246,6 +248,7 @@ UICKeyChainStore *store;
             return 2;
             break;
         case 4:
+            if ([LBXControllerServices isLoggedIn] && [LBXControllerServices isAdmin]) return 4;
             if ([LBXControllerServices isLoggedIn]) return 3;
             else return 2;
             break;
@@ -343,7 +346,7 @@ UICKeyChainStore *store;
             textArray = @[@"Clear Image & Data Cache"];
             break;
         case 4:
-            textArray = ([LBXControllerServices isLoggedIn]) ? @[@"Show Tutorial", @"About", @"Delete Account And All Data"] : @[@"Show Tutorial", @"About"];
+            textArray = @[@"Show Tutorial", @"About", @"Delete Account And All Data", @"Force A Crash"];
             break;
     }
     
@@ -375,6 +378,9 @@ UICKeyChainStore *store;
     
     if (indexPath.section == 4 && indexPath.row == 2 && [cell.textLabel.text isEqualToString:@"Delete Account And All Data"]) {
         cell.textLabel.textColor = [UIColor redColor];
+    }
+    if (indexPath.section == 4 && indexPath.row == 3) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     cell.detailTextLabel.font = [UIFont settingsTableViewFont];
@@ -481,6 +487,9 @@ UICKeyChainStore *store;
             else if (indexPath.row == 2) {
                 LBXDeleteAccountViewController *deleteViewController = [LBXDeleteAccountViewController new];
                 [self.navigationController pushViewController:deleteViewController animated:YES];
+            }
+            else if (indexPath.row == 3) {
+                [[Crashlytics sharedInstance] crash];
             }
             break;
         default:
