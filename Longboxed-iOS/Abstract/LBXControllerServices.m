@@ -463,7 +463,6 @@
         LBXEmptyViewController *controller = [LBXEmptyViewController new];
         controller.view.frame = tableView.frame;
         tableView.backgroundView = controller.view;
-        [tableView.superview bringSubviewToFront:tableView];
     });
 }
 

@@ -397,6 +397,17 @@ BOOL _endOfIssues;
     else _sectionArray = [NSArray getPublisherTableViewSectionArrayForArray:_issuesForWeekArray];
 }
 
+- (void)clearUpViews {
+    if (!_sectionArray.count) {
+        [_maskLoadingView removeFromSuperview];
+        [LBXControllerServices showEmptyViewOverTableView:self.tableView];
+    }
+    [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
+    [SVProgressHUD dismiss];
+}
+
+
 - (void)completeRefresh
 {
     if (!_segmentedControl) {
@@ -418,16 +429,7 @@ BOOL _endOfIssues;
     else {
         [self setIssuesForWeekArrayWithDate:_selectedWednesday];
     }
-    
-    if (!_sectionArray.count) {
-        [LBXControllerServices showEmptyViewOverTableView:self.tableView];
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-        [self.refreshControl endRefreshing];
-        [SVProgressHUD dismiss];
-    });
+    [self clearUpViews];
 }
 
 - (void)fetchThisWeekWithPage:(NSNumber *)page
@@ -446,13 +448,7 @@ BOOL _endOfIssues;
             }
         }
         else {
-            [SVProgressHUD dismiss];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.refreshControl endRefreshing];
-            });
-            if (!_sectionArray.count) {
-                [LBXControllerServices showEmptyViewOverTableView:self.tableView];
-            }
+            [self clearUpViews];
         }
     }];
 }
@@ -473,13 +469,7 @@ BOOL _endOfIssues;
             }
         }
         else {
-            [SVProgressHUD dismiss];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.refreshControl endRefreshing];
-            });
-            if (!_sectionArray.count) {
-                [LBXControllerServices showEmptyViewOverTableView:self.tableView];
-            }
+            [self clearUpViews];
         }
     }];
 }
@@ -513,13 +503,7 @@ BOOL _endOfIssues;
             }
         }
         else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-                [self.refreshControl endRefreshing];
-            });
-            if (!_sectionArray.count) {
-                [LBXControllerServices showEmptyViewOverTableView:self.tableView];
-            }
+            [self clearUpViews];
         }
     }];
 }
@@ -550,10 +534,7 @@ BOOL _endOfIssues;
                 }
             }
             else {
-                [SVProgressHUD dismiss];
-                if (!_sectionArray.count) {
-                    [LBXControllerServices showEmptyViewOverTableView:self.tableView];
-                }
+                [self clearUpViews];
             }
         }];
     }
@@ -598,12 +579,11 @@ BOOL _endOfIssues;
 
 - (void)datePicker:(ESDatePicker *)datePicker dateSelected:(NSDate *)date
 {
+    [self dismissViewControllerAnimated:YES completion:nil];
     _issuesForWeekArray = nil;
     _sectionArray = nil;
     _selectedWednesday = [NSDate getThisWednesdayOfDate:date];
-    
-    [self setNavTitle];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [_maskLoadingView removeFromSuperview];
     
     // Check if the issue is this week
     NSDate *currentDate = [NSDate getLocalDate];
