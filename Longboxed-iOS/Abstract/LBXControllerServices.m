@@ -25,6 +25,7 @@
 #import <UIImageView+AFNetworking.h>
 #import <UICKeyChainStore.h>
 #import "SIAlertView.h"
+#import "LBXEmptyViewController.h"
 
 @interface LBXControllerServices ()
 
@@ -455,6 +456,15 @@
     searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
     [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor blackColor]];
+}
+
++ (void)showEmptyViewOverTableView:(UITableView *)tableView {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        LBXEmptyViewController *controller = [LBXEmptyViewController new];
+        controller.view.frame = tableView.frame;
+        tableView.backgroundView = controller.view;
+        [tableView.superview bringSubviewToFront:tableView];
+    });
 }
 
 @end

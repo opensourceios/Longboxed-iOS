@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
 
-#import "LBXPublisherTableViewController.h"
+#import "LBXPublisherViewController.h"
 #import "LBXPublisherListTableViewCell.h"
 #import "LBXPublisherDetailViewController.h"
 #import "LBXControllerServices.h"
@@ -21,20 +21,20 @@
 #import <UIImage+CreateImage.h>
 #import "LBXLogging.h"
 #import "SVProgressHUD.h"
+#import "LBXEmptyViewController.h"
 
-@interface LBXPublisherTableViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
+@interface LBXPublisherViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
 
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic) LBXClient *client;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
-@implementation LBXPublisherTableViewController
+@implementation LBXPublisherViewController
 
 static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
-
-BOOL endOfPublishers;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -63,6 +63,8 @@ BOOL endOfPublishers;
     self.tableView.tableFooterView = [UIView new];
     
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
+    
+    [self.view addSubview:self.tableView];
     
     NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
@@ -122,15 +124,21 @@ BOOL endOfPublishers;
         [self.refreshControl endRefreshing];
         if (!error) {
             if (publisherArray.count == 0) {
-                endOfPublishers = YES;
                 self.tableView.hidden = NO;
-                
+                if (!_fetchedResultsController.fetchedObjects.count) {
+                    [LBXControllerServices showEmptyViewOverTableView:self.tableView];
+                }
                 [SVProgressHUD dismiss];
             }
             else {
                 int value = [page intValue];
                 [self refreshViewWithPage:[NSNumber numberWithInt:value + 1]];
             }
+        }
+        else if (!_fetchedResultsController.fetchedObjects.count) {
+            self.tableView.hidden = NO;
+            [SVProgressHUD dismiss];
+            [LBXControllerServices showEmptyViewOverTableView:self.tableView];
         }
     }];
 }

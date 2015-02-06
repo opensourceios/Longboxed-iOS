@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LBXPublisherDetailViewController : UITableViewController
+@interface LBXPublisherDetailViewController : UIViewController
 
 @property (nonatomic, retain) NSNumber *publisherID;
 

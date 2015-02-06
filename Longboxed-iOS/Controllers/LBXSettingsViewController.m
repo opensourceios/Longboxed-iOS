@@ -452,12 +452,18 @@ UICKeyChainStore *store;
                 if ([LBXControllerServices isLoggedIn]) {
                     [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                           [SVProgressHUD showSuccessWithStatus:@"Cache Cleared"];
-                            //[self.settingsTableView reloadData];
-                            [tableView footerViewForSection:indexPath.section].textLabel.text = @"Less than 0.5 MB used";
-                            [tableView footerViewForSection:indexPath.section].textLabel.numberOfLines = 1;
-                            [[tableView footerViewForSection:indexPath.section].textLabel sizeToFit];
-                            [[tableView footerViewForSection:indexPath.section].textLabel updateConstraintsIfNeeded];
+                            if (!error) {
+                               [SVProgressHUD showSuccessWithStatus:@"Cache Cleared"];
+                                //[self.settingsTableView reloadData];
+                                [tableView footerViewForSection:indexPath.section].textLabel.text = @"Less than 0.5 MB used";
+                                [tableView footerViewForSection:indexPath.section].textLabel.numberOfLines = 1;
+                                [[tableView footerViewForSection:indexPath.section].textLabel sizeToFit];
+                                [[tableView footerViewForSection:indexPath.section].textLabel updateConstraintsIfNeeded];
+                            }
+                            else {
+                                [LBXControllerServices showAlertWithTitle:@"Error" andMessage:@"Unable to clear cache"];
+                                [SVProgressHUD dismiss];
+                            }
                         });
                     }];
                 }

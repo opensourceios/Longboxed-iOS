@@ -52,4 +52,6 @@
 
 + (void)setupSearchController:(UISearchController *)searchController withSearchResultsController:(LBXSearchTableViewController *)searchResultsController andDelegate:(id)delegate;
 
++ (void)showEmptyViewOverTableView:(UITableView *)tableView;
+
 @end

@@ -26,6 +26,7 @@
 
 @interface LBXPublisherDetailViewController () <UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, copy) LBXPublisher *detailPublisher;
 @property (nonatomic, copy) LBXClient *client;
 @property (nonatomic, copy) NSArray *titlesForPublisherArray;
@@ -47,6 +48,11 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"clear"] style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = actionButton;
+    self.tableView = [UITableView new];
+    
+    // A little trick for removing the cell separators
+    self.tableView.tableFooterView = [UIView new];
+    self.tableView.frame = self.view.frame;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -55,6 +61,8 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     [self.refreshControl addTarget:self action:@selector(refresh)
                   forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
+    
+    [self.view addSubview:self.tableView];
     
     _loadingView = [[UIView alloc] initWithFrame:self.view.frame];
     _loadingView.backgroundColor = [UIColor whiteColor];
@@ -167,6 +175,9 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         }
         else {
             [self.refreshControl endRefreshing];
+            [SVProgressHUD dismiss];
+            self.tableView.hidden = NO;
+            [LBXControllerServices showEmptyViewOverTableView:self.tableView];
         }
     }];
 }
@@ -184,7 +195,12 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         [_loadingView removeFromSuperview];
         self.tableView.hidden = NO;
         
-        [SVProgressHUD dismiss];   
+        [SVProgressHUD dismiss];
+    }
+    else if (!_titlesForPublisherArray.count) {
+        [SVProgressHUD dismiss];
+        self.tableView.hidden = NO;
+        [LBXControllerServices showEmptyViewOverTableView:self.tableView];
     }
 }
 
@@ -200,7 +216,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if(section >= 0)
-        return [super tableView:tableView viewForHeaderInSection:section];
+        return tableView.tableHeaderView;
     
     return nil;
 }
@@ -216,7 +232,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if(section == 0) return [super tableView:tableView heightForHeaderInSection:section];
+    if(section == 0) return tableView.tableHeaderView.frame.size.height;
     
     else return 18.0;
 }

@@ -229,6 +229,7 @@ BOOL _endOfIssues;
     
     if (!_sectionArray.count && [_customNavTitle isEqualToString:@"Bundles"]) {
         [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
+        [self fetchBundleWithPage:@1];
     }
 }
 
@@ -419,7 +420,7 @@ BOOL _endOfIssues;
     }
     
     if (!_sectionArray.count) {
-        [self showEmptyView];
+        [LBXControllerServices showEmptyViewOverTableView:self.tableView];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -449,6 +450,9 @@ BOOL _endOfIssues;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.refreshControl endRefreshing];
             });
+            if (!_sectionArray.count) {
+                [LBXControllerServices showEmptyViewOverTableView:self.tableView];
+            }
         }
     }];
 }
@@ -473,6 +477,9 @@ BOOL _endOfIssues;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.refreshControl endRefreshing];
             });
+            if (!_sectionArray.count) {
+                [LBXControllerServices showEmptyViewOverTableView:self.tableView];
+            }
         }
     }];
 }
@@ -510,6 +517,9 @@ BOOL _endOfIssues;
                 [SVProgressHUD dismiss];
                 [self.refreshControl endRefreshing];
             });
+            if (!_sectionArray.count) {
+                [LBXControllerServices showEmptyViewOverTableView:self.tableView];
+            }
         }
     }];
 }
@@ -539,14 +549,14 @@ BOOL _endOfIssues;
                     [self completeRefresh];
                 }
             }
+            else {
+                [SVProgressHUD dismiss];
+                if (!_sectionArray.count) {
+                    [LBXControllerServices showEmptyViewOverTableView:self.tableView];
+                }
+            }
         }];
     }
-}
-
-- (void)showEmptyView {
-    LBXEmptyViewController *controller = [LBXEmptyViewController new];
-    controller.view.frame = self.tableView.frame;
-    self.tableView.backgroundView = controller.view;
 }
 
 - (void)showCalendar
@@ -589,6 +599,7 @@ BOOL _endOfIssues;
 - (void)datePicker:(ESDatePicker *)datePicker dateSelected:(NSDate *)date
 {
     _issuesForWeekArray = nil;
+    _sectionArray = nil;
     _selectedWednesday = [NSDate getThisWednesdayOfDate:date];
     
     [self setNavTitle];
