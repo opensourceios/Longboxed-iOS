@@ -31,6 +31,7 @@
 #import "LBXLoginViewController.h"
 #import "LBXSignupViewController.h"
 #import "SIAlertView.h"
+#import <HockeySDK/HockeySDK.h>
 
 static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 
@@ -91,7 +92,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     
     // Hockey app needs to be the last 3rd party integration in this method
     // Alpha Version
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"4064359702d9b0088c5ccb88d7d897b5"];
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"42518dce084a3ca70fca4ddf888a30a5"];
     
     // Add Xcode console logger if not running in the App Store
     if (![[BITHockeyManager sharedHockeyManager] isAppStoreEnvironment]) {
@@ -118,8 +119,6 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     
     // Automatically send crash reports
     [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
-    
-    [[BITHockeyManager sharedHockeyManager] setDelegate:self];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
