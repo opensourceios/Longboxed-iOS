@@ -9,6 +9,7 @@
 #import "LBXEmptyViewController.h"
 #import "PaintCodeImages.h"
 #import "UIColor+LBXCustomColors.h"
+#import "SDiPhoneVersion.h"
 
 @interface LBXEmptyViewController ()
 
@@ -63,7 +64,7 @@
         if ([view isKindOfClass:[UIView class]]) {
             for (UIView *subview in view.subviews) {
                 // Just for iPhone 4
-                if ([subview isKindOfClass:[UISegmentedControl class]] && [UIApplication sharedApplication].keyWindow.frame.size.height < 567) {
+                if ([subview isKindOfClass:[UISegmentedControl class]] && [SDiPhoneVersion deviceSize] <= 2) {
                     _nothingHereYetLabel.text = @"";
                     _nothingHereYetLabel.hidden = YES;
                 }
