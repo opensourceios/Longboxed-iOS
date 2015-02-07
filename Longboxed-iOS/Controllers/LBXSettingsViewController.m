@@ -32,6 +32,7 @@
 #import <SVProgressHUD.h>
 #import <JGActionSheet.h>
 #import <OnboardingContentViewController.h>
+#import <WebKit/WebKit.h>
 
 #import <Crashlytics/Crashlytics.h>
 
@@ -437,10 +438,14 @@ UICKeyChainStore *store;
                 [self.navigationController pushViewController:loginViewController animated:YES];
             }
             break;
-        // Send feedback email
         case 1:
+            // Send feedback email
             if (indexPath.row == 0) {
                 [self sendEmail];
+            }
+            // Rate the app
+            else if (indexPath.row == 1)  {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/longboxed/id965045339?ls=1&mt=8"]];
             }
             break;
         case 3:
