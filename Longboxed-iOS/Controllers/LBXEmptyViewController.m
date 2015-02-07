@@ -64,7 +64,7 @@
         if ([view isKindOfClass:[UIView class]]) {
             for (UIView *subview in view.subviews) {
                 // Just for iPhone 4
-                if ([subview isKindOfClass:[UISegmentedControl class]] && [SDiPhoneVersion deviceSize] <= 2) {
+                if ([subview isKindOfClass:[UISegmentedControl class]] && [SDiPhoneVersion deviceSize] < 2) {
                     _nothingHereYetLabel.text = @"";
                     _nothingHereYetLabel.hidden = YES;
                 }
