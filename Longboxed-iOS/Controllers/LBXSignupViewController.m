@@ -132,6 +132,9 @@ UICKeyChainStore *store;
         case 0:
             [self signup];
             break;
+        case 1:
+            [LBXControllerServices presentWebViewOverViewController:self withTitle:@"Privacy Policy" URL:[NSURL URLWithString:@"https://longboxed.com/privacy"]];
+            break;
     }
 }
 

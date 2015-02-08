@@ -130,6 +130,7 @@
     NSError *error;
     
     NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:storePath fromSeedDatabaseAtPath:nil  withConfiguration:nil options:@{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES} error:&error];
+    #pragma unused(persistentStore)
     
     NSAssert(persistentStore, @"Failed to add persistent store with error: %@", error);
     

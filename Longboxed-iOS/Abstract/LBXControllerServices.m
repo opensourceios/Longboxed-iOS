@@ -7,6 +7,7 @@
 //
 #import <MessageUI/MessageUI.h>
 #import <sys/utsname.h>
+#import <WebKit/WebKit.h>
 
 #import "LBXControllerServices.h"
 #import "LBXUser.h"
@@ -324,7 +325,6 @@
     button.parentViewController = viewController;
     
     [button setImage:[UIImage imageNamed:@"arrow.png"] forState:UIControlStateNormal];
-    //#pragma GCC diagnostic ignored "-Wundeclared-selector" // Ignore the warning about the following selector method
     [button addTarget:[LBXControllerServices class] action:@selector(backButtonClicked:)
      forControlEvents:UIControlEventTouchUpInside];
     button.tintColor = [UIColor whiteColor];
@@ -466,4 +466,41 @@
     });
 }
 
++ (void)presentWebViewOverViewController:(UIViewController *)viewController withTitle:(NSString *)title URL:(NSURL *)url {
+    
+    UIViewController *forgotViewController = [UIViewController new];
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:viewController.view.frame];
+    UIView *view = [[UIView alloc] initWithFrame:viewController.view.frame];
+    view.backgroundColor = [UIColor whiteColor];
+    forgotViewController.view = view;
+    [view addSubview:webView];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:forgotViewController];
+    
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wundeclared-selector"
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
+    #pragma clang diagnostic pop
+    
+    UILabel *label = [UILabel new];
+    label.text = title;
+    label.font = [UIFont navTitleFont];
+    [label sizeToFit];
+    forgotViewController.navigationItem.titleView = label;
+    forgotViewController.navigationItem.rightBarButtonItem = actionButton;
+    
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
+    [webView loadRequest: request];
+
+    // If reset URL, offset the web view to hide the nav bar
+    if ([[url absoluteString] containsString:@"/reset"]) {
+    [[webView scrollView] setContentInset:UIEdgeInsetsMake(-viewController.navigationController.navigationBar.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height, 0, 0, 0)];
+    }
+    
+    //now present this navigation controller modally
+    [viewController presentViewController:navigationController
+                       animated:YES
+                     completion:^{
+                     }];
+}
 @end

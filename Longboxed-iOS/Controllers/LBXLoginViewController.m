@@ -222,36 +222,8 @@ UICKeyChainStore *store;
         case 2:
         {
             [LBXLogging logMessage:[NSString stringWithFormat:@"Forgot password"]];
-            
-            UIViewController *forgotViewController = [UIViewController new];
-            WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame];
-            UIView *view = [[UIView alloc] initWithFrame:self.view.frame];
-            view.backgroundColor = [UIColor whiteColor];
-            forgotViewController.view = view;
-            [view addSubview:webView];
-            UINavigationController *navigationController =
-            [[UINavigationController alloc] initWithRootViewController:forgotViewController];
-            
-            UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
-            UILabel *label = [UILabel new];
-            label.text = @"Reset Password";
-            label.font = [UIFont navTitleFont];
-            [label sizeToFit];
-            forgotViewController.navigationItem.titleView = label;
-            forgotViewController.navigationItem.rightBarButtonItem = actionButton;
-            
-            NSURLRequest *request = [[NSURLRequest alloc] initWithURL: [NSURL URLWithString:@"https://longboxed.com/reset"] cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
-            [webView loadRequest: request];
-            
-            [[webView scrollView] setContentInset:UIEdgeInsetsMake(-self.navigationController.navigationBar.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height, 0, 0, 0)];
-            
-            //now present this navigation controller modally
-            [self presentViewController:navigationController
-                               animated:YES
-                             completion:^{
-                             }];
+            [LBXControllerServices presentWebViewOverViewController:self withTitle:@"Reset Password" URL:[NSURL URLWithString:@"https://longboxed.com/reset"]];
             break;
-            
         }
     }
 }

@@ -53,5 +53,6 @@
 + (void)setupSearchController:(UISearchController *)searchController withSearchResultsController:(LBXSearchTableViewController *)searchResultsController andDelegate:(id)delegate;
 
 + (void)showEmptyViewOverTableView:(UITableView *)tableView;
++ (void)presentWebViewOverViewController:(UIViewController *)viewController withTitle:(NSString *)title URL:(NSURL *)url;
 
 @end
