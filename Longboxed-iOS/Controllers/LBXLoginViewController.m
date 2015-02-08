@@ -68,6 +68,8 @@ UICKeyChainStore *store;
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:fields]];
     self.keyboardControls.barTintColor = [UIColor blackColor];
     [self.keyboardControls setDelegate:self];
+    self.usernameField.delegate = self;
+    self.passwordField.delegate = self;
 
 }
 
