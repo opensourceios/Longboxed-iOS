@@ -285,13 +285,11 @@ BOOL _selectedSearchResult;
     else [self refresh];
     
     // Stuff that determines whether or not to fetch the featured issue
-    NSDate *currentDate = [NSDate getLocalDate];
+    NSDate *currentDate = [NSDate localDate];
     
-    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"PopularDate"]];
-    if (restoredDate) currentDate = restoredDate;
     if (_popularIssuesArray.count &&
-        ((LBXIssue *)_popularIssuesArray[0]).releaseDate > [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
-        ((LBXIssue *)_popularIssuesArray[0]).releaseDate < [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
+        ((LBXIssue *)_popularIssuesArray[0]).releaseDate > [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
+        ((LBXIssue *)_popularIssuesArray[0]).releaseDate < [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
         ((LBXIssue *)_popularIssuesArray[0]).title.subscribers.intValue > 0) {
         [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
     }
@@ -416,12 +414,9 @@ BOOL _selectedSearchResult;
 
 - (void)getCoreDataPopularIssues
 {
-    NSDate *currentDate = [NSDate getLocalDate];
+    NSDate *currentDate = [NSDate localDate];
     
-    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"PopularDate"]];
-    if (restoredDate) currentDate = restoredDate;
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
     
     NSSortDescriptor *boolDescr = [[NSSortDescriptor alloc] initWithKey:@"title.subscribers" ascending:NO];
@@ -441,7 +436,7 @@ BOOL _selectedSearchResult;
 - (void)fetchPopularIssues
 {
     // Fetch popular issues
-    [self.client fetchPopularIssuesWithCompletion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client fetchPopularIssuesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] completion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
             _popularIssuesArray = popularIssuesArray;
@@ -467,12 +462,9 @@ BOOL _selectedSearchResult;
 
 - (void)getCoreDataLatestBundle
 {
-    NSDate *currentDate = [NSDate getLocalDate];
+    NSDate *currentDate = [NSDate localDate];
     
-    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"BundleDate"]];
-    if (restoredDate) currentDate = restoredDate;
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
     LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
     if (bundle) {
         NSString *issuesString = @"ISSUES IN YOUR BUNDLE";
@@ -505,7 +497,7 @@ BOOL _selectedSearchResult;
 {
     if ([LBXControllerServices isLoggedIn]) {
         // Fetch the users bundles
-        [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
+        [self.client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
                 dispatch_async(dispatch_get_main_queue(), ^{

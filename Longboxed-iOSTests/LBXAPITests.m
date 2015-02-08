@@ -73,8 +73,8 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
         [components setDay:day];
         [calendar dateFromComponents:components];
         NSDate *date = [calendar dateFromComponents:components];
-        [thisWednesdayArray addObject:[NSDate getThisWednesdayOfDate:date]];
-        [nextWednesdayArray addObject:[NSDate getNextWednesdayOfDate:date]];
+        [thisWednesdayArray addObject:[NSDate thisWednesdayOfDate:date]];
+        [nextWednesdayArray addObject:[NSDate nextWednesdayOfDate:date]];
         day++;
     }
     
@@ -124,7 +124,6 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        NSLog(@"%@", [dateFormatter dateFromString:@"2014-07-16"]);
         [self.client fetchIssuesCollectionWithDate:[dateFormatter dateFromString:@"2014-07-16"]
                                               page:[NSNumber numberWithInt:1]
                                         completion:^(NSArray *issuesArray, RKObjectRequestOperation *response, NSError *error) {
@@ -176,6 +175,20 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
             XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues collection for current week endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
             // Don't check this because it's possible there are no issues for next week yet
             XCTAssertNotEqual(popularIssuesArray.count, 0, @"/issues/popular/ JSON is returning nil");
+            *done = YES;
+        }];
+    });
+}
+
+- (void)testPopularIssuesWithDateEndpoint
+{
+    hxRunInMainLoop(^(BOOL *done) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [self.client fetchPopularIssuesWithDate:[dateFormatter dateFromString:@"2015-02-04"] completion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+            XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Issues collection for current week endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+            // Don't check this because it's possible there are no issues for next week yet
+            XCTAssertNotEqual(popularIssuesArray.count, 0, @"/issues/popular/?date=2015-02-04 JSON is returning nil");
             *done = YES;
         }];
     });
@@ -352,8 +365,6 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
-            NSLog(@"%@", user.userID);
-            NSLog(@"%@", user.email);
             [weakSelf.client addTitleToPullList:titleNum withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *resp, NSError *error) {
                 
                 XCTAssertEqual(resp.response.statusCode, 200, @"Add to pull list endpoint is returning a status code %ldd", (long)resp.response.statusCode);
@@ -388,7 +399,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
             [self.client fetchBundleResourcesWithPage:@1 completion:^(NSArray *pullListArray, RKObjectRequestOperation *response, NSError *error) {
-                XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+                XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
                 XCTAssertNotEqual(pullListArray.count, 0, @"Bundle resources JSON is returning nil");
                 *done = YES;
             }];
@@ -401,8 +412,28 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     hxRunInMainLoop(^(BOOL *done) {
         [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
             [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
-                XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ldd", (long)response.HTTPRequestOperation.response.statusCode);
+                XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
                 XCTAssertNotEqual(bundle.issues.count, 0, @"Bundle resources JSON is returning nil");
+                *done = YES;
+            }];
+        }];
+    });
+}
+
+- (void)testBundleResourcesWithDate
+{
+    hxRunInMainLoop(^(BOOL *done) {
+        [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            
+            [self.client fetchBundleResourcesWithDate:[dateFormatter dateFromString:@"2015-02-04"]
+                                                 page:@1
+                                                count:@1
+                                           completion:^(NSArray *bundleIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+                                               
+                XCTAssertEqual(response.HTTPRequestOperation.response.statusCode, 200, @"Bundle resources endpoint is returning a status code %ld", (long)response.HTTPRequestOperation.response.statusCode);
+                XCTAssertNotEqual(bundleIssuesArray.count, 0, @"Bundle resources JSON is returning nil");
                 *done = YES;
             }];
         }];

@@ -26,6 +26,7 @@
 - (void)fetchNextWeeksComicsWithPage:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation *, NSError*))completion;
 - (void)fetchIssue:(NSNumber *)issueID withCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion;
 - (void)fetchPopularIssuesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
+- (void)fetchPopularIssuesWithDate:(NSDate *)date completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
 
 // Titles
 - (void)fetchTitleCollectionWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
@@ -48,6 +49,7 @@
 - (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion;
 - (void)fetchBundleResourcesWithPage:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion;
 - (void)fetchLatestBundleWithCompletion:(void (^)(LBXBundle*, RKObjectRequestOperation*, NSError*))completion;
+- (void)fetchBundleResourcesWithDate:(NSDate *)date page:(NSNumber*)page count:(NSNumber *)count completion:(void (^)(NSArray *, RKObjectRequestOperation *, NSError *))completion;
 
 
 

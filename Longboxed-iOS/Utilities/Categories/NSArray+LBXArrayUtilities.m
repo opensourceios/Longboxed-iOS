@@ -70,7 +70,7 @@
         if (bundle.issues.count) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"MMM dd, yyyy"];
-            NSDate *date = [NSDate getThisWednesdayOfDate:bundle.releaseDate];
+            NSDate *date = [NSDate thisWednesdayOfDate:bundle.releaseDate];
             NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[bundle.issues allObjects], [formatter stringFromDate:date], nil];
             [keyedBundleArray addObject:dict];
         }

@@ -286,15 +286,15 @@ BOOL _endOfIssues;
     }
     // Specific Date
     else if (_displayReleasesOfDate && _selectedWednesday) {
-        self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:[NSDate getThisWednesdayOfDate:_selectedWednesday]]];
+        self.title = [NSString stringWithFormat:@"%@", [formatter stringFromDate:[NSDate thisWednesdayOfDate:_selectedWednesday]]];
     }
     // This Week
     else if (_segmentedControl.selectedSegmentIndex == 0 && _displayReleasesOfDate) {
-        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getThisWednesdayOfDate:[NSDate getLocalDate]]];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate thisWednesdayOfDate:[NSDate localDate]]];
     }
     // Next Week
     else if (_segmentedControl.selectedSegmentIndex == 1 && _displayReleasesOfDate) {
-        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]]];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate nextWednesdayOfDate:[NSDate localDate]]];
     }
 }
 
@@ -307,7 +307,7 @@ BOOL _endOfIssues;
     [formatter setDateFormat:@"MMM dd, yyyy"];
     
     if (selectedSegment == 0) {
-        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getThisWednesdayOfDate:[NSDate getLocalDate]]];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate thisWednesdayOfDate:[NSDate localDate]]];
         _issuesForWeekArray = nil;
         _sectionArray = nil;
         [self.tableView reloadData];
@@ -316,7 +316,7 @@ BOOL _endOfIssues;
         [self refreshControlAction];
     }
     else if (selectedSegment == 1) {
-        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]]];
+        self.navigationController.navigationBar.topItem.title = [formatter stringFromDate:[NSDate nextWednesdayOfDate:[NSDate localDate]]];
         _issuesForWeekArray = nil;
         _sectionArray = nil;
         [self.tableView reloadData];
@@ -347,10 +347,8 @@ BOOL _endOfIssues;
 
 - (void)setIssuesForWeekArrayWithThisWeekIssues
 {
-    NSDate *currentDate = [NSDate getLocalDate];
-    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"ThisWeekDate"]];
-    if (restoredDate) currentDate = restoredDate;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
+    NSDate *currentDate = [NSDate localDate];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     
     if (allIssuesArray.count > 1) {
@@ -367,11 +365,8 @@ BOOL _endOfIssues;
 
 - (void)setIssuesForWeekArrayWithNextWeekIssues
 {
-    NSDate *currentDate = [NSDate getLocalDate];
-    
-    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"ThisWeekDate"]];
-    if (restoredDate) currentDate = restoredDate;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate getNextWednesdayOfDate:[NSDate getLocalDate]] dateByAddingTimeInterval:6*DAY], @1];
+    NSDate *currentDate = [NSDate localDate];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:[NSDate localDate]] dateByAddingTimeInterval:6*DAY], @1];
     NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
     if (allIssuesArray.count > 1) {
         _issuesForWeekArray = allIssuesArray;
@@ -434,55 +429,19 @@ BOOL _endOfIssues;
 
 - (void)fetchThisWeekWithPage:(NSNumber *)page
 {
-    if (![self.tableView numberOfRowsInSection:1]) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
-    // Fetch this weeks comics
-    [self.client fetchThisWeeksComicsWithPage:page completion:^(NSArray *thisWeekArray, RKObjectRequestOperation *response, NSError *error) {
-        if (!error) {
-            if (!thisWeekArray.count) {
-                [self completeRefresh];
-            }
-            else {
-                _page += 1;
-                [self fetchThisWeekWithPage:[NSNumber numberWithInt:_page]];
-                [self completeRefresh];
-            }
-        }
-        else {
-            [self clearUpViews];
-        }
-    }];
+    [self fetchDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] withPage:@1];
 }
 
 - (void)fetchNextWeekWithPage:(NSNumber *)page
 {
-    if (![self.tableView numberOfRowsInSection:1]) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
-    // Fetch this weeks comics
-    [self.client fetchNextWeeksComicsWithPage:page completion:^(NSArray *nextWeekArray, RKObjectRequestOperation *response, NSError *error) {
-        if (!error) {
-            if (!nextWeekArray.count) {
-                [self completeRefresh];
-            }
-            else {
-                _page += 1;
-                [self fetchNextWeekWithPage:[NSNumber numberWithInt:_page]];
-                [self completeRefresh];
-            }
-        }
-        else {
-            [self clearUpViews];
-        }
-    }];
+    [self fetchDate:[NSDate nextWednesdayOfDate:[NSDate localDate]] withPage:@1];
 }
 
 - (void)fetchDate:(NSDate *)date withPage:(NSNumber *)page
 {
     if (![self.tableView numberOfRowsInSection:1]) [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *dateString = [dateFormatter stringFromDate:[NSDate getThisWednesdayOfDate:date]];
     
-    // Fetch this weeks comics
-    [self.client fetchIssuesCollectionWithDate:[dateFormatter dateFromString:dateString] page:page completion:^(NSArray *issuesForDateArray, RKObjectRequestOperation *response, NSError *error) {
+    [self.client fetchIssuesCollectionWithDate:[NSDate thisWednesdayOfDate:date] page:page completion:^(NSArray *issuesForDateArray, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
             if (!issuesForDateArray.count) {
@@ -582,23 +541,20 @@ BOOL _endOfIssues;
     [self dismissViewControllerAnimated:YES completion:nil];
     _issuesForWeekArray = nil;
     _sectionArray = nil;
-    _selectedWednesday = [NSDate getThisWednesdayOfDate:date];
+    _selectedWednesday = [NSDate thisWednesdayOfDate:date];
     [_maskLoadingView removeFromSuperview];
     
     // Check if the issue is this week
-    NSDate *currentDate = [NSDate getLocalDate];
-    
-    NSDate *restoredDate = [NSKeyedUnarchiver unarchiveObjectWithData:[UICKeyChainStore dataForKey:@"ThisWeekDate"]];
-    if (restoredDate) currentDate = restoredDate;
-    if (_selectedWednesday > [[NSDate getThisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
-        _selectedWednesday < [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]) {
+    NSDate *currentDate = [NSDate localDate];
+    if (_selectedWednesday > [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
+        _selectedWednesday < [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]) {
         [self fetchDate:_selectedWednesday withPage:@1];
         _segmentedControl.selectedSegmentIndex = 0;
     }
     
     // Check if the issue is next week
-    else if (_selectedWednesday > [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
-             _selectedWednesday < [[NSDate getNextWednesdayOfDate:currentDate] dateByAddingTimeInterval:6*DAY]) {
+    else if (_selectedWednesday > [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY] &&
+             _selectedWednesday < [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:6*DAY]) {
         [self fetchDate:_selectedWednesday withPage:@1];
         _segmentedControl.selectedSegmentIndex = 1;
     }

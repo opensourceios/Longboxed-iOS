@@ -32,6 +32,7 @@
 #import "LBXSignupViewController.h"
 #import "SIAlertView.h"
 #import <HockeySDK/HockeySDK.h>
+#import <JRHUtilities/NSDate+DateUtilities.h>
 
 static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 
@@ -201,7 +202,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 {
     LBXClient *client = [LBXClient new];
     // Fetch popular issues
-    [client fetchPopularIssuesWithCompletion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+    [client fetchPopularIssuesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] completion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
         [LBXLogging logMessage:@"Fetched popular titles"];
         if (!error) {
             for (LBXIssue *issue in popularIssuesArray) {
@@ -221,7 +222,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     
     if ([LBXControllerServices isLoggedIn]) {
         // Fetch the users bundles
-        [client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
+        [client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {
                 [LBXLogging logMessage:@"Fetched users latest bundle"];
                 completionHandler(UIBackgroundFetchResultNewData);

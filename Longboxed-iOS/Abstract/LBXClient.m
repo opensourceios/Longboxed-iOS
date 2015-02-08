@@ -22,6 +22,7 @@
 #import "LBXAppDelegate.h"
 
 #import <JRHUtilities/NSDictionary+DictionaryUtilities.h>
+#import <JRHUtilities/NSDate+DateUtilities.h>
 #import "LBXControllerServices.h"
 
 @interface LBXClient()
@@ -182,6 +183,7 @@
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
+    
     // For debugging
     NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date], @"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     [self GETWithRouteName:@"Issues Collection" HTTPHeaderParams:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
@@ -207,10 +209,6 @@
         if (!error) {
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
-            }
-            if (mappingResult.array.count) {
-                NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:((LBXIssue *)mappingResult.array[0]).releaseDate];
-                [UICKeyChainStore setData:dateData forKey:@"ThisWeekDate"];
             }
         }
         
@@ -256,15 +254,30 @@
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
             }
-            if (mappingResult.array.count) {
-                NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:((LBXIssue *)mappingResult.array[0]).releaseDate];
-                [UICKeyChainStore setData:dateData forKey:@"PopularDate"];
+        }
+        
+        completion(mappingResult.array, response, error);
+    }];
+}
+
+- (void)fetchPopularIssuesWithDate:(NSDate *)date completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    // For debugging
+    NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date]};
+    
+    [self GETWithRouteName:@"Popular Issues for Current Week" HTTPHeaderParams:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        
+        if (!error) {
+            for (LBXIssue *issue in mappingResult.array) {
+                [self saveAlternateIssuesWithIssue:issue];
             }
         }
         
         completion(mappingResult.array, response, error);
     }];
 }
+
 
 // Titles
 - (void)fetchTitleCollectionWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
@@ -526,6 +539,7 @@
 
 }
 
+
 - (void)fetchBundleResourcesWithPage:(NSNumber *)page completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
@@ -554,14 +568,52 @@
                         }
                     }
                     else {
-                        [self fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
+                        [self fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
                             completion(mappingResult.array, response, error);
                         }];
                     }
                 }
-                if (mappingResult.array.count) {
-                    NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:((LBXBundle *)mappingResult.array[0]).releaseDate];
-                    [UICKeyChainStore setData:dateData forKey:@"BundleDate"];
+            }
+            
+            completion(mappingResult.array, response, error);
+        }];
+    }
+}
+
+- (void)fetchBundleResourcesWithDate:(NSDate *)date page:(NSNumber*)page count:(NSNumber *)count completion:(void (^)(NSArray *, RKObjectRequestOperation *, NSError *))completion
+{
+    if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
+    else {
+        UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
+        NSString *headerParams;
+        if (store[@"id"]) {
+            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
+                            @"userID", store[@"id"],
+                            nil];
+        }
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        // For debugging
+        NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date],
+                                     @"page" : [NSString stringWithFormat:@"%d", [page intValue]],
+                                     @"count" : [NSString stringWithFormat:@"%d", [count intValue]]};
+        
+        [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:parameters credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+            
+            if (!error) {
+                for (LBXBundle *bundle in mappingResult.array) {
+                    if (bundle.bundleID) { // Weird bug where sometimes returned array bundles have null id's
+                        for (LBXIssue *issue in bundle.issues) {
+                            LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:issue.title.titleID];
+                            if (title) [self saveAlternateIssuesWithIssue:issue];
+                        }
+                    }
+                    else {
+                        [self fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+                            completion(mappingResult.array, response, error);
+                        }];
+                    }
                 }
             }
             
@@ -587,18 +639,17 @@
             LBXBundle *bundle = (((LBXBundle *)mappingResult.array[0]).bundleID) ? ((LBXBundle *)mappingResult.array[0]) : nil;
             if (!error) {
                 if (bundle.bundleID) { // Weird bug where sometimes returned bundles have null id's
-                    if (mappingResult.array.count) {
-                        NSData *dateData = [NSKeyedArchiver archivedDataWithRootObject:((LBXBundle *)mappingResult.array[0]).releaseDate];
-                        [UICKeyChainStore setData:dateData forKey:@"BundleDate"];
-                    }
                     for (LBXIssue *issue in bundle.issues) {
                         [self saveAlternateIssuesWithIssue:issue];
                     }
                     completion(bundle, response, error);
                 }
                 else {
-                    [self fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {
-                        completion(bundle, response, error);
+                    [self fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+                        if (bundleArray.count) {
+                            completion(bundleArray[0], response, error);
+                        }
+                        else completion(nil, response, error);
                     }];
                 }
             }

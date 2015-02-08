@@ -30,6 +30,7 @@
 
 #import <JTSImageViewController.h>
 #import <QuartzCore/QuartzCore.h>
+#import <JRHUtilities/NSDate+DateUtilities.h>
 
 @interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate, NSFetchedResultsControllerDelegate>
 
@@ -492,7 +493,7 @@ int page;
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {}];
+                [self.client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {}];
                 [self setPullListButton];
             });
         }

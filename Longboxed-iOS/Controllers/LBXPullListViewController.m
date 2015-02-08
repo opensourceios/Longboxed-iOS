@@ -443,7 +443,7 @@ CGFloat cellWidth;
         [self.refreshControl endRefreshing];
         if (!error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.client fetchLatestBundleWithCompletion:^(LBXBundle *bundle, RKObjectRequestOperation *response, NSError *error) {}];
+                [self.client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {}];
                 [self fillPullListArray];
             });
         }
