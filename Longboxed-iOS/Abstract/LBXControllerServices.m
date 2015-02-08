@@ -479,7 +479,7 @@
     
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wundeclared-selector"
-    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:viewController action:@selector(donePressed)];
     #pragma clang diagnostic pop
     
     UILabel *label = [UILabel new];
