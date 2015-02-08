@@ -60,6 +60,7 @@
 		E55B68611A324A81008A5CFD /* LBXBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E55B68601A324A81008A5CFD /* LBXBackButton.m */; };
 		E56C6FC31A81F56D0035DA0E /* LBXSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E56C6FC21A81F56D0035DA0E /* LBXSettingsViewController.xib */; };
 		E56C6FC51A83033C0035DA0E /* Quotes.json in Resources */ = {isa = PBXBuildFile; fileRef = E56C6FC41A83033C0035DA0E /* Quotes.json */; };
+		E56E67F61A88222000D771F0 /* LBXLaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E56E67F51A88222000D771F0 /* LBXLaunchScreen.xib */; };
 		E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB719D7C37E002DE4BA /* arrow_right_small_black.png */; };
 		E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57C6BB819D7C37E002DE4BA /* arrow_right_small_black@2x.png */; };
 		E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
@@ -224,6 +225,7 @@
 		E55B68601A324A81008A5CFD /* LBXBackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXBackButton.m; path = Views/LBXBackButton.m; sourceTree = "<group>"; };
 		E56C6FC21A81F56D0035DA0E /* LBXSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LBXSettingsViewController.xib; sourceTree = "<group>"; };
 		E56C6FC41A83033C0035DA0E /* Quotes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Quotes.json; path = Extras/Quotes.json; sourceTree = "<group>"; };
+		E56E67F51A88222000D771F0 /* LBXLaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXLaunchScreen.xib; path = Views/LBXLaunchScreen.xib; sourceTree = "<group>"; };
 		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
 		E575162219908AD00052D4C4 /* libPods-HockeySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-HockeySDK.a"; path = "Pods/build/Debug-iphoneos/libPods-HockeySDK.a"; sourceTree = "<group>"; };
@@ -596,6 +598,7 @@
 		E57D48FE1960960A0014A13F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E56E67F51A88222000D771F0 /* LBXLaunchScreen.xib */,
 				E55B685F1A324A81008A5CFD /* LBXBackButton.h */,
 				E55B68601A324A81008A5CFD /* LBXBackButton.m */,
 				E515746419DCD1D00072EE3E /* LBXComicTableViewCell.h */,
@@ -983,6 +986,7 @@
 				E55B68161A1AE3C0008A5CFD /* lb_nocover.png in Resources */,
 				E5B5F9A519FC0C6200474E60 /* arrow_right_standard@2x.png in Resources */,
 				E57C6BBA19D7C37E002DE4BA /* arrow_right_small_black@2x.png in Resources */,
+				E56E67F61A88222000D771F0 /* LBXLaunchScreen.xib in Resources */,
 				E515746819DCD1D00072EE3E /* LBXComicTableViewCell.xib in Resources */,
 				E56C6FC31A81F56D0035DA0E /* LBXSettingsViewController.xib in Resources */,
 				E5AB810519CE0F6A0042109B /* LBXEmptyPullListViewController.xib in Resources */,
@@ -1448,7 +1452,6 @@
 			baseConfigurationReference = 8383183EA355109CC7BBD43F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1469,7 +1472,6 @@
 			baseConfigurationReference = 87C1690C3A7EEC6A941CAAD8 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1648,7 +1650,6 @@
 			baseConfigurationReference = F7145E4C42772702B1A01D42 /* Pods.alpha.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1819,7 +1820,6 @@
 			baseConfigurationReference = 79D7002ADCE5DDB04A3B9A60 /* Pods.beta.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1978,7 +1978,6 @@
 			baseConfigurationReference = BDAD9AC9556EEDE7B4890293 /* Pods.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
