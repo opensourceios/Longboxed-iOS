@@ -243,6 +243,8 @@ UICKeyChainStore *store;
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL: [NSURL URLWithString:@"https://longboxed.com/reset"] cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval:20];
             [webView loadRequest: request];
             
+            [[webView scrollView] setContentInset:UIEdgeInsetsMake(-self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height, 0, 0, 0)];
+            
             //now present this navigation controller modally
             [self presentViewController:navigationController
                                animated:YES
