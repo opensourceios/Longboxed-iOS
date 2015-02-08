@@ -598,6 +598,9 @@
 		E57D48FE1960960A0014A13F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E58634331A526DD500427C2E /* LBXTipJarTableViewCell.h */,
+				E58634341A526DD500427C2E /* LBXTipJarTableViewCell.m */,
+				E58634351A526DD500427C2E /* LBXTipJarTableViewCell.xib */,
 				E56E67F51A88222000D771F0 /* LBXLaunchScreen.xib */,
 				E55B685F1A324A81008A5CFD /* LBXBackButton.h */,
 				E55B68601A324A81008A5CFD /* LBXBackButton.m */,
@@ -743,9 +746,6 @@
 				E55042BD1A3935E5008905ED /* LBXDeleteAccountViewController.h */,
 				E55042BE1A3935E5008905ED /* LBXDeleteAccountViewController.m */,
 				E55042BF1A3935E5008905ED /* LBXDeleteAccountViewController.xib */,
-				E58634331A526DD500427C2E /* LBXTipJarTableViewCell.h */,
-				E58634341A526DD500427C2E /* LBXTipJarTableViewCell.m */,
-				E58634351A526DD500427C2E /* LBXTipJarTableViewCell.xib */,
 				E507A6F71A7DA0E600E29DBE /* LBXAboutTableViewController.h */,
 				E507A6F81A7DA0E600E29DBE /* LBXAboutTableViewController.m */,
 			);
