@@ -177,8 +177,8 @@ BOOL _selectedSearchResult;
         
         _bundleButton.alpha = 1.0;
         topTableView.alpha = 1.0;
-        [self.view insertSubview:_bundleButton aboveSubview:_popularButton];
-        [self.view insertSubview:topTableView aboveSubview:_popularButton];
+        [self.scrollView insertSubview:_bundleButton aboveSubview:_popularButton];
+        [self.scrollView insertSubview:topTableView aboveSubview:_popularButton];
         
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_bundleButton
                                                               attribute:NSLayoutAttributeLeading
@@ -750,7 +750,6 @@ BOOL _selectedSearchResult;
         }
         
         cell = self.topTableViewCell;
-        cell.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
         return cell;
     }
     else if (tableView == self.bottomTableView) {
