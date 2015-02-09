@@ -20,9 +20,6 @@
                         <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
-                        <variation key="widthClass=compact" misplaced="YES">
-                            <rect key="frame" x="24" y="24" width="451" height="176.5"/>
-                        </variation>
                     </label>
                     <button opaque="NO" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Nu-nb-Trw">
                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
@@ -37,9 +34,6 @@
                                 </fragment>
                             </attributedString>
                         </state>
-                        <variation key="widthClass=compact" misplaced="YES">
-                            <rect key="frame" x="179" y="217" width="140" height="31"/>
-                        </variation>
                     </button>
                     <button opaque="NO" tag="2" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u4W-54-bbh">
                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
@@ -54,9 +48,6 @@
                                 </fragment>
                             </attributedString>
                         </state>
-                        <variation key="widthClass=compact" misplaced="YES">
-                            <rect key="frame" x="335" y="217" width="139.5" height="31"/>
-                        </variation>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="168-aS-lMH">
                         <rect key="frame" x="0.0" y="0.0" width="145" height="31"/>
@@ -71,9 +62,6 @@
                                 </fragment>
                             </attributedString>
                         </state>
-                        <variation key="widthClass=compact" misplaced="YES">
-                            <rect key="frame" x="24" y="217" width="139.5" height="31"/>
-                        </variation>
                     </button>
                 </subviews>
                 <constraints>
