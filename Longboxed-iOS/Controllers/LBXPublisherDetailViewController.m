@@ -177,7 +177,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
             [self.refreshControl endRefreshing];
             [SVProgressHUD dismiss];
             self.tableView.hidden = NO;
-            [LBXControllerServices showEmptyViewOverTableView:self.tableView];
+            [self createTitlesArray];
         }
     }];
 }
@@ -187,10 +187,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(publisher == %@)", _detailPublisher];
     _titlesForPublisherArray = [LBXTitle MR_findAllSortedBy:@"name" ascending:YES withPredicate:predicate];
     _sectionArray = [NSArray getAlphabeticalTableViewSectionArrayForArray:_titlesForPublisherArray];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-        [self.view setNeedsDisplay];
-    });
     if (self.tableView.hidden && _titlesForPublisherArray.count) {
         [_loadingView removeFromSuperview];
         self.tableView.hidden = NO;
@@ -202,6 +198,11 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         self.tableView.hidden = NO;
         [LBXControllerServices showEmptyViewOverTableView:self.tableView];
     }
+    if (_titlesForPublisherArray.count) self.tableView.backgroundView = [UIView new];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+        [self.view setNeedsDisplay];
+    });
 }
 
 #pragma mark - Setter overrides
