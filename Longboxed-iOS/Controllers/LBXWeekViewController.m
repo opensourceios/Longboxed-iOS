@@ -27,6 +27,7 @@
 #import "Masonry.h"
 #import "UICKeyChainStore.h"
 #import "LBXEmptyViewController.h"
+#import "NSString+StringUtilities.h"
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
                                      ESDatePickerDelegate>
@@ -736,6 +737,32 @@ BOOL _endOfIssues;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
 }
+
+
+// Swipe to share
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewRowAction *shareAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Share" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        // maybe show an action sheet with more options
+        NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section];
+        NSArray *array = [dict objectForKey:dict.allKeys[0]];
+        LBXIssue *issue = [array objectAtIndex:indexPath.row];
+        
+        NSString *infoString = [NSString fixHTMLAttributes:issue.completeTitle];
+        NSString *urlString = [NSString stringWithFormat:@"%@%@", @"https://longboxed.com/issue/", issue.diamondID];
+        NSString *viaString = [NSString stringWithFormat:@"\nvia @longboxed for iOS"];
+        UIImage *coverImage = ((LBXWeekTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath]).latestIssueImageView.image;
+        [LBXControllerServices showShareSheetWithArrayOfInfo:@[infoString, [NSURL URLWithString:urlString], viaString, coverImage]];
+        [self.tableView setEditing:NO];
+    }];
+    shareAction.backgroundColor = [UIColor LBXGreenColor];
+    
+    return @[shareAction];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Necessary to exist to allow share sheet
+}
+
 
 
 @end

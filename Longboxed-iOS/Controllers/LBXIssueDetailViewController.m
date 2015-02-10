@@ -32,7 +32,6 @@
 
 @property (nonatomic) IBOutlet UIImageView *backgroundCoverImageView;
 @property (nonatomic) IBOutlet UITextView *descriptionTextView;
-@property (nonatomic) IBOutlet UIImageView *coverImageView;
 @property (nonatomic) IBOutlet UIButton *imageButton;
 @property (nonatomic) IBOutlet UIButton *titleButton;
 @property (nonatomic) IBOutlet UILabel *subtitleLabel;
@@ -410,6 +409,14 @@ BOOL selectedTitle;
                         _coverImageView.alpha = 1.0;
                     } completion:nil];
 
+}
+
+- (void)showShareSheet {
+    NSString *infoString = [NSString fixHTMLAttributes:_issue.completeTitle];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", @"https://longboxed.com/issue/", _issue.diamondID];
+    NSString *viaString = [NSString stringWithFormat:@"\nvia @longboxed for iOS"];
+    UIImage *coverImage = _coverImageView.image;
+    [LBXControllerServices showShareSheetWithArrayOfInfo:@[infoString, [NSURL URLWithString:urlString], viaString, coverImage]];
 }
 
 @end

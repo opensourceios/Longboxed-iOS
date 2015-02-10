@@ -12,6 +12,7 @@
 #import <UICKeyChainStore.h>
 #import <SVProgressHUD.h>
 #import <WebKit/WebKit.h>
+#import "LBXControllerServices.h"
 
 @interface LBXAboutTableViewController ()
 
@@ -212,11 +213,7 @@
 }
 
 - (void)showShareSheet {
-    NSMutableArray *sharingItems = [NSMutableArray new];
-    [sharingItems addObject:_selectedURL];
-    
-    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:sharingItems applicationActivities:nil];
-    [self presentViewController:activityController animated:YES completion:nil];
+    [LBXControllerServices showShareSheetWithArrayOfInfo:@[[_selectedURL absoluteString]]];
 }
 
 @end

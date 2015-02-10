@@ -27,6 +27,7 @@
 #import <UICKeyChainStore.h>
 #import "SIAlertView.h"
 #import "LBXEmptyViewController.h"
+#import <JRHUtilities/UIViewController+Utils.h>
 
 @interface LBXControllerServices ()
 
@@ -312,9 +313,12 @@
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
+
 // Custom transparent navigation bar with back button that pops correctly
 // References: http://stackoverflow.com/questions/19918734/transitioning-between-transparent-navigation-bar-to-translucent
 // http://keighl.com/post/ios7-interactive-pop-gesture-custom-back-button/
+
+// NOTE: Any viewController with a class that implements this method and has the word "issue" in it must implement a showShareSheet class method.
 + (void)setupTransparentNavigationBarForViewController:(UIViewController *)viewController
 {
     UINavigationBar *transparentNavBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, viewController.navigationController.navigationBar.frame.size.width, viewController.navigationController.navigationBar.frame.size.height)];
@@ -340,6 +344,16 @@
     
     navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
     navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    
+    // Show share sheet for issue detail view
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wundeclared-selector"
+    if ([NSStringFromClass([viewController class]) containsString:@"Issue"]) {
+        UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:viewController action:@selector(showShareSheet)];
+        #pragma clang diagnostic pop
+        actionButton.tintColor = [UIColor whiteColor];
+        navigationItem.rightBarButtonItem = actionButton;
+    }
     
     [transparentNavBar pushNavigationItem:navigationItem animated:NO];
     
@@ -396,6 +410,7 @@
 //      [_dashboardViewController dismissViewControllerAnimated:YES completion:nil];
 // }
 + (void)showCrashAlertWithDelegate:(id)delegate {
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTintColor:[UIColor blackColor]];
     SIAlertView *alert = [[SIAlertView alloc] initWithTitle:@"Oh No! Longboxed Crashed!" andMessage:@"It looks like Longboxed crashed last time. We're very sorry. Would you mind sending a quick email to help us fix the issue?"];
     [alert addButtonWithTitle:@"No Thanks"
                          type:SIAlertViewButtonTypeDefault
@@ -466,6 +481,11 @@
     });
 }
 
+// NOTE: any viewController that implements this must implement a donePressed class method. For example:
+//- (void)donePressed {
+//    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//}
+
 + (void)presentWebViewOverViewController:(UIViewController *)viewController withTitle:(NSString *)title URL:(NSURL *)url {
     
     UIViewController *forgotViewController = [UIViewController new];
@@ -503,4 +523,18 @@
                      completion:^{
                      }];
 }
+
++ (void)showShareSheetWithArrayOfInfo:(NSArray *)infoArray {
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTintColor:[UIColor blackColor]];
+    
+    NSMutableArray *sharingItems = [NSMutableArray new];
+    
+    [sharingItems addObjectsFromArray:infoArray];
+    
+    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:sharingItems applicationActivities:nil];
+    activityController.view.tintColor = [UIColor blackColor];
+    
+    [[UIViewController currentViewController] presentViewController:activityController animated:YES completion:nil];
+}
+
 @end

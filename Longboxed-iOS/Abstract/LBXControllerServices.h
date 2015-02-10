@@ -55,4 +55,5 @@
 + (void)showEmptyViewOverTableView:(UITableView *)tableView;
 + (void)presentWebViewOverViewController:(UIViewController *)viewController withTitle:(NSString *)title URL:(NSURL *)url;
 
++ (void)showShareSheetWithArrayOfInfo:(NSArray *)infoArray;
 @end

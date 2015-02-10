@@ -14,6 +14,7 @@
 
 @property (nonatomic, retain) LBXIssue *issue;
 @property (nonatomic) IBOutlet UIView *alternativeCoversArrowView;
+@property (nonatomic) IBOutlet UIImageView *coverImageView;
 
 - (instancetype)initWithMainImage:(UIImage *)image;
 - (instancetype)initWithFrame:(CGRect)frame andIssue:(LBXIssue *)issue;

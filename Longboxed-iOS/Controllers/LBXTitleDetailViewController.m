@@ -31,6 +31,7 @@
 #import <JTSImageViewController.h>
 #import <QuartzCore/QuartzCore.h>
 #import <JRHUtilities/NSDate+DateUtilities.h>
+#import "NSString+StringUtilities.h"
 
 @interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate, NSFetchedResultsControllerDelegate>
 
@@ -653,6 +654,32 @@ int page;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
     
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+
+// Swipe to share
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewRowAction *shareAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Share" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        // maybe show an action sheet with more options
+        LBXIssue *issue =  [_fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
+        NSString *infoString = [NSString fixHTMLAttributes:issue.completeTitle];
+        NSString *urlString = [NSString stringWithFormat:@"%@%@", @"https://longboxed.com/issue/", issue.diamondID];
+        NSString *viaString = [NSString stringWithFormat:@"\nvia @longboxed for iOS"];
+        UIImage *coverImage = _detailView.latestIssueImageView.image;
+        [LBXControllerServices showShareSheetWithArrayOfInfo:@[infoString, [NSURL URLWithString:urlString], viaString, coverImage]];
+        [self.tableView setEditing:NO];
+    }];
+    shareAction.backgroundColor = [UIColor LBXGreenColor];
+    
+    return @[shareAction];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Necessary to exist to allow share sheet
 }
 
 #pragma mark NSFetchedResultsController Methods
