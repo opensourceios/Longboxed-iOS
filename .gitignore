@@ -20,6 +20,7 @@ DerivedData
 Crashlytics.framework
 CrashReporter.framework
 Longboxed-iOS/keys.txt
+Longboxed-iOS/Extras/InAppPurchase.json
 
 # CocoaPods
 #
