@@ -152,7 +152,7 @@ UICKeyChainStore *store;
     }
     else if(!validProduct){
         [SVProgressHUD dismiss];
-        [LBXControllerServices showAlertWithTitle:@"Unable to Connect to Apple Servers" andMessage:@"Longboxed is unable to retrieve the in app purchases from iTunes. Please try again later."];
+        [LBXControllerServices showAlertWithTitle:@"Unable to Connect to Apple Servers" andMessage:@"Longboxed is unable to retrieve the in-app purchases from iTunes. Please try again later."];
     }
 }
 
@@ -228,7 +228,7 @@ UICKeyChainStore *store;
     }
     else{
         [SVProgressHUD dismiss];
-        [LBXControllerServices showAlertWithTitle:@"Unable to Purchase" andMessage:@"You are unable to perform in app purchases. This is likely due to parental controls."];
+        [LBXControllerServices showAlertWithTitle:@"Unable to Purchase" andMessage:@"You are unable to perform in-app purchases. This is likely due to parental controls."];
     }
 }
 
