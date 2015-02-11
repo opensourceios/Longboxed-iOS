@@ -417,7 +417,7 @@ CGFloat cellWidth;
     NSArray *previousPullListArray = _pullListArray;
     [self fillPullListArray];
     
-    if (previousPullListArray) {
+    if (previousPullListArray.count) {
         NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_pullListArray
                                                     previousArray:previousPullListArray];
         [self.tableView wml_applyBatchChanges:diffs
@@ -426,6 +426,7 @@ CGFloat cellWidth;
     }
     else {
         [self.tableView reloadData];
+        self.tableView.backgroundView = nil;
     }
     __block typeof(self) bself = self;
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
@@ -445,6 +446,11 @@ CGFloat cellWidth;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {}];
                 [self fillPullListArray];
+                if (!_pullListArray.count) {
+                    LBXEmptyPullListViewController *controller = [LBXEmptyPullListViewController new];
+                    controller.view.frame = self.tableView.frame;
+                    self.tableView.backgroundView = controller.view;
+                }
             });
         }
     }];
@@ -531,9 +537,8 @@ CGFloat cellWidth;
 - (void)tableView:(UITableView *)tableView willDisplayCell:(LBXPullListTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Configure the cell...
-    LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
     if (tableView != self.searchDisplayController.searchResultsTableView) {
-        
+        LBXTitle *title = [_pullListArray objectAtIndex:indexPath.row];
         [self setTableViewStylesWithCell:cell andTitle:title];
         [LBXControllerServices setPullListCell:cell withTitle:title];
     }
@@ -544,7 +549,7 @@ CGFloat cellWidth;
         cell.subtitleLabel.hidden = YES;
     }
     else {
-        title = [_searchResultsArray objectAtIndex:indexPath.row];
+        LBXTitle *title = [_searchResultsArray objectAtIndex:indexPath.row];
         [self setTableViewStylesWithCell:cell andTitle:title];
         
         
@@ -625,6 +630,7 @@ CGFloat cellWidth;
         return YES;
     }
 }
+
 #pragma clang diagnostic pop
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
