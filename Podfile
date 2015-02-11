@@ -26,6 +26,7 @@ pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImag
 pod 'Doppelganger'
 pod 'TSMessages'
 pod 'BSKeyboardControls', '~> 2.2'
+pod 'UzysAnimatedGifPullToRefresh'
 
 # Customized
 # pod 'AYVibrantButton' (Part of Onboard)

@@ -28,6 +28,7 @@
 #import "UICKeyChainStore.h"
 #import "LBXEmptyViewController.h"
 #import "NSString+StringUtilities.h"
+#import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
                                      ESDatePickerDelegate>
@@ -35,7 +36,6 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
 @property (nonatomic, strong) UIToolbar *toolBar;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, copy) LBXClient *client;
 @property (nonatomic, copy) NSArray *issuesForWeekArray;
 @property (nonatomic, strong) NSCalendar *calendar;
@@ -149,20 +149,38 @@ BOOL _endOfIssues;
                                                                forKey:NSFontAttributeName];
         [_segmentedControl setTitleTextAttributes:attributes
                                          forState:UIControlStateNormal];
-        _tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
         
+        // Custom pull to refresh uses the tableview's contentInset. Use this trickery to properly setup the custom pull to refresh
+        _tableView.contentInset = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height + _toolBar.frame.size.height, 0, 0, 0);
+        
+        // Add refresh
+        __weak typeof(self) weakSelf = self;
+        [self.tableView addPullToRefreshActionHandler:^{
+            [weakSelf refreshControlAction];
+        }
+                                ProgressImagesGifName:@"PullToRefresh.gif"
+                                 LoadingImagesGifName:@"PullToRefresh.gif"
+                              ProgressScrollThreshold:60
+                                LoadingImageFrameRate:30];
+        
+        // Now set the contentInset to what we really want it to be
+        _tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
     }
+    
+    // Add refresh
+    __weak typeof(self) weakSelf = self;
+    [self.tableView addPullToRefreshActionHandler:^{
+        [weakSelf refreshControlAction];
+    }
+                            ProgressImagesGifName:@"PullToRefresh.gif"
+                             LoadingImagesGifName:@"PullToRefresh.gif"
+                          ProgressScrollThreshold:60
+                            LoadingImageFrameRate:30];
     
     _tableView.scrollIndicatorInsets = _tableView.contentInset;
    
     _maskLoadingView = [[UIView alloc] initWithFrame:_tableView.frame];
     _maskLoadingView.backgroundColor = [UIColor whiteColor];
-
-    // Add refresh
-    self.refreshControl = [UIRefreshControl new];
-    [self.refreshControl addTarget:self action:@selector(refreshControlAction)
-              forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl];
     
     // If not initialized with initWithDate
     if (!_selectedWednesday && _displayReleasesOfDate) {
@@ -399,7 +417,7 @@ BOOL _endOfIssues;
         [LBXControllerServices showEmptyViewOverTableView:self.tableView];
     }
     [self.tableView reloadData];
-    [self.refreshControl endRefreshing];
+    [self.tableView stopPullToRefreshAnimation];
     [SVProgressHUD dismiss];
 }
 
@@ -481,7 +499,7 @@ BOOL _endOfIssues;
         // Fetch the users bundles
         [self.client fetchBundleResourcesWithPage:page completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {
-                [self.refreshControl endRefreshing];
+                [self.tableView stopPullToRefreshAnimation];
                 if (!bundleArray.count) {
                     // At the end of the paging through bundles
                     self.tableView.tableFooterView = [UIView new];

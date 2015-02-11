@@ -29,19 +29,19 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <POP.h>
 #import <Doppelganger.h>
+#import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 
-@interface LBXPullListViewController () <UISearchBarDelegate, UISearchControllerDelegate, UITableViewDelegate>
+@interface LBXPullListViewController () <UISearchBarDelegate, UISearchControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) NSArray *searchResultsArray;
 @property (nonatomic, strong) NSMutableArray *alreadyExistingTitles;
 @property (nonatomic, strong) NSMutableArray *latestIssuesInPullListArray;
 @property (nonatomic, strong) NSMutableArray *pullListArray;
-@property (nonatomic, strong) UIImageView *blurImageView;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) LBXSearchTableViewController *searchResultsController;
 @property (nonatomic, strong) UISearchController *searchController;
 
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) LBXPullListTitle *selectedTitle;
 @property (nonatomic, strong) UIView *loadingView;
@@ -75,6 +75,12 @@ CGFloat cellWidth;
 {
     [super viewDidLoad];
     
+    self.tableView = [UITableView new];
+    self.tableView.frame = self.view.frame;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    
     // A little trick for removing the cell separators
     self.tableView.tableFooterView = [UIView new];
     
@@ -89,18 +95,21 @@ CGFloat cellWidth;
     // Special attribute set for title text color
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
-    // Add refresh
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refresh)
-                  forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl]; // So that the swipe cells aren't blocked
-    
-    
     _searchResultsController = [LBXSearchTableViewController new];
     _searchController = [[UISearchController alloc] initWithSearchResultsController:_searchResultsController];
     [LBXControllerServices setupSearchController:_searchController withSearchResultsController:self.searchResultsController andDelegate:self];
     
-    [self.view addSubview:_searchController.searchBar];
+    // Add refresh
+    __weak typeof(self) weakSelf = self;
+    [self.tableView addPullToRefreshActionHandler:^{
+        [weakSelf refresh];
+    }
+                            ProgressImagesGifName:@"PullToRefresh.gif"
+                             LoadingImagesGifName:@"PullToRefresh.gif"
+                          ProgressScrollThreshold:60
+                            LoadingImageFrameRate:30];
+    
+    [self.tableView addSubview:_searchController.searchBar];
     _searchController.searchBar.hidden = YES;
     
     // Reload the pull list when using the back button on the title view
@@ -170,7 +179,7 @@ CGFloat cellWidth;
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [self.refreshControl endRefreshing];
+    [self.tableView stopPullToRefreshAnimation];
     [SVProgressHUD dismiss];
     [SVProgressHUD setForegroundColor: [UIColor blackColor]];
     [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
@@ -181,12 +190,25 @@ CGFloat cellWidth;
     [super viewWillLayoutSubviews];
 }
 
+#pragma mark - PrivateMethods
+
 - (void)setupSearchView {
+    // If already scrolled to top, show search
+    if (self.tableView.contentOffset.y == -(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)) {
+        self.searchController.active = YES;
+        _searchController.searchBar.hidden = NO;
+    }
+    // Else scroll to top
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+
+}
+
+// Called after view has reached the top
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
     self.searchController.active = YES;
     _searchController.searchBar.hidden = NO;
 }
-
-#pragma mark - PrivateMethods
 
 - (void)searchLongboxedWithText:(NSString *)searchText {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
@@ -251,8 +273,7 @@ CGFloat cellWidth;
     else [self.tableView reloadData];
     
     if (_pullListArray.count == 0) {
-        self.tableView.contentOffset = CGPointMake(0, -self.refreshControl.frame.size.height);
-        [self.refreshControl beginRefreshing];
+        self.tableView.contentOffset = CGPointMake(0, -self.navigationController.navigationBar.frame.size.height);
     }
     
     oldArray = _pullListArray;
@@ -284,7 +305,7 @@ CGFloat cellWidth;
                                      withRowAnimation:UITableViewRowAnimationAutomatic];
             }
             else [self.tableView reloadData];
-            [self.refreshControl endRefreshing];
+            [self.tableView stopPullToRefreshAnimation];
             if (self.tableView.hidden) {
                 [_loadingView removeFromSuperview];
                 self.tableView.hidden = NO;
@@ -353,7 +374,7 @@ CGFloat cellWidth;
 {
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
-        [self.refreshControl endRefreshing];
+        [self.tableView stopPullToRefreshAnimation];
         if (!error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {}];
@@ -366,30 +387,6 @@ CGFloat cellWidth;
             });
         }
     }];
-}
-
-// Captures the current screen and blurs it
-- (void)blurScreen {
-    
-    UIScreen *screen = [UIScreen mainScreen];
-    UIGraphicsBeginImageContextWithOptions(self.view.superview.frame.size, YES, screen.scale);
-    
-    [self.view drawViewHierarchyInRect:self.view.superview.bounds afterScreenUpdates:NO];
-    
-    UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
-    UIImage *blurImage = [snapshot applyDarkEffect];
-    UIGraphicsEndImageContext();
-    
-    // Blur the current screen
-    // Have to drop the blur view down the height of the nav bar to
-    // make things align because it disappears and the table view
-    // goes up 44px (nav bar height)
-    _blurImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + self.navigationController.navigationBar.frame.size.height, self.view.bounds.size.width, self.view.bounds.size.height)];
-    _blurImageView.image = blurImage;
-    _blurImageView.contentMode = UIViewContentModeBottom;
-    _blurImageView.clipsToBounds = YES;
-    [self.view addSubview:_blurImageView];
-    
 }
 
 #pragma mark UITableView methods
@@ -510,7 +507,6 @@ CGFloat cellWidth;
         }
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self.searchDisplayController setActive:NO animated:YES];
         
         LBXTitle *selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
         _selectedTitle = [_searchResultsArray objectAtIndex:indexPath.row];
@@ -596,11 +592,10 @@ CGFloat cellWidth;
 - (void)didPresentSearchController:(UISearchController *)searchController
 {
     _searchResultsArray = nil;
-    searchController.searchBar.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 44);
-    self.searchResultsController.tableView.contentInset = UIEdgeInsetsMake(44 + [UIApplication sharedApplication].statusBarFrame.size.height, 0, 0, 0);
+    self.searchResultsController.refreshControl = nil;
     
     // Hair line below the search bar
-    UIView *onePxView = [[UIView alloc] initWithFrame:CGRectMake(0, 44 + [UIApplication sharedApplication].statusBarFrame.size.height + 0.5f, [UIScreen mainScreen].bounds.size.width, 0.5f)];
+    UIView *onePxView = [[UIView alloc] initWithFrame:CGRectMake(0, _searchController.searchBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height + 0.5f, [UIScreen mainScreen].bounds.size.width, 0.5f)];
     onePxView.backgroundColor = [UIColor lightGrayColor];
     [self.searchController.view addSubview:onePxView];
     
@@ -610,7 +605,6 @@ CGFloat cellWidth;
 - (void)willDismissSearchController:(UISearchController *)searchController
 {
     _searchController.searchBar.hidden = YES;
-    _searchController.searchBar.barStyle = UISearchBarStyleMinimal;
     _searchController.searchBar.backgroundImage = [[UIImage alloc] init];
     _searchController.searchBar.backgroundColor = [UIColor clearColor];
     [LBXControllerServices setSearchBar:searchController.searchBar withTextColor:[UIColor whiteColor]];
@@ -620,6 +614,7 @@ CGFloat cellWidth;
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.tableView.contentOffset = CGPointMake(0, -(self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height));
 }
 
 #pragma mark UISearchBarDelegate methods
@@ -651,7 +646,5 @@ CGFloat cellWidth;
     [LBXControllerServices setViewWillAppearWhiteNavigationController:self];
     _searchResultsArray = nil;
 }
-
-
 
 @end

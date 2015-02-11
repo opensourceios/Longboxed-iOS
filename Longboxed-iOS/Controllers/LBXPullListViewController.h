@@ -8,7 +8,7 @@
 
 @import UIKit;
 
-@interface LBXPullListViewController : UITableViewController
+@interface LBXPullListViewController : UIViewController
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 

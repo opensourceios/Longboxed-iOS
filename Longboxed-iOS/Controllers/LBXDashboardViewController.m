@@ -341,7 +341,6 @@ BOOL _selectedSearchResult;
                 _largeFeaturedIssueButton.userInteractionEnabled = NO;
             }
         }
-        // TODO: Display empty view for featured issue
         return;
     }
     

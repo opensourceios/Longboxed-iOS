@@ -22,12 +22,12 @@
 #import "LBXLogging.h"
 #import "SVProgressHUD.h"
 #import "LBXEmptyViewController.h"
+#import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 
 @interface LBXPublisherViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic) LBXClient *client;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
@@ -48,12 +48,6 @@ static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
     
     self.navigationItem.titleView = label;
     
-    // Add refresh
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refresh)
-                  forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl]; // So that the swipe cells aren't blocked
-    
     self.tableView = [UITableView new];
     self.tableView.frame = self.view.frame;
     self.tableView.delegate = self;
@@ -63,6 +57,16 @@ static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
     self.tableView.tableFooterView = [UIView new];
     
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
+    
+    // Add refresh
+    __weak typeof(self) weakSelf = self;
+    [self.tableView addPullToRefreshActionHandler:^{
+        [weakSelf refresh];
+    }
+                            ProgressImagesGifName:@"PullToRefresh.gif"
+                             LoadingImagesGifName:@"PullToRefresh.gif"
+                          ProgressScrollThreshold:60
+                            LoadingImageFrameRate:30];
     
     [self.view addSubview:self.tableView];
     
@@ -121,7 +125,7 @@ static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
 {
     // Fetch this weeks comics
     [self.client fetchPublishersWithPage:page completion:^(NSArray *publisherArray, RKObjectRequestOperation *response, NSError *error) {
-        [self.refreshControl endRefreshing];
+        [self.tableView stopPullToRefreshAnimation];
         if (!error) {
             if (publisherArray.count == 0) {
                 self.tableView.hidden = NO;

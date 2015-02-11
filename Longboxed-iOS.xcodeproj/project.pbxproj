@@ -117,6 +117,7 @@
 		E5CCAC5A19B53EDB0068AD8D /* LBXLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */; };
 		E5D342301A899C1F00C8C38B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3422F1A899C1F00C8C38B /* StoreKit.framework */; };
 		E5D342321A89A86A00C8C38B /* InAppPurchase.json in Resources */ = {isa = PBXBuildFile; fileRef = E5D342311A89A86A00C8C38B /* InAppPurchase.json */; };
+		E5D342361A8ADD0000C8C38B /* PullToRefresh.gif in Resources */ = {isa = PBXBuildFile; fileRef = E5D342351A8ADD0000C8C38B /* PullToRefresh.gif */; };
 		E5D9A89819A91EE300BC06C1 /* LBXIssueScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */; };
 		E5D9A89E19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D9A89D19A96FBB00BC06C1 /* LBXPublisherDetailViewController.m */; };
 		E5E5161619CA4450005FBD43 /* PaintCodeImages.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161519CA4450005FBD43 /* PaintCodeImages.m */; };
@@ -321,6 +322,7 @@
 		E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXLogging.m; path = Abstract/LBXLogging.m; sourceTree = "<group>"; };
 		E5D3422F1A899C1F00C8C38B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E5D342311A89A86A00C8C38B /* InAppPurchase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = InAppPurchase.json; path = Extras/InAppPurchase.json; sourceTree = "<group>"; };
+		E5D342351A8ADD0000C8C38B /* PullToRefresh.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = PullToRefresh.gif; path = Assets/PullToRefresh.gif; sourceTree = SOURCE_ROOT; };
 		E5D9A87D19A6F46800BC06C1 /* LBXCoreData 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LBXCoreData 2.xcdatamodel"; sourceTree = "<group>"; };
 		E5D9A89619A91EE300BC06C1 /* LBXIssueScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXIssueScrollViewController.h; path = Controllers/LBXIssueScrollViewController.h; sourceTree = "<group>"; };
 		E5D9A89719A91EE300BC06C1 /* LBXIssueScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXIssueScrollViewController.m; path = Controllers/LBXIssueScrollViewController.m; sourceTree = "<group>"; };
@@ -679,6 +681,7 @@
 		E57D49221960B8E80014A13F /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E5D342351A8ADD0000C8C38B /* PullToRefresh.gif */,
 				E507A70B1A7DDAAD00E29DBE /* OnboardMovie.mp4 */,
 				E55B68151A1AE3C0008A5CFD /* lb_nocover.png */,
 				E5B5F9A119FC0C6200474E60 /* arrow_right_standard.png */,
@@ -984,6 +987,7 @@
 				E507A6F61A7D953900E29DBE /* OpenSource.json in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
 				E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */,
+				E5D342361A8ADD0000C8C38B /* PullToRefresh.gif in Resources */,
 				E515747019E4D1F20072EE3E /* LBXBottomTableViewCell.xib in Resources */,
 				E57E156819A987ED002616F5 /* arrow_right.png in Resources */,
 				E5B5B7041A81C30C008FF6B8 /* LBXEmptyViewController.xib in Resources */,
@@ -1468,13 +1472,83 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Longboxed-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Longboxed-iOS",
+				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-1PasswordExtension\"",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AnimatedGIFImageSerialization\"",
+					"-l\"Pods-BSKeyboardControls\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-Doppelganger\"",
+					"-l\"Pods-FontAwesomeKit\"",
+					"-l\"Pods-HexColors\"",
+					"-l\"Pods-HockeySDK\"",
+					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
+					"-l\"Pods-JGActionSheet\"",
+					"-l\"Pods-JRHUtilities\"",
+					"-l\"Pods-JTSImageViewController\"",
+					"-l\"Pods-MagicalRecord\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-NSLogger\"",
+					"-l\"Pods-Onboard\"",
+					"-l\"Pods-RKValueTransformers\"",
+					"-l\"Pods-RestKit\"",
+					"-l\"Pods-SDiPhoneVersion\"",
+					"-l\"Pods-SIAlertView\"",
+					"-l\"Pods-SOCKit\"",
+					"-l\"Pods-SVProgressHUD\"",
+					"-l\"Pods-Shimmer\"",
+					"-l\"Pods-TSMessages\"",
+					"-l\"Pods-TransitionKit\"",
+					"-l\"Pods-UICKeyChainStore\"",
+					"-l\"Pods-UzysAnimatedGifPullToRefresh\"",
+					"-l\"Pods-pop\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CrashReporter\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1491,13 +1565,83 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Longboxed-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Longboxed-iOS",
+				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-1PasswordExtension\"",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AnimatedGIFImageSerialization\"",
+					"-l\"Pods-BSKeyboardControls\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-Doppelganger\"",
+					"-l\"Pods-FontAwesomeKit\"",
+					"-l\"Pods-HexColors\"",
+					"-l\"Pods-HockeySDK\"",
+					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
+					"-l\"Pods-JGActionSheet\"",
+					"-l\"Pods-JRHUtilities\"",
+					"-l\"Pods-JTSImageViewController\"",
+					"-l\"Pods-MagicalRecord\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-NSLogger\"",
+					"-l\"Pods-Onboard\"",
+					"-l\"Pods-RKValueTransformers\"",
+					"-l\"Pods-RestKit\"",
+					"-l\"Pods-SDiPhoneVersion\"",
+					"-l\"Pods-SIAlertView\"",
+					"-l\"Pods-SOCKit\"",
+					"-l\"Pods-SVProgressHUD\"",
+					"-l\"Pods-Shimmer\"",
+					"-l\"Pods-TSMessages\"",
+					"-l\"Pods-TransitionKit\"",
+					"-l\"Pods-UICKeyChainStore\"",
+					"-l\"Pods-UzysAnimatedGifPullToRefresh\"",
+					"-l\"Pods-pop\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CrashReporter\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1672,6 +1816,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Longboxed-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
@@ -1688,9 +1833,78 @@
 				);
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Longboxed-iOS",
+				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-1PasswordExtension\"",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AnimatedGIFImageSerialization\"",
+					"-l\"Pods-BSKeyboardControls\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-Doppelganger\"",
+					"-l\"Pods-FontAwesomeKit\"",
+					"-l\"Pods-HexColors\"",
+					"-l\"Pods-HockeySDK\"",
+					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
+					"-l\"Pods-JGActionSheet\"",
+					"-l\"Pods-JRHUtilities\"",
+					"-l\"Pods-JTSImageViewController\"",
+					"-l\"Pods-MagicalRecord\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-NSLogger\"",
+					"-l\"Pods-Onboard\"",
+					"-l\"Pods-RKValueTransformers\"",
+					"-l\"Pods-RestKit\"",
+					"-l\"Pods-SDiPhoneVersion\"",
+					"-l\"Pods-SIAlertView\"",
+					"-l\"Pods-SOCKit\"",
+					"-l\"Pods-SVProgressHUD\"",
+					"-l\"Pods-Shimmer\"",
+					"-l\"Pods-TSMessages\"",
+					"-l\"Pods-TransitionKit\"",
+					"-l\"Pods-UICKeyChainStore\"",
+					"-l\"Pods-UzysAnimatedGifPullToRefresh\"",
+					"-l\"Pods-pop\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CrashReporter\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1845,13 +2059,83 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Longboxed-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Longboxed-iOS",
+				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-1PasswordExtension\"",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AnimatedGIFImageSerialization\"",
+					"-l\"Pods-BSKeyboardControls\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-Doppelganger\"",
+					"-l\"Pods-FontAwesomeKit\"",
+					"-l\"Pods-HexColors\"",
+					"-l\"Pods-HockeySDK\"",
+					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
+					"-l\"Pods-JGActionSheet\"",
+					"-l\"Pods-JRHUtilities\"",
+					"-l\"Pods-JTSImageViewController\"",
+					"-l\"Pods-MagicalRecord\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-NSLogger\"",
+					"-l\"Pods-Onboard\"",
+					"-l\"Pods-RKValueTransformers\"",
+					"-l\"Pods-RestKit\"",
+					"-l\"Pods-SDiPhoneVersion\"",
+					"-l\"Pods-SIAlertView\"",
+					"-l\"Pods-SOCKit\"",
+					"-l\"Pods-SVProgressHUD\"",
+					"-l\"Pods-Shimmer\"",
+					"-l\"Pods-TSMessages\"",
+					"-l\"Pods-TransitionKit\"",
+					"-l\"Pods-UICKeyChainStore\"",
+					"-l\"Pods-UzysAnimatedGifPullToRefresh\"",
+					"-l\"Pods-pop\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CrashReporter\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -2006,13 +2290,83 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Longboxed-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Longboxed-iOS",
+				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"Pods-1PasswordExtension\"",
+					"-l\"Pods-AFNetworking\"",
+					"-l\"Pods-AnimatedGIFImageSerialization\"",
+					"-l\"Pods-BSKeyboardControls\"",
+					"-l\"Pods-CocoaLumberjack\"",
+					"-l\"Pods-Doppelganger\"",
+					"-l\"Pods-FontAwesomeKit\"",
+					"-l\"Pods-HexColors\"",
+					"-l\"Pods-HockeySDK\"",
+					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
+					"-l\"Pods-JGActionSheet\"",
+					"-l\"Pods-JRHUtilities\"",
+					"-l\"Pods-JTSImageViewController\"",
+					"-l\"Pods-MagicalRecord\"",
+					"-l\"Pods-Masonry\"",
+					"-l\"Pods-NSLogger\"",
+					"-l\"Pods-Onboard\"",
+					"-l\"Pods-RKValueTransformers\"",
+					"-l\"Pods-RestKit\"",
+					"-l\"Pods-SDiPhoneVersion\"",
+					"-l\"Pods-SIAlertView\"",
+					"-l\"Pods-SOCKit\"",
+					"-l\"Pods-SVProgressHUD\"",
+					"-l\"Pods-Shimmer\"",
+					"-l\"Pods-TSMessages\"",
+					"-l\"Pods-TransitionKit\"",
+					"-l\"Pods-UICKeyChainStore\"",
+					"-l\"Pods-UzysAnimatedGifPullToRefresh\"",
+					"-l\"Pods-pop\"",
+					"-l\"c++\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"CrashReporter\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"QuickLook\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
