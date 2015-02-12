@@ -52,6 +52,7 @@
 		E55042BC1A3916FF008905ED /* LBXSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55042BA1A3916FF008905ED /* LBXSignupViewController.xib */; };
 		E55042C01A3935E5008905ED /* LBXDeleteAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E55042BE1A3935E5008905ED /* LBXDeleteAccountViewController.m */; };
 		E55042C11A3935E5008905ED /* LBXDeleteAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55042BF1A3935E5008905ED /* LBXDeleteAccountViewController.xib */; };
+		E550954E1A8C3979006CAF11 /* storehouse.plist in Resources */ = {isa = PBXBuildFile; fileRef = E550954D1A8C3979006CAF11 /* storehouse.plist */; };
 		E553F59F19946393003E1F5C /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = E553F59E19946393003E1F5C /* clear.png */; };
 		E553F5A21994691A003E1F5C /* LBXDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */; };
 		E55497A519AAE284004501FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E55497A419AAE284004501FF /* SystemConfiguration.framework */; };
@@ -218,6 +219,7 @@
 		E55042BD1A3935E5008905ED /* LBXDeleteAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDeleteAccountViewController.h; path = Controllers/LBXDeleteAccountViewController.h; sourceTree = "<group>"; };
 		E55042BE1A3935E5008905ED /* LBXDeleteAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDeleteAccountViewController.m; path = Controllers/LBXDeleteAccountViewController.m; sourceTree = "<group>"; };
 		E55042BF1A3935E5008905ED /* LBXDeleteAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXDeleteAccountViewController.xib; path = Controllers/LBXDeleteAccountViewController.xib; sourceTree = "<group>"; };
+		E550954D1A8C3979006CAF11 /* storehouse.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = storehouse.plist; path = Extras/storehouse.plist; sourceTree = "<group>"; };
 		E553F59E19946393003E1F5C /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clear.png; path = Assets/clear.png; sourceTree = SOURCE_ROOT; };
 		E553F5A01994691A003E1F5C /* LBXDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDatabaseManager.h; path = Abstract/LBXDatabaseManager.h; sourceTree = "<group>"; };
 		E553F5A11994691A003E1F5C /* LBXDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDatabaseManager.m; path = Abstract/LBXDatabaseManager.m; sourceTree = "<group>"; };
@@ -708,6 +710,7 @@
 		E57D495719611B8D0014A13F /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				E550954D1A8C3979006CAF11 /* storehouse.plist */,
 				E5D342311A89A86A00C8C38B /* InAppPurchase.json */,
 				E56C6FC41A83033C0035DA0E /* Quotes.json */,
 				E507A6F51A7D953900E29DBE /* OpenSource.json */,
@@ -985,6 +988,7 @@
 				E593F55119D7160C00D310C6 /* ActualTableViewCell.xib in Resources */,
 				E5A73D711A4655BD0021CCC8 /* longboxed_full@3x.png in Resources */,
 				E507A6F61A7D953900E29DBE /* OpenSource.json in Resources */,
+				E550954E1A8C3979006CAF11 /* storehouse.plist in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
 				E57C6BB919D7C37E002DE4BA /* arrow_right_small_black.png in Resources */,
 				E5D342361A8ADD0000C8C38B /* PullToRefresh.gif in Resources */,
@@ -1548,6 +1552,7 @@
 					"\"UIKit\"",
 					"-weak_framework",
 					"\"WebKit\"",
+					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1641,6 +1646,7 @@
 					"\"UIKit\"",
 					"-weak_framework",
 					"\"WebKit\"",
+					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1904,6 +1910,7 @@
 					"\"UIKit\"",
 					"-weak_framework",
 					"\"WebKit\"",
+					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2135,6 +2142,7 @@
 					"\"UIKit\"",
 					"-weak_framework",
 					"\"WebKit\"",
+					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2366,6 +2374,7 @@
 					"\"UIKit\"",
 					"-weak_framework",
 					"\"WebKit\"",
+					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

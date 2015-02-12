@@ -22,13 +22,14 @@
 #import "LBXLogging.h"
 #import "SVProgressHUD.h"
 #import "LBXEmptyViewController.h"
-#import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
+#import <CBStoreHouseRefreshControl.h>
 
 @interface LBXPublisherViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic) LBXClient *client;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) CBStoreHouseRefreshControl *storeHouseRefreshControl;
 
 @end
 
@@ -59,14 +60,12 @@ static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
     self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
     
     // Add refresh
-    __weak typeof(self) weakSelf = self;
-    [self.tableView addPullToRefreshActionHandler:^{
-        [weakSelf refresh];
-    }
-                            ProgressImagesGifName:@"PullToRefresh.gif"
-                             LoadingImagesGifName:@"PullToRefresh.gif"
-                          ProgressScrollThreshold:60
-                            LoadingImageFrameRate:30];
+    self.storeHouseRefreshControl = [CBStoreHouseRefreshControl attachToScrollView:self.tableView target:self refreshAction:@selector(refresh) plist:@"storehouse" color:[UIColor blackColor] lineWidth:1
+                                                                        dropHeight:80
+                                                                             scale:1
+                                                              horizontalRandomness:150
+                                                           reverseLoadingAnimation:YES
+                                                           internalAnimationFactor:0.7];
     
     [self.view addSubview:self.tableView];
     
@@ -114,6 +113,16 @@ static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
     [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.storeHouseRefreshControl scrollViewDidScroll];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.storeHouseRefreshControl scrollViewDidEndDragging];
+}
+
 #pragma mark Private methods
 
 - (void)refresh
@@ -125,7 +134,7 @@ static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
 {
     // Fetch this weeks comics
     [self.client fetchPublishersWithPage:page completion:^(NSArray *publisherArray, RKObjectRequestOperation *response, NSError *error) {
-        [self.tableView stopPullToRefreshAnimation];
+        [self.storeHouseRefreshControl finishingLoading];
         if (!error) {
             if (publisherArray.count == 0) {
                 self.tableView.hidden = NO;

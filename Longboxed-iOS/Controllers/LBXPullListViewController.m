@@ -29,7 +29,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <POP.h>
 #import <Doppelganger.h>
-#import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
+#import <CBStoreHouseRefreshControl.h>
 
 @interface LBXPullListViewController () <UISearchBarDelegate, UISearchControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -45,6 +45,7 @@
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) LBXPullListTitle *selectedTitle;
 @property (nonatomic, strong) UIView *loadingView;
+@property (nonatomic, strong) CBStoreHouseRefreshControl *storeHouseRefreshControl;
 
 @end
 
@@ -100,14 +101,12 @@ CGFloat cellWidth;
     [LBXControllerServices setupSearchController:_searchController withSearchResultsController:self.searchResultsController andDelegate:self];
     
     // Add refresh
-    __weak typeof(self) weakSelf = self;
-    [self.tableView addPullToRefreshActionHandler:^{
-        [weakSelf refresh];
-    }
-                            ProgressImagesGifName:@"PullToRefresh.gif"
-                             LoadingImagesGifName:@"PullToRefresh.gif"
-                          ProgressScrollThreshold:60
-                            LoadingImageFrameRate:30];
+    self.storeHouseRefreshControl = [CBStoreHouseRefreshControl attachToScrollView:self.tableView target:self refreshAction:@selector(refresh) plist:@"storehouse" color:[UIColor blackColor] lineWidth:1
+                                                                        dropHeight:80
+                                                                             scale:1
+                                                              horizontalRandomness:150
+                                                           reverseLoadingAnimation:YES
+                                                           internalAnimationFactor:0.7];
     
     [self.tableView addSubview:_searchController.searchBar];
     _searchController.searchBar.hidden = YES;
@@ -179,7 +178,7 @@ CGFloat cellWidth;
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [self.tableView stopPullToRefreshAnimation];
+    [self.storeHouseRefreshControl finishingLoading];
     [SVProgressHUD dismiss];
     [SVProgressHUD setForegroundColor: [UIColor blackColor]];
     [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
@@ -188,6 +187,16 @@ CGFloat cellWidth;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.storeHouseRefreshControl scrollViewDidScroll];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.storeHouseRefreshControl scrollViewDidEndDragging];
 }
 
 #pragma mark - PrivateMethods
@@ -305,7 +314,7 @@ CGFloat cellWidth;
                                      withRowAnimation:UITableViewRowAnimationAutomatic];
             }
             else [self.tableView reloadData];
-            [self.tableView stopPullToRefreshAnimation];
+            [self.storeHouseRefreshControl finishingLoading];
             if (self.tableView.hidden) {
                 [_loadingView removeFromSuperview];
                 self.tableView.hidden = NO;
@@ -374,7 +383,7 @@ CGFloat cellWidth;
 {
     // Fetch pull list titles
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
-        [self.tableView stopPullToRefreshAnimation];
+        [self.storeHouseRefreshControl finishingLoading];
         if (!error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {}];

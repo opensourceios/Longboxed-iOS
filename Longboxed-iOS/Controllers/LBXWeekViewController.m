@@ -28,7 +28,7 @@
 #import "UICKeyChainStore.h"
 #import "LBXEmptyViewController.h"
 #import "NSString+StringUtilities.h"
-#import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
+#import <CBStoreHouseRefreshControl.h>
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
                                      ESDatePickerDelegate>
@@ -46,6 +46,7 @@
 @property (nonatomic, strong) ESDatePicker *calendarView;
 @property (nonatomic, strong) NSDate *selectedWednesday;
 @property (nonatomic, strong) UIView *maskLoadingView;
+@property (nonatomic, strong) CBStoreHouseRefreshControl *storeHouseRefreshControl;
 
 @end
 
@@ -154,28 +155,25 @@ BOOL _endOfIssues;
         _tableView.contentInset = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height + _toolBar.frame.size.height, 0, 0, 0);
         
         // Add refresh
-        __weak typeof(self) weakSelf = self;
-        [self.tableView addPullToRefreshActionHandler:^{
-            [weakSelf refreshControlAction];
-        }
-                                ProgressImagesGifName:@"PullToRefresh.gif"
-                                 LoadingImagesGifName:@"PullToRefresh.gif"
-                              ProgressScrollThreshold:60
-                                LoadingImageFrameRate:30];
+        self.storeHouseRefreshControl = [CBStoreHouseRefreshControl attachToScrollView:self.tableView target:self refreshAction:@selector(refreshControlAction) plist:@"storehouse" color:[UIColor blackColor] lineWidth:1.5
+                                                                            dropHeight:80
+                                                                                 scale:1
+                                                                  horizontalRandomness:150
+                                                               reverseLoadingAnimation:YES
+                                                               internalAnimationFactor:0.7];
         
         // Now set the contentInset to what we really want it to be
         _tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
     }
-    
-    // Add refresh
-    __weak typeof(self) weakSelf = self;
-    [self.tableView addPullToRefreshActionHandler:^{
-        [weakSelf refreshControlAction];
+    else {
+        // Add refresh
+        self.storeHouseRefreshControl = [CBStoreHouseRefreshControl attachToScrollView:self.tableView target:self refreshAction:@selector(refreshControlAction) plist:@"storehouse" color:[UIColor blackColor] lineWidth:1.5
+                                                                            dropHeight:80
+                                                                                 scale:1
+                                                                  horizontalRandomness:150
+                                                               reverseLoadingAnimation:YES
+                                                               internalAnimationFactor:0.7];
     }
-                            ProgressImagesGifName:@"PullToRefresh.gif"
-                             LoadingImagesGifName:@"PullToRefresh.gif"
-                          ProgressScrollThreshold:60
-                            LoadingImageFrameRate:30];
     
     _tableView.scrollIndicatorInsets = _tableView.contentInset;
    
@@ -266,6 +264,15 @@ BOOL _endOfIssues;
     [_maskLoadingView removeFromSuperview];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.storeHouseRefreshControl scrollViewDidScroll];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.storeHouseRefreshControl scrollViewDidEndDragging];
+}
 
 #pragma mark Private Methods
 
@@ -417,7 +424,7 @@ BOOL _endOfIssues;
         [LBXControllerServices showEmptyViewOverTableView:self.tableView];
     }
     [self.tableView reloadData];
-    [self.tableView stopPullToRefreshAnimation];
+    [self.storeHouseRefreshControl finishingLoading];
     [SVProgressHUD dismiss];
 }
 
@@ -499,7 +506,7 @@ BOOL _endOfIssues;
         // Fetch the users bundles
         [self.client fetchBundleResourcesWithPage:page completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {
-                [self.tableView stopPullToRefreshAnimation];
+                [self.storeHouseRefreshControl finishingLoading];
                 if (!bundleArray.count) {
                     // At the end of the paging through bundles
                     self.tableView.tableFooterView = [UIView new];
