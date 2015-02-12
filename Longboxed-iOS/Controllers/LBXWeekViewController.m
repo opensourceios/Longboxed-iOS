@@ -506,7 +506,6 @@ BOOL _endOfIssues;
         // Fetch the users bundles
         [self.client fetchBundleResourcesWithPage:page completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {
-                [self.storeHouseRefreshControl finishingLoading];
                 if (!bundleArray.count) {
                     // At the end of the paging through bundles
                     self.tableView.tableFooterView = [UIView new];
