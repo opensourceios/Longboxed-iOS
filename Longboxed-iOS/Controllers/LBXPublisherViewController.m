@@ -64,7 +64,7 @@ static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
         [weakSelf refresh];
     }
                             ProgressImagesGifName:@"PullToRefresh.gif"
-                             LoadingImagesGifName:@"PullToRefresh.gif"
+                             LoadingImagesGifName:@"PullToRefresh_Loading.gif"
                           ProgressScrollThreshold:60
                             LoadingImageFrameRate:30];
 
