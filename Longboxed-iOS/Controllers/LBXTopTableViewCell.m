@@ -78,14 +78,18 @@
     __weak typeof(cell) weakCell = cell;
     [cell.coverImage setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         
-        [UIView transitionWithView:weakCell.imageView
+        [UIView transitionWithView:weakCell.coverImage
                           duration:0.5f
                            options:UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{[weakCell.coverImage setImage:image];}
                         completion:NULL];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        weakCell.coverImage.image = [UIImage defaultCoverImage];
+        [UIView transitionWithView:weakCell.coverImage
+                          duration:0.5f
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{[weakCell.coverImage setImage:[UIImage defaultCoverImage]];}
+                        completion:NULL];
     }];
     
     [cell.titleName setText:issue.completeTitle];

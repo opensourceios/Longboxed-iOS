@@ -434,9 +434,9 @@ BOOL _selectedSearchResult;
     
     _popularIssuesArray = sortedArray;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+    if (_popularIssuesArray.count) {
         [self.bottomTableView reloadData];
-    });
+    }
 }
 
 - (void)fetchPopularIssues
@@ -447,13 +447,13 @@ BOOL _selectedSearchResult;
         if (!error) {
             _popularIssuesArray = popularIssuesArray;
             [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.bottomTableView reloadData];
-            });
+            [self.bottomTableView reloadData];
         }
         else {
-            [self getCoreDataPopularIssues];
-            [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self getCoreDataPopularIssues];
+                [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
+            });
         }
     }];
 }
@@ -494,7 +494,9 @@ BOOL _selectedSearchResult;
     else {
         [_bundleButton setTitle:@"0 ISSUES IN YOUR BUNDLE"
                        forState:UIControlStateNormal];
-        [self.topTableView reloadData];
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"reloadTopTableView"
+         object:self];
     }
     [self reloadTableView];
 }
