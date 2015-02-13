@@ -98,6 +98,8 @@ CGFloat cellWidth;
     _searchResultsController = [LBXSearchTableViewController new];
     _searchController = [[UISearchController alloc] initWithSearchResultsController:_searchResultsController];
     [LBXControllerServices setupSearchController:_searchController withSearchResultsController:self.searchResultsController andDelegate:self];
+    [self.tableView addSubview:_searchController.searchBar];
+    _searchController.searchBar.hidden = YES;
     
     // Add refresh
     __weak typeof(self) weakSelf = self;
@@ -195,8 +197,10 @@ CGFloat cellWidth;
         self.searchController.active = YES;
         _searchController.searchBar.hidden = NO;
     }
-    // Else scroll to top
-    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    else {
+        // Else scroll to top
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    }
 
 }
 
