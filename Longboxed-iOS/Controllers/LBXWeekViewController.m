@@ -159,7 +159,7 @@ BOOL _endOfIssues;
             [weakSelf refreshControlAction];
         }
                                 ProgressImagesGifName:@"PullToRefresh.gif"
-                                 LoadingImagesGifName:@"PullToRefresh.gif"
+                                 LoadingImagesGifName:@"PullToRefresh_Loading.gif"
                               ProgressScrollThreshold:60
                                 LoadingImageFrameRate:30];
         
@@ -173,7 +173,7 @@ BOOL _endOfIssues;
             [weakSelf refreshControlAction];
         }
                                 ProgressImagesGifName:@"PullToRefresh.gif"
-                                 LoadingImagesGifName:@"PullToRefresh.gif"
+                                 LoadingImagesGifName:@"PullToRefresh_Loading.gif"
                               ProgressScrollThreshold:60
                                 LoadingImageFrameRate:30];
     }
@@ -700,7 +700,7 @@ BOOL _endOfIssues;
         cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }];
     
-    if((tableView.contentOffset.y > (tableView.contentSize.height - tableView.frame.size.height)) && [_customNavTitle isEqualToString:@"Bundles"] && !_endOfIssues) {
+    if((tableView.contentOffset.y > (tableView.contentSize.height - tableView.frame.size.height)) && [_customNavTitle isEqualToString:@"Bundles"] && !_endOfIssues && _sectionArray.count) {
         _page += 1;
         [self fetchBundleWithPage:[NSNumber numberWithInt:_page]];
     }
