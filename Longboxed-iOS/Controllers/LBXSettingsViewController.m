@@ -326,7 +326,7 @@ UICKeyChainStore *store;
             return 2;
             break;
         case 4:
-            if ([LBXControllerServices isLoggedIn] && [LBXControllerServices isAdmin]) return 4;
+            if ([LBXControllerServices isLoggedIn] && [LBXControllerServices isAdmin]) return 3;
             if ([LBXControllerServices isLoggedIn]) return 3;
             else return 2;
             break;
@@ -424,7 +424,7 @@ UICKeyChainStore *store;
             textArray = @[@"Clear Image & Data Cache"];
             break;
         case 4:
-            textArray = @[@"Show Tutorial", @"About", @"Delete Account And All Data", @"Force A Crash"];
+            textArray = @[@"Show Tutorial", @"About", @"Delete Account And All Data"];
             break;
     }
     
@@ -575,9 +575,6 @@ UICKeyChainStore *store;
             else if (indexPath.row == 2) {
                 LBXDeleteAccountViewController *deleteViewController = [LBXDeleteAccountViewController new];
                 [self.navigationController pushViewController:deleteViewController animated:YES];
-            }
-            else if (indexPath.row == 3) {
-                [[Crashlytics sharedInstance] crash];
             }
             break;
         default:
