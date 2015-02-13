@@ -344,11 +344,16 @@ BOOL _selectedSearchResult;
         return;
     }
     
+    LBXIssue *previousIssue = _featuredIssue;
     // Feature an issue that has a cover
     BOOL validImage = NO;
     for (LBXIssue *issue in popularIssuesArray) {
         if (!validImage) {
             if (issue.coverImage) {
+                // Don't set the featured issue image view again if we don't have to
+                if ([issue isEqual:previousIssue]) return;
+                
+                // Else, keep going
                 validImage = YES;
                 _featuredIssue = issue;
             }
@@ -369,13 +374,15 @@ BOOL _selectedSearchResult;
         
         weakfeaturedImageView.image = image;
         
+        [weakSelf setFeaturedBlurredImageViewWithImage:weakfeaturedImageView.image];
+        
         // Only fade in the image if it was fetched (not from cache)
         [UIView transitionWithView:weakSelf.featuredIssueCoverButton
                           duration:0.5f
                            options:UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{[weakSelf.featuredIssueCoverButton setBackgroundImage:weakfeaturedImageView.image forState:UIControlStateNormal];}
                         completion:NULL];
-        [weakSelf setFeaturedBlurredImageViewWithImage:weakfeaturedImageView.image];
+        
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
