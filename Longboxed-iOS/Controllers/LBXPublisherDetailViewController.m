@@ -23,7 +23,7 @@
 #import "SVProgressHUD.h"
 
 #import <QuartzCore/QuartzCore.h>
-#import <CBStoreHouseRefreshControl.h>
+#import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 
 @interface LBXPublisherDetailViewController () <UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -33,7 +33,6 @@
 @property (nonatomic, copy) NSArray *titlesForPublisherArray;
 @property (nonatomic, copy) NSArray *sectionArray;
 @property (nonatomic, strong) UIView *loadingView;
-@property (nonatomic, strong) CBStoreHouseRefreshControl *storeHouseRefreshControl;
 
 @end
 
@@ -58,13 +57,15 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     self.tableView.dataSource = self;
     
     // Add refresh
-    self.storeHouseRefreshControl = [CBStoreHouseRefreshControl attachToScrollView:self.tableView target:self refreshAction:@selector(refresh) plist:@"storehouse" color:[UIColor blackColor] lineWidth:1
-                                                                        dropHeight:80
-                                                                             scale:1
-                                                              horizontalRandomness:150
-                                                           reverseLoadingAnimation:YES
-                                                           internalAnimationFactor:0.7];
-    
+    __weak typeof(self) weakSelf = self;
+    [self.tableView addPullToRefreshActionHandler:^{
+        [weakSelf refresh];
+    }
+                            ProgressImagesGifName:@"PullToRefresh.gif"
+                             LoadingImagesGifName:@"PullToRefresh.gif"
+                          ProgressScrollThreshold:60
+                            LoadingImageFrameRate:30];
+
     [self.view addSubview:self.tableView];
     
     _loadingView = [[UIView alloc] initWithFrame:self.view.frame];
@@ -135,16 +136,6 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     return UIStatusBarStyleDefault;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self.storeHouseRefreshControl scrollViewDidScroll];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    [self.storeHouseRefreshControl scrollViewDidEndDragging];
-}
-
 #pragma mark - Private methods
 
 - (void)refresh
@@ -177,7 +168,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
         if (!error) {
             if (titleArray.count == 0 || [_detailPublisher.titleCount intValue] == _titlesForPublisherArray.count) {
                 self.tableView.tableFooterView = nil;
-                [self.storeHouseRefreshControl finishingLoading];
+                [self.tableView stopPullToRefreshAnimation];
                 [self createTitlesArray];
             }
             else {
@@ -187,7 +178,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
             }
         }
         else {
-            [self.storeHouseRefreshControl finishingLoading];
+            [self.tableView stopPullToRefreshAnimation];
             [SVProgressHUD dismiss];
             self.tableView.hidden = NO;
             [self createTitlesArray];

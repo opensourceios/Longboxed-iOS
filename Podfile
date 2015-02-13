@@ -26,8 +26,6 @@ pod 'JTSImageViewController',  :git => 'https://github.com/jaredsinclair/JTSImag
 pod 'Doppelganger'
 pod 'TSMessages'
 pod 'BSKeyboardControls', '~> 2.2'
-pod 'UzysAnimatedGifPullToRefresh'
-pod 'CBStoreHouseRefreshControl', :git => 'https://github.com/coolbeet/CBStoreHouseRefreshControl.git', :commit => '0bec93d'
 
 # Customized
 # pod 'AYVibrantButton' (Part of Onboard)
@@ -36,3 +34,4 @@ pod 'CBStoreHouseRefreshControl', :git => 'https://github.com/coolbeet/CBStoreHo
 pod 'SVProgressHUD', :git => 'https://github.com/jayhickey/SVProgressHUD.git', :branch => 'master'
 pod 'JGActionSheet', :git => 'https://github.com/jayhickey/JGActionSheet.git', :branch => 'master'
 pod 'Onboard', :git => 'https://github.com/jayhickey/Onboard.git', :tag => '2.1.4'
+pod 'UzysAnimatedGifPullToRefresh', :git => 'https://github.com/jayhickey/UzysAnimatedGifPullToRefresh.git', :branch => 'master'
