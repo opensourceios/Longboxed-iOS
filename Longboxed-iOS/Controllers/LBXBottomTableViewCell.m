@@ -33,6 +33,16 @@
 
 - (void)reloadTableView
 {
+    // First, reload any cells if the image has changed/appeared
+    for (LBXIssue *issue in _contentArray) {
+        NSUInteger previousIndex = [_previousContentArray indexOfObject:issue];
+        NSUInteger currentIndex = [_contentArray indexOfObject:issue];
+        if (previousIndex && [issue.coverImage isEqualToString:((LBXIssue *)[_previousContentArray objectAtIndex:previousIndex]).coverImage]) {
+            [self.horizontalTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:currentIndex inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        }
+    }
+    
+    // Then, insert/remove any cells necessary
     if (_contentArray.count && _previousContentArray.count) {
         NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:_contentArray
                                                     previousArray:_previousContentArray];

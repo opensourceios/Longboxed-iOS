@@ -282,7 +282,7 @@ BOOL _selectedSearchResult;
         [self fetchBundle];
         [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
     }
-    else [self refresh];
+    [self refresh];
     
     // Stuff that determines whether or not to fetch the featured issue
     NSDate *currentDate = [NSDate localDate];
