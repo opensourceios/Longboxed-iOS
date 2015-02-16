@@ -76,20 +76,20 @@
     LBXIssue *issue = [_contentArray objectAtIndex:indexPath.row];
     
     __weak typeof(cell) weakCell = cell;
-    [cell.coverImage setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-        
-        [UIView transitionWithView:weakCell.coverImage
-                          duration:0.5f
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{[weakCell.coverImage setImage:image];}
-                        completion:NULL];
+    [cell.coverImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        if (request) {
+            [UIView transitionWithView:weakCell.coverImageView
+                              duration:0.5f
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{[weakCell.coverImageView setImage:image];}
+                            completion:NULL];
+        }
+        else {
+            weakCell.coverImageView.image = image;
+        }
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        [UIView transitionWithView:weakCell.coverImage
-                          duration:0.5f
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{[weakCell.coverImage setImage:[UIImage defaultCoverImage]];}
-                        completion:NULL];
+        weakCell.coverImageView.image = [UIImage defaultCoverImage];
     }];
     
     [cell.titleName setText:issue.completeTitle];
@@ -107,7 +107,7 @@
     LBXIssue *issue = [_contentArray objectAtIndex:indexPath.row];
     ActualTableViewCell *cell = (ActualTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     NSDictionary *dict = @{@"issue" : issue,
-                           @"image" : cell.coverImage.image};
+                           @"image" : cell.coverImageView.image};
     
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"pushToIssueWithDict"

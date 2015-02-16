@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ActualTableViewCell : UITableViewCell
-@property(nonatomic,strong)IBOutlet UIImageView *coverImage;
+@property(nonatomic,strong)IBOutlet UIImageView *coverImageView;
 @property(nonatomic,strong)IBOutlet UILabel *titleName;
 @end

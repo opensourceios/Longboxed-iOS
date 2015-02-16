@@ -18,7 +18,7 @@
 @end
 
 @implementation ActualTableViewCell
-@synthesize coverImage,titleName;
+@synthesize coverImageView,titleName;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -41,12 +41,12 @@
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
     if (!highlighted) {
-        self.coverImage.layer.opacity = 1.0;
+        self.coverImageView.layer.opacity = 1.0;
         self.titleName.textColor = [UIColor blackColor];
     }
     else {
         [self.imageView.layer setBackgroundColor:[UIColor blackColor].CGColor];
-        self.coverImage.layer.opacity = 0.6;
+        self.coverImageView.layer.opacity = 0.6;
         self.titleName.textColor = [UIColor lightGrayColor];
     }
 }
