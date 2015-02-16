@@ -35,10 +35,13 @@
 {
     // First, reload any cells if the image has changed/appeared
     for (LBXIssue *issue in _contentArray) {
-        NSUInteger previousIndex = [_previousContentArray indexOfObject:issue];
-        NSUInteger currentIndex = [_contentArray indexOfObject:issue];
-        if (previousIndex && [issue.coverImage isEqualToString:((LBXIssue *)[_previousContentArray objectAtIndex:previousIndex]).coverImage]) {
-            [self.horizontalTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:currentIndex inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        if ([_previousContentArray containsObject:issue]) {
+            NSUInteger previousIndex = [_previousContentArray indexOfObject:issue];
+            NSUInteger currentIndex = [_contentArray indexOfObject:issue];
+            LBXIssue *prevIssue = [_previousContentArray objectAtIndex:previousIndex];
+            if (previousIndex && [issue.coverImage isEqualToString:prevIssue.coverImage] && issue.issueID == prevIssue.issueID && [self.horizontalTableView numberOfRowsInSection:0] <= currentIndex) {
+                [self.horizontalTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:currentIndex inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            }
         }
     }
     
@@ -84,7 +87,7 @@
     }
     
     LBXIssue *issue = [_contentArray objectAtIndex:indexPath.row];
-    
+
     __weak typeof(cell) weakCell = cell;
     [cell.coverImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         if (request) {
