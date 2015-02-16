@@ -317,7 +317,7 @@ CGFloat cellWidth;
                 
                 POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionY];
                 anim.fromValue = @(self.view.frame.size.height*2);
-                anim.toValue = @(0+self.view.frame.size.height/2);
+                anim.toValue = @(0 + [UIApplication sharedApplication].statusBarFrame.size.height + self.view.frame.size.height/2);
                 anim.springBounciness = 12.0;
                 anim.springSpeed = 18.0;
                 anim.velocity = @(2000.);
