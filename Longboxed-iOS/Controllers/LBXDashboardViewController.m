@@ -407,7 +407,7 @@ BOOL _selectedSearchResult;
     }
     
     UIImage *blurredImage = [image applyBlurWithRadius:20
-                                             tintColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1]
+                                             tintColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3]
                                  saturationDeltaFactor:1
                                              maskImage:nil];
     
