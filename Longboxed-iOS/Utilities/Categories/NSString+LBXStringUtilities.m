@@ -12,13 +12,13 @@
 
 @implementation NSString (LBXStringUtilities)
 
-// This is for the pull list view
+// This is for the pull list view and title view
 + (NSString *)timeStringSinceLastIssueForTitle:(LBXTitle *)title
 {
     LBXIssue *issue = [NSString closestIssueForTitle:title];
     
     if (issue != nil) {
-        return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:issue.releaseDate andEndDate:[NSDate date]]];
+        return [NSString stringWithFormat:@"%@", [NSDate fuzzyTimeBetweenStartDate:issue.releaseDate andEndDate:[NSDate localDate]]];
     }
     return @"";
 }
