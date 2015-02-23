@@ -61,7 +61,7 @@
             // Check if the latest issue is next week and the second latest issue is this week
             
             // If the second newest issues release date is more recent than 4 days ago
-            if ([secondNewestIssue.releaseDate timeIntervalSinceDate:[NSDate date]] > -4*DAY) {
+            if ([secondNewestIssue.releaseDate timeIntervalSinceDate:[NSDate localDate]] > -4*DAY) {
                 return secondNewestIssue;
             }
             return newestIssue;

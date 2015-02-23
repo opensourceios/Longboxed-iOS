@@ -532,7 +532,7 @@ BOOL _endOfIssues;
     _calendarView = [[ESDatePicker alloc] initWithFrame:CGRectMake(20, 50, 280, 300)];
     _calendarView.beginOfWeek = 1;
     [_calendarView setDelegate:self];
-    NSDate *now = [NSDate date];
+    NSDate *now = [NSDate localDate];
     [_calendarView showDates:startDate:[now dateByAddingTimeInterval:60*60*24*7]];
     [_calendarView setSelectedDate:nil];
 
