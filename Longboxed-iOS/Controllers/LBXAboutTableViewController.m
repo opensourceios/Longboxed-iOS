@@ -79,13 +79,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (section) {
         case 0:
-            return 2;
+            return 3;
             break;
         case 1:
             return 2;
             break;
         case 2:
-            return 1;
+            return 2;
             break;
         case 3:
             return _openSourceKeys.count;
@@ -137,20 +137,20 @@
     NSArray *textArray = [NSArray new];
     switch (indexPath.section) {
         case 0:
-            textArray = @[@"Version", @"Build"];
+            textArray = @[@"Version", @"Build", @"Privacy Policy"];
             break;
         case 1:
             textArray = @[@"Jay Hickey", @"Tim Bueno"];
             break;
         case 2:
-            textArray = @[@"Eric Bueno"];
+            textArray = @[@"Eric Bueno", @"Michael Bjelovuk"];
             break;
         case 3:
             textArray = _openSourceKeys;
             break;
     }
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && indexPath.row < 2) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.detailTextLabel.text = (indexPath.row == 0) ? version : buildNumber;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -175,15 +175,20 @@
     NSString *urlString = [NSString new];
     NSString *titleString = [NSString new];
     
+    // Privacy policy
+    if (indexPath.section == 0 && indexPath.row == 2) {
+        titleString = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
+        urlString = @"https://longboxed.com/privacy";
+    }
     // Creators
-    if (indexPath.section == 1) {
+    else if (indexPath.section == 1) {
         titleString = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
         urlString = (indexPath.row == 0) ? @"http://jayhickey.com" : @"http://twitter.com/timbueno";
     }
     // Special Thanks
     else if (indexPath.section == 2) {
         titleString = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
-        urlString = @"http://twitter.com/buen0_";
+        urlString = (indexPath.row == 0) ? @"http://twitter.com/buen0_" : @"http://twitter.com/michaelbjelovuk";
     }
     // Open Source
     else if (indexPath.section == 3) {
@@ -191,7 +196,7 @@
         urlString = _openSourceDict[_openSourceKeys[indexPath.row]];
     }
     
-    if (indexPath.section != 0) {
+    if (indexPath.section != 0 || indexPath.row == 2) {
         UIViewController *vc = [UIViewController new];
         WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame];
         UIView *view = [[UIView alloc] initWithFrame:self.view.frame];
