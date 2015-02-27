@@ -638,7 +638,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd"];
         
-        [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching bundle resources with date: %@", date]];
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching bundle resources with date: %@ page: %@ count:%@", date, page, count]];
         
         // For debugging
         NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date],
@@ -648,7 +648,7 @@
         [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:parameters credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
-                [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching bundle resources with date: %@", date]];
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching bundle resources with date: %@ page: %@ count:%@", date, page, count]];
                 for (LBXBundle *bundle in mappingResult.array) {
                     if (bundle.bundleID) { // Weird bug where sometimes returned array bundles have null id's
                         for (LBXIssue *issue in bundle.issues) {
