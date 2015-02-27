@@ -599,7 +599,7 @@ BOOL _selectedSearchResult;
             titleViewController.titleID = _featuredIssue.title.titleID;
             titleViewController.latestIssueImage = (issuesArray[0] == _featuredIssue) ? [self.featuredIssueCoverButton backgroundImageForState:UIControlStateNormal] : [UIImage imageNamed:@"black"];
             
-            [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", _featuredIssue.title]];
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Selected featured issue %@", _featuredIssue.title]];
             [self.navigationController pushViewController:titleViewController animated:YES];
             break;
         }
@@ -888,7 +888,7 @@ BOOL _selectedSearchResult;
         titleViewController.titleID = title.titleID;
         titleViewController.latestIssueImage = cell.latestIssueImageView.image;
         
-        [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", _featuredIssue.title]];
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title in search results on dashboard:\n %@", _featuredIssue.title]];
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
 }

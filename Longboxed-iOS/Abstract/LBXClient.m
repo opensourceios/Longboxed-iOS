@@ -24,6 +24,7 @@
 #import <JRHUtilities/NSDictionary+DictionaryUtilities.h>
 #import <JRHUtilities/NSDate+DateUtilities.h>
 #import "LBXControllerServices.h"
+#import "LBXLogging.h"
 
 @interface LBXClient()
 
@@ -184,11 +185,14 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching issues collection with date %@", date]];
+    
     // For debugging
     NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date], @"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     [self GETWithRouteName:@"Issues Collection" HTTPHeaderParams:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching issues collection with date %@", date]];
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
             }
@@ -204,9 +208,11 @@
     if (![page isEqualToNumber:@1]) {
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     }
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching this weeks comics with page %@", page]];
     [self GETWithRouteName:@"Issues Collection for Current Week" HTTPHeaderParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching this weeks comics with page %@", page]];
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
             }
@@ -222,9 +228,11 @@
     if (![page isEqualToNumber:@1]) {
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     }
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching next weeks comics with page %@", page]];
     [self GETWithRouteName:@"Issues Collection for Next Week" HTTPHeaderParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching next weeks comics with page %@", page]];
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
             }
@@ -238,19 +246,21 @@
     NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
                         @"issueID", issueID,
                         nil];
-    
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching issue %@", issueID]];
     [self GETWithRouteName:@"Issue" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) [self saveAlternateIssuesWithIssue:mappingResult.firstObject];
-        
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching issue %@", issueID]];
         completion(mappingResult.firstObject, response, error);
     }];
 }
 
 - (void)fetchPopularIssuesWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching popular issues"]];
     [self GETWithRouteName:@"Popular Issues for Current Week" HTTPHeaderParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching popular issues"]];
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
             }
@@ -261,6 +271,7 @@
 }
 
 - (void)fetchPopularIssuesWithDate:(NSDate *)date completion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching popular issues with date: %@", date]];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     // For debugging
@@ -269,6 +280,7 @@
     [self GETWithRouteName:@"Popular Issues for Current Week" HTTPHeaderParams:nil queryParameters:parameters credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching popular issues with date: %@", date]];
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
             }
@@ -281,9 +293,11 @@
 
 // Titles
 - (void)fetchTitleCollectionWithCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching title collection"]];
     [self GETWithRouteName:@"Titles Collection" HTTPHeaderParams:nil queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching title collection"]];
             for (LBXTitle *title in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:title.latestIssue];
             }
@@ -299,9 +313,11 @@
                         @"titleID", titleID,
                         nil];
     
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching title: %@", titleID]];
     [self GETWithRouteName:@"Title" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching title: %@", titleID]];
             [self saveAlternateIssuesWithIssue:((LBXTitle *)mappingResult.firstObject).latestIssue];
         }
         
@@ -319,10 +335,12 @@
     if (![page isEqualToNumber:@1]) {
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     }
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching issues for title: %@ page: %@", titleID, page]];
     
     [self GETWithRouteName:@"Issues for Title" HTTPHeaderParams:headerParams queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching issues for title: %@ page: %@", titleID, page]];
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
             }
@@ -343,10 +361,12 @@
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]],
                              @"count" : [NSString stringWithFormat:@"%d", [count intValue]]};
     }
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching issues for title: %@ page: %@ count: %@", titleID, page, count]];
     
     [self GETWithRouteName:@"Issues for Title" HTTPHeaderParams:headerParams queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching issues for title: %@ page: %@ count: %@", titleID, page, count]];
             for (LBXIssue *issue in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:issue];
             }
@@ -358,9 +378,11 @@
 
 - (void)fetchAutocompleteForTitle:(NSString*)title withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
 
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching autocomplete for title: %@", title]];
     [self GETWithRouteName:@"Autocomplete for Title" HTTPHeaderParams:nil queryParameters:@{@"query": title} credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching autocomplete for title: %@", title]];
             for (LBXTitle *title in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:title.latestIssue];
             }
@@ -375,8 +397,9 @@
     
     NSDictionary *objectDictParams;
     objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
-    
+    [LBXLogging logMessage:@"Fetching publishers"];
     [self GETWithRouteName:@"Publisher Collection" HTTPHeaderParams:nil queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        [LBXLogging logMessage:@"Finished fetching publishers"];
         completion(mappingResult.array, response, error);
     }];
 }
@@ -387,7 +410,10 @@
                         @"publisherID", publisherID,
                         nil];
     
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching publisher: %@", publisherID]];
+    
     [self GETWithRouteName:@"Publisher" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching publisher: %@", publisherID]];
         completion(mappingResult.firstObject, response, error);
     }];
 }
@@ -403,9 +429,12 @@
         objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
     }
     
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching titles for publisher: %@", publisherID]];
+    
     [self GETWithRouteName:@"Titles for Publisher" HTTPHeaderParams:params queryParameters:objectDictParams credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
         if (!error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching titles for publisher: %@", publisherID]];
             for (LBXTitle *title in mappingResult.array) {
                 [self saveAlternateIssuesWithIssue:title.latestIssue];
             }
@@ -419,9 +448,10 @@
 - (void)registerWithEmail:(NSString*)email password:(NSString *)password passwordConfirm:(NSString *)passwordConfirm withCompletion:(void (^)(NSDictionary*, AFHTTPRequestOperation*, NSError*))completion {
     
     NSDictionary *parameters = @{@"email" : email, @"password" : password, @"password_confirm" : passwordConfirm};
-    
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Registering email: %@", email]];
     [self POSTWithRouteName:@"Register" HTTPHeaderParams:nil queryParameters:parameters credentials:NO completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
         if (error) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Finished registering email: %@", email]];
             NSString *errorJSONString = error.userInfo[@"NSLocalizedRecoverySuggestion"];
             NSData *data = [errorJSONString dataUsingEncoding:NSUTF8StringEncoding];
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -435,8 +465,9 @@
     
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
+        [LBXLogging logMessage:@"Deleting account"];
         [self DELETEWithRouteName:@"Delete Account" HTTPHeaderParams:nil queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
-            
+            [LBXLogging logMessage:@"Finished deleting account"];
             completion(resultDict, response, error);
         }];
     }
@@ -444,8 +475,9 @@
 
 
 - (void)fetchLogInWithCompletion:(void (^)(LBXUser*, RKObjectRequestOperation*, NSError*))completion {
+    [LBXLogging logMessage:@"Logging in"];
     [self GETWithRouteName:@"Login" HTTPHeaderParams:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
-        
+        [LBXLogging logMessage:@"Finished logging in"];
         // Store the user ID
         LBXUser *user = mappingResult.firstObject;
         [UICKeyChainStore setString:[NSString stringWithFormat:@"%@", user.userID] forKey:@"id"];
@@ -466,9 +498,12 @@
             
         }
         
+        [LBXLogging logMessage:@"Fetching pull list"];
+        
         [self GETWithRouteName:@"User Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
+                [LBXLogging logMessage:@"Finished fetching pull list"];
                 // Delete any items that may have been removed from
                 // the pull list
                 NSArray *objects = [LBXPullListTitle MR_findAll];
@@ -492,13 +527,17 @@
     
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Adding title to pull list: %@", titleID]];
         _titleIDBeingAdded = titleID;
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Adding title:\n %@", titleID]];
         NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
         
         [self POSTWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
             
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Added title to pull list: %@", titleID]];
             NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
             _titleIDBeingAdded = nil;
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Added title:\n %@", titleID]];
             completion(pullListArray, response, error);
         }];
     }
@@ -507,8 +546,8 @@
 - (void)removeTitleFromPullList:(NSNumber*)titleID withCompletion:(void (^)(NSArray*, AFHTTPRequestOperation*, NSError*))completion {
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Removing title from pull list: %@", titleID]];
         NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
-        
         // Remove the title from Core Data first
         __block NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", titleID];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -518,6 +557,7 @@
             [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
                 
                 if (!error) {
+                    [LBXLogging logMessage:[NSString stringWithFormat:@"Removed title from pull list:\n %@", titleID]];
                     // Remove the title from the latest bundle
                     NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
                     if (bundleArray.count) {
@@ -557,9 +597,12 @@
             objectDictParams = @{@"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
         }
         
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching bundle resources with page: %@", page]];
+        
         [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:objectDictParams credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching bundle resources with page: %@", page]];
                 for (LBXBundle *bundle in mappingResult.array) {
                     if (bundle.bundleID) { // Weird bug where sometimes returned array bundles have null id's
                         for (LBXIssue *issue in bundle.issues) {
@@ -594,6 +637,9 @@
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching bundle resources with date: %@", date]];
+        
         // For debugging
         NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date],
                                      @"page" : [NSString stringWithFormat:@"%d", [page intValue]],
@@ -602,6 +648,7 @@
         [self GETWithRouteName:@"Bundle Resources for User" HTTPHeaderParams:headerParams queryParameters:parameters credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching bundle resources with date: %@", date]];
                 for (LBXBundle *bundle in mappingResult.array) {
                     if (bundle.bundleID) { // Weird bug where sometimes returned array bundles have null id's
                         for (LBXIssue *issue in bundle.issues) {
@@ -633,11 +680,13 @@
                       @"userID", store[@"id"],
                       nil];
         }
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching latest bundle"]];
         
         [self GETWithRouteName:@"Latest Bundle" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
             
             LBXBundle *bundle = (((LBXBundle *)mappingResult.array[0]).bundleID) ? ((LBXBundle *)mappingResult.array[0]) : nil;
             if (!error) {
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Finished fetching latest bundle"]];
                 if (bundle.bundleID) { // Weird bug where sometimes returned bundles have null id's
                     for (LBXIssue *issue in bundle.issues) {
                         [self saveAlternateIssuesWithIssue:issue];

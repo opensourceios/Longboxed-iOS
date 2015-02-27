@@ -520,7 +520,7 @@ CGFloat cellWidth;
         
         LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
         LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:(LBXTitle *)_selectedTitle];
-        [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title: %@", _selectedTitle.description]];
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title in pull list:\n %@", _selectedTitle.description]];
         titleViewController.titleID = _selectedTitle.titleID;
         titleViewController.latestIssueImage = cell.latestIssueImageView.image;
         [self.navigationController pushViewController:titleViewController animated:YES];

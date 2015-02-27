@@ -292,7 +292,7 @@ BOOL selectedTitle;
             selectedTitle = YES;
             
             LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:_issue.title];
-            [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title: %@", _issue.title.description]];
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title in issue detail:\n %@", _issue.title.description]];
             titleViewController.titleID = _issue.title.titleID;
             titleViewController.latestIssueImage = (_issue.coverImage) ? _issueImage : [UIImage imageNamed:@"black"];
             

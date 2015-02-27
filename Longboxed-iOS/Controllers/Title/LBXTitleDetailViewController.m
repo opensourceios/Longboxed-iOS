@@ -105,7 +105,7 @@ int page;
     NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
-        [LBXLogging logMessage:[NSString stringWithFormat:@"Unresolved error %@, %@", error, [error userInfo]]];
+        [LBXLogging logMessage:[NSString stringWithFormat:@"Unresolved error in title detail view controller %@, %@ \n %@", error, [error userInfo], _detailTitle]];
     }
 }
 

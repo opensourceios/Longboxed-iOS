@@ -118,7 +118,6 @@ UICKeyChainStore *store;
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     [self.client deleteAccountWithCompletion:^(NSDictionary *responseDict, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
-            [LBXLogging logMessage:[NSString stringWithFormat:@"Deleted account for %@", [store stringForKey:@"id"]]];
             [SVProgressHUD showSuccessWithStatus:@"Account Deleted"];
             [LBXControllerServices removeCredentials];
             [LBXDatabaseManager flushBundlesAndPullList];

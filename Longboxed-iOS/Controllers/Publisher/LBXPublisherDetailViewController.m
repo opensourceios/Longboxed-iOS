@@ -339,7 +339,7 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     LBXPullListTableViewCell *cell = (LBXPullListTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     LBXTitleDetailViewController *titleViewController = [[LBXTitleDetailViewController alloc] initWithTitle:title];
     
-    [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title %@", title]];
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Selected title in individual publisher list:\n %@", title]];
     titleViewController.titleID = title.titleID;
     titleViewController.latestIssueImage = cell.latestIssueImageView.image;
     [self.navigationController pushViewController:titleViewController animated:YES];
