@@ -523,6 +523,7 @@ UICKeyChainStore *store;
             // Rate the app
             else if (indexPath.row == 1)  {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/longboxed-comic-tracker/id965045339?ls=1&mt=8"]];
+                [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
             }
             break;
         case 3:
