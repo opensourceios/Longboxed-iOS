@@ -279,7 +279,6 @@ BOOL _selectedSearchResult;
     [self getCoreDataPopularIssues];
     
     if (_popularIssuesArray.count && _bundleIssuesArray.count) {
-        [self fetchBundle];
         [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
     }
     [self refresh];
