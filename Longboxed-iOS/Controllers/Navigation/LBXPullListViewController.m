@@ -224,10 +224,7 @@ CGFloat cellWidth;
             for (LBXPullListTitle *searchTitle in newSearchResultsArray) {
                 BOOL match = NO;
                 for (LBXPullListTitle *pullListTitle in _pullListArray) {
-                    if (![searchTitle.name isEqualToString:pullListTitle.name]) {
-                        //[_alreadyExistingTitles addObject:[NSNumber numberWithBool:NO]];
-                    }
-                    else {
+                    if ([searchTitle.name isEqualToString:pullListTitle.name]) {
                         match = YES;
                     }
                 }

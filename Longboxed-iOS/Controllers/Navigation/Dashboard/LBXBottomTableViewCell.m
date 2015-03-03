@@ -39,7 +39,7 @@
             NSUInteger previousIndex = [_previousContentArray indexOfObject:issue];
             NSUInteger currentIndex = [_contentArray indexOfObject:issue];
             LBXIssue *prevIssue = [_previousContentArray objectAtIndex:previousIndex];
-            if (previousIndex && [issue.coverImage isEqualToString:prevIssue.coverImage] && issue.issueID == prevIssue.issueID && [self.horizontalTableView numberOfRowsInSection:0] <= currentIndex) {
+            if (previousIndex && [issue.coverImage isEqualToString:prevIssue.coverImage] && issue.issueID == prevIssue.issueID && [self.horizontalTableView numberOfRowsInSection:0] <= currentIndex && [self.horizontalTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]]) {
                 [self.horizontalTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:currentIndex inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             }
         }

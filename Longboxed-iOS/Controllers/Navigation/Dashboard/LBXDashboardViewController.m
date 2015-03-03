@@ -492,6 +492,7 @@ BOOL _selectedSearchResult;
         [_bundleButton setNeedsDisplay];
     }
     else {
+        self.topTableViewCell.contentArray = _bundleIssuesArray;
         [_bundleButton setTitle:@"0 ISSUES IN YOUR BUNDLE"
                        forState:UIControlStateNormal];
         [[NSNotificationCenter defaultCenter]
