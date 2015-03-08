@@ -415,8 +415,7 @@ BOOL selectedTitle;
     NSString *infoString = [NSString fixHTMLAttributes:_issue.completeTitle];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", @"https://longboxed.com/issue/", _issue.diamondID];
     NSString *viaString = [NSString stringWithFormat:@"\nvia @longboxed for iOS"];
-    UIImage *coverImage = _coverImageView.image;
-    [LBXControllerServices showShareSheetWithArrayOfInfo:@[infoString, [NSURL URLWithString:urlString], viaString, coverImage]];
+    [LBXControllerServices showShareSheetWithArrayOfInfo:@[infoString, [NSURL URLWithString:urlString], viaString, _issueImage]];
 }
 
 @end

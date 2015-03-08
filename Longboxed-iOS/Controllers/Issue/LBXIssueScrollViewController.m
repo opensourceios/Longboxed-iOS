@@ -156,7 +156,6 @@ CGRect screenRect;
     NSString *viaString = [NSString stringWithFormat:@"\nvia @longboxed for iOS"];
     UIImage *coverImage = [UIImage new];
     for (LBXIssueDetailViewController *vc in self.childViewControllers) {
-        NSLog(@"%f   %f", vc.view.frame.origin.x, self.scrollView.contentOffset.x);
         if (vc.view.frame.origin.x == self.scrollView.contentOffset.x) {
             coverImage = vc.coverImageView.image;
         }
