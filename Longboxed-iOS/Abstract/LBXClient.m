@@ -72,7 +72,7 @@
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         if (completion) {
-            [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setAPIErrorMessageVisible:NO withError:error];
+            [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setAPIErrorMessageVisible:YES withError:error];
             completion(nil, operation, error);
         }
     }];

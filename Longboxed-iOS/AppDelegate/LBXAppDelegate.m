@@ -250,11 +250,16 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    // Hide any error messages that may have come up
+    [self setAPIErrorMessageVisible:NO withError:nil];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    // Hide any error messages that may have come up
     [self setAPIErrorMessageVisible:NO withError:nil];
 }
 
@@ -288,17 +293,22 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 
     [TSMessage addCustomDesignFromFileWithName:@"LBXErrorDesign.json"];
     
-    [TSMessage showNotificationInViewController:self.window.rootViewController
-                                          title:@"Error"
-                                       subtitle:errorMessage
-                                          image:nil
-                                           type:TSMessageNotificationTypeError
-                                       duration:3.0f
-                                       callback:nil
-                                    buttonTitle:nil 
-                                 buttonCallback:nil
-                                     atPosition:TSMessageNotificationPositionNavBarOverlay
-                           canBeDismissedByUser:YES];
+    if (setVisible) {
+        [TSMessage showNotificationInViewController:self.window.rootViewController
+                                              title:@"Error"
+                                           subtitle:errorMessage
+                                              image:nil
+                                               type:TSMessageNotificationTypeError
+                                           duration:3.0f
+                                           callback:nil
+                                        buttonTitle:nil 
+                                     buttonCallback:nil
+                                         atPosition:TSMessageNotificationPositionNavBarOverlay
+                               canBeDismissedByUser:YES];
+    }
+    else {
+        [TSMessage dismissActiveNotification];
+    }
 }
 
 #pragma mark OnBoarding
