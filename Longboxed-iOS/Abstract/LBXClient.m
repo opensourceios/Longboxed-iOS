@@ -40,7 +40,7 @@
     UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", store[@"username"], store[@"password"]];
     NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:0]];
     [[[RKObjectManager sharedManager] HTTPClient] setDefaultHeader:@"Authorization" value:authValue];
 }
 
