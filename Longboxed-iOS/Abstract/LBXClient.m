@@ -476,6 +476,7 @@
 
 - (void)fetchLogInWithCompletion:(void (^)(LBXUser*, RKObjectRequestOperation*, NSError*))completion {
     [LBXLogging logMessage:@"Logging in"];
+    
     [self GETWithRouteName:@"Login" HTTPHeaderParams:nil queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         [LBXLogging logMessage:@"Finished logging in"];
         // Store the user ID
