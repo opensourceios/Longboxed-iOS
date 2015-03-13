@@ -23,6 +23,7 @@
 #import "LBXLogging.h"
 #import "LBXUser.h"
 #import "LBXAppDelegate.h"
+#import "LBXCustomURLViewController.h"
 
 #import "UIFont+LBXCustomFonts.h"
 #import "NSString+StringUtilities.h"
@@ -39,7 +40,6 @@
 
 @interface LBXSettingsViewController () <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
-@property (nonatomic, strong) UISwitch *developmentServerSwitch;
 @property (nonatomic, strong) IBOutlet UITableView* settingsTableView;
 @property (nonatomic) LBXClient *client;
 
@@ -73,22 +73,10 @@ UICKeyChainStore *store;
     
     self.navigationItem.titleView = label;
     
-    _developmentServerSwitch = [UISwitch new];
-    [_developmentServerSwitch setOnTintColor:[UIColor blackColor]];
-    
-    [_developmentServerSwitch addTarget:self
-                                 action:@selector(stateChanged:)
-                       forControlEvents:UIControlEventValueChanged];
-    
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
     self.navigationItem.rightBarButtonItem = actionButton;
     
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
-    [_developmentServerSwitch setOn:YES animated:NO];
-    RKResponseDescriptor *responseDescriptor = [RKObjectManager sharedManager].responseDescriptors[0];
-    if ([[responseDescriptor.baseURL absoluteString] isEqualToString:[[LBXEndpoints productionURL] absoluteString]]) {
-        [_developmentServerSwitch setOn:NO animated:NO];
-    }
     [self.navigationItem setHidesBackButton:YES animated:YES];
 }
 
@@ -103,7 +91,6 @@ UICKeyChainStore *store;
 - (void)viewWillLayoutSubviews
 {
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName : [UIFont navTitleFont]}];
-    _developmentServerSwitch.hidden = ([LBXControllerServices isAdmin]) ? NO : YES;
     if (!self.isBeingDismissed) {
         [self.settingsTableView reloadData];
     }
@@ -230,66 +217,6 @@ UICKeyChainStore *store;
         [SVProgressHUD dismiss];
         [LBXControllerServices showAlertWithTitle:@"Unable to Purchase" andMessage:@"You are unable to perform in-app purchases. This is likely due to parental controls."];
     }
-}
-
-// Development Server UISwitch
-- (void)stateChanged:(UISwitch *)switchState
-{
-    // Use staging server
-    if ([switchState isOn]) {
-        // Set the response descriptors and the shared manager to the new base URL
-        for (RKResponseDescriptor *descriptor in [RKObjectManager sharedManager].responseDescriptors) {
-            descriptor.baseURL = [LBXEndpoints stagingURL];
-        }
-        [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints stagingURL]]];
-        RKObjectManager.sharedManager.HTTPClient.allowsInvalidSSLCertificate = YES;
-        [UICKeyChainStore setString:[[LBXEndpoints stagingURL] absoluteString] forKey:@"baseURLString"];
-        
-        [self login];
-    }
-    // Use production server
-    else {
-        // Set the response descriptors and the shared manager to the new base URL
-        for (RKResponseDescriptor *descriptor in [RKObjectManager sharedManager].responseDescriptors) {
-            descriptor.baseURL = [LBXEndpoints productionURL];
-        }
-        [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints productionURL]]];
-        RKObjectManager.sharedManager.HTTPClient.allowsInvalidSSLCertificate = NO;
-        [UICKeyChainStore setString:[[LBXEndpoints productionURL] absoluteString] forKey:@"baseURLString"];
-        
-        [self login];
-    }
-}
-
-- (void)login
-{
-    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
-    [LBXDatabaseManager flushBundlesAndPullList];
-    [self.client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
-        if (response.HTTPRequestOperation.response.statusCode == 200) {
-            dispatch_async(dispatch_get_main_queue(),^{
-                [LBXLogging logMessage:[NSString stringWithFormat:@"Successful dev toggle log in %@", [store stringForKey:@"username"]]];
-                [SVProgressHUD showSuccessWithStatus:@"Logged In!"];
-                [LBXLogging logLogin];
-            });
-        }
-        else {
-            [LBXLogging logMessage:[NSString stringWithFormat:@"Unsuccessful dev toggle log in %@", [store stringForKey:@"username"]]];
-            [LBXControllerServices removeCredentials];
-            [LBXDatabaseManager flushBundlesAndPullList];
-            
-            dispatch_async(dispatch_get_main_queue(),^{
-                [SVProgressHUD setForegroundColor: [UIColor blackColor]];
-                [SVProgressHUD setBackgroundColor: [UIColor whiteColor]];
-                [SVProgressHUD showErrorWithStatus:@"Unsuccessful Log In"];
-                [_developmentServerSwitch setOn:NO animated:NO];
-                [[RKObjectManager sharedManager] setHTTPClient:[AFHTTPClient clientWithBaseURL:[LBXEndpoints productionURL]]];
-                RKObjectManager.sharedManager.HTTPClient.allowsInvalidSSLCertificate = NO;
-                [UICKeyChainStore setString:[[LBXEndpoints productionURL] absoluteString] forKey:@"baseURLString"];
-            });
-        }
-        [self.settingsTableView reloadData];
-    }];
 }
 
 - (void)sendEmail
@@ -437,11 +364,7 @@ UICKeyChainStore *store;
     
     // Account Section
     if (indexPath.section == 0) {
-        if (indexPath.row == 1 && [LBXControllerServices isLoggedIn]) {
-            cell.accessoryView = _developmentServerSwitch;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        else if (indexPath.row == 0 && [LBXControllerServices isLoggedIn]) {
+        if (indexPath.row == 0 && [LBXControllerServices isLoggedIn]) {
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.detailTextLabel.text = [store stringForKey:@"username"];
         }
@@ -513,6 +436,11 @@ UICKeyChainStore *store;
             else if (indexPath.row == 1 && ![LBXControllerServices isLoggedIn]) {
                 LBXLoginViewController *loginViewController = [LBXLoginViewController new];
                 [self.navigationController pushViewController:loginViewController animated:YES];
+            }
+            // Development server
+            else if (indexPath.row == 1 && [LBXControllerServices isAdmin]) {
+                LBXCustomURLViewController *urlVC = [LBXCustomURLViewController new];
+                [self.navigationController pushViewController:urlVC animated:YES];
             }
             break;
         case 1:
