@@ -112,6 +112,8 @@ static const NSUInteger ISSUE_TABLE_HEIGHT = 88;
     
     [self refresh];
     
+    [self.tableView flashScrollIndicators];
+    
     [LBXLogging logMessage:[NSString stringWithFormat:@"LBXPublisher\n%@\ndid appear", _detailPublisher]];
 }
 

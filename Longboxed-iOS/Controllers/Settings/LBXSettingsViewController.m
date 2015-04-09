@@ -104,6 +104,7 @@ UICKeyChainStore *store;
 - (void)viewDidAppear:(BOOL)animated
 {
     self.navigationController.navigationBar.topItem.title = @"Settings";
+    [self.settingsTableView flashScrollIndicators];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

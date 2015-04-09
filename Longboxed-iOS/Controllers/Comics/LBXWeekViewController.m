@@ -251,6 +251,8 @@ BOOL _endOfIssues;
         [SVProgressHUD showAtPosY:self.view.frame.size.height/2];
         [self fetchBundleWithPage:@1];
     }
+    
+    [self.tableView flashScrollIndicators];
 }
 
 - (void)viewWillLayoutSubviews
