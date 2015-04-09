@@ -21,7 +21,7 @@ The following steps are required to build the Longboxed:
         cd ~/path/to/longboxed
         pod install
 
-3. Open the project in Xcode using 'Longboxed.xcworkspace'.
+3. Open the project in Xcode using 'Longboxed-iOS.xcworkspace'.
 
 4. Build and Run!
 
