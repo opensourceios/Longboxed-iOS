@@ -62,7 +62,7 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
 - (void)testWednesdayRetrival
 {
     // Both this week and next week arrays should for 9 days, starting on a Sunday
-    int day = 3;
+    int day = 4;
     NSMutableArray *thisWednesdayArray = [NSMutableArray new];
     NSMutableArray *nextWednesdayArray = [NSMutableArray new];
     for (int i = 0; i < 9; i++) {
