@@ -1,6 +1,9 @@
 Longboxed
 ===============
 
+[![Build Status](https://travis-ci.org/jayhickey/Longboxed-iOS.svg?branch=develop)](https://travis-ci.org/jayhickey/Longboxed-iOS)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+
 Longboxed is an iPhone app for browsing thousands of comics and tracking your favorites. 
 
 Find out more at [longboxed.com](http://longboxed.com)
