@@ -17,8 +17,6 @@ DerivedData
 *.ipa
 *.xcuserstate
 .DS_Store
-Crashlytics.framework
-CrashReporter.framework
 
 # CocoaPods
 #
