@@ -82,16 +82,16 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     int count = 0;
     for (NSDate *date in thisWednesdayArray) {
         if (count == 0) {
-            XCTAssertNotEqual(date, thisWednesdayArray[1], @"Date is %@ and thisWednesdayArray is %@", date, thisWednesdayArray[1]);
+            XCTAssert(![date isEqualToDate:thisWednesdayArray[1]], @"Date is %@ and thisWednesdayArray is %@", date, thisWednesdayArray[1]);
         }
         else if (count == thisWednesdayArray.count - 2) {
-            XCTAssertEqual(date, thisWednesdayArray[count - 2], @"Date is %@ and thisWednesdayArray is %@", date, thisWednesdayArray[count - 2]);
+            XCTAssert([date isEqualToDate:thisWednesdayArray[count - 2]], @"Date is %@ and thisWednesdayArray is %@", date, thisWednesdayArray[count - 2]);
         }
         else if (count == thisWednesdayArray.count - 1) {
-            XCTAssertNotEqual(date, thisWednesdayArray[thisWednesdayArray.count - 2], @"Date is %@ and thisWednesdayArray is %@", date, thisWednesdayArray[thisWednesdayArray.count - 2]);
+            XCTAssert(![date isEqualToDate:thisWednesdayArray[thisWednesdayArray.count - 2]], @"Date is %@ and thisWednesdayArray is %@", date, thisWednesdayArray[thisWednesdayArray.count - 2]);
         }
         else {
-            XCTAssertEqual(date, thisWednesdayArray[count + 1], @"Date is %@ and thisWednesdayArray is %@",  date, thisWednesdayArray[count + 1]);
+            XCTAssert([date isEqualToDate:thisWednesdayArray[count + 1]], @"Date is %@ and thisWednesdayArray is %@",  date, thisWednesdayArray[count + 1]);
         }
         count++;
     }
@@ -100,16 +100,16 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     count = 0;
     for (NSDate *date in nextWednesdayArray) {
         if (count == 0) {
-            XCTAssertNotEqual(date, nextWednesdayArray[1], @"Date is %@ and thisWednesdayArray is %@", date, nextWednesdayArray[1]);
+            XCTAssert(![date isEqualToDate:nextWednesdayArray[1]], @"Date is %@ and thisWednesdayArray is %@", date, nextWednesdayArray[1]);
         }
         else if (count == nextWednesdayArray.count - 2) {
-            XCTAssertEqual(date, nextWednesdayArray[count - 2], @"Date is %@ and thisWednesdayArray is %@", date, nextWednesdayArray[count - 2]);
+            XCTAssert([date isEqualToDate:nextWednesdayArray[count - 2]], @"Date is %@ and thisWednesdayArray is %@", date, nextWednesdayArray[count - 2]);
         }
         else if (count == nextWednesdayArray.count - 1) {
-            XCTAssertNotEqual(date, nextWednesdayArray[nextWednesdayArray.count - 2], @"Date is %@ and thisWednesdayArray is %@",  date, nextWednesdayArray[nextWednesdayArray.count - 2]);
+            XCTAssert(![date isEqualToDate:nextWednesdayArray[nextWednesdayArray.count - 2]], @"Date is %@ and thisWednesdayArray is %@",  date, nextWednesdayArray[nextWednesdayArray.count - 2]);
         }
         else {
-            XCTAssertEqual(date, nextWednesdayArray[count + 1], @"Date is %@ and thisWednesdayArray is %@", date, nextWednesdayArray[count + 1]);
+            XCTAssert([date isEqualToDate:nextWednesdayArray[count + 1]], @"Date is %@ and thisWednesdayArray is %@", date, nextWednesdayArray[count + 1]);
         }
         count++;
     }
