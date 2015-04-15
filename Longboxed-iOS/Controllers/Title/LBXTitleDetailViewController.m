@@ -160,6 +160,8 @@ int page;
     else {
         [self setNavBarAlpha:@0];
     }
+    
+    [self.tableView flashScrollIndicators];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

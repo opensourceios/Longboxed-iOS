@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LBXCustomURLViewController">
+            <connections>
+                <outlet property="productionURLButton" destination="bHP-K0-hd2" id="LJW-NZ-6th"/>
+                <outlet property="stagingURLButton" destination="bFI-ro-7WT" id="29U-iY-FTi"/>
+                <outlet property="textField" destination="sxp-pP-MOD" id="KDx-r8-0Pd"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="http://" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="sxp-pP-MOD">
+                    <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" keyboardType="URL"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bHP-K0-hd2">
+                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                    <state key="normal" title="Production URL">
+                        <color key="titleColor" red="0.1019607843" green="0.098039215690000001" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonPressed:" destination="-1" eventType="touchUpInside" id="arS-oh-IMq"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFI-ro-7WT">
+                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                    <state key="normal" title="Staging URL">
+                        <color key="titleColor" red="0.1019607843" green="0.098039215690000001" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonPressed:" destination="-1" eventType="touchUpInside" id="D54-Ny-lAG"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="bFI-ro-7WT" firstAttribute="top" secondItem="sxp-pP-MOD" secondAttribute="bottom" constant="8" id="19c-id-8Lh"/>
+                <constraint firstItem="sxp-pP-MOD" firstAttribute="leading" secondItem="bHP-K0-hd2" secondAttribute="leading" id="3Q6-HI-m70"/>
+                <constraint firstItem="sxp-pP-MOD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="32" id="L8l-25-6qh"/>
+                <constraint firstItem="bFI-ro-7WT" firstAttribute="trailing" secondItem="sxp-pP-MOD" secondAttribute="trailing" id="P5v-kV-29O"/>
+                <constraint firstAttribute="trailing" secondItem="sxp-pP-MOD" secondAttribute="trailing" constant="32" id="XoQ-c1-g4v"/>
+                <constraint firstItem="sxp-pP-MOD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="YtW-It-jkn"/>
+                <constraint firstItem="bHP-K0-hd2" firstAttribute="top" secondItem="sxp-pP-MOD" secondAttribute="bottom" constant="8" id="uj5-MI-xLf"/>
+            </constraints>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="sxp-pP-MOD"/>
+                    <exclude reference="bHP-K0-hd2"/>
+                    <exclude reference="bFI-ro-7WT"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="3Q6-HI-m70"/>
+                    <exclude reference="L8l-25-6qh"/>
+                    <exclude reference="XoQ-c1-g4v"/>
+                    <exclude reference="YtW-It-jkn"/>
+                    <exclude reference="uj5-MI-xLf"/>
+                    <exclude reference="19c-id-8Lh"/>
+                    <exclude reference="P5v-kV-29O"/>
+                </mask>
+            </variation>
+            <variation key="widthClass=compact">
+                <mask key="subviews">
+                    <include reference="sxp-pP-MOD"/>
+                    <include reference="bHP-K0-hd2"/>
+                    <include reference="bFI-ro-7WT"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="3Q6-HI-m70"/>
+                    <include reference="L8l-25-6qh"/>
+                    <include reference="XoQ-c1-g4v"/>
+                    <include reference="YtW-It-jkn"/>
+                    <include reference="uj5-MI-xLf"/>
+                    <include reference="19c-id-8Lh"/>
+                    <include reference="P5v-kV-29O"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

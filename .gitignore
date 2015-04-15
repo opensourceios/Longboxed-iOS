@@ -17,10 +17,6 @@ DerivedData
 *.ipa
 *.xcuserstate
 .DS_Store
-Crashlytics.framework
-CrashReporter.framework
-Longboxed-iOS/keys.txt
-Longboxed-iOS/Extras/InAppPurchase.json
 
 # CocoaPods
 #

@@ -282,6 +282,7 @@ BOOL _selectedSearchResult;
         [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
     }
     [self refresh];
+    [self.scrollView flashScrollIndicators];
     
     // Stuff that determines whether or not to fetch the featured issue
     NSDate *currentDate = [NSDate localDate];

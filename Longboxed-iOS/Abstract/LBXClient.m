@@ -171,9 +171,11 @@
     client.parameterEncoding = AFJSONParameterEncoding;
     
     // For the self signed production SSL cert
-    if ([[UICKeyChainStore stringForKey:@"baseURLString"] isEqualToString:[[LBXEndpoints stagingURL] absoluteString]]) {
-        client.allowsInvalidSSLCertificate = YES;
+    if ([[UICKeyChainStore stringForKey:@"baseURLString"] isEqualToString:[[LBXEndpoints productionURL] absoluteString]]) {
+        client.allowsInvalidSSLCertificate = NO;
     }
+    else client.allowsInvalidSSLCertificate = YES;
+    
     [client setDefaultHeader:@"Accept" value:@"application/json"];
     
     return client;

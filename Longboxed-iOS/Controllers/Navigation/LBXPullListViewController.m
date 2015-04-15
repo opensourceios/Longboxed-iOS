@@ -168,6 +168,8 @@ CGFloat cellWidth;
     
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     self.navigationController.navigationBar.topItem.title = @"Pull List";
+    
+    [self.tableView flashScrollIndicators];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

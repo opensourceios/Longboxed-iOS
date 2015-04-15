@@ -104,6 +104,8 @@ static const NSUInteger PUBLISHER_LIST_TABLE_HEIGHT = 88;
     }
     
     [self refresh];
+    
+    [self.tableView flashScrollIndicators];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

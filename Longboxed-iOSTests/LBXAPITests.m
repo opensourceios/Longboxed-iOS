@@ -58,63 +58,6 @@ static inline void hxRunInMainLoop(void(^block)(BOOL *done)) {
     [UICKeyChainStore removeItemForKey:@"baseURLString"];
 }
 
-// Tests the accuracy of the date calculations
-- (void)testWednesdayRetrival
-{
-    // Both this week and next week arrays should for 9 days, starting on a Sunday
-    int day = 3;
-    NSMutableArray *thisWednesdayArray = [NSMutableArray new];
-    NSMutableArray *nextWednesdayArray = [NSMutableArray new];
-    for (int i = 0; i < 9; i++) {
-        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-        NSDateComponents *components = [[NSDateComponents alloc] init];
-        [components setYear:2015];
-        [components setMonth:01];
-        [components setDay:day];
-        [calendar dateFromComponents:components];
-        NSDate *date = [calendar dateFromComponents:components];
-        [thisWednesdayArray addObject:[NSDate thisWednesdayOfDate:date]];
-        [nextWednesdayArray addObject:[NSDate nextWednesdayOfDate:date]];
-        day++;
-    }
-    
-    // First element in array should be one week, middle should be another week, and last element should be another
-    int count = 0;
-    for (NSDate *date in thisWednesdayArray) {
-        if (count == 0) {
-            XCTAssertNotEqual(date, thisWednesdayArray[1]);
-        }
-        else if (count == thisWednesdayArray.count - 2) {
-            XCTAssertEqual(date, thisWednesdayArray[count - 2]);
-        }
-        else if (count == thisWednesdayArray.count - 1) {
-            XCTAssertNotEqual(date, thisWednesdayArray[thisWednesdayArray.count - 2]);
-        }
-        else {
-            XCTAssertEqual(date, thisWednesdayArray[count + 1]);
-        }
-        count++;
-    }
-    
-    // First element in array should be one week, middle should be another week, and last element should be another
-    count = 0;
-    for (NSDate *date in nextWednesdayArray) {
-        if (count == 0) {
-            XCTAssertNotEqual(date, nextWednesdayArray[1]);
-        }
-        else if (count == nextWednesdayArray.count - 2) {
-            XCTAssertEqual(date, nextWednesdayArray[count - 2]);
-        }
-        else if (count == nextWednesdayArray.count - 1) {
-            XCTAssertNotEqual(date, nextWednesdayArray[nextWednesdayArray.count - 2]);
-        }
-        else {
-            XCTAssertEqual(date, nextWednesdayArray[count + 1]);
-        }
-        count++;
-    }
-}
-
 ///////////////
 // Issues Tests
 ///////////////
