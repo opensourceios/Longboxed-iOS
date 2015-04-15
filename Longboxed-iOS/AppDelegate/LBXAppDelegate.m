@@ -201,13 +201,18 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     LBXClient *client = [LBXClient new];
+    
+    // So we only call the completionHandler once
+    __block BOOL hasFailed = NO;
+    
     // Fetch popular issues
     [client fetchPopularIssuesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] completion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
         [LBXLogging logMessage:@"Fetched popular titles"];
         if (!error) {
             for (LBXIssue *issue in popularIssuesArray) {
                 [client fetchTitle:issue.title.titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {
-                    if (error) {
+                    if (error && !hasFailed) {
+                        hasFailed = YES;
                         [LBXLogging logMessage:@"Failed fetching popular titles"];
                         completionHandler(UIBackgroundFetchResultFailed);
                     }
@@ -215,12 +220,13 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
             }
         }
         else {
+            hasFailed = YES;
             [LBXLogging logMessage:@"Failed fetching titles"];
             completionHandler(UIBackgroundFetchResultFailed);
         }
     }];
     
-    if ([LBXControllerServices isLoggedIn]) {
+    if ([LBXControllerServices isLoggedIn] && !hasFailed) {
         // Fetch the users bundles
         [client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {
@@ -233,6 +239,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
             }
         }];
     }
+    else if (!hasFailed) completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
