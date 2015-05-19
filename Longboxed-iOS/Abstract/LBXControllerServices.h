@@ -22,6 +22,8 @@
                        darkenImage:(BOOL)darken;
 + (void)setTitleCell:(LBXPullListTableViewCell *)cell withIssue:(LBXIssue *)issue;
 
++ (void)setupLocalPushNotificationsWithBundleArray:(NSArray *)bundleArray;
+
 + (void)setLabel:(UILabel *)textView
       withString:(NSString *)string
             font:(UIFont *)font

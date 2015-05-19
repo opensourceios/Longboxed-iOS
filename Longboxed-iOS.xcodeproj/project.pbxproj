@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		7A07AC5BCD7045119317C8CF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		CDE56D0EB54A49F3B06F8E78 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; };
+		E50175EF1B0AB01400328D8F /* LBXDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E50175ED1B0AB01400328D8F /* LBXDateTableViewCell.m */; };
+		E50175F01B0AB01400328D8F /* LBXDateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E50175EE1B0AB01400328D8F /* LBXDateTableViewCell.xib */; };
+		E50175FA1B0AB78A00328D8F /* LBXNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E50175F71B0AB78A00328D8F /* LBXNotificationsViewController.m */; };
+		E50175FB1B0AB78A00328D8F /* LBXRepeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E50175F91B0AB78A00328D8F /* LBXRepeatViewController.m */; };
+		E50175FE1B0AB96400328D8F /* LBXConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E50175FD1B0AB96400328D8F /* LBXConstants.m */; };
 		E50183DF19F45F4C00DA3CAB /* ESDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183D619F45F4C00DA3CAB /* ESDateHelper.m */; };
 		E50183E019F45F4C00DA3CAB /* ESDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183DA19F45F4C00DA3CAB /* ESDatePicker.m */; };
 		E50183E119F45F4C00DA3CAB /* ESObjectPool.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183DE19F45F4C00DA3CAB /* ESObjectPool.m */; };
@@ -148,6 +153,15 @@
 		87C1690C3A7EEC6A941CAAD8 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		BDAD9AC9556EEDE7B4890293 /* Pods.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.staging.xcconfig; path = "Pods/Target Support Files/Pods/Pods.staging.xcconfig"; sourceTree = "<group>"; };
 		E1E220888AF5409D902176E2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E50175EC1B0AB01400328D8F /* LBXDateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDateTableViewCell.h; path = Views/LBXDateTableViewCell.h; sourceTree = "<group>"; };
+		E50175ED1B0AB01400328D8F /* LBXDateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDateTableViewCell.m; path = Views/LBXDateTableViewCell.m; sourceTree = "<group>"; };
+		E50175EE1B0AB01400328D8F /* LBXDateTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXDateTableViewCell.xib; path = Views/LBXDateTableViewCell.xib; sourceTree = "<group>"; };
+		E50175F61B0AB78A00328D8F /* LBXNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXNotificationsViewController.h; path = Controllers/Settings/Notifications/LBXNotificationsViewController.h; sourceTree = "<group>"; };
+		E50175F71B0AB78A00328D8F /* LBXNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXNotificationsViewController.m; path = Controllers/Settings/Notifications/LBXNotificationsViewController.m; sourceTree = "<group>"; };
+		E50175F81B0AB78A00328D8F /* LBXRepeatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXRepeatViewController.h; path = Controllers/Settings/Notifications/LBXRepeatViewController.h; sourceTree = "<group>"; };
+		E50175F91B0AB78A00328D8F /* LBXRepeatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXRepeatViewController.m; path = Controllers/Settings/Notifications/LBXRepeatViewController.m; sourceTree = "<group>"; };
+		E50175FC1B0AB96400328D8F /* LBXConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXConstants.h; path = Abstract/LBXConstants.h; sourceTree = "<group>"; };
+		E50175FD1B0AB96400328D8F /* LBXConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXConstants.m; path = Abstract/LBXConstants.m; sourceTree = "<group>"; };
 		E50183D519F45F4C00DA3CAB /* ESDateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESDateHelper.h; sourceTree = "<group>"; };
 		E50183D619F45F4C00DA3CAB /* ESDateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESDateHelper.m; sourceTree = "<group>"; };
 		E50183D919F45F4C00DA3CAB /* ESDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESDatePicker.h; sourceTree = "<group>"; };
@@ -384,6 +398,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E50175F21B0AB6E700328D8F /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				E50175F61B0AB78A00328D8F /* LBXNotificationsViewController.h */,
+				E50175F71B0AB78A00328D8F /* LBXNotificationsViewController.m */,
+				E50175F81B0AB78A00328D8F /* LBXRepeatViewController.h */,
+				E50175F91B0AB78A00328D8F /* LBXRepeatViewController.m */,
+			);
+			name = Notifications;
+			sourceTree = "<group>";
+		};
 		E50183D319F45F4C00DA3CAB /* ESDateHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -613,6 +638,9 @@
 		E57D48FE1960960A0014A13F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E50175EC1B0AB01400328D8F /* LBXDateTableViewCell.h */,
+				E50175ED1B0AB01400328D8F /* LBXDateTableViewCell.m */,
+				E50175EE1B0AB01400328D8F /* LBXDateTableViewCell.xib */,
 				E58634331A526DD500427C2E /* LBXTipJarTableViewCell.h */,
 				E58634341A526DD500427C2E /* LBXTipJarTableViewCell.m */,
 				E58634351A526DD500427C2E /* LBXTipJarTableViewCell.xib */,
@@ -658,6 +686,8 @@
 		E57D49131960A21D0014A13F /* Abstract */ = {
 			isa = PBXGroup;
 			children = (
+				E50175FC1B0AB96400328D8F /* LBXConstants.h */,
+				E50175FD1B0AB96400328D8F /* LBXConstants.m */,
 				E5CCAC5819B53EDB0068AD8D /* LBXLogging.h */,
 				E5CCAC5919B53EDB0068AD8D /* LBXLogging.m */,
 				E54A6AFD196BA5D70094979A /* LBXEndpoints.h */,
@@ -755,6 +785,7 @@
 				E54017D41A9FF39A00AB226C /* LBXSettingsViewController.h */,
 				E54017D51A9FF39A00AB226C /* LBXSettingsViewController.m */,
 				E54017D61A9FF39A00AB226C /* LBXSettingsViewController.xib */,
+				E50175F21B0AB6E700328D8F /* Notifications */,
 				E5A102401AB31717000E4946 /* LBXCustomURLViewController.h */,
 				E5A102411AB31717000E4946 /* LBXCustomURLViewController.m */,
 				E5A102421AB31717000E4946 /* LBXCustomURLViewController.xib */,
@@ -984,6 +1015,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E50175F01B0AB01400328D8F /* LBXDateTableViewCell.xib in Resources */,
 				E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */,
 				E5B5F9A419FC0C6200474E60 /* arrow_right_standard.png in Resources */,
 				E5B5F9AE19FC14A000474E60 /* arrow_right_small_black@3x.png in Resources */,
@@ -1161,8 +1193,10 @@
 				E5E5163319CA446D005FBD43 /* UIFont+LBXCustomFonts.m in Sources */,
 				E54017B71A9FF30200AB226C /* LBXPullListViewController.m in Sources */,
 				E54017AF1A9FF2E100AB226C /* LBXBottomTableViewCell.m in Sources */,
+				E50175FB1B0AB78A00328D8F /* LBXRepeatViewController.m in Sources */,
 				E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */,
 				E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */,
+				E50175EF1B0AB01400328D8F /* LBXDateTableViewCell.m in Sources */,
 				E5E5163219CA446D005FBD43 /* UIColor+LBXCustomColors.m in Sources */,
 				E54017C21A9FF36500AB226C /* LBXPublisherDetailViewController.m in Sources */,
 				E50183E019F45F4C00DA3CAB /* ESDatePicker.m in Sources */,
@@ -1185,6 +1219,7 @@
 				E5B6FCE51998497A0022F4CA /* LBXControllerServices.m in Sources */,
 				E54017B31A9FF2E100AB226C /* LBXTopTableViewCell.m in Sources */,
 				E54017BA1A9FF35400AB226C /* LBXTitleDetailViewController.m in Sources */,
+				E50175FE1B0AB96400328D8F /* LBXConstants.m in Sources */,
 				E54017BD1A9FF35D00AB226C /* LBXWeekViewController.m in Sources */,
 				E5B6FCC01998351C0022F4CA /* LBXTitleDetailView.m in Sources */,
 				E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */,
@@ -1210,6 +1245,7 @@
 				E5977738198EAC7D0047E261 /* LBXPullListTitle.m in Sources */,
 				E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */,
 				E5E5162D19CA446D005FBD43 /* NSArray+LBXArrayUtilities.m in Sources */,
+				E50175FA1B0AB78A00328D8F /* LBXNotificationsViewController.m in Sources */,
 				E54017DB1A9FF39A00AB226C /* LBXDeleteAccountViewController.m in Sources */,
 				E55B68611A324A81008A5CFD /* LBXBackButton.m in Sources */,
 				E5E5161619CA4450005FBD43 /* PaintCodeImages.m in Sources */,

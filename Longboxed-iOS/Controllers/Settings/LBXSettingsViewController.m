@@ -24,6 +24,7 @@
 #import "LBXUser.h"
 #import "LBXAppDelegate.h"
 #import "LBXCustomURLViewController.h"
+#import "LBXNotificationsViewController.h"
 
 #import "UIFont+LBXCustomFonts.h"
 #import "NSString+StringUtilities.h"
@@ -240,7 +241,7 @@ UICKeyChainStore *store;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 5;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -250,10 +251,10 @@ UICKeyChainStore *store;
             if ([LBXControllerServices isAdmin]) return 2;
             else return 1;
             break;
-        case 1:
+        case 2:
             return 2;
             break;
-        case 4:
+        case 5:
             if ([LBXControllerServices isLoggedIn] && [LBXControllerServices isAdmin]) return 3;
             if ([LBXControllerServices isLoggedIn]) return 3;
             else return 2;
@@ -271,12 +272,15 @@ UICKeyChainStore *store;
             return @"Account";
             break;
         case 1:
-            return @"Feedback";
+            return @"Notifications";
             break;
         case 2:
-            return @"Tip Jar";
+            return @"Feedback";
             break;
         case 3:
+            return @"Tip Jar";
+            break;
+        case 4:
             return @"Storage";
             break;
         default:
@@ -291,7 +295,7 @@ UICKeyChainStore *store;
         case 1:
             return @" ";
             break;
-        case 3:
+        case 4:
             if (resetCacheToZero) return @"Less than 0.5 MB used";
             else return [NSString stringWithFormat:@"%@ used", [NSString diskUsage]];
             break;
@@ -307,7 +311,7 @@ UICKeyChainStore *store;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2) {
+    if (indexPath.section == 3) {
         static NSString *CellIdentifier = @"TipJarTableViewCell";
         
         LBXTipJarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -339,7 +343,7 @@ UICKeyChainStore *store;
 
 - (UITableViewCell *)setCellViews:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2) {
+    if (indexPath.section == 3) {
         return cell;
     }
     NSString *logInString = ([LBXControllerServices isLoggedIn]) ? @"Email" : @"Sign Up";
@@ -350,12 +354,15 @@ UICKeyChainStore *store;
             textArray = @[logInString, devServerOrLogInString];
             break;
         case 1:
+            textArray = @[@"Release Notifications"];
+            break;
+        case 2:
             textArray = @[@"Send Feedback", @"Please Rate Longboxed"];
             break;
-        case 3:
+        case 4:
             textArray = @[@"Clear Image & Data Cache"];
             break;
-        case 4:
+        case 5:
             textArray = @[@"Show Tutorial", @"About", @"Delete Account And All Data"];
             break;
     }
@@ -376,16 +383,16 @@ UICKeyChainStore *store;
     }
     
     // Storage Section
-    if (indexPath.section == 3) {
+    if (indexPath.section == 4) {
         if (indexPath.row == 0) {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
     }
     
-    if (indexPath.section == 4 && indexPath.row == 2 && [cell.textLabel.text isEqualToString:@"Delete Account And All Data"]) {
+    if (indexPath.section == 5 && indexPath.row == 2 && [cell.textLabel.text isEqualToString:@"Delete Account And All Data"]) {
         cell.textLabel.textColor = [UIColor redColor];
     }
-    if (indexPath.section == 4 && indexPath.row == 3) {
+    if (indexPath.section == 5 && indexPath.row == 3) {
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
@@ -449,6 +456,12 @@ UICKeyChainStore *store;
             }
             break;
         case 1:
+            if (indexPath.row == 0) {
+                LBXNotificationsViewController *notificationsVC = [LBXNotificationsViewController new];
+                [self.navigationController pushViewController:notificationsVC animated:YES];
+            }
+            break;
+        case 2:
             // Send feedback email
             if (indexPath.row == 0) {
                 [self sendEmail];
@@ -459,7 +472,7 @@ UICKeyChainStore *store;
                 [self.settingsTableView deselectRowAtIndexPath:indexPath animated:YES];
             }
             break;
-        case 3:
+        case 4:
             // Cleared cache
             if (indexPath.row == 0) {
                 [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
@@ -496,7 +509,7 @@ UICKeyChainStore *store;
                 
             }
             break;
-        case 4:
+        case 5:
             if (indexPath.row == 0) {
                 OnboardingViewController *onboardingVC = [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] generateOnboardingVC];
                 [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] externallySetRootViewController:onboardingVC];

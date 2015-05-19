@@ -13,6 +13,9 @@
 #import "LBXUser.h"
 #import "UIFont+LBXCustomFonts.h"
 #import "LBXBackButton.h"
+#import "LBXConstants.h"
+#import "LBXBundle.h"
+#import <CoreData+MagicalRecord.h>
 
 #import "NSDate+DateUtilities.h"
 #import "UIImage+LBXCreateImage.h"
@@ -199,6 +202,59 @@
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }];
+}
+
++ (void)setupLocalPushNotificationsWithBundleArray:(NSArray *)bundleArray {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:notificationsEnabledKey]) return;
+    
+    // Ask for permissions for notification
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+    }
+    
+    // Override point for customization after application launch.
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    
+    NSDate *currentDate = [NSDate localDate];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
+        LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
+        
+        if (bundle) {
+            NSMutableString *mutableAlertString = [NSMutableString stringWithString:@"This Week: "];
+            int count = 0;
+            for (LBXIssue *issue in bundle.issues) {
+                NSString *testString = [NSString stringWithFormat:@"%@, %@, and %lu more", mutableAlertString, issue.title.name, bundle.issues.count - count];
+                if ([testString length] > pushCharacterLimit) {
+                    break;
+                }
+                else {
+                    count++;
+                    if (bundle.issues.count == count) {
+                        mutableAlertString = [NSMutableString stringWithFormat:@"%@, and %@", [[mutableAlertString copy] substringToIndex:([mutableAlertString length] - 2)], issue.title.name];
+                    }
+                    else [mutableAlertString appendString:[NSString stringWithFormat:@"%@, ", issue.title.name]];
+                }
+            }
+            
+            NSUInteger extras = bundle.issues.count - count;
+            NSString *alertString = @"";
+            if (extras) {
+               alertString = [NSString stringWithFormat:@"%@, and %lu more", [[mutableAlertString copy] substringToIndex:([mutableAlertString length] - 2)], extras];
+            }
+            else {
+                alertString = [NSString stringWithFormat:@"%@", mutableAlertString];
+            }
+            
+            UILocalNotification* localNotification = [UILocalNotification new];
+            localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+            localNotification.alertBody = alertString;
+            localNotification.timeZone = [NSTimeZone defaultTimeZone];
+            localNotification.soundName = UILocalNotificationDefaultSoundName;
+            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        }
+    });
 }
 
 + (void)setLabel:(UILabel *)textView
