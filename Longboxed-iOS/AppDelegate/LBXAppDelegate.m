@@ -11,6 +11,7 @@
 #import "LBXClient.h"
 #import "LBXLogging.h"
 #import "LBXControllerServices.h"
+#import "LBXWeekViewController.h"
 #import "UIColor+LBXCustomColors.h"
 
 #import "UIFont+LBXCustomFonts.h"
@@ -123,7 +124,22 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
+    // Launched from local notification
+    NSDictionary *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (localNotif != nil) [self pushToBundleView];
+    
     return YES;
+}
+
+// Launched from local notification
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    if ([application applicationState] == UIApplicationStateInactive) [self pushToBundleView];
+}
+
+- (void)pushToBundleView
+{
+    LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:[LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO] andTitle:@"Bundles"];
+    [((UINavigationController *)self.window.rootViewController) pushViewController:controller animated:YES];
 }
 
 - (void)externallySetRootViewController:(id)viewController {
