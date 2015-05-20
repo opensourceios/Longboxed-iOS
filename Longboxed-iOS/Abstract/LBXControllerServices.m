@@ -217,8 +217,8 @@
         // Ensure the notifications are cancelled
         // http://stackoverflow.com/questions/13163535/cancelalllocalnotifications-not-working-on-iphone-3gs
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
-        long count;
-        while ((count = [[[UIApplication sharedApplication] scheduledLocalNotifications] count]) > 0) {
+        long cnt;
+        while ((cnt = [[[UIApplication sharedApplication] scheduledLocalNotifications] count]) > 0) {
             [NSThread sleepForTimeInterval:.01f];
         }
         
@@ -229,9 +229,9 @@
         
         if (bundle) {
             NSMutableString *mutableAlertString = [NSMutableString stringWithString:@"This Week: "];
-            int count = 0;
+            NSUInteger count = 0;
             for (LBXIssue *issue in bundle.issues) {
-                NSString *testString = [NSString stringWithFormat:@"%@, %@, and %lu more", mutableAlertString, issue.title.name, bundle.issues.count - count];
+                NSString *testString = [NSString stringWithFormat:@"%@, %@, and %lu more", mutableAlertString, issue.title.name, (unsigned long)bundle.issues.count - (unsigned long)count];
                 if ([testString length] > pushCharacterLimit) {
                     break;
                 }
@@ -247,7 +247,7 @@
             NSUInteger extras = bundle.issues.count - count;
             NSString *alertString = @"";
             if (extras) {
-               alertString = [NSString stringWithFormat:@"%@, and %lu more", [[mutableAlertString copy] substringToIndex:([mutableAlertString length] - 2)], extras];
+               alertString = [NSString stringWithFormat:@"%@, and %lu more", [[mutableAlertString copy] substringToIndex:([mutableAlertString length] - 2)], (unsigned long)extras];
             }
             else {
                 alertString = [NSString stringWithFormat:@"%@", mutableAlertString];
