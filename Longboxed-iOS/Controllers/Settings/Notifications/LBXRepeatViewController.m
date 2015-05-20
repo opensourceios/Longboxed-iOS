@@ -27,12 +27,7 @@ static NSArray *daysOfWeek = nil;
     
     daysOfWeek = @[@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
     
-    UILabel *label = [UILabel new];
-    label.text = @"Repeat";
-    label.font = [UIFont navTitleFont];
-    [label sizeToFit];
-    
-    self.navigationItem.titleView = label;
+    self.title = @"Repeat";
     
     NSArray *days = [[NSUserDefaults standardUserDefaults] objectForKey:notificationDaysKey];
     self.dayArray = (days) ? [NSMutableArray arrayWithArray:days] : [NSMutableArray new];
@@ -43,7 +38,6 @@ static NSArray *daysOfWeek = nil;
     self.tableView.dataSource = self;
     self.tableView.tableFooterView = [UIView new]; // Hide the extra rows
     self.tableView.alwaysBounceVertical = NO; // Disable scrolling
-    self.tableView.contentInset = UIEdgeInsetsMake(-1.0f, 0.0f, 0.0f, 0.0); // For the header being 1.0f (heightForHeaderInSection)
     [[UITableViewCell appearance] setTintColor:[UIColor blackColor]]; // Black checkmarks
     [self.view addSubview:self.tableView];
 }
@@ -67,10 +61,6 @@ static NSArray *daysOfWeek = nil;
     // Dispose of any resources that can be recreated.
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 1.0f;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
@@ -88,7 +78,7 @@ static NSArray *daysOfWeek = nil;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    NSString *currentValue = [daysOfWeek objectAtIndex:indexPath.row];
+    NSString *currentValue = [NSString stringWithFormat:@"Every %@", [daysOfWeek objectAtIndex:indexPath.row]];
     [[cell textLabel]setText:currentValue];
     
     // Set the checkmark state
@@ -100,6 +90,15 @@ static NSArray *daysOfWeek = nil;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    // Uncheck all the other rows
+//    for (NSInteger i = 0; i < [self.tableView numberOfRowsInSection:0]; ++i) {
+//        NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:0];
+//        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:ip];
+//        if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+//            cell.accessoryType = UITableViewCellAccessoryNone;
+//        }
+//    }
+    
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     cell.accessoryType = (cell.accessoryType == UITableViewCellAccessoryCheckmark) ? UITableViewCellAccessoryNone : UITableViewCellAccessoryCheckmark;
 

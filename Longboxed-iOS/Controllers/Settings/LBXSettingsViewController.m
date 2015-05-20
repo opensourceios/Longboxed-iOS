@@ -251,6 +251,9 @@ UICKeyChainStore *store;
             if ([LBXControllerServices isAdmin]) return 2;
             else return 1;
             break;
+        case 1:
+            return ([LBXControllerServices isLoggedIn]) ? 1 : 0;
+            break;
         case 2:
             return 2;
             break;
@@ -272,7 +275,7 @@ UICKeyChainStore *store;
             return @"Account";
             break;
         case 1:
-            return @"Notifications";
+            return ([LBXControllerServices isLoggedIn]) ? @"Notifications" : nil;
             break;
         case 2:
             return @"Feedback";
@@ -293,7 +296,7 @@ UICKeyChainStore *store;
 {
     switch (section) {
         case 1:
-            return @" ";
+            return ([LBXControllerServices isLoggedIn]) ? @" " : nil;
             break;
         case 4:
             if (resetCacheToZero) return @"Less than 0.5 MB used";
@@ -354,7 +357,7 @@ UICKeyChainStore *store;
             textArray = @[logInString, devServerOrLogInString];
             break;
         case 1:
-            textArray = @[@"Release Notifications"];
+            textArray = @[@"Bundle Release Notifications"];
             break;
         case 2:
             textArray = @[@"Send Feedback", @"Please Rate Longboxed"];
@@ -380,6 +383,10 @@ UICKeyChainStore *store;
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.detailTextLabel.text = [store stringForKey:@"username"];
         }
+    }
+    
+    if (indexPath.section == 1 && ![LBXControllerServices isLoggedIn]) {
+        cell.hidden = YES;
     }
     
     // Storage Section

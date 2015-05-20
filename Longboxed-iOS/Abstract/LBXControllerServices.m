@@ -212,12 +212,18 @@
         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
     }
     
-    // Override point for customization after application launch.
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    
-    NSDate *currentDate = [NSDate localDate];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        // Ensure the notifications are cancelled
+        // http://stackoverflow.com/questions/13163535/cancelalllocalnotifications-not-working-on-iphone-3gs
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        long count;
+        while ((count = [[[UIApplication sharedApplication] scheduledLocalNotifications] count]) > 0) {
+            [NSThread sleepForTimeInterval:.01f];
+        }
+        
+        NSDate *currentDate = [NSDate localDate];
+        
         NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
         LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
         
@@ -247,12 +253,25 @@
                 alertString = [NSString stringWithFormat:@"%@", mutableAlertString];
             }
             
-            UILocalNotification* localNotification = [UILocalNotification new];
-            localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
-            localNotification.alertBody = alertString;
-            localNotification.timeZone = [NSTimeZone defaultTimeZone];
-            localNotification.soundName = UILocalNotificationDefaultSoundName;
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+            NSDate *time = [[NSUserDefaults standardUserDefaults] objectForKey:notificationTimeKey];
+            NSArray *days = [[NSUserDefaults standardUserDefaults] objectForKey:notificationDaysKey];
+            NSArray *daysOfWeek = @[@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
+
+            for (NSString *dayString in days) {
+                NSUInteger day = [daysOfWeek indexOfObject:dayString];
+                
+                NSCalendar *calendar = [NSCalendar currentCalendar];
+                NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday|NSCalendarUnitMinute|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:time];
+                [componentsDay setWeekday:day];
+                NSDate *date = [calendar dateFromComponents:componentsDay];
+                
+                UILocalNotification* localNotification = [UILocalNotification new];
+                localNotification.fireDate = date;
+                localNotification.alertBody = alertString;
+                localNotification.timeZone = [NSTimeZone systemTimeZone];
+                localNotification.soundName = UILocalNotificationDefaultSoundName;
+                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+            }
         }
     });
 }

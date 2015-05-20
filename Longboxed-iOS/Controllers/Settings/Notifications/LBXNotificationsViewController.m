@@ -11,6 +11,9 @@
 #import "LBXDateTableViewCell.h"
 #import "LBXConstants.h"
 #import "LBXRepeatViewController.h"
+#import "LBXControllerServices.h"
+#import "LBXClient.h"
+#import <JRHUtilities/NSDate+DateUtilities.h>
 
 @interface LBXNotificationsViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -26,12 +29,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UILabel *label = [UILabel new];
-    label.text = @"Notifications";
-    label.font = [UIFont navTitleFont];
-    [label sizeToFit];
-    
-    self.navigationItem.titleView = label;
+    self.title = @"Notifications";
     
     // Tableview setup
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
@@ -54,6 +52,16 @@
     [super viewWillDisappear:animated];
     [[NSUserDefaults standardUserDefaults] setObject:self.datePickerCell.datePicker.date forKey:notificationTimeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    LBXClient *client = [LBXClient new];
+    if ([LBXControllerServices isLoggedIn]) {
+        // Fetch the users bundles
+        [client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -172,6 +180,11 @@
     BOOL state = [sender isOn];
     [[NSUserDefaults standardUserDefaults] setBool:state forKey:notificationsEnabledKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    // Ask for permissions for notification
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+    }
 }
 
 /*
