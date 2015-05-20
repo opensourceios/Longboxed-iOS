@@ -25,7 +25,7 @@ static NSArray *daysOfWeek = nil;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    daysOfWeek = @[@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
+    daysOfWeek = @[@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"];
     
     self.title = @"Repeat";
     

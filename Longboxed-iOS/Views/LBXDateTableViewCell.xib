@@ -14,10 +14,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Onp-Cx-7gi">
+                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Onp-Cx-7gi">
                         <rect key="frame" x="0.0" y="1" width="320" height="180"/>
-                        <date key="date" timeIntervalSinceReferenceDate="453685276.82455403">
-                            <!--2015-05-18 23:41:16 +0000-->
+                        <date key="date" timeIntervalSinceReferenceDate="453657600.82455403">
+                            <!--2015-05-18 16:00:00 +0000-->
                         </date>
                     </datePicker>
                 </subviews>

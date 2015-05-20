@@ -255,14 +255,19 @@
             
             NSDate *time = [[NSUserDefaults standardUserDefaults] objectForKey:notificationTimeKey];
             NSArray *days = [[NSUserDefaults standardUserDefaults] objectForKey:notificationDaysKey];
-            NSArray *daysOfWeek = @[@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
+            NSArray *daysOfWeek = @[@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"];
 
             for (NSString *dayString in days) {
-                NSUInteger day = [daysOfWeek indexOfObject:dayString];
+                NSUInteger day = [daysOfWeek indexOfObject:dayString] + 1; // setWeekday: starts at 1
                 
                 NSCalendar *calendar = [NSCalendar currentCalendar];
-                NSDateComponents *componentsDay = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday|NSCalendarUnitMinute|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:time];
+                NSDateComponents *componentsDay = [calendar components:(NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday) fromDate:[NSDate date]];
+                NSDateComponents *componentsTime = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:time];
+                
                 [componentsDay setWeekday:day];
+                [componentsDay setHour:[componentsTime hour]];
+                [componentsDay setMinute:[componentsTime minute]];
+                
                 NSDate *date = [calendar dateFromComponents:componentsDay];
                 
                 UILocalNotification* localNotification = [UILocalNotification new];
