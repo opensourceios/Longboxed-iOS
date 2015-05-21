@@ -227,30 +227,44 @@
         NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
         LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
         
-        if (bundle) {
+        if (bundle.issues) {
+            NSLog(@"%lu", (unsigned long)bundle.issues.count);
+            NSString *alertString = @"";
             NSMutableString *mutableAlertString = [NSMutableString stringWithString:@"This Week: "];
             NSUInteger count = 0;
-            for (LBXIssue *issue in bundle.issues) {
-                NSString *testString = [NSString stringWithFormat:@"%@, %@, and %lu more", mutableAlertString, issue.title.name, (unsigned long)bundle.issues.count - (unsigned long)count];
-                if ([testString length] > pushCharacterLimit) {
-                    break;
+            // 1 issue
+            if (bundle.issues.count == 1) {
+                NSArray *issues = [bundle.issues allObjects];
+                alertString = [NSString stringWithFormat:@"%@%@", mutableAlertString, ((LBXIssue *)issues[0]).title.name];
+            }
+            // 2 issues
+            else if (bundle.issues.count == 2) {
+                NSArray *issues = [bundle.issues allObjects];
+                alertString = [NSString stringWithFormat:@"%@%@ and %@", mutableAlertString, ((LBXIssue *)issues[0]).title.name, ((LBXIssue *)issues[1]).title.name];
+            }
+            // > 3 issues
+            else {
+                for (LBXIssue *issue in bundle.issues) {
+                    NSString *testString = [NSString stringWithFormat:@"%@, %@, and %lu more", mutableAlertString, issue.title.name, (unsigned long)bundle.issues.count - (unsigned long)count];
+                    if ([testString length] > pushCharacterLimit) {
+                        break;
+                    }
+                    else {
+                        count++;
+                        if (bundle.issues.count == count) {
+                            mutableAlertString = [NSMutableString stringWithFormat:@"%@, and %@", [[mutableAlertString copy] substringToIndex:([mutableAlertString length] - 2)], issue.title.name];
+                        }
+                        else [mutableAlertString appendString:[NSString stringWithFormat:@"%@, ", issue.title.name]];
+                    }
+                }
+                
+                NSUInteger extras = bundle.issues.count - count;
+                if (extras) {
+                    alertString = [NSString stringWithFormat:@"%@, and %lu more", [[mutableAlertString copy] substringToIndex:([mutableAlertString length] - 2)], (unsigned long)extras];
                 }
                 else {
-                    count++;
-                    if (bundle.issues.count == count) {
-                        mutableAlertString = [NSMutableString stringWithFormat:@"%@, and %@", [[mutableAlertString copy] substringToIndex:([mutableAlertString length] - 2)], issue.title.name];
-                    }
-                    else [mutableAlertString appendString:[NSString stringWithFormat:@"%@, ", issue.title.name]];
+                    alertString = [NSString stringWithFormat:@"%@", mutableAlertString];
                 }
-            }
-            
-            NSUInteger extras = bundle.issues.count - count;
-            NSString *alertString = @"";
-            if (extras) {
-               alertString = [NSString stringWithFormat:@"%@, and %lu more", [[mutableAlertString copy] substringToIndex:([mutableAlertString length] - 2)], (unsigned long)extras];
-            }
-            else {
-                alertString = [NSString stringWithFormat:@"%@", mutableAlertString];
             }
             
             NSDate *time = [[NSUserDefaults standardUserDefaults] objectForKey:notificationTimeKey];
