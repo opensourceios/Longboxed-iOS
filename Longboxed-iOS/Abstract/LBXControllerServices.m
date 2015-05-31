@@ -13,6 +13,9 @@
 #import "LBXUser.h"
 #import "UIFont+LBXCustomFonts.h"
 #import "LBXBackButton.h"
+#import "LBXConstants.h"
+#import "LBXBundle.h"
+#import <CoreData+MagicalRecord.h>
 
 #import "NSDate+DateUtilities.h"
 #import "UIImage+LBXCreateImage.h"
@@ -199,6 +202,100 @@
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         cell.latestIssueImageView.image = [UIImage defaultCoverImage];
     }];
+}
+
++ (void)setupLocalPushNotificationsWithBundleArray:(NSArray *)bundleArray {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:notificationsEnabledKey]) return;
+    
+    // Ask for permissions for notification
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        // Ensure the notifications are cancelled
+        // http://stackoverflow.com/questions/13163535/cancelalllocalnotifications-not-working-on-iphone-3gs
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        long cnt;
+        while ((cnt = [[[UIApplication sharedApplication] scheduledLocalNotifications] count]) > 0) {
+            [NSThread sleepForTimeInterval:.01f];
+        }
+        
+        NSDate *currentDate = [NSDate localDate];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
+        LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
+        
+        if (bundle.issues) {
+            NSLog(@"%lu", (unsigned long)bundle.issues.count);
+            NSString *alertString = @"";
+            NSMutableString *mutableAlertString = [NSMutableString stringWithString:@"This Week: "];
+            NSUInteger count = 0;
+            // 1 issue
+            if (bundle.issues.count == 1) {
+                NSArray *issues = [bundle.issues allObjects];
+                alertString = [NSString stringWithFormat:@"%@%@", mutableAlertString, ((LBXIssue *)issues[0]).title.name];
+            }
+            // 2 issues
+            else if (bundle.issues.count == 2) {
+                NSArray *issues = [bundle.issues allObjects];
+                alertString = [NSString stringWithFormat:@"%@%@ and %@", mutableAlertString, ((LBXIssue *)issues[0]).title.name, ((LBXIssue *)issues[1]).title.name];
+            }
+            // > 3 issues
+            else {
+                for (LBXIssue *issue in bundle.issues) {
+                    NSString *testString = [NSString stringWithFormat:@"%@, %@, and %lu more", mutableAlertString, issue.title.name, (unsigned long)bundle.issues.count - (unsigned long)count];
+                    if ([testString length] > pushCharacterLimit) {
+                        break;
+                    }
+                    else {
+                        count++;
+                        if (bundle.issues.count == count) {
+                            mutableAlertString = [NSMutableString stringWithFormat:@"%@, and %@", [[mutableAlertString copy] substringToIndex:([mutableAlertString length] - 2)], issue.title.name];
+                        }
+                        else [mutableAlertString appendString:[NSString stringWithFormat:@"%@, ", issue.title.name]];
+                    }
+                }
+                
+                NSUInteger extras = bundle.issues.count - count;
+                if (extras) {
+                    alertString = [NSString stringWithFormat:@"%@, and %lu more", [[mutableAlertString copy] substringToIndex:([mutableAlertString length] - 2)], (unsigned long)extras];
+                }
+                else {
+                    alertString = [NSString stringWithFormat:@"%@", mutableAlertString];
+                }
+            }
+            
+            NSDate *time = [[NSUserDefaults standardUserDefaults] objectForKey:notificationTimeKey];
+            NSArray *days = [[NSUserDefaults standardUserDefaults] objectForKey:notificationDaysKey];
+            NSArray *daysOfWeek = @[@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"];
+
+            for (NSString *dayString in days) {
+                NSUInteger day = [daysOfWeek indexOfObject:dayString] + 1; // setWeekday: starts at 1
+                
+                NSCalendar *calendar = [NSCalendar currentCalendar];
+                NSDateComponents *componentsDay = [calendar components:(NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitWeekOfMonth|NSCalendarUnitWeekday) fromDate:[NSDate date]];
+                NSDateComponents *componentsTime = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:time];
+                
+                [componentsDay setWeekday:day];
+                [componentsDay setHour:[componentsTime hour]];
+                [componentsDay setMinute:[componentsTime minute]];
+                
+                NSDate *date = [calendar dateFromComponents:componentsDay];
+                
+                // If the date is in the future
+                if ([date timeIntervalSinceNow] > 0) {
+                    UILocalNotification* localNotification = [UILocalNotification new];
+                    localNotification.fireDate = date;
+                    localNotification.alertBody = alertString;
+                    localNotification.timeZone = [NSTimeZone systemTimeZone];
+                    localNotification.soundName = UILocalNotificationDefaultSoundName;
+                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                }
+            }
+        }
+    });
 }
 
 + (void)setLabel:(UILabel *)textView

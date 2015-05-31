@@ -660,12 +660,13 @@
                     }
                     else {
                         [self fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
+                            [LBXControllerServices setupLocalPushNotificationsWithBundleArray:mappingResult.array];
                             completion(mappingResult.array, response, error);
                         }];
                     }
                 }
             }
-            
+            [LBXControllerServices setupLocalPushNotificationsWithBundleArray:mappingResult.array];
             completion(mappingResult.array, response, error);
         }];
     }

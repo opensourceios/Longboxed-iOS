@@ -11,6 +11,7 @@
 #import "LBXClient.h"
 #import "LBXLogging.h"
 #import "LBXControllerServices.h"
+#import "LBXWeekViewController.h"
 #import "UIColor+LBXCustomColors.h"
 
 #import "UIFont+LBXCustomFonts.h"
@@ -123,7 +124,22 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
+    // Launched from local notification
+    NSDictionary *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (localNotif != nil) [self pushToBundleView];
+    
     return YES;
+}
+
+// Launched from local notification
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    if ([application applicationState] == UIApplicationStateInactive) [self pushToBundleView];
+}
+
+- (void)pushToBundleView
+{
+    LBXWeekViewController *controller = [[LBXWeekViewController alloc] initWithIssues:[LBXBundle MR_findAllSortedBy:@"releaseDate" ascending:NO] andTitle:@"Bundles"];
+    [((UINavigationController *)self.window.rootViewController) pushViewController:controller animated:YES];
 }
 
 - (void)externallySetRootViewController:(id)viewController {
@@ -202,36 +218,23 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 {
     LBXClient *client = [LBXClient new];
     
-    // So we only call the completionHandler once
-    __block BOOL hasFailed = NO;
-    
-    // Fetch popular issues
-    [client fetchPopularIssuesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] completion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
-        [LBXLogging logMessage:@"Fetched popular titles"];
-        if (!error) {
-            for (LBXIssue *issue in popularIssuesArray) {
-                [client fetchTitle:issue.title.titleID withCompletion:^(LBXTitle *title, RKObjectRequestOperation *response, NSError *error) {
-                    if (error && !hasFailed) {
-                        hasFailed = YES;
-                        [LBXLogging logMessage:@"Failed fetching popular titles"];
-                        completionHandler(UIBackgroundFetchResultFailed);
-                    }
-                }];
-            }
-        }
-        else {
-            hasFailed = YES;
-            [LBXLogging logMessage:@"Failed fetching titles"];
-            completionHandler(UIBackgroundFetchResultFailed);
-        }
-    }];
-    
-    if ([LBXControllerServices isLoggedIn] && !hasFailed) {
+    if ([LBXControllerServices isLoggedIn]) {
         // Fetch the users bundles
         [client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {
             if (!error) {
                 [LBXLogging logMessage:@"Fetched users latest bundle"];
-                completionHandler(UIBackgroundFetchResultNewData);
+                
+                // Fetch popular issues
+                [client fetchPopularIssuesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] completion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
+                    [LBXLogging logMessage:@"Fetched popular titles"];
+                    if (!error) {
+                        completionHandler(UIBackgroundFetchResultFailed);
+                    }
+                    else {
+                        [LBXLogging logMessage:@"Failed fetching titles"];
+                        completionHandler(UIBackgroundFetchResultFailed);
+                    }
+                }];
             }
             else {
                 [LBXLogging logMessage:@"Failed fetching users latest bundle"];
@@ -239,7 +242,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
             }
         }];
     }
-    else if (!hasFailed) completionHandler(UIBackgroundFetchResultNewData);
+    else completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
