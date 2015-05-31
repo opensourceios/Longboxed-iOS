@@ -15,7 +15,7 @@
 #import "LBXBackButton.h"
 #import "LBXConstants.h"
 #import "LBXBundle.h"
-#import <CoreData+MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 #import "NSDate+DateUtilities.h"
 #import "UIImage+LBXCreateImage.h"

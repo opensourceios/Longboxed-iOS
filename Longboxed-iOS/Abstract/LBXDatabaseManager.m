@@ -8,7 +8,7 @@
 
 #import "RestKit/RestKit.h"
 #import <RestKit/CoreData.h>
-#import "CoreData+MagicalRecord.h"
+#import <MagicalRecord/MagicalRecord.h>
 
 #import "LBXDatabaseManager.h"
 #import "LBXClient.h"
