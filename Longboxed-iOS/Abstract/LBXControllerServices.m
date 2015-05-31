@@ -284,12 +284,15 @@
                 
                 NSDate *date = [calendar dateFromComponents:componentsDay];
                 
-                UILocalNotification* localNotification = [UILocalNotification new];
-                localNotification.fireDate = date;
-                localNotification.alertBody = alertString;
-                localNotification.timeZone = [NSTimeZone systemTimeZone];
-                localNotification.soundName = UILocalNotificationDefaultSoundName;
-                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                // If the date is in the future
+                if ([date timeIntervalSinceNow] > 0) {
+                    UILocalNotification* localNotification = [UILocalNotification new];
+                    localNotification.fireDate = date;
+                    localNotification.alertBody = alertString;
+                    localNotification.timeZone = [NSTimeZone systemTimeZone];
+                    localNotification.soundName = UILocalNotificationDefaultSoundName;
+                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                }
             }
         }
     });
