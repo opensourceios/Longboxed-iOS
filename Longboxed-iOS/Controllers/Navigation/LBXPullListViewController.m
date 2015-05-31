@@ -594,6 +594,8 @@ CGFloat cellWidth;
     _searchResultsArray = nil;
     self.searchResultsController.refreshControl = nil;
     
+    [self.searchResultsController.tableView reloadData];
+    
     // Hair line below the search bar
     UIView *onePxView = [[UIView alloc] initWithFrame:CGRectMake(0, _searchController.searchBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height + 0.5f, [UIScreen mainScreen].bounds.size.width, 0.5f)];
     onePxView.backgroundColor = [UIColor lightGrayColor];
