@@ -39,6 +39,10 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
+    
+    if(searchController.searchBar.text.length == 0){
+        [self.tableView reloadData];
+    }
 
 //    if (searchController.searchBar.text.length) {
 //        [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
