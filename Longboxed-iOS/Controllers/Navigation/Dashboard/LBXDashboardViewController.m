@@ -8,6 +8,8 @@
 #import <MessageUI/MessageUI.h>
 
 #import "LBXDashboardViewController.h"
+#import "HorizontalTableView.h"
+#import "HorizontalTableViewCell.h"
 #import "LBXTopTableViewCell.h"
 #import "LBXBottomTableViewCell.h"
 #import "LBXIssueDetailViewController.h"
@@ -59,11 +61,6 @@
 static double TABLEHEIGHT = 174;
 BOOL _selectedSearchResult;
 
-@synthesize topTableView;
-@synthesize bottomTableView;
-@synthesize topTableViewCell;
-@synthesize bottomTableViewCell;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -71,7 +68,6 @@ BOOL _selectedSearchResult;
         // Do any additional setup after loading the view from its nib.
         //self.edgesForExtendedLayout = UIRectEdgeNone;
         // Custom initialization
-        
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
         UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
         self.navigationItem.rightBarButtonItem = actionButton;
@@ -138,7 +134,9 @@ BOOL _selectedSearchResult;
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    self.topTableView.contentInset = UIEdgeInsetsZero;
+    UIEdgeInsets insets = UIEdgeInsetsMake(14, 0, 0, 0);
+    self.topTableView.contentInset = insets;
+    self.bottomTableView.contentInset = insets;
     [_bundleButton setTitleColor:[UIColor lightGrayColor]
                         forState:UIControlStateHighlighted];
     [_popularButton setTitleColor:[UIColor lightGrayColor]
@@ -172,13 +170,13 @@ BOOL _selectedSearchResult;
 {
     [_browseTableView removeConstraints:_tableConstraints];
     double height = TABLEHEIGHT;
-    if (!_bundleButton.superview && !topTableView.superview && _bundleIssuesArray.count) {
+    if (!_bundleButton.superview && !self.topView.superview && _bundleIssuesArray.count) {
         // Show the bundle horizontal table view if logged in
         
         _bundleButton.alpha = 1.0;
-        topTableView.alpha = 1.0;
+        self.topView.alpha = 1.0;
         [self.scrollView insertSubview:_bundleButton aboveSubview:_popularButton];
-        [self.scrollView insertSubview:topTableView aboveSubview:_popularButton];
+        [self.scrollView insertSubview:self.topView aboveSubview:_popularButton];
         
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_bundleButton
                                                               attribute:NSLayoutAttributeLeading
@@ -199,28 +197,28 @@ BOOL _selectedSearchResult;
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_bundleButton
                                                               attribute:NSLayoutAttributeBottom
                                                               relatedBy:NSLayoutRelationEqual
-                                                                 toItem:topTableView
+                                                                 toItem:self.topView
                                                               attribute:NSLayoutAttributeTop
                                                              multiplier:1.0
                                                                constant:-4.0]];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:topTableView
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.topView
                                                               attribute:NSLayoutAttributeLeading
                                                               relatedBy:NSLayoutRelationEqual
-                                                                 toItem:bottomTableView
+                                                                 toItem:self.bottomView
                                                               attribute:NSLayoutAttributeLeading
                                                              multiplier:1.0
                                                                constant:0.0]];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:topTableView
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.topView
                                                               attribute:NSLayoutAttributeTrailing
                                                               relatedBy:NSLayoutRelationEqual
-                                                                 toItem:bottomTableView
+                                                                 toItem:self.bottomView
                                                               attribute:NSLayoutAttributeTrailing
                                                              multiplier:1.0
                                                                constant:0.0]];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:topTableView
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.topView
                                                               attribute:NSLayoutAttributeBottom
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:_popularButton
@@ -228,10 +226,10 @@ BOOL _selectedSearchResult;
                                                              multiplier:1.0
                                                                constant:-15.0]];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:topTableView
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.topView
                                                               attribute:NSLayoutAttributeHeight
                                                               relatedBy:NSLayoutRelationEqual
-                                                                 toItem:bottomTableView
+                                                                 toItem:self.bottomView
                                                               attribute:NSLayoutAttributeHeight
                                                              multiplier:1.0
                                                                constant:0.0]];
@@ -240,17 +238,17 @@ BOOL _selectedSearchResult;
     if (![LBXControllerServices isLoggedIn]) {
         height = TABLEHEIGHT/2;
        [_bundleButton removeFromSuperview];
-       [topTableView removeFromSuperview];
+       [self.bottomView removeFromSuperview];
     }
     if (!_bundleIssuesArray.count) {
         [UIView animateWithDuration:0.2
                          animations:^{
                              _bundleButton.alpha = 0.0;
-                             topTableView.alpha = 0.0;
+                             self.topView.alpha = 0.0;
                          }
                          completion:^(BOOL finished){
                              [_bundleButton removeFromSuperview];
-                             [topTableView removeFromSuperview];
+                             [self.topView removeFromSuperview];
                          }];
 
     }
@@ -492,7 +490,7 @@ BOOL _selectedSearchResult;
         [_bundleButton setNeedsDisplay];
     }
     else {
-        self.topTableViewCell.contentArray = _bundleIssuesArray;
+        //self.topTableViewCell.contentArray = _bundleIssuesArray;
         [_bundleButton setTitle:@"0 ISSUES IN YOUR BUNDLE"
                        forState:UIControlStateNormal];
         [[NSNotificationCenter defaultCenter]
@@ -709,7 +707,7 @@ BOOL _selectedSearchResult;
     if (tableView == self.searchResultsController.tableView) {
         return _searchResultsArray.count;
     }
-    return 1;
+    return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -733,55 +731,33 @@ BOOL _selectedSearchResult;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.browseTableView) return 44;
     if (tableView == self.searchResultsController.tableView) return 88;
-    return tableView.frame.size.height+100;
+    return tableView.frame.size.width/3.6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
 
-    if (tableView == self.topTableView) {
-        LBXTopTableViewCell *cell = (LBXTopTableViewCell*)[self.topTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        [cell setBackgroundColor:[UIColor clearColor]];
-        if (!cell) {
-            [[NSBundle mainBundle] loadNibNamed:@"LBXTopTableViewCell" owner:self options:nil];
-            CGAffineTransform rotateTable = CGAffineTransformMakeRotation(-M_PI_2);
-            self.topTableViewCell.horizontalTableView.transform = rotateTable;
-            self.topTableViewCell.horizontalTableView.frame = CGRectMake(0, 0, self.topTableViewCell.horizontalTableView.frame.size.width, self.topTableViewCell.horizontalTableView.frame.size.height);
-            
-            self.topTableViewCell.horizontalTableView.allowsSelection = YES;
-            cell = self.topTableViewCell;
+    if (tableView == self.topTableView || tableView == self.bottomTableView) {
+        CellIdentifier = @"HorizontalTableViewCell";
+        HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil) {
+            [tableView registerNib:[UINib nibWithNibName:CellIdentifier bundle:nil] forCellReuseIdentifier:CellIdentifier];
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         }
-        self.topTableViewCell.contentArray = _bundleIssuesArray;
-        if (_bundleIssuesArray.count) {
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;        
+        //self.horizontalCell.contentArray = _bundleIssuesArray;
+        if (_bundleIssuesArray.count && tableView == self.topTableView) {
             [[NSNotificationCenter defaultCenter]
              postNotificationName:@"reloadTopTableView"
              object:self];
         }
-        
-        cell = self.topTableViewCell;
-        return cell;
-    }
-    else if (tableView == self.bottomTableView) {
-        LBXBottomTableViewCell *cell = (LBXBottomTableViewCell*)[self.bottomTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        [cell setBackgroundColor:[UIColor clearColor]];
-        if (!cell) {
-            [[NSBundle mainBundle] loadNibNamed:@"LBXBottomTableViewCell" owner:self options:nil];
-            
-            CGAffineTransform rotateTable = CGAffineTransformMakeRotation(-M_PI_2);
-            self.bottomTableViewCell.horizontalTableView.transform = rotateTable;
-            self.bottomTableViewCell.horizontalTableView.frame = CGRectMake(0, 0, self.bottomTableViewCell.horizontalTableView.frame.size.width, self.bottomTableViewCell.horizontalTableView.frame.size.height);
-            
-            self.bottomTableViewCell.horizontalTableView.allowsSelection = YES;
-            cell = self.bottomTableViewCell;
-        }
-        self.bottomTableViewCell.contentArray = _popularIssuesArray;
-        if (_popularIssuesArray.count) {
+        else if (_popularIssuesArray.count && tableView == self.bottomTableView) {
             [[NSNotificationCenter defaultCenter]
              postNotificationName:@"reloadBottomTableView"
              object:self];
         }
-        
-        cell = self.bottomTableViewCell;
         return cell;
     }
     else if (tableView == self.browseTableView) {
