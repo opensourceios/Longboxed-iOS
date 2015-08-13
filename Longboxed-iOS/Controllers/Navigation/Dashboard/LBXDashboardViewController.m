@@ -238,7 +238,7 @@ BOOL _selectedSearchResult;
     if (![LBXControllerServices isLoggedIn]) {
         height = TABLEHEIGHT/2;
        [_bundleButton removeFromSuperview];
-       [self.bottomView removeFromSuperview];
+       [self.topView removeFromSuperview];
     }
     if (!_bundleIssuesArray.count) {
         [UIView animateWithDuration:0.2
@@ -261,6 +261,9 @@ BOOL _selectedSearchResult;
     [_browseTableView addConstraints:_tableConstraints];
     
     [self.view setNeedsLayout];
+    [self.topTableView reloadData];
+    [self.bottomTableView reloadData];
+    [self.browseTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -431,10 +434,7 @@ BOOL _selectedSearchResult;
     }
     
     _popularIssuesArray = sortedArray;
-    
-    if (_popularIssuesArray.count) {
-        [self.bottomTableView reloadData];
-    }
+    self.bottomTableView.issuesArray = self.popularIssuesArray;
 }
 
 - (void)fetchPopularIssues
@@ -483,8 +483,8 @@ BOOL _selectedSearchResult;
         NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"completeTitle" ascending:YES];
         NSArray *descriptors = [NSArray arrayWithObject:valueDescriptor];
         _bundleIssuesArray = [[bundle.issues allObjects] sortedArrayUsingDescriptors:descriptors];
+        self.topTableView.issuesArray = self.bundleIssuesArray;
         
-        [self.topTableView reloadData];
         [_bundleButton setTitle:[NSString stringWithFormat:@"%lu %@", (unsigned long)bundle.issues.count, issuesString]
                        forState:UIControlStateNormal];
         [_bundleButton setNeedsDisplay];
@@ -737,30 +737,7 @@ BOOL _selectedSearchResult;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
 
-    if (tableView == self.topTableView || tableView == self.bottomTableView) {
-        CellIdentifier = @"HorizontalTableViewCell";
-        HorizontalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        if (cell == nil) {
-            [tableView registerNib:[UINib nibWithNibName:CellIdentifier bundle:nil] forCellReuseIdentifier:CellIdentifier];
-            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        }
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;        
-        //self.horizontalCell.contentArray = _bundleIssuesArray;
-        if (_bundleIssuesArray.count && tableView == self.topTableView) {
-            [[NSNotificationCenter defaultCenter]
-             postNotificationName:@"reloadTopTableView"
-             object:self];
-        }
-        else if (_popularIssuesArray.count && tableView == self.bottomTableView) {
-            [[NSNotificationCenter defaultCenter]
-             postNotificationName:@"reloadBottomTableView"
-             object:self];
-        }
-        return cell;
-    }
-    else if (tableView == self.browseTableView) {
+    if (tableView == self.browseTableView) {
         static NSString *CellIdentifier = @"Cell";
         UITableViewCell *cell = [tableView
                                  dequeueReusableCellWithIdentifier:CellIdentifier];
