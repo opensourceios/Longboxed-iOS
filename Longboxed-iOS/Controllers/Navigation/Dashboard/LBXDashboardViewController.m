@@ -10,8 +10,6 @@
 #import "LBXDashboardViewController.h"
 #import "HorizontalTableView.h"
 #import "HorizontalTableViewCell.h"
-#import "LBXTopTableViewCell.h"
-#import "LBXBottomTableViewCell.h"
 #import "LBXIssueDetailViewController.h"
 #import "LBXIssueScrollViewController.h"
 #import "LBXTitleDetailViewController.h"
@@ -98,6 +96,7 @@ BOOL _selectedSearchResult;
         self.browseTableView.contentInset = UIEdgeInsetsMake(-2, 0, -2, 0);
         
         [self.topTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.bottomTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
         
         self.bottomTableView.tableFooterView = [UIView new];
         
@@ -261,9 +260,6 @@ BOOL _selectedSearchResult;
     [_browseTableView addConstraints:_tableConstraints];
     
     [self.view setNeedsLayout];
-    [self.topTableView reloadData];
-    [self.bottomTableView reloadData];
-    [self.browseTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -300,6 +296,10 @@ BOOL _selectedSearchResult;
         _featuredIssueTitleLabel.hidden = YES;
         _largeFeaturedIssueButton.userInteractionEnabled = NO;
     }
+    
+    [self.topTableView reloadTableView];
+    [self.bottomTableView reloadTableView];
+    [self.browseTableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -441,18 +441,18 @@ BOOL _selectedSearchResult;
 {
     // Fetch popular issues
     [self.client fetchPopularIssuesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] completion:^(NSArray *popularIssuesArray, RKObjectRequestOperation *response, NSError *error) {
-        
-        if (!error) {
-            _popularIssuesArray = popularIssuesArray;
-            [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
-            [self.bottomTableView reloadData];
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self getCoreDataPopularIssues];
+         dispatch_async(dispatch_get_main_queue(), ^{
+            if (!error) {
+                _popularIssuesArray = popularIssuesArray;
+                self.bottomTableView.issuesArray = popularIssuesArray;
                 [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
-            });
-        }
+            }
+            else {
+                    [self getCoreDataPopularIssues];
+                    [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
+                    self.bottomTableView.issuesArray = popularIssuesArray;
+            }
+        });
     }];
 }
 
@@ -707,7 +707,7 @@ BOOL _selectedSearchResult;
     if (tableView == self.searchResultsController.tableView) {
         return _searchResultsArray.count;
     }
-    return 10;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -731,12 +731,10 @@ BOOL _selectedSearchResult;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.browseTableView) return 44;
     if (tableView == self.searchResultsController.tableView) return 88;
-    return tableView.frame.size.width/3.6;
+    return 88;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
-
     if (tableView == self.browseTableView) {
         static NSString *CellIdentifier = @"Cell";
         UITableViewCell *cell = [tableView

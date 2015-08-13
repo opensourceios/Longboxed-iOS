@@ -117,7 +117,7 @@
 #pragma mark UITableView Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-        return self.issuesArray.count;
+    return self.issuesArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -152,7 +152,6 @@
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //if (self.issuesArray.count) [self reloadTableView];
     
     LBXIssue *issue = [self.issuesArray objectAtIndex:indexPath.row];
     

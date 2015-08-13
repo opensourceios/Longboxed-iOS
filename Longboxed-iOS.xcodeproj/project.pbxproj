@@ -36,14 +36,8 @@
 		E5371228198EF9300065D57A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5371227198EF9300065D57A /* FontAwesome.ttf */; };
 		E53EEC8419BE91600066F712 /* LBXWeekTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E53EEC8219BE91600066F712 /* LBXWeekTableViewCell.m */; };
 		E54017A01A9FF2D900AB226C /* LBXSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E540179F1A9FF2D900AB226C /* LBXSearchTableViewController.m */; };
-		E54017AD1A9FF2E100AB226C /* ActualTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E54017A21A9FF2E100AB226C /* ActualTableViewCell.m */; };
-		E54017AE1A9FF2E100AB226C /* ActualTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54017A31A9FF2E100AB226C /* ActualTableViewCell.xib */; };
-		E54017AF1A9FF2E100AB226C /* LBXBottomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E54017A51A9FF2E100AB226C /* LBXBottomTableViewCell.m */; };
-		E54017B01A9FF2E100AB226C /* LBXBottomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54017A61A9FF2E100AB226C /* LBXBottomTableViewCell.xib */; };
 		E54017B11A9FF2E100AB226C /* LBXDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E54017A81A9FF2E100AB226C /* LBXDashboardViewController.m */; };
 		E54017B21A9FF2E100AB226C /* LBXDashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54017A91A9FF2E100AB226C /* LBXDashboardViewController.xib */; };
-		E54017B31A9FF2E100AB226C /* LBXTopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E54017AB1A9FF2E100AB226C /* LBXTopTableViewCell.m */; };
-		E54017B41A9FF2E100AB226C /* LBXTopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54017AC1A9FF2E100AB226C /* LBXTopTableViewCell.xib */; };
 		E54017B71A9FF30200AB226C /* LBXPullListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E54017B61A9FF30200AB226C /* LBXPullListViewController.m */; };
 		E54017BA1A9FF35400AB226C /* LBXTitleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E54017B91A9FF35400AB226C /* LBXTitleDetailViewController.m */; };
 		E54017BD1A9FF35D00AB226C /* LBXWeekViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E54017BC1A9FF35D00AB226C /* LBXWeekViewController.m */; };
@@ -202,18 +196,9 @@
 		E53EEC8219BE91600066F712 /* LBXWeekTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXWeekTableViewCell.m; path = Views/LBXWeekTableViewCell.m; sourceTree = "<group>"; };
 		E540179E1A9FF2D900AB226C /* LBXSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXSearchTableViewController.h; path = Controllers/Navigation/Search/LBXSearchTableViewController.h; sourceTree = "<group>"; };
 		E540179F1A9FF2D900AB226C /* LBXSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXSearchTableViewController.m; path = Controllers/Navigation/Search/LBXSearchTableViewController.m; sourceTree = "<group>"; };
-		E54017A11A9FF2E100AB226C /* ActualTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActualTableViewCell.h; path = Controllers/Navigation/Dashboard/ActualTableViewCell.h; sourceTree = "<group>"; };
-		E54017A21A9FF2E100AB226C /* ActualTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActualTableViewCell.m; path = Controllers/Navigation/Dashboard/ActualTableViewCell.m; sourceTree = "<group>"; };
-		E54017A31A9FF2E100AB226C /* ActualTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActualTableViewCell.xib; path = Controllers/Navigation/Dashboard/ActualTableViewCell.xib; sourceTree = "<group>"; };
-		E54017A41A9FF2E100AB226C /* LBXBottomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXBottomTableViewCell.h; path = Controllers/Navigation/Dashboard/LBXBottomTableViewCell.h; sourceTree = "<group>"; };
-		E54017A51A9FF2E100AB226C /* LBXBottomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXBottomTableViewCell.m; path = Controllers/Navigation/Dashboard/LBXBottomTableViewCell.m; sourceTree = "<group>"; };
-		E54017A61A9FF2E100AB226C /* LBXBottomTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXBottomTableViewCell.xib; path = Controllers/Navigation/Dashboard/LBXBottomTableViewCell.xib; sourceTree = "<group>"; };
 		E54017A71A9FF2E100AB226C /* LBXDashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDashboardViewController.h; path = Controllers/Navigation/Dashboard/LBXDashboardViewController.h; sourceTree = "<group>"; };
 		E54017A81A9FF2E100AB226C /* LBXDashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDashboardViewController.m; path = Controllers/Navigation/Dashboard/LBXDashboardViewController.m; sourceTree = "<group>"; };
 		E54017A91A9FF2E100AB226C /* LBXDashboardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXDashboardViewController.xib; path = Controllers/Navigation/Dashboard/LBXDashboardViewController.xib; sourceTree = "<group>"; };
-		E54017AA1A9FF2E100AB226C /* LBXTopTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTopTableViewCell.h; path = Controllers/Navigation/Dashboard/LBXTopTableViewCell.h; sourceTree = "<group>"; };
-		E54017AB1A9FF2E100AB226C /* LBXTopTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXTopTableViewCell.m; path = Controllers/Navigation/Dashboard/LBXTopTableViewCell.m; sourceTree = "<group>"; };
-		E54017AC1A9FF2E100AB226C /* LBXTopTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXTopTableViewCell.xib; path = Controllers/Navigation/Dashboard/LBXTopTableViewCell.xib; sourceTree = "<group>"; };
 		E54017B51A9FF30200AB226C /* LBXPullListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXPullListViewController.h; path = Controllers/Navigation/LBXPullListViewController.h; sourceTree = "<group>"; };
 		E54017B61A9FF30200AB226C /* LBXPullListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXPullListViewController.m; path = Controllers/Navigation/LBXPullListViewController.m; sourceTree = "<group>"; };
 		E54017B81A9FF35400AB226C /* LBXTitleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXTitleDetailViewController.h; path = Controllers/Title/LBXTitleDetailViewController.h; sourceTree = "<group>"; };
@@ -779,15 +764,6 @@
 				E577D3061B7BEE8E00063BFE /* HorizontalTableViewCell.h */,
 				E577D3071B7BEE8E00063BFE /* HorizontalTableViewCell.m */,
 				E577D3081B7BEE8E00063BFE /* HorizontalTableViewCell.xib */,
-				E54017AA1A9FF2E100AB226C /* LBXTopTableViewCell.h */,
-				E54017AB1A9FF2E100AB226C /* LBXTopTableViewCell.m */,
-				E54017AC1A9FF2E100AB226C /* LBXTopTableViewCell.xib */,
-				E54017A41A9FF2E100AB226C /* LBXBottomTableViewCell.h */,
-				E54017A51A9FF2E100AB226C /* LBXBottomTableViewCell.m */,
-				E54017A61A9FF2E100AB226C /* LBXBottomTableViewCell.xib */,
-				E54017A11A9FF2E100AB226C /* ActualTableViewCell.h */,
-				E54017A21A9FF2E100AB226C /* ActualTableViewCell.m */,
-				E54017A31A9FF2E100AB226C /* ActualTableViewCell.xib */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -1034,7 +1010,6 @@
 				E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */,
 				E54017EF1A9FF3F500AB226C /* LBXEmptyPullListViewController.xib in Resources */,
 				E57E156919A987ED002616F5 /* arrow_right@2x.png in Resources */,
-				E54017B41A9FF2E100AB226C /* LBXTopTableViewCell.xib in Resources */,
 				E5A73D711A4655BD0021CCC8 /* longboxed_full@3x.png in Resources */,
 				E507A6F61A7D953900E29DBE /* OpenSource.json in Resources */,
 				E57D48D9196068E10014A13F /* Images.xcassets in Resources */,
@@ -1049,10 +1024,8 @@
 				E57D49241960B8F40014A13F /* black.png in Resources */,
 				E50C2A3B1998605500AD5FC6 /* arrow.png in Resources */,
 				E5A5969219C284DF00968C22 /* LBXWeekTableViewCell.xib in Resources */,
-				E54017AE1A9FF2E100AB226C /* ActualTableViewCell.xib in Resources */,
 				E553F59F19946393003E1F5C /* clear.png in Resources */,
 				E50C2A3C1998605500AD5FC6 /* arrow@2x.png in Resources */,
-				E54017B01A9FF2E100AB226C /* LBXBottomTableViewCell.xib in Resources */,
 				E507A70C1A7DDAAD00E29DBE /* OnboardMovie.mp4 in Resources */,
 				E55B68161A1AE3C0008A5CFD /* lb_nocover.png in Resources */,
 				E54017F81A9FF40100AB226C /* LBXIssueDetailViewController.xib in Resources */,
@@ -1205,7 +1178,6 @@
 				E57D48D3196068E10014A13F /* main.m in Sources */,
 				E5E5163319CA446D005FBD43 /* UIFont+LBXCustomFonts.m in Sources */,
 				E54017B71A9FF30200AB226C /* LBXPullListViewController.m in Sources */,
-				E54017AF1A9FF2E100AB226C /* LBXBottomTableViewCell.m in Sources */,
 				E50175FB1B0AB78A00328D8F /* LBXRepeatViewController.m in Sources */,
 				E51D00FA196A1A9C005FCF25 /* LBXIssue.m in Sources */,
 				E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */,
@@ -1231,7 +1203,6 @@
 				E50183DF19F45F4C00DA3CAB /* ESDateHelper.m in Sources */,
 				E577D30F1B7BEF2800063BFE /* HorizontalTableView.m in Sources */,
 				E5B6FCE51998497A0022F4CA /* LBXControllerServices.m in Sources */,
-				E54017B31A9FF2E100AB226C /* LBXTopTableViewCell.m in Sources */,
 				E54017BA1A9FF35400AB226C /* LBXTitleDetailViewController.m in Sources */,
 				E50175FE1B0AB96400328D8F /* LBXConstants.m in Sources */,
 				E54017BD1A9FF35D00AB226C /* LBXWeekViewController.m in Sources */,
@@ -1241,7 +1212,6 @@
 				E54017F01A9FF3F500AB226C /* LBXEmptyViewController.m in Sources */,
 				E54A6AFF196BA5D70094979A /* LBXEndpoints.m in Sources */,
 				E5A102431AB31717000E4946 /* LBXCustomURLViewController.m in Sources */,
-				E54017AD1A9FF2E100AB226C /* ActualTableViewCell.m in Sources */,
 				E517240A1A4239F1005553BD /* LBXTipJarTableViewCell.m in Sources */,
 				E54017E41A9FF39A00AB226C /* LBXSettingsViewController.m in Sources */,
 				E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */,
@@ -1324,6 +1294,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1431,6 +1402,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1769,6 +1741,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2008,6 +1981,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2235,6 +2209,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
