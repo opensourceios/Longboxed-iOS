@@ -10,9 +10,4 @@
 
 @interface LBXTipJarTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) IBOutlet UILabel *tipLabel;
-@property (nonatomic, weak) IBOutlet UIButton *smallTipButton;
-@property (nonatomic, weak) IBOutlet UIButton *mediumTipButton;
-@property (nonatomic, weak) IBOutlet UIButton *largeTipButton;
-
 @end
