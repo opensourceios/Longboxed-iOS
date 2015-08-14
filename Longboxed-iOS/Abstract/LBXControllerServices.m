@@ -15,6 +15,7 @@
 #import "LBXBackButton.h"
 #import "LBXConstants.h"
 #import "LBXBundle.h"
+#import "LBXServices.h"
 #import <MagicalRecord/MagicalRecord.h>
 
 #import "NSDate+DateUtilities.h"
@@ -540,6 +541,12 @@
         struct utsname systemInfo;
         uname(&systemInfo);
         [composeViewController setMessageBody:messageBody isHTML:YES];
+        
+        // Attach the crash log
+        [composeViewController addAttachmentData:[NSData dataWithContentsOfFile:[LBXServices crashFilePath]]
+                                        mimeType:@"text/plain"
+                                        fileName:@"crash.log"];
+        
         [delegate presentViewController:composeViewController animated:YES completion:nil];
     }
     else {

@@ -24,6 +24,7 @@
 #import "LBXClient.h"
 #import "LBXBundle.h"
 #import "LBXLogging.h"
+#import "LBXServices.h"
 
 #import "UIFont+LBXCustomFonts.h"
 #import "UIColor+LBXCustomColors.h"
@@ -40,7 +41,8 @@
 #import <UIImage+CreateImage.h>
 #import <Doppelganger.h>
 
-@interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate>
+
+@interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate, CrashlyticsDelegate>
 
 @property (nonatomic, strong) LBXClient *client;
 @property (nonatomic, strong) LBXIssue *featuredIssue;
@@ -885,6 +887,23 @@ BOOL _selectedSearchResult;
     cell.subtitleLabel.numberOfLines = 2;
     
     cell.latestIssueImageView.image = nil;
+}
+
+# pragma Mark CrashlyticsDelegate
+
+- (void)crashlyticsDidDetectReportForLastExecution:(CLSReport *)report completionHandler:(void (^)(BOOL))completionHandler {
+    // Write out the crash log
+    NSError *error;
+    NSString *crashInfo = [NSString stringWithFormat:@"User ID: %@\nSession UUID: %@\niOS: %@\nVersion: %@ (%@)\nReport ID: %@", [LBXServices getUserID], [LBXServices getSessionUUID], report.OSVersion, report.bundleShortVersionString, report.bundleVersion, report.identifier];
+    [crashInfo writeToFile:[LBXServices crashFilePath] atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    // Wait for the app to complete launching
+    double delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [LBXControllerServices showCrashAlertWithDelegate:self];
+    });
+    completionHandler(YES);
 }
 
 

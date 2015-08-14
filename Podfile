@@ -10,7 +10,6 @@ platform :ios, '8.0'
 
 pod 'JRHUtilities', :head
 pod 'SIAlertView'
-pod 'HockeySDK'
 pod 'UICKeyChainStore'
 pod 'pop'
 pod 'RestKit'
