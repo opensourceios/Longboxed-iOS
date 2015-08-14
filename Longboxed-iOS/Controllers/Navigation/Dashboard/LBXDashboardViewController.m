@@ -52,8 +52,8 @@
 @property (nonatomic, strong) NSArray *bundleIssuesArray;
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSArray *tableConstraints;
-@property (nonatomic) NSArray *searchResultsArray;
-@property (nonatomic) UIImageView *emptyImageView;
+@property (nonatomic, strong) NSArray *searchResultsArray;
+@property (nonatomic, strong) UIImageView *emptyImageView;
 
 @end
 
@@ -529,7 +529,7 @@ BOOL _selectedSearchResult;
         if (!error) {
             NSArray *previousResultsArray = self.searchResultsArray;
             self.searchResultsArray = newSearchResultsArray;
-            if (newSearchResultsArray.count && previousResultsArray.count) {
+            if (newSearchResultsArray.count && previousResultsArray.count && [self.searchResultsController.tableView numberOfRowsInSection:0]) {
                 NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:newSearchResultsArray
                                                             previousArray:previousResultsArray];
                 dispatch_async(dispatch_get_main_queue(), ^{
