@@ -29,6 +29,7 @@
 #import "LBXEmptyViewController.h"
 #import "NSString+StringUtilities.h"
 #import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
+#import <NSString+HTML.h>
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
                                      ESDatePickerDelegate>
@@ -766,7 +767,7 @@ BOOL _endOfIssues;
         NSArray *array = [dict objectForKey:dict.allKeys[0]];
         LBXIssue *issue = [array objectAtIndex:indexPath.row];
         
-        NSString *infoString = [NSString fixHTMLAttributes:issue.completeTitle];
+        NSString *infoString = [issue.completeTitle stringByDecodingHTMLEntities];
         NSString *urlString = [NSString stringWithFormat:@"%@%@", @"https://longboxed.com/issue/", issue.diamondID];
         NSString *viaString = [NSString stringWithFormat:@"\nvia @longboxed for iOS"];
         UIImage *coverImage = ((LBXWeekTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath]).latestIssueImageView.image;

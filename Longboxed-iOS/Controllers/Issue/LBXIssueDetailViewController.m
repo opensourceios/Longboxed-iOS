@@ -27,6 +27,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <JTSImageViewController.h>
 #import <UIImageView+AFNetworking.h>
+#import <NSString+HTML.h>
 
 @interface LBXIssueDetailViewController () <JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate>
 
@@ -93,7 +94,7 @@ BOOL selectedTitle;
     }
     [self setupImagesWithImage:_issueImage];
     
-    NSString *modifiedTitleString = [NSString fixHTMLAttributes:_issue.title.name];
+    NSString *modifiedTitleString = [_issue.title.name stringByDecodingHTMLEntities];
     [_titleButton setTitle:[NSString stringWithFormat:@"%@ #%@", modifiedTitleString, _issue.issueNumber] forState:UIControlStateNormal];
     [_titleButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _titleButton.titleLabel.font = [UIFont issueDetailTitleFont];
@@ -111,7 +112,7 @@ BOOL selectedTitle;
     
     _subtitleLabel.text = _issue.subtitle;
     if (_issue.subtitle) {
-        NSString *modifiedSubtitleString = [NSString fixHTMLAttributes:_issue.subtitle];
+        NSString *modifiedSubtitleString = [_issue.subtitle stringByDecodingHTMLEntities];
         _subtitleLabel.text = modifiedSubtitleString;
         
         
@@ -412,7 +413,7 @@ BOOL selectedTitle;
 }
 
 - (void)showShareSheet {
-    NSString *infoString = [NSString fixHTMLAttributes:_issue.completeTitle];
+    NSString *infoString = [_issue.completeTitle stringByDecodingHTMLEntities];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", @"https://longboxed.com/issue/", _issue.diamondID];
     NSString *viaString = [NSString stringWithFormat:@"\nvia @longboxed for iOS"];
     [LBXControllerServices showShareSheetWithArrayOfInfo:@[infoString, [NSURL URLWithString:urlString], viaString, _issueImage]];

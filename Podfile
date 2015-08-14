@@ -5,8 +5,8 @@ link_with ['Longboxed-iOS', 'Longboxed-iOSTests']
 # ignore all warnings from all pods
 inhibit_all_warnings!
 
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
+# source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, :deployment_target => '8.0'
 
 pod 'JRHUtilities', :head
 pod 'SIAlertView'
@@ -16,6 +16,7 @@ pod 'RestKit'
 pod 'Masonry'
 pod 'SDiPhoneVersion'
 pod '1PasswordExtension'
+pod 'MWFeedParser'
 pod 'FontAwesomeKit', '~> 2.1.0'
 pod 'CocoaLumberjack', '~> 1.9'
 pod 'NSLogger', '~> 1.5'

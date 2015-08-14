@@ -32,6 +32,7 @@
 #import "SIAlertView.h"
 #import "LBXEmptyViewController.h"
 #import <JRHUtilities/UIViewController+Utils.h>
+#import <NSString+HTML.h>
 
 @interface LBXControllerServices ()
 
@@ -170,7 +171,7 @@
 {
     NSString *subtitleString = [NSString stringWithFormat:@"%@", [NSString localTimeZoneStringWithDate:issue.releaseDate]];
     
-    NSString *modifiedTitleString = [NSString fixHTMLAttributes:issue.completeTitle];
+    NSString *modifiedTitleString = [issue.completeTitle stringByDecodingHTMLEntities];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(issueNumber == %@) AND (title == %@)", issue.issueNumber, issue.title];
     NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];

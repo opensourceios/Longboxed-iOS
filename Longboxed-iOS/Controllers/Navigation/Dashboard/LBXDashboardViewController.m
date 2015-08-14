@@ -40,6 +40,7 @@
 #import <SVProgressHUD.h>
 #import <UIImage+CreateImage.h>
 #import <Doppelganger.h>
+#import <NSString+HTML.h>
 
 
 @interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate, CrashlyticsDelegate>
@@ -363,7 +364,7 @@ BOOL _selectedSearchResult;
         }
     }
     
-    self.featuredDescriptionLabel.text = [NSString fixHTMLAttributes:_featuredIssue.issueDescription];
+    self.featuredDescriptionLabel.text = [_featuredIssue.issueDescription stringByDecodingHTMLEntities];
     self.featuredDescriptionLabel.textColor = UIColor.whiteColor;
     _featuredDescriptionLabel.font = [UIFont featuredIssueDescriptionFont];
     self.featuredIssueTitleLabel.text = _featuredIssue.title.name;

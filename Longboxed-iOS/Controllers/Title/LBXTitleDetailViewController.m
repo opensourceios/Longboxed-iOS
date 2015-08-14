@@ -31,7 +31,7 @@
 #import <JTSImageViewController.h>
 #import <QuartzCore/QuartzCore.h>
 #import <JRHUtilities/NSDate+DateUtilities.h>
-#import "NSString+StringUtilities.h"
+#import <NSString+HTML.h>
 
 @interface LBXTitleDetailViewController () <UIScrollViewDelegate, JTSImageViewControllerInteractionsDelegate, JTSImageViewControllerDismissalDelegate, NSFetchedResultsControllerDelegate>
 
@@ -668,7 +668,7 @@ int page;
     UITableViewRowAction *shareAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Share" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         // maybe show an action sheet with more options
         LBXIssue *issue =  [_fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
-        NSString *infoString = [NSString fixHTMLAttributes:issue.completeTitle];
+        NSString *infoString = [issue.completeTitle stringByDecodingHTMLEntities];
         NSString *urlString = [NSString stringWithFormat:@"%@%@", @"https://longboxed.com/issue/", issue.diamondID];
         NSString *viaString = [NSString stringWithFormat:@"\nvia @longboxed for iOS"];
         UIImage *coverImage = _detailView.latestIssueImageView.image;
