@@ -134,6 +134,7 @@
 		E5F18735196391D2006C4C26 /* longboxed_full.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F18733196391D2006C4C26 /* longboxed_full.png */; };
 		E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F18734196391D2006C4C26 /* longboxed_full@2x.png */; };
 		E5FD02AA1B7E828000C09D41 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FD02A91B7E828000C09D41 /* StoreKit.framework */; };
+		E5FD02AE1B7E983700C09D41 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E50506AC1A41484D00C86291 /* CrashReporter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -386,6 +387,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5FD02AE1B7E983700C09D41 /* CrashReporter.framework in Frameworks */,
 				E57D48E0196068E10014A13F /* XCTest.framework in Frameworks */,
 				E57D48E2196068E10014A13F /* UIKit.framework in Frameworks */,
 				E57D48E1196068E10014A13F /* Foundation.framework in Frameworks */,
@@ -1601,6 +1603,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
@@ -1626,6 +1629,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
@@ -1812,6 +1816,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
@@ -1990,6 +1995,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
@@ -2168,6 +2174,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";

@@ -107,7 +107,8 @@
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
                  [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
-                 NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+                 // Make sure the response object is not nil before serializing it
+                 NSDictionary* jsonFromData = (responseObject) ? (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil] : nil;
                  if (completion) {
                      completion(jsonFromData, operation, nil);
                  }
