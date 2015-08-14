@@ -31,6 +31,20 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>468</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>16ebe072876d720b57b612526b0b6f214e2c3cf5</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>org-appextension-feature-password-management</string>

@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Crashlytics/Crashlytics.h>
 
 @class HorizontalTableView;
 
-@interface LBXDashboardViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate> 
+@interface LBXDashboardViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate, CrashlyticsDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

@@ -10,6 +10,7 @@
 #import "LBXDashboardViewController.h"
 #import "LBXClient.h"
 #import "LBXLogging.h"
+#import "LBXServices.h"
 #import "LBXControllerServices.h"
 #import "LBXWeekViewController.h"
 #import "UIColor+LBXCustomColors.h"
@@ -26,13 +27,13 @@
 
 #import <Crashlytics/Crashlytics.h>
 #import <CrashReporter/CrashReporter.h>
+#import <Fabric/Fabric.h>
 #import "FAKFontAwesome.h"
 #import "TSMessage.h"
 #import "OnboardingContentViewController.h"
 #import "LBXLoginViewController.h"
 #import "LBXSignupViewController.h"
 #import "SIAlertView.h"
-#import <HockeySDK/HockeySDK.h>
 #import <JRHUtilities/NSDate+DateUtilities.h>
 
 static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
@@ -59,6 +60,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     
     // If the user has already onboarded, just set up the normal root view controller
     // for the application, but don't animate it because there's no transition in this case
+    _dashboardViewController = [LBXDashboardViewController new];
     if (userHasOnboarded) {
         [self setupNormalRootViewControllerAnimated:NO];
     }
@@ -82,47 +84,18 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
        }
      forState:UIControlStateNormal];
     
-    // initialize before HockeySDK, so the delegate can access the file logger!
-    _fileLogger = [[DDFileLogger alloc] init];
-    _fileLogger.maximumFileSize = (1024 * 500); // 500 KByte
-    _fileLogger.logFileManager.maximumNumberOfLogFiles = 1;
-    [_fileLogger rollLogFileWithCompletionBlock:nil];
-    [DDLog addLogger:_fileLogger];
+    // Set a UUID for the user
+    [LBXServices setUserID];
     
-    // Crashlytics
-    [Crashlytics startWithAPIKey:@"16ebe072876d720b57b612526b0b6f214e2c3cf5"];
+    // Start up the crash reporting
+    CrashlyticsKit.delegate = _dashboardViewController;
+    [Fabric with:@[CrashlyticsKit]];
+    // Set a UUID for the session
+    [LBXServices setSessionUUID];
     
-    // Hockey app needs to be the last 3rd party integration in this method
-    // Alpha Version
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"42518dce084a3ca70fca4ddf888a30a5"];
-    
-    // Add Xcode console logger if not running in the App Store
-    if (![[BITHockeyManager sharedHockeyManager] isAppStoreEnvironment]) {
-        PSDDFormatter *psLogger = [[PSDDFormatter alloc] init];
-        [[DDTTYLogger sharedInstance] setLogFormatter:psLogger];
-        
-        [DDLog addLogger:[DDTTYLogger sharedInstance]];
-        [DDLog addLogger:[DDNSLoggerLogger sharedInstance]];
-    }
-    
-    [LBXLogging beginLogging];
-    
-    
-    PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
-    NSError *error;
-    
-    // Check if we previously crashed
-    if ([crashReporter hasPendingCrashReport])
-        [LBXControllerServices showCrashAlertWithDelegate:_dashboardViewController];
-    
-    // Enable the Crash Reporter
-    if (![crashReporter enableCrashReporterAndReturnError: &error])
-        [LBXLogging logMessage:[NSString stringWithFormat:@"Warning: Could not enable crash reporter: %@", error]];
-    
-    // Automatically send crash reports
-    [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
-    [[BITHockeyManager sharedHockeyManager] startManager];
-    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+    // Apply the UUIDs to Crashlytics — so that the crash report has this metadata
+    [CrashlyticsKit setUserName:[LBXServices getUserID]];
+    [CrashlyticsKit setUserIdentifier:[LBXServices getSessionUUID]];
     
     // Launched from local notification
     NSDictionary *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
@@ -150,9 +123,7 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
 }
 
 - (void)setupNormalRootViewControllerAnimated:(BOOL)animated {
-    // Override point for customization after application launch.
-    _dashboardViewController = [LBXDashboardViewController new];
-    
+    // Override point for customization after application launch
     if (animated) {
         [UIView transitionWithView:self.window duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
             self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:_dashboardViewController];
@@ -198,17 +169,6 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     }
     
     return description;
-}
-
-#pragma mark - BITCrashManagerDelegate
-
-- (NSString *)applicationLogForCrashManager:(BITCrashManager *)crashManager {
-    NSString *description = [self getLogFilesContentWithMaxSize:5000]; // 5000 bytes should be enough!
-    if ([description length] == 0) {
-        return nil;
-    } else {
-        return description;
-    }
 }
 
 #pragma mark - Background Refreshing
