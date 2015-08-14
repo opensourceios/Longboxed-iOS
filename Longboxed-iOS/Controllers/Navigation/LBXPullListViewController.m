@@ -255,7 +255,7 @@ CGFloat cellWidth;
 
 - (void)fillPullListArray
 {
-    _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+    _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES] basedOffObjectProperty:@"name"]];
 }
 
 - (void)refresh

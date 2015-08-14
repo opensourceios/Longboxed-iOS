@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A07AC5BCD7045119317C8CF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		CDE56D0EB54A49F3B06F8E78 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E220888AF5409D902176E2 /* libPods.a */; };
+		32D84E0C502A0C84485C47EE /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3EB8FB8752EDC6164937492 /* libPods.a */; };
+		80A48684A9FE77ACDCCF9E8D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3EB8FB8752EDC6164937492 /* libPods.a */; };
 		E50175EF1B0AB01400328D8F /* LBXDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E50175ED1B0AB01400328D8F /* LBXDateTableViewCell.m */; };
 		E50175F01B0AB01400328D8F /* LBXDateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E50175EE1B0AB01400328D8F /* LBXDateTableViewCell.xib */; };
 		E50175FA1B0AB78A00328D8F /* LBXNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E50175F71B0AB78A00328D8F /* LBXNotificationsViewController.m */; };
@@ -128,12 +128,12 @@
 		E5E5162D19CA446D005FBD43 /* NSArray+LBXArrayUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5161B19CA446D005FBD43 /* NSArray+LBXArrayUtilities.m */; };
 		E5E5163219CA446D005FBD43 /* UIColor+LBXCustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162519CA446D005FBD43 /* UIColor+LBXCustomColors.m */; };
 		E5E5163319CA446D005FBD43 /* UIFont+LBXCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162719CA446D005FBD43 /* UIFont+LBXCustomFonts.m */; };
-		E5EFCBA61B7D638E0045EDD7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5EFCBA51B7D638E0045EDD7 /* StoreKit.framework */; };
 		E5EFCBA81B7D66480045EDD7 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5EFCBA71B7D66480045EDD7 /* Fabric.framework */; };
 		E5EFCBAA1B7D6A5C0045EDD7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5EFCBA91B7D6A5C0045EDD7 /* Crashlytics.framework */; };
 		E5EFCBAD1B7D6C3D0045EDD7 /* LBXServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5EFCBAC1B7D6C3D0045EDD7 /* LBXServices.m */; };
 		E5F18735196391D2006C4C26 /* longboxed_full.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F18733196391D2006C4C26 /* longboxed_full.png */; };
 		E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F18734196391D2006C4C26 /* longboxed_full@2x.png */; };
+		E5FD02AA1B7E828000C09D41 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FD02A91B7E828000C09D41 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,11 +147,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		79D7002ADCE5DDB04A3B9A60 /* Pods.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.beta.xcconfig; path = "Pods/Target Support Files/Pods/Pods.beta.xcconfig"; sourceTree = "<group>"; };
-		8383183EA355109CC7BBD43F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		87C1690C3A7EEC6A941CAAD8 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
-		BDAD9AC9556EEDE7B4890293 /* Pods.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.staging.xcconfig; path = "Pods/Target Support Files/Pods/Pods.staging.xcconfig"; sourceTree = "<group>"; };
-		E1E220888AF5409D902176E2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		60AD211474BA0B9EDD91338E /* Pods.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.beta.xcconfig; path = "Pods/Target Support Files/Pods/Pods.beta.xcconfig"; sourceTree = "<group>"; };
+		6893F9B153FE3B965A13AEC6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B480613970B19A23CD19F527 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
+		E225617F81FB80828ABA70BE /* Pods.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.staging.xcconfig; path = "Pods/Target Support Files/Pods/Pods.staging.xcconfig"; sourceTree = "<group>"; };
 		E50175EC1B0AB01400328D8F /* LBXDateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDateTableViewCell.h; path = Views/LBXDateTableViewCell.h; sourceTree = "<group>"; };
 		E50175ED1B0AB01400328D8F /* LBXDateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDateTableViewCell.m; path = Views/LBXDateTableViewCell.m; sourceTree = "<group>"; };
 		E50175EE1B0AB01400328D8F /* LBXDateTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXDateTableViewCell.xib; path = Views/LBXDateTableViewCell.xib; sourceTree = "<group>"; };
@@ -351,14 +350,15 @@
 		E5E5162519CA446D005FBD43 /* UIColor+LBXCustomColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+LBXCustomColors.m"; sourceTree = "<group>"; };
 		E5E5162619CA446D005FBD43 /* UIFont+LBXCustomFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+LBXCustomFonts.h"; sourceTree = "<group>"; };
 		E5E5162719CA446D005FBD43 /* UIFont+LBXCustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+LBXCustomFonts.m"; sourceTree = "<group>"; };
-		E5EFCBA51B7D638E0045EDD7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E5EFCBA71B7D66480045EDD7 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		E5EFCBA91B7D6A5C0045EDD7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		E5EFCBAB1B7D6C3D0045EDD7 /* LBXServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXServices.h; path = Abstract/LBXServices.h; sourceTree = "<group>"; };
 		E5EFCBAC1B7D6C3D0045EDD7 /* LBXServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXServices.m; path = Abstract/LBXServices.m; sourceTree = "<group>"; };
 		E5F18733196391D2006C4C26 /* longboxed_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = longboxed_full.png; path = Assets/longboxed_full.png; sourceTree = SOURCE_ROOT; };
 		E5F18734196391D2006C4C26 /* longboxed_full@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "longboxed_full@2x.png"; path = "Assets/longboxed_full@2x.png"; sourceTree = SOURCE_ROOT; };
-		F7145E4C42772702B1A01D42 /* Pods.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.alpha.xcconfig; path = "Pods/Target Support Files/Pods/Pods.alpha.xcconfig"; sourceTree = "<group>"; };
+		E5FD02A91B7E828000C09D41 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		F3EB8FB8752EDC6164937492 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB09F084FDCF584F1CBB5929 /* Pods.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.alpha.xcconfig; path = "Pods/Target Support Files/Pods/Pods.alpha.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,7 +369,6 @@
 				E5C973501A68831D00A4DAB8 /* Security.framework in Frameworks */,
 				E50506AD1A41484D00C86291 /* CrashReporter.framework in Frameworks */,
 				E5CCAC5619B53BE60068AD8D /* OpenGLES.framework in Frameworks */,
-				E5EFCBA61B7D638E0045EDD7 /* StoreKit.framework in Frameworks */,
 				E5CCAC5419B53BD30068AD8D /* QuartzCore.framework in Frameworks */,
 				E5EFCBAA1B7D6A5C0045EDD7 /* Crashlytics.framework in Frameworks */,
 				E55497A519AAE284004501FF /* SystemConfiguration.framework in Frameworks */,
@@ -378,7 +377,8 @@
 				E57D48C9196068E10014A13F /* CoreGraphics.framework in Frameworks */,
 				E57D48CB196068E10014A13F /* UIKit.framework in Frameworks */,
 				E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */,
-				7A07AC5BCD7045119317C8CF /* libPods.a in Frameworks */,
+				E5FD02AA1B7E828000C09D41 /* StoreKit.framework in Frameworks */,
+				80A48684A9FE77ACDCCF9E8D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,13 +389,25 @@
 				E57D48E0196068E10014A13F /* XCTest.framework in Frameworks */,
 				E57D48E2196068E10014A13F /* UIKit.framework in Frameworks */,
 				E57D48E1196068E10014A13F /* Foundation.framework in Frameworks */,
-				CDE56D0EB54A49F3B06F8E78 /* libPods.a in Frameworks */,
+				32D84E0C502A0C84485C47EE /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		446DE890300A706700F55B7F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6893F9B153FE3B965A13AEC6 /* Pods.debug.xcconfig */,
+				E225617F81FB80828ABA70BE /* Pods.staging.xcconfig */,
+				60AD211474BA0B9EDD91338E /* Pods.beta.xcconfig */,
+				FB09F084FDCF584F1CBB5929 /* Pods.alpha.xcconfig */,
+				B480613970B19A23CD19F527 /* Pods.appstore.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		E50175F21B0AB6E700328D8F /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -540,7 +552,7 @@
 				E57D48E5196068E10014A13F /* Longboxed-iOSTests */,
 				E57D48C5196068E10014A13F /* Frameworks */,
 				E57D48C4196068E10014A13F /* Products */,
-				F36C7121FF2AE02EF8E9ED6C /* Pods */,
+				446DE890300A706700F55B7F /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -556,9 +568,9 @@
 		E57D48C5196068E10014A13F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E5FD02A91B7E828000C09D41 /* StoreKit.framework */,
 				E5EFCBA71B7D66480045EDD7 /* Fabric.framework */,
 				E5EFCBA91B7D6A5C0045EDD7 /* Crashlytics.framework */,
-				E5EFCBA51B7D638E0045EDD7 /* StoreKit.framework */,
 				E5C9734F1A68831D00A4DAB8 /* Security.framework */,
 				E50506AC1A41484D00C86291 /* CrashReporter.framework */,
 				E50506AA1A41482B00C86291 /* libPods-PLCrashReporter.a */,
@@ -582,7 +594,7 @@
 				E57D48C8196068E10014A13F /* CoreGraphics.framework */,
 				E57D48CA196068E10014A13F /* UIKit.framework */,
 				E57D48DF196068E10014A13F /* XCTest.framework */,
-				E1E220888AF5409D902176E2 /* libPods.a */,
+				F3EB8FB8752EDC6164937492 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -904,18 +916,6 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
-		F36C7121FF2AE02EF8E9ED6C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				8383183EA355109CC7BBD43F /* Pods.debug.xcconfig */,
-				BDAD9AC9556EEDE7B4890293 /* Pods.staging.xcconfig */,
-				79D7002ADCE5DDB04A3B9A60 /* Pods.beta.xcconfig */,
-				F7145E4C42772702B1A01D42 /* Pods.alpha.xcconfig */,
-				87C1690C3A7EEC6A941CAAD8 /* Pods.appstore.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -923,14 +923,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E57D48EF196068E10014A13F /* Build configuration list for PBXNativeTarget "Longboxed-iOS" */;
 			buildPhases = (
-				C793CE1CB37D4890A7508BD1 /* Check Pods Manifest.lock */,
+				F3E60A7A16A9ED4051D556CC /* Check Pods Manifest.lock */,
 				E57D48FB196069F60014A13F /* Set Bundle Identifier and Display Name */,
 				E57D48C0196068E10014A13F /* Frameworks */,
 				E57D48C1196068E10014A13F /* Resources */,
 				E5CD031A1A0C4A36009C1D37 /* Update Build Number */,
 				E57D48BF196068E10014A13F /* Sources */,
 				E515746919E335AF0072EE3E /* Crashlytics */,
-				516CA5D694294377A3226C09 /* Copy Pods Resources */,
+				73242F25ADFD2CEC79EC55E5 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -945,11 +945,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E57D48F2196068E10014A13F /* Build configuration list for PBXNativeTarget "Longboxed-iOSTests" */;
 			buildPhases = (
-				8026D649B0664F80984E90D2 /* Check Pods Manifest.lock */,
+				DB656D5C03849C8232F0A145 /* Check Pods Manifest.lock */,
 				E57D48DA196068E10014A13F /* Sources */,
 				E57D48DB196068E10014A13F /* Frameworks */,
 				E57D48DC196068E10014A13F /* Resources */,
-				AE05EA4D4BED492293685A9C /* Copy Pods Resources */,
+				3585BD1605FE8D22B2E1AD4F /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1070,7 +1070,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		516CA5D694294377A3226C09 /* Copy Pods Resources */ = {
+		3585BD1605FE8D22B2E1AD4F /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1085,22 +1085,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8026D649B0664F80984E90D2 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		AE05EA4D4BED492293685A9C /* Copy Pods Resources */ = {
+		73242F25ADFD2CEC79EC55E5 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1115,7 +1100,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C793CE1CB37D4890A7508BD1 /* Check Pods Manifest.lock */ = {
+		DB656D5C03849C8232F0A145 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1172,6 +1157,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "Scripts/update_build_number.sh develop";
+		};
+		F3E60A7A16A9ED4051D556CC /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1285,7 +1285,6 @@
 /* Begin XCBuildConfiguration section */
 		E57D48ED196068E10014A13F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8383183EA355109CC7BBD43F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1319,146 +1318,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension/OnePasswordExtension\"",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
-					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
-					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
-					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
-					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
-					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
-					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
-					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord\"",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
-					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
-					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"",
-					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
-					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
-					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
-					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
-					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
-					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
-					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
-					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"",
-					"\"${PODS_ROOT}/Headers/Public/pop\"",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension/OnePasswordExtension\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/pop\"",
-				);
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Pods-1PasswordExtension\"",
-					"-l\"Pods-AFNetworking\"",
-					"-l\"Pods-CocoaLumberjack\"",
-					"-l\"Pods-FontAwesomeKit\"",
-					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
-					"-l\"Pods-JGActionSheet\"",
-					"-l\"Pods-JRHUtilities\"",
-					"-l\"Pods-JTSImageViewController\"",
-					"-l\"Pods-MagicalRecord\"",
-					"-l\"Pods-Masonry\"",
-					"-l\"Pods-NSLogger\"",
-					"-l\"Pods-RKValueTransformers\"",
-					"-l\"Pods-RestKit\"",
-					"-l\"Pods-SDiPhoneVersion\"",
-					"-l\"Pods-SIAlertView\"",
-					"-l\"Pods-SOCKit\"",
-					"-l\"Pods-SVProgressHUD\"",
-					"-l\"Pods-Shimmer\"",
-					"-l\"Pods-TransitionKit\"",
-					"-l\"Pods-UICKeyChainStore\"",
-					"-l\"Pods-pop\"",
 					"-l\"c++\"",
 					"-framework",
 					"\"Accelerate\"",
@@ -1507,7 +1373,6 @@
 		};
 		E57D48EE196068E10014A13F /* AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 87C1690C3A7EEC6A941CAAD8 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1542,145 +1407,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension/OnePasswordExtension\"",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
-					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
-					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
-					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
-					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
-					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
-					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
-					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord\"",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
-					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
-					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"",
-					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
-					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
-					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
-					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
-					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
-					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
-					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
-					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"",
-					"\"${PODS_ROOT}/Headers/Public/pop\"",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension/OnePasswordExtension\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/pop\"",
-				);
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Pods-1PasswordExtension\"",
-					"-l\"Pods-AFNetworking\"",
-					"-l\"Pods-CocoaLumberjack\"",
-					"-l\"Pods-FontAwesomeKit\"",
-					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
-					"-l\"Pods-JGActionSheet\"",
-					"-l\"Pods-JRHUtilities\"",
-					"-l\"Pods-JTSImageViewController\"",
-					"-l\"Pods-MagicalRecord\"",
-					"-l\"Pods-Masonry\"",
-					"-l\"Pods-NSLogger\"",
-					"-l\"Pods-RKValueTransformers\"",
-					"-l\"Pods-RestKit\"",
-					"-l\"Pods-SDiPhoneVersion\"",
-					"-l\"Pods-SIAlertView\"",
-					"-l\"Pods-SOCKit\"",
-					"-l\"Pods-SVProgressHUD\"",
-					"-l\"Pods-Shimmer\"",
-					"-l\"Pods-TransitionKit\"",
-					"-l\"Pods-UICKeyChainStore\"",
-					"-l\"Pods-pop\"",
 					"-l\"c++\"",
 					"-framework",
 					"\"Accelerate\"",
@@ -1730,7 +1462,7 @@
 		};
 		E57D48F0196068E10014A13F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8383183EA355109CC7BBD43F /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 6893F9B153FE3B965A13AEC6 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1753,35 +1485,6 @@
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Pods-1PasswordExtension\"",
-					"-l\"Pods-AFNetworking\"",
-					"-l\"Pods-AnimatedGIFImageSerialization\"",
-					"-l\"Pods-BSKeyboardControls\"",
-					"-l\"Pods-CocoaLumberjack\"",
-					"-l\"Pods-Doppelganger\"",
-					"-l\"Pods-FontAwesomeKit\"",
-					"-l\"Pods-HexColors\"",
-					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
-					"-l\"Pods-JGActionSheet\"",
-					"-l\"Pods-JRHUtilities\"",
-					"-l\"Pods-JTSImageViewController\"",
-					"-l\"Pods-MagicalRecord\"",
-					"-l\"Pods-Masonry\"",
-					"-l\"Pods-NSLogger\"",
-					"-l\"Pods-Onboard\"",
-					"-l\"Pods-RKValueTransformers\"",
-					"-l\"Pods-RestKit\"",
-					"-l\"Pods-SDiPhoneVersion\"",
-					"-l\"Pods-SIAlertView\"",
-					"-l\"Pods-SOCKit\"",
-					"-l\"Pods-SVProgressHUD\"",
-					"-l\"Pods-Shimmer\"",
-					"-l\"Pods-TSMessages\"",
-					"-l\"Pods-TransitionKit\"",
-					"-l\"Pods-UICKeyChainStore\"",
-					"-l\"Pods-UzysAnimatedGifPullToRefresh\"",
-					"-l\"Pods-pop\"",
-					"-l\"c++\"",
 					"-framework",
 					"\"Accelerate\"",
 					"-framework",
@@ -1825,7 +1528,7 @@
 		};
 		E57D48F1196068E10014A13F /* AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 87C1690C3A7EEC6A941CAAD8 /* Pods.appstore.xcconfig */;
+			baseConfigurationReference = B480613970B19A23CD19F527 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1848,35 +1551,6 @@
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Pods-1PasswordExtension\"",
-					"-l\"Pods-AFNetworking\"",
-					"-l\"Pods-AnimatedGIFImageSerialization\"",
-					"-l\"Pods-BSKeyboardControls\"",
-					"-l\"Pods-CocoaLumberjack\"",
-					"-l\"Pods-Doppelganger\"",
-					"-l\"Pods-FontAwesomeKit\"",
-					"-l\"Pods-HexColors\"",
-					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
-					"-l\"Pods-JGActionSheet\"",
-					"-l\"Pods-JRHUtilities\"",
-					"-l\"Pods-JTSImageViewController\"",
-					"-l\"Pods-MagicalRecord\"",
-					"-l\"Pods-Masonry\"",
-					"-l\"Pods-NSLogger\"",
-					"-l\"Pods-Onboard\"",
-					"-l\"Pods-RKValueTransformers\"",
-					"-l\"Pods-RestKit\"",
-					"-l\"Pods-SDiPhoneVersion\"",
-					"-l\"Pods-SIAlertView\"",
-					"-l\"Pods-SOCKit\"",
-					"-l\"Pods-SVProgressHUD\"",
-					"-l\"Pods-Shimmer\"",
-					"-l\"Pods-TSMessages\"",
-					"-l\"Pods-TransitionKit\"",
-					"-l\"Pods-UICKeyChainStore\"",
-					"-l\"Pods-UzysAnimatedGifPullToRefresh\"",
-					"-l\"Pods-pop\"",
-					"-l\"c++\"",
 					"-framework",
 					"\"Accelerate\"",
 					"-framework",
@@ -1920,7 +1594,7 @@
 		};
 		E57D48F3196068E10014A13F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8383183EA355109CC7BBD43F /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 6893F9B153FE3B965A13AEC6 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1945,7 +1619,7 @@
 		};
 		E57D48F4196068E10014A13F /* AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 87C1690C3A7EEC6A941CAAD8 /* Pods.appstore.xcconfig */;
+			baseConfigurationReference = B480613970B19A23CD19F527 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1966,7 +1640,6 @@
 		};
 		E57D48F5196069610014A13F /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7145E4C42772702B1A01D42 /* Pods.alpha.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1999,146 +1672,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension/OnePasswordExtension\"",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
-					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
-					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
-					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
-					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
-					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
-					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
-					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord\"",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
-					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
-					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"",
-					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
-					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
-					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
-					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
-					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
-					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
-					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
-					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"",
-					"\"${PODS_ROOT}/Headers/Public/pop\"",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension/OnePasswordExtension\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/pop\"",
-				);
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Pods-1PasswordExtension\"",
-					"-l\"Pods-AFNetworking\"",
-					"-l\"Pods-CocoaLumberjack\"",
-					"-l\"Pods-FontAwesomeKit\"",
-					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
-					"-l\"Pods-JGActionSheet\"",
-					"-l\"Pods-JRHUtilities\"",
-					"-l\"Pods-JTSImageViewController\"",
-					"-l\"Pods-MagicalRecord\"",
-					"-l\"Pods-Masonry\"",
-					"-l\"Pods-NSLogger\"",
-					"-l\"Pods-RKValueTransformers\"",
-					"-l\"Pods-RestKit\"",
-					"-l\"Pods-SDiPhoneVersion\"",
-					"-l\"Pods-SIAlertView\"",
-					"-l\"Pods-SOCKit\"",
-					"-l\"Pods-SVProgressHUD\"",
-					"-l\"Pods-Shimmer\"",
-					"-l\"Pods-TransitionKit\"",
-					"-l\"Pods-UICKeyChainStore\"",
-					"-l\"Pods-pop\"",
 					"-l\"c++\"",
 					"-framework",
 					"\"Accelerate\"",
@@ -2187,7 +1727,7 @@
 		};
 		E57D48F6196069610014A13F /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7145E4C42772702B1A01D42 /* Pods.alpha.xcconfig */;
+			baseConfigurationReference = FB09F084FDCF584F1CBB5929 /* Pods.alpha.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2222,35 +1762,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Pods-1PasswordExtension\"",
-					"-l\"Pods-AFNetworking\"",
-					"-l\"Pods-AnimatedGIFImageSerialization\"",
-					"-l\"Pods-BSKeyboardControls\"",
-					"-l\"Pods-CocoaLumberjack\"",
-					"-l\"Pods-Doppelganger\"",
-					"-l\"Pods-FontAwesomeKit\"",
-					"-l\"Pods-HexColors\"",
-					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
-					"-l\"Pods-JGActionSheet\"",
-					"-l\"Pods-JRHUtilities\"",
-					"-l\"Pods-JTSImageViewController\"",
-					"-l\"Pods-MagicalRecord\"",
-					"-l\"Pods-Masonry\"",
-					"-l\"Pods-NSLogger\"",
-					"-l\"Pods-Onboard\"",
-					"-l\"Pods-RKValueTransformers\"",
-					"-l\"Pods-RestKit\"",
-					"-l\"Pods-SDiPhoneVersion\"",
-					"-l\"Pods-SIAlertView\"",
-					"-l\"Pods-SOCKit\"",
-					"-l\"Pods-SVProgressHUD\"",
-					"-l\"Pods-Shimmer\"",
-					"-l\"Pods-TSMessages\"",
-					"-l\"Pods-TransitionKit\"",
-					"-l\"Pods-UICKeyChainStore\"",
-					"-l\"Pods-UzysAnimatedGifPullToRefresh\"",
-					"-l\"Pods-pop\"",
-					"-l\"c++\"",
 					"-framework",
 					"\"Accelerate\"",
 					"-framework",
@@ -2294,7 +1805,7 @@
 		};
 		E57D48F7196069610014A13F /* Alpha */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7145E4C42772702B1A01D42 /* Pods.alpha.xcconfig */;
+			baseConfigurationReference = FB09F084FDCF584F1CBB5929 /* Pods.alpha.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2319,7 +1830,6 @@
 		};
 		E57D48F8196069800014A13F /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79D7002ADCE5DDB04A3B9A60 /* Pods.beta.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2352,146 +1862,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension/OnePasswordExtension\"",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
-					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
-					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
-					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
-					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
-					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
-					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
-					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord\"",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
-					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
-					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"",
-					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
-					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
-					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
-					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
-					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
-					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
-					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
-					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"",
-					"\"${PODS_ROOT}/Headers/Public/pop\"",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension/OnePasswordExtension\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/pop\"",
-				);
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Pods-1PasswordExtension\"",
-					"-l\"Pods-AFNetworking\"",
-					"-l\"Pods-CocoaLumberjack\"",
-					"-l\"Pods-FontAwesomeKit\"",
-					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
-					"-l\"Pods-JGActionSheet\"",
-					"-l\"Pods-JRHUtilities\"",
-					"-l\"Pods-JTSImageViewController\"",
-					"-l\"Pods-MagicalRecord\"",
-					"-l\"Pods-Masonry\"",
-					"-l\"Pods-NSLogger\"",
-					"-l\"Pods-RKValueTransformers\"",
-					"-l\"Pods-RestKit\"",
-					"-l\"Pods-SDiPhoneVersion\"",
-					"-l\"Pods-SIAlertView\"",
-					"-l\"Pods-SOCKit\"",
-					"-l\"Pods-SVProgressHUD\"",
-					"-l\"Pods-Shimmer\"",
-					"-l\"Pods-TransitionKit\"",
-					"-l\"Pods-UICKeyChainStore\"",
-					"-l\"Pods-pop\"",
 					"-l\"c++\"",
 					"-framework",
 					"\"Accelerate\"",
@@ -2540,7 +1917,7 @@
 		};
 		E57D48F9196069800014A13F /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79D7002ADCE5DDB04A3B9A60 /* Pods.beta.xcconfig */;
+			baseConfigurationReference = 60AD211474BA0B9EDD91338E /* Pods.beta.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2563,35 +1940,6 @@
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Pods-1PasswordExtension\"",
-					"-l\"Pods-AFNetworking\"",
-					"-l\"Pods-AnimatedGIFImageSerialization\"",
-					"-l\"Pods-BSKeyboardControls\"",
-					"-l\"Pods-CocoaLumberjack\"",
-					"-l\"Pods-Doppelganger\"",
-					"-l\"Pods-FontAwesomeKit\"",
-					"-l\"Pods-HexColors\"",
-					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
-					"-l\"Pods-JGActionSheet\"",
-					"-l\"Pods-JRHUtilities\"",
-					"-l\"Pods-JTSImageViewController\"",
-					"-l\"Pods-MagicalRecord\"",
-					"-l\"Pods-Masonry\"",
-					"-l\"Pods-NSLogger\"",
-					"-l\"Pods-Onboard\"",
-					"-l\"Pods-RKValueTransformers\"",
-					"-l\"Pods-RestKit\"",
-					"-l\"Pods-SDiPhoneVersion\"",
-					"-l\"Pods-SIAlertView\"",
-					"-l\"Pods-SOCKit\"",
-					"-l\"Pods-SVProgressHUD\"",
-					"-l\"Pods-Shimmer\"",
-					"-l\"Pods-TSMessages\"",
-					"-l\"Pods-TransitionKit\"",
-					"-l\"Pods-UICKeyChainStore\"",
-					"-l\"Pods-UzysAnimatedGifPullToRefresh\"",
-					"-l\"Pods-pop\"",
-					"-l\"c++\"",
 					"-framework",
 					"\"Accelerate\"",
 					"-framework",
@@ -2635,7 +1983,7 @@
 		};
 		E57D48FA196069800014A13F /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79D7002ADCE5DDB04A3B9A60 /* Pods.beta.xcconfig */;
+			baseConfigurationReference = 60AD211474BA0B9EDD91338E /* Pods.beta.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2660,7 +2008,6 @@
 		};
 		E58B7B6E198F32FC00B4D8A2 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDAD9AC9556EEDE7B4890293 /* Pods.staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2693,146 +2040,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension/OnePasswordExtension\"",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
-					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
-					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
-					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
-					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
-					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
-					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
-					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord\"",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
-					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
-					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"",
-					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
-					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
-					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
-					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
-					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
-					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
-					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
-					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"",
-					"\"${PODS_ROOT}/Headers/Public/pop\"",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension/OnePasswordExtension\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"",
-					"-isystem",
-					"\"${PODS_ROOT}/Headers/Public/pop\"",
-				);
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Pods-1PasswordExtension\"",
-					"-l\"Pods-AFNetworking\"",
-					"-l\"Pods-CocoaLumberjack\"",
-					"-l\"Pods-FontAwesomeKit\"",
-					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
-					"-l\"Pods-JGActionSheet\"",
-					"-l\"Pods-JRHUtilities\"",
-					"-l\"Pods-JTSImageViewController\"",
-					"-l\"Pods-MagicalRecord\"",
-					"-l\"Pods-Masonry\"",
-					"-l\"Pods-NSLogger\"",
-					"-l\"Pods-RKValueTransformers\"",
-					"-l\"Pods-RestKit\"",
-					"-l\"Pods-SDiPhoneVersion\"",
-					"-l\"Pods-SIAlertView\"",
-					"-l\"Pods-SOCKit\"",
-					"-l\"Pods-SVProgressHUD\"",
-					"-l\"Pods-Shimmer\"",
-					"-l\"Pods-TransitionKit\"",
-					"-l\"Pods-UICKeyChainStore\"",
-					"-l\"Pods-pop\"",
 					"-l\"c++\"",
 					"-framework",
 					"\"Accelerate\"",
@@ -2881,7 +2095,7 @@
 		};
 		E58B7B6F198F32FC00B4D8A2 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDAD9AC9556EEDE7B4890293 /* Pods.staging.xcconfig */;
+			baseConfigurationReference = E225617F81FB80828ABA70BE /* Pods.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2904,35 +2118,6 @@
 				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Pods-1PasswordExtension\"",
-					"-l\"Pods-AFNetworking\"",
-					"-l\"Pods-AnimatedGIFImageSerialization\"",
-					"-l\"Pods-BSKeyboardControls\"",
-					"-l\"Pods-CocoaLumberjack\"",
-					"-l\"Pods-Doppelganger\"",
-					"-l\"Pods-FontAwesomeKit\"",
-					"-l\"Pods-HexColors\"",
-					"-l\"Pods-ISO8601DateFormatterValueTransformer\"",
-					"-l\"Pods-JGActionSheet\"",
-					"-l\"Pods-JRHUtilities\"",
-					"-l\"Pods-JTSImageViewController\"",
-					"-l\"Pods-MagicalRecord\"",
-					"-l\"Pods-Masonry\"",
-					"-l\"Pods-NSLogger\"",
-					"-l\"Pods-Onboard\"",
-					"-l\"Pods-RKValueTransformers\"",
-					"-l\"Pods-RestKit\"",
-					"-l\"Pods-SDiPhoneVersion\"",
-					"-l\"Pods-SIAlertView\"",
-					"-l\"Pods-SOCKit\"",
-					"-l\"Pods-SVProgressHUD\"",
-					"-l\"Pods-Shimmer\"",
-					"-l\"Pods-TSMessages\"",
-					"-l\"Pods-TransitionKit\"",
-					"-l\"Pods-UICKeyChainStore\"",
-					"-l\"Pods-UzysAnimatedGifPullToRefresh\"",
-					"-l\"Pods-pop\"",
-					"-l\"c++\"",
 					"-framework",
 					"\"Accelerate\"",
 					"-framework",
@@ -2976,7 +2161,7 @@
 		};
 		E58B7B70198F32FC00B4D8A2 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDAD9AC9556EEDE7B4890293 /* Pods.staging.xcconfig */;
+			baseConfigurationReference = E225617F81FB80828ABA70BE /* Pods.staging.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (

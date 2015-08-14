@@ -537,7 +537,7 @@
         [self POSTWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
             
             [LBXLogging logMessage:[NSString stringWithFormat:@"Added title to pull list: %@", titleID]];
-            NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
+            NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES] basedOffObjectProperty:@"name"];
             _titleIDBeingAdded = nil;
             [LBXLogging logMessage:[NSString stringWithFormat:@"Added title:\n %@", titleID]];
             completion(pullListArray, response, error);
@@ -573,7 +573,7 @@
                         });
                     }
                 }
-                NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
+                NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES] basedOffObjectProperty:@"name"];
                 completion(pullListArray, response, error);
             }];
         }];
