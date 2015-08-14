@@ -128,13 +128,14 @@ BOOL _endOfIssues;
         [_segmentedControl addTarget:self
                               action:@selector(segmentedControlToggle:)
                     forControlEvents:UIControlEventValueChanged];
+        UIBarButtonItem *segmentedItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
         
         _toolBar = [UIToolbar new];
         _toolBar.frame = CGRectMake(0, self.navigationController.navigationBar.frame.origin.y, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height*2);
         
         _toolBar.delegate = self;
         [_toolBar addSubview:self.segmentedControl];
-        [self setToolbarItems:@[_segmentedControl]];
+        [_toolBar setItems:@[segmentedItem]];
         
         [self.view addSubview:_toolBar];
         
