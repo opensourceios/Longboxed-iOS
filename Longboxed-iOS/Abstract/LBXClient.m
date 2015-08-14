@@ -45,7 +45,7 @@
 }
 
 - (void)GETWithRouteName:(NSString *)routeName
-        HTTPHeaderParams:(NSString *)HTTPHeaderParams
+        HTTPHeaderParams:(NSDictionary *)HTTPHeaderParams
          queryParameters:(NSDictionary *)parameters
              credentials:(BOOL)credentials
               completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion
@@ -59,7 +59,7 @@
     NSDictionary *endpointDict = [LBXEndpoints endpoints];
     
     NSString *path = endpointDict[routeName];
-    if (HTTPHeaderParams) {
+    if (HTTPHeaderParams.allKeys.count) {
         RKPathMatcher *matcher = [RKPathMatcher pathMatcherWithPattern:endpointDict[routeName]];
         path = [matcher pathFromObject:HTTPHeaderParams addingEscapes:YES interpolatedParameters:nil];
     }
@@ -244,10 +244,12 @@
 }
 
 - (void)fetchIssue:(NSNumber*)issueID withCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion {
-
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"issueID", issueID,
-                        nil];
+    
+    NSDictionary *params;
+    if (issueID) {
+        params = @{@"issueID" : issueID};
+    }
+    
     [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching issue %@", issueID]];
     [self GETWithRouteName:@"Issue" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
@@ -311,9 +313,10 @@
 
 - (void)fetchTitle:(NSNumber*)titleID withCompletion:(void (^)(LBXTitle*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"titleID", titleID,
-                        nil];
+    NSDictionary *params;
+    if (titleID) {
+        params = @{@"titleID" : titleID};
+    }
     
     [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching title: %@", titleID]];
     [self GETWithRouteName:@"Title" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
@@ -329,9 +332,10 @@
 
 - (void)fetchIssuesForTitle:(NSNumber*)titleID page:(NSNumber *)page withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"titleID", titleID,
-                        nil];
+    NSDictionary *headerParams;
+    if (titleID) {
+        headerParams = @{@"titleID" : titleID};
+    }
     
     NSDictionary *objectDictParams;
     if (![page isEqualToNumber:@1]) {
@@ -354,9 +358,10 @@
 
 - (void)fetchIssuesForTitle:(NSNumber*)titleID page:(NSNumber *)page count:(NSNumber *)count withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"titleID", titleID,
-                        nil];
+    NSDictionary *headerParams;
+    if (titleID) {
+        headerParams = @{@"titleID" : titleID};
+    }
     
     NSDictionary *objectDictParams;
     if (![page isEqualToNumber:@1]) {
@@ -408,9 +413,10 @@
 
 - (void)fetchPublisher:(NSNumber*)publisherID withCompletion:(void (^)(LBXPublisher*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"publisherID", publisherID,
-                        nil];
+    NSDictionary *params;
+    if (publisherID) {
+        params = @{@"publisherID" : publisherID};
+    }
     
     [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching publisher: %@", publisherID]];
     
@@ -422,9 +428,10 @@
 
 - (void)fetchTitlesForPublisher:(NSNumber*)publisherID page:(NSNumber *)page withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"publisherID", publisherID,
-                        nil];
+    NSDictionary *params;
+    if (publisherID) {
+        params = @{@"publisherID" : publisherID};
+    }
     
     NSDictionary *objectDictParams;
     if (![page isEqualToNumber:@1]) {
@@ -492,11 +499,9 @@
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
         UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        NSString *headerParams;
+        NSDictionary *headerParams;
         if (store[@"id"]) {
-            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                                @"userID", store[@"id"],
-                                nil];
+            headerParams = @{@"userID" : store[@"id"]};
             
         }
         
@@ -587,11 +592,9 @@
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
         UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        NSString *headerParams;
+        NSDictionary *headerParams;
         if (store[@"id"]) {
-            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                      @"userID", store[@"id"],
-                      nil];
+            headerParams = @{@"userID" : store[@"id"]};
         }
         
         NSDictionary *objectDictParams;
@@ -630,11 +633,9 @@
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
         UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        NSString *headerParams;
+        NSDictionary *headerParams;
         if (store[@"id"]) {
-            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                            @"userID", store[@"id"],
-                            nil];
+            headerParams = @{@"userID" : store[@"id"]};
         }
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -677,11 +678,9 @@
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
         UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        NSString *headerParams;
+        NSDictionary *headerParams;
         if (store[@"id"]) {
-            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                      @"userID", store[@"id"],
-                      nil];
+            headerParams = @{@"userID" : store[@"id"]};
         }
         [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching latest bundle"]];
         
