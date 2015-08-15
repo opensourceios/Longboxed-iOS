@@ -48,6 +48,10 @@
 + (BOOL)isAdmin;
 + (void)removeCredentials;
 
++ (void)showSuccessHUDWithTitle:(NSString *)title dimBackground:(BOOL)dim;
++ (void)showErrorHUDWithTitle:(NSString *)title dimBackground:(BOOL)dim;
++ (void)showLoadingWithDimBackground:(BOOL)dim;
+
 + (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
 + (void)showCrashAlertWithDelegate:(id)delegate;
 + (void)sendEmailWithMessageBody:(NSString *)messageBody delegate:(id)delegate;

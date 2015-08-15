@@ -7,6 +7,7 @@
 //
 
 #import "LBXServices.h"
+#import "NSDate+DateUtilities.h"
 
 @implementation LBXServices
 
@@ -36,6 +37,22 @@
 + (NSString *)crashFilePath {
     NSString *pathForFile = [[self documentsDirectory] stringByAppendingPathComponent:@"crash.log"];
     return pathForFile;
+}
+
++ (NSPredicate *)thisWeekPredicateWithParentCheck:(BOOL)parent {
+    NSDate *currentDate = [NSDate localDate];
+    if (parent) {
+        return [NSPredicate predicateWithFormat:@"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
+    }
+    return [NSPredicate predicateWithFormat:@"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
+}
+
++ (NSPredicate *)nextWeekPredicateWithParentCheck:(BOOL)parent {
+    NSDate *currentDate = [NSDate localDate];
+    if (parent) {
+        return [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:[NSDate localDate]] dateByAddingTimeInterval:6*DAY], @1];
+    }
+    return [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:[NSDate localDate]] dateByAddingTimeInterval:6*DAY]];
 }
 
 #pragma mark Private Methods

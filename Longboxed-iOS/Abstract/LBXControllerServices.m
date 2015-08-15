@@ -223,11 +223,8 @@
         while ((cnt = [[[UIApplication sharedApplication] scheduledLocalNotifications] count]) > 0) {
             [NSThread sleepForTimeInterval:.01f];
         }
-        
-        NSDate *currentDate = [NSDate localDate];
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
-        LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
+
+        LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:[LBXServices thisWeekPredicateWithParentCheck:NO]];
         
         if (bundle.issues) {
             NSLog(@"%lu", (unsigned long)bundle.issues.count);
@@ -489,6 +486,36 @@
     [UICKeyChainStore removeItemForKey:@"username"];
     [UICKeyChainStore removeItemForKey:@"password"];
     [UICKeyChainStore removeItemForKey:@"id"];
+}
+
++ (void)showSuccessHUDWithTitle:(NSString *)title dimBackground:(BOOL)dim {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (dim) {
+            [SVProgressHUD setForegroundColor:[UIColor blackColor]];
+            [SVProgressHUD setBackgroundColor:[UIColor whiteColor]];
+        }
+        [SVProgressHUD showSuccessWithStatus:title maskType:SVProgressHUDMaskTypeBlack];
+    });
+}
+
++ (void)showErrorHUDWithTitle:(NSString *)title dimBackground:(BOOL)dim {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (dim) {
+            [SVProgressHUD setForegroundColor:[UIColor blackColor]];
+            [SVProgressHUD setBackgroundColor:[UIColor whiteColor]];
+        }
+        [SVProgressHUD showErrorWithStatus:title maskType:SVProgressHUDMaskTypeBlack];
+    });
+}
+
++ (void)showLoadingWithDimBackground:(BOOL)dim {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (dim) {
+            [SVProgressHUD setForegroundColor:[UIColor blackColor]];
+            [SVProgressHUD setBackgroundColor:[UIColor whiteColor]];
+        }
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    });
 }
 
 + (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message

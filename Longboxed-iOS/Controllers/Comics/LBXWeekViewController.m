@@ -30,6 +30,7 @@
 #import "NSString+StringUtilities.h"
 #import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 #import <NSString+HTML.h>
+#import "LBXServices.h"
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
                                      ESDatePickerDelegate>
@@ -370,9 +371,7 @@ BOOL _endOfIssues;
 
 - (void)setIssuesForWeekArrayWithThisWeekIssues
 {
-    NSDate *currentDate = [NSDate localDate];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
-    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
+    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:[LBXServices thisWeekPredicateWithParentCheck:YES]];
     
     if (allIssuesArray.count > 1) {
         _issuesForWeekArray = allIssuesArray;
@@ -388,9 +387,7 @@ BOOL _endOfIssues;
 
 - (void)setIssuesForWeekArrayWithNextWeekIssues
 {
-    NSDate *currentDate = [NSDate localDate];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:[NSDate localDate]] dateByAddingTimeInterval:6*DAY], @1];
-    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:predicate];
+    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"publisher.name" ascending:YES withPredicate:[LBXServices nextWeekPredicateWithParentCheck:YES]];
     if (allIssuesArray.count > 1) {
         _issuesForWeekArray = allIssuesArray;
         if ([_customNavTitle isEqualToString:@"Bundles"]) {

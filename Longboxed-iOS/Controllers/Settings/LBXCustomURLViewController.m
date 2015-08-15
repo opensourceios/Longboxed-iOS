@@ -89,13 +89,13 @@
 - (void)login
 {
     LBXClient *client = [LBXClient new];
-    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    [LBXControllerServices showLoadingWithDimBackground:NO];
     [LBXDatabaseManager flushBundlesAndPullList];
     [client fetchLogInWithCompletion:^(LBXUser *user, RKObjectRequestOperation *response, NSError *error) {
         if (response.HTTPRequestOperation.response.statusCode == 200) {
             dispatch_async(dispatch_get_main_queue(),^{
                 [LBXLogging logMessage:[NSString stringWithFormat:@"Successful dev toggle log in %@", [[UICKeyChainStore keyChainStore] stringForKey:@"username"]]];
-                [SVProgressHUD showSuccessWithStatus:@"Logged In!"];
+                [LBXControllerServices showSuccessHUDWithTitle:@"Logged In!" dimBackground:NO];
                 [LBXLogging logLogin];
             });
         }

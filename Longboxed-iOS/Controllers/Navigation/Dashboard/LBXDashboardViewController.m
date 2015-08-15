@@ -423,11 +423,8 @@ BOOL _selectedSearchResult;
 }
 
 - (void)getCoreDataPopularIssues
-{
-    NSDate *currentDate = [NSDate localDate];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@) AND (isParent == %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], @1];
-    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:predicate];
+{    
+    NSArray *allIssuesArray = [LBXIssue MR_findAllSortedBy:@"title.subscribers" ascending:NO withPredicate:[LBXServices thisWeekPredicateWithParentCheck:YES]];
     
     NSSortDescriptor *boolDescr = [[NSSortDescriptor alloc] initWithKey:@"title.subscribers" ascending:NO];
     NSArray *sortDescriptors = @[boolDescr];
@@ -469,9 +466,8 @@ BOOL _selectedSearchResult;
 
 - (void)getCoreDataLatestBundle
 {
-    NSDate *currentDate = [NSDate localDate];
+    __block LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:[LBXServices thisWeekPredicateWithParentCheck:NO] inContext:[NSManagedObjectContext MR_defaultContext]];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
     LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
     if (bundle) {
         NSString *issuesString = @"ISSUES IN YOUR BUNDLE";

@@ -16,4 +16,7 @@
 + (NSString *)getUserID;
 + (NSString *)crashFilePath;
 
++ (NSPredicate *)thisWeekPredicateWithParentCheck:(BOOL)parent;
++ (NSPredicate *)nextWeekPredicateWithParentCheck:(BOOL)parent;
+
 @end
