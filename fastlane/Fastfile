@@ -32,7 +32,7 @@ def provision
   sigh(app_identifier: "com.longboxed.Longboxed-iOS", output_path: "/tmp")
   update_project_provisioning(
     xcodeproj: project_file,
-    build_configuration_filter: "App Store-Longboxed-iOS"
+    build_configuration_filter: "Longboxed-iOS"
   )
 
 end
@@ -40,7 +40,7 @@ end
 def ios_tests
 
   begin
-    sh "xctool test -workspace ../Longboxed-iOS.xcworkspace -sdk iphonesimulator -destination 'name=iPhone 6' -scheme 'App Store-Longboxed-iOS'"
+    sh "xctool test -workspace ../Longboxed-iOS.xcworkspace -sdk iphonesimulator -destination 'name=iPhone 6' -scheme 'Longboxed-iOS'"
   rescue => ex
     puts ex
     raise "iOS Unit Tests failed:\n\n #{ex.to_s}"
@@ -59,7 +59,7 @@ def build_app
   # set_build_number_repository // Fastlane command to update based on HEAD
 
   ipa(
-    scheme: 'App Store-Longboxed-iOS'
+    scheme: 'Longboxed-iOS'
   )
 
   # Reset the provisioning settings so we can keep
@@ -119,9 +119,9 @@ platform :ios do
     #ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
 
     # Make sure we're on master
-    # ensure_git_branch(
-    #   branch: 'master'
-    # )
+    ensure_git_branch(
+      branch: 'master'
+    )
 
     ensure_git_status_clean
 
