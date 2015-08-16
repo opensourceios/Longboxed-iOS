@@ -116,7 +116,7 @@ platform :ios do
 
   before_all do
 
-    #ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
 
     # Make sure we're on master
     ensure_git_branch(
@@ -181,10 +181,10 @@ platform :ios do
     end
 
     buildNumber = sh "git rev-list HEAD | wc -l | tr -d ' '"
-    # slack(
-    #   message: "Longboxed Build " + buildNumber,
-    #   success: true
-    # )
+    slack(
+      message: "Longboxed Build " + buildNumber,
+      success: true
+    )
 
     notify "Fastlane complete!"
   end
