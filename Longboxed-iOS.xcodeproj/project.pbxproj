@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		32D84E0C502A0C84485C47EE /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3EB8FB8752EDC6164937492 /* libPods.a */; };
-		80A48684A9FE77ACDCCF9E8D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3EB8FB8752EDC6164937492 /* libPods.a */; };
+		3678D1C9AFD4921C400790A3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 544B0D826CB9908E66066AE7 /* libPods.a */; };
+		DACEE4BB66679E966AE8330D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 544B0D826CB9908E66066AE7 /* libPods.a */; };
 		E50175EF1B0AB01400328D8F /* LBXDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E50175ED1B0AB01400328D8F /* LBXDateTableViewCell.m */; };
 		E50175F01B0AB01400328D8F /* LBXDateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E50175EE1B0AB01400328D8F /* LBXDateTableViewCell.xib */; };
 		E50175FA1B0AB78A00328D8F /* LBXNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E50175F71B0AB78A00328D8F /* LBXNotificationsViewController.m */; };
@@ -148,10 +148,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		60AD211474BA0B9EDD91338E /* Pods.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.beta.xcconfig; path = "Pods/Target Support Files/Pods/Pods.beta.xcconfig"; sourceTree = "<group>"; };
-		6893F9B153FE3B965A13AEC6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		B480613970B19A23CD19F527 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
-		E225617F81FB80828ABA70BE /* Pods.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.staging.xcconfig; path = "Pods/Target Support Files/Pods/Pods.staging.xcconfig"; sourceTree = "<group>"; };
+		27B7DABA2E156E4F81F3FFB3 /* Pods.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.beta.xcconfig; path = "Pods/Target Support Files/Pods/Pods.beta.xcconfig"; sourceTree = "<group>"; };
+		544B0D826CB9908E66066AE7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2AB0A439AF93F6E7A9A45D0 /* Pods.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.test.xcconfig; path = "Pods/Target Support Files/Pods/Pods.test.xcconfig"; sourceTree = "<group>"; };
+		B6E4973647EB2C0793B0A2A1 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
+		CD09AF98189617FF50EB24EC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E50175EC1B0AB01400328D8F /* LBXDateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXDateTableViewCell.h; path = Views/LBXDateTableViewCell.h; sourceTree = "<group>"; };
 		E50175ED1B0AB01400328D8F /* LBXDateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBXDateTableViewCell.m; path = Views/LBXDateTableViewCell.m; sourceTree = "<group>"; };
 		E50175EE1B0AB01400328D8F /* LBXDateTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXDateTableViewCell.xib; path = Views/LBXDateTableViewCell.xib; sourceTree = "<group>"; };
@@ -358,8 +359,6 @@
 		E5F18733196391D2006C4C26 /* longboxed_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = longboxed_full.png; path = Assets/longboxed_full.png; sourceTree = SOURCE_ROOT; };
 		E5F18734196391D2006C4C26 /* longboxed_full@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "longboxed_full@2x.png"; path = "Assets/longboxed_full@2x.png"; sourceTree = SOURCE_ROOT; };
 		E5FD02A91B7E828000C09D41 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		F3EB8FB8752EDC6164937492 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		FB09F084FDCF584F1CBB5929 /* Pods.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.alpha.xcconfig; path = "Pods/Target Support Files/Pods/Pods.alpha.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -379,7 +378,7 @@
 				E57D48CB196068E10014A13F /* UIKit.framework in Frameworks */,
 				E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */,
 				E5FD02AA1B7E828000C09D41 /* StoreKit.framework in Frameworks */,
-				80A48684A9FE77ACDCCF9E8D /* libPods.a in Frameworks */,
+				3678D1C9AFD4921C400790A3 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,21 +390,20 @@
 				E57D48E0196068E10014A13F /* XCTest.framework in Frameworks */,
 				E57D48E2196068E10014A13F /* UIKit.framework in Frameworks */,
 				E57D48E1196068E10014A13F /* Foundation.framework in Frameworks */,
-				32D84E0C502A0C84485C47EE /* libPods.a in Frameworks */,
+				DACEE4BB66679E966AE8330D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		446DE890300A706700F55B7F /* Pods */ = {
+		535F47BCBDA6DF479CEC1566 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6893F9B153FE3B965A13AEC6 /* Pods.debug.xcconfig */,
-				E225617F81FB80828ABA70BE /* Pods.staging.xcconfig */,
-				60AD211474BA0B9EDD91338E /* Pods.beta.xcconfig */,
-				FB09F084FDCF584F1CBB5929 /* Pods.alpha.xcconfig */,
-				B480613970B19A23CD19F527 /* Pods.appstore.xcconfig */,
+				CD09AF98189617FF50EB24EC /* Pods.debug.xcconfig */,
+				27B7DABA2E156E4F81F3FFB3 /* Pods.beta.xcconfig */,
+				A2AB0A439AF93F6E7A9A45D0 /* Pods.test.xcconfig */,
+				B6E4973647EB2C0793B0A2A1 /* Pods.appstore.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -554,7 +552,7 @@
 				E57D48E5196068E10014A13F /* Longboxed-iOSTests */,
 				E57D48C5196068E10014A13F /* Frameworks */,
 				E57D48C4196068E10014A13F /* Products */,
-				446DE890300A706700F55B7F /* Pods */,
+				535F47BCBDA6DF479CEC1566 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -596,7 +594,7 @@
 				E57D48C8196068E10014A13F /* CoreGraphics.framework */,
 				E57D48CA196068E10014A13F /* UIKit.framework */,
 				E57D48DF196068E10014A13F /* XCTest.framework */,
-				F3EB8FB8752EDC6164937492 /* libPods.a */,
+				544B0D826CB9908E66066AE7 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -925,14 +923,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E57D48EF196068E10014A13F /* Build configuration list for PBXNativeTarget "Longboxed-iOS" */;
 			buildPhases = (
-				F3E60A7A16A9ED4051D556CC /* Check Pods Manifest.lock */,
+				CA94B57CCD79749C397DAA95 /* Check Pods Manifest.lock */,
 				E57D48FB196069F60014A13F /* Set Bundle Identifier and Display Name */,
 				E57D48C0196068E10014A13F /* Frameworks */,
 				E57D48C1196068E10014A13F /* Resources */,
 				E5CD031A1A0C4A36009C1D37 /* Update Build Number */,
 				E57D48BF196068E10014A13F /* Sources */,
 				E515746919E335AF0072EE3E /* Crashlytics */,
-				73242F25ADFD2CEC79EC55E5 /* Copy Pods Resources */,
+				C9A3C40EE168E45218269B54 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -947,11 +945,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E57D48F2196068E10014A13F /* Build configuration list for PBXNativeTarget "Longboxed-iOSTests" */;
 			buildPhases = (
-				DB656D5C03849C8232F0A145 /* Check Pods Manifest.lock */,
+				AAE5FAA769EE860748BA24F7 /* Check Pods Manifest.lock */,
 				E57D48DA196068E10014A13F /* Sources */,
 				E57D48DB196068E10014A13F /* Frameworks */,
 				E57D48DC196068E10014A13F /* Resources */,
-				3585BD1605FE8D22B2E1AD4F /* Copy Pods Resources */,
+				D11F3E8B051774BE4B880670 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1072,37 +1070,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3585BD1605FE8D22B2E1AD4F /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		73242F25ADFD2CEC79EC55E5 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DB656D5C03849C8232F0A145 /* Check Pods Manifest.lock */ = {
+		AAE5FAA769EE860748BA24F7 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1115,6 +1083,51 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C9A3C40EE168E45218269B54 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CA94B57CCD79749C397DAA95 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D11F3E8B051774BE4B880670 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E515746919E335AF0072EE3E /* Crashlytics */ = {
@@ -1144,7 +1157,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\nbundleIdentifier=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INFOPLIST_FILE\")\nbundleDisplayName=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n\nif [ $CONFIGURATION == AppStore ] || [ $CONFIGURATION == Test ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS\"\nbundleDisplayName=\"Longboxed\"\n\nelif [ $CONFIGURATION == Beta ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSBeta\"\nbundleDisplayName=\"Longboxed β\"\n\nelif [ $CONFIGURATION == Alpha ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSAlpha\"\nbundleDisplayName=\"Longboxed α\"\n\nelif [ $CONFIGURATION == Staging ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS-Staging\"\nbundleDisplayName=\"Longboxed ε\"\n\nelse\nbundleIdentifier=\"com.longboxed.Longboxed-iOSDebug\"\nbundleDisplayName=\"Longboxed Δ\"\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $bundleIdentifier\" \"$INFOPLIST_FILE\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $bundleDisplayName\" \"$INFOPLIST_FILE\"\n";
+			shellScript = "\nbundleIdentifier=$(/usr/libexec/PlistBuddy -c \"Print CFBundleIdentifier\" \"$INFOPLIST_FILE\")\nbundleDisplayName=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n\nif [ $CONFIGURATION == AppStore ] || [ $CONFIGURATION == Test ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOS\"\nbundleDisplayName=\"Longboxed\"\n\nelif [ $CONFIGURATION == Beta ]; then\nbundleIdentifier=\"com.longboxed.Longboxed-iOSBeta\"\nbundleDisplayName=\"Longboxed β\"\n\nelse\nbundleIdentifier=\"com.longboxed.Longboxed-iOSDebug\"\nbundleDisplayName=\"Longboxed Δ\"\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleIdentifier $bundleIdentifier\" \"$INFOPLIST_FILE\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $bundleDisplayName\" \"$INFOPLIST_FILE\"\n";
 		};
 		E5CD031A1A0C4A36009C1D37 /* Update Build Number */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1159,21 +1172,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "Scripts/update_build_number_pre.sh develop";
-		};
-		F3E60A7A16A9ED4051D556CC /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1374,7 +1372,7 @@
 		};
 		E50E58741B80413200C6E166 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB09F084FDCF584F1CBB5929 /* Pods.alpha.xcconfig */;
+			baseConfigurationReference = A2AB0A439AF93F6E7A9A45D0 /* Pods.test.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1452,7 +1450,7 @@
 		};
 		E50E58751B80413200C6E166 /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB09F084FDCF584F1CBB5929 /* Pods.alpha.xcconfig */;
+			baseConfigurationReference = A2AB0A439AF93F6E7A9A45D0 /* Pods.test.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1656,7 +1654,7 @@
 		};
 		E57D48F0196068E10014A13F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6893F9B153FE3B965A13AEC6 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = CD09AF98189617FF50EB24EC /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1722,7 +1720,7 @@
 		};
 		E57D48F1196068E10014A13F /* AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B480613970B19A23CD19F527 /* Pods.appstore.xcconfig */;
+			baseConfigurationReference = B6E4973647EB2C0793B0A2A1 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1789,7 +1787,7 @@
 		};
 		E57D48F3196068E10014A13F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6893F9B153FE3B965A13AEC6 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = CD09AF98189617FF50EB24EC /* Pods.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1815,7 +1813,7 @@
 		};
 		E57D48F4196068E10014A13F /* AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B480613970B19A23CD19F527 /* Pods.appstore.xcconfig */;
+			baseConfigurationReference = B6E4973647EB2C0793B0A2A1 /* Pods.appstore.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1835,197 +1833,6 @@
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = AppStore;
-		};
-		E57D48F5196069610014A13F /* Alpha */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-l\"c++\"",
-					"-framework",
-					"\"Accelerate\"",
-					"-framework",
-					"\"AssetsLibrary\"",
-					"-framework",
-					"\"CFNetwork\"",
-					"-framework",
-					"\"CoreData\"",
-					"-framework",
-					"\"CoreGraphics\"",
-					"-framework",
-					"\"CoreMotion\"",
-					"-framework",
-					"\"CoreText\"",
-					"-framework",
-					"\"CrashReporter\"",
-					"-framework",
-					"\"Foundation\"",
-					"-framework",
-					"\"ImageIO\"",
-					"-framework",
-					"\"MessageUI\"",
-					"-framework",
-					"\"MobileCoreServices\"",
-					"-framework",
-					"\"QuartzCore\"",
-					"-framework",
-					"\"QuickLook\"",
-					"-framework",
-					"\"Security\"",
-					"-framework",
-					"\"SystemConfiguration\"",
-					"-framework",
-					"\"UIKit\"",
-					"-weak_framework",
-					"\"WebKit\"",
-					"-ObjC",
-					"-all_load",
-					"-weak_library",
-					"/usr/lib/libstdc++.dylib",
-				);
-				SDKROOT = iphoneos;
-			};
-			name = Alpha;
-		};
-		E57D48F6196069610014A13F /* Alpha */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB09F084FDCF584F1CBB5929 /* Pods.alpha.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Longboxed-iOS",
-					"$(SRCROOT)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"$(inherited)",
-					"BITHOCKEY_VERSION=\"@\\\"3.5.6\\\"\"",
-					"BITHOCKEY_C_VERSION=\"\\\"3.5.6\\\"\"",
-					"BITHOCKEY_BUILD=\"@\\\"31\\\"\"",
-					"BITHOCKEY_C_BUILD=\"\\\"31\\\"\"",
-					"${inherited}",
-					"NSLOGGER_BUILD_USERNAME=\"${USER}\"",
-				);
-				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Longboxed-iOS",
-				);
-				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
-				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-framework",
-					"\"Accelerate\"",
-					"-framework",
-					"\"AssetsLibrary\"",
-					"-framework",
-					"\"CFNetwork\"",
-					"-framework",
-					"\"CoreData\"",
-					"-framework",
-					"\"CoreGraphics\"",
-					"-framework",
-					"\"CoreText\"",
-					"-framework",
-					"\"CrashReporter\"",
-					"-framework",
-					"\"Foundation\"",
-					"-framework",
-					"\"ImageIO\"",
-					"-framework",
-					"\"MobileCoreServices\"",
-					"-framework",
-					"\"QuartzCore\"",
-					"-framework",
-					"\"QuickLook\"",
-					"-framework",
-					"\"Security\"",
-					"-framework",
-					"\"SystemConfiguration\"",
-					"-framework",
-					"\"UIKit\"",
-					"-weak_framework",
-					"\"WebKit\"",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.longboxed.Longboxed-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Alpha;
-		};
-		E57D48F7196069610014A13F /* Alpha */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB09F084FDCF584F1CBB5929 /* Pods.alpha.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(PROJECT_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.longboxed.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Alpha;
 		};
 		E57D48F8196069800014A13F /* Beta */ = {
 			isa = XCBuildConfiguration;
@@ -2116,7 +1923,7 @@
 		};
 		E57D48F9196069800014A13F /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 60AD211474BA0B9EDD91338E /* Pods.beta.xcconfig */;
+			baseConfigurationReference = 27B7DABA2E156E4F81F3FFB3 /* Pods.beta.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2182,7 +1989,7 @@
 		};
 		E57D48FA196069800014A13F /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 60AD211474BA0B9EDD91338E /* Pods.beta.xcconfig */;
+			baseConfigurationReference = 27B7DABA2E156E4F81F3FFB3 /* Pods.beta.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2206,185 +2013,6 @@
 			};
 			name = Beta;
 		};
-		E58B7B6E198F32FC00B4D8A2 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-l\"c++\"",
-					"-framework",
-					"\"Accelerate\"",
-					"-framework",
-					"\"AssetsLibrary\"",
-					"-framework",
-					"\"CFNetwork\"",
-					"-framework",
-					"\"CoreData\"",
-					"-framework",
-					"\"CoreGraphics\"",
-					"-framework",
-					"\"CoreMotion\"",
-					"-framework",
-					"\"CoreText\"",
-					"-framework",
-					"\"CrashReporter\"",
-					"-framework",
-					"\"Foundation\"",
-					"-framework",
-					"\"ImageIO\"",
-					"-framework",
-					"\"MessageUI\"",
-					"-framework",
-					"\"MobileCoreServices\"",
-					"-framework",
-					"\"QuartzCore\"",
-					"-framework",
-					"\"QuickLook\"",
-					"-framework",
-					"\"Security\"",
-					"-framework",
-					"\"SystemConfiguration\"",
-					"-framework",
-					"\"UIKit\"",
-					"-weak_framework",
-					"\"WebKit\"",
-					"-ObjC",
-					"-all_load",
-					"-weak_library",
-					"/usr/lib/libstdc++.dylib",
-				);
-				SDKROOT = iphoneos;
-			};
-			name = Staging;
-		};
-		E58B7B6F198F32FC00B4D8A2 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E225617F81FB80828ABA70BE /* Pods.staging.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Longboxed-iOS",
-					"$(SRCROOT)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
-				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Longboxed-iOS",
-				);
-				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
-				MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR = NO;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-framework",
-					"\"Accelerate\"",
-					"-framework",
-					"\"AssetsLibrary\"",
-					"-framework",
-					"\"CFNetwork\"",
-					"-framework",
-					"\"CoreData\"",
-					"-framework",
-					"\"CoreGraphics\"",
-					"-framework",
-					"\"CoreText\"",
-					"-framework",
-					"\"CrashReporter\"",
-					"-framework",
-					"\"Foundation\"",
-					"-framework",
-					"\"ImageIO\"",
-					"-framework",
-					"\"MobileCoreServices\"",
-					"-framework",
-					"\"QuartzCore\"",
-					"-framework",
-					"\"QuickLook\"",
-					"-framework",
-					"\"Security\"",
-					"-framework",
-					"\"SystemConfiguration\"",
-					"-framework",
-					"\"UIKit\"",
-					"-weak_framework",
-					"\"WebKit\"",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.longboxed.Longboxed-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Staging;
-		};
-		E58B7B70198F32FC00B4D8A2 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E225617F81FB80828ABA70BE /* Pods.staging.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(PROJECT_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.longboxed.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Staging;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2392,9 +2020,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E57D48ED196068E10014A13F /* Debug */,
-				E58B7B6E198F32FC00B4D8A2 /* Staging */,
 				E57D48F8196069800014A13F /* Beta */,
-				E57D48F5196069610014A13F /* Alpha */,
 				E50E58731B80413200C6E166 /* Test */,
 				E57D48EE196068E10014A13F /* AppStore */,
 			);
@@ -2405,9 +2031,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E57D48F0196068E10014A13F /* Debug */,
-				E58B7B6F198F32FC00B4D8A2 /* Staging */,
 				E57D48F9196069800014A13F /* Beta */,
-				E57D48F6196069610014A13F /* Alpha */,
 				E50E58741B80413200C6E166 /* Test */,
 				E57D48F1196068E10014A13F /* AppStore */,
 			);
@@ -2418,9 +2042,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E57D48F3196068E10014A13F /* Debug */,
-				E58B7B70198F32FC00B4D8A2 /* Staging */,
 				E57D48FA196069800014A13F /* Beta */,
-				E57D48F7196069610014A13F /* Alpha */,
 				E50E58751B80413200C6E166 /* Test */,
 				E57D48F4196068E10014A13F /* AppStore */,
 			);
