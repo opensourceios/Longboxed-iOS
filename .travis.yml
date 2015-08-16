@@ -1,4 +1,4 @@
 language: objective-c
 script:
-    - xctool test -workspace Longboxed-iOS.xcworkspace -scheme Alpha-Longboxed-iOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+    - xctool test -workspace Longboxed-iOS.xcworkspace -scheme Longboxed-iOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 
