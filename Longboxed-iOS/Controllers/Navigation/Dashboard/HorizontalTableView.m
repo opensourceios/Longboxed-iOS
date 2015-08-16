@@ -102,7 +102,7 @@
     }
     
     // Then, insert/remove any cells necessary
-    if (self.issuesArray.count && self.previousIssuesArray.count) {
+    if (self.issuesArray.count && self.previousIssuesArray.count && [self numberOfRowsInSection:0]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:self.issuesArray
                                                         previousArray:self.previousIssuesArray];

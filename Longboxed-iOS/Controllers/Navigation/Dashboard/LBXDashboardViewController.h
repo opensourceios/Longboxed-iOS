@@ -34,4 +34,6 @@
 @property (nonatomic, retain) IBOutlet UIImageView *featuredBlurredImageView;
 @property (nonatomic, retain) IBOutlet UIView *thisWeekView;
 
+- (void)fetchBundle;
+
 @end
