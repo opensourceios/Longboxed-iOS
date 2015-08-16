@@ -103,9 +103,9 @@
     
     // Then, insert/remove any cells necessary
     if (self.issuesArray.count && self.previousIssuesArray.count) {
-        NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:self.issuesArray
-                                                    previousArray:self.previousIssuesArray];
         dispatch_async(dispatch_get_main_queue(), ^{
+            NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:self.issuesArray
+                                                        previousArray:self.previousIssuesArray];
             [self wml_applyBatchChanges:diffs
                               inSection:0
                        withRowAnimation:UITableViewRowAnimationFade];

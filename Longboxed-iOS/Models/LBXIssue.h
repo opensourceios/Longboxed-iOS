@@ -29,6 +29,9 @@
 @property (nonatomic, retain) NSDate *releaseDate;
 @property (nonatomic, retain) LBXTitle *title;
 
+- (BOOL)isBeingReleasedThisWeek;
+- (BOOL)isBeingReleasedNextWeek;
+
 @end
 
 

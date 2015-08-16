@@ -92,6 +92,11 @@ BOOL _selectedSearchResult;
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refresh)
+                                                     name:@"reloadDashboard"
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(reloadTableView)
                                                      name:@"reloadDashboardTableView"
                                                    object:nil];
@@ -109,9 +114,14 @@ BOOL _selectedSearchResult;
         
         _scrollView.delegate = self;
         [_scrollView addSubview:_searchController.searchBar];
-        
     }
     return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _client = [LBXClient new];
+    [self refresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -164,8 +174,6 @@ BOOL _selectedSearchResult;
     bottomBorder.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1.0f);
     bottomBorder.backgroundColor = [UIColor colorWithHex:@"#C8C7CC"].CGColor;
     [_separatorView.layer addSublayer:bottomBorder];
-    
-    [self reloadTableView];
 }
 
 - (void)reloadTableView
@@ -273,15 +281,14 @@ BOOL _selectedSearchResult;
     
     [LBXControllerServices setViewDidAppearWhiteNavigationController:self];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"longboxed_full"]];
-    _client = [LBXClient new];
     
-    [self getCoreDataLatestBundle];
+    [self getCoreDataLatestBundle:nil];
     [self getCoreDataPopularIssues];
     
     if (_popularIssuesArray.count && _bundleIssuesArray.count) {
         [self setFeaturedIssueWithIssuesArray:_popularIssuesArray];
     }
-    [self refresh];
+
     [self.scrollView flashScrollIndicators];
     
     // Stuff that determines whether or not to fetch the featured issue
@@ -300,9 +307,9 @@ BOOL _selectedSearchResult;
         _largeFeaturedIssueButton.userInteractionEnabled = NO;
     }
     
-    [self.topTableView reloadTableView];
-    [self.bottomTableView reloadTableView];
     [self.browseTableView reloadData];
+    
+    [self reloadTableView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -464,11 +471,27 @@ BOOL _selectedSearchResult;
     }];
 }
 
-- (void)getCoreDataLatestBundle
-{
-    __block LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:[LBXServices thisWeekPredicateWithParentCheck:NO] inContext:[NSManagedObjectContext MR_defaultContext]];
+- (void)getCoreDataLatestBundle:(nullable LBXBundle *)replacementBundle
+{    
+    LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:[LBXServices thisWeekPredicateWithParentCheck:NO] inContext:[NSManagedObjectContext MR_defaultContext]];
     
-    LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
+    if (replacementBundle) {
+        [[NSManagedObjectContext MR_defaultContext] MR_saveWithBlockAndWait:^(NSManagedObjectContext *scontext) {
+            [LBXLogging logMessage:[NSString stringWithFormat:@"Replacing %lu issues with %lu issues", (unsigned long)bundle.issues.count, (unsigned long)replacementBundle.issues.count]];
+            bundle.issues = replacementBundle.issues;
+        }];
+    }
+    
+    bundle = [LBXBundle MR_findFirstWithPredicate:[LBXServices thisWeekPredicateWithParentCheck:NO] inContext:[NSManagedObjectContext MR_defaultContext]];
+    
+    NSMutableSet *newSet = [NSMutableSet setWithSet:bundle.issues];
+    for (LBXIssue *issue in bundle.issues) {
+        if (!issue.title.isInPullList) [newSet removeObject:issue];
+    }
+    bundle.issues = newSet;
+    
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Bundle issue count: %lu", (unsigned long)bundle.issues.count]];
+    
     if (bundle) {
         NSString *issuesString = @"ISSUES IN YOUR BUNDLE";
         if (bundle.issues.count == 1) {
@@ -489,7 +512,7 @@ BOOL _selectedSearchResult;
         [_bundleButton setNeedsDisplay];
     }
     else {
-        //self.topTableViewCell.contentArray = _bundleIssuesArray;
+        self.topTableView.issuesArray = nil;
         [_bundleButton setTitle:@"0 ISSUES IN YOUR BUNDLE"
                        forState:UIControlStateNormal];
         [[NSNotificationCenter defaultCenter]
@@ -507,8 +530,11 @@ BOOL _selectedSearchResult;
             
             if (!error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    // Get the bundles from Core Data
-                    [self getCoreDataLatestBundle];
+                    
+                    if (bundleArray) {
+                        [self getCoreDataLatestBundle:bundleArray.firstObject];
+                    }
+                    else [self getCoreDataLatestBundle:nil];
                 });
             }
         }];
@@ -555,6 +581,11 @@ BOOL _selectedSearchResult;
         titleViewController.issue = issue;
         [self.navigationController pushViewController:titleViewController animated:YES];
     }
+}
+
+// Settings delegate
+- (void)cacheCleared {
+    [self refresh];
 }
 
 - (void)settingsPressed

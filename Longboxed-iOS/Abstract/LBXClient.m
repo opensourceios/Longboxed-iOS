@@ -188,7 +188,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     
-    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching issues collection with date %@", date]];
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching issues collection with date %@ page %@", date, page]];
     
     // For debugging
     NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date], @"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
@@ -508,24 +508,28 @@
         
         [LBXLogging logMessage:@"Fetching pull list"];
         
+        __block NSNumber *titleBeingAdded = _titleIDBeingAdded;
         [self GETWithRouteName:@"User Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
                 [LBXLogging logMessage:@"Finished fetching pull list"];
                 // Delete any items that may have been removed from
                 // the pull list
-                NSArray *objects = [LBXPullListTitle MR_findAll];
-                for (NSManagedObject *managedObject in objects) {
-                    if (![mappingResult.array containsObject:managedObject] && (_titleIDBeingAdded != ((LBXPullListTitle *)managedObject).titleID)) {
-                        [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSArray *objects = [LBXPullListTitle MR_findAll];
+                    for (NSManagedObject *managedObject in objects) {
+                        if ((![mappingResult.array containsObject:managedObject] && (titleBeingAdded != ((LBXPullListTitle *)managedObject).titleID))) {
+                            [[NSManagedObjectContext MR_defaultContext] MR_saveWithBlockAndWait:^(NSManagedObjectContext *context) {
+                                [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
+                            }];
+                        }
                     }
-                }
-                
-                for (LBXTitle *title in mappingResult.array) {
-                    [self saveAlternateIssuesWithIssue:title.latestIssue];
-                }
+                    
+                    for (LBXTitle *title in mappingResult.array) {
+                        [self saveAlternateIssuesWithIssue:title.latestIssue];
+                    }
+                });
             }
-            
             completion(mappingResult.array, response, error);
         }];
     }
@@ -535,6 +539,9 @@
     
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
+        
+        [LBXPullListTitle createWithTitleID:titleID withContext:[NSManagedObjectContext MR_defaultContext]];
+        
         [LBXLogging logMessage:[NSString stringWithFormat:@"Adding title to pull list: %@", titleID]];
         _titleIDBeingAdded = titleID;
         [LBXLogging logMessage:[NSString stringWithFormat:@"Adding title:\n %@", titleID]];
@@ -542,10 +549,20 @@
         
         [self POSTWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
             
-            [LBXLogging logMessage:[NSString stringWithFormat:@"Added title to pull list: %@", titleID]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+               _titleIDBeingAdded = nil;
+            });
+            
+            if (!error) {
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Added title to pull list: %@", titleID]];
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Added title:\n %@", titleID]];
+            }
+            else {
+                LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:titleID];
+                [title deleteFromDataStoreWithContext:[NSManagedObjectContext MR_defaultContext]];
+            }
+            
             NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES] basedOffObjectProperty:@"name"];
-            _titleIDBeingAdded = nil;
-            [LBXLogging logMessage:[NSString stringWithFormat:@"Added title:\n %@", titleID]];
             completion(pullListArray, response, error);
         }];
     }
@@ -557,31 +574,17 @@
         [LBXLogging logMessage:[NSString stringWithFormat:@"Removing title from pull list: %@", titleID]];
         NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
         // Remove the title from Core Data first
-        __block NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", titleID];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
-        });
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
-            [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
-                
-                if (!error) {
-                    [LBXLogging logMessage:[NSString stringWithFormat:@"Removed title from pull list:\n %@", titleID]];
-                    // Remove the title from the latest bundle
-                    NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
-                    if (bundleArray.count) {
-                        LBXBundle *bundle = bundleArray[0];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [LBXBundle MR_deleteAllMatchingPredicate:predicate];
-                            });
-                            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-                        });
-                    }
-                }
-                NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES] basedOffObjectProperty:@"name"];
-                completion(pullListArray, response, error);
-            }];
+        [LBXPullListTitle deleteTitleID:titleID fromDataStoreWithContext:[NSManagedObjectContext MR_defaultContext]];
+        
+        [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+            if (!error) {
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Removed title from pull list:\n %@", titleID]];
+            }
+            else {
+                [LBXPullListTitle createWithTitleID:titleID withContext:[NSManagedObjectContext MR_defaultContext]];
+            }
+            NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES] basedOffObjectProperty:@"name"];
+            completion(pullListArray, response, error);
         }];
     }
 

@@ -169,6 +169,8 @@ int page;
     [super viewWillDisappear:animated];
     [LBXControllerServices setViewWillDisappearClearNavigationController:self];
     self.navigationController.navigationBar.topItem.title = @" ";
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"setTitleDetailForegroundImage" object:nil];
 }
 
 - (void)setDetailView
@@ -349,8 +351,7 @@ int page;
 {
     _detailView.addToPullListButton.tag = 0;
     [_detailView.addToPullListButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
-    LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:_detailTitle.titleID];
-    if (title) {
+    if (self.detailTitle.isInPullList) {
         [_detailView.addToPullListButton setTitle:@"     REMOVE FROM PULL LIST     " forState:UIControlStateNormal];
         _detailView.addToPullListButton.layer.borderColor = [[UIColor whiteColor] CGColor];
         addToPullList = YES;
@@ -422,7 +423,7 @@ int page;
 
 - (void)setDetailTitleWithID:(NSNumber *)ID
 {
-    _detailTitle = [LBXTitle MR_findFirstByAttribute:@"titleID" withValue:ID];
+    _detailTitle = [LBXTitle MR_findFirstByAttribute:@"titleID" withValue:ID inContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
 - (void)fetchPullList
@@ -486,18 +487,30 @@ int page;
     pullListTitle.latestIssue = title.latestIssue;
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     [self setPullListButton];
+     __block typeof(self) weakself = self;
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
+        if (!error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakself setPullListButton];
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:@"reloadDashboard"
+                 object:weakself];
+            });
+        }
     }];
 }
 
 - (void)deleteTitle:(LBXTitle *)title
 {
     // Fetch pull list titles
+    __block typeof(self) weakself = self;
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {}];
-                [self setPullListButton];
+                [weakself setPullListButton];
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:@"reloadDashboard"
+                 object:weakself];
             });
         }
     }];
@@ -675,7 +688,7 @@ int page;
         [LBXControllerServices showShareSheetWithArrayOfInfo:@[infoString, [NSURL URLWithString:urlString], viaString, coverImage]];
         [self.tableView setEditing:NO];
     }];
-    shareAction.backgroundColor = [UIColor LBXGreenColor];
+    shareAction.backgroundColor = [UIColor LBXBlueColor];
     
     return @[shareAction];
 }

@@ -22,4 +22,11 @@
 @property (nonatomic, retain) NSNumber *subscribers;
 @property (nonatomic, retain) LBXIssue *latestIssue;
 
+- (void)deleteFromDataStoreWithContext:(NSManagedObjectContext *)context;
+
++ (void)deleteTitleID:(NSNumber *)titleID fromDataStoreWithContext:(NSManagedObjectContext *)context;
+
++ (void)createWithTitleID:(NSNumber *)titleID withContext:(NSManagedObjectContext *)context;
++ (void)createWithTitle:(LBXTitle *)title withContext:(NSManagedObjectContext *)context;
+
 @end

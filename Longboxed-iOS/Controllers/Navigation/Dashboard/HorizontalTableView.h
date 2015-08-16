@@ -12,7 +12,6 @@
 
 @property (nonatomic, copy) NSArray *issuesArray;
 
-- (void)reloadTableView;
 - (void)setWidthConstraint:(CGFloat)width;
 
 @end

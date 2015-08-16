@@ -30,6 +30,7 @@
 #import "NSString+StringUtilities.h"
 #import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 #import <NSString+HTML.h>
+#import "LBXPullListTitle.h"
 #import "LBXServices.h"
 
 @interface LBXWeekViewController () <UIToolbarDelegate, UITableViewDelegate, UITableViewDataSource,
@@ -270,6 +271,11 @@ BOOL _endOfIssues;
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
     [_maskLoadingView removeFromSuperview];
+}
+
+- (void)dealloc {
+    _sectionArray = nil;
+    self.tableView.delegate = nil;
 }
 
 #pragma mark Private Methods
@@ -759,12 +765,12 @@ BOOL _endOfIssues;
 
 // Swipe to share
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section];
+    NSArray *array = [dict objectForKey:dict.allKeys[0]];
+    __block LBXIssue *issue = [array objectAtIndex:indexPath.row];
+    
     UITableViewRowAction *shareAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Share" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         // maybe show an action sheet with more options
-        NSDictionary *dict = [_sectionArray objectAtIndex:indexPath.section];
-        NSArray *array = [dict objectForKey:dict.allKeys[0]];
-        LBXIssue *issue = [array objectAtIndex:indexPath.row];
-        
         NSString *infoString = [issue.completeTitle stringByDecodingHTMLEntities];
         NSString *urlString = [NSString stringWithFormat:@"%@%@", @"https://longboxed.com/issue/", issue.diamondID];
         NSString *viaString = [NSString stringWithFormat:@"\nvia @longboxed for iOS"];
@@ -772,9 +778,35 @@ BOOL _endOfIssues;
         [LBXControllerServices showShareSheetWithArrayOfInfo:@[infoString, [NSURL URLWithString:urlString], viaString, coverImage]];
         [self.tableView setEditing:NO];
     }];
-    shareAction.backgroundColor = [UIColor LBXGreenColor];
+    shareAction.backgroundColor = [UIColor LBXBlueColor];
     
-    return @[shareAction];
+    NSString *title = (issue.title.isInPullList) ? @"Remove from\nPull List" : @"Add to\nPull List";
+    UITableViewRowAction *addAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:title handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+
+        LBXClient *client = [LBXClient new];
+        
+        if (issue.title.isInPullList) {
+            [client removeTitleFromPullList:issue.title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
+                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:@"reloadDashboard"
+                 object:self];
+            }];
+        }
+        else {
+            [client addTitleToPullList:issue.title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
+                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:@"reloadDashboard"
+                 object:self];
+            }];
+        }
+        
+        [self.tableView setEditing:NO];
+    }];
+    addAction.backgroundColor = [UIColor LBXGreenColor];
+    
+    return @[addAction, shareAction];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
