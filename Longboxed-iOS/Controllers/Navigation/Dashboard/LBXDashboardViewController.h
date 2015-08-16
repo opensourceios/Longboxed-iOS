@@ -7,17 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Crashlytics/Crashlytics.h>
 
-@class LBXTopTableViewCell;
-@class LBXBottomTableViewCell;
+@class HorizontalTableView;
 
-@interface LBXDashboardViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate> 
+@interface LBXDashboardViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate, CrashlyticsDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-@property (nonatomic, retain) IBOutlet UITableView *topTableView;
-@property (nonatomic, retain) IBOutlet UITableView *bottomTableView;
+@property (nonatomic, retain) IBOutlet HorizontalTableView *topTableView;
+@property (nonatomic, retain) IBOutlet HorizontalTableView *bottomTableView;
+@property (nonatomic, retain) IBOutlet UIView *topView;
+@property (nonatomic, retain) IBOutlet UIView *bottomView;
 @property (nonatomic, retain) IBOutlet UITableView *browseTableView;
 @property (nonatomic, retain) IBOutlet UIButton *bundleButton;
 @property (nonatomic, retain) IBOutlet UIButton *popularButton;
@@ -31,7 +33,5 @@
 @property (nonatomic, retain) IBOutlet UILabel *featuredDescriptionLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *featuredBlurredImageView;
 @property (nonatomic, retain) IBOutlet UIView *thisWeekView;
-@property (nonatomic, retain) IBOutlet LBXTopTableViewCell *topTableViewCell;
-@property (nonatomic, retain) IBOutlet LBXBottomTableViewCell *bottomTableViewCell;
 
 @end

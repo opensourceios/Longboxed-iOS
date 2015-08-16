@@ -22,4 +22,6 @@
 @property (nonatomic, retain) NSNumber *subscribers;
 @property (nonatomic, retain) LBXIssue *latestIssue;
 
+- (BOOL)isInPullList;
+
 @end

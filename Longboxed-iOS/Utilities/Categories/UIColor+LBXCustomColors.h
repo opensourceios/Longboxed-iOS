@@ -11,6 +11,7 @@
 @interface UIColor (LBXCustomColors)
 
 + (UIColor *)LBXGreenColor;
++ (UIColor *)LBXBlueColor;
 + (UIColor *)LBXGrayColor;
 + (UIColor *)LBXRedColor;
 + (UIColor *)LBXGrayNavigationBarColor;

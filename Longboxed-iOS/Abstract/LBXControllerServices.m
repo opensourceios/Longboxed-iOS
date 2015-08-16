@@ -15,6 +15,7 @@
 #import "LBXBackButton.h"
 #import "LBXConstants.h"
 #import "LBXBundle.h"
+#import "LBXServices.h"
 #import <MagicalRecord/MagicalRecord.h>
 
 #import "NSDate+DateUtilities.h"
@@ -31,6 +32,7 @@
 #import "SIAlertView.h"
 #import "LBXEmptyViewController.h"
 #import <JRHUtilities/UIViewController+Utils.h>
+#import <NSString+HTML.h>
 
 @interface LBXControllerServices ()
 
@@ -169,7 +171,7 @@
 {
     NSString *subtitleString = [NSString stringWithFormat:@"%@", [NSString localTimeZoneStringWithDate:issue.releaseDate]];
     
-    NSString *modifiedTitleString = [NSString fixHTMLAttributes:issue.completeTitle];
+    NSString *modifiedTitleString = [issue.completeTitle stringByDecodingHTMLEntities];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(issueNumber == %@) AND (title == %@)", issue.issueNumber, issue.title];
     NSArray *initialFind = [LBXIssue MR_findAllSortedBy:@"releaseDate" ascending:NO withPredicate:predicate];
@@ -221,11 +223,8 @@
         while ((cnt = [[[UIApplication sharedApplication] scheduledLocalNotifications] count]) > 0) {
             [NSThread sleepForTimeInterval:.01f];
         }
-        
-        NSDate *currentDate = [NSDate localDate];
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(releaseDate > %@) AND (releaseDate < %@)", [[NSDate thisWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY], [[NSDate nextWednesdayOfDate:currentDate] dateByAddingTimeInterval:-1*DAY]];
-        LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:predicate];
+
+        LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:[LBXServices thisWeekPredicateWithParentCheck:NO]];
         
         if (bundle.issues) {
             NSLog(@"%lu", (unsigned long)bundle.issues.count);
@@ -489,6 +488,36 @@
     [UICKeyChainStore removeItemForKey:@"id"];
 }
 
++ (void)showSuccessHUDWithTitle:(NSString *)title dimBackground:(BOOL)dim {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (dim) {
+            [SVProgressHUD setForegroundColor:[UIColor blackColor]];
+            [SVProgressHUD setBackgroundColor:[UIColor whiteColor]];
+        }
+        [SVProgressHUD showSuccessWithStatus:title maskType:SVProgressHUDMaskTypeBlack];
+    });
+}
+
++ (void)showErrorHUDWithTitle:(NSString *)title dimBackground:(BOOL)dim {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (dim) {
+            [SVProgressHUD setForegroundColor:[UIColor blackColor]];
+            [SVProgressHUD setBackgroundColor:[UIColor whiteColor]];
+        }
+        [SVProgressHUD showErrorWithStatus:title maskType:SVProgressHUDMaskTypeBlack];
+    });
+}
+
++ (void)showLoadingWithDimBackground:(BOOL)dim {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (dim) {
+            [SVProgressHUD setForegroundColor:[UIColor blackColor]];
+            [SVProgressHUD setBackgroundColor:[UIColor whiteColor]];
+        }
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    });
+}
+
 + (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message
 {
     SIAlertView *alert = [[SIAlertView alloc] initWithTitle:title andMessage:message];
@@ -540,6 +569,12 @@
         struct utsname systemInfo;
         uname(&systemInfo);
         [composeViewController setMessageBody:messageBody isHTML:YES];
+        
+        // Attach the crash log
+        [composeViewController addAttachmentData:[NSData dataWithContentsOfFile:[LBXServices crashFilePath]]
+                                        mimeType:@"text/plain"
+                                        fileName:@"crash.log"];
+        
         [delegate presentViewController:composeViewController animated:YES completion:nil];
     }
     else {

@@ -1,0 +1,5 @@
+- Updates for iOS 9
+
+- Swipe to add to pull list in releases view
+
+- Bug fixes

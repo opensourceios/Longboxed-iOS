@@ -14,6 +14,10 @@
     return [UIColor colorWithRed:92/255.0 green:184/255.0 blue:92/255.0 alpha:1.0];
 }
 
++ (UIColor *)LBXBlueColor {
+    return [UIColor colorWithRed:29/255.0 green:98/255.0 blue:240/255.0 alpha:1.0];
+}
+
 + (UIColor *)LBXGrayColor {
     return [UIColor colorWithRed:74/255.0 green:74/255.0 blue:74/255.0 alpha:0.9];
 }

@@ -5,11 +5,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Longboxed</string>
+	<string>Longboxed Δ</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.longboxed.Longboxed-iOS</string>
+	<string>com.longboxed.Longboxed-iOSDebug</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.4</string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -30,9 +30,37 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>468</string>
+	<string>577</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>16ebe072876d720b57b612526b0b6f214e2c3cf5</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>org-appextension-feature-password-management</string>
+		<string>org.appextension.find-login-action</string>
+		<string>org.appextension.save-login-action</string>
+		<string>org.appextension.change-password-action</string>
+		<string>org.appextension.fill-webview-action</string>
+		<string>org.appextension.fill-browser-action</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fontawesome.ttf</string>

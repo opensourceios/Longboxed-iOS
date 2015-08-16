@@ -1,0 +1,205 @@
+# Customise this file, documentation can be found here:
+# https://github.com/KrauseFx/fastlane/tree/master/docs
+# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# By default, fastlane will send which actions are used
+# No personal data is shared, more information on https://github.com/fastlane/enhancer
+# Uncomment the following line to opt out
+# opt_out_usage
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "1.5.0"
+
+$version_number = "1.0" 
+
+default_platform :ios
+
+def provision
+
+  # Get the latest provisionnig profiles from the Dev Portal and 
+  # update the project settings for each of the targets
+
+  project_file = 'Longboxed-iOS.xcodeproj'
+
+  sigh(app_identifier: "com.longboxed.Longboxed-iOS", output_path: "/tmp")
+  update_project_provisioning(
+    xcodeproj: project_file,
+    build_configuration_filter: "Longboxed-iOS"
+  )
+
+end
+
+def ios_tests
+
+  begin
+    sh "xctool test -workspace ../Longboxed-iOS.xcworkspace -sdk iphonesimulator -destination 'name=iPhone 6' -scheme 'Longboxed-iOS'"
+  rescue => ex
+    puts ex
+    raise "iOS Unit Tests failed:\n\n #{ex.to_s}"
+  end
+
+end
+
+def build_app  
+
+  push_to_git_remote
+
+  provision
+
+  set_build_number
+
+  # set_build_number_repository // Fastlane command to update based on HEAD
+
+  ipa(
+    scheme: 'Longboxed-iOS'
+  )
+
+  # Reset the provisioning settings so we can keep
+  # developing in the simulator and on devices.
+  # Also set the build and version numbers back to default 
+  reset_git_repo(
+    force: true,
+    files: [
+      "Longboxed-iOS.xcodeproj/project.pbxproj",
+      "Longboxed-iOS/Longboxed-iOS-Info.plist",
+    ]
+  )
+
+end
+
+def deploy(skip_deploy)
+
+  ENV["DELIVER_WHAT_TO_TEST"] = File.read("metadata/en-GB/deliver_what_to_test.txt")
+
+  # Apple Testflight
+  testflight(
+    skip_deploy: skip_deploy
+  )
+
+end
+
+def tag_commit
+
+  release_number = (last_git_tag.partition('r').last.to_i + 1).to_s
+  new_tag = $version_number + 'r' + release_number
+
+  add_git_tag(
+    tag: new_tag
+  )
+
+  push_to_git_remote
+
+end
+
+def set_build_number
+
+    # Set the build number properly
+    begin
+      sh "../Scripts/update_build_number_release.sh develop"
+      sh "../Scripts/update_version_number.sh " + $version_number
+    rescue => ex
+      puts ex
+      raise "Build number update failed:\n\n #{ex.to_s}"
+    end
+
+end
+
+platform :ios do
+
+  before_all do
+
+    #ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+
+    # Make sure we're on master
+    ensure_git_branch(
+      branch: 'master'
+    )
+
+    ensure_git_status_clean
+
+    # Inputs
+    $version_number = ask "Version Number: "
+
+    # Delete derived data
+    begin
+      sh "rm -rf ~/Library/Developer/Xcode/DerivedData/Longboxed-iOS*"
+      sh "rm -rf ~/Library/Developer/Xcode/DerivedData/ModuleCache"
+    rescue => ex
+      puts ex
+      raise "Derived data removal failed:\n\n #{ex.to_s}"
+    end
+
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    ios_tests
+  end
+
+  desc "Upload a new Beta Build to Apple TestFlight and distribute to testers"
+  desc "This *will* distribute to external testers"
+  lane :beta do
+    ios_tests
+    build_app
+    deploy(true) # Apple Testflight and HockeyApp
+    tag_commit
+  end
+
+  desc "Upload a new Beta build to Apple TestFlight"
+  desc "This *will not* distribute to external testers"
+  lane :upload do
+    ios_tests
+    build_app
+    deploy(false) # Apple Testflight and HockeyApp
+    tag_commit
+  end
+
+  desc "Tag the latest build"
+  lane :tag do
+    tag_commit 
+  end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+    begin
+      sh "rm ../*.app.dSYM.zip && rm ../*.ipa"
+    rescue
+      # pass
+    end
+
+    buildNumber = sh "git rev-list HEAD | wc -l | tr -d ' '"
+    # slack(
+    #   message: "Longboxed Build " + buildNumber,
+    #   success: true
+    # )
+
+    notify "Fastlane complete!"
+  end
+
+
+  error do |lane, exception|
+
+    buildNumber = sh "git rev-list HEAD | wc -l | tr -d ' '"
+    # slack(
+    #   message: "Build " + buildNumber + " " + exception.message,
+    #   success: false
+    # )
+
+    notify "Fastlane failed: " + exception.message
+  end
+
+end
+
+
+# More information about multiple platforms in fastlane: 
+# https://github.com/KrauseFx/fastlane/blob/master/docs/Platforms.md

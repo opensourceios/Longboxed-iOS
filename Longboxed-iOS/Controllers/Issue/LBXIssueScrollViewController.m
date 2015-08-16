@@ -12,7 +12,7 @@
 #import "LBXClient.h"
 
 #import <Shimmer/FBShimmeringView.h>
-#import "NSString+StringUtilities.h"
+#import <NSString+HTML.h>
 
 @interface LBXIssueScrollViewController ()
 
@@ -153,7 +153,7 @@ CGRect screenRect;
 - (void)showShareSheet {
     int page = self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
     LBXIssue *issue = ((LBXIssue *)[_issues objectAtIndex:page]);
-    NSString *infoString = [NSString fixHTMLAttributes:issue.completeTitle];
+    NSString *infoString = [issue.completeTitle stringByDecodingHTMLEntities];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", @"https://longboxed.com/issue/", issue.diamondID];
     NSString *viaString = [NSString stringWithFormat:@"\nvia @longboxed for iOS"];
     UIImage *coverImage = [UIImage new];

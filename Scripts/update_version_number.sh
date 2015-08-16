@@ -1,0 +1,1 @@
+/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $1" "../Longboxed-iOS/Longboxed-iOS-Info.plist"

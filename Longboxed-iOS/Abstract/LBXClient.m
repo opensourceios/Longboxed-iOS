@@ -21,7 +21,6 @@
 #import "NSArray+LBXArrayUtilities.h"
 #import "LBXAppDelegate.h"
 
-#import <JRHUtilities/NSDictionary+DictionaryUtilities.h>
 #import <JRHUtilities/NSDate+DateUtilities.h>
 #import "LBXControllerServices.h"
 #import "LBXLogging.h"
@@ -45,7 +44,7 @@
 }
 
 - (void)GETWithRouteName:(NSString *)routeName
-        HTTPHeaderParams:(NSString *)HTTPHeaderParams
+        HTTPHeaderParams:(NSDictionary *)HTTPHeaderParams
          queryParameters:(NSDictionary *)parameters
              credentials:(BOOL)credentials
               completion:(void (^)(RKMappingResult*, RKObjectRequestOperation*, NSError*))completion
@@ -59,7 +58,7 @@
     NSDictionary *endpointDict = [LBXEndpoints endpoints];
     
     NSString *path = endpointDict[routeName];
-    if (HTTPHeaderParams) {
+    if (HTTPHeaderParams.allKeys.count) {
         RKPathMatcher *matcher = [RKPathMatcher pathMatcherWithPattern:endpointDict[routeName]];
         path = [matcher pathFromObject:HTTPHeaderParams addingEscapes:YES interpolatedParameters:nil];
     }
@@ -107,7 +106,8 @@
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
                  [(LBXAppDelegate *)[[UIApplication sharedApplication] delegate] setNetworkActivityIndicatorVisible:NO];
-                 NSDictionary* jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+                 // Make sure the response object is not nil before serializing it
+                 NSDictionary* jsonFromData = (responseObject) ? (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil] : nil;
                  if (completion) {
                      completion(jsonFromData, operation, nil);
                  }
@@ -187,7 +187,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     
-    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching issues collection with date %@", date]];
+    [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching issues collection with date %@ page %@", date, page]];
     
     // For debugging
     NSDictionary *parameters = @{@"date" : [formatter stringFromDate:date], @"page" : [NSString stringWithFormat:@"%d", [page intValue]]};
@@ -244,10 +244,12 @@
 }
 
 - (void)fetchIssue:(NSNumber*)issueID withCompletion:(void (^)(LBXIssue*, RKObjectRequestOperation*, NSError*))completion {
-
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"issueID", issueID,
-                        nil];
+    
+    NSDictionary *params;
+    if (issueID) {
+        params = @{@"issueID" : issueID};
+    }
+    
     [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching issue %@", issueID]];
     [self GETWithRouteName:@"Issue" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
         
@@ -311,9 +313,10 @@
 
 - (void)fetchTitle:(NSNumber*)titleID withCompletion:(void (^)(LBXTitle*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"titleID", titleID,
-                        nil];
+    NSDictionary *params;
+    if (titleID) {
+        params = @{@"titleID" : titleID};
+    }
     
     [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching title: %@", titleID]];
     [self GETWithRouteName:@"Title" HTTPHeaderParams:params queryParameters:nil credentials:NO completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
@@ -329,9 +332,10 @@
 
 - (void)fetchIssuesForTitle:(NSNumber*)titleID page:(NSNumber *)page withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"titleID", titleID,
-                        nil];
+    NSDictionary *headerParams;
+    if (titleID) {
+        headerParams = @{@"titleID" : titleID};
+    }
     
     NSDictionary *objectDictParams;
     if (![page isEqualToNumber:@1]) {
@@ -354,9 +358,10 @@
 
 - (void)fetchIssuesForTitle:(NSNumber*)titleID page:(NSNumber *)page count:(NSNumber *)count withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"titleID", titleID,
-                        nil];
+    NSDictionary *headerParams;
+    if (titleID) {
+        headerParams = @{@"titleID" : titleID};
+    }
     
     NSDictionary *objectDictParams;
     if (![page isEqualToNumber:@1]) {
@@ -408,9 +413,10 @@
 
 - (void)fetchPublisher:(NSNumber*)publisherID withCompletion:(void (^)(LBXPublisher*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"publisherID", publisherID,
-                        nil];
+    NSDictionary *params;
+    if (publisherID) {
+        params = @{@"publisherID" : publisherID};
+    }
     
     [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching publisher: %@", publisherID]];
     
@@ -422,9 +428,10 @@
 
 - (void)fetchTitlesForPublisher:(NSNumber*)publisherID page:(NSNumber *)page withCompletion:(void (^)(NSArray*, RKObjectRequestOperation*, NSError*))completion {
     
-    NSString *params = [NSDictionary dictionaryWithKeysAndObjects:
-                        @"publisherID", publisherID,
-                        nil];
+    NSDictionary *params;
+    if (publisherID) {
+        params = @{@"publisherID" : publisherID};
+    }
     
     NSDictionary *objectDictParams;
     if (![page isEqualToNumber:@1]) {
@@ -492,34 +499,36 @@
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
         UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        NSString *headerParams;
+        NSDictionary *headerParams;
         if (store[@"id"]) {
-            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                                @"userID", store[@"id"],
-                                nil];
+            headerParams = @{@"userID" : store[@"id"]};
             
         }
         
         [LBXLogging logMessage:@"Fetching pull list"];
         
+        __block NSNumber *titleBeingAdded = _titleIDBeingAdded;
         [self GETWithRouteName:@"User Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(RKMappingResult *mappingResult, RKObjectRequestOperation *response, NSError *error) {
             
             if (!error) {
                 [LBXLogging logMessage:@"Finished fetching pull list"];
                 // Delete any items that may have been removed from
                 // the pull list
-                NSArray *objects = [LBXPullListTitle MR_findAll];
-                for (NSManagedObject *managedObject in objects) {
-                    if (![mappingResult.array containsObject:managedObject] && (_titleIDBeingAdded != ((LBXPullListTitle *)managedObject).titleID)) {
-                        [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSArray *objects = [LBXPullListTitle MR_findAll];
+                    for (NSManagedObject *managedObject in objects) {
+                        if ((![mappingResult.array containsObject:managedObject] && (titleBeingAdded != ((LBXPullListTitle *)managedObject).titleID))) {
+                            [[NSManagedObjectContext MR_defaultContext] MR_saveWithBlockAndWait:^(NSManagedObjectContext *context) {
+                                [[NSManagedObjectContext MR_defaultContext] deleteObject:managedObject];
+                            }];
+                        }
                     }
-                }
-                
-                for (LBXTitle *title in mappingResult.array) {
-                    [self saveAlternateIssuesWithIssue:title.latestIssue];
-                }
+                    
+                    for (LBXTitle *title in mappingResult.array) {
+                        [self saveAlternateIssuesWithIssue:title.latestIssue];
+                    }
+                });
             }
-            
             completion(mappingResult.array, response, error);
         }];
     }
@@ -529,6 +538,9 @@
     
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
+        
+        [LBXPullListTitle createWithTitleID:titleID withContext:[NSManagedObjectContext MR_defaultContext]];
+        
         [LBXLogging logMessage:[NSString stringWithFormat:@"Adding title to pull list: %@", titleID]];
         _titleIDBeingAdded = titleID;
         [LBXLogging logMessage:[NSString stringWithFormat:@"Adding title:\n %@", titleID]];
@@ -536,10 +548,20 @@
         
         [self POSTWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
             
-            [LBXLogging logMessage:[NSString stringWithFormat:@"Added title to pull list: %@", titleID]];
-            NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
-            _titleIDBeingAdded = nil;
-            [LBXLogging logMessage:[NSString stringWithFormat:@"Added title:\n %@", titleID]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+               _titleIDBeingAdded = nil;
+            });
+            
+            if (!error) {
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Added title to pull list: %@", titleID]];
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Added title:\n %@", titleID]];
+            }
+            else {
+                LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:titleID];
+                [title deleteFromDataStoreWithContext:[NSManagedObjectContext MR_defaultContext]];
+            }
+            
+            NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES] basedOffObjectProperty:@"name"];
             completion(pullListArray, response, error);
         }];
     }
@@ -551,31 +573,17 @@
         [LBXLogging logMessage:[NSString stringWithFormat:@"Removing title from pull list: %@", titleID]];
         NSDictionary *headerParams = @{@"title_id" : [titleID stringValue]};
         // Remove the title from Core Data first
-        __block NSPredicate *predicate = [NSPredicate predicateWithFormat: @"titleID == %@", titleID];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [LBXPullListTitle MR_deleteAllMatchingPredicate:predicate];
-        });
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
-            [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
-                
-                if (!error) {
-                    [LBXLogging logMessage:[NSString stringWithFormat:@"Removed title from pull list:\n %@", titleID]];
-                    // Remove the title from the latest bundle
-                    NSArray *bundleArray = [LBXBundle MR_findAllSortedBy:@"bundleID" ascending:NO];
-                    if (bundleArray.count) {
-                        LBXBundle *bundle = bundleArray[0];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            predicate = [NSPredicate predicateWithFormat:@"bundleID == %@", bundle.bundleID];
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [LBXBundle MR_deleteAllMatchingPredicate:predicate];
-                            });
-                            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-                        });
-                    }
-                }
-                NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"];
-                completion(pullListArray, response, error);
-            }];
+        [LBXPullListTitle deleteTitleID:titleID fromDataStoreWithContext:[NSManagedObjectContext MR_defaultContext]];
+        
+        [self DELETEWithRouteName:@"Add Title to Pull List" HTTPHeaderParams:headerParams queryParameters:nil credentials:YES completion:^(NSDictionary *resultDict, AFHTTPRequestOperation *response, NSError *error) {
+            if (!error) {
+                [LBXLogging logMessage:[NSString stringWithFormat:@"Removed title from pull list:\n %@", titleID]];
+            }
+            else {
+                [LBXPullListTitle createWithTitleID:titleID withContext:[NSManagedObjectContext MR_defaultContext]];
+            }
+            NSArray *pullListArray = [NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES] basedOffObjectProperty:@"name"];
+            completion(pullListArray, response, error);
         }];
     }
 
@@ -587,11 +595,9 @@
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
         UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        NSString *headerParams;
+        NSDictionary *headerParams;
         if (store[@"id"]) {
-            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                      @"userID", store[@"id"],
-                      nil];
+            headerParams = @{@"userID" : store[@"id"]};
         }
         
         NSDictionary *objectDictParams;
@@ -630,11 +636,9 @@
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
         UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        NSString *headerParams;
+        NSDictionary *headerParams;
         if (store[@"id"]) {
-            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                            @"userID", store[@"id"],
-                            nil];
+            headerParams = @{@"userID" : store[@"id"]};
         }
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -677,11 +681,9 @@
     if (![LBXControllerServices isLoggedIn]) completion(nil, nil, nil);
     else {
         UICKeyChainStore *store = [UICKeyChainStore keyChainStore];
-        NSString *headerParams;
+        NSDictionary *headerParams;
         if (store[@"id"]) {
-            headerParams = [NSDictionary dictionaryWithKeysAndObjects:
-                      @"userID", store[@"id"],
-                      nil];
+            headerParams = @{@"userID" : store[@"id"]};
         }
         [LBXLogging logMessage:[NSString stringWithFormat:@"Fetching latest bundle"]];
         

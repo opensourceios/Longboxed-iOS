@@ -26,7 +26,7 @@ NSString *versionAPI = @"v1";
 
 + (NSString *)baseURLString
 {
-    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.longboxed.Longboxed-iOS-Staging"]) {
+    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.longboxed.Longboxed-iOSDebug"]) {
         return stagingURL;
     }
     else {

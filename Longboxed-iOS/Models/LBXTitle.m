@@ -7,7 +7,7 @@
 //
 
 #import "LBXTitle.h"
-
+#import "LBXPullListTitle.h"
 @implementation LBXTitle
 
 @dynamic titleID;
@@ -20,6 +20,12 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"Title: %@\nID: %@\nPublisher: %@\nSubscribers: %@\nIssue Count: %@", self.name, self.titleID, self.publisher.name, self.subscribers, self.issueCount];
+}
+
+- (BOOL)isInPullList {
+    LBXPullListTitle *title = [LBXPullListTitle MR_findFirstByAttribute:@"titleID" withValue:self.titleID inContext:[NSManagedObjectContext MR_defaultContext]];
+    if (title) return YES;
+    return NO;
 }
 
 @end

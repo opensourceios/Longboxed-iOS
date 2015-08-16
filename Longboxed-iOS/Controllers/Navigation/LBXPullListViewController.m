@@ -255,7 +255,7 @@ CGFloat cellWidth;
 
 - (void)fillPullListArray
 {
-    _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:nil ascending:YES] basedOffObjectProperty:@"name"]];
+    _pullListArray = [NSMutableArray arrayWithArray:[NSArray sortedArray:[LBXPullListTitle MR_findAllSortedBy:@"name" ascending:YES inContext:[NSManagedObjectContext MR_defaultContext]] basedOffObjectProperty:@"name"]];
 }
 
 - (void)refresh
@@ -365,6 +365,9 @@ CGFloat cellWidth;
     [self.client addTitleToPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         if (!error) {
             [bself fillPullListArray];
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:@"reloadDashboard"
+             object:bself];
         }
         [bself.tableView reloadData];
     }];
@@ -373,9 +376,13 @@ CGFloat cellWidth;
 - (void)deleteTitle:(LBXPullListTitle *)title
 {
     // Fetch pull list titles
+    __block typeof(self) bself = self;
     [self.client removeTitleFromPullList:title.titleID withCompletion:^(NSArray *pullListArray, AFHTTPRequestOperation *response, NSError *error) {
         [self.tableView stopPullToRefreshAnimation];
         if (!error) {
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:@"reloadDashboard"
+             object:bself];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.client fetchBundleResourcesWithDate:[NSDate thisWednesdayOfDate:[NSDate localDate]] page:@1 count:@1 completion:^(NSArray *bundleArray, RKObjectRequestOperation *response, NSError *error) {}];
                 [self fillPullListArray];
