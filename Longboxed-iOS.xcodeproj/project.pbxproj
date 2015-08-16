@@ -1158,7 +1158,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "Scripts/update_build_number.sh develop";
+			shellScript = "Scripts/update_build_number_pre.sh develop";
 		};
 		F3E60A7A16A9ED4051D556CC /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
