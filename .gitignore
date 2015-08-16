@@ -26,3 +26,7 @@ DerivedData
 #
 Pods/
 Podfile.lock
+
+# Fastlane
+fastlane/screenshots
+fastlane/report.xml
