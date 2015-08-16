@@ -41,6 +41,7 @@
 #import <UIImage+CreateImage.h>
 #import <Doppelganger.h>
 #import <NSString+HTML.h>
+#import "LBXPullListTitle.h"
 
 
 @interface LBXDashboardViewController () <UISearchControllerDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate, CrashlyticsDelegate>
@@ -486,7 +487,7 @@ BOOL _selectedSearchResult;
     
     NSMutableSet *newSet = [NSMutableSet setWithSet:bundle.issues];
     for (LBXIssue *issue in bundle.issues) {
-        if (!issue.title.isInPullList) [newSet removeObject:issue];
+        if (!issue.title.isInPullList && [LBXPullListTitle MR_findAll].count) [newSet removeObject:issue];
     }
     bundle.issues = newSet;
     

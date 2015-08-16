@@ -5,11 +5,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Longboxed Δ</string>
+	<string>Longboxed</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.longboxed.Longboxed-iOSDebug</string>
+	<string>com.longboxed.Longboxed-iOS</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>577</string>
+	<string>Dev</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

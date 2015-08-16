@@ -143,6 +143,8 @@ static NSString * const kUserHasOnboardedKey = @"userHasOnboarded";
     
     // animate the transition to the main application
     [self setupNormalRootViewControllerAnimated:YES];
+    
+    [_dashboardViewController fetchBundle];
 }
 
 // get the log content with a maximum byte size
