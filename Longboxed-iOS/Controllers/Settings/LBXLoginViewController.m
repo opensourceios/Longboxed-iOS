@@ -173,6 +173,10 @@ UICKeyChainStore *store;
                 }
                 else [self.navigationController popViewControllerAnimated:YES];
                 [SVProgressHUD showSuccessWithStatus:@"Logged In!"];
+                
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:@"reloadDashboard"
+                 object:self];
             });
         }
         else {
