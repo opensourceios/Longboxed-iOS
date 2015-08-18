@@ -13,6 +13,7 @@
 
 #import <UIImageView+AFNetworking.h>
 #import <Doppelganger.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface HorizontalTableView () <UITableViewDelegate, UITableViewDataSource>
 
@@ -102,10 +103,19 @@
     }
     
     // Then, insert/remove any cells necessary
-    if (self.issuesArray.count && self.previousIssuesArray.count && [self numberOfRowsInSection:0]) {
+    if (self.issuesArray.count > 0 && self.previousIssuesArray.count > 0 && [self numberOfRowsInSection:0] > 1) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:self.issuesArray
                                                         previousArray:self.previousIssuesArray];
+            
+            // Some logging info to debug this kind of crash:
+            // https://fabric.io/side-projects2/ios/apps/com.longboxed.longboxed-ios/issues/55d0ed66e0d514e5d609add6
+            [[Crashlytics sharedInstance] setIntValue:(int)[self numberOfRowsInSection:0] forKey:@"numberOfRows"];
+            [[Crashlytics sharedInstance] setObjectValue:self.issuesArray forKey:@"issuesArray"];
+            [[Crashlytics sharedInstance] setIntValue:(int)self.issuesArray.count forKey:@"issuesArrayCount"];
+            [[Crashlytics sharedInstance] setObjectValue:self.previousIssuesArray forKey:@"previousIssuesArray"];
+            [[Crashlytics sharedInstance] setIntValue:(int)self.previousIssuesArray.count forKey:@"previousIssuesArrayCount"];
+            
             [self wml_applyBatchChanges:diffs
                               inSection:0
                        withRowAnimation:UITableViewRowAnimationFade];
