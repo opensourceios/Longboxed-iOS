@@ -10,10 +10,11 @@
 #import "HorizontalTableViewCell.h"
 #import "LBXIssue.h"
 #import "UIImage+LBXCreateImage.h"
+#import "NSArray+ArrayUtilities.h"
 
 #import <UIImageView+AFNetworking.h>
 #import <Doppelganger.h>
-#import <Crashlytics/Crashlytics.h>
+#import <Fabric/Fabric.h>
 
 @interface HorizontalTableView () <UITableViewDelegate, UITableViewDataSource>
 
@@ -90,11 +91,13 @@
 
 - (void)reloadTableView
 {
+    NSArray *issuesArrayCopy = [self.issuesArray copy];
+    
     // First, reload any cells if the image has changed/appeared
-    for (LBXIssue *issue in self.issuesArray) {
+    for (LBXIssue *issue in issuesArrayCopy) {
         if ([self.previousIssuesArray containsObject:issue]) {
             NSUInteger previousIndex = [self.previousIssuesArray indexOfObject:issue];
-            NSUInteger currentIndex = [self.issuesArray indexOfObject:issue];
+            NSUInteger currentIndex = [issuesArrayCopy indexOfObject:issue];
             LBXIssue *prevIssue = [self.previousIssuesArray objectAtIndex:previousIndex];
             if (previousIndex && [issue.coverImage isEqualToString:prevIssue.coverImage] && issue.issueID == prevIssue.issueID && [self numberOfRowsInSection:0] <= currentIndex && [self cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]]) {
                 [self reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:currentIndex inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
@@ -103,18 +106,10 @@
     }
     
     // Then, insert/remove any cells necessary
-    if (self.issuesArray.count > 0 && self.previousIssuesArray.count > 0 && [self numberOfRowsInSection:0] > 1) {
+    if (issuesArrayCopy.count > 0 && self.previousIssuesArray.count > 0 && [self numberOfRowsInSection:0] > 1) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:self.issuesArray
+            NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:issuesArrayCopy
                                                         previousArray:self.previousIssuesArray];
-            
-            // Some logging info to debug this kind of crash:
-            // https://fabric.io/side-projects2/ios/apps/com.longboxed.longboxed-ios/issues/55d0ed66e0d514e5d609add6
-            [[Crashlytics sharedInstance] setIntValue:(int)[self numberOfRowsInSection:0] forKey:@"numberOfRows"];
-            [[Crashlytics sharedInstance] setObjectValue:self.issuesArray forKey:@"issuesArray"];
-            [[Crashlytics sharedInstance] setIntValue:(int)self.issuesArray.count forKey:@"issuesArrayCount"];
-            [[Crashlytics sharedInstance] setObjectValue:self.previousIssuesArray forKey:@"previousIssuesArray"];
-            [[Crashlytics sharedInstance] setIntValue:(int)self.previousIssuesArray.count forKey:@"previousIssuesArrayCount"];
             
             [self wml_applyBatchChanges:diffs
                               inSection:0
@@ -163,7 +158,10 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    LBXIssue *issue = [self.issuesArray objectAtIndex:indexPath.row];
+    LBXIssue *issue = [self.issuesArray safeObjectAtIndex:indexPath.row];
+    
+    // guard
+    if (!issue.diamondID) return cell;
     
     __weak typeof(cell) weakCell = cell;
     [cell.imgView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:issue.coverImage]] placeholderImage:[UIImage defaultCoverImage] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {

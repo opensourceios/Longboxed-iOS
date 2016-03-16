@@ -226,7 +226,7 @@
 
         LBXBundle *bundle = [LBXBundle MR_findFirstWithPredicate:[LBXServices thisWeekPredicateWithParentCheck:NO]];
         
-        if (bundle.issues) {
+        if (bundle.issues.count) {
             NSLog(@"%lu", (unsigned long)bundle.issues.count);
             NSString *alertString = @"";
             NSMutableString *mutableAlertString = [NSMutableString stringWithString:@"This Week: "];

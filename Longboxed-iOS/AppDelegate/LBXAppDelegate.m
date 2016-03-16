@@ -25,8 +25,6 @@
 #import "NSLogger.h"
 #import "PSDDFormatter.h"
 
-#import <Crashlytics/Crashlytics.h>
-#import <CrashReporter/CrashReporter.h>
 #import <Fabric/Fabric.h>
 #import "FAKFontAwesome.h"
 #import "TSMessage.h"

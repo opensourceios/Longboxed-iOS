@@ -5,10 +5,8 @@
 //  Created by johnrhickey on 8/7/14.
 //  Copyright (c) 2014 Longboxed. All rights reserved.
 //
-
-#import "RestKit/RestKit.h"
+#import <RestKit/RestKit.h>
 #import <RestKit/CoreData.h>
-#import <MagicalRecord/MagicalRecord.h>
 
 #import "LBXDatabaseManager.h"
 #import "LBXClient.h"

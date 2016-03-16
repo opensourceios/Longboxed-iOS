@@ -90,9 +90,10 @@
         [LBXLogging logMessage:[NSString stringWithFormat:@"Delete - Previous Issues Count : %lu", (unsigned long)bundle.issues.count]];
         [context MR_saveWithBlockAndWait:^(NSManagedObjectContext *context) {
             if (bundle) {
-                //LBXBundle *latestBundle = bundleArray.firstObject;
                 NSMutableSet *mutableSet = [NSMutableSet setWithSet:bundle.issues];
                 for (LBXIssue *issue in bundle.issues) {
+                    if (!issue.title.titleID || !self.titleID) continue; // Skip this iteration
+                    
                     if ([issue.title.titleID isEqualToNumber:self.titleID]) {
                         [mutableSet removeObject:issue];
                     }

@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3678D1C9AFD4921C400790A3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 544B0D826CB9908E66066AE7 /* libPods.a */; };
-		DACEE4BB66679E966AE8330D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 544B0D826CB9908E66066AE7 /* libPods.a */; };
 		E50175EF1B0AB01400328D8F /* LBXDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E50175ED1B0AB01400328D8F /* LBXDateTableViewCell.m */; };
 		E50175F01B0AB01400328D8F /* LBXDateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E50175EE1B0AB01400328D8F /* LBXDateTableViewCell.xib */; };
 		E50175FA1B0AB78A00328D8F /* LBXNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E50175F71B0AB78A00328D8F /* LBXNotificationsViewController.m */; };
@@ -17,7 +15,6 @@
 		E50183DF19F45F4C00DA3CAB /* ESDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183D619F45F4C00DA3CAB /* ESDateHelper.m */; };
 		E50183E019F45F4C00DA3CAB /* ESDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183DA19F45F4C00DA3CAB /* ESDatePicker.m */; };
 		E50183E119F45F4C00DA3CAB /* ESObjectPool.m in Sources */ = {isa = PBXBuildFile; fileRef = E50183DE19F45F4C00DA3CAB /* ESObjectPool.m */; };
-		E50506AD1A41484D00C86291 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E50506AC1A41484D00C86291 /* CrashReporter.framework */; };
 		E5068A5A19B534AC0021CEE8 /* ColorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5519B534AC0021CEE8 /* ColorLog.m */; };
 		E5068A5C19B534AC0021CEE8 /* PSDDFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5919B534AC0021CEE8 /* PSDDFormatter.m */; };
 		E5068A6019B53A5B0021CEE8 /* DDNSLoggerLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = E5068A5F19B53A5B0021CEE8 /* DDNSLoggerLogger.m */; };
@@ -60,6 +57,7 @@
 		E54017F91A9FF40100AB226C /* LBXIssueScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E54017F61A9FF40100AB226C /* LBXIssueScrollViewController.m */; };
 		E54017FD1A9FF43100AB226C /* LBXPublisherListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E54017FB1A9FF43100AB226C /* LBXPublisherListTableViewCell.m */; };
 		E54017FE1A9FF43100AB226C /* LBXPublisherListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E54017FC1A9FF43100AB226C /* LBXPublisherListTableViewCell.xib */; };
+		E54735F31BD87931003A32F7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5EFCBA91B7D6A5C0045EDD7 /* Crashlytics.framework */; };
 		E54A6AF3196B7ED30094979A /* LBXUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF2196B7ED30094979A /* LBXUser.m */; };
 		E54A6AF9196B9E8B0094979A /* LBXBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AF8196B9E8B0094979A /* LBXBundle.m */; };
 		E54A6AFC196BA45F0094979A /* LBXMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E54A6AFB196BA45F0094979A /* LBXMap.m */; };
@@ -87,7 +85,6 @@
 		E57D48D1196068E10014A13F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E57D48CF196068E10014A13F /* InfoPlist.strings */; };
 		E57D48D3196068E10014A13F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E57D48D2196068E10014A13F /* main.m */; };
 		E57D48D9196068E10014A13F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E57D48D8196068E10014A13F /* Images.xcassets */; };
-		E57D48E0196068E10014A13F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48DF196068E10014A13F /* XCTest.framework */; };
 		E57D48E1196068E10014A13F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48C6196068E10014A13F /* Foundation.framework */; };
 		E57D48E2196068E10014A13F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E57D48CA196068E10014A13F /* UIKit.framework */; };
 		E57D48EA196068E10014A13F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E57D48E8196068E10014A13F /* InfoPlist.strings */; };
@@ -129,12 +126,10 @@
 		E5E5163219CA446D005FBD43 /* UIColor+LBXCustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162519CA446D005FBD43 /* UIColor+LBXCustomColors.m */; };
 		E5E5163319CA446D005FBD43 /* UIFont+LBXCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E5162719CA446D005FBD43 /* UIFont+LBXCustomFonts.m */; };
 		E5EFCBA81B7D66480045EDD7 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5EFCBA71B7D66480045EDD7 /* Fabric.framework */; };
-		E5EFCBAA1B7D6A5C0045EDD7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5EFCBA91B7D6A5C0045EDD7 /* Crashlytics.framework */; };
 		E5EFCBAD1B7D6C3D0045EDD7 /* LBXServices.m in Sources */ = {isa = PBXBuildFile; fileRef = E5EFCBAC1B7D6C3D0045EDD7 /* LBXServices.m */; };
 		E5F18735196391D2006C4C26 /* longboxed_full.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F18733196391D2006C4C26 /* longboxed_full.png */; };
 		E5F18736196391D2006C4C26 /* longboxed_full@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F18734196391D2006C4C26 /* longboxed_full@2x.png */; };
 		E5FD02AA1B7E828000C09D41 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FD02A91B7E828000C09D41 /* StoreKit.framework */; };
-		E5FD02AE1B7E983700C09D41 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E50506AC1A41484D00C86291 /* CrashReporter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,7 +144,6 @@
 
 /* Begin PBXFileReference section */
 		27B7DABA2E156E4F81F3FFB3 /* Pods.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.beta.xcconfig; path = "Pods/Target Support Files/Pods/Pods.beta.xcconfig"; sourceTree = "<group>"; };
-		544B0D826CB9908E66066AE7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2AB0A439AF93F6E7A9A45D0 /* Pods.test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.test.xcconfig; path = "Pods/Target Support Files/Pods/Pods.test.xcconfig"; sourceTree = "<group>"; };
 		B6E4973647EB2C0793B0A2A1 /* Pods.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.appstore.xcconfig; path = "Pods/Target Support Files/Pods/Pods.appstore.xcconfig"; sourceTree = "<group>"; };
 		CD09AF98189617FF50EB24EC /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -168,8 +162,6 @@
 		E50183DA19F45F4C00DA3CAB /* ESDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESDatePicker.m; sourceTree = "<group>"; };
 		E50183DD19F45F4C00DA3CAB /* ESObjectPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESObjectPool.h; sourceTree = "<group>"; };
 		E50183DE19F45F4C00DA3CAB /* ESObjectPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESObjectPool.m; sourceTree = "<group>"; };
-		E50506AA1A41482B00C86291 /* libPods-PLCrashReporter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-PLCrashReporter.a"; path = "Pods/build/Debug-iphoneos/libPods-PLCrashReporter.a"; sourceTree = "<group>"; };
-		E50506AC1A41484D00C86291 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
 		E5068A5419B534AC0021CEE8 /* ColorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorLog.h; sourceTree = "<group>"; };
 		E5068A5519B534AC0021CEE8 /* ColorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorLog.m; sourceTree = "<group>"; };
 		E5068A5819B534AC0021CEE8 /* PSDDFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSDDFormatter.h; sourceTree = "<group>"; };
@@ -263,18 +255,6 @@
 		E55E8FF81A8D7B890046BF66 /* PullToRefresh_Loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = PullToRefresh_Loading.gif; sourceTree = "<group>"; };
 		E56C6FC41A83033C0035DA0E /* Quotes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Quotes.json; path = Extras/Quotes.json; sourceTree = "<group>"; };
 		E56E67F51A88222000D771F0 /* LBXLaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LBXLaunchScreen.xib; path = Views/LBXLaunchScreen.xib; sourceTree = "<group>"; };
-		E575162019908AD00052D4C4 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
-		E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FontAwesomeKit.a"; path = "Pods/build/Debug-iphoneos/libPods-FontAwesomeKit.a"; sourceTree = "<group>"; };
-		E575162319908AD00052D4C4 /* libPods-ISO8601DateFormatterValueTransformer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-ISO8601DateFormatterValueTransformer.a"; path = "Pods/build/Debug-iphoneos/libPods-ISO8601DateFormatterValueTransformer.a"; sourceTree = "<group>"; };
-		E575162419908AD00052D4C4 /* libPods-MagicalRecord.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-MagicalRecord.a"; path = "Pods/build/Debug-iphoneos/libPods-MagicalRecord.a"; sourceTree = "<group>"; };
-		E575162519908AD00052D4C4 /* libPods-MCSwipeTableViewCell.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-MCSwipeTableViewCell.a"; path = "Pods/build/Debug-iphoneos/libPods-MCSwipeTableViewCell.a"; sourceTree = "<group>"; };
-		E575162619908AD00052D4C4 /* libPods-pop.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-pop.a"; path = "Pods/build/Debug-iphoneos/libPods-pop.a"; sourceTree = "<group>"; };
-		E575162719908AD00052D4C4 /* libPods-RestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-RestKit.a"; path = "Pods/build/Debug-iphoneos/libPods-RestKit.a"; sourceTree = "<group>"; };
-		E575162819908AD00052D4C4 /* libPods-RKValueTransformers.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-RKValueTransformers.a"; path = "Pods/build/Debug-iphoneos/libPods-RKValueTransformers.a"; sourceTree = "<group>"; };
-		E575162919908AD00052D4C4 /* libPods-SOCKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SOCKit.a"; path = "Pods/build/Debug-iphoneos/libPods-SOCKit.a"; sourceTree = "<group>"; };
-		E575162A19908AD00052D4C4 /* libPods-TransitionKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-TransitionKit.a"; path = "Pods/build/Debug-iphoneos/libPods-TransitionKit.a"; sourceTree = "<group>"; };
-		E575162B19908AD00052D4C4 /* libPods-TWMessageBarManager.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-TWMessageBarManager.a"; path = "Pods/build/Debug-iphoneos/libPods-TWMessageBarManager.a"; sourceTree = "<group>"; };
-		E575162C19908AD00052D4C4 /* libPods-UICKeyChainStore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-UICKeyChainStore.a"; path = "Pods/build/Debug-iphoneos/libPods-UICKeyChainStore.a"; sourceTree = "<group>"; };
 		E577D3061B7BEE8E00063BFE /* HorizontalTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HorizontalTableViewCell.h; path = Controllers/Navigation/Dashboard/HorizontalTableViewCell.h; sourceTree = "<group>"; };
 		E577D3071B7BEE8E00063BFE /* HorizontalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HorizontalTableViewCell.m; path = Controllers/Navigation/Dashboard/HorizontalTableViewCell.m; sourceTree = "<group>"; };
 		E577D3081B7BEE8E00063BFE /* HorizontalTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HorizontalTableViewCell.xib; path = Controllers/Navigation/Dashboard/HorizontalTableViewCell.xib; sourceTree = "<group>"; };
@@ -292,7 +272,6 @@
 		E57D48D4196068E10014A13F /* Longboxed-iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Longboxed-iOS-Prefix.pch"; sourceTree = "<group>"; };
 		E57D48D8196068E10014A13F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E57D48DE196068E10014A13F /* Longboxed-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Longboxed-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E57D48DF196068E10014A13F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E57D48E7196068E10014A13F /* Longboxed-iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Longboxed-iOSTests-Info.plist"; sourceTree = "<group>"; };
 		E57D48E9196068E10014A13F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E57D49101960A2180014A13F /* LBXClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBXClient.h; path = Abstract/LBXClient.h; sourceTree = "<group>"; };
@@ -367,10 +346,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5C973501A68831D00A4DAB8 /* Security.framework in Frameworks */,
-				E50506AD1A41484D00C86291 /* CrashReporter.framework in Frameworks */,
 				E5CCAC5619B53BE60068AD8D /* OpenGLES.framework in Frameworks */,
 				E5CCAC5419B53BD30068AD8D /* QuartzCore.framework in Frameworks */,
-				E5EFCBAA1B7D6A5C0045EDD7 /* Crashlytics.framework in Frameworks */,
+				E54735F31BD87931003A32F7 /* Crashlytics.framework in Frameworks */,
 				E55497A519AAE284004501FF /* SystemConfiguration.framework in Frameworks */,
 				E5165E49198E8618001CDECA /* CoreData.framework in Frameworks */,
 				E5EFCBA81B7D66480045EDD7 /* Fabric.framework in Frameworks */,
@@ -378,7 +356,6 @@
 				E57D48CB196068E10014A13F /* UIKit.framework in Frameworks */,
 				E57D48C7196068E10014A13F /* Foundation.framework in Frameworks */,
 				E5FD02AA1B7E828000C09D41 /* StoreKit.framework in Frameworks */,
-				3678D1C9AFD4921C400790A3 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,11 +363,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5FD02AE1B7E983700C09D41 /* CrashReporter.framework in Frameworks */,
-				E57D48E0196068E10014A13F /* XCTest.framework in Frameworks */,
 				E57D48E2196068E10014A13F /* UIKit.framework in Frameworks */,
 				E57D48E1196068E10014A13F /* Foundation.framework in Frameworks */,
-				DACEE4BB66679E966AE8330D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,29 +546,13 @@
 				E5EFCBA71B7D66480045EDD7 /* Fabric.framework */,
 				E5EFCBA91B7D6A5C0045EDD7 /* Crashlytics.framework */,
 				E5C9734F1A68831D00A4DAB8 /* Security.framework */,
-				E50506AC1A41484D00C86291 /* CrashReporter.framework */,
-				E50506AA1A41482B00C86291 /* libPods-PLCrashReporter.a */,
 				E5CCAC5519B53BE60068AD8D /* OpenGLES.framework */,
 				E5CCAC5319B53BD30068AD8D /* QuartzCore.framework */,
 				E55497A419AAE284004501FF /* SystemConfiguration.framework */,
-				E575162019908AD00052D4C4 /* libPods-AFNetworking.a */,
-				E575162119908AD00052D4C4 /* libPods-FontAwesomeKit.a */,
-				E575162319908AD00052D4C4 /* libPods-ISO8601DateFormatterValueTransformer.a */,
-				E575162419908AD00052D4C4 /* libPods-MagicalRecord.a */,
-				E575162519908AD00052D4C4 /* libPods-MCSwipeTableViewCell.a */,
-				E575162619908AD00052D4C4 /* libPods-pop.a */,
-				E575162719908AD00052D4C4 /* libPods-RestKit.a */,
-				E575162819908AD00052D4C4 /* libPods-RKValueTransformers.a */,
-				E575162919908AD00052D4C4 /* libPods-SOCKit.a */,
-				E575162A19908AD00052D4C4 /* libPods-TransitionKit.a */,
-				E575162B19908AD00052D4C4 /* libPods-TWMessageBarManager.a */,
-				E575162C19908AD00052D4C4 /* libPods-UICKeyChainStore.a */,
 				E5165E48198E8618001CDECA /* CoreData.framework */,
 				E57D48C6196068E10014A13F /* Foundation.framework */,
 				E57D48C8196068E10014A13F /* CoreGraphics.framework */,
 				E57D48CA196068E10014A13F /* UIKit.framework */,
-				E57D48DF196068E10014A13F /* XCTest.framework */,
-				544B0D826CB9908E66066AE7 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -931,6 +889,7 @@
 				E57D48BF196068E10014A13F /* Sources */,
 				E515746919E335AF0072EE3E /* Crashlytics */,
 				C9A3C40EE168E45218269B54 /* Copy Pods Resources */,
+				59D0E108ECBA2BFACEA56F71 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -950,6 +909,7 @@
 				E57D48DB196068E10014A13F /* Frameworks */,
 				E57D48DC196068E10014A13F /* Resources */,
 				D11F3E8B051774BE4B880670 /* Copy Pods Resources */,
+				C49C396DE44EFDEB0C23DAC2 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1070,6 +1030,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		59D0E108ECBA2BFACEA56F71 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AAE5FAA769EE860748BA24F7 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1083,6 +1058,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C49C396DE44EFDEB0C23DAC2 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C9A3C40EE168E45218269B54 /* Copy Pods Resources */ = {
@@ -1142,7 +1132,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run 16ebe072876d720b57b612526b0b6f214e2c3cf5 9633d56ec698339d3da804ff7d9c0e99f815ee891164ce80a712b9f8ff21aac7";
+			shellScript = "./Fabric.framework/run 16ebe072876d720b57b612526b0b6f214e2c3cf5 9633d56ec698339d3da804ff7d9c0e99f815ee891164ce80a712b9f8ff21aac7";
 			showEnvVarsInLog = 0;
 		};
 		E57D48FB196069F60014A13F /* Set Bundle Identifier and Display Name */ = {
@@ -1340,8 +1330,6 @@
 					"-framework",
 					"\"CoreText\"",
 					"-framework",
-					"\"CrashReporter\"",
-					"-framework",
 					"\"Foundation\"",
 					"-framework",
 					"\"ImageIO\"",
@@ -1374,6 +1362,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A2AB0A439AF93F6E7A9A45D0 /* Pods.test.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1395,6 +1384,40 @@
 					"BITHOCKEY_C_BUILD=\"\\\"31\\\"\"",
 					"${inherited}",
 					"NSLOGGER_BUILD_USERNAME=\"${USER}\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
+					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
+					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
+					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
+					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/MWFeedParser\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
+					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
+					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
+					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
+					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"\"$(PODS_ROOT)/RestKit/Vendor/LibComponentLogging/Core\"",
 				);
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1419,8 +1442,6 @@
 					"\"CoreGraphics\"",
 					"-framework",
 					"\"CoreText\"",
-					"-framework",
-					"\"CrashReporter\"",
 					"-framework",
 					"\"Foundation\"",
 					"-framework",
@@ -1452,7 +1473,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A2AB0A439AF93F6E7A9A45D0 /* Pods.test.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1465,11 +1485,45 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
+					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
+					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
+					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
+					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
+					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/MWFeedParser\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
+					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
+					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
+					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
+					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"\"$(PODS_ROOT)/RestKit/Vendor/LibComponentLogging/Core\"",
+				);
 				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.longboxed.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Test;
@@ -1531,8 +1585,6 @@
 					"\"CoreMotion\"",
 					"-framework",
 					"\"CoreText\"",
-					"-framework",
-					"\"CrashReporter\"",
 					"-framework",
 					"\"Foundation\"",
 					"-framework",
@@ -1621,8 +1673,6 @@
 					"-framework",
 					"\"CoreText\"",
 					"-framework",
-					"\"CrashReporter\"",
-					"-framework",
 					"\"Foundation\"",
 					"-framework",
 					"\"ImageIO\"",
@@ -1656,6 +1706,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD09AF98189617FF50EB24EC /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1667,6 +1718,40 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
+					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
+					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
+					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
+					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/MWFeedParser\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
+					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
+					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
+					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
+					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"\"$(PODS_ROOT)/RestKit/Vendor/LibComponentLogging/Core\"",
+				);
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -1689,8 +1774,6 @@
 					"\"CoreGraphics\"",
 					"-framework",
 					"\"CoreText\"",
-					"-framework",
-					"\"CrashReporter\"",
 					"-framework",
 					"\"Foundation\"",
 					"-framework",
@@ -1722,6 +1805,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B6E4973647EB2C0793B0A2A1 /* Pods.appstore.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1733,6 +1817,40 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
+					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
+					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
+					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
+					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/MWFeedParser\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
+					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
+					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
+					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
+					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"\"$(PODS_ROOT)/RestKit/Vendor/LibComponentLogging/Core\"",
+				);
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -1756,8 +1874,6 @@
 					"\"CoreGraphics\"",
 					"-framework",
 					"\"CoreText\"",
-					"-framework",
-					"\"CrashReporter\"",
 					"-framework",
 					"\"Foundation\"",
 					"-framework",
@@ -1789,7 +1905,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD09AF98189617FF50EB24EC /* Pods.debug.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1802,11 +1917,45 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
+					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
+					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
+					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
+					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
+					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/MWFeedParser\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
+					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
+					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
+					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
+					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"\"$(PODS_ROOT)/RestKit/Vendor/LibComponentLogging/Core\"",
+				);
 				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.longboxed.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1815,7 +1964,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B6E4973647EB2C0793B0A2A1 /* Pods.appstore.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1824,12 +1972,46 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
+					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
+					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
+					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
+					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
+					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/MWFeedParser\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
+					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
+					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
+					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
+					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"\"$(PODS_ROOT)/RestKit/Vendor/LibComponentLogging/Core\"",
+				);
 				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.longboxed.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = AppStore;
@@ -1891,8 +2073,6 @@
 					"-framework",
 					"\"CoreText\"",
 					"-framework",
-					"\"CrashReporter\"",
-					"-framework",
 					"\"Foundation\"",
 					"-framework",
 					"\"ImageIO\"",
@@ -1925,6 +2105,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 27B7DABA2E156E4F81F3FFB3 /* Pods.beta.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1936,6 +2117,40 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Longboxed-iOS/Longboxed-iOS-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
+					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
+					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
+					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
+					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/MWFeedParser\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
+					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
+					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
+					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
+					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"\"$(PODS_ROOT)/RestKit/Vendor/LibComponentLogging/Core\"",
+				);
 				INFOPLIST_FILE = "Longboxed-iOS/Longboxed-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -1958,8 +2173,6 @@
 					"\"CoreGraphics\"",
 					"-framework",
 					"\"CoreText\"",
-					"-framework",
-					"\"CrashReporter\"",
 					"-framework",
 					"\"Foundation\"",
 					"-framework",
@@ -1991,7 +2204,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 27B7DABA2E156E4F81F3FFB3 /* Pods.beta.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2004,11 +2216,45 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
+					"\"${PODS_ROOT}/Headers/Public/1PasswordExtension\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/AnimatedGIFImageSerialization\"",
+					"\"${PODS_ROOT}/Headers/Public/BSKeyboardControls\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/Doppelganger\"",
+					"\"${PODS_ROOT}/Headers/Public/FontAwesomeKit\"",
+					"\"${PODS_ROOT}/Headers/Public/HexColors\"",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"\"${PODS_ROOT}/Headers/Public/JGActionSheet\"",
+					"\"${PODS_ROOT}/Headers/Public/JRHUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/JTSImageViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/MWFeedParser\"",
+					"\"${PODS_ROOT}/Headers/Public/MagicalRecord\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NSLogger\"",
+					"\"${PODS_ROOT}/Headers/Public/Onboard\"",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SDiPhoneVersion\"",
+					"\"${PODS_ROOT}/Headers/Public/SIAlertView\"",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Shimmer\"",
+					"\"${PODS_ROOT}/Headers/Public/TSMessages\"",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"\"${PODS_ROOT}/Headers/Public/UICKeyChainStore\"",
+					"\"${PODS_ROOT}/Headers/Public/UzysAnimatedGifPullToRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"\"$(PODS_ROOT)/RestKit/Vendor/LibComponentLogging/Core\"",
+				);
 				INFOPLIST_FILE = "Longboxed-iOSTests/Longboxed-iOSTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.longboxed.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Longboxed-iOS.app/Longboxed-iOS";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Beta;
