@@ -10,7 +10,7 @@
 
 @interface HorizontalTableView : UITableView
 
-@property (atomic, copy) NSArray *issuesArray;
+@property (nonatomic, copy) NSArray *issuesArray;
 
 - (void)setWidthConstraint:(CGFloat)width;
 

@@ -111,9 +111,13 @@
             NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:issuesArrayCopy
                                                         previousArray:self.previousIssuesArray];
             
-            [self wml_applyBatchChanges:diffs
-                              inSection:0
-                       withRowAnimation:UITableViewRowAnimationFade];
+            @try {
+                [self wml_applyBatchChanges:diffs
+                                  inSection:0
+                           withRowAnimation:UITableViewRowAnimationFade];
+            } @catch (NSException *exception) {
+                [self reloadData];
+            }
         });
     }
     else [self reloadData];

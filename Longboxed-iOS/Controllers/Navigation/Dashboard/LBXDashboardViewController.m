@@ -556,9 +556,13 @@ BOOL _selectedSearchResult;
                 NSArray *diffs = [WMLArrayDiffUtility diffForCurrentArray:newSearchResultsArray
                                                             previousArray:previousResultsArray];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.searchResultsController.tableView wml_applyBatchChanges:diffs
-                                                                        inSection:0
-                                                                 withRowAnimation:UITableViewRowAnimationAutomatic];
+                    @try {
+                        [self.searchResultsController.tableView wml_applyBatchChanges:diffs
+                                                                            inSection:0
+                                                                     withRowAnimation:UITableViewRowAnimationAutomatic];
+                    }  @catch (NSException *exception) {
+                        [self.searchResultsController.tableView reloadData];
+                    }
                 });
             }
             else [self.searchResultsController.tableView reloadData];
